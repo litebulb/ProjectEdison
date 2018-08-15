@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.SmartBulb", "DeviceApps\Edison.SmartBulb\Edison.SmartBulb.csproj", "{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.SoundSensor", "DeviceApps\Edison.SoundSensor\Edison.SoundSensor.csproj", "{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|ARM.Build.0 = Debug|ARM
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|ARM.Deploy.0 = Debug|ARM
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|x64.ActiveCfg = Debug|x64
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|x64.Build.0 = Debug|x64
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|x64.Deploy.0 = Debug|x64
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|x86.ActiveCfg = Debug|x86
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|x86.Build.0 = Debug|x86
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Debug|x86.Deploy.0 = Debug|x86
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|ARM.ActiveCfg = Release|ARM
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|ARM.Build.0 = Release|ARM
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|ARM.Deploy.0 = Release|ARM
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|x64.ActiveCfg = Release|x64
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|x64.Build.0 = Release|x64
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|x64.Deploy.0 = Release|x64
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|x86.ActiveCfg = Release|x86
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|x86.Build.0 = Release|x86
+		{BD5DDA97-4EAC-408F-89E2-5BF68C66FDAF}.Release|x86.Deploy.0 = Release|x86
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|ARM.Build.0 = Debug|ARM
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|x64.ActiveCfg = Debug|x64
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|x64.Build.0 = Debug|x64
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|x64.Deploy.0 = Debug|x64
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|x86.ActiveCfg = Debug|x86
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|x86.Build.0 = Debug|x86
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Debug|x86.Deploy.0 = Debug|x86
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|ARM.ActiveCfg = Release|ARM
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|ARM.Build.0 = Release|ARM
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|ARM.Deploy.0 = Release|ARM
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|x64.ActiveCfg = Release|x64
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|x64.Build.0 = Release|x64
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|x64.Deploy.0 = Release|x64
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|x86.ActiveCfg = Release|x86
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|x86.Build.0 = Release|x86
+		{EAE02866-F72A-414B-A35E-59E5DD1F2FE5}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C53083C7-18EA-4EC3-84AD-5B9B47A4CA83}
+	EndGlobalSection
+EndGlobal
