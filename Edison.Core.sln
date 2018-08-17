@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Common", "Edison.Common\Edison.Common.csproj", "{F7DF7F6C-3680-4D18-BD1F-2056D7DCE590}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Core.Common", "Edison.Common\Edison.Core.Common.csproj", "{F7DF7F6C-3680-4D18-BD1F-2056D7DCE590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
