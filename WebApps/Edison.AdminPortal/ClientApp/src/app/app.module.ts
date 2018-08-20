@@ -13,10 +13,10 @@ import { environment } from '../environments/environment';
 import { reducers, metaReducers } from './reducers';
 import { MaterialModule } from './modules/material/material.module';
 import { AppComponent } from './app.component';
-import { MapComponent } from './shared/components/map/map.component';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, MapComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -28,6 +28,7 @@ import { MapComponent } from './shared/components/map/map.component';
       stateKey: 'router', // name of reducer key
     }),
     MaterialModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

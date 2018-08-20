@@ -1,0 +1,9 @@
+<mat-list>
+
+  <mat-list-item [ngClass]="{'active': navLink.active}" (click)="onClick(navLink)" *ngFor="let navLink of navLinks;">
+    <mat-icon matListIcon>{{navLink.icon}}</mat-icon>
+    <h3 matLine>{{navLink.title}}</h3>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+
+</mat-list>

@@ -2,15 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DefaultComponent } from './components/default/default.component';
 import { DeviceListComponent } from './components/device-list/device-list.component';
 import { AlertListComponent } from './components/alert-list/alert-list.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    SharedModule
   ],
-  declarations: [DefaultComponent, DeviceListComponent, AlertListComponent]
+  declarations: [DeviceListComponent, AlertListComponent, DashboardComponent]
 })
 export class DashboardModule { }

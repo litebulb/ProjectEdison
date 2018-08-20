@@ -4,8 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'configuration',
-    loadChildren:
-      './modules/configuration/configuration.module#ConfigurationModule',
+    loadChildren: './modules/configuration/configuration.module#ConfigurationModule',
   },
   {
     path: 'alerts',
@@ -13,14 +12,17 @@ const routes: Routes = [
   },
   {
     path: 'action-screen',
-    loadChildren:
-      './modules/action-screen/action-screen.module#ActionScreenModule',
+    loadChildren: './modules/action-screen/action-screen.module#ActionScreenModule',
+  },
+  {
+    path: 'dashboard',
+    loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
   },
   {
     path: '',
-    redirectTo: './modules/dashboard/dashboard.module#DashboardModule',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
-  },
+  }
 ];
 
 @NgModule({
