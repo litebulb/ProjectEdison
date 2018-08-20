@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 2;
+    padding: 20px;
+    background-color: #fafafa;
+
+    app-map {
+        margin-right: 20px;
+    }
+}

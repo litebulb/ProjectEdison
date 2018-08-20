@@ -1,20 +1,5 @@
 :host {
     display: flex;
     height: 100%;
-
-    mat-drawer-container {
-        display: flex;
-        flex-grow: 2;
-
-        mat-drawer {
-            display: flex;
-            min-width: 20%;
-        }
-
-        mat-drawer-content {
-            display: flex;
-            flex-grow: 2;
-            padding: 20px;
-        }
-    }
+    background-color: #fafafa;
 }

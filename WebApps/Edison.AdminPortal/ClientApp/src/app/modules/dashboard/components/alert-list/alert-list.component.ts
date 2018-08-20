@@ -6,6 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./alert-list.component.scss']
 })
 export class AlertListComponent implements OnInit {
+  public alerts = [
+    {
+      title: 'alert 1',
+    },
+    {
+      title: 'alert 2',
+    },
+    {
+      title: 'alert 3',
+    },
+    {
+      title: 'alert 4',
+    }
+  ];
 
   constructor() { }
 

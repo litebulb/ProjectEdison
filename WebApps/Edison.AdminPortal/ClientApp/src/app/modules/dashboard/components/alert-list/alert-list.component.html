@@ -1,3 +1,6 @@
-<p>
-  alert-list works!
-</p>
+<mat-list>
+    <mat-list-item (click)="onClick(alert)" *ngFor="let alert of alerts;">
+        <h3 matLine>{{alert.title}}</h3>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+</mat-list>

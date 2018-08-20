@@ -1,3 +1,6 @@
-<p>
-  device-list works!
-</p>
+<mat-list>
+  <mat-list-item (click)="onClick(device)" *ngFor="let device of devices;">
+    <h3 matLine>{{device.title}}</h3>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>
