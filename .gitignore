@@ -290,3 +290,4 @@ __pycache__/
 
 #Tools App Settings File
 Tools/LunchBag.SimulatorApp/appsettings.json
+\.DS_Store
