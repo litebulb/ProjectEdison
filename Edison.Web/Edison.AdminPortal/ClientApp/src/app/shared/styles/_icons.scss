@@ -1,0 +1,207 @@
+@import 'colors';
+
+$icon-size: 36px;
+
+@mixin iconSize($size) {
+  height: $size;
+  width: $size;
+  background-size: $size;
+}
+
+%icon-defaults {
+  width: $icon-size;
+  height: $icon-size;
+  background-size: $icon-size;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  z-index: 2;
+
+  &.tiny {
+    @include iconSize(8px);
+  }
+
+  &.small {
+    @include iconSize(16px);
+  }
+
+  &.medium {
+    @include iconSize(24px);
+  }
+
+  &.large {
+    @include iconSize(32px);
+  }
+
+  &.round {
+    border-radius: 50%;
+    background-color: white;
+    width: 32px;
+    height: 32px;
+    background-size: 21px;
+    min-width: 32px;
+  }
+
+  &.red {
+    background-color: $red !important;
+  }
+
+  &.green {
+    background-color: $green !important;
+  }
+
+  &.yellow {
+    background-color: $yellow !important;
+  }
+}
+
+@mixin hoverIcon($asset) {
+  @extend %icon-defaults;
+  background-image: url('/assets/icons/'+$asset+'_passive.svg');
+
+  &:hover,
+  &.active {
+    background-image: url('/assets/icons/'+$asset+'_active.svg');
+  }
+}
+
+@mixin icon($asset) {
+  @extend %icon-defaults;
+  background-image: url('/assets/icons/'+$asset+'.svg');
+}
+
+.app-icon {
+  &.shield {
+    @include hoverIcon('icon1');
+  }
+
+  &.location-circle {
+    @include hoverIcon('icon2');
+  }
+
+  &.history {
+    @include hoverIcon('icon3');
+  }
+
+  &.gear {
+    @include hoverIcon('icon4');
+  }
+
+  &.location {
+    @include icon('location_passive');
+  }
+
+  &.arrow-down {
+    @include icon('arrow-down');
+  }
+
+  &.arrow-up {
+    @include icon('arrow-up');
+  }
+
+  &.horn {
+    @include icon('horn_default');
+
+    &:hover,
+    &:focus,
+    &.hover {
+      background-image: url('/assets/icons/horn_hover.svg');
+    }
+
+    &.active {
+      background-image: url('/assets/icons/horn_active.svg');
+    }
+  }
+
+  &.horn-lightblue {
+    @include icon('horn_lightblue');
+  }
+
+  &.fire {
+    @include hoverIcon('fire');
+  }
+
+  &.fire-static {
+    @include icon('fire_active');
+  }
+
+  &.gun {
+    @include hoverIcon('gun');
+  }
+
+  &.health {
+    @include hoverIcon('health');
+  }
+
+  &.package {
+    @include hoverIcon('package');
+  }
+
+  &.pollution {
+    @include hoverIcon('pollution');
+  }
+
+  &.protest {
+    @include hoverIcon('protest');
+  }
+
+  &.tornado {
+    @include hoverIcon('tornado');
+  }
+
+  &.vip {
+    @include hoverIcon('vip');
+  }
+
+  &.active,
+  &:hover {
+    &.fire,
+    &.gun,
+    &.package {
+        background-color: $red !important;
+    }
+
+    &.health,
+    &.protest,
+    &.vip {
+        background-color: $green !important;
+    }
+
+    &.pollution,
+    &.tornado {
+        background-color: $yellow !important;
+    }
+  }
+
+  &.search {
+    @include icon('search');
+  }
+
+  &.shield-plain {
+    @include icon('shield');
+  }
+
+  &.notification {
+    @include icon('notification');
+  }
+
+  &.light {
+    @include icon('light');
+  }
+
+  &.close {
+    @include icon('close');
+
+    &.grey {
+      @include icon('close_grey');
+    }
+
+    &.teal {
+      @include icon('close_teal');
+    }
+  }
+
+  &.expand {
+    @include icon('expand');
+  }
+}

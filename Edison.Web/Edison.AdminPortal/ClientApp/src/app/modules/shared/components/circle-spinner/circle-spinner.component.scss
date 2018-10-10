@@ -1,0 +1,59 @@
+@import 'colors';
+
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+@keyframes entrance {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+.container {
+	position: relative;
+	transition: entrance 2s ease;
+	opacity: 0;
+}
+
+.outer-circle {
+	border-radius: 50%;
+	position: absolute;
+	overflow: hidden;
+	animation-name: spin; 
+	animation-duration: 10s;
+	animation-iteration-count: infinite; 
+	animation-timing-function: linear;
+}
+
+.circle {
+	border-radius: 50%;
+	position: absolute;
+	overflow: hidden;
+	animation-name: spin; 
+	animation-duration: 2s;
+	animation-iteration-count: infinite; 
+	animation-timing-function: ease-in-out;
+}
+
+.inner-circle {
+	border-radius: 50%;
+	position: absolute;
+
+	.sub-circle-1,
+	.sub-circle-2 {
+		transition: background-color 2s ease;
+	}
+}
+
+.content-circle {
+	border-radius: 50%;
+	overflow: hidden;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	z-index: 2;
+	transition: background-color 2s ease;
+}

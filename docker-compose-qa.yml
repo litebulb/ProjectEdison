@@ -1,0 +1,69 @@
+version: '3.4'
+
+services:
+  abi-rabbit:
+    ports:
+     - "5672:5672"
+     - "15672:15672"    
+    volumes:
+     - /var/lib/rabbitmq
+    image: rabbitmq:3-management
+  signalr-redis:
+    ports:
+     - "6379:6379"
+    image: redis
+  edisonadminportal:
+    image: edisonadminportal
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.AdminPortal/Dockerfile.qa
+  edisonapi:
+    image: edisonapi
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Api/Dockerfile
+  edisonworkflows:
+    image: edisonworkflows
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Workflows/Dockerfile
+  edisonmessagedispatcherservice:
+    image: edisonmessagedispatcherservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.MessageDispatcherService/Dockerfile
+  edisoneventprocessorservice:
+    image: edisoneventprocessorservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.EventProcessorService/Dockerfile
+  edisondevicesynchronizationservice:
+    image: edisondevicesynchronizationservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.DeviceSynchronizationService/Dockerfile
+  edisoniothubcontrollerservice:
+    image: edisoniothubcontrollerservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.IoTHubControllerService/Dockerfile
+  edisonsignalrservice:
+    image: edisonsignalrservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.SignalRService/Dockerfile
+#  edisonchatservice:
+#    image: edisonchatservice
+#    build:
+#      context: .
+#      dockerfile: Edison.Web/Edison.Microservices.ChatService/Dockerfile
+#  edisonnotificationhubservice:
+#    image: edisonnotificationhubservice
+#    build:
+#      context: .
+#      dockerfile: Edison.Web/Edison.Microservices.NotificationHubService/Dockerfile
+  edisonresponseservice:
+    image: edisonresponseservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.ResponseService/Dockerfile

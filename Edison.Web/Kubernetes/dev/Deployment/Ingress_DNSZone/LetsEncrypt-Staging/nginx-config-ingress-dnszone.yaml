@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: edison
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "addon-http-application-routing"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  tls:
+  - hosts:  
+    - edisonadminportaldev.98bd98cb78be446a9707.eastus.aksapp.io
+    secretName: tls-secret-edisonadminportal
+  - hosts:
+    - edisonapidev.98bd98cb78be446a9707.eastus.aksapp.io
+    secretName: tls-secret-edisonapi
+  rules:
+  - host: edisonadminportaldev.98bd98cb78be446a9707.eastus.aksapp.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: edisonadminportal
+          servicePort: 80
+  - host: edisonapidev.98bd98cb78be446a9707.eastus.aksapp.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: edisonapi
+          servicePort: 80

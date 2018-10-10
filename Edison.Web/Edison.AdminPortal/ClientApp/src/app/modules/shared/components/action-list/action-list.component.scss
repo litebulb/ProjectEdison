@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  margin-left: 10%;
+  margin-top: 20px;
+  flex-direction: column;
+  position: relative;
+
+  .action-plan-item {
+    z-index: 2;
+    &:not(.last) {
+      margin-bottom: 25px;
+    }
+  }
+
+  .dotted-line {
+    border-image: url('/assets/border.png');
+    height: 100%;
+    position: absolute;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #e0e0e6;
+    border-image-repeat: space round;
+    border-image-slice: 0% 17%;
+    z-index: 1;
+    left: 14px;
+    top: -2px;
+    opacity: 0.2;
+  }
+}

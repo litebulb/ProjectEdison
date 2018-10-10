@@ -1,0 +1,25 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "ServiceBus": {
+    "Uri": "rabbitmq://abi-rabbit",
+    "QueueName": "iothub-controller-messages",
+    "PrefetchCount": 8,
+    "ConcurrencyLimit": 1
+  },
+  "IoTHubController": {
+    "JobTimeout": 10,
+    "DirectMethodTimeout": 30
+  }
+}

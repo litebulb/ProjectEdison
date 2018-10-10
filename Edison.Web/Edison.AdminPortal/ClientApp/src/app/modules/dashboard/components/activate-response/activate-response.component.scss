@@ -1,0 +1,73 @@
+@import 'icons';
+@import 'colors';
+@import 'buttons';
+
+:host {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 10;
+
+    .grey-subheader {
+        display: flex;
+        flex-grow: 2;
+        align-items: center;
+        justify-content: center;
+
+        > div {
+            background-color: #9F9EA5;
+            font-size: 12px;
+            color: #F9F9FA;
+            padding: 0 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .response {
+        min-width: 50vw;
+        max-width: 50vw;
+        min-height: 525px;
+        max-height: 525px;
+        background-color: white;
+        margin-bottom: 20px;
+        box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.75);
+        display: flex;
+        height: 100%;
+
+        .response-container {
+            display: flex;
+            flex-grow: 2;
+            position: relative;
+            max-height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 25px 15px;
+
+            .response-action {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                flex-grow: 2;
+    
+                .response-type {
+                    text-transform: uppercase;
+                    font-size: 20px;
+                }
+            }
+
+            .grey-subheader {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+            }
+        }
+    }
+}

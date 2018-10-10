@@ -1,0 +1,9 @@
+<div class="list-container">
+    <app-action-list-item
+        *ngFor="let action of actions; let last = last"
+        [context]="action"
+        [last]="last"
+        [ngClass]="{'last': last, 'action-plan-item': true}"
+    ></app-action-list-item>
+</div>
+<div class="dotted-line"></div>

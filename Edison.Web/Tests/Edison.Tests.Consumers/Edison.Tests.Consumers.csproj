@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit.TestFramework" Version="5.1.4" />
+    <PackageReference Include="nunit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Edison.Common.RabbitMQServiceBus\Edison.Common.RabbitMQServiceBus.csproj" />
+    <ProjectReference Include="..\..\Edison.Common\Edison.Common.csproj" />
+    <ProjectReference Include="..\..\Edison.Microservices.EventProcessorService\Edison.EventProcessorService.csproj" />
+    <ProjectReference Include="..\Edison.Tests.Common\Edison.Tests.Common.csproj" />
+  </ItemGroup>
+
+</Project>

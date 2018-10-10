@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: edisonapi
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx-api"
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - edisonapidev.eastus.cloudapp.azure.com
+    secretName: tls-secret-api
+  rules:
+  - host: edisonapidev.eastus.cloudapp.azure.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: edisonapi
+          servicePort: 80

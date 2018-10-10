@@ -1,0 +1,26 @@
+@import 'icons';
+
+:host {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    min-height: 32px;
+
+    .app-icon {
+        margin-right: 15px;
+        z-index: 3;
+    }
+
+    .content-container {
+        padding-top: 6px;
+    }
+
+    .line-hider {
+        height: 100%;
+        z-index: 2;
+        width: 32px;
+        position: absolute;
+        background-color: white;
+        bottom: 0;
+    }
+}

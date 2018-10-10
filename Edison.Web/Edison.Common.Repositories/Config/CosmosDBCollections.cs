@@ -1,0 +1,11 @@
+﻿namespace Edison.Common.Config
+{
+    public class CosmosDBCollections
+    {
+        public string EventClusters { get; set; }
+        public string Responses { get; set; }
+        public string Devices { get; set; }
+        public string ActionPlans { get; set; }
+        public string Users { get; set; }
+    }
+}

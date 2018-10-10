@@ -1,0 +1,36 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "ServiceBus": {
+    "Uri": "rabbitmq://abi-rabbit",
+    "QueueName": "state-sagas",
+    "PrefetchCount": 8,
+    "ConcurrencyLimit": 1
+  },
+  "WorkflowsConfig": {
+    "EventProcessingWorkflow": {
+      "EventClusterLifespan": 10,
+      "EventClusterCooldown": 720
+    },
+    "DeviceSynchronizationWorkflow": {
+      "DeviceSynchronizationQueue": "device-synchronization-messages",
+      "RequestTimeoutSeconds": 30
+    }
+  },
+  "CosmosDb": {
+    "Endpoint": "https://edisondevcosmosdb.documents.azure.com:443/",
+    "Database": "Edison",
+    "Collection": "Sagas"
+  }
+}

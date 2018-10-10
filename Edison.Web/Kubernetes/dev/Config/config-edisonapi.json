@@ -1,0 +1,45 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "ServiceBus": {
+    "Uri": "rabbitmq://abi-rabbit"
+  },
+  "CosmosDb": {
+    "Endpoint": "https://edisondevcosmosdb.documents.azure.com:443/",
+    "Database": "Edison",
+    "Collections": {
+      "EventClusters": "EventClusters",
+      "Situations": "Situations",
+      "Devices": "Devices",
+      "Actions": "Actions",
+      "ActionPlans": "ActionPlans",
+      "Users": "Users"
+    }
+  },
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "ClientId": "448bfde2-c717-433a-a030-6b54cbd34cf5",
+    "TenantId": "ed26e15f-1b3b-44aa-920a-c1f812d800bd"
+  },
+  "AzureAdB2CWeb": {
+    "Instance": "https://login.microsoftonline.com/tfp/",
+    "ClientId": "1133966b-9c18-4edb-9efc-0d0c01494e6b",
+    "Domain": "edisondevb2c.onmicrosoft.com",
+    "SignUpSignInPolicyId": "B2C_1_Edision_SignInAndSignUp"
+  },
+  "BotConfigOptions": {
+    "MicrosoftAppId": "113054d8-8831-4e25-a048-353dafd7a4e5"
+  },
+  "AllowedHosts": "*"
+}

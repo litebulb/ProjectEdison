@@ -1,0 +1,37 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "ServiceBus": {
+    "Uri": "rabbitmq://abi-rabbit"
+  },
+  "AzureServiceBus": {
+    "PrefetchCount": "8"
+  },
+  "MessageDispatcher": {
+    "DispatcherEnabled": true,
+    "DefaultMessageType": "eventDevice",
+    "DefaultEventType": "button",
+    "PropertyDeviceId": [
+      "iothub-connection-device-id"
+    ],
+    "PropertyEventType": [
+      "eventType",
+      "iothub-message-schema"
+    ],
+    "PropertyMessageType": [
+      "messageType",
+      "opType"
+    ]
+  }
+}

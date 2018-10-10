@@ -1,0 +1,29 @@
+<div class="response" *ngIf="active" [@fadeInOut]>
+    <app-search-list
+        [title]="'What is happening?'"
+        [items]="listItems"
+        (itemSelected)="selectActionPlan($event)"
+    ></app-search-list>
+    <div class="response-container">
+        <div class="grey-subheader" *ngIf="!selectedActionPlan || !showActionPlan" [@fadeInOut]>
+            <div>No Action Plan Selected</div>
+        </div>
+        <div class="grey-subheader" *ngIf="selectedActionPlan && (!selectedActionPlan.openActions || selectedActionPlan.openActions.length < 1)" [@fadeInOut]>
+            <div>No Action Plan Actions Created</div>
+        </div>
+        <div class="response-action" *ngIf="selectedActionPlan && showActionPlan && selectedActionPlan.openActions && selectedActionPlan.openActions.length > 0" [@fadeInOut]>
+            <div class="response-type">RESPONSE ACTION: {{selectedActionPlan.name}}</div>
+            <app-action-list [actions]="selectedActionPlan.openActions"></app-action-list>
+            <app-delay-button
+                (clickCompleted)="activateActionPlan()"
+                [subheaderText]="'Press and Hold to activate'"
+                [buttonText]="'Activate'"
+            ></app-delay-button>
+        </div>
+    </div>
+</div>
+
+<button class="app-button map primary" (click)="toggleActive()" (mouseover)="hover = true" (mouseout)="hover = false" [ngClass]="{'hover': hover, 'active': active, 'disabled': disabled}">
+    <span class="app-icon horn medium" [ngClass]="{'hover': hover && !disabled, 'active close teal': active, 'horn': !active}"></span>
+    <span class="text noselect">{{ active ? 'Cancel' : 'Activate Response' }}</span>
+</button>

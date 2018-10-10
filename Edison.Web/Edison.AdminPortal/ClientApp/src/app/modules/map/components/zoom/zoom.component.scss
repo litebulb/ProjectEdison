@@ -1,0 +1,23 @@
+:host {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-right: 10px;
+
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    outline: none;
+
+    &::selection {
+      outline: none;
+    }
+
+    &.first {
+      margin-bottom: 5px;
+    }
+  }
+}

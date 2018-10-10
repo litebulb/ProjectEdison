@@ -1,0 +1,8 @@
+<div class="container" *ngIf="activeResponse && activeResponse.actionPlan && activeResponse.actionPlan.closeActions.length > 0">
+  <div class="header">MANAGE {{activeResponse.actionPlan.name}} RESPONSE</div>
+  <div>
+    <button class="app-button secondary">MAKE UPDATES</button>
+    <button class="app-button primary" (click)="deactivate()" *ngIf="activeResponse.responseState !== 0">DEACTIVATE</button>
+  </div>
+  <app-action-list [actions]="activeResponse.actionPlan.openActions"></app-action-list>
+</div>

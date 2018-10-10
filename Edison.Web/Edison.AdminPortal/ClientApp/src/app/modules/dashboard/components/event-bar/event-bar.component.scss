@@ -1,0 +1,68 @@
+@import 'colors';
+@import 'sizes';
+@import 'icons';
+
+:host {
+  max-width: 350px;
+  height: 100%;
+  z-index: 2;
+  min-width: $eventbar-width;
+  -webkit-box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+
+  app-circle-spinner {
+    cursor: pointer;
+  }
+
+  button {
+    border-radius: 5px;
+    border-color: $primary-color;
+    color: $primary-color;
+  }
+
+  .bar-earlier {
+    font-size: 10px;
+    color: #8886a0;
+    text-transform: uppercase;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .bar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 100px;
+
+    h3 {
+      color: $primary-color;
+    }
+
+    .events-circle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-transform: uppercase;
+
+      .count {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .events-container {
+    max-height: calc(100% - 300px);
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  mat-icon {
+    color: $primary-color;
+  }
+}

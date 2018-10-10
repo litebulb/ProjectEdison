@@ -1,0 +1,4 @@
+<app-event-bar></app-event-bar>
+<app-activate-response></app-activate-response>
+<app-active-responses *ngIf="showResponses$ | async"></app-active-responses>
+<app-map [pins]="pins" [defaultOptions]="defaultOptions" [showActivateResponse]="true"></app-map>

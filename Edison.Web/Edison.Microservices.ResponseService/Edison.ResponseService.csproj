@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <DockerComposeProjectPath>..\..\Edison.Docker.AdminPortal.dcproj</DockerComposeProjectPath>
+    <ApplicationInsightsResourceId>/subscriptions/dbe50096-704b-42d6-a00d-3825bde8ab2d/resourcegroups/edisondev/providers/microsoft.insights/components/edisonappinsdev</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/dbe50096-704b-42d6-a00d-3825bde8ab2d/resourcegroups/edisondev/providers/microsoft.insights/components/edisonappinsdev</ApplicationInsightsAnnotationResourceId>
+    <UserSecretsId>1e350320-5c31-42bb-94d3-dd5077a3c666</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.4.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.Kubernetes" Version="1.0.0-beta9" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.1916590" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Edison.Common\Edison.Common.csproj" />
+    <ProjectReference Include="..\..\Edison.Core\Edison.Core.ApiRestClient\Edison.Core.ApiRestClient.csproj" />
+    <ProjectReference Include="..\Edison.Common.RabbitMQServiceBus\Edison.Common.RabbitMQServiceBus.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,11 @@
+<div class="app-icon notification red round"></div>
+<div class="content-container">
+  <div>
+    {{context.description}}
+  </div>
+  <div class="content-header">NOTIFICATION CONTENT</div>
+  <div class="content-text">
+    {{context.parameters.content}}
+  </div>
+</div>
+<div class="line-hider" *ngIf="last"></div>

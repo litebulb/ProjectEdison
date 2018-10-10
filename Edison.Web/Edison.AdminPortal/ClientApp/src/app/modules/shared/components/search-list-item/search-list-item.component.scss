@@ -1,0 +1,48 @@
+@import 'icons';
+
+.container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding-left: 20px;
+  min-height: 44px;
+
+  &.active {
+    .text {
+      color: white;
+    }
+
+    &.red {
+      background-color: #ff3023;
+    }
+  }
+
+  .text {
+    font-size: 18px;
+    flex-grow: 2;
+  }
+
+  .app-icon:not(.dismiss) {
+    margin-right: 18px;
+
+    &.close {
+      cursor: pointer;
+    }
+  }
+
+  .dismiss {
+    padding: 10px;
+  }
+
+  .active-arrow {
+    height: 0;
+    width: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+
+    border-left: 10px solid #f9f9fa;
+    position: absolute;
+    right: -10px;
+  }
+}

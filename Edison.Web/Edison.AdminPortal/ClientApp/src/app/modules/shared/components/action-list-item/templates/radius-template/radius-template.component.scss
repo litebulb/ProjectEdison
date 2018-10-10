@@ -1,0 +1,41 @@
+@import 'icons';
+@import 'colors';
+
+:host {
+    position: relative;
+    align-items: flex-start;
+    display: flex;
+    min-height: 32px;
+
+    .app-icon {
+        margin-right: 15px;
+        z-index: 3;
+    }
+
+    .line-hider {
+        height: 100%;
+        z-index: 2;
+        width: 32px;
+        position: absolute;
+        background-color: white;
+        bottom: 0;
+    }
+
+    .content-container {
+        display: flex;
+        flex-direction: column;
+        padding-top: 6px;
+    }
+
+    .red {
+        color: $red;
+    }
+
+    .yellow {
+        color: $yellow;
+    }
+
+    .green {
+        color: $green;
+    }
+}

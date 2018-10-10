@@ -1,0 +1,23 @@
+@import 'buttons';
+
+:host {
+  max-height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  .container {
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+
+    .app-button.secondary {
+      margin-right: 20px;
+    }
+
+    .header {
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+  }
+}

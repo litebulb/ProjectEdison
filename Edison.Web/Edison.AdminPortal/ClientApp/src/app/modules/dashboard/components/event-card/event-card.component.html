@@ -1,0 +1,43 @@
+<mat-card [ngStyle]="getBorderStyle()">
+    <div class="card-header">
+        <mat-icon>notifications</mat-icon>
+        <div class="card-title">{{event.eventType}}</div>
+    </div>
+    <div class="map-container" *ngIf="mapVisible">
+        <div class="overlay" (click)="showEvent()"></div>
+        <app-map [pins]="pins" [defaultOptions]="mapOptions" [style.height]="mapOptions.height"></app-map>
+    </div>
+    <div class="map-control" (click)="toggleMapVisibility()">
+        <div>{{ mapVisible ? 'HIDE MAP' : 'SHOW MAP'}}</div>
+        <div [ngClass]="{'app-icon arrow-up': mapVisible, 'app-icon arrow-down': !mapVisible, 'tiny': true, 'icon': true}"></div>
+    </div>
+    <div class="card-details">
+        <div>
+            <mat-icon>access_time</mat-icon>
+            <app-circle-spinner  size="20" depth="2" [circleColor]="circleColor" fillColor="#fafafa" [spinnerColor]="spinnerColor" animate="true">
+                <div class="events-circle">
+                    <div class="count">{{ eventEventsCount }}x</div>
+                </div>
+            </app-circle-spinner>
+            <div class="access-times">
+                <ng-container *ngFor="let event of eventEvents; let first = first; let last = last">
+                  <div [ngClass]="{'first': first, 'last': last}">{{ event.date | numberdate | date : 'shortTime'}}</div>
+                  <div *ngIf="!last">|</div>
+                </ng-container>
+            </div>
+        </div>
+        <div>
+            <mat-icon>location_city</mat-icon>
+            <div>{{event.device.locationName}}</div>
+        </div>
+        <div class="last">
+            <mat-icon>location_on</mat-icon>
+            <div>{{event.device.locationLevel1}}, {{event.device.locationLevel2}}, {{event.device.locationLevel3}}</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button mat-button color="primary" (click)="activateResponse()" *ngIf="event && !event.closureDate && !response">Activate Response</button>
+        <div *ngIf="response && response.responseState === 0">Response Resolved</div>
+        <button mat-button color="primary" *ngIf="response && response.responseState === 1" (click)="manageResponse()">Manage Response</button>
+    </div>
+</mat-card>

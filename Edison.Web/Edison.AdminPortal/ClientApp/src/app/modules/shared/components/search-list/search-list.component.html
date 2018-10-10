@@ -1,0 +1,16 @@
+<div class="action-plan-search-header">
+  {{title}}
+  <span class="down-arrow"></span>
+</div>
+<div class="container">
+  <div class="action-plan-search">
+    <div class="app-icon small" [ngClass]="{'search': currentFilter === '', 'close grey': currentFilter !== ''}"
+      (click)="clearFilter()"></div>
+    <input type="text" placeholder="Search" (keyup)="updateSearchFilter($event.target.value)" [(ngModel)]="currentFilter" />
+  </div>
+  <div class="action-plan-list" [@listFadeInOut]="filteredItems.length">
+    <app-search-list-item *ngFor="let item of filteredItems"
+      [item]="item" [active]="isRowActive(item)" (click)="selectItem(item)" (close)="selectItem(null)"
+      (mouseenter)="hoveredId = item.id" (mouseleave)="hoveredId = null"></app-search-list-item>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="active-responses" *ngIf="active" [@fadeInOut]>
+  <app-search-list [title]="'Active Responses'" [items]="items" [activeId]="activeId" (itemSelected)="selectActiveResponse($event)"></app-search-list>
+  <div class="responses-container">
+    <div class="grey-subheader absolute-position" *ngIf="!activeResponse" [@fadeInOut]>
+      <div>No Response Selected</div>
+    </div>
+    <app-active-response class="absolute-position" [activeResponse]="activeResponse" (deactivateClicked)="showDeactivateView()"
+      *ngIf="activeResponse && activeView === 0" [@fadeInOut]></app-active-response>
+    <app-deactivate-response class="absolute-position" [activeResponse]="activeResponse" *ngIf="activeResponse && activeView === 1"
+      (backClick)="backClicked();" (returnToMapClick)="toggleResponses()" [@fadeInOut]></app-deactivate-response>
+  </div>
+</div>
+
+<div class="container app-button map secondary" (click)="toggleResponses()" [@fadeInOut]>
+  <span class="app-icon" [ngClass]="{'active medium close teal': active, 'expand small': !active}"></span>
+  <span class="text noselect manage-text">{{ active ? 'Cancel' : 'Manage Responses' }}</span>
+  <div class="icon-container" *ngIf="!active">
+    <app-active-response-icon *ngFor="let response of responses" [response]="response" (click)="openResponse(response)"></app-active-response-icon>
+  </div>
+</div>

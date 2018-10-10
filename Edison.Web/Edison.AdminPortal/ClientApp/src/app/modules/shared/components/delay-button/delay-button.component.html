@@ -1,0 +1,19 @@
+<div class="button-container" [style.opacity]="disabled ? .5 : 1">
+    <div>
+        <div class="progress-overlay" (mousedown)="onMouseDown()" (mouseup)="onMouseUp()" [style.cursor]="disabled ? 'default' : 'pointer'">
+            <div class="progress-circle">
+                <div class="app-icon horn-lightblue large"></div>
+                <div class="text" *ngIf="buttonText">{{buttonText}}</div>
+            </div>
+        </div>
+        <round-progress [current]="currentProgress" [max]="maxProgress" [color]="'#0050b3'" [background]="'#9FB3D8'"
+            [radius]="50" [stroke]="5" [rounded]="false" [responsive]="true" [duration]="800" [animation]="'easeInOutQuart'"
+            [animationDelay]="0" [style.opacity]="disabled ? 0 : 1">
+        </round-progress>
+    </div>
+</div>
+<div class="grey-subheader" *ngIf="subheaderText">
+    <div>
+        {{subheaderText}}
+    </div>
+</div>

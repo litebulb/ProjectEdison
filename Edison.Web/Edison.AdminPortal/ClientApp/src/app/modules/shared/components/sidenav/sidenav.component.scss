@@ -1,0 +1,18 @@
+@import 'colors';
+@import 'sizes';
+@import 'icons';
+
+:host {
+  display: flex;
+  background-color: #EDEDF0;
+  min-width: $sidenav-width;
+  align-items: center;
+  padding-top: 100px;
+  flex-direction: column;
+
+  .app-icon {
+    width: 100%;
+    height:60px;
+    cursor: pointer;
+  }
+}

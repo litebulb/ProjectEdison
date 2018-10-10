@@ -1,0 +1,7 @@
+<div class="app-icon light round" [ngClass]="getBgColor()"></div>
+<div class="content-container">
+  <div>
+    Connected Lights {{context.parameters.radius}} Radius: <span [ngClass]="getBgColor()">{{context.parameters.color}}</span>
+  </div>
+</div>
+<div class="line-hider" *ngIf="last"></div>
