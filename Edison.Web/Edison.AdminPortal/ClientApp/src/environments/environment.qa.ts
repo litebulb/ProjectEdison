@@ -4,6 +4,33 @@ export const environment = {
     authorize: true,
     mapDefaults: {
         zoom: 16,
+        style: {
+            elements: {
+                road: {
+                    strokeColor: "#5b5b5b",
+                    fillColor: "#ffffff"
+                },
+                controlledAccessHighway: {
+                    strokeColor: "#5b5b5b",
+                    fillColor: "#5b5b5b",
+                },
+                highway: {
+                    strokeColor: "#5b5b5b",
+                    fillColor: "#5b5b5b",
+                },
+                tollRoad: {
+                    strokeColor: "#5b5b5b",
+                    fillColor: "#5b5b5b",
+                },
+                education: {
+                    fillColor: "#ffffff",
+                }
+            },
+            settings: {
+                landColor: "#E4E4E4",
+            },
+            version: "1.0"
+        }
     },
     azureAd: {
         clientId: '570220f8-4a34-4a3b-b470-c6e84cd36f94',

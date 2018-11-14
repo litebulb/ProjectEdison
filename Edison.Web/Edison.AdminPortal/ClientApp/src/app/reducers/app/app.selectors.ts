@@ -5,6 +5,11 @@ import { State } from './app.reducer'
 export const appStateSelector = createFeatureSelector<AppState, State>('app')
 
 export const pageTitleSelector = createSelector(
-  appStateSelector,
-  state => state.pageTitle
+    appStateSelector,
+    state => state.title
+)
+
+export const pageSidebarSelector = createSelector(
+    appStateSelector,
+    state => state.sidebar
 )

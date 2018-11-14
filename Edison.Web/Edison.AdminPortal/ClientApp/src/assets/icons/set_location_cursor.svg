@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="110px" height="51px" viewBox="0 0 110 51" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>cursor - set location@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-8.3%" y="-12.9%" width="117.6%" height="140.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.9" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.65 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-2" x="0" y="0" width="100" height="27" rx="9"></rect>
+        <filter x="-7.0%" y="-18.5%" width="114.0%" height="151.9%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Admin-Portal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="RN---Response-Location-2" transform="translate(-1003.000000, -331.000000)">
+            <g id="cursor---set-location" filter="url(#filter-1)" transform="translate(1007.000000, 332.000000)">
+                <g id="set-location" transform="translate(1.000000, 15.000000)">
+                    <g id="Rectangle">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                        <use fill="#000000" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    </g>
+                    <text id="Set-Location" font-family="Rubik-Regular, Rubik" font-size="14" font-weight="normal" fill="#22F0FF">
+                        <tspan x="9" y="18">Set Location</tspan>
+                    </text>
+                </g>
+                <g id="arrow">
+                    <polygon id="arrow-border" fill="#FFFFFF" points="0 16.5 0 0.5 11.6000004 12.1081174 4.55353306 12.1081174 4.40241581 12.2320012"></polygon>
+                    <polygon fill="#000000" points="1 2.79999995 1 13.9999998 3.969 11.1309258 4.129 10.9917767 9.165 11"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

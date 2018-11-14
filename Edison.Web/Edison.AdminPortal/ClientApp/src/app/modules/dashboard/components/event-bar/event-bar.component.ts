@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs'
 import { listFadeInOut } from '../../../../core/animations/listFadeInOut'
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Actions, ofType } from '@ngrx/effects';
+import { SetPageData } from '../../../../reducers/app/app.actions';
 
 @Component({
     selector: 'app-event-bar',
@@ -45,6 +46,8 @@ export class EventBarComponent implements OnInit, OnDestroy {
     constructor (private store: Store<AppState>, private actions$: Actions) { }
 
     ngOnInit() {
+        this.store.dispatch(new SetPageData({ title: 'RIGHT NOW', sidebar: true }));
+
         this.eventsSub$ = this.store
             .pipe(select(eventsSelector))
             .subscribe(events => {

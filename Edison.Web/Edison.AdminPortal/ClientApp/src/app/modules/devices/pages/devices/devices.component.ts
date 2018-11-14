@@ -10,6 +10,7 @@ import { ExpandedDevice } from '../../models/expanded-device.model';
 import { Event } from '../../../../reducers/event/event.model';
 import { Response } from '../../../../reducers/response/response.model';
 import { TestDevice } from '../../../../reducers/device/device.actions';
+import { SetPageData } from '../../../../reducers/app/app.actions';
 
 @Component({
     selector: 'app-devices',
@@ -32,6 +33,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.setupSubscriptions();
         this.setupFilters();
+
+        this.store.dispatch(new SetPageData({ title: 'DEVICES', sidebar: false }))
     }
 
     ngOnDestroy() {

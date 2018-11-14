@@ -111,7 +111,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
 
         )
 
-        this.focusPins(pinsToFocus)
+        this.focusPins(pinsToFocus, this.defaultOptions.zoom)
     }
 
     focusPins = (pins: MapPin[], zoom?: number) => {
@@ -259,6 +259,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
                 credentials: environment.bingMapsKey,
                 center:
                     this.pins.length === 1 ? this.getPinLocation(this.pins[ 0 ]) : null,
+                customMapStyle: environment.mapDefaults.style,
             }
         )
 

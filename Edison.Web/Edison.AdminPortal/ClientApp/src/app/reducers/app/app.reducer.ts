@@ -1,21 +1,23 @@
 import { AppActionTypes, AppActions } from './app.actions'
 
 export interface State {
-  pageTitle: string
+    title: string;
+    sidebar: boolean;
 }
 
 export const initialState: State = {
-  pageTitle: null,
+    title: null,
+    sidebar: null,
 }
 
 export function reducer(state = initialState, action: AppActions): State {
-  switch (action.type) {
-    case AppActionTypes.UpdatePageTitle:
-      return {
-        ...state,
-        pageTitle: action.payload.title,
-      }
-    default:
-      return state
-  }
+    switch (action.type) {
+        case AppActionTypes.UpdatePageData:
+            return {
+                ...state,
+                ...action.payload
+            }
+        default:
+            return state
+    }
 }

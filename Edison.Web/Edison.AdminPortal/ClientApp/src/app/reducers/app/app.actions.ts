@@ -1,18 +1,18 @@
 import { Action } from '@ngrx/store'
 
 export enum AppActionTypes {
-  FocusAllPins = '[App] Focus All Pins',
-  UpdatePageTitle = '[App] Update Page Title',
+    FocusAllPins = '[App] Focus All Pins',
+    UpdatePageData = '[App] Update Page Data',
 }
 
 export class FocusAllPins implements Action {
-  readonly type = AppActionTypes.FocusAllPins
+    readonly type = AppActionTypes.FocusAllPins
 }
 
-export class UpdatePageTitle implements Action {
-  readonly type = AppActionTypes.UpdatePageTitle
+export class SetPageData implements Action {
+    readonly type = AppActionTypes.UpdatePageData
 
-  constructor(public payload: { title: string }) {}
+    constructor (public payload: { title: string, sidebar?: boolean }) { }
 }
 
-export type AppActions = FocusAllPins | UpdatePageTitle
+export type AppActions = FocusAllPins | SetPageData

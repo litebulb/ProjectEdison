@@ -23,6 +23,7 @@ const routes: Routes = [
                 component: EventBarComponent,
                 data: {
                     title: 'RIGHT NOW',
+                    sidebar: true,
                 },
             },
             {
@@ -30,13 +31,15 @@ const routes: Routes = [
                 component: RecentlyActiveComponent,
                 data: {
                     title: 'MESSAGING',
+                    sidebar: true,
                 },
             },
             {
                 path: 'devices',
                 component: DevicesComponent,
                 data: {
-                    title: 'DEVICES'
+                    title: 'DEVICES',
+                    sidebar: false,
                 }
             }
         ],

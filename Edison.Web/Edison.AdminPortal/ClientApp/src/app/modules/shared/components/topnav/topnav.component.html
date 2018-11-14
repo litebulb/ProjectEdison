@@ -1,7 +1,8 @@
 <div class="overlay"></div>
 <div class="title">
     <span>{{ pageTitle$ | async }}</span>
-    <span class="down-arrow"></span>
+    <span class="down-arrow"
+          *ngIf="sidebar$ | async"></span>
 </div>
 <div class="logo">
     <img src="assets/images/logo.svg" />
@@ -10,7 +11,8 @@
      (click)="logout()">
     Logout
 </div>
-<div class="map-controls">
+<div class="map-controls"
+     *ngIf="sidebar$ | async">
     <div class="app-icon reload"
          (click)="reload()"></div>
 </div>

@@ -4,12 +4,9 @@ import { MapPin } from '../../../map/models/mapPin'
 import { AppState } from '../../../../reducers'
 import { Store, select } from '@ngrx/store'
 import { MapComponent } from '../../../map/components/map/map.component'
-import {
-    eventsSelector,
-    showEventsSelector,
-} from '../../../../reducers/event/event.selectors'
+import { eventsSelector } from '../../../../reducers/event/event.selectors'
 import { GetDevices } from '../../../../reducers/device/device.actions'
-import { GetEvents } from '../../../../reducers/event/event.actions'
+import { GetEvents, EventActionTypes, ShowEvents } from '../../../../reducers/event/event.actions'
 import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors'
 import { Event, EventType } from '../../../../reducers/event/event.model'
 import {
@@ -27,7 +24,7 @@ import { environment } from '../../../../../environments/environment'
 import { Actions, ofType } from '@ngrx/effects'
 import {
     AppActionTypes,
-    UpdatePageTitle,
+    SetPageData,
 } from '../../../../reducers/app/app.actions'
 import { AddChat, GetChatAuthToken, ChatActionTypes, ToggleUserChatWindow, ToggleAllUsersChatWindow } from '../../../../reducers/chat/chat.actions';
 import { chatAuthSelector } from '../../../../reducers/chat/chat.selectors';
@@ -61,7 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     constructor (
         private store: Store<AppState>,
-        private updates$: Actions,
+        private actions$: Actions,
         private directlineService: DirectlineService
     ) { }
 
@@ -70,14 +67,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const eventStream = this.store.pipe(select(eventsSelector));
         const deviceStream = this.store.pipe(select(devicesFilteredSelector));
 
-        this.updates$
+        this.actions$
             .pipe(ofType(ChatActionTypes.ToggleAllUsersChatWindow))
             .subscribe(({ payload: { open } }: ToggleAllUsersChatWindow) => {
                 this.showAllUserChat = open;
                 this.showUserChat = false;
             })
 
-        this.updates$
+        this.actions$
             .pipe(ofType(ChatActionTypes.ToggleUserChatWindow))
             .subscribe(({ payload: { open } }: ToggleUserChatWindow) => {
                 this.showAllUserChat = false;
@@ -103,15 +100,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.updatePins(devices, events, responses)
         )
 
-        this.showEventsSub$ = this.store
-            .pipe(select(showEventsSelector))
-            .subscribe(events => {
+        this.showEventsSub$ = this.actions$
+            .pipe(ofType(EventActionTypes.ShowEvents))
+            .subscribe(({ payload: { events } }: ShowEvents) => {
                 if (this.pins.length > 0 && events && events.length > 0) {
                     this.mapComponent.focusEvents(events)
                 }
             })
 
-        this.focusAllPinsSub$ = this.updates$
+        this.focusAllPinsSub$ = this.actions$
             .ofType(AppActionTypes.FocusAllPins)
             .subscribe(() => {
                 this.mapComponent.focusAllPins()
@@ -122,7 +119,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetDevices())
         this.store.dispatch(new GetEvents())
         this.store.dispatch(new GetResponses())
-        this.store.dispatch(new UpdatePageTitle({ title: 'Right Now' }))
+        this.store.dispatch(new SetPageData({ title: 'Right Now' }))
         if (environment.authorize) {
             this.store.dispatch(new GetChatAuthToken())
         }

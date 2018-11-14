@@ -4,7 +4,6 @@ import { EventActions, EventActionTypes } from './event.actions';
 
 export interface State extends EntityState<Event> {
     // additional entities state properties
-    showEvents: Event[];
     activeEvent: Event;
 }
 
@@ -19,7 +18,6 @@ export const adapter: EntityAdapter<Event> = createEntityAdapter<Event>({
 
 export const initialState: State = adapter.getInitialState({
     // additional entity state properties
-    showEvents: [],
     activeEvent: null,
 });
 
@@ -66,13 +64,6 @@ export function reducer(state = initialState, action: EventActions): State {
 
         case EventActionTypes.ClearEvents: {
             return adapter.removeAll(state);
-        }
-
-        case EventActionTypes.ShowEvents: {
-            return {
-                ...state,
-                showEvents: action.payload.events,
-            };
         }
 
         case EventActionTypes.SelectActiveEvent: {
