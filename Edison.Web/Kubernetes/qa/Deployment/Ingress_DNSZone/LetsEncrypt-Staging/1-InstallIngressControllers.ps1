@@ -1,1 +1,0 @@
-kubectl create -f ./nginx-config-ingress-dnszone.yaml

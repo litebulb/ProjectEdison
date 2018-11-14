@@ -1,1 +1,0 @@
-.\ngrok.exe http 27000 -host-header="localhost:27000"
