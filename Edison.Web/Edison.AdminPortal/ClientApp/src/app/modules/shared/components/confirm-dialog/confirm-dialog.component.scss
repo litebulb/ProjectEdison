@@ -1,0 +1,22 @@
+@import 'buttons';
+
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .btn-container {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 20px;
+    
+        .app-button {
+            width: 100%;
+    
+            &.secondary {
+                margin-right: 10px;
+            }
+        }
+    }
+}

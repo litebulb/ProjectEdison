@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  abi-rabbit:
+    ports:
+     - "5672:5672"
+     - "15672:15672"    
+    volumes:
+     - /var/lib/rabbitmq
+    image: rabbitmq:3-management
+  edisonadminportal:
+    image: edisonadminportal
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.AdminPortal/Dockerfile.dev

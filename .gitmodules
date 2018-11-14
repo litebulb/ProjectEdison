@@ -1,0 +1,3 @@
+[submodule "Edison.Web/Edison.AdminPortal/ClientApp/Projects/three-psa-ui-lib"]
+	path = Edison.Web/Edison.AdminPortal/ClientApp/Projects/three-psa-ui-lib
+	url = https://BlueMetal@dev.azure.com/BlueMetal/Smart%20City%203PSA/_git/3PSA_UI

@@ -1,0 +1,38 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "ServiceBusRabbitMQ": {
+    "Uri": "rabbitmq://abi-rabbit",
+    "QueueName": "state-sagas",
+    "PrefetchCount": 8,
+    "ConcurrencyLimit": 1
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds": 5,
+    "QueueName": "state-sagas",
+    "PrefetchCount": 8,
+    "ConcurrencyLimit": 1
+  },
+  "WorkflowsConfig": {
+    "EventProcessingWorkflow": {
+      "EventClusterLifespan": 10,
+      "EventClusterCooldown": 720
+    }
+  },
+  "CosmosDb": {
+    "Endpoint": "https://edisoncosmosdb.documents.azure.com:443/",
+    "Database": "Edison",
+    "Collection": "Sagas"
+  }
+}

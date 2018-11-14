@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="4px" viewBox="0 0 8 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/arrow-down</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.90870312,2.06852938 C7.78678125,1.9463575 7.5889375,1.94617 7.46675,2.06807625 L4.22096875,5.30712313 C4.09910937,5.42896688 3.900875,5.42895125 3.77879687,5.30688875 L0.53325,2.06807625 C0.411078125,1.94615438 0.213234375,1.9463575 0.091296875,2.06852938 C-0.030609375,2.19070125 -0.03040625,2.38856063 0.09175,2.51046688 L3.33707812,5.74906063 C3.51990625,5.9318575 3.75998437,6.0232325 4.00009375,6.0232325 C4.2400625,6.0232325 4.48007812,5.93188875 4.66267187,5.74927938 L7.90825,2.51046688 C8.03040625,2.38856063 8.03060937,2.19070125 7.90870312,2.06852938 Z" id="path-1"></path>
+    </defs>
+    <g id="playground" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-156.000000, -161.000000)">
+            <g id="icon/arrow-down" transform="translate(160.000000, 163.000000) scale(1, -1) translate(-160.000000, -163.000000) translate(156.000000, 159.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="color/text_note" mask="url(#mask-2)" fill="#8886A0" fill-rule="nonzero">
+                    <rect id="base-color" x="0" y="0" width="8" height="8"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+<div class="status-icon"
+     *ngIf="context.status === 1">
+    <mat-icon>check</mat-icon>
+</div>
+<div class="app-icon light round"
+     [ngClass]="getBgColor()"></div>
+<div class="content-container">
+    <div>
+        Connected Lights {{context.parameters.radius}} Radius: <span class="color-text"
+              *ngIf="!canEdit">{{_color}}</span>
+    </div>
+    <div *ngIf="canEdit"
+         class="colors-container">
+        <button class="colorBtn"
+                (click)="updateColor(color)"
+                *ngFor="let color of actionPlanColors; let i = index"
+                [ngClass]="{'active': color.toLowerCase() === _color.toLowerCase()}">{{color}}</button>
+    </div>
+</div>
+<div class="line-hider"
+     *ngIf="last"></div>

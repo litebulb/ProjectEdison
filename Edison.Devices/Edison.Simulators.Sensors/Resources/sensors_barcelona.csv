@@ -1,0 +1,16 @@
+DeviceId,DeviceType,Name,Location1,Location2,Location3,Longitude,Latitude,Sensor,Demo,Enabled
+5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,Lightbulb,Center 1,Pàdua,8006,"Barcelona, Spain",2.142871,41.403138,FALSE,FALSE,TRUE
+148180db-6e30-4848-a719-07cc95f6c07c,Lightbulb,Center 2,"Carrer Turó de Monterols, 1",8006,"Barcelona, Spain",2.143263,41.402609,FALSE,FALSE,TRUE
+5a675564-29ee-43eb-8d01-702b38e9ae0d,Lightbulb,Center 3,Carrer de Ríos Rosas,8006,"Barcelona, Spain",2.144143,41.403591,FALSE,FALSE,TRUE
+5e3cab8c-1a90-4139-bcc4-3c79e4fc10fb,Lightbulb,West,Colegio Mayor Mater Salvatoris,"Carrer de l'Emancipació, 33, 08022","Barcelona, Spain",2.132251,41.403509,FALSE,FALSE,TRUE
+f7bb44d2-dfb9-431d-a0d6-33b8a76b10f0,Lightbulb,East,Virreina Square,"Carrer de l'Or, 42, 08012","Barcelona, Spain",2.156047,41.404988,FALSE,FALSE,TRUE
+ff65d547-d343-42cd-a68a-841b68ea03d4,SoundSensor,Center,Carrer de Balmes,8006,"Barcelona, Spain",2.143371,41.402955,TRUE,FALSE,TRUE
+010fe9e8-95fb-4bb8-bb93-053f319ca93d,SoundSensor,South,Institut Menendez Y Pelayo,"Via Augusta, 140, 08021","Barcelona, Spain",2.144514,41.40008,TRUE,FALSE,TRUE
+e7c68839-2eff-496c-a574-3e969f580344,SoundSensor,West,Colegio Mayor Mater Salvatoris,"Carrer de l'Or, 42, 08012","Barcelona, Spain",2.132616,41.403155,TRUE,FALSE,TRUE
+b6beab26-8577-400d-a01c-84aeed74ff90,SoundSensor,East,Virreina Square,"Barcelona, Spain","Barcelona, Spain",2.157819,41.405372,TRUE,FALSE,TRUE
+20a44b99-4b27-408b-84e1-f203cc474fc1,SoundSensor,North,Fundación Putxet,"Carrer del Putget, 26, 08023","Barcelona, Spain",2.143009,41.405578,TRUE,FALSE,TRUE
+d44c7909-9f17-4d20-959b-d6b39e0bbd74,ButtonSensor,Center,Carrer del Francolí,8006,"Barcelona, Spain",2.14542,41.402931,TRUE,FALSE,TRUE
+cb4d7486-ee52-400e-9cab-113adef8b1b3,ButtonSensor,South,Institut Menendez Y Pelayo,"Via Augusta, 140, 08021","Barcelona, Spain",2.144911,41.400329,TRUE,FALSE,TRUE
+c82797c4-7935-4178-b994-953193ecae3e,ButtonSensor,West,Colegio Mayor Mater Salvatoris,"Carrer de l'Or, 42, 08012","Barcelona, Spain",2.132932,41.403644,TRUE,FALSE,TRUE
+059f0712-66fe-4787-a7c9-e6c0efbb6c70,ButtonSensor,East,Virreina Square,"Barcelona, Spain","Barcelona, Spain",2.158162,41.404591,TRUE,FALSE,TRUE
+ae92ffce-1a7d-4952-88a1-91dffb8a00af,ButtonSensor,North,Fundación Putxet,"Carrer del Putget, 26, 08023","Barcelona, Spain",2.143416,41.405787,TRUE,FALSE,TRUE

@@ -1,0 +1,16 @@
+export const spinnerColors = {
+    activeCircleColor: 'rgb(32, 122, 255)',
+    inactiveCircleColor: 'rgb(173,208,255)',
+    activeSpinnerColor: '0, 80, 179',
+    inactiveSpinnerColor: '173,208,255',
+    blueSpinnerColor: '0, 80, 179',
+    blueCircleColor: 'rgb(32, 122, 255)',
+    redSpinnerColor: '230,44,30',
+    redCircleColor: 'rgb(230,44,30)',
+    greenSpinnerColor: '0,229,54',
+    greenCircleColor: 'rgb(0,229,54)',
+    yellowSpinnerColor: '255,159,33',
+    yellowCircleColor: 'rgb(255,159,33)',
+    greySpinnerColor: '128,128,128',
+    greyCircleColor: 'rgb(128,128,128)',
+};

@@ -1,0 +1,20 @@
+<div class="container"
+     *ngIf="activeResponse && activeResponse.actionPlan && _closeActions.length > 0">
+    <div class="header">UPDATE {{activeResponse.actionPlan.name}} RESPONSE</div>
+    <div class="subheader success"
+         *ngIf="updateSucceeded">Updates successfullly sent</div>
+    <div>
+        <button class="app-button secondary"
+                (click)="onCancel()">GO BACK</button>
+        <button class="app-button primary"
+                (click)="addNotification()">ADD NOTIFICATION</button>
+        <button class="app-button primary"
+                (click)="onUpdate()"
+                [disabled]="!modified"
+                [ngClass]="{'disabled': !modified}">SEND
+            UPDATES</button>
+    </div>
+    <app-action-list [actions]="_closeActions"
+                     [canEdit]="true"
+                     (onchange)="updated($event)"></app-action-list>
+</div>

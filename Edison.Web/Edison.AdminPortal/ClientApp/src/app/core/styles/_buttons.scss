@@ -1,0 +1,101 @@
+@import 'colorScheme';
+
+%button-defaults {
+	border-radius: 0;
+	font-size: 16px;
+	font-family: Rubik;
+	cursor: pointer;
+    outline: 0;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    display: inline-block;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+	margin: 0;
+	padding: 0 16px;
+	min-height: 36px;
+}
+
+.app-button {
+	@extend %button-defaults;
+
+	&.primary {
+		background-color: $primary-color;
+		color: #fff;
+	}
+
+	&.secondary {
+		background-color: #EDEDF0;
+		color: $primary-color;
+	}
+
+	&.disabled {
+		opacity: .5;
+		cursor: not-allowed;
+	}
+
+	&.default {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin: 0 10px;
+		font-size: 16px;
+		color: #3322FF;
+		text-transform: uppercase;
+		background-color: white;
+		border: none;
+		padding: 8px 0;
+		outline: none;
+		cursor: pointer;
+	
+		&:hover {
+			background-color: #F9F9FA;
+		}
+	
+		&:focus {
+			background-color: #EDEDF0;
+		}
+	}
+
+	&.map {
+		min-width: 250px;
+		min-height: 44px;
+		text-align: left;
+		display: flex;
+		align-items: center;
+
+		&.primary {			
+			background-color: #3322FF;
+			color: #FFF;
+			
+			&:not(.disabled) {
+				&:hover {
+					background-color: #1F17A5;
+				}
+		
+				&.active {
+					background-color: black;
+					opacity: 0.8;
+				}
+			}
+
+			&.disabled {
+				opacity: .5;
+				cursor: default;
+			}
+
+			.text {
+				margin-left: 20px;
+				text-transform: uppercase;
+			}
+		}
+
+		&.secondary {
+			background-color: #000;
+			opacity: 0.8;
+			color: #fff;
+		}
+	}
+}

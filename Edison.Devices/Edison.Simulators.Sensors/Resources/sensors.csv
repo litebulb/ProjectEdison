@@ -1,0 +1,42 @@
+DeviceId,DeviceType,Name,Location1,Location2,Location3,Longitude,Latitude,Sensor,Demo,Enabled
+c7a4e6f5-acfd-4b10-9522-0259afa3eeb6,SoundSensor,DeVry University,"225 W Washington St, Chicago, IL 60606",Floor 1,Room 10,-87.63491,41.882894,TRUE,TRUE,TRUE
+267931e5-c288-4c81-92b5-3abd680c741f,ButtonSensor,DeVry University,"226 W Washington St, Chicago, IL 60606",Floor 1,Room 10,-87.63481,41.882794,TRUE,TRUE,TRUE
+22698596-e05f-4799-a218-0f1da7e0642b,SoundSensor,University of Illinois,"Kinzie St, Chicago, IL 60654",Floor 2,Room 20,-87.65894,41.88892,TRUE,TRUE,TRUE
+e8b45563-7346-4bd1-9673-3f54231dcb01,ButtonSensor,University of Illinois,"Kinzie St, Chicago, IL 60654",Floor 2,Room 20,-87.65884,41.88882,TRUE,TRUE,TRUE
+2588ac57-41b7-4e53-8bdf-c4a070e7139c,SoundSensor,Mart Plaza,222 W Merchandise Mart Plaza,Floor 3,Room 30,-87.63498,41.88792,TRUE,TRUE,TRUE
+dea1a283-c356-4342-8ed7-4b0c6d457411,ButtonSensor,Mart Plaza,222 W Merchandise Mart Plaza,Floor 3,Room 30,-87.63488,41.88782,TRUE,TRUE,TRUE
+c9318a5b-d7ba-4055-9ba0-c1af124d8fd8,SoundSensor,Starbucks,470 W Merchandise Mart Plaza,Floor 1,Room 11,-87.63639,41.88799,TRUE,TRUE,TRUE
+b36ff83b-5b95-4845-97ee-67c02fb66708,ButtonSensor,Starbucks,470 W Merchandise Mart Plaza,Floor 1,Room 11,-87.63629,41.88789,TRUE,TRUE,TRUE
+1094f18c-236b-402f-a8e9-6d6ef52aab46,SoundSensor,CVS,"208 W Washington St, Chicago, IL 60606",Floor 2,Room 21,-87.63424,41.88331,TRUE,TRUE,TRUE
+d2273226-946c-4ff6-897b-ec95fed5d992,ButtonSensor,CVS,"208 W Washington St, Chicago, IL 60606",Floor 2,Room 21,-87.63414,41.88321,TRUE,TRUE,TRUE
+e38b5c9f-ea4f-43dc-a600-81d7124a8925,SoundSensor,GNC,"214 W Washington St #220, Chicago, IL 60606",Floor 3,Room 31,-87.63456,41.88338,TRUE,TRUE,TRUE
+3885a0d7-00b6-46ae-993e-5330c1067b1d,ButtonSensor,GNC,"214 W Washington St #220, Chicago, IL 60606",Floor 3,Room 31,-87.63446,41.88328,TRUE,TRUE,TRUE
+2cb210e6-5f13-425f-b8c7-3bde32def629,SoundSensor,Starbucks,"200 West Madison, Chicago, IL 60606",Floor 1,Room 12,-87.63419,41.88219,TRUE,TRUE,TRUE
+759125b0-6c85-4bd3-b964-bb9cea440e78,ButtonSensor,Starbucks,"200 West Madison, Chicago, IL 60606",Floor 1,Room 12,-87.63409,41.88209,TRUE,TRUE,TRUE
+28cf5753-ee0b-4156-a41d-42aea37b681a,SoundSensor,Target,"1 S State St, Chicago, IL 60603",Floor 2,Room 22,-87.62748,41.88191,TRUE,TRUE,TRUE
+6bb808d8-d381-4714-892b-7cd198453659,ButtonSensor,Target,"1 S State St, Chicago, IL 60603",Floor 2,Room 22,-87.62738,41.88181,TRUE,TRUE,TRUE
+20fd4c4f-6b70-4830-9a36-fefede50222c,SoundSensor,Walgreens,"2 N State St #1, Chicago, IL 60602",Floor 3,Room 32,-87.628,41.8821,TRUE,TRUE,TRUE
+d82e7c7e-f400-499b-8495-335b8bd2f179,ButtonSensor,Walgreens,"2 N State St #1, Chicago, IL 60602",Floor 3,Room 32,-87.6279,41.882,TRUE,TRUE,TRUE
+edcedef1-d244-41af-a8c6-fd9653e6e810,SoundSensor,Adler University,"17 N Dearborn St, Chicago, IL 60602",Floor 1,Room 10,-87.629165,41.882469,TRUE,TRUE,TRUE
+62a418d8-0da1-4894-bc7d-64c0ba8c39f0,ButtonSensor,Adler University,"18 N Dearborn St, Chicago, IL 60602",Floor 1,Room 10,-87.629065,41.882369,TRUE,TRUE,TRUE
+e9e82b8b-19b8-4411-84ef-66e71753c8ec,SoundSensor,Chase Bank,"10 S Dearborn St, Chicago, IL 60603",Floor 1,Room 11,-87.63014,41.88133,TRUE,TRUE,TRUE
+0fd9073c-63fc-40b5-9bed-eac02f451ccc,ButtonSensor,Chase Bank,"10 S Dearborn St, Chicago, IL 60603",Floor 1,Room 11,-87.63004,41.88123,TRUE,TRUE,TRUE
+e3da4643-3f82-46ec-a24c-ce71fb1334fe,SoundSensor,Chase Plaza,"47 S Clark St, Chicago, IL 60603",Floor 1,Room 12,-87.63058,41.88105,TRUE,TRUE,TRUE
+a8a73d63-e68d-4df3-be83-b11c6f1bd9d1,ButtonSensor,Chase Plaza,"47 S Clark St, Chicago, IL 60603",Floor 1,Room 12,-87.63048,41.88095,TRUE,TRUE,TRUE
+8e3216d3-4c47-4e4b-b306-4a00d190bafe,SoundSensor,BlueMetal Architects,"180 N Michigan Ave, Chicago, IL 60601",Floor 11,Room 1,-87.62471,41.88515,TRUE,TRUE,TRUE
+b91beba4-ef06-4545-b99e-55099fcd3fd8,ButtonSensor,BlueMetal Architects,"180 N Michigan Ave, Chicago, IL 60601",Floor 11,Room 1,-87.62461,41.88505,TRUE,TRUE,TRUE
+5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,Lightbulb,The Purple Pig,"500 N Michigan Ave, Chicago, IL 60611",Floor 1,Room 10,-87.62435,41.89094,FALSE,FALSE,TRUE
+148180db-6e30-4848-a719-07cc95f6c07c,Lightbulb,McDonald's,"600 N Clark St, Chicago, IL 60610",Floor 1,Room 12,-87.63128,41.8925,FALSE,FALSE,TRUE
+5a675564-29ee-43eb-8d01-702b38e9ae0d,Lightbulb,Chicago Cultural Center,"78 E Washington St, Chicago, IL 60602",Floor 3,Room 32,-87.62498,41.88435,FALSE,FALSE,TRUE
+5e3cab8c-1a90-4139-bcc4-3c79e4fc10fb,Lightbulb,The Art Institute of Chicago,"111 S Michigan Ave, Chicago, IL 60603",Floor 1,Room 11,-87.624039,41.879539,FALSE,FALSE,TRUE
+f7bb44d2-dfb9-431d-a0d6-33b8a76b10f0,Lightbulb,Deloitte,"111 S Wacker Dr, Chicago, IL 60606",Floor 1,Room 10,-87.636452,41.880287,FALSE,FALSE,TRUE
+ff65d547-d343-42cd-a68a-841b68ea03d4,SoundSensor,The Purple Pig,"500 N Michigan Ave, Chicago, IL 60611",Floor 1,Room 10,-87.62435,41.89094,TRUE,FALSE,TRUE
+010fe9e8-95fb-4bb8-bb93-053f319ca93d,SoundSensor,McDonald's,"600 N Clark St, Chicago, IL 60610",Floor 1,Room 12,-87.63128,41.8925,TRUE,FALSE,TRUE
+e7c68839-2eff-496c-a574-3e969f580344,SoundSensor,Chicago Cultural Center,"78 E Washington St, Chicago, IL 60602",Floor 3,Room 32,-87.62498,41.88435,TRUE,FALSE,TRUE
+b6beab26-8577-400d-a01c-84aeed74ff90,SoundSensor,The Art Institute of Chicago,"111 S Michigan Ave, Chicago, IL 60603",Floor 1,Room 11,-87.624039,41.879539,TRUE,FALSE,TRUE
+20a44b99-4b27-408b-84e1-f203cc474fc1,SoundSensor,Deloitte,"111 S Wacker Dr, Chicago, IL 60606",Floor 1,Room 10,-87.636452,41.880287,TRUE,FALSE,TRUE
+d44c7909-9f17-4d20-959b-d6b39e0bbd74,ButtonSensor,The Purple Pig,"500 N Michigan Ave, Chicago, IL 60611",Floor 1,Room 10,-87.62425,41.89084,TRUE,FALSE,TRUE
+cb4d7486-ee52-400e-9cab-113adef8b1b3,ButtonSensor,McDonald's,"600 N Clark St, Chicago, IL 60610",Floor 1,Room 12,-87.63118,41.8924,TRUE,FALSE,TRUE
+c82797c4-7935-4178-b994-953193ecae3e,ButtonSensor,Chicago Cultural Center,"78 E Washington St, Chicago, IL 60602",Floor 3,Room 32,-87.62488,41.88425,TRUE,FALSE,TRUE
+059f0712-66fe-4787-a7c9-e6c0efbb6c70,ButtonSensor,The Art Institute of Chicago,"111 S Michigan Ave, Chicago, IL 60603",Floor 1,Room 11,-87.623939,41.879439,TRUE,FALSE,TRUE
+ae92ffce-1a7d-4952-88a1-91dffb8a00af,ButtonSensor,Deloitte,"111 S Wacker Dr, Chicago, IL 60606",Floor 1,Room 10,-87.636352,41.880187,TRUE,FALSE,TRUE

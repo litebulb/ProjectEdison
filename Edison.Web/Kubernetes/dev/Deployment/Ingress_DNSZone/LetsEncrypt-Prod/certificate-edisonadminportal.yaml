@@ -1,0 +1,17 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret-edisonadminportal
+spec:
+  secretName: tls-secret-edisonadminportal
+  dnsNames:
+  - edisonadminportaldev.98bd98cb78be446a9707.eastus.aksapp.io
+  acme:
+    config:
+    - http01:
+        ingressClass: addon-http-application-routing
+      domains:
+      - edisonadminportaldev.98bd98cb78be446a9707.eastus.aksapp.io
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

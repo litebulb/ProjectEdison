@@ -1,0 +1,14 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../out-tsc/app",
+        "types": [
+            "bingmaps"
+        ],
+    },
+    "exclude": [
+        "src/test.ts",
+        "**/*.spec.ts",
+        "map.html-pin-layer.module.ts"
+    ],
+}

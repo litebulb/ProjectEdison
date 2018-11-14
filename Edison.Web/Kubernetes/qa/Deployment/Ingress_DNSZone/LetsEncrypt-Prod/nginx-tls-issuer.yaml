@@ -1,0 +1,39 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: default
+spec:
+  acme:
+    # The ACME server URL
+    # https://acme-v02.api.letsencrypt.org/directory
+    # https://acme-staging-v02.api.letsencrypt.org/directory 
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: thibault.buquet@insight.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable HTTP01 validations
+    http01: {}
+    dns01:
+      # Here we define a list of DNS-01 providers that can solve DNS challenges
+      providers:
+      - name: azuredns
+        azuredns:
+          # Service principal clientId (also called appId)
+          clientID: c81aef11-5349-4871-a5fe-900aef8d11b8
+          # A secretKeyRef to a service principal ClientSecret (password)
+          # ref: https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-kubernetes-service-principal
+          clientSecretSecretRef:
+            name: azuredns-config
+            key: client-secret
+          # Azure subscription Id
+          subscriptionID: dbe50096-704b-42d6-a00d-3825bde8ab2d
+          # Azure AD tenant Id
+          tenantID: 1114b48d-24b1-4492-970a-d07d610a741c
+          # ResourceGroup name where dns zone is provisioned
+          resourceGroupName: MC_edison_edisonakscluster_eastus
+          # Name of the hosted zone, if ommited it will be computed from domain provided during certificate creation
+          # hosted zone name is always part of domain name from certificate request
+          hostedZoneName: 98bd98cb78be446a9707.eastus.aksapp.io

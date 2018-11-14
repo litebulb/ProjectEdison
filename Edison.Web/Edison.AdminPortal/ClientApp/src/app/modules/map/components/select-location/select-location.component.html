@@ -1,0 +1,35 @@
+<div class="modal">
+    <div class="header">
+        <div>RESPONSE LOCATION</div>
+        <div class="app-icon vip-static round medium blue"></div>
+    </div>
+    <div class="content">
+        {{selectionState}}
+    </div>
+    <div class="footer">
+        <button class="app-button default"
+                *ngIf="selectionState === selectionStates.Default"
+                (click)="cancel()">NO</button>
+        <button class="app-button secondary"
+                *ngIf="selectionState === selectionStates.Default"
+                (click)="setLocation()">
+            <span class="app-icon location-blue medium"></span>
+            <span>YES, SET LOCATION</span>
+        </button>
+
+        <button class="app-button default"
+                *ngIf="selectionState === selectionStates.Selecting"
+                (click)="restart()">
+            <span>CANCEL LOCATION SETTING</span>
+        </button>
+
+        <button class="app-button default"
+                *ngIf="selectionState === selectionStates.Confirm"
+                (click)="setLocation()">SET A DIFFERENT LOCATION</button>
+        <button class="app-button secondary"
+                *ngIf="selectionState === selectionStates.Confirm"
+                (click)="confirmLocation()">
+            <span>DONE</span>
+        </button>
+    </div>
+</div>

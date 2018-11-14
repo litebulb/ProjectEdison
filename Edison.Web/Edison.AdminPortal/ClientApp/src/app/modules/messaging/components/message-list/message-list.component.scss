@@ -1,0 +1,33 @@
+:host {
+    display: flex;
+    height: 100%;
+    .message-container {
+        display: flex;
+        .message {
+            margin-bottom: 20px;
+            .title {
+                font-size: 10px;
+                color: #9393a8;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+                &.user {
+                    color: #0059c3;
+                }
+            }
+            .body {
+                font-size: 14px;
+                color: #51505c;
+                border-radius: 10px;
+                padding: 8px;
+                height: 100%;
+                &.blue {
+                    background-color: #0059c3;
+                    color: White;
+                }
+                &.grey {
+                    background-color: #f6f6f8;
+                }
+            }
+        }
+    }
+}

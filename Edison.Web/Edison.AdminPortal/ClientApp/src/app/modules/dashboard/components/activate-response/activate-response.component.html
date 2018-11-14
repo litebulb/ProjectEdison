@@ -1,0 +1,59 @@
+<div class="response"
+     *ngIf="active"
+     [@fadeInOut]
+     [style.z-index]="active ? 5 : 3">
+    <app-search-list [title]="'What is happening?'"
+                     [items]="listItems"
+                     [activeId]="selectedActionPlan ? selectedActionPlan.actionPlanId : null"
+                     (itemSelected)="selectActionPlan($event)"></app-search-list>
+    <div class="response-container">
+        <div class="grey-subheader"
+             *ngIf="!selectedActionPlan || !showActionPlan"
+             [@fadeInOut]>
+            <div>Select a response from the list on the left</div>
+        </div>
+        <div class="grey-subheader"
+             *ngIf="!loadingFullActionPlan && selectedActionPlan && (!selectedActionPlan.openActions || selectedActionPlan.openActions.length < 1)"
+             [@fadeInOut]>
+            <div>No Action Plan Actions Created</div>
+        </div>
+        <div class="grey-subheader"
+             *ngIf="loadingFullActionPlan">
+            <div>Loading...</div>
+        </div>
+        <div class="response-action">
+            <div class="response-type">{{showActionPlan ? 'RESPONSE ACTION: ' + selectedActionPlan.name : 'RESPONSE
+                ACTION'}}</div>
+            <ng-container [@fadeInOut]
+                          *ngIf="selectedActionPlan && showActionPlan && selectedActionPlan.openActions && selectedActionPlan.openActions.length > 0">
+                <div *ngIf="activeResponse"
+                     class="subheader success">Response activated. Updates successfully sent.</div>
+                <button class="app-button primary"
+                        *ngIf="activeResponse"
+                        (click)="onReturnToMapClick()">{{ activeEvent ? 'Return To Map' : 'Set Response Location'}}</button>
+                <div class="content-container">
+                    <app-action-list [actions]="selectedActionPlan.openActions"
+                                     [canEdit]="true"
+                                     (onchange)="onActionPlanChange()"></app-action-list>
+                    <app-delay-button (clickCompleted)="activateActionPlan()"
+                                      [subheaderText]="'Press and Hold to activate'"
+                                      [buttonText]="activated ? 'Activated' : 'Activate'"
+                                      [urgency]="selectedActionPlan.color"
+                                      [disabled]="activated"></app-delay-button>
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+</div>
+
+<button class="app-button map primary"
+        (click)="toggleActive()"
+        (mouseover)="hover = true"
+        (mouseout)="hover = false"
+        [ngClass]="{'hover': hover, 'active': active}"
+        [style.z-index]="active ? 5 : 3">
+    <span class="app-icon horn teal medium"
+          [ngClass]="{'hover': hover && !disabled, 'active close': active, 'horn': !active}"></span>
+    <span class="text noselect">{{ active ? 'Cancel' : 'Activate Response' }}</span>
+</button>

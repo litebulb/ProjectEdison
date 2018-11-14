@@ -1,0 +1,52 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .headers {
+        display: flex;
+        height: 45px;
+        align-items: center;
+        border-top: 1px solid rgba(151, 151, 151, 0.33);
+        border-bottom: 1px solid rgba(151, 151, 151, 0.33);
+        min-height: 45px;
+        .connection {
+            justify-content: left;
+            display: flex;
+            align-items: center;
+            width: 10%;
+            padding-left: 25px;
+        }
+        .current-response {
+            width: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .type {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 10%;
+        }
+        .location {
+            display: flex;
+            width: 40%;
+        }
+        .recent-events {
+            padding-left: 40px;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            width: 20%;
+        }
+    }
+    .body {
+        height: 90%;
+    }
+    div {
+        color: #8886A0;
+        font-family: Rubik;
+        font-size: 13px;
+        line-height: 16px;
+    }
+}

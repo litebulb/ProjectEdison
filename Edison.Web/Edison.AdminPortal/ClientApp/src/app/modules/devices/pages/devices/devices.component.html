@@ -1,0 +1,6 @@
+<div class="title">{{filteredDevices.length}} {{filteredDevices.length === 1 ? 'Device' : 'Devices'}}</div>
+<div class="container">
+    <app-device-filters [filterGroups]="filters"></app-device-filters>
+    <app-device-list [devices]="filteredDevices"
+                     (onrowclick)="onRowClick($event)"></app-device-list>
+</div>

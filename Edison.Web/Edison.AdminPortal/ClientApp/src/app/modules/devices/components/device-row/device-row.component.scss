@@ -1,0 +1,54 @@
+@import 'icons';
+@import 'buttons';
+.container {
+    display: flex;
+    color: #3E3D4A;
+    font-family: Rubik;
+    font-size: 14px;
+    line-height: 17px;
+    min-height: 40px;
+    align-items: center;
+    &:hover {
+        background-color: #F5F5F6;
+        cursor: pointer;
+    }
+    .connection {
+        display: flex;
+        width: 10%;
+        justify-content: left;
+        padding-left: 25px;
+        .app-icon {
+            margin-right: 10px;
+        }
+    }
+    .type {
+        display: flex;
+        width: 10%;
+        justify-content: center;
+    }
+    .location {
+        display: flex;
+        width: 40%;
+    }
+    .current-response {
+        display: flex;
+        width: 15%;
+        justify-content: center;
+    }
+    .recent-events {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        width: 20%;
+        padding-left: 40px;
+    }
+    .device-event-container {
+        display: flex;
+        .comma {
+            margin-right: 10px;
+        }
+    }
+    .no-events {
+        margin-left: 50px;
+    }
+}

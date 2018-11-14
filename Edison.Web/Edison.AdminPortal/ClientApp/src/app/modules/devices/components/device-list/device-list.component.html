@@ -1,0 +1,14 @@
+<div class="headers">
+    <div class="connection">CONNECTION</div>
+    <div class="type">TYPE</div>
+    <div class="location">LOCATION</div>
+    <div class="current-response">CURRENT RESPONSE</div>
+    <div class="recent-events">RECENT EVENTS</div>
+</div>
+<div class="body">
+    <perfect-scrollbar>
+        <app-device-row *ngFor="let device of devices"
+                        [device]="device"
+                        (onclick)="click($event)"></app-device-row>
+    </perfect-scrollbar>
+</div>

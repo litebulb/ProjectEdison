@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+    <PackageReference Include="MassTransit" Version="5.1.5" />
+    <PackageReference Include="MassTransit.Automatonymous.Extensions.DependencyInjection" Version="5.1.5" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="5.1.5" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="5.1.5" />
+    <PackageReference Include="MassTransit.Quartz" Version="5.1.5" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="5.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj" />
+  </ItemGroup>
+
+</Project>

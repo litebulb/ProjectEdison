@@ -1,0 +1,80 @@
+<mat-card [ngStyle]="getBorderStyle()">
+    <div class="card-header"
+         (click)="showEvent()">
+        <div class="app-icon medium"
+             [ngClass]="event.eventType.toLowerCase()"></div>
+        <div class="card-title">{{event.eventType}}</div>
+    </div>
+    <div class="map-container"
+         *ngIf="mapVisible">
+        <div class="overlay"
+             (click)="showEvent()"
+             [ngClass]="getResponseColor()"></div>
+        <app-map [pins]="pins"
+                 [defaultOptions]="mapOptions"
+                 [style.height]="mapOptions.height"></app-map>
+    </div>
+    <div class="map-control"
+         (click)="toggleMapVisibility()"
+         [ngClass]="getResponseColor()">
+        <div>{{ mapVisible ? 'HIDE MAP' : 'SHOW MAP'}}</div>
+        <div [ngClass]="{'arrow-up': mapVisible, 'arrow-down': !mapVisible, 'tiny': true, 'app-icon icon': true}"></div>
+    </div>
+    <div class="card-details"
+         (click)="showEvent()">
+        <div *ngIf="event.eventType === 'message'">
+            "{{latestEventInstance.metadata.message}}"
+        </div>
+        <div>
+            <div class="app-icon time small wide"></div>
+            <app-circle-spinner size="20"
+                                depth="2"
+                                [circleColor]="circleColor"
+                                fillColor="#fafafa"
+                                [spinnerColor]="spinnerColor"
+                                animate="true">
+                <div class="events-circle">
+                    <div class="count">{{ eventEventsCount }}x</div>
+                </div>
+            </app-circle-spinner>
+            <div class="access-times">
+                <ng-container *ngFor="let event of eventEvents; let first = first; let last = last">
+                    <div [ngClass]="{'first': first, 'last': last}">{{ event.date | numberdate | date : 'shortTime'}}</div>
+                    <div *ngIf="!last"
+                         class="comma">,</div>
+                </ng-container>
+            </div>
+        </div>
+        <div *ngIf="event.eventType !== 'message'">
+            <div class="app-icon building small wide"></div>
+            <div class="text">{{event.device.name}}</div>
+        </div>
+        <div *ngIf="event.eventType === 'message'">
+            <div class="app-icon person small wide"></div>
+            <div class="text">{{latestEventInstance.metadata.username}}</div>
+        </div>
+        <div class="last"
+             *ngIf="event.eventType !== 'message'">
+            <div class="app-icon stairs small wide"></div>
+            <div class="text">{{event.device.location1}}, {{event.device.location2}},
+                {{event.device.location3}}</div>
+        </div>
+        <div class="last"
+             *ngIf="event.eventType === 'message'">
+            <div class="app-icon building small wide"></div>
+            <div class="text">{{event.device.location1}}</div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="app-button default"
+                (click)="activateResponse()"
+                *ngIf="event && !event.closureDate && !response">Activate
+            Response</button>
+        <div *ngIf="response && response.responseState === 0">Response Resolved</div>
+        <button class="app-button default"
+                *ngIf="response && response.responseState === 1"
+                (click)="manageResponse()"><span class="app-icon small static"
+                  [ngClass]="response.icon.toLowerCase()"></span>Manage
+            Response</button>
+    </div>
+</mat-card>
