@@ -114,13 +114,13 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         this.focusPins(pinsToFocus)
     }
 
-    focusPins = (pins: MapPin[]) => {
+    focusPins = (pins: MapPin[], zoom?: number) => {
         const locations = pins.map(pin => this.getPinLocation(pin))
 
         if (locations.length > 0) {
             const bounds = Microsoft.Maps.LocationRect.fromLocations(locations)
 
-            this.setMapBounds(bounds)
+            this.setMapBounds(bounds, zoom)
             this.pinsFocused = true
         }
     }
@@ -423,12 +423,14 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         this.htmlClusterLayer.add(htmlClusterPin)
     }
 
-    private setMapBounds = (bounds: Microsoft.Maps.LocationRect) => {
+    private setMapBounds = (bounds: Microsoft.Maps.LocationRect, zoom?: number) => {
         this.map.setView({
             bounds: bounds,
             padding: this.defaultOptions.padding || 100,
         })
-        this.map.setView({ zoom: this.defaultOptions.zoom || 14 })
+        if (zoom) {
+            this.map.setView({ zoom: zoom || this.defaultOptions.zoom })
+        }
     }
 
     private getPinLocation = (pin: MapPin) => {
