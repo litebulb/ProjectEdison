@@ -1,0 +1,27 @@
+<mat-icon class="closeBtn"
+          (click)="close()">close</mat-icon>
+<div class="header">
+    <div class="text">All Active Users</div>
+</div>
+<div class="response-container">
+    <div class="info-row">
+        <div class="app-icon static-size building small"></div>
+        <div class="user-count">{{userCount$ | async}} People</div>
+    </div>
+    <div class="info-row">
+        <div class="app-icon static-size building small"></div>
+        <div class="location">Multiple Locations</div>
+        <div class="map-link">MAP</div>
+    </div>
+    <div>
+        <button class="app-button secondary">ACTIVATE RESPONSE</button>
+    </div>
+</div>
+<div class="body">
+    <div class="subheader">Message {{userCount$ | async}} People</div>
+    <app-message-list [messages]="messages"></app-message-list>
+</div>
+<textarea rows="8"
+          placeholder="Send a message"
+          [(ngModel)]="message"
+          (keydown)="onEnter($event)"></textarea>

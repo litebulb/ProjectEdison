@@ -15,10 +15,12 @@ namespace Edison.Tests.Consumers
     public class ConsumerFixtureBase : InMemoryTestFixture
     {
         protected Mock<IEventClusterRestService> _mockEventRest;
+        protected Mock<IDeviceRestService> _mockDeviceRest;
 
         protected void SetupMocks()
         {
             _mockEventRest = new Mock<IEventClusterRestService>(MockBehavior.Strict);
+            _mockDeviceRest = new Mock<IDeviceRestService>(MockBehavior.Strict);
 
             //Event Rest
             _mockEventRest.Setup(p => p.GetEventCluster(It.IsAny<Guid>())).Returns<Guid>((p) => Task.FromResult(DBMock.GetEventCluster(p)));

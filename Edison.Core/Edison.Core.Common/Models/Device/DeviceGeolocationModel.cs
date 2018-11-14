@@ -9,6 +9,6 @@ namespace Edison.Core.Common.Models
     {
         public Geolocation ResponseEpicenterLocation { get; set; }
         public double Radius { get; set; }
-        public bool FetchSensors { get; set; }
+        public string DeviceType { get; set; }
     }
 }

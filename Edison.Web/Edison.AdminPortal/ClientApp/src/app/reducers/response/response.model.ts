@@ -1,40 +1,50 @@
 import { ActionPlan } from '../action-plan/action-plan.model';
-import { GeoLocation } from '../../shared/models/geoLocation';
+import { GeoLocation } from '../../core/models/geoLocation';
 import { Event } from '../event/event.model';
-import { User } from 'msal';
 
 export enum ResponseState {
-  Inactive,
-  Active
+    Inactive,
+    Active
 }
 
 export class Response {
-  responseId: string;
-  responderUserId: string;
-  responseState: ResponseState;
-  startDate: number;
-  endDate: number;
-  actionPlan: ActionPlan;
-  actionPlanId: string;
-  primaryEventClusterId: string;
-  geolocation: GeoLocation;
-  eventClusterIds: string[];
-  event?: Event;
-  name: string;
-  icon: string;
-  color: string;
+    responseId: string;
+    responderUserId: string;
+    responseState: ResponseState;
+    startDate: number;
+    endDate: number;
+    actionPlan: ActionPlan;
+    actionPlanId: string;
+    primaryEventClusterId?: string;
+    geolocation: GeoLocation;
+    eventClusterIds: string[];
+    event?: Event;
+    name: string;
+    icon: string;
+    color: string;
+    delayResponse: boolean = false;
 
-  constructor(event: Event, actionPlan: ActionPlan, user: User, responseId?: string) {
-    this.responderUserId = user.idToken['oid'];
-    this.actionPlanId = actionPlan.actionPlanId;
-    this.primaryEventClusterId = event.eventClusterId;
-    this.geolocation = event.device.geolocation;
-    this.responseState = ResponseState.Active;
-    this.event = event;
+    constructor (event: Event, actionPlan: ActionPlan, user, responseId?: string) {
+        this.responderUserId = user.profile[ 'oid' ];
+        this.actionPlanId = actionPlan.actionPlanId;
+        this.responseState = ResponseState.Active;
+        this.eventClusterIds = [];
+        this.name = actionPlan.name;
+        this.icon = actionPlan.icon;
+        this.color = actionPlan.color;
+        this.actionPlan = actionPlan;
 
-    if (responseId) {
-      this.responseId = responseId;
-      this.actionPlan = actionPlan;
+        if (event) {
+            this.primaryEventClusterId = event.eventClusterId;
+            this.geolocation = event.device.geolocation;
+            this.event = event;
+        } else {
+            this.delayResponse = true;
+            this.primaryEventClusterId = null;
+        }
+
+        if (responseId) {
+            this.responseId = responseId;
+        }
     }
-  }
 }

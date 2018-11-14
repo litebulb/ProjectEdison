@@ -17,6 +17,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
         readonly nfloat innerCircleMargin = 15;
 
         int alertCount;
+        NSLayoutConstraint locationImageViewRightAnchorConstraint;
+        NSLayoutConstraint locationImageViewCenterYAnchorConstraint;
+        NSLayoutConstraint alertCountLabelCenterYAnchorConstraint;
 
         public UIColor InnerCircleBackgroundColor
         {
@@ -45,25 +48,26 @@ namespace Edison.Mobile.User.Client.iOS.Views
             AddSubview(innerCircleView);
             innerCircleView.CenterXAnchor.ConstraintEqualTo(CenterXAnchor).Active = true; 
             innerCircleView.CenterYAnchor.ConstraintEqualTo(CenterYAnchor).Active = true;
-            innerCircleView.WidthAnchor.ConstraintEqualTo(WidthAnchor).Active = true;
+            innerCircleView.WidthAnchor.ConstraintEqualTo(WidthAnchor, constant: -(2 * innerCircleMargin)).Active = true;
             innerCircleView.HeightAnchor.ConstraintEqualTo(innerCircleView.WidthAnchor).Active = true;
 
             alertCountLabel = new UILabel
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 Text = "0",
-                TextColor = PlatformConstants.Color.White,
+                TextColor = Constants.Color.White,
                 TextAlignment = UITextAlignment.Center,
             };
 
             innerCircleView.AddSubview(alertCountLabel);
             alertCountLabel.CenterXAnchor.ConstraintEqualTo(innerCircleView.CenterXAnchor).Active = true;
-            alertCountLabel.CenterYAnchor.ConstraintEqualTo(innerCircleView.CenterYAnchor, -(innerCircleView.Bounds.Height / 12)).Active = true;
+            alertCountLabelCenterYAnchorConstraint = alertCountLabel.CenterYAnchor.ConstraintEqualTo(innerCircleView.CenterYAnchor, -(innerCircleView.Bounds.Height / 12));
+            alertCountLabelCenterYAnchorConstraint.Active = true;
 
             eventsLabel = new UILabel
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                TextColor = PlatformConstants.Color.White,
+                TextColor = Constants.Color.White,
                 Text = "EVENTS",
                 TextAlignment = UITextAlignment.Center,
             };
@@ -81,8 +85,10 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
             eventsLabelContainerView.AddSubview(eventsLabel);
             eventsLabelContainerView.AddSubview(locationImageView);
-            locationImageView.RightAnchor.ConstraintEqualTo(eventsLabel.LeftAnchor, constant: -6).Active = true;
-            locationImageView.CenterYAnchor.ConstraintEqualTo(eventsLabel.CenterYAnchor, constant: -4).Active = true;
+            locationImageViewRightAnchorConstraint = locationImageView.RightAnchor.ConstraintEqualTo(eventsLabel.LeftAnchor);
+            locationImageViewRightAnchorConstraint.Active = true;
+            locationImageViewCenterYAnchorConstraint = locationImageView.CenterYAnchor.ConstraintEqualTo(eventsLabel.CenterYAnchor);
+            locationImageViewCenterYAnchorConstraint.Active = true;
             eventsLabel.RightAnchor.ConstraintEqualTo(eventsLabelContainerView.RightAnchor).Active = true;
             eventsLabel.BottomAnchor.ConstraintEqualTo(eventsLabelContainerView.BottomAnchor).Active = true;
             locationImageView.LeftAnchor.ConstraintEqualTo(eventsLabelContainerView.LeftAnchor).Active = true;
@@ -125,10 +131,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
         {
             base.UpdateConstraints();
 
-            innerCircleView.WidthAnchor.ConstraintEqualTo(WidthAnchor, constant: -(2 * innerCircleMargin)).Active = true;
-            alertCountLabel.CenterYAnchor.ConstraintEqualTo(innerCircleView.CenterYAnchor, -(innerCircleView.Bounds.Height / GetRelativeFloat(12))).Active = true;
-            locationImageView.RightAnchor.ConstraintEqualTo(eventsLabel.LeftAnchor, constant: -GetRelativeFloat(6)).Active = true;
-            locationImageView.CenterYAnchor.ConstraintEqualTo(eventsLabel.CenterYAnchor, constant: -GetRelativeFloat(4)).Active = true;
+            alertCountLabelCenterYAnchorConstraint.Constant = -(innerCircleView.Bounds.Height / GetRelativeFloat(12));
+            locationImageViewRightAnchorConstraint.Constant = -GetRelativeFloat(6);
+            locationImageViewCenterYAnchorConstraint.Constant = -GetRelativeFloat(4);
         }
 
         float GetRelativeFloat(float originalSize) => (float) (Bounds.Height > 0 ? Bounds.Height : 200) * (originalSize / 200f);

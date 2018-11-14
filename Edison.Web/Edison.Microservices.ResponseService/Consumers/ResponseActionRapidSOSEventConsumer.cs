@@ -35,7 +35,12 @@ namespace Edison.ResponseService.Consumers
                     _logger.LogDebug($"ResponseActionRapidSOSEventConsumer: Message: '{action.Message}'.");
                     _logger.LogDebug($"ResponseActionRapidSOSEventConsumer: ServiceType: '{action.ServiceType}'.");
                     //await new Task(() => { throw new NotImplementedException("Need ResponseActionRapidSOSEventConsumer Logic"); });
-                    await Task.Delay(1000);
+                    await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                    {
+                        ResponseId = context.Message.ResponseId,
+                        ActionId = context.Message.ActionId,
+                        IsSuccessful = true
+                    });
                 }
                 _logger.LogError("ResponseActionRapidSOSEventConsumer: Invalid Null or Empty Action RapidSOS");
                 throw new Exception("Invalid or Null Action RapidSOS");
@@ -43,6 +48,12 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
+                await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                {
+                    ResponseId = context.Message.ResponseId,
+                    ActionId = context.Message.ActionId,
+                    IsSuccessful = false
+                });
                 _logger.LogError($"ResponseActionRapidSOSEventConsumer: {e.Message}");
                 throw e;
             }

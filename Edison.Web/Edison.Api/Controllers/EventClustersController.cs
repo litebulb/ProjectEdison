@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Edison.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Backend,B2CWeb")]
-    [Route("api/EventClusters")]
     [ApiController]
+    [Route("api/EventClusters")]
     public class EventClustersController : ControllerBase
     {
         private readonly EventClustersDataManager _eventDataManager;
@@ -21,6 +20,7 @@ namespace Edison.Api.Controllers
             _eventDataManager = eventDataManager;
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpGet("{eventClusterId}")]
         [Produces(typeof(EventClusterModel))]
         public async Task<IActionResult> GetEventCluster(Guid eventClusterId)
@@ -29,6 +29,7 @@ namespace Edison.Api.Controllers
             return Ok(eventObj);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpGet]
         [Produces(typeof(IEnumerable<EventClusterModel>))]
         public async Task<IActionResult> GetEventClusters()
@@ -37,6 +38,7 @@ namespace Edison.Api.Controllers
             return Ok(events);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPost("Radius")]
         [Produces(typeof(IEnumerable<Guid>))]
         public async Task<IActionResult> GetClustersInRadius([FromBody] EventClusterGeolocationModel eventClusterGeolocationObj)
@@ -45,6 +47,7 @@ namespace Edison.Api.Controllers
             return Ok(eventClusterIds);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPost]
         [Produces(typeof(EventClusterModel))]
         public async Task<IActionResult> CreateOrUpdateEventCluster([FromBody]EventClusterCreationModel eventObj)
@@ -53,6 +56,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("Close")]
         [Produces(typeof(EventClusterModel))]
         public async Task<IActionResult> CloseEventCluster([FromBody]EventClusterCloseModel eventObj)

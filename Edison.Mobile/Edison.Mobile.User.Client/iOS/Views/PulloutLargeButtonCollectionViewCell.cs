@@ -14,7 +14,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
         UIView circleView;
         UIImageView assetImageView;
         UILabel titleLabel;
-        UILabel subtitleLabel;
+
+        NSLayoutConstraint widthConstraint;
 
         public PulloutLargeButtonCollectionViewCell(IntPtr handle) : base(handle) { }
 
@@ -26,10 +27,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
                 AddSubview(circleView);
 
-                circleView.LeftAnchor.ConstraintEqualTo(LeftAnchor, circleMargin).Active = true;
-                circleView.RightAnchor.ConstraintEqualTo(RightAnchor, -circleMargin).Active = true;
-                circleView.TopAnchor.ConstraintEqualTo(TopAnchor, circleMargin).Active = true;
-                circleView.AddConstraint(NSLayoutConstraint.Create(circleView, NSLayoutAttribute.Height, NSLayoutRelation.Equal, circleView, NSLayoutAttribute.Width, 1, 0));
+                circleView.CenterXAnchor.ConstraintEqualTo(ContentView.CenterXAnchor).Active = true;
+                circleView.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
+                widthConstraint = circleView.WidthAnchor.ConstraintEqualTo(ContentView.WidthAnchor, constant: -(2 * circleMargin));
+                widthConstraint.Active = true;
+                circleView.HeightAnchor.ConstraintEqualTo(circleView.WidthAnchor).Active = true;
 
                 assetImageView = new UIImageView { TranslatesAutoresizingMaskIntoConstraints = false };
 
@@ -44,7 +46,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
                     Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Fourteen),
-                    TextColor = PlatformConstants.Color.DarkGray,
+                    TextColor = Constants.Color.DarkGray,
                 };
 
                 AddSubview(titleLabel);
@@ -52,26 +54,12 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 titleLabel.CenterXAnchor.ConstraintEqualTo(circleView.CenterXAnchor).Active = true;
                 titleLabel.TopAnchor.ConstraintEqualTo(circleView.BottomAnchor, textVerticalMargin).Active = true;
 
-                subtitleLabel = new UILabel
-                {
-                    TranslatesAutoresizingMaskIntoConstraints = false,
-                    Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Ten),
-                    TextColor = PlatformConstants.Color.MidGray,
-                };
-
-                AddSubview(subtitleLabel);
-
-                subtitleLabel.CenterXAnchor.ConstraintEqualTo(circleView.CenterXAnchor).Active = true;
-                subtitleLabel.TopAnchor.ConstraintEqualTo(titleLabel.BottomAnchor, textVerticalMargin / 2).Active = true;
-
                 isInitialized = true;
             }
 
             circleView.BackgroundColor = backgroundColor;
             assetImageView.Image = assetImage;
             titleLabel.Text = title;
-            subtitleLabel.Text = subtitle;
-            subtitleLabel.Alpha = string.IsNullOrEmpty(subtitle) ? 0 : 1;
         }
 
         public override void LayoutSubviews()
@@ -79,6 +67,17 @@ namespace Edison.Mobile.User.Client.iOS.Views
             base.LayoutSubviews();
 
             circleView.Layer.CornerRadius = circleView.Frame.Width / 2;
+        }
+
+        public void SetPercentMinimized(nfloat percentMinimized) 
+        {
+            var maximizedWidthConstant = -(2 * circleMargin);
+            var minimizedWidthConstant = ContentView.Frame.Width / 2;
+            widthConstraint.Constant = maximizedWidthConstant - (minimizedWidthConstant * percentMinimized);
+
+            titleLabel.Alpha = 1 - (percentMinimized * 2);
+
+            LayoutIfNeeded();
         }
     }
 }

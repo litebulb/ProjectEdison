@@ -14,6 +14,7 @@ namespace Edison.Core.Common.Models
         public string Icon { get; set; }
         public double PrimaryRadius { get; set; }
         public double SecondaryRadius { get; set; }
+        public bool AcceptSafeStatus { get; set; }
         public virtual IEnumerable<ActionModel> OpenActions { get; set; }
         public virtual IEnumerable<ActionModel> CloseActions { get; set; }
     }

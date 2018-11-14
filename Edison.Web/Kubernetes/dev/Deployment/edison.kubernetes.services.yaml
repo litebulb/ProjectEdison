@@ -44,3 +44,27 @@ spec:
   selector:
     app: edisonapi
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edisonchatservice
+spec:
+  ports:
+  - port: 80
+    name: ingress
+  selector:
+    app: edisonchatservice
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edisondeviceprovisioning
+spec:
+  ports:
+  - port: 80
+    name: ingress
+  selector:
+    app: edisondeviceprovisioning
+  type: ClusterIP

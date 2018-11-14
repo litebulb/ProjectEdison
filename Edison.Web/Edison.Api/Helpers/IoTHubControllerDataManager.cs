@@ -12,9 +12,9 @@ namespace Edison.Api.Helpers
 {
     public class IoTHubControllerDataManager
     {
-        private readonly IServiceBusClient _serviceBus;
+        private readonly IMassTransitServiceBus _serviceBus;
 
-        public IoTHubControllerDataManager(IServiceBusClient serviceBus)
+        public IoTHubControllerDataManager(IMassTransitServiceBus serviceBus)
         {
             _serviceBus = serviceBus;
         }
@@ -26,10 +26,10 @@ namespace Edison.Api.Helpers
                 device.DeviceType,
                 device.Sensor,
                 device.Geolocation,
-                device.LocationName,
-                device.LocationLevel1,
-                device.LocationLevel2,
-                device.LocationLevel3,
+                device.Name,
+                device.Location1,
+                device.Location2,
+                device.Location3,
                 device.Custom
             };
 
@@ -49,10 +49,10 @@ namespace Edison.Api.Helpers
                 device.DeviceType,
                 device.Sensor,
                 device.Geolocation,
-                device.LocationName,
-                device.LocationLevel1,
-                device.LocationLevel2,
-                device.LocationLevel3,
+                device.Name,
+                device.Location1,
+                device.Location2,
+                device.Location3,
                 device.Custom
             };
 
@@ -72,10 +72,10 @@ namespace Edison.Api.Helpers
                 devices.DeviceType,
                 devices.Sensor,
                 devices.Geolocation,
-                devices.LocationName,
-                devices.LocationLevel1,
-                devices.LocationLevel2,
-                devices.LocationLevel3,
+                devices.Name,
+                devices.Location1,
+                devices.Location2,
+                devices.Location3,
                 devices.Custom
             };
 
@@ -94,7 +94,8 @@ namespace Edison.Api.Helpers
             {
                 DeviceIds = devices.DeviceIds,
                 JsonDesired = JsonConvert.SerializeObject(devices.Desired),
-                JsonTags = string.Empty
+                JsonTags = string.Empty,
+                WaitForCompletion = true
             });
             return true;
         }

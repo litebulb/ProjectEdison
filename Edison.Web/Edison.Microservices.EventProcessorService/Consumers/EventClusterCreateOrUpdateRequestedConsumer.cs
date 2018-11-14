@@ -2,14 +2,11 @@
 using Edison.Common.Messages.Interfaces;
 using Edison.Core.Common.Models;
 using Edison.Core.Interfaces;
-using Edison.EventProcessorService.Models;
 using MassTransit;
-using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.EventProcessorService.Consumers
@@ -17,22 +14,39 @@ namespace Edison.EventProcessorService.Consumers
     public class EventClusterCreateOrUpdateRequestedConsumer : IConsumer<IEventClusterCreateOrUpdateRequested>
     {
         private readonly IEventClusterRestService _eventClusterRestService;
+        private readonly IDeviceRestService _deviceRestService;
         private readonly ILogger<EventClusterCreateOrUpdateRequestedConsumer> _logger;
 
         public EventClusterCreateOrUpdateRequestedConsumer(IEventClusterRestService eventClusterRestService,
+            IDeviceRestService deviceRestService,
             ILogger<EventClusterCreateOrUpdateRequestedConsumer> logger)
         {
             _logger = logger;
             _eventClusterRestService = eventClusterRestService;
+            _deviceRestService = deviceRestService;
         }
 
         public async Task Consume(ConsumeContext<IEventClusterCreateOrUpdateRequested> context)
         {
             try
             {
-                _logger.LogDebug($"EventClusterCreateRequestedConsumer: Retrieved message from device '{context.Message.DeviceId}'.");
+                _logger.LogDebug($"EventClusterCreateRequestedConsumer: Retrieved message from source '{context.Message.DeviceId}'.");
 
-                if (JsonConvert.DeserializeObject<DeviceTriggerIoTMessage>(context.Message.Data) is DeviceTriggerIoTMessage deviceMessage)
+                if (context.Message.CheckBoundary)
+                {
+                    _logger.LogDebug($"EventClusterCreateRequestedConsumer: '{context.Message.DeviceId}' event must be checked for boundaries.");
+                    if (!await _deviceRestService.IsInBoundaries(new DeviceBoundaryGeolocationModel()
+                    {
+                        DeviceId = context.Message.DeviceId
+                    }))
+                    {
+                        _logger.LogError("EventClusterCreateRequestedConsumer: The event was not triggered within the geolocation boundaries.");
+                        return;
+                    }
+                }
+
+
+                if (JsonConvert.DeserializeObject<Dictionary<string,object>>(context.Message.Data) is Dictionary<string,object> deviceMessage)
                 {
                     EventClusterCreationModel newEvent = new EventClusterCreationModel()
                     {
@@ -40,7 +54,7 @@ namespace Edison.EventProcessorService.Consumers
                         Date = context.Message.Date,
                         EventType = context.Message.EventType.ToLower(),
                         DeviceId = context.Message.DeviceId,
-                        Metadata = deviceMessage.Metadata,
+                        Metadata = deviceMessage,
                     };
 
                     var eventCluster = await _eventClusterRestService.CreateOrUpdateEventCluster(newEvent);

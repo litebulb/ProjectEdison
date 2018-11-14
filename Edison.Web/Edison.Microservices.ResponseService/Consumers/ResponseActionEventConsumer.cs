@@ -38,15 +38,16 @@ namespace Edison.ResponseService.Consumers
                     {
                         case "email":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionEmailEvent.");
-                            await context.Publish(new ActionEmailEvent(action));
+                            await context.Publish(new ActionEmailEvent(action, context.Message.IsCloseAction) { ResponseId = context.Message.ResponseId });
                             break;
                         case "notification":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionNotificationEvent.");
-                            await context.Publish(new ActionNotificationEvent(action));
+                            await context.Publish(new ActionNotificationEvent(action, context.Message.IsCloseAction) { ResponseId = context.Message.ResponseId });
                             break;
                         case "lightsensor":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionLightSensorEvent.");
-                            await context.Publish(new ActionLightSensorEvent(action) {
+                            await context.Publish(new ActionLightSensorEvent(action, context.Message.IsCloseAction) {
+                                 ResponseId = context.Message.ResponseId,
                                  Epicenter = context.Message.Geolocation,
                                  PrimaryRadius = context.Message.PrimaryRadius,
                                  SecondaryRadius = context.Message.SecondaryRadius
@@ -54,7 +55,7 @@ namespace Edison.ResponseService.Consumers
                             break;
                         case "rapidsos":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionRapidSOSEvent.");
-                            await context.Publish(new ActionRapidSOSEvent(action));
+                            await context.Publish(new ActionRapidSOSEvent(action, context.Message.IsCloseAction) { ResponseId = context.Message.ResponseId });
                             break;
                         default:
                             throw new Exception($"Action Type: '{action.ActionType}' is invalid and unhandled");

@@ -1,14 +1,11 @@
 ﻿using Automatonymous;
-using Edison.Core.Common.Models;
+using MassTransit.DocumentDbIntegration;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Edison.Workflows
 {
-    internal class EventProcessingState : SagaStateMachineInstance
+    internal class EventProcessingState : SagaStateMachineInstance, IVersionedSaga
     {
         public string State { get; set; }
         public Guid DeviceId { get; set; }

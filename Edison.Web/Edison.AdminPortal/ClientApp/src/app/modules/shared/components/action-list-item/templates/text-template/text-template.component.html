@@ -1,5 +1,10 @@
+<div class="status-icon"
+     *ngIf="context.status === 1">
+    <mat-icon>check</mat-icon>
+</div>
 <div class="app-icon shield-plain red round"></div>
 <div class="content-container">
-  {{context.description}}
+    {{context.description}}
 </div>
-<div class="line-hider" *ngIf="last"></div>
+<div class="line-hider"
+     *ngIf="last"></div>

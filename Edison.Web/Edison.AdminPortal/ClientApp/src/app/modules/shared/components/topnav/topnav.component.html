@@ -1,6 +1,16 @@
 <div class="overlay"></div>
 <div class="title">
-  <span>RIGHT NOW</span>
-  <span class="down-arrow"></span>
+    <span>{{ pageTitle$ | async }}</span>
+    <span class="down-arrow"></span>
 </div>
-<div class="user-icon" (click)="logout()"></div>
+<div class="logo">
+    <img src="assets/images/logo.svg" />
+</div>
+<div class="logout"
+     (click)="logout()">
+    Logout
+</div>
+<div class="map-controls">
+    <div class="app-icon reload"
+         (click)="reload()"></div>
+</div>

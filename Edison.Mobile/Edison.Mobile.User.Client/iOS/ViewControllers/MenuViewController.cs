@@ -16,13 +16,14 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         UITableView tableView;
         UIButton logoutButton;
         UIVisualEffectView blurView;
+        MenuTableViewSource menuTableViewSource;
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
             View.Layer.MasksToBounds = false;
-            View.Layer.ShadowColor = PlatformConstants.Color.Black.CGColor;
+            View.Layer.ShadowColor = Constants.Color.Black.CGColor;
             View.Layer.ShadowOffset = new CGSize(2, 2);
             View.Layer.ShadowRadius = 5;
 
@@ -46,7 +47,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
 
             logoutButton.SetTitle("LOGOUT", UIControlState.Normal);
             logoutButton.TitleLabel.Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Fourteen);
-            logoutButton.SetTitleColor(PlatformConstants.Color.Red, UIControlState.Normal);
+            logoutButton.SetTitleColor(Constants.Color.Red, UIControlState.Normal);
 
             View.AddSubview(logoutButton);
             logoutButton.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
@@ -54,11 +55,12 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             logoutButton.LeftAnchor.ConstraintEqualTo(View.LeftAnchor, Constants.MenuRightMargin).Active = true;
             logoutButton.HeightAnchor.ConstraintEqualTo(Constants.MenuCellHeight * 2).Active = true;
 
+            menuTableViewSource = new MenuTableViewSource();
             tableView = new UITableView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 AlwaysBounceVertical = true,
-                Source = new MenuTableViewSource { ViewModel = ViewModel },
+                Source = menuTableViewSource,
                 SeparatorStyle = UITableViewCellSeparatorStyle.None,
                 TableFooterView = new UIView(),
                 BackgroundColor = UIColor.Clear,
@@ -77,9 +79,41 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             tableView.LeftAnchor.ConstraintEqualTo(View.LeftAnchor).Active = true;
         }
 
+        protected override void BindEventHandlers()
+        {
+            base.BindEventHandlers();
+
+            logoutButton.TouchUpInside += HandleLogoutButtonTouchUpInside;
+            menuTableViewSource.ViewModel = ViewModel;
+        }
+
+        protected override void UnBindEventHandlers()
+        {
+            base.UnBindEventHandlers();
+
+            logoutButton.TouchUpInside -= HandleLogoutButtonTouchUpInside;
+            menuTableViewSource.ViewModel = null;
+        }
+
         public void SetPercentMaximized(float percent)
         {
             View.Layer.ShadowOpacity = maxShadowOpacity * percent;
+        }
+
+        void HandleLogoutButtonTouchUpInside(object sender, System.EventArgs e)
+        {
+            var alertController = UIAlertController.Create(null, "Are you sure you'd like to sign out?", UIAlertControllerStyle.Alert);
+            var yesAction = UIAlertAction.Create("Yes", UIAlertActionStyle.Destructive, async action =>
+            {
+                await ViewModel.SignOut();
+
+                UIApplication.SharedApplication.KeyWindow.RootViewController = new LoginViewController();
+            });
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            alertController.AddAction(yesAction);
+            alertController.AddAction(cancelAction);
+
+            PresentViewController(alertController, true, null);
         }
     }
 }

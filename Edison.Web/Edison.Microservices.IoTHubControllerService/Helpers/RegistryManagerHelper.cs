@@ -1,6 +1,7 @@
 ﻿using Edison.Core.Common.Models;
 using Edison.IoTHubControllerService.Config;
 using Microsoft.Azure.Devices;
+using Microsoft.Azure.Devices.Common.Exceptions;
 using Microsoft.Azure.Devices.Shared;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -84,6 +85,16 @@ namespace Edison.IoTHubControllerService.Helpers
                 JobResponse result = await _jobClient.ScheduleTwinUpdateAsync(jobId, GetJobQuery(deviceIds), twin, DateTime.Now, GetJobTimeout(deviceIds));
                 return waitForCompletion ? await WaitForJobCompletion(jobId, result) : true;
             }
+            catch (IotHubThrottledException te)
+            {
+                if(te.Code == ErrorCode.ThrottlingException)
+                {
+                    _logger.LogError($"UpdateDevices Throttling Exception: {te.Message}. Retrying in 15 seconds...");
+                    await Task.Delay(15000);
+                    return await UpdateDevices(deviceIds, jsonTags, jsonDesired, waitForCompletion);
+    }
+                throw te;
+            }
             catch (Exception e)
             {
                 _logger.LogError($"UpdateDevices: {e.Message}");
@@ -110,9 +121,19 @@ namespace Edison.IoTHubControllerService.Helpers
                 JobResponse result = await _jobClient.ScheduleDeviceMethodAsync(jobId, GetJobQuery(deviceIds), method, DateTime.Now, GetJobTimeout(deviceIds));
                 return waitForCompletion ? await WaitForJobCompletion(jobId, result) : true;
             }
+            catch (IotHubThrottledException te)
+            {
+                if(te.Code == ErrorCode.ThrottlingException)
+                {
+                    _logger.LogError($"LaunchDirectMethods Throttling Exception: {te.Message}. Retrying in 15 seconds...");
+                    await Task.Delay(15000);
+                    return await LaunchDirectMethods(deviceIds, methodName, payload, waitForCompletion);
+                }
+                throw te;
+            }
             catch (Exception e)
             {
-                _logger.LogError($"UpdateDevices: {e.Message}");
+                _logger.LogError($"LaunchDirectMethods: {e.Message}");
                 return false;
             }
         }

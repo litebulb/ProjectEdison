@@ -63,5 +63,19 @@ namespace Edison.Core
             }
             return true;
         }
+
+        public async Task<bool> UpdateActionCloseUI(ActionCloseUIModel actionCloseUIUpdate)
+        {
+            RestRequest request = await PrepareQuery("SignalR/Response/ActionClose", Method.PUT);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(actionCloseUIUpdate), ParameterType.RequestBody);
+
+            var queryResult = await _client.ExecuteTaskAsync(request);
+            if (!queryResult.IsSuccessful)
+            {
+                _logger.LogError($"UpdateActionCloseUI: Error while sending a message: {queryResult.StatusCode}");
+                return false;
+            }
+            return true;
+        }
     }
 }

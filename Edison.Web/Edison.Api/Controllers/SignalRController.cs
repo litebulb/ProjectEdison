@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Edison.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Backend,B2CWeb")]
-    [Route("api/SignalR")]
     [ApiController]
+    [Route("api/SignalR")]
     public class SignalRController : ControllerBase
     {
         private readonly IHubContext<SignalRHub> _hub;
@@ -21,6 +20,7 @@ namespace Edison.Api.Controllers
             _hub = hub;
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPut("EventCluster")]
         public async Task<IActionResult> UpdateEventClusterUI([FromBody]EventClusterUIModel eventClusterUIUpdate)
         {
@@ -28,6 +28,7 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPut("Device")]
         public async Task<IActionResult> UpdateDeviceUI([FromBody]DeviceUIModel deviceUIUpdate)
         {
@@ -35,10 +36,19 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPut("Response")]
         public async Task<IActionResult> UpdateResponseUI([FromBody]ResponseUIModel responseUIUpdate)
         {
             await _hub.Clients.All.SendAsync("UpdateResponseUI", responseUIUpdate);
+            return Ok();
+        }
+
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [HttpPut("Response/ActionClose")]
+        public async Task<IActionResult> UpdateActionCloseUI([FromBody]ActionCloseUIModel actionCloseUIUpdate)
+        {
+            await _hub.Clients.All.SendAsync("UpdateActionCloseUI", actionCloseUIUpdate);
             return Ok();
         }
     }

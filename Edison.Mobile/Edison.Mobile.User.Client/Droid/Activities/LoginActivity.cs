@@ -26,7 +26,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(), new PlatformContainerRegistrar());
+            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
             base.OnCreate(savedInstanceState);
 

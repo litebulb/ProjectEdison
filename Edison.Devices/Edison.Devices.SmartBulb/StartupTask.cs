@@ -45,6 +45,7 @@ namespace Edison.Devices.SmartBulb
         private int _loadPinBlue;
         // False/True for managing flashing
         private bool _flashingState;
+        private bool _disconnected = true;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -52,10 +53,13 @@ namespace Edison.Devices.SmartBulb
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
             var app = new AppIoTBackgroundDeviceTask("Lightbulb", new Guid("26fcf049-de51-4fe4-9015-8a0245fa8aa8"));
-            app.SetInitApplication(InitApplication);
-            app.SetStartApplication(StartApplication);
-            app.SetRunApplicationLoop(RunApplication);
-            app.SetChangeConfiguration(ReceiveDesiredConfiguration);
+            app.InitApplication += InitApplication;
+            app.StartApplication += StartApplication;
+            app.RunApplication += RunApplication;
+            app.EndApplication += EndApplication;
+            app.GeneralError += GeneralError;
+            app.ChangeConfiguration += ReceiveDesiredConfiguration;
+            app.DisconnectedApplication += DisconnectedApplication;
 
             await app.Run();
             deferral.Complete();
@@ -81,23 +85,41 @@ namespace Edison.Devices.SmartBulb
         /// <returns></returns>
         private async Task StartApplication()
         {
+            _logging.LogMessage("Retrieve desired properties", LoggingLevel.Verbose);
+            var desiredProperties = await _azureIoTHubService.GetDeviceTwinAsync();
+            if (string.IsNullOrEmpty(desiredProperties))
+            {
+                _logging.LogMessage("Cannot retrieve desired properties", LoggingLevel.Error);
+                return;
+            }
+
+            _config = JsonConvert.DeserializeObject<SmartBulbConfig>(desiredProperties);
+            await ConfigureApplicationConfig();
+        }
+
+        #pragma warning disable 1998
+        /// <summary>
+        /// Code running when the application ends
+        /// </summary>
+        /// <returns></returns>
+        private async Task EndApplication()
+        {
             _previousColor = Color.Unknown;
             _loadPinGreen = 0;
             _loadPinRed = 0;
             _loadPinBlue = 0;
-            await LoadApplicationConfig();
+            _disconnected = true;
         }
 
-        /// <summary>
-        /// Code running when the application starts or restarts
-        /// </summary>
-        /// <returns></returns>
-        private async Task LoadApplicationConfig()
-        {
-            _logging.LogMessage("Retrieve desired properties", LoggingLevel.Verbose);
-            var desiredProperties = await _azureIoTHubService.GetDeviceTwinAsync();
-            _config = JsonConvert.DeserializeObject<SmartBulbConfig>(desiredProperties);
 
+        private async Task ReceiveDesiredConfiguration(TwinCollection desiredProperties)
+        {
+            _config = JsonConvert.DeserializeObject<SmartBulbConfig>(desiredProperties.ToJson());
+            await ConfigureApplicationConfig();
+        }
+
+        private async Task ConfigureApplicationConfig()
+        {
             if (_config != null)
             {
                 if (_config.GpioConfig == null)
@@ -131,6 +153,47 @@ namespace Edison.Devices.SmartBulb
                     }
                     _previousColor = Color.Unknown;
                 }
+
+                if (_disconnected && !_config.IgnoreFlashAlerts)
+                {
+                    await BlinkLED(Color.Green, 2, 200);
+                    if (_previousColor != Color.Unknown)
+                        SetLED(_previousColor);
+                    _disconnected = false;
+                }
+            }
+        }
+
+        private async Task DisconnectedApplication()
+        {
+            if (_config == null || !_config.IgnoreFlashAlerts)
+            {
+                await BlinkLED(Color.Red, 2, 200);
+                SetLED(_previousColor);
+                _disconnected = true;
+            }
+        }
+
+        private async Task GeneralError()
+        {
+            if (_config == null || !_config.IgnoreFlashAlerts)
+            {
+                await BlinkLED(Color.Purple, 2, 100);
+                SetLED(_previousColor);
+                _disconnected = true;
+            }
+        }
+
+        private async Task BlinkLED(Color color, int durationSeconds, int periodMs)
+        {
+            int loops = durationSeconds * (1000 / periodMs);
+            int periodDivided = periodMs / 2;
+            for (int i = 0; i < loops; i++)
+            {
+                SetLED(color);
+                await Task.Delay(periodDivided);
+                SetLED(Color.Off);
+                await Task.Delay(periodDivided);
             }
         }
 
@@ -205,11 +268,6 @@ namespace Edison.Devices.SmartBulb
                 _gpioService.PinSetLow(_config.GpioConfig.GpioColorBlue);
             else
                 _gpioService.PinSetHigh(_config.GpioConfig.GpioColorBlue);
-        }
-
-        private async Task ReceiveDesiredConfiguration(TwinCollection desiredProperties)
-        {
-            await LoadApplicationConfig();
         }
     }
 }

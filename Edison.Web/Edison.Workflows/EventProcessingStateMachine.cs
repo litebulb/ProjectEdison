@@ -14,11 +14,11 @@ namespace Edison.Workflows
     internal class EventProcessingStateMachine : MassTransitStateMachine<EventProcessingState>
     {
         //Warning keep concurrency limit to 1
-        private readonly ServiceBusOptions _configBus;
+        private readonly ServiceBusRabbitMQOptions _configBus;
         private readonly WorkflowConfigEventProcessor _configWorkflow;
         //private readonly WorkflowConfigResponse _configWorkflowResponse;
 
-        public EventProcessingStateMachine(IOptions<ServiceBusOptions> configBus, IOptions<WorkflowConfig> configWorkflow)
+        public EventProcessingStateMachine(IOptions<ServiceBusRabbitMQOptions> configBus, IOptions<WorkflowConfig> configWorkflow)
         {
             _configBus = configBus.Value;
             _configWorkflow = configWorkflow.Value.EventProcessingWorkflow;
@@ -29,6 +29,7 @@ namespace Edison.Workflows
             #region Initialization Events
             //Main events being added, only one will be processed at a time
             Event(() => EventReceived, x => x.CorrelateBy(context => context.SagaDeviceId, context => $"{context.Message.EventType}_{context.Message.DeviceId}").SelectId(context => Guid.NewGuid()));
+            Event(() => EventCloseReceived, x => x.CorrelateBy(context => context.SagaDeviceId, context => $"{context.Message.EventType}_{context.Message.DeviceId}"));
 
             Event(() => EventClusterCreatedOrUpdated, x => x.CorrelateById(context => context.Message.EventCluster.EventClusterId));
             Event(() => EventClusterClosed, x => x.CorrelateById(context => context.Message.EventCluster.EventClusterId));
@@ -52,14 +53,17 @@ namespace Edison.Workflows
                     .Then(context => context.Instance.SagaDeviceId = $"{context.Data.EventType}_{context.Data.DeviceId}")
                     .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing-{context.Instance.CorrelationId}: Saga Initiated."))
                     .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing--{context.Instance.CorrelationId}: Event Received."))
-                    .Schedule(EventClusterLifespanElapsed, p => new EventClusterLifespanElapsed() { EventClusterId = p.Instance.CorrelationId })
+                    .If(new StateMachineCondition<EventProcessingState, IEventSagaReceived>(bc => bc.Data.EventType != "message"), x => x
+                        .Schedule(EventClusterLifespanElapsed, p => new EventClusterLifespanElapsed() { EventClusterId = p.Instance.CorrelationId })
+                    )
                     .ThenAsync(context => context.Publish(new EventClusterCreateOrUpdateRequestedEvent()
                     {
                         EventClusterId = context.Instance.CorrelationId,
                         DeviceId = context.Data.DeviceId,
                         EventType = context.Data.EventType,
                         Date = context.Data.Date,
-                        Data = context.Data.Data
+                        Data = context.Data.Data,
+                        CheckBoundary = context.Data.CheckBoundary
                     }))
                     .TransitionTo(ListeningToEvents)
                     );
@@ -70,14 +74,17 @@ namespace Edison.Workflows
                 When(EventReceived)
                     .Then(context => context.Instance.LastEventReceived = context.Data.Date)
                     .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing--{context.Instance.CorrelationId}: Event Received."))
-                    .Schedule(EventClusterLifespanElapsed, p => new EventClusterLifespanElapsed() { EventClusterId = p.Instance.CorrelationId })
+                    .If(new StateMachineCondition<EventProcessingState, IEventSagaReceived>(bc => bc.Data.EventType != "message"), x => x
+                        .Schedule(EventClusterLifespanElapsed, p => new EventClusterLifespanElapsed() { EventClusterId = p.Instance.CorrelationId })
+                    )
                     .ThenAsync(context => context.Publish(new EventClusterCreateOrUpdateRequestedEvent()
                     {
                         EventClusterId = context.Instance.CorrelationId,
                         DeviceId = context.Data.DeviceId,
                         EventType = context.Data.EventType,
                         Date = context.Data.Date,
-                        Data = context.Data.Data
+                        Data = context.Data.Data,
+                        CheckBoundary = context.Data.CheckBoundary
                     })),
                 //Result of an event being created or updated
                 When(EventClusterCreatedOrUpdated)
@@ -110,6 +117,15 @@ namespace Edison.Workflows
                             EventClusterId = context.Instance.CorrelationId,
                             EventClusterGeolocation = context.Data.EventCluster.Device.Geolocation
                         }))),
+
+                When(EventCloseReceived)
+                    .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing--{context.Instance.CorrelationId}: Event Cluster closing requested."))
+                    .ThenAsync(context => context.Publish(new EventClusterCloseRequestedEvent()
+                    {
+                        EventClusterId = context.Instance.CorrelationId,
+                        ClosureDate = DateTime.UtcNow,
+                        EndDate = DateTime.UtcNow.AddMinutes(_configWorkflow.EventClusterCooldown)
+                    })),
 
                 When(EventClusterClosed)
                     .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing---{context.Instance.CorrelationId}: Saga Closed."))
@@ -156,6 +172,7 @@ namespace Edison.Workflows
         public Event<IEventClusterClosed> EventClusterClosed { get; private set; }
 
         public Event<IEventSagaReceived> EventReceived { get; private set; }
+        public Event<IEventCloseSagaReceived> EventCloseReceived { get; private set; }
         //public Event<IEventUIUpdated> EventClusterUIUpdated { get; private set; }
         public Schedule<EventProcessingState, IEventClusterLifespanElapsed> EventClusterLifespanElapsed { get; private set; }
         #endregion

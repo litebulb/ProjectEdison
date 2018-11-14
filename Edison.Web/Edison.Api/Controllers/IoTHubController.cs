@@ -12,9 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Edison.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Backend,B2CWeb")]
-    [Route("api/IoTHub")]
     [ApiController]
+    [Route("api/IoTHub")]
     public class IoTHubController : ControllerBase
     {
         private readonly IoTHubControllerDataManager _iotHubControllerDataManager;
@@ -24,6 +23,8 @@ namespace Edison.Api.Controllers
             _iotHubControllerDataManager = iotHubControllerDataManager;
         }
 
+        //Call for debug only. Device Creation should be done through DPS only
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPost]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> CreationDevice(DeviceCreationModel device)
@@ -32,6 +33,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> UpdateDevice(DeviceUpdateModel device)
@@ -40,6 +42,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("Tags")]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> UpdateDevicesTags(DevicesUpdateTagsModel devices)
@@ -48,6 +51,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("Desired")]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> UpdateDevicesDesired(DevicesUpdateDesiredModel devices)
@@ -56,6 +60,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("DirectMethods")]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> LaunchDevicesDirectMethod(DevicesLaunchDirectMethodModel devices)
@@ -64,6 +69,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpDelete]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> DeleteDevice(Guid deviceId)

@@ -1,0 +1,8 @@
+<div class="header"
+     (click)="selectAllChat()">All Messages</div>
+<div class="sub-header">Recently Active People</div>
+<div class="people-container">
+    <div class="person"
+         *ngFor="let user of activeUsers$ | async"
+         (click)="selectActiveUser(user)">{{user.name}}</div>
+</div>

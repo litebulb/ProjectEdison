@@ -1,4 +1,4 @@
-DeviceId,DeviceType,LocationName,LocationLevel1,LocationLevel2,LocationLevel3,Longitude,Latitude,Sensor,Demo,Enabled
+DeviceId,DeviceType,Name,Location1,Location2,Location3,Longitude,Latitude,Sensor,Demo,Enabled
 5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,Lightbulb,Stadium East,Camp Nou,"41.381168, 2.123552","Barcelona, Spain",2.123552,41.381168,FALSE,FALSE,TRUE
 148180db-6e30-4848-a719-07cc95f6c07c,Lightbulb,Stadium North,Camp Nou,"41.381755, 2.122508","Barcelona, Spain",2.122508,41.381755,FALSE,FALSE,TRUE
 5a675564-29ee-43eb-8d01-702b38e9ae0d,Lightbulb,Stadium South,Camp Nou,"41.380128, 2.123276","Barcelona, Spain",2.123276,41.380128,FALSE,FALSE,TRUE

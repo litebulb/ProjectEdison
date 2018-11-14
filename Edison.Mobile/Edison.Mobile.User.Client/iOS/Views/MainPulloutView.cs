@@ -11,13 +11,17 @@ namespace Edison.Mobile.User.Client.iOS.Views
     {
         readonly UIView indicatorBarView;
         readonly CGSize barSize = new CGSize(80, 8);
-        readonly PulloutMinimizedView pulloutMinimizedView;
-        readonly PulloutMaximizedView pulloutMaximizedView;
+        readonly PulloutNeutralView pulloutNeutralView;
+        readonly ChatViewController chatViewController;
 
-        public MainPulloutView()
+        PulloutState prevPulloutState = PulloutState.Neutral;
+
+        public MainPulloutView(ChatViewController chatViewController)
         {
+           this.chatViewController = chatViewController;
+
             Layer.MasksToBounds = false;
-            Layer.ShadowColor = PlatformConstants.Color.Black.CGColor;
+            Layer.ShadowColor = Constants.Color.Black.CGColor;
             Layer.ShadowOffset = new CGSize(2, 2);
             Layer.ShadowOpacity = 0.75f;
             Layer.ShadowRadius = 5;
@@ -26,7 +30,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             indicatorBarView = new UIView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                BackgroundColor = PlatformConstants.Color.BackgroundGray,
+                BackgroundColor = Constants.Color.BackgroundGray,
             };
 
             indicatorBarView.Layer.MasksToBounds = false;
@@ -38,31 +42,53 @@ namespace Edison.Mobile.User.Client.iOS.Views
             indicatorBarView.WidthAnchor.ConstraintEqualTo(barSize.Width).Active = true;
             indicatorBarView.HeightAnchor.ConstraintEqualTo(barSize.Height).Active = true;
 
+            pulloutNeutralView = new PulloutNeutralView { TranslatesAutoresizingMaskIntoConstraints = false };
+            AddSubview(pulloutNeutralView);
+            pulloutNeutralView.TopAnchor.ConstraintEqualTo(TopAnchor, Constants.PulloutTopBarHeight).Active = true;
+            pulloutNeutralView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
+            pulloutNeutralView.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
+            pulloutNeutralView.HeightAnchor.ConstraintEqualTo(Constants.PulloutBottomMargin - Constants.PulloutTopBarHeight).Active = true;
 
-            pulloutMinimizedView = new PulloutMinimizedView { TranslatesAutoresizingMaskIntoConstraints = false };
-            AddSubview(pulloutMinimizedView);
-            pulloutMinimizedView.TopAnchor.ConstraintEqualTo(TopAnchor, Constants.PulloutTopBarHeight).Active = true;
-            pulloutMinimizedView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
-            pulloutMinimizedView.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
-            pulloutMinimizedView.HeightAnchor.ConstraintEqualTo(Constants.PulloutBottomMargin - Constants.PulloutTopBarHeight).Active = true;
-
-            pulloutMaximizedView = new PulloutMaximizedView 
-            { 
-                TranslatesAutoresizingMaskIntoConstraints = false,
-                Alpha = 0,
-            };
-
-            AddSubview(pulloutMaximizedView);
-            pulloutMaximizedView.TopAnchor.ConstraintEqualTo(TopAnchor, Constants.PulloutTopBarHeight).Active = true;
-            pulloutMaximizedView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
-            pulloutMaximizedView.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
-            pulloutMaximizedView.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
+            chatViewController.View.TranslatesAutoresizingMaskIntoConstraints = false;
+            chatViewController.View.Alpha = 0;
+            AddSubview(chatViewController.View);
+            chatViewController.View.TopAnchor.ConstraintEqualTo(TopAnchor, constant: Constants.PulloutTopBarHeight).Active = true;
+            chatViewController.View.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
+            chatViewController.View.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
+            chatViewController.View.HeightAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Height - Constants.PulloutTopMargin - Constants.PulloutTopBarHeight).Active = true;
         }
 
         public void SetPercentMaximized(nfloat maximizedPercent)
         {
-            pulloutMinimizedView.Alpha = 1 - maximizedPercent;
-            pulloutMaximizedView.Alpha = maximizedPercent;
+            pulloutNeutralView.Alpha = 1 - maximizedPercent;
+            chatViewController.View.Alpha = maximizedPercent;
+        }
+
+        public void SetPercentMinimized(nfloat minimizedPercent) 
+        {
+            pulloutNeutralView.SetPercentMinimized(minimizedPercent);
+        }
+
+        public void PulloutDidFinishAnimating(PulloutState newPulloutState) 
+        {
+            if (prevPulloutState == PulloutState.Maximized && newPulloutState != PulloutState.Maximized) 
+            {
+                chatViewController.ChatDismissed();
+            }
+            else if (newPulloutState == PulloutState.Maximized) 
+            {
+                chatViewController.ChatSummoned();
+            }
+
+            prevPulloutState = newPulloutState;
+        }
+
+        public void PulloutBeganDragging(PulloutState fromPulloutState) 
+        {
+            if (fromPulloutState == PulloutState.Maximized)
+            {
+                chatViewController.ChatDismissing();
+            }
         }
     }
 }

@@ -1,18 +1,19 @@
 export const environment = {
-  production: true,
-  mockData: false,
-  authorize: true,
-  mapDefaults: {
-    zoom: 14,
-  },
-  b2c: {
-    clientId: 'da85cf53-128a-47e4-a974-b4bcf0d8fb1c',
-    authUrl:
-      'https://login.microsoftonline.com/tfp/edisondevb2c.onmicrosoft.com/',
-    policy: 'B2C_1_Edision_SignInAndSignUp',
-  },
-  apiUrl: 'https://edisonapi.eastus.cloudapp.azure.com/api/',
-  signalRUrl: 'https://edisonapi.eastus.cloudapp.azure.com/signalr/',
-  bingMapsKey:
-    'Akt7a75JIqQ-QV2ZzHVP76eivabKNvlcq_JtF8zeTePsI38tt0LdAtAFeyh1MBrz',
+    production: true,
+    mockData: false,
+    authorize: true,
+    mapDefaults: {
+        zoom: 16,
+    },
+    azureAd: {
+        clientId: '570220f8-4a34-4a3b-b470-c6e84cd36f94',
+        authority: 'https://login.microsoftonline.com/',
+        tenant: '1114b48d-24b1-4492-970a-d07d610a741c'
+    },
+    apiUrl: '/api/',
+    baseUrl: 'https://edisonapi.eastus.cloudapp.azure.com',
+    signalRUrl: '/signalr/',
+    chatAuthUrl: '/chat/security/gettoken/',
+    bingMapsKey:
+        'Akt7a75JIqQ-QV2ZzHVP76eivabKNvlcq_JtF8zeTePsI38tt0LdAtAFeyh1MBrz'
 };

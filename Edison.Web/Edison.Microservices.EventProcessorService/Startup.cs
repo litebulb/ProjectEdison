@@ -31,9 +31,9 @@ namespace Edison.EventProcessorService
         {
             services.AddOptions();
             services.EnableKubernetes();
-            services.Configure<AppInsightsOptions>(Configuration.GetSection("ApplicationInsights"));
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<RestServiceOptions>(Configuration.GetSection("RestService"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.AddMassTransit(c =>
             {
                 c.AddConsumer<EventClusterCreateOrUpdateRequestedConsumer>();
@@ -43,15 +43,15 @@ namespace Edison.EventProcessorService
             services.AddScoped<EventClusterCloseRequestedConsumer>();
 
             services.AddSingleton<IEventClusterRestService, EventClusterRestService>();
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.AddSingleton<IDeviceRestService, DeviceRestService>();
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             // mirror logger messages to AppInsights
-            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Debug);
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(ep =>
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(ep =>
             {
                 ep.LoadFrom(app.ApplicationServices);
             });

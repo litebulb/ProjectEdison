@@ -67,7 +67,7 @@ namespace Edison.Core
             if (queryResult.IsSuccessful)
                 return queryResult.Data;
             else
-                _logger.LogError($"CreateOrUpdateEventCluster: Error while adding an event: {queryResult.StatusCode}");
+                _logger.LogError($"CreateOrUpdateEventClusterFromIoTDevice: Error while adding an event: {queryResult.StatusCode}");
             return null;
         }
 

@@ -78,7 +78,7 @@ namespace Edison.Simulators.Sensors
             ConsoleHelper.WriteHighlight($"Eventclusters removed...");
             await _repoResponses.DeleteItemsAsync(p => p.CreationDate != DateTime.MinValue);
             ConsoleHelper.WriteHighlight($"Responses removed...");
-            await _repoSagas.DeleteItemsAsync(p => p.Id != Guid.Empty);
+            await _repoSagas.DeleteItemsAsync(p => p.Id != null);
             ConsoleHelper.WriteHighlight($"Sagas removed...");
             await Task.Delay(5000);
         }
@@ -106,7 +106,7 @@ namespace Edison.Simulators.Sensors
                     ConsoleHelper.WriteHighlight($"{i} messages sent from {(iotDevices.Count)} device(s).");
                     ConsoleHelper.WriteInfo("");
                     for (int n = 0; n < iotDevices.Count; n++)
-                        ConsoleHelper.WriteInfo($"{n}. {iotDevices[n].DeviceType} {iotDevices[n].LocationName} [{iotDevices[n].Longitude}|{iotDevices[n].Latitude}]");
+                        ConsoleHelper.WriteInfo($"{n}. {iotDevices[n].DeviceType} {iotDevices[n].Name} [{iotDevices[n].Longitude}|{iotDevices[n].Latitude}]");
                     ConsoleHelper.WriteInfo("");
                     ConsoleHelper.WriteInfo("Type a number corresponding to the device to trigger. Or stop to terminate the simulation");
                     string value = Console.ReadLine();
@@ -122,10 +122,15 @@ namespace Edison.Simulators.Sensors
                 device = iotDevices[valueParsed];
 
                 string eventType = device.DeviceType == "SoundSensor" ? "Sound" : "Button";
-                await _iotDeviceHelper.SendMessage(device, eventType, new DeviceTriggerIoTMessage()
+                object messageObj = new ButtonSensorMessage();
+                if (device.DeviceType == "SoundSensor")
                 {
-                    Metadata = device.DeviceType == "SoundSensor" ? GetSoundMetadata() : null
-                });
+                    messageObj = new SoundSensorMessage()
+                    {
+                        Decibel = GetSoundMetadata()
+                    };
+                }
+                await _iotDeviceHelper.SendMessage(device, eventType, messageObj);
                 i++;
 
                 await Task.Delay(1000);
@@ -154,10 +159,15 @@ namespace Edison.Simulators.Sensors
                 device = iotDevices[_rand.Next(0, iotDevices.Count - 1)];
 
                 string eventType = device.DeviceType == "SoundSensor" ? "Sound" : "Button";
-                await _iotDeviceHelper.SendMessage(device, eventType, new DeviceTriggerIoTMessage()
+                object messageObj = new ButtonSensorMessage();
+                if(device.DeviceType == "SoundSensor")
                 {
-                    Metadata = device.DeviceType == "SoundSensor" ? GetSoundMetadata() : null
-                });
+                    messageObj = new SoundSensorMessage()
+                    {
+                        Decibel = GetSoundMetadata()
+                    };
+                }
+                await _iotDeviceHelper.SendMessage(device, eventType, messageObj);
                 i++;
 
                 ConsoleHelper.ClearConsole();
@@ -168,10 +178,10 @@ namespace Edison.Simulators.Sensors
                 ConsoleHelper.WriteInfo($"Last message sent from {device.DeviceId}");
                 ConsoleHelper.WriteInfo($"-Device Type: {device.DeviceType}");
                 ConsoleHelper.WriteInfo($"-Event Type: {eventType}");
-                ConsoleHelper.WriteInfo($"-Location Name: {device.LocationName}");
-                ConsoleHelper.WriteInfo($"-Location 1: {device.LocationLevel1}");
-                ConsoleHelper.WriteInfo($"-Location 2: {device.LocationLevel2}");
-                ConsoleHelper.WriteInfo($"-Location 3: {device.LocationLevel3}");
+                ConsoleHelper.WriteInfo($"-Location Name: {device.Name}");
+                ConsoleHelper.WriteInfo($"-Location 1: {device.Location1}");
+                ConsoleHelper.WriteInfo($"-Location 2: {device.Location2}");
+                ConsoleHelper.WriteInfo($"-Location 3: {device.Location3}");
                 ConsoleHelper.WriteInfo($"-Latitude: {device.Latitude}");
                 ConsoleHelper.WriteInfo($"-Longitude: {device.Longitude}");
 
@@ -192,8 +202,6 @@ namespace Edison.Simulators.Sensors
                 _InterruptSimulation = true;
                 return;
             }
-
-            _iotDeviceHelper.StartMonitoringLightBulbs();
 
             do
             {
@@ -236,13 +244,12 @@ namespace Edison.Simulators.Sensors
                         }
                     }
                     Console.ForegroundColor = color;
-                    ConsoleHelper.WriteInfo($"{iotDevices[n].DeviceType} {iotDevices[n].LocationName} [{iotDevices[n].Longitude}|{iotDevices[n].Latitude}] - {(iotDevices[n].Desired.ContainsKey("Color") ? iotDevices[n].Desired["Color"] : "NO DATA")}");
+                    ConsoleHelper.WriteInfo($"{iotDevices[n].DeviceType} {iotDevices[n].Name} [{iotDevices[n].Longitude}|{iotDevices[n].Latitude}] - {(iotDevices[n].Desired.ContainsKey("Color") ? iotDevices[n].Desired["Color"] : "NO DATA")}");
                 }
                 await Task.Delay(1000);
             }
             while (!_InterruptSimulation);
 
-            _iotDeviceHelper.StopMonitoringLightBulbs();
             Console.ResetColor();
 
         }
@@ -319,10 +326,15 @@ namespace Edison.Simulators.Sensors
 
                 device = iotDevices.Find(p => p.DeviceId == storyMessage.DeviceId);
 
-                await _iotDeviceHelper.SendMessage(device, storyMessage.EventType, new DeviceTriggerIoTMessage()
+                object messageObj = new ButtonSensorMessage();
+                if (device.DeviceType == "SoundSensor")
                 {
-                    Metadata = device.DeviceType == "SoundSensor" ? GetSoundMetadata() : null
-                });
+                    messageObj = new SoundSensorMessage()
+                    {
+                        Decibel = GetSoundMetadata()
+                    };
+                }
+                await _iotDeviceHelper.SendMessage(device, storyMessage.EventType, messageObj);
                 i++;
 
                 int start = i > (SIMULATION_WINDOW_SIZE - 1) ? i - (SIMULATION_WINDOW_SIZE - 1) : 0;
@@ -350,13 +362,9 @@ namespace Edison.Simulators.Sensors
             await Task.Delay(5000);
         }
 
-        private IDictionary<string, object> GetSoundMetadata()
+        private double GetSoundMetadata()
         {
-            var metadata = new Dictionary<string, object>
-            {
-                { "decibel", (_rand.NextDouble() * 20.00) + 120.00 }
-            };
-            return metadata;
+            return (_rand.NextDouble() * 20.00) + 120.00;
         }
     }
 }

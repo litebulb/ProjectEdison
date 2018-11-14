@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Autofac;
 using Edison.Core.Common.Models;
-using Edison.Mobile.Common.Geolocation;
+using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Network;
 using Edison.Mobile.Common.Shared;
+using Edison.Mobile.User.Client.Core.Network;
 
 namespace Edison.Mobile.User.Client.Core.CollectionItemViewModels
 {

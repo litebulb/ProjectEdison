@@ -12,8 +12,11 @@
       }
     }
   },
-  "ServiceBus": {
+  "ServiceBusRabbitMQ": {
     "Uri": "rabbitmq://abi-rabbit"
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds": 5
   },
   "AzureServiceBus": {
     "PrefetchCount": "8"

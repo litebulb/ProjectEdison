@@ -29,7 +29,8 @@ namespace Edison.IoTHubControllerService
         {
             services.AddOptions();
             services.EnableKubernetes();
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.Configure<IoTHubControllerOptions>(Configuration.GetSection("IoTHubController"));
 
             services.AddMassTransit(c =>
@@ -44,7 +45,7 @@ namespace Edison.IoTHubControllerService
             services.AddScoped<IoTUpdateTwinDesiredRequestedConsumer>();
             services.AddScoped<IoTLaunchDirectMethodRequestedConsumer>();
             services.AddScoped<RegistryManagerHelper>();
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +53,7 @@ namespace Edison.IoTHubControllerService
         {
             // mirror logger messages to AppInsights
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Debug);
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(ep =>
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(ep =>
             {
                 ep.LoadFrom(app.ApplicationServices);
             });

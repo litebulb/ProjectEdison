@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Edison.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Backend,B2CWeb")]
     [ApiController]
     [Route("api/ActionPlans")]
     public class ActionPlansController : ControllerBase
@@ -22,6 +21,7 @@ namespace Edison.Api.Controllers
             _actionPlanDataManager = actionPlanDataManager;
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
         [HttpGet("{actionPlanId}")]
         [Produces(typeof(ActionPlanModel))]
         public async Task<IActionResult> GetActionPlan(Guid actionPlanId)
@@ -30,6 +30,7 @@ namespace Edison.Api.Controllers
             return Ok(actionObj);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
         [HttpGet]
         [Produces(typeof(IEnumerable<ActionPlanListModel>))]
         public async Task<IActionResult> GetActionPlans()
@@ -38,6 +39,7 @@ namespace Edison.Api.Controllers
             return Ok(actionObjs);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut]
         [Produces(typeof(ActionPlanModel))]
         public async Task<IActionResult> UpdateActionPlan(ActionPlanUpdateModel actionPlanObj)
@@ -46,6 +48,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPost]
         [Produces(typeof(ActionPlanModel))]
         public async Task<IActionResult> CreationActionPlan(ActionPlanCreationModel actionPlanObj)
@@ -54,6 +57,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpDelete]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> DeleteActionPlan(Guid actionPlanId)

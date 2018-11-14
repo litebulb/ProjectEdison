@@ -30,8 +30,9 @@ namespace Edison.DeviceSynchronizationService
         {
             services.AddOptions();
             services.EnableKubernetes();
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<RestServiceOptions>(Configuration.GetSection("RestService"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
 
             services.AddMassTransit(c =>
             {
@@ -41,7 +42,7 @@ namespace Edison.DeviceSynchronizationService
             services.AddScoped<DeviceCreateOrUpdateRequestedConsumer>();
             services.AddScoped<DeviceDeleteRequestedConsumer>();
             services.AddSingleton<IDeviceRestService, DeviceRestService>();
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +50,7 @@ namespace Edison.DeviceSynchronizationService
         {
             // mirror logger messages to AppInsights
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Debug);
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(ep =>
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(ep =>
             {
                 ep.LoadFrom(app.ApplicationServices);
             });

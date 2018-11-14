@@ -1,20 +1,22 @@
 @import 'icons';
-
 :host {
     display: flex;
     align-items: flex-start;
     position: relative;
     min-height: 32px;
-
+    .status-icon {
+        position: absolute;
+        left: -35px;
+        top: 4px;
+        color: $green;
+    }
     .app-icon {
         margin-right: 15px;
         z-index: 3;
     }
-
     .content-container {
         padding-top: 6px;
     }
-
     .line-hider {
         height: 100%;
         z-index: 2;

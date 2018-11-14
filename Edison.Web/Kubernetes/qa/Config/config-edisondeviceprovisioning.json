@@ -1,0 +1,44 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "ClientId": "570220f8-4a34-4a3b-b470-c6e84cd36f94",
+    "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
+  },
+  "DeviceProvisioning": {
+    "DeviceCertificatePassword": "Edison1234",
+    "DeviceCertificateValidityDays": 365,
+	"DPSInstance": "global.azure-devices-provisioning.net",
+    "DPSIdScope": "0ne000318DA",
+    "SigningCertificates": [
+      {
+        "DeviceType": "Edison.Devices.ButtonSensor",
+        "Password": "Edison1234",
+        "Path": "certificates/Intermediate_ButtonSensor.pfx"
+      },
+      {
+        "DeviceType": "Edison.Devices.SoundSensor",
+        "Password": "Edison1234",
+        "Path": "certificates/Intermediate_SoundSensor.pfx"
+      },
+      {
+        "DeviceType": "Edison.Devices.SmartBulb",
+        "Password": "Edison1234",
+        "Path": "certificates/Intermediate_LightBulb.pfx"
+      }
+    ]
+  },
+  "AllowedHosts": "*"
+}

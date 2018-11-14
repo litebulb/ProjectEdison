@@ -9,5 +9,6 @@ namespace Edison.Core.Interfaces
         Task<bool> UpdateEventClusterUI(EventClusterUIModel eventClusterUIUpdate);
         Task<bool> UpdateDeviceUI(DeviceUIModel deviceUIUpdate);
         Task<bool> UpdateResponseUI(ResponseUIModel responseUIUpdate);
+        Task<bool> UpdateActionCloseUI(ActionCloseUIModel actionCloseUIUpdate);
     }
 }

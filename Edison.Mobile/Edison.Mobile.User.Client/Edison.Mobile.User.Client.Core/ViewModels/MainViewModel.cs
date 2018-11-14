@@ -1,6 +1,7 @@
 ﻿using System;
 using Edison.Mobile.Common.Auth;
-using Edison.Mobile.Common.Geolocation;
+using Edison.Mobile.Common.Geo;
+using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.Shared;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
@@ -8,37 +9,29 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
     public class MainViewModel : BaseViewModel
     {
         readonly ILocationService locationService;
+        readonly INotificationService notificationService;
         readonly AuthService authService;
 
-        public MainViewModel(ILocationService locationService, AuthService authService)
+        public event EventHandler<bool> OnRequestedPermissions;
+
+        public MainViewModel(ILocationService locationService, AuthService authService, INotificationService notificationService)
         {
             this.locationService = locationService;
             this.authService = authService;
+            this.notificationService = notificationService;
         }
 
-        public override void ViewCreated()
+        public override async void ViewAppeared()
         {
-            base.ViewCreated();
-            locationService.RequestLocationPrivileges();
+            base.ViewAppeared();
+
+
         }
 
-        public override async void ViewAppearing()
+        public override void ViewDisappearing()
         {
-            base.ViewAppearing();
-            locationService.OnLocationChanged += OnLocationChanged;
-            await locationService.StartLocationUpdates();
-        }
-
-        public override void ViewDisappeared()
-        {
-            base.ViewDisappeared();
+            base.ViewDisappearing();
             locationService.StopLocationUpdates();
-            locationService.OnLocationChanged -= OnLocationChanged;
-        }
-
-        void OnLocationChanged(object sender, LocationChangedEventArgs e)
-        {
-            Console.WriteLine(e);
         }
     }
 }

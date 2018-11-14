@@ -1,55 +1,75 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-
-// TODO: Update to use observable instead of setInterval
+import { Component, Output, EventEmitter, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core'
+import { interval, Subscription } from 'rxjs'
+import { startWith, take } from 'rxjs/operators'
 
 @Component({
-  selector: 'app-delay-button',
-  templateUrl: './delay-button.component.html',
-  styleUrls: ['./delay-button.component.scss'],
+    selector: 'app-delay-button',
+    templateUrl: './delay-button.component.html',
+    styleUrls: [ './delay-button.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DelayButtonComponent {
-  @Input() buttonText: string;
-  @Input() subheaderText: string;
-  @Input() disabled = false;
-  @Output() clickCompleted = new EventEmitter();
+    @Input()
+    buttonText: string
+    @Input()
+    subheaderText: string
+    @Input()
+    disabled = false
+    @Input()
+    urgency: string
+    @Output()
+    clickCompleted = new EventEmitter()
 
-  currentProgress = 0;
-  maxProgress = 1000;
-  progressMaxed = false;
-  progressInterval: any;
+    constructor (private cdr: ChangeDetectorRef) { }
 
-  onMouseDown = () => {
-    if (this.disabled) { return; }
+    private intervalSub$: Subscription
 
-    clearInterval(this.progressInterval);
-    this.progressInterval = setInterval(() => { this.incrementProgress(); }, 1);
-  }
+    currentProgress = 0
+    maxProgress = 100
+    progressMaxed = false
+    progressInterval: any
+    hover = false
+    active = false
+    activated = false
 
-  onMouseUp = () => {
-    if (this.disabled) { return; }
+    onMouseDown = () => {
+        if (this.disabled) {
+            return
+        }
 
-    clearInterval(this.progressInterval);
-    if (!this.progressMaxed) {
-      this.progressInterval = setInterval(() => { this.decrementProgress(); }, 1);
+        this.active = true
+
+        this.intervalSub$ = interval(500)
+            .pipe(
+                startWith(1),
+                take(9)
+            )
+            .subscribe(x => {
+                if (this.currentProgress >= this.maxProgress) {
+                    this.intervalSub$.unsubscribe();
+                    this.progressMaxed = true;
+                    this.clickCompleted.emit();
+                } else {
+                    this.currentProgress += this.maxProgress / 8;
+                }
+                this.cdr.markForCheck();
+            })
     }
-  }
 
-  incrementProgress() {
-    if (this.currentProgress < this.maxProgress) {
-      this.currentProgress += 1;
-    } else {
-      clearInterval(this.progressInterval);
-      this.progressMaxed = true;
-      this.clickCompleted.emit();
+    onMouseUp = () => {
+        if (this.disabled) {
+            return
+        }
+
+        this.intervalSub$ && this.intervalSub$.unsubscribe()
+
+        this.active = false
+        this.currentProgress = 0
+        this.cdr.markForCheck();
     }
-  }
 
-  decrementProgress() {
-    if (this.currentProgress > 0) {
-      this.currentProgress -= 1;
-    } else {
-      clearInterval(this.progressInterval);
+    getCircleClass() {
+        return `${this.active ? 'active' : ''} ${this.urgency &&
+            this.urgency.toLowerCase()}`
     }
-  }
-
 }

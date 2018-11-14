@@ -1,16 +1,49 @@
-<div (click)="onClick()" [style.width]="circleSize" [style.height]="circleSize" [style.opacity]="opacity" class="container" #spinner>
-  <div class="outer-circle" [style.width]="circleSize" [style.height]="circleSize" [style.animation-play-state]="animate ? 'running' : 'paused'">
-    <div class="circle" [style.width]="circleSize" [style.height]="circleSize" [style.animation-play-state]="animate ? 'running' : 'paused'">
-      <div class="sub-circle-1" [style.height]="subCircleHeight" [style.width]="subCircleWidth" [style.background]="subCircleGradient1 | safe: 'style'"></div>
-      <div class="sub-circle-2" [style.height]="subCircleHeight" [style.width]="subCircleWidth" [style.background]="subCircleGradient2 | safe: 'style'"></div>
+<div #spinner
+     class="spinner">
+    <div class="tooltip-container"
+         [style.visibility]="tooltip ? 'visible' : 'hidden'">
+        <div class="tooltip">{{tooltip}}</div>
+        <div class="down-arrow"></div>
     </div>
-  </div>
-  <div class="inner-circle" [style.background-color]="fillColor" [style.height]="innerCircleSize" [style.width]="innerCircleSize"
-    [style.top]="innerCircleOffset" [style.left]="innerCircleOffset">
-  </div>
-  <div class="content-circle" [style.top]="contentCircleOffset" [style.left]="contentCircleOffset" [style.height]="contentCircleSize"
-    [style.width]="contentCircleSize" [style.background-color]="circleColor" [style.color]="fontColor">
-    {{contentText}}
-    <ng-content></ng-content>
-  </div>
+    <div (click)="onClick()"
+         [style.width]="circleSize"
+         [style.height]="circleSize"
+         [style.opacity]="opacity"
+         class="container">
+        <div class="outer-circle"
+             [style.width]="circleSize"
+             [style.height]="circleSize"
+             [style.animation-play-state]="animate ? 'running' : 'paused'">
+            <div class="circle"
+                 [style.width]="circleSize"
+                 [style.height]="circleSize"
+                 [style.animation-play-state]="animate ? 'running' : 'paused'">
+                <div class="sub-circle-1"
+                     [style.height]="subCircleHeight"
+                     [style.width]="subCircleWidth"
+                     [style.background]="subCircleGradient1 | safe: 'style'"></div>
+                <div class="sub-circle-2"
+                     [style.height]="subCircleHeight"
+                     [style.width]="subCircleWidth"
+                     [style.background]="subCircleGradient2 | safe: 'style'"></div>
+            </div>
+        </div>
+        <div class="inner-circle"
+             [style.background-color]="fillColor"
+             [style.height]="innerCircleSize"
+             [style.width]="innerCircleSize"
+             [style.top]="innerCircleOffset"
+             [style.left]="innerCircleOffset">
+        </div>
+        <div class="content-circle"
+             [style.top]="contentCircleOffset"
+             [style.left]="contentCircleOffset"
+             [style.height]="contentCircleSize"
+             [style.width]="contentCircleSize"
+             [style.background-color]="circleColor"
+             [style.color]="fontColor">
+            {{contentText}}
+            <ng-content></ng-content>
+        </div>
+    </div>
 </div>

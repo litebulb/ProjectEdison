@@ -20,7 +20,7 @@ namespace Edison.Tests.Consumers
 
         protected override void ConfigureInMemoryReceiveEndpoint(IInMemoryReceiveEndpointConfigurator configurator)
         {
-            configurator.Consumer(() => new EventClusterCreateOrUpdateRequestedConsumer(_mockEventRest.Object, _mockLogger.Object));
+            configurator.Consumer(() => new EventClusterCreateOrUpdateRequestedConsumer(_mockEventRest.Object, _mockDeviceRest.Object, _mockLogger.Object));
             _eventClusterCreated = Handled<IEventClusterCreatedOrUpdated>(configurator);
             _eventClusterCreatedAddedFault = Handled<Fault<IEventClusterCreateOrUpdateRequested>>(configurator);
         }

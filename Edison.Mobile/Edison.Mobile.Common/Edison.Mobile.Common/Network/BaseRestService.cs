@@ -26,12 +26,12 @@ namespace Edison.Mobile.Common.Network
         {
             try
             {
-                var token = authService.AuthenticationResult.AccessToken;
+                var token = authService.AuthenticationResult.IdToken;
                 var request = new RestRequest(endpoint, method) { RequestFormat = DataFormat.Json };
 
                 request.AddHeader("Authorization", $"Bearer {token}");
 
-                if (method == Method.POST && requestBody != null)
+                if ((method == Method.POST || method == Method.PUT) && requestBody != null)
                 {
                     request.AddParameter("application/json", JsonConvert.SerializeObject(requestBody), ParameterType.RequestBody);
                 }

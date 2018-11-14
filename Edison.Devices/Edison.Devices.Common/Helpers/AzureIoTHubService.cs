@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using DotNetty.Transport.Channels;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Client.Exceptions;
 using Microsoft.Azure.Devices.Shared;
+using Microsoft.Devices.Tpm;
 using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.Foundation.Diagnostics;
+using Windows.Security.Cryptography.Certificates;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Edison.Devices.Common
 {
@@ -18,6 +23,8 @@ namespace Edison.Devices.Common
         private DeviceClient _deviceClient;
         private DesiredPropertyUpdateCallback _callbackDesired;
         private List<DirectMethodConfig> _callbackDirectMethods;
+        private const uint DEVICE_OPERATION_TEST_TIMEOUT = 10000;
+        private const uint DEVICE_OPERATION_TIMEOUT = 20000;
 
         /// <summary>
         /// Indicate the connection state of the device
@@ -27,9 +34,9 @@ namespace Edison.Devices.Common
         /// <summary>
         /// Main Constructor
         /// </summary>
-        public AzureIoTHubService()
+        public AzureIoTHubService(Guid providerId)
         {
-            _logging = new LoggingChannel("AzureIoTHubService", null, new Guid("28bd9055-5356-42db-a373-b5ac533c8dbd"));
+            _logging = new LoggingChannel("AzureIoTHubService", null, providerId);
             _callbackDirectMethods = new List<DirectMethodConfig>();
         }
 
@@ -56,42 +63,101 @@ namespace Edison.Devices.Common
             });
         }
 
+        private X509Certificate2 GetDeviceCertificate(string deviceId)
+        {
+            X509Store storeMy = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            storeMy.Open(OpenFlags.ReadWrite);
+            X509Certificate2 deviceCertificate = null;
+            foreach (X509Certificate2 certificate in storeMy.Certificates)
+            {
+                if (certificate.Subject == $"CN={deviceId}")
+                {
+                    deviceCertificate = certificate;
+                    break;
+                }
+            }
+            storeMy.Close();
+            storeMy.Dispose();
+            return deviceCertificate;
+        }
+
         /// <summary>
         /// Initialize the connection to IoTHub using the device connection string
         /// </summary>
-        /// <param name="deviceConnectionString">Device connection string</param>
         /// <returns></returns>
-        public async Task<bool> Init(string deviceConnectionString)
+        public async Task<bool> Init()
         {
             if (Connected)
                 return true;
 
+            TpmDevice tpmDevice = new TpmDevice(0);
+            string deviceId = tpmDevice.GetDeviceId();
+            string hostname = tpmDevice.GetHostName();
+
             _logging.LogMessage("Initializing IoT Hub Connection", LoggingLevel.Verbose);
-            if (string.IsNullOrEmpty(deviceConnectionString))
+            if (string.IsNullOrEmpty(deviceId) || string.IsNullOrEmpty(hostname))
             {
-                _logging.LogMessage("Not DeviceConnectionString found.", LoggingLevel.Error);
+                _logging.LogMessage("Not DeviceId or Hostname found.", LoggingLevel.Error);
                 return false;
             }
             try
             {
-                _deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
+                X509Certificate2 deviceCertificate = GetDeviceCertificate(deviceId);
+                if (deviceCertificate == null)
+                {
+                    _logging.LogMessage($"The certificate for device {deviceId} was not found.", LoggingLevel.Error);
+                    return false;
+                }
+
+                IAuthenticationMethod authentication = new DeviceAuthenticationWithX509Certificate(deviceId, deviceCertificate);
+                _deviceClient = DeviceClient.Create(hostname, authentication, TransportType.Mqtt);
+                _deviceClient.SetRetryPolicy(new NoRetry());
+                _deviceClient.SetConnectionStatusChangesHandler(HandleConnectionStatusChange);
+                _deviceClient.OperationTimeoutInMilliseconds = DEVICE_OPERATION_TEST_TIMEOUT;
+                await _deviceClient.OpenAsync();
 
                 _logging.LogMessage("Registering Device Twin update callback", LoggingLevel.Verbose);
                 if(_callbackDesired != null)
                     await _deviceClient.SetDesiredPropertyUpdateCallbackAsync(_callbackDesired, null);
                 foreach (var callbackDirectMethod in _callbackDirectMethods)
                     await _deviceClient.SetMethodHandlerAsync(callbackDirectMethod.MethodName, callbackDirectMethod.CallbackDirectMethod, null);
-
                 Connected = true;
+                return true;
             }
-            catch(Exception e)
+            catch (Exception he) when (
+            he is IotHubCommunicationException ||
+            he is UnauthorizedException ||
+            he is ClosedChannelException ||
+            he is TimeoutException)
             {
-                _logging.LogMessage($"Init: {e.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"Init Handled Exception: {he.Message}", LoggingLevel.Error);
+                Connected = false;
+            }
+            catch (Exception e) 
+            {
+                _logging.LogMessage($"Init: {e.Message}", LoggingLevel.Critical);
                 Connected = false;
                 throw e;
             }
+            finally{
+                _deviceClient.OperationTimeoutInMilliseconds = DEVICE_OPERATION_TIMEOUT; //DeviceClient.DefaultOperationTimeoutInMilliseconds;
+            }
 
-            return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Handle connection changes and drop
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="reason"></param>
+        private void HandleConnectionStatusChange(ConnectionStatus status, ConnectionStatusChangeReason reason)
+        {
+            if (Connected && status == ConnectionStatus.Disconnected)
+            {
+                _logging.LogMessage($"HandleConnectionStatusChange Disconnected: reason: {reason}", LoggingLevel.Verbose);
+                Connected = false;
+            }
         }
 
         /// <summary>
@@ -104,19 +170,28 @@ namespace Edison.Devices.Common
 
             try
             {
-                var messageIoT = new Message();
-                messageIoT.Properties.Add("opType", "ping");
-                await _deviceClient.SendEventAsync(messageIoT);
+                if(_deviceClient != null)
+                {
+                    var messageIoT = new Message();
+                    messageIoT.Properties.Add("opType", "ping");
+                    await _deviceClient.SendEventAsync(messageIoT);
+                }
+                else
+                {
+                    _logging.LogMessage($"SendPingMessage: DeviceClient was empty.", LoggingLevel.Error);
+                }
             }
-            catch (IotHubCommunicationException ce)
+            catch (Exception he) when (
+            he is IotHubCommunicationException ||
+            he is UnauthorizedException ||
+            he is TimeoutException)
             {
-                _logging.LogMessage($"SendPingMessage IotHubCommunicationException: {ce.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"SendPingMessage Handled Exception: {he.Message}", LoggingLevel.Error);
                 Connected = false;
-                throw ce;
             }
             catch (Exception e)
             {
-                _logging.LogMessage($"SendPingMessage: {e.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"SendPingMessage: {e.Message}", LoggingLevel.Critical);
                 Connected = false;
                 throw e;
             }
@@ -130,23 +205,32 @@ namespace Edison.Devices.Common
 
             try
             {
-                string messageJson = JsonConvert.SerializeObject(message);
+                if (_deviceClient != null)
+                {
+                    string messageJson = JsonConvert.SerializeObject(message);
 
-                var messageIoT = new Message(Encoding.UTF8.GetBytes(messageJson));
-                messageIoT.Properties.Add("opType", "eventDevice");
-                messageIoT.Properties.Add("eventType", eventType);
+                    var messageIoT = new Message(Encoding.UTF8.GetBytes(messageJson));
+                    messageIoT.Properties.Add("opType", "eventDevice");
+                    messageIoT.Properties.Add("eventType", eventType);
 
-                await _deviceClient.SendEventAsync(messageIoT);
+                    await _deviceClient.SendEventAsync(messageIoT);
+                }
+                else
+                {
+                    _logging.LogMessage($"SendIoTMessage: DeviceClient was empty.", LoggingLevel.Error);
+                }
             }
-            catch (IotHubCommunicationException ce)
+            catch (Exception he) when (
+            he is IotHubCommunicationException ||
+            he is UnauthorizedException ||
+            he is TimeoutException)
             {
-                _logging.LogMessage($"SendIoTMessage IotHubCommunicationException: {ce.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"SendIoTMessage Handled Exception: {he.Message}", LoggingLevel.Error);
                 Connected = false;
-                throw ce;
             }
             catch (Exception e)
             {
-                _logging.LogMessage($"SendIoTMessage: {e.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"SendIoTMessage: {e.Message}", LoggingLevel.Critical);
                 Connected = false;
                 throw e;
             }
@@ -158,21 +242,30 @@ namespace Edison.Devices.Common
 
             try
             {
-                var messageIoT = new Message();
-                messageIoT.Properties.Add("opType", "eventDevice");
-                messageIoT.Properties.Add("eventType", eventType);
+                if (_deviceClient != null)
+                {
+                    var messageIoT = new Message();
+                    messageIoT.Properties.Add("opType", "eventDevice");
+                    messageIoT.Properties.Add("eventType", eventType);
 
-                await _deviceClient.SendEventAsync(messageIoT);
+                    await _deviceClient.SendEventAsync(messageIoT);
+                }
+                else
+                {
+                    _logging.LogMessage($"SendIoTMessage: DeviceClient was empty.", LoggingLevel.Error);
+                }
             }
-            catch (IotHubCommunicationException ce)
+            catch (Exception he) when (
+            he is IotHubCommunicationException ||
+            he is UnauthorizedException ||
+            he is TimeoutException)
             {
-                _logging.LogMessage($"SendIoTMessage IotHubCommunicationException: {ce.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"SendIoTMessage Handled Exception: {he.Message}", LoggingLevel.Error);
                 Connected = false;
-                throw ce;
             }
             catch (Exception e)
             {
-                _logging.LogMessage($"SendIoTMessage: {e.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"SendIoTMessage: {e.Message}", LoggingLevel.Critical);
                 Connected = false;
                 throw e;
             }
@@ -184,19 +277,30 @@ namespace Edison.Devices.Common
 
             try
             {
-                Twin twin = await _deviceClient.GetTwinAsync();
-                _logging.LogMessage(twin.ToJson(), LoggingLevel.Verbose);
-                return twin.Properties.Desired.ToJson();
+                if (_deviceClient != null)
+                {
+                    Twin twin = await _deviceClient.GetTwinAsync();
+                    _logging.LogMessage(twin.ToJson(), LoggingLevel.Verbose);
+                    return twin.Properties.Desired.ToJson();
+                }
+                else
+                {
+                    _logging.LogMessage($"GetDeviceTwinAsync: DeviceClient was empty.", LoggingLevel.Error);
+                    return null;
+                }
             }
-            catch (IotHubCommunicationException ce)
+            catch (Exception he) when (
+            he is IotHubCommunicationException ||
+            he is UnauthorizedException ||
+            he is TimeoutException)
             {
-                _logging.LogMessage($"GetDeviceTwinAsync IotHubCommunicationException: {ce.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"GetDeviceTwinAsync Handled Exception: {he.Message}", LoggingLevel.Error);
                 Connected = false;
-                throw ce;
+                return null;
             }
             catch (Exception e)
             {
-                _logging.LogMessage($"GetDeviceTwinAsync: {e.Message}", LoggingLevel.Error);
+                _logging.LogMessage($"GetDeviceTwinAsync: {e.Message}", LoggingLevel.Critical);
                 Connected = false;
                 throw e;
             }
@@ -206,6 +310,7 @@ namespace Edison.Devices.Common
         {
             if (_deviceClient != null)
             {
+                _deviceClient.CloseAsync();
                 _deviceClient.Dispose();
                 _deviceClient = null;
                 Connected = false;

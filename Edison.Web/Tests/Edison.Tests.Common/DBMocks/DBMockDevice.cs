@@ -18,7 +18,7 @@ namespace Edison.Tests
             {
                 new DeviceDAO()
                 {
-                    Id = new Guid("fbc64b5c-ff21-4ade-9440-85f7b16ef01e"),
+                    Id = "fbc64b5c-ff21-4ade-9440-85f7b16ef01e",
                     CreationDate = DateTime.UtcNow.AddMinutes(-100),
                     DeviceType = "button",
                     ETag = Guid.NewGuid().ToString(),
@@ -28,13 +28,13 @@ namespace Edison.Tests
                         Longitude = -87.6248890
                     },
                     UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    LocationLevel1 = "BlueMetal Office",
-                    LocationLevel2 = "Floor 11",
-                    LocationLevel3 = "Room A"
+                    Location1 = "BlueMetal Office",
+                    Location2 = "Floor 11",
+                    Location3 = "Room A"
                 },
                 new DeviceDAO()
                 {
-                    Id = new Guid("7776a948-90f8-4ffd-9578-f8078b07d96f"),
+                    Id = "7776a948-90f8-4ffd-9578-f8078b07d96f",
                     CreationDate = DateTime.UtcNow.AddMinutes(-100),
                     DeviceType = "button",
                     ETag = Guid.NewGuid().ToString(),
@@ -44,12 +44,12 @@ namespace Edison.Tests
                         Longitude = -87.6265480
                     },
                     UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    LocationLevel1 = "Office Space",
-                    LocationLevel2 = "Floor 10",
-                    LocationLevel3 = "Room C"
+                    Location1 = "Office Space",
+                    Location2 = "Floor 10",
+                    Location3 = "Room C"
                 },new DeviceDAO()
                 {
-                    Id = new Guid("c337f50b-134a-4d83-8f40-18f6691e4dbb"),
+                    Id = "c337f50b-134a-4d83-8f40-18f6691e4dbb",
                     CreationDate = DateTime.UtcNow.AddMinutes(-100),
                     DeviceType = "button",
                     ETag = Guid.NewGuid().ToString(),
@@ -59,13 +59,13 @@ namespace Edison.Tests
                         Longitude = -87.6265480
                     },
                     UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    LocationLevel1 = "Office Space",
-                    LocationLevel2 = "Floor 10",
-                    LocationLevel3 = "Room C"
+                    Location1 = "Office Space",
+                    Location2 = "Floor 10",
+                    Location3 = "Room C"
                 },
                 new DeviceDAO()
                 {
-                    Id = new Guid("f771c2e7-96c2-450b-912e-262588bdeeaa"),
+                    Id = "f771c2e7-96c2-450b-912e-262588bdeeaa",
                     CreationDate = DateTime.UtcNow.AddMinutes(-100),
                     DeviceType = "soundsensor",
                     ETag = Guid.NewGuid().ToString(),
@@ -75,9 +75,9 @@ namespace Edison.Tests
                         Longitude = -87.6248890
                     },
                     UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    LocationLevel1 = "BlueMetal Office",
-                    LocationLevel2 = "Floor 11",
-                    LocationLevel3 = "Room A"
+                    Location1 = "BlueMetal Office",
+                    Location2 = "Floor 11",
+                    Location3 = "Room A"
                 }
             };
 

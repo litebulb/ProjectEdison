@@ -11,17 +11,14 @@ namespace Edison.Tests
             //Event Clusters
             CreateMap<EventClusterDAO, EventClusterModel>()
                 .ForMember(dto => dto.EventClusterId, opts => opts.MapFrom(src => src.Id));
-            CreateMap<DeviceDAO, EventClusterDAODevice>()
-               .ForMember(dto => dto.DeviceId, opts => opts.MapFrom(src => src.Id));
+            CreateMap<DeviceDAO, EventClusterDeviceDAOObject>()
+               .ForMember(dto => dto.DeviceId, opts => opts.MapFrom(src => src.Id))
+               .ForMember(dto => dto.DeviceType, opts => opts.MapFrom(src => src.DeviceType));
 
             //Devices
             CreateMap<DeviceDAO, DeviceModel>()
                 .ForMember(dto => dto.DeviceId, opts => opts.MapFrom(src => src.Id))
                 .ForMember(dto => dto.Desired, opts => opts.MapFrom(src => src.Desired));
-
-            //Users
-            CreateMap<UserDAO, UserModel>()
-                .ForMember(dto => dto.UserId, opts => opts.MapFrom(src => src.Id));
         }
     }
 }

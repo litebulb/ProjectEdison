@@ -24,6 +24,18 @@ namespace Edison.Core
         {
         }
 
+        public async Task<DeviceModel> GetMobileDeviceFromUserId(string userId)
+        {
+            RestRequest request = await PrepareQuery("Devices/Mobile/{userId}", Method.GET);
+            request.AddUrlSegment("userId", userId);
+            var queryResult = await _client.ExecuteTaskAsync<DeviceModel>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                _logger.LogError($"GetMobileDeviceFromUserId: {queryResult.StatusCode}");
+            return null;
+        }
+
         public async Task<IEnumerable<Guid>> GetDevicesInRadius(DeviceGeolocationModel deviceGeocodeCenterUpdate)
         {
             RestRequest request = await PrepareQuery("Devices/Radius", Method.POST);
@@ -34,6 +46,18 @@ namespace Edison.Core
             else
                 _logger.LogError($"GetDevicesInRadius: Error while adding an event: {queryResult.StatusCode}");
             return null;
+        }
+
+        public async Task<bool> IsInBoundaries(DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj)
+        {
+            RestRequest request = await PrepareQuery("Devices/IsInBoundaries", Method.POST);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(deviceBoundaryGeolocationObj), ParameterType.RequestBody);
+            var queryResult = await _client.ExecuteTaskAsync<bool>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                _logger.LogError($"IsInBoundaries: Error while retrieving boundaries result: {queryResult.StatusCode}");
+            return false;
         }
 
         public async Task<DeviceModel> CreateOrUpdateDevice(DeviceTwinModel deviceObj)
@@ -48,14 +72,27 @@ namespace Edison.Core
             return null;
         }
 
-        public async Task<bool> UpdateHeartbeat(Guid deviceId)
+        public async Task<DeviceModel> UpdateHeartbeat(Guid deviceId)
         {
             RestRequest request = await PrepareQuery("Devices/Heartbeat", Method.PUT);
             request.AddParameter("application/json", JsonConvert.SerializeObject(deviceId), ParameterType.RequestBody);
-            var queryResult = await _client.ExecuteTaskAsync(request);
+            var queryResult = await _client.ExecuteTaskAsync<DeviceModel>(request);
             if (!queryResult.IsSuccessful)
             {
                 _logger.LogError($"UpdateHeartbeat: Error while updating heartbeat: {queryResult.StatusCode}");
+                return null;
+            }
+            return queryResult.Data;
+        }
+
+        public async Task<bool> UpdateGeolocation(DeviceGeolocationUpdateModel updateGeolocationObj)
+        {
+            RestRequest request = await PrepareQuery("Devices/DeviceLocation", Method.PUT);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(updateGeolocationObj), ParameterType.RequestBody);
+            var queryResult = await _client.ExecuteTaskAsync(request);
+            if (!queryResult.IsSuccessful)
+            {
+                _logger.LogError($"UpdateGeolocation: Error while updating device geolocation: {queryResult.StatusCode}");
                 return false;
             }
             return true;

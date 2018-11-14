@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from './shared/services/auth.service';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
+import { AdalService } from './core/services/adal.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+    constructor (private authService: AdalService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        if (!this.authService.loggedIn()) {
+            this.authService.login();
+        }
+    }
 
-  isLoggedIn() {
-    return this.authService.loggedIn();
-  }
+    isLoggedIn() {
+        return this.authService.loggedIn()
+    }
 }

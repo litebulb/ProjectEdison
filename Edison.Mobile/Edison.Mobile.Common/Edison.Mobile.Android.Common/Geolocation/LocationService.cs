@@ -4,7 +4,7 @@ using Android.App;
 using Android.Locations;
 using Android.Gms.Common;
 using Android.Gms.Location;
-using Edison.Mobile.Common.Geolocation;
+using Edison.Mobile.Common.Geo;
 using Android.OS;
 using Android;
 using Android.Content.PM;
@@ -17,17 +17,21 @@ namespace Edison.Mobile.Android.Common.Geolocation
     {
         readonly FusedLocationProviderClient locationProvider;
         readonly EdisonLocationCallback locationCallback;
+        readonly Activity mainActivity;
 
         Location lastLocation;
 
-        public LocationService()
+        public EdisonLocation LastKnownLocation => EdisonLocationFromLocation(lastLocation);
+
+        public LocationService(Activity mainActivity)
         {
+            this.mainActivity = mainActivity;
             locationProvider = LocationServices.GetFusedLocationProviderClient(Application.Context);
             locationCallback = new EdisonLocationCallback();
             locationCallback.LocationUpdated += OnLocationUpdated;
         }
 
-        public event EventHandler<Mobile.Common.Geolocation.LocationChangedEventArgs> OnLocationChanged;
+        public event EventHandler<Mobile.Common.Geo.LocationChangedEventArgs> OnLocationChanged;
 
         public async Task<bool> LocationEnabled()
         {
@@ -35,16 +39,18 @@ namespace Edison.Mobile.Android.Common.Geolocation
             return availability.IsLocationAvailable;
         }
 
-        public void RequestLocationPrivileges()
+        public async Task<bool> RequestLocationPrivileges()
         {
             var permission = Manifest.Permission.AccessFineLocation;
             if (ContextCompat.CheckSelfPermission(locationProvider.ApplicationContext, permission) == Permission.Granted)
             {
-                return;
+                return true;
             }
 
-            ActivityCompat.RequestPermissions(this, new string[] { permission }, 0);
+            ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, 0);
+            return false;
         }
+
 
         public async Task StartLocationUpdates()
         {
@@ -70,7 +76,7 @@ namespace Edison.Mobile.Android.Common.Geolocation
 
         void OnLocationUpdated(object sender, Location location)
         {
-            OnLocationChanged?.Invoke(this, new Mobile.Common.Geolocation.LocationChangedEventArgs
+            OnLocationChanged?.Invoke(this, new Mobile.Common.Geo.LocationChangedEventArgs
             {
                 CurrentLocation = location != null ? EdisonLocationFromLocation(location) : null,
                 LastLocation = lastLocation != null ? EdisonLocationFromLocation(lastLocation) : null,
@@ -106,5 +112,10 @@ namespace Edison.Mobile.Android.Common.Geolocation
             Speed = location.Speed,
             Time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(location.Time),
         };
+
+        public Task<bool> HasLocationPrivileges()
+        {
+            return Task.FromResult(ContextCompat.CheckSelfPermission(locationProvider.ApplicationContext, Manifest.Permission.AccessFineLocation) == Permission.Granted);
+        }
     }
 }

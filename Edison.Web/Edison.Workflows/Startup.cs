@@ -30,9 +30,11 @@ namespace Edison.Workflows
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+            services.EnableKubernetes();
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<WorkflowConfig>(Configuration.GetSection("WorkflowsConfig"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
             services.AddSingleton<EventProcessingStateMachine>();
             services.AddSingleton<DeviceSynchronizationStateMachine>();
             services.AddSingleton<ResponseStateMachine>();
@@ -59,7 +61,7 @@ namespace Edison.Workflows
                 Configuration.GetValue<string>("CosmosDb:Database"),
                 Configuration.GetValue<string>("CosmosDb:Collection"));
 
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(ep =>
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(ep =>
             {
                 ep.UseRetry(p => {
                     p.Interval(10, TimeSpan.FromMilliseconds(200));

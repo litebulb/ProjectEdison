@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Graphics;
+using System;
 namespace Edison.Mobile.User.Client.Droid.Shared
 {
     public static class Constants
@@ -10,5 +11,7 @@ namespace Edison.Mobile.User.Client.Droid.Shared
         public static readonly float PulloutVelocityThreshold = 200;
         public static readonly float PulloutTopBarHeight = 30;
         public static readonly float CornerRadius = 20;
+
+        public static readonly Color BackgroundColor = Color.Argb(0, 255, 255, 255);
     }
 }

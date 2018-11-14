@@ -1,5 +1,9 @@
 @import 'icons';
+@import 'colorScheme';
 
+:host {
+    display: flex;
+}
 .container {
   display: flex;
   align-items: center;
@@ -7,6 +11,8 @@
   position: relative;
   padding-left: 20px;
   min-height: 44px;
+  max-height: 44px;
+  width: 100%;
 
   &.active {
     .text {
@@ -14,13 +20,26 @@
     }
 
     &.red {
-      background-color: #ff3023;
+      background-color: $red;
+    }
+
+    &.blue {
+      background-color: $blue;
+    }
+
+    &.yellow {
+      background-color: $yellow;
+      
+      .text {
+        color: black;
+      }
     }
   }
 
   .text {
     font-size: 18px;
     flex-grow: 2;
+    color: black;
   }
 
   .app-icon:not(.dismiss) {

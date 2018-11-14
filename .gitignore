@@ -199,6 +199,7 @@ ClientBin/
 *.dbproj.schemaview
 *.jfm
 *.pfx
+*.secrets
 *.publishsettings
 orleans.codegen.cs
 
@@ -295,3 +296,11 @@ Tools/LunchBag.SimulatorApp/appsettings.json
 Edison\.Web/Edison\.AdminPortal/ClientApp/src/app/modules/map/map\.html-pin-layer\.module\.js
 
 **/builds/
+
+Edison\.Web/Edison\.AdminPortal/ClientApp/projects/3PSA_UI\.code-workspace
+
+Edison\.Web/Edison\.AdminPortal/ProjectEdison\.code-workspace
+
+Edison\.Web/Edison\.AdminPortal/ClientApp/Projects/three-psa-ui-lib copy/
+
+Edison\.Web/Edison\.AdminPortal/ClientApp/yarn\.lock

@@ -1,6 +1,5 @@
 ﻿using Edison.Common.Config;
 using Edison.Common.Interfaces;
-using Edison.Common.DAO;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -33,9 +32,14 @@ namespace Edison.Common
 
         public async Task<T> GetItemAsync(Guid id)
         {
+            return await GetItemAsync(id.ToString());
+        }
+
+        public async Task<T> GetItemAsync(string id)
+        {
             try
             {
-                Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionId, id.ToString()));
+                Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionId, id));
                 return (T)(dynamic)document;
             }
             catch (DocumentClientException e)
@@ -107,9 +111,14 @@ namespace Edison.Common
 
         public async Task<bool> IsItemExistsByIdAsync(Guid id)
         {
+            return await IsItemExistsByIdAsync(id.ToString());
+        }
+
+        public async Task<bool> IsItemExistsByIdAsync(string id)
+        {
             try
             {
-                Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionId, id.ToString()));
+                Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionId, id));
                 return true;
             }
             catch (DocumentClientException e)
@@ -357,27 +366,51 @@ namespace Edison.Common
             return null;
         }
 
-        public async Task<Guid> CreateItemAsync(T item)
+        public async Task<string> CreateItemAsync(T item)
         {
             try
             {
                 await EnsureDatabaseAndCollectionExists();
-                if(item.Id == null || item.Id == Guid.Empty)
-                    item.Id = Guid.NewGuid();
+                if(string.IsNullOrEmpty(item.Id) || ((Guid.TryParse(item.Id, out Guid guidResult) && guidResult == Guid.Empty)))
+                    item.Id = Guid.NewGuid().ToString();
                 item.CreationDate = DateTime.UtcNow;
                 item.UpdateDate = DateTime.UtcNow;
                 Document doc = await _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(_databaseId, _collectionId), item);
-                return new Guid(doc.Id);
+                return doc.Id;
             }
             catch (DocumentClientException e)
             {
                 _logger.LogError("CreateItemAsync: DocumentClientException: " + e.Error.Message);
-                return Guid.Empty;
+                return null;
             }
             catch (Exception e)
             {
                 _logger.LogError("CreateItemAsync: " + e.Message);
-                return Guid.Empty;
+                return null;
+            }
+        }
+
+        public async Task<string> CreateOrUpdateItemAsync(T item)
+        {
+            try
+            {
+                await EnsureDatabaseAndCollectionExists();
+                if (string.IsNullOrEmpty(item.Id))
+                    item.Id = Guid.NewGuid().ToString();
+                item.CreationDate = DateTime.UtcNow;
+                item.UpdateDate = DateTime.UtcNow;
+                Document doc = await _client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(_databaseId, _collectionId), item);
+                return doc.Id;
+            }
+            catch (DocumentClientException e)
+            {
+                _logger.LogError("CreateItemAsync: DocumentClientException: " + e.Error.Message);
+                return null;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("CreateItemAsync: " + e.Message);
+                return null;
             }
         }
 
@@ -417,10 +450,15 @@ namespace Edison.Common
 
         public async Task<bool> DeleteItemAsync(Guid id)
         {
+            return await DeleteItemAsync(id.ToString());
+        }
+
+        public async Task<bool> DeleteItemAsync(string id)
+        {
             try
             {
                 await EnsureDatabaseAndCollectionExists();
-                await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionId, id.ToString()));
+                await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(_databaseId, _collectionId, id));
                 return true;
             }
             catch (DocumentClientException e)
@@ -455,6 +493,11 @@ namespace Edison.Common
                 _logger.LogError("DeleteItemAsync: " + e.Message);
                 throw e;
             }
+        }
+
+        public bool IsDocumentKeyNull(IEntityDAO entity)
+        {
+            return string.IsNullOrEmpty(entity.Id);
         }
     }
 }

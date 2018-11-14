@@ -12,8 +12,14 @@
       }
     }
   },
-  "ServiceBus": {
+  "ServiceBusRabbitMQ": {
     "Uri": "rabbitmq://abi-rabbit",
+    "QueueName": "iothub-controller-messages",
+    "PrefetchCount": 8,
+    "ConcurrencyLimit": 1
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds": 5,
     "QueueName": "iothub-controller-messages",
     "PrefetchCount": 8,
     "ConcurrencyLimit": 1

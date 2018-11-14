@@ -21,7 +21,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 backgroundLogoCircleView = new UIView
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    BackgroundColor = PlatformConstants.Color.DarkBlue,
+                    BackgroundColor = Constants.Color.DarkBlue,
                 };
 
                 ContentView.AddSubview(backgroundLogoCircleView);
@@ -47,7 +47,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 titleLabel = new UILabel
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    TextColor = PlatformConstants.Color.DarkBlue,
+                    TextColor = Constants.Color.DarkBlue,
                     Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Sixteen),
                 };
 

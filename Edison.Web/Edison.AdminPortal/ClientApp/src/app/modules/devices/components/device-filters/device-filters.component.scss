@@ -1,0 +1,29 @@
+@import 'icons';
+:host {
+    display: flex;
+    margin-bottom: 15px;
+    padding: 0px 25px;
+    min-height: 50px;
+    .filter-group {
+        margin-right: 40px;
+        .group-title {
+            color: #8886A0;
+            font-family: Rubik;
+            font-size: 13px;
+            line-height: 16px;
+            margin-bottom: 10px;
+        }
+        .filter-title {
+            color: #3E3D4A;
+            font-family: Rubik;
+            font-size: 20px;
+        }
+        .filter-icon {
+            margin-right: 8px;
+            margin-left: 5px;
+        }
+        .checkbox {
+            margin-right: 30px;
+        }
+    }
+}

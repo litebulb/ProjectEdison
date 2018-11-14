@@ -1,5 +1,4 @@
 ﻿using System;
-using Edison.Mobile.iOS.Common.Shared;
 using Edison.Mobile.User.Client.iOS.Shared;
 using UIKit;
 
@@ -9,11 +8,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
     {
         readonly nfloat avatarHeight = (UIScreen.MainScreen.Bounds.Width - Constants.MenuRightMargin) / 2f;
 
-        UIImageView avatarImageView;
+        CircleAvatarView avatarView;
 
         public MenuProfileTableViewCell(IntPtr handle) : base(handle) { }
 
-        public void Initialize(string name, UIImage profileImage = null, float fontSize = 12)
+        public void Initialize(string name, UIImage profileImage = null, float fontSize = 12, string initials = null)
         {
             if (!isInitialized)
             {
@@ -28,7 +27,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 titleLabel = new UILabel
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    TextColor = PlatformConstants.Color.White,
+                    TextColor = Constants.Color.Black,
                     Font = Constants.Fonts.RubikOfSize(fontSize),
                     TextAlignment = UITextAlignment.Center,
                 };
@@ -46,26 +45,27 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 avatarLayoutGuide.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor, Constants.MenuRightMargin).Active = true;
                 avatarLayoutGuide.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
 
-                avatarImageView = new UIImageView
+                avatarView = new CircleAvatarView
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    BackgroundColor = PlatformConstants.Color.LightGray,
+                    BackgroundColor = Constants.Color.LightGray,
                 };
 
-                avatarImageView.Layer.CornerRadius = avatarHeight / 2;
+                avatarView.Layer.CornerRadius = avatarHeight / 2;
 
-                ContentView.AddSubview(avatarImageView);
+                ContentView.AddSubview(avatarView);
 
-                avatarImageView.BottomAnchor.ConstraintEqualTo(labelContainerView.TopAnchor).Active = true;
-                avatarImageView.HeightAnchor.ConstraintEqualTo(avatarHeight).Active = true;
-                avatarImageView.WidthAnchor.ConstraintEqualTo(avatarHeight).Active = true;
-                avatarImageView.CenterXAnchor.ConstraintEqualTo(avatarLayoutGuide.CenterXAnchor).Active = true;
+                avatarView.BottomAnchor.ConstraintEqualTo(labelContainerView.TopAnchor).Active = true;
+                avatarView.HeightAnchor.ConstraintEqualTo(avatarHeight).Active = true;
+                avatarView.WidthAnchor.ConstraintEqualTo(avatarHeight).Active = true;
+                avatarView.CenterXAnchor.ConstraintEqualTo(avatarLayoutGuide.CenterXAnchor).Active = true;
 
                 isInitialized = true;
             }
 
             titleLabel.Text = name;
-            avatarImageView.Image = profileImage;
+            avatarView.Image = profileImage;
+            avatarView.Initials = initials;
         }
     }
 }

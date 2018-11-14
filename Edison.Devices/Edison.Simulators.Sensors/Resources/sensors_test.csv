@@ -1,4 +1,4 @@
-DeviceId,DeviceType,LocationName,LocationLevel1,LocationLevel2,LocationLevel3,Longitude,Latitude,Sensor,Demo,Enabled
+DeviceId,DeviceType,Name,Location1,Location2,Location3,Longitude,Latitude,Sensor,Demo,Enabled
 d44c7909-9f17-4d20-959b-d6b39e0bbd74,ButtonSensor,[0][0],,,,2.13,41.4,TRUE,FALSE,TRUE
 5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,Lightbulb,[0][0],,,,2.13,41.4,FALSE,FALSE,TRUE
 ff65d547-d343-42cd-a68a-841b68ea03d4,SoundSensor,[0][1],,,,2.13,41.4015,TRUE,FALSE,TRUE

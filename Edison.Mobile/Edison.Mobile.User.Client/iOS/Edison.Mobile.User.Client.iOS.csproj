@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -28,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>EdisonUser</CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -44,7 +43,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>EdisonUser</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -80,43 +79,50 @@
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>EdisonUser</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS User|iPhoneSimulator' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\iOS User</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS User|iPhone' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\iOS User</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <MtouchVerbosity></MtouchVerbosity>
+    <MtouchVerbosity>
+    </MtouchVerbosity>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Android User|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Android User</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-    <MtouchVerbosity></MtouchVerbosity>
+    <MtouchVerbosity>
+    </MtouchVerbosity>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -128,38 +134,74 @@
     <Reference Include="Autofac">
       <HintPath>..\..\Edison.Mobile.Common\packages\Autofac.4.8.1\lib\netstandard1.1\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AppCenter">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.1.9.0\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.iOS.Bindings">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.1.9.0\lib\Xamarin.iOS10\Microsoft.AppCenter.iOS.Bindings.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Analytics">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Analytics.1.9.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Analytics.iOS.Bindings">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Analytics.1.9.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.iOS.Bindings.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Crashes">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Crashes.1.9.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AppCenter.Crashes.iOS.Bindings">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Crashes.1.9.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Edison.Mobile.Common\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\..\..\Library\Frameworks\Mono.framework\External\xbuild-frameworks\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+    <Reference Include="Xamarin.Azure.NotificationHubs.iOS">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Xamarin.Azure.NotificationHubs.iOS.1.2.5.2\lib\Xamarin.iOS10\Xamarin.Azure.NotificationHubs.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Identity.Client">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.Identity.Client.2.2.0-preview\lib\xamarinios10\Microsoft.Identity.Client.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.1.10.0\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.iOS.Bindings">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.1.10.0\lib\Xamarin.iOS10\Microsoft.AppCenter.iOS.Bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.Crashes">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Crashes.1.10.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.Crashes.iOS.Bindings">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Crashes.1.10.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.Analytics">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Analytics.1.10.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.Analytics.iOS.Bindings">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Analytics.1.10.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Analytics.iOS.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
-      <HintPath>..\..\Edison.Mobile.Common\packages\RestSharp.106.5.2\lib\netstandard2.0\RestSharp.dll</HintPath>
+      <HintPath>..\..\Edison.Mobile.Common\packages\RestSharp.106.5.4\lib\netstandard2.0\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.IdentityModel.Logging.5.3.0\lib\netstandard2.0\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.IdentityModel.Tokens.5.3.0\lib\netstandard2.0\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.IdentityModel.JsonWebTokens.5.3.0\lib\netstandard2.0\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>..\..\Edison.Mobile.Common\packages\System.IdentityModel.Tokens.Jwt.5.3.0\lib\netstandard2.0\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="Microsoft.Bot.Connector.DirectLine">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.Bot.Connector.DirectLine.3.0.2\lib\netstandard1.3\Microsoft.Bot.Connector.DirectLine.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Diagnostics.Debug" />
+    <Reference Include="System.Diagnostics.Tools" />
+    <Reference Include="System.Globalization" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Primitives" />
+    <Reference Include="System.ObjectModel" />
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Reflection.Extensions" />
+    <Reference Include="System.Resources.ResourceManager" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Extensions" />
+    <Reference Include="System.Text.Encoding" />
+    <Reference Include="System.Threading" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Xml.ReaderWriter" />
+    <Reference Include="Microsoft.Identity.Client">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.Identity.Client.2.3.1-preview\lib\xamarinios10\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.Rest.ClientRuntime.2.3.17\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -209,14 +251,69 @@
     <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX.png" />
     <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%402x.png" />
     <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Fire.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Fire.imageset\fire.png" />
-    <ImageAsset Include="Assets.xcassets\Fire.imageset\fire%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Fire.imageset\fire%403x.png" />
     <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency.png" />
     <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency%402x.png" />
     <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency%403x.png" />
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite.png" />
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed.png" />
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed%402x.png" />
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed%403x.png" />
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire.png" />
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire%402x.png" />
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire%403x.png" />
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed.png" />
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed%402x.png" />
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed%403x.png" />
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite.png" />
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow.png" />
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow%402x.png" />
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow%403x.png" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite.png" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue.png" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue%402x.png" />
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue%403x.png" />
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue.png" />
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue%402x.png" />
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue%403x.png" />
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite.png" />
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent.png" />
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent%402x.png" />
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue%403x.png" />
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness.png" />
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%402x.png" />
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -238,8 +335,22 @@
     <Folder Include="Assets.xcassets\PersonWhite.imageset\" />
     <Folder Include="Assets.xcassets\PersonBlue.imageset\" />
     <Folder Include="Assets.xcassets\CloseX.imageset\" />
-    <Folder Include="Assets.xcassets\Fire.imageset\" />
     <Folder Include="Assets.xcassets\NotificationBell.imageset\" />
+    <Folder Include="Navigation\" />
+    <Folder Include="Assets.xcassets\GunWhite.imageset\" />
+    <Folder Include="Assets.xcassets\GunRed.imageset\" />
+    <Folder Include="Assets.xcassets\FireWhite.imageset\" />
+    <Folder Include="Assets.xcassets\FireRed.imageset\" />
+    <Folder Include="Assets.xcassets\SpamWhite.imageset\" />
+    <Folder Include="Assets.xcassets\SpamYellow.imageset\" />
+    <Folder Include="Assets.xcassets\SafetyCheckWhite.imageset\" />
+    <Folder Include="Assets.xcassets\SafetyCheckBlue.imageset\" />
+    <Folder Include="Assets.xcassets\HealthBlue.imageset\" />
+    <Folder Include="Assets.xcassets\HealthWhite.imageset\" />
+    <Folder Include="Assets.xcassets\LocationSent.imageset\" />
+    <Folder Include="Assets.xcassets\ProtestWhite.imageset\" />
+    <Folder Include="Assets.xcassets\ProtestBlue.imageset\" />
+    <Folder Include="Assets.xcassets\BrightnessMoon.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -258,9 +369,9 @@
     <Compile Include="ViewControllers\LoginViewController.cs" />
     <Compile Include="Views\MainPulloutView.cs" />
     <Compile Include="Views\PulloutLargeButtonCollectionViewCell.cs" />
-    <Compile Include="Views\PulloutMinimizedView.cs" />
+    <Compile Include="Views\PulloutNeutralView.cs" />
     <Compile Include="DataSources\PulloutMinimizedCollectionViewDataSource.cs" />
-    <Compile Include="Views\PulloutMaximizedView.cs" />
+    <Compile Include="Views\ChatViewController.cs" />
     <Compile Include="ViewControllers\ResponsesViewController.cs" />
     <Compile Include="ViewControllers\MenuViewController.cs" />
     <Compile Include="Shared\PulloutState.cs" />
@@ -277,6 +388,20 @@
     <Compile Include="Views\ResponseDetailsView.cs" />
     <Compile Include="Views\ResponseMapView.cs" />
     <Compile Include="ViewControllers\ResponseDetailsViewController.cs" />
+    <Compile Include="Navigation\ResponsesNavigationController.cs" />
+    <Compile Include="Navigation\ResponseDetailsTransitionAnimator.cs" />
+    <Compile Include="Navigation\TransitionAnimator.cs" />
+    <Compile Include="DataSources\ResponseUpdatesTableViewSource.cs" />
+    <Compile Include="Views\ResponseUpdateTableViewCell.cs" />
+    <Compile Include="Views\ResponseUpdateTableViewHeaderView.cs" />
+    <Compile Include="Views\ResponseDetailsContainerView.cs" />
+    <Compile Include="DataSources\ChatMessageTypeCollectionViewSource.cs" />
+    <Compile Include="Views\ChatMessageTypeCollectionViewCell.cs" />
+    <Compile Include="DataSources\ChatCollectionViewSource.cs" />
+    <Compile Include="Views\ChatMessageCollectionViewCell.cs" />
+    <Compile Include="Shared\ChatMessageType.cs" />
+    <Compile Include="Shared\ChatCollectionViewLayout.cs" />
+    <Compile Include="Views\CircleAvatarView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

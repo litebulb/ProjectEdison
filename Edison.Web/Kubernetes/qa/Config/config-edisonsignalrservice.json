@@ -12,18 +12,24 @@
       }
     }
   },
-  "ServiceBus": {
+  "ServiceBusRabbitMQ": {
     "Uri": "rabbitmq://abi-rabbit",
     "QueueName": "signalr-messages",
     "PrefetchCount": 8,
-    "ConcurrencyLimit": 8
+    "ConcurrencyLimit": 1
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds": 5,
+    "QueueName": "signalr-messages",
+    "PrefetchCount": 8,
+    "ConcurrencyLimit": 1
   },
   "RestService": {
     "RestServiceUrl": "http://edisonapi.default.svc.cluster.local/api",
     "AzureAd": {
       "Instance": "https://login.microsoftonline.com/",
-      "ClientId": "448bfde2-c717-433a-a030-6b54cbd34cf5",
-      "TenantId": "ed26e15f-1b3b-44aa-920a-c1f812d800bd"
+      "ClientId": "570220f8-4a34-4a3b-b470-c6e84cd36f94",
+      "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
     }
   }
 }

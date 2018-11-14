@@ -35,8 +35,22 @@ namespace Edison.ResponseService.Consumers
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: PhoneNumber: '{action.PhoneNumber}'.");
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: Message: '{action.Message}'.");
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: IsSilent: '{action.IsSilent}'.");
-                    //await new Task(() => { throw new NotImplementedException("Need ResponseActionNotificationEventConsumer Logic"); });
-                    await Task.Delay(1000);
+                    DateTime date = DateTime.UtcNow;
+                    await context.Publish(new NotificationSendEvent() {
+                        Notification = new NotificationCreationModel()
+                        {
+                            ResponseId = action.ResponseId,
+                            NotificationText = action.Message,
+                            Status = 1,
+                            Title = "Alert Notification",
+                            User = action.PhoneNumber,
+                            Tags = null
+                        },
+                        ActionId = action.ActionId,
+                        ResponseId = action.ResponseId,
+                        IsCloseAction = action.IsCloseAction
+                        });
+                    return;
                 }
                 _logger.LogError("ResponseActionNotificationEventConsumer: Invalid Null or Empty Action Notification");
                 throw new Exception("Invalid or Null Action Notification");

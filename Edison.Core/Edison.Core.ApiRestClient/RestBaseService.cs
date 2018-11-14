@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using RestSharp;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Edison.Core
         private readonly ClientCredential _clientCredential = null;
         protected readonly ILogger<RestServiceBase> _logger;
         protected readonly RestClient _client;
+        private Func<string> _getTokenFunction;
+        private Func<Task<string>> _getTokenFunctionAsync;
 
         public RestServiceBase(AzureAdOptions azureConfig, string restServiceUrl, ILogger<RestServiceBase> logger)
         {
@@ -22,14 +25,22 @@ namespace Edison.Core
             _authContext = new AuthenticationContext(azureConfig.Instance + azureConfig.TenantId);
             _clientCredential = new ClientCredential(azureConfig.ClientId, azureConfig.ClientSecret);
             _client = new RestClient(restServiceUrl);
+            _getTokenFunctionAsync = GetAzureAdToken;
         }
 
-        public RestServiceBase(string authority, string tenantId, string clientId, string clientSecret, string restServiceUrl, ILogger<RestServiceBase> logger)
+        public RestServiceBase(string instance, string tenantId, string clientId, string clientSecret, string restServiceUrl, ILogger<RestServiceBase> logger)
         {
             _logger = logger;
-            _clientId = authority;
-            _authContext = new AuthenticationContext(authority + tenantId);
+            _clientId = clientId;
+            _authContext = new AuthenticationContext(instance + tenantId);
             _clientCredential = new ClientCredential(clientId, clientSecret);
+            _client = new RestClient(restServiceUrl);
+            _getTokenFunctionAsync = GetAzureAdToken;
+        }
+
+        public RestServiceBase(string restServiceUrl, ILogger<RestServiceBase> logger)
+        {
+            _logger = logger;
             _client = new RestClient(restServiceUrl);
         }
 
@@ -63,12 +74,28 @@ namespace Edison.Core
             return result?.AccessToken;
         }
 
+        protected void SetTokenRetrievalFunction(Func<string> tokenFunction)
+        {
+            _getTokenFunction = tokenFunction;
+        }
+
+        protected void SetTokenRetrievalFunction(Func<Task<string>> tokenFunction)
+        {
+            _getTokenFunctionAsync = tokenFunction;
+        }
+
         protected async Task<RestRequest> PrepareQuery(string endpoint, Method method)
         {
-            var token = await GetAzureAdToken();
-
             RestRequest request = new RestRequest(endpoint, method);
-            request.AddHeader("Authorization", $"Bearer {token}");
+
+            //Generate token
+            string token = null;
+            if (_getTokenFunctionAsync != null)
+                token = await _getTokenFunctionAsync();
+            if (_getTokenFunction != null)
+                token = _getTokenFunction();
+            if(!string.IsNullOrEmpty(token))
+                request.AddHeader("Authorization", $"Bearer {token}");
 
             return request;
         }

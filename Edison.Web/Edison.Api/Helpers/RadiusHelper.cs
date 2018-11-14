@@ -1,4 +1,5 @@
 ﻿using Edison.Common.DAO;
+using Edison.Core.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,22 @@ namespace Edison.Api.Helpers
         private const double EARTH_RADIUS_KM = 6371;
         private const double EARTH_CIRCUM_POLE_KM = 40008;
 
-        /*public static bool IsWithinRadius(GeolocationDAOObject testPoint, GeolocationDAOObject center, double radius)
-        {
-            return Math.Pow((testPoint.Longitude - center.Longitude) * EARTH_SURFACE_KM / 360, 2) +
-                Math.Pow((testPoint.Latitude - center.Latitude) * EARTH_SURFACE_KM / 180, 2) <= Math.Pow(radius, 2);
-        }*/
-
         public static bool IsWithinRadius(GeolocationDAOObject testPoint, GeolocationDAOObject center, double radius)
+        {
+            return IsWithinRadius(testPoint.Longitude, center.Longitude, testPoint.Latitude, center.Latitude, radius);
+        }
+
+        public static bool IsWithinRadius(Geolocation testPoint, Geolocation center, double radius)
+        {
+            return IsWithinRadius(testPoint.Longitude, center.Longitude, testPoint.Latitude, center.Latitude, radius);
+        }
+
+        public static bool IsWithinRadius(GeolocationDAOObject testPoint, Geolocation center, double radius)
+        {
+            return IsWithinRadius(testPoint.Longitude, center.Longitude, testPoint.Latitude, center.Latitude, radius);
+        }
+
+        public static bool IsWithinRadius(Geolocation testPoint, GeolocationDAOObject center, double radius)
         {
             return IsWithinRadius(testPoint.Longitude, center.Longitude, testPoint.Latitude, center.Latitude, radius);
         }

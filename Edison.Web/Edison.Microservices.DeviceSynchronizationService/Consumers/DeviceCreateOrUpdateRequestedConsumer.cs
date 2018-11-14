@@ -45,11 +45,12 @@ namespace Edison.DeviceSynchronizationService.Consumers
 
         private async Task ProcessPing(ConsumeContext<IDeviceCreateOrUpdateRequested> context)
         {
-            if (await _deviceRestService.UpdateHeartbeat(context.Message.DeviceId))
+            var result = await _deviceRestService.UpdateHeartbeat(context.Message.DeviceId);
+            if (result != null)
             {
                 //Push message to Service bus queue
                 _logger.LogDebug($"DeviceCreateOrUpdateRequestedConsumer: Device heartbeat updated with device id '{context.Message.DeviceId}'.");
-                await context.RespondAsync(new DeviceCreatedOrUpdatedEvent() { Device = null });
+                await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = result, CorrelationId = context.Message.CorrelationId });
                 return;
             }
             _logger.LogError("DeviceCreateOrUpdateRequestedConsumer: The device heartbeat could not be updated.");
@@ -70,7 +71,7 @@ namespace Edison.DeviceSynchronizationService.Consumers
                 {
                     //Push message to Service bus queue
                     _logger.LogDebug($"DeviceCreateOrUpdateRequestedConsumer: Device created/updated with device id '{context.Message.DeviceId}'.");
-                    await context.RespondAsync(new DeviceCreatedOrUpdatedEvent() { Device = device });
+                    await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = device, CorrelationId = context.Message.CorrelationId });
                     return;
                 }
                 _logger.LogError("DeviceCreateOrUpdateRequestedConsumer: The device could not be updated.");

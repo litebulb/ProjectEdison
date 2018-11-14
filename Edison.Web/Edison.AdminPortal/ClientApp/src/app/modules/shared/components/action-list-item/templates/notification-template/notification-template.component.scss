@@ -1,16 +1,15 @@
 @import 'icons';
-
+@import 'buttons';
+@import 'colorScheme';
 :host {
     display: flex;
     align-items: flex-start;
     position: relative;
     min-height: 32px;
-
     .app-icon {
         margin-right: 15px;
         z-index: 3;
     }
-
     .line-hider {
         height: 100%;
         z-index: 2;
@@ -19,22 +18,95 @@
         background-color: white;
         bottom: 0;
     }
-
+    .status-icon {
+        position: absolute;
+        left: -35px;
+        top: 4px;
+        color: $green;
+    }
     .content-container {
         display: flex;
         flex-direction: column;
         padding-top: 6px;
-
+        .removeBtn {
+            padding: 10px;
+            padding-left: 0;
+            color: $blue;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        .addNewBtn {
+            display: flex;
+            align-items: center;
+            color: $blue;
+            margin-left: 15px;
+            padding: 5px 0;
+            margin-top: 10px;
+            cursor: pointer;
+            .edit-icon {
+                margin-right: 10px;
+            }
+        }
+        .app-button {
+            font-size: 14px;
+            justify-content: start;
+            margin-left: 15px;
+            max-width: 140px;
+        }
+        textarea {
+            resize: none;
+            width: 100%;
+            outline: none;
+            border-color: #e0e0e6;
+            margin-top: 5px;
+            padding: 10px;
+        }
         .content-header {
-            color: #8886A0;
+            color: #000000;
             font-size: 10px;
             margin-left: 15px;
             margin-top: 10px;
             margin-bottom: 5px;
+            display: flex;
+            align-items: flex-end;
+            height: 20px;
+            .edit-notification-container {
+                display: flex;
+                align-items: center;
+                color: $blue;
+                margin-left: 5px;
+                .edit-icon {
+                    width: 20px;
+                    height: 20px;
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+                .edit-done {
+                    &:hover {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+                }
+            }
         }
-
         .content-text {
             margin-left: 15px;
+            color: #3e3d4a;
+            font-size: 14px;
+        }
+        .edit-container {
+            margin-left: 15px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            .subheader {
+                font-size: 10px;
+            }
+            button {
+                margin-left: 0;
+            }
         }
     }
 }

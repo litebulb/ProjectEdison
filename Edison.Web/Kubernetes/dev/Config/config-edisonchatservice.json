@@ -12,18 +12,70 @@
       }
     }
   },
-  "ServiceBus": {
-    "Uri": "rabbitmq://abi-rabbit",
-    "QueueName": "chat-messages",
-    "PrefetchCount": 8,
-    "ConcurrencyLimit": 8
+  "ServiceBusRabbitMQ": {
+    "Uri": "rabbitmq://abi-rabbit"
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds": 5
+  },
+  "Bot": {
+    "MicrosoftAppId": "113054d8-8831-4e25-a048-353dafd7a4e5",
+    "BotBasePath": "",
+    "BotMessagesPath": "/messages",
+    "EmergencyActionPlanId": "0bbe4f8e-fe45-4c85-8d59-f4c3031823a5",
+    "AdminChannel": "directline",
+    "RestService": {
+      "RestServiceUrl": "https://directline.botframework.com/v3/directline/"
+    },
+    "ClaimsId": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+      "emails",
+      "preferred_username"
+    ],
+    "ClaimsFirstName": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname",
+      "given_name",
+      "firstname",
+      "first_name",
+	  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    ],
+    "ClaimsLastName": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname",
+      "family_name",
+      "lastname",
+      "last_name"
+    ],
+    "ClaimsRole": [
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ],
+    "ClaimsRoleAdminValues": [ "Admin", "SuperAdmin" ]
+  },
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "ClientId": "2373be1e-6d0b-4e38-9115-e0bd01dadd61",
+    "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
+  },
+  "AzureAdB2CWeb": {
+    "Instance": "https://login.microsoftonline.com/tfp/",
+    "ClientId": "19cb746c-3066-4cd8-8cd2-e0ce1176ae33",
+    "Domain": "edisondevb2c.onmicrosoft.com",
+    "SignUpSignInPolicyId": "B2C_1_Edision_SignInAndSignUp"
+  },
+  "CosmosDb": {
+    "Endpoint": "https://edisondevcosmosdb.documents.azure.com:443/",
+    "Database": "Edison",
+    "Collections": {
+      "Bot": "Bot",
+      "Conversations": "Conversations"
+    }
   },
   "RestService": {
-    "RestServiceUrl": "http://edisonapi.default.svc.cluster.local/api",
+    "RestServiceUrl": "http://edisonapi/api",
     "AzureAd": {
       "Instance": "https://login.microsoftonline.com/",
-      "ClientId": "448bfde2-c717-433a-a030-6b54cbd34cf5",
-      "TenantId": "ed26e15f-1b3b-44aa-920a-c1f812d800bd"
+      "ClientId": "2373be1e-6d0b-4e38-9115-e0bd01dadd61",
+      "ClientSecret": "USER_SECRET",
+      "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
     }
   }
 }

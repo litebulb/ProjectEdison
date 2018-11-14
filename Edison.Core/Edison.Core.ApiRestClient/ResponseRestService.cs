@@ -79,17 +79,6 @@ namespace Edison.Core
             }
             return true;
         }
-        public async Task<ResponseModel> UpdateResponse(ResponseUpdateModel responseObj)
-        {
-            RestRequest request = await PrepareQuery("Responses", Method.PUT);
-            request.AddParameter("application/json", JsonConvert.SerializeObject(responseObj), ParameterType.RequestBody);
-            var queryResult = await _client.ExecuteTaskAsync<ResponseModel>(request);
-            if (queryResult.IsSuccessful)
-                return queryResult.Data;
-            else
-                _logger.LogError($"UpdateResponse: Error while updating a response: {queryResult.StatusCode}");
-            return null;
-        }
 
         public async Task<ResponseModel> CloseResponse(ResponseCloseModel responseObj)
         {
@@ -112,6 +101,30 @@ namespace Edison.Core
             else
                 _logger.LogError($"AddEventClusterIdsToResponse: Error while updating a response: {queryResult.StatusCode}");
             return null;
+        }
+
+        public async Task<ResponseModel> ChangeResponseAction(ResponseChangeActionPlanModel responseObj)
+        {
+            RestRequest request = await PrepareQuery("Responses/ChangeAction", Method.PUT);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(responseObj), ParameterType.RequestBody);
+            var queryResult = await _client.ExecuteTaskAsync<ResponseModel>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                _logger.LogError($"AddActionToResponse: Error while adding action to response: {queryResult.StatusCode}");
+            return null;
+        }
+
+        public async Task<bool> SetSafeStatus(ResponseSafeUpdateModel responseSafeUpdateObj)
+        {
+            RestRequest request = await PrepareQuery("Responses/Sage", Method.PUT);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(responseSafeUpdateObj), ParameterType.RequestBody);
+            var queryResult = await _client.ExecuteTaskAsync<bool>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                _logger.LogError($"SetSafeStatus: Error while adding action to response: {queryResult.StatusCode}");
+            return false;
         }
     }
 }

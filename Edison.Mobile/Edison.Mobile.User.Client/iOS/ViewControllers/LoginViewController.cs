@@ -2,6 +2,7 @@
 using Edison.Mobile.iOS.Common.Shared;
 using Edison.Mobile.iOS.Common.Views;
 using Edison.Mobile.User.Client.Core.ViewModels;
+using Edison.Mobile.User.Client.iOS.Shared;
 using UIKit;
 
 namespace Edison.Mobile.User.Client.iOS.ViewControllers
@@ -14,7 +15,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
-            View.BackgroundColor = PlatformConstants.Color.White;
+            View.BackgroundColor = Constants.Color.White;
 
             signInButton = new UIButton
             {

@@ -35,7 +35,7 @@ namespace Edison.Tests
 
         public static EventClusterModel GetEventCluster(Guid eventClusterId)
         {
-            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventClusterId);
+            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventClusterId.ToString());
             return Mapper.Map<EventClusterModel>(eventCluster);
         }
 
@@ -56,21 +56,21 @@ namespace Edison.Tests
         public static EventClusterModel CreateOrUpdateEventCluster(EventClusterCreationModel eventObj)
         {
             //If device doesn't exist, throw exception
-            DeviceDAO deviceEntity = _DBDevices.Find(p => p.Id == eventObj.DeviceId);
+            DeviceDAO deviceEntity = _DBDevices.Find(p => p.Id == eventObj.DeviceId.ToString());
             if (deviceEntity == null)
                 throw new Exception($"No device found that matches DeviceId: {eventObj.DeviceId}");
 
             EventClusterDAO eventCluster = new EventClusterDAO()
             {
-                Id = eventObj.EventClusterId,
-                Device = Mapper.Map<EventClusterDAODevice>(deviceEntity),
+                Id = eventObj.EventClusterId.ToString(),
+                Device = Mapper.Map<EventClusterDeviceDAOObject>(deviceEntity),
                 EventType = eventObj.EventType.ToLower(),
                 EventCount = 1,
                 Events = new EventDAOObject[] { Mapper.Map<EventDAOObject>(eventObj) },
                 StartDate = eventObj.Date
             };
             _DBEventClusters.Add(eventCluster);
-            if (eventCluster.Id == Guid.Empty)
+            if (string.IsNullOrEmpty(eventCluster.Id))
                 throw new Exception($"An error occured when creating a new cluster id for DeviceId: {eventObj.DeviceId}");
 
             return Mapper.Map<EventClusterModel>(eventCluster);
@@ -78,7 +78,7 @@ namespace Edison.Tests
 
         public static EventClusterModel AddEventToCluster(EventClusterUpdateModel eventObj)
         {
-            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventObj.EventClusterId);
+            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventObj.EventClusterId.ToString());
             if (eventCluster == null)
                 throw new Exception($"No eventCluster found that matches EventClusterId: {eventObj.EventClusterId}");
 
@@ -92,7 +92,7 @@ namespace Edison.Tests
 
         public static EventClusterModel CloseEventCluster(EventClusterCloseModel eventObj)
         {
-            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventObj.EventClusterId);
+            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventObj.EventClusterId.ToString());
             eventCluster.ClosureDate = eventObj.ClosureDate;
             eventCluster.EndDate = eventObj.EndDate;
 

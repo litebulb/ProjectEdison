@@ -19,6 +19,14 @@ namespace Edison.ResponseService.Consumers
         private readonly ILogger<ResponseActionLightSensorEventConsumer> _logger;
         private readonly IDeviceRestService _deviceRestService;
         private readonly IIoTHubControllerRestService _iotHubControllerRestService;
+        private List<string> _colors = new List<string>()
+        {
+            "off", "red", "green", "blue", "cyan", "yellow", "purple", "white"
+        };
+        private List<string> _states = new List<string>()
+        {
+            "off", "on", "flashing"
+        };
 
         public ResponseActionLightSensorEventConsumer(IDeviceRestService deviceRestService,
             IIoTHubControllerRestService iotHubControllerRestService,
@@ -40,7 +48,7 @@ namespace Edison.ResponseService.Consumers
 
                     IEnumerable<Guid> devicesInRadius = await _deviceRestService.GetDevicesInRadius(new DeviceGeolocationModel()
                     {
-                        FetchSensors = false,
+                        DeviceType = "Lightbulb",
                         Radius = action.PrimaryRadius,
                         ResponseEpicenterLocation = action.Epicenter 
                     });
@@ -49,7 +57,7 @@ namespace Edison.ResponseService.Consumers
                     {
                         IEnumerable<Guid> devicesInSecondaryRadius = await _deviceRestService.GetDevicesInRadius(new DeviceGeolocationModel()
                         {
-                            FetchSensors = false,
+                            DeviceType = "Lightbulb",
                             Radius = action.SecondaryRadius,
                             ResponseEpicenterLocation = action.Epicenter
                         });
@@ -65,7 +73,7 @@ namespace Edison.ResponseService.Consumers
                     //State
                     string state = string.Empty;
                     action.State = action.State.ToLower();
-                    if (action.State != "off" && action.State != "on" && action.State != "flashing")
+                    if (!_states.Contains(action.State))
                         state = "off";
                     else
                         state = action.State;
@@ -73,8 +81,7 @@ namespace Edison.ResponseService.Consumers
                     //Color
                     string color = string.Empty;
                     action.Color = action.Color.ToLower();
-                    if (action.Color != "off" && action.Color != "blue" && action.Color != "green" && action.Color != "red" &&
-                        action.Color != "white" && action.Color != "yellow" && action.Color != "cyan" && action.Color != "purple")
+                    if (!_colors.Contains(action.Color))
                         color = "off";
                     else
                         color = action.Color;
@@ -99,11 +106,22 @@ namespace Edison.ResponseService.Consumers
                     if (result)
                     {
                         _logger.LogDebug($"ResponseActionLightSensorEventConsumer: Desired properties applied properly.");
+                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                        {
+                            ResponseId = context.Message.ResponseId,
+                            ActionId = context.Message.ActionId,
+                            IsSuccessful = true
+                        });
                         return;
-                        //TODO: Publish callback event
                     }
                     else
                     {
+                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                        {
+                            ResponseId = context.Message.ResponseId,
+                            ActionId = context.Message.ActionId,
+                            IsSuccessful = false
+                        });
                         _logger.LogError("ResponseActionLightSensorEventConsumer: Desired properties not applied properly.");
                         throw new Exception("Desired properties not applied properly.");
                     }

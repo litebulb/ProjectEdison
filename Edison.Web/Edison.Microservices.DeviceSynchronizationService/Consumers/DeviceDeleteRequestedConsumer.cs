@@ -34,7 +34,7 @@ namespace Edison.DeviceSynchronizationService.Consumers
                 if (await _deviceRestService.DeleteDevice(context.Message.DeviceId))
                 {
                     _logger.LogDebug($"DeviceDeleteRequestedConsumer: Device '{context.Message.DeviceId}' deleted.");
-                    await context.RespondAsync(new DeviceDeletedEvent() { DeviceId = context.Message.DeviceId });
+                    await context.Publish(new DeviceDeletedEvent() { DeviceId = context.Message.DeviceId, CorrelationId = context.Message.CorrelationId });
                     return;
                 }
                 _logger.LogError("DeviceDeleteRequestedConsumer: The device could not be deleted.");

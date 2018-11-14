@@ -32,6 +32,7 @@ namespace Edison.Devices.SmartBulb
         public string FirmwareVersion { get; set; }
         public State State { get; set; }
         public int FlashFrequency { get; set; }
+        public bool IgnoreFlashAlerts { get; set; }
         public int Brightness { get; set; }
         public SmartBulbGpioConfig GpioConfig { get; set; }
         public Color Color { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Edison.Mobile.Common.Logging;
@@ -16,6 +17,12 @@ namespace Edison.Mobile.Common.Auth
 
         public AuthenticationResult AuthenticationResult { get; set; }
 
+        public string Email { get; set; }
+        public string GivenName { get; set; }
+        public string FamilyName { get; set; }
+
+        public string Initials => $"{GivenName?.Substring(0, 1) ?? ""}{FamilyName?.Substring(0, 1) ?? ""}";
+
         public AuthService(IPlatformAuthService platformAuthService, IPublicClientApplication publicClientApplication, ILogger logger)
         {
             this.platformAuthService = platformAuthService;
@@ -29,13 +36,9 @@ namespace Edison.Mobile.Common.Auth
             {
                 AuthenticationResult = await platformAuthService.AcquireTokenAsync();
 
-                if (AuthenticationResult != null)
+                if (AuthenticationResult != null && AuthenticationResult.IdToken != null)
                 {
-                    OnAuthChanged?.Invoke(this, new AuthChangedEventArgs
-                    {
-                        IsLoggedIn = AuthenticationResult != null,
-                        WasTokenAcquiredSilently = false,
-                    });
+                    HandleTokenAcquisition(false);
                 }
             }
             catch (Exception ex)
@@ -56,11 +59,7 @@ namespace Edison.Mobile.Common.Auth
 
                 AuthenticationResult = authenticationResult;
 
-                OnAuthChanged?.Invoke(this, new AuthChangedEventArgs
-                {
-                    IsLoggedIn = authenticationResult != null,
-                    WasTokenAcquiredSilently = authenticationResult != null,
-                });
+                HandleTokenAcquisition(authenticationResult != null);
 
                 return authenticationResult != null;
             }
@@ -70,6 +69,42 @@ namespace Edison.Mobile.Common.Auth
             }
 
             return false;
+        }
+
+        public async Task SignOut()
+        {
+            var accounts = await publicClientApplication.GetAccountsAsync();
+            foreach (var account in accounts)
+            {
+                await publicClientApplication.RemoveAsync(account);
+            }
+        }
+
+        void HandleTokenAcquisition(bool wasAcquiredSilently)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(AuthenticationResult.IdToken);
+            foreach (var claim in token.Claims)
+            {
+                switch (claim.Type)
+                {
+                    case "given_name":
+                        GivenName = claim.Value;
+                        break;
+                    case "family_name":
+                        FamilyName = claim.Value;
+                        break;
+                    case "emails":
+                        Email = claim.Value;
+                        break;
+                }
+            }
+
+            OnAuthChanged?.Invoke(this, new AuthChangedEventArgs
+            {
+                IsLoggedIn = AuthenticationResult != null && Email != null,
+                WasTokenAcquiredSilently = wasAcquiredSilently,
+            });
         }
     }
 }

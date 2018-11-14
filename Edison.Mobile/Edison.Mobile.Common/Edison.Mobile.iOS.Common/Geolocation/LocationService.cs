@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CoreLocation;
-using Edison.Mobile.Common.Geolocation;
+using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Common.Logging;
 using Foundation;
 using UIKit;
@@ -12,6 +12,10 @@ namespace Edison.Mobile.iOS.Common.LocationServices
     {
         readonly CLLocationManager locationManager = new CLLocationManager();
         readonly ILogger logger;
+
+        TaskCompletionSource<bool> requestPrivilegesTaskCompletionSource;
+
+        public EdisonLocation LastKnownLocation { get; private set; }
 
         public LocationService(ILogger logger)
         {
@@ -25,19 +29,31 @@ namespace Edison.Mobile.iOS.Common.LocationServices
         {
             logger.Log($"iOS Authorization status changed: {status}");
 
-            if (!(status == CLAuthorizationStatus.Authorized || status == CLAuthorizationStatus.AuthorizedAlways) && status != CLAuthorizationStatus.NotDetermined)
+            if (status != CLAuthorizationStatus.AuthorizedAlways && status != CLAuthorizationStatus.NotDetermined)
             {
+                requestPrivilegesTaskCompletionSource.TrySetResult(false);
                 var alertController = UIAlertController.Create(null, "We couldn't gain access to your location!", UIAlertControllerStyle.Alert);
                 alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
                 UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, true, null);
             }
+
+            if (status == CLAuthorizationStatus.Authorized || status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse)
+            {
+                requestPrivilegesTaskCompletionSource?.TrySetResult(true);
+            }
         }
 
-        public override void UpdatedLocation(CLLocationManager manager, CLLocation newLocation, CLLocation oldLocation) => OnLocationChanged?.Invoke(this, new LocationChangedEventArgs
+        public override void UpdatedLocation(CLLocationManager manager, CLLocation newLocation, CLLocation oldLocation)
         {
-            CurrentLocation = EdisonLocationFromCLLocation(newLocation),
-            LastLocation = oldLocation != null ? EdisonLocationFromCLLocation(oldLocation) : null,
-        });
+            var currentLocation = EdisonLocationFromCLLocation(newLocation);
+            OnLocationChanged?.Invoke(this, new LocationChangedEventArgs
+            {
+                CurrentLocation = currentLocation,
+                LastLocation = oldLocation != null ? EdisonLocationFromCLLocation(oldLocation) : null,
+            });
+
+            LastKnownLocation = currentLocation;
+        }
 
         public async Task<bool> LocationEnabled()
         {
@@ -46,7 +62,11 @@ namespace Edison.Mobile.iOS.Common.LocationServices
 
         public async Task StartLocationUpdates()
         {
-            await Task.Run((Action)locationManager.StartUpdatingLocation);
+            var hasLocationPrivileges = await HasLocationPrivileges();
+            if (CLLocationManager.LocationServicesEnabled && hasLocationPrivileges)
+            {
+                await Task.Run((Action)locationManager.StartUpdatingLocation);
+            }
         }
 
         public async Task StopLocationUpdates()
@@ -54,12 +74,19 @@ namespace Edison.Mobile.iOS.Common.LocationServices
             await Task.Run((Action)locationManager.StopUpdatingLocation);
         }
 
-        public void RequestLocationPrivileges()
+        public Task<bool> RequestLocationPrivileges()
         {
-            if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedAlways)
+            requestPrivilegesTaskCompletionSource = new TaskCompletionSource<bool>();
+            if (CLLocationManager.Status != CLAuthorizationStatus.AuthorizedAlways || CLLocationManager.Status != CLAuthorizationStatus.AuthorizedWhenInUse)
             {
                 locationManager.RequestAlwaysAuthorization();
             }
+            else
+            {
+                requestPrivilegesTaskCompletionSource.TrySetResult(true);
+            }
+
+            return requestPrivilegesTaskCompletionSource.Task;
         }
 
         EdisonLocation EdisonLocationFromCLLocation(CLLocation location) => new EdisonLocation
@@ -76,6 +103,11 @@ namespace Edison.Mobile.iOS.Common.LocationServices
         {
             DateTime reference = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(2001, 1, 1, 0, 0, 0));
             return reference.AddSeconds(date.SecondsSinceReferenceDate);
+        }
+
+        public Task<bool> HasLocationPrivileges()
+        {
+            return Task.FromResult(CLLocationManager.Status != CLAuthorizationStatus.NotDetermined && CLLocationManager.Status != CLAuthorizationStatus.Denied);
         }
     }
 }

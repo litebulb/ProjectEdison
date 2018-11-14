@@ -12,12 +12,7 @@ using Edison.Common.Interfaces;
 using Edison.Common.Config;
 using Edison.Common.DAO;
 using Edison.Common;
-using Microsoft.Bot.Connector;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Edison.Common.Chat.Config;
-using Edison.Common.Chat.Models.Interface;
-using Edison.Common.Chat.Repositories;
+using System.Security.Claims;
 
 namespace Edison.Api
 {
@@ -34,24 +29,30 @@ namespace Edison.Api
         public void ConfigureServices(IServiceCollection services)
         {
             //Authentication
-            services.AddSingleton(_ => Configuration);
-            var credentialProvider = new StaticCredentialProvider(
-                Configuration.GetSection("BotConfigOptions:MicrosoftAppId")?.Value,
-                Configuration.GetSection("BotConfigOptions:MicrosoftAppPassword")?.Value);
             services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddAzureAdAndB2CBearer(Configuration)
-                .AddBotAuthentication(credentialProvider);
+                .AddAuthentication()
+                .AddAzureAdAndB2CBearer(Configuration);
+            //Authorization
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireAssertion(context => context.User.HasClaim(c =>
+                    (c.Type == ClaimTypes.Role && c.Value == "Admin") ||
+                    (c.Type == "appidacr" && c.Value == "1") ||
+                    (c.Type == "azpacr" && c.Value == "1"))));
+
+                options.AddPolicy("SuperAdmin", policy => policy.RequireAssertion(context => context.User.HasClaim(c => 
+                    (c.Type == "appidacr" && c.Value == "1") || 
+                    (c.Type == "azpacr" && c.Value == "1"))));
+
+                options.AddPolicy("Consumer", policy => policy.RequireAuthenticatedUser());
+            });
 
             //Options
             services.AddOptions();
-            services.Configure<WebApiConfiguration>(Configuration.GetSection("WebApiConfiguration"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
-            services.Configure<BotOptions>(Configuration.GetSection("BotConfigOptions"));
+            services.EnableKubernetes();
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.Configure<WebApiOptions>(Configuration.GetSection("WebApiConfiguration"));
+            services.Configure<NotificationsOptions>(Configuration.GetSection("NotificationHub"));
             services.Configure<CosmosDBOptions>(typeof(EventClusterDAO).FullName, Configuration.GetSection("CosmosDb"));
             services.Configure<CosmosDBOptions>(typeof(EventClusterDAO).FullName, opt => opt.Collection = opt.Collections.EventClusters);
             services.Configure<CosmosDBOptions>(typeof(DeviceDAO).FullName, Configuration.GetSection("CosmosDb"));
@@ -61,11 +62,16 @@ namespace Edison.Api
             services.Configure<CosmosDBOptions>(typeof(ResponseDAO).FullName, Configuration.GetSection("CosmosDb"));
             services.Configure<CosmosDBOptions>(typeof(ResponseDAO).FullName, opt => opt.Collection = opt.Collections.Responses);
             services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, Configuration.GetSection("CosmosDb"));
-            services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, opt => opt.Collection = opt.Collections.Responses);
+            services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, opt => opt.Collection = opt.Collections.Notifications);
+
+            //Service Bus
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
+            //services.Configure<ServiceBusAzureOptions>(Configuration.GetSection("ServiceBusAzure"));
+            //services.AddSingleton<IMassTransitServiceBus, ServiceBusAzure>();
 
             //DI
             services.AddScoped(typeof(ICosmosDBRepository<>), typeof(CosmosDBRepository<>));
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
             services.AddScoped<DevicesDataManager>();
             services.AddScoped<EventClustersDataManager>();
             services.AddScoped<ResponseDataManager>();
@@ -73,12 +79,6 @@ namespace Edison.Api
             services.AddScoped<IoTHubControllerDataManager>();
             services.AddScoped<NotificationHubDataManager>();
             services.AddSignalR().AddRedis(Configuration.GetValue<string>("SignalR:ConnectionString"));
-            
-            //Bot
-            services.AddSingleton(typeof(ICredentialProvider), credentialProvider);
-            services.AddSingleton<IConversationChatBot>(new ConversationChatBot());
-            services.AddScoped<IChatRoutingDataManagerRepository, AzureTableStorageRoutingDataManager>(a =>
-                 new AzureTableStorageRoutingDataManager(Configuration["BotConfigOptions:AzureStorageConnectionString"]));
 
             //Cors
             services.AddCors(options =>
@@ -96,10 +96,7 @@ namespace Edison.Api
             //MVC
             services
                 .AddAutoMapper()
-                .AddMvc(options =>
-                {
-                    options.Filters.Add(typeof(TrustServiceUrlAttribute));
-                })
+                .AddMvc()
                 .AddFluentValidation();
 
             //Swagger
@@ -110,10 +107,8 @@ namespace Edison.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<BotOptions> botOptions, IChatRoutingDataManagerRepository routingData,
-            IConversationChatBot conversationChatBot)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             app.UseStaticFiles();
 
             if (env.IsDevelopment())
@@ -126,34 +121,34 @@ namespace Edison.Api
             }
 
             //Enable service bus as publisher only
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(null);
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(null);
 
             //Enable Cors
             app.UseCors("CorsPolicy");
-
-            //Enable SignalR
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<SignalRHub>("/signalr");
-            });
 
             //Swagger
             //if (env.IsDevelopment())
             //{
             app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Edison.Api");
-                });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Edison.Api");
+            });
             //}
+
+            //Middleware for supporting SignalR authentication
+            app.UseMiddleware(typeof(SignalRMiddleware));
 
             app.UseAuthentication();
 
+            //Enable SignalR
+            app.UseSignalR(routes => 
+            {
+                routes.MapHub<SignalRHub>("/signalr");
+            });
+
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
-
-            StartupMessageRouting.InitializeMessageRouting(botOptions, routingData,
-                conversationChatBot);
         }
     }
 }

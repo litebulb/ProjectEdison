@@ -1,5 +1,6 @@
 ﻿using System;
 using Edison.Mobile.iOS.Common.Shared;
+using Edison.Mobile.User.Client.iOS.Shared;
 using UIKit;
 
 namespace Edison.Mobile.User.Client.iOS.Views
@@ -17,7 +18,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 separatorView = new UIView
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    BackgroundColor = PlatformConstants.Color.White.ColorWithAlpha(0.4f),
+                    BackgroundColor = Constants.Color.White.ColorWithAlpha(0.4f),
                 };
 
                 ContentView.AddSubview(separatorView);

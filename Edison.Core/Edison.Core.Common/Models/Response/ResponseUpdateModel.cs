@@ -9,6 +9,6 @@ namespace Edison.Core.Common.Models
     public class ResponseUpdateModel
     {
         public Guid ResponseId { get; set; }
-        public int State { get; set; }
+        public Geolocation Geolocation { get; set; }
     }
 }

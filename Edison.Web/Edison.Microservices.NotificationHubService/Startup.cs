@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Edison.NotificationHubService.Consumers;
 
 namespace Edison.NotificationHubService
 {
@@ -29,15 +30,17 @@ namespace Edison.NotificationHubService
         {
             services.AddOptions();
             services.EnableKubernetes();
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<RestServiceOptions>(Configuration.GetSection("RestService"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
 
             services.AddMassTransit(c =>
             {
-                //c.AddConsumer<MyConsumer>();
+                c.AddConsumer<NotificationSendEventConsumer>();
             });
-            //services.AddScoped<MyConsumer>();
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.AddScoped<NotificationSendEventConsumer>();
+            services.AddSingleton<INotificationRestService, NotificationRestService>();
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +48,7 @@ namespace Edison.NotificationHubService
         {
             // mirror logger messages to AppInsights
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Debug);
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(ep =>
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(ep =>
             {
                 ep.LoadFrom(app.ApplicationServices);
             });

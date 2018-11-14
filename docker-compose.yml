@@ -8,10 +8,6 @@ services:
     volumes:
      - /var/lib/rabbitmq
     image: rabbitmq:3-management
-  signalr-redis:
-    ports:
-     - "6379:6379"
-    image: redis
   edisonadminportal:
     image: edisonadminportal
     build:
@@ -52,18 +48,23 @@ services:
     build:
       context: .
       dockerfile: Edison.Web/Edison.Microservices.SignalRService/Dockerfile
-#  edisonchatservice:
-#    image: edisonchatservice
-#    build:
-#      context: .
-#      dockerfile: Edison.Web/Edison.Microservices.ChatService/Dockerfile
-#  edisonnotificationhubservice:
-#    image: edisonnotificationhubservice
-#    build:
-#      context: .
-#      dockerfile: Edison.Web/Edison.Microservices.NotificationHubService/Dockerfile
+  edisonnotificationhubservice:
+    image: edisonnotificationhubservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.NotificationHubService/Dockerfile
+  edisonchatservice:
+    image: edisonchatservice
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.ChatService/Dockerfile
   edisonresponseservice:
     image: edisonresponseservice
     build:
       context: .
       dockerfile: Edison.Web/Edison.Microservices.ResponseService/Dockerfile
+  edisondeviceprovisioning:
+    image: edisondeviceprovisioning
+    build:
+      context: .
+      dockerfile: Edison.Web/Edison.Microservices.DeviceProvisioning/Dockerfile

@@ -30,9 +30,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="RestSharp" Version="106.5.2" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="2.2.0-preview" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="2.3.1-preview" />
+    <PackageReference Include="RestSharp" Version="106.5.4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="App.cs" />
@@ -41,11 +42,12 @@
   <ItemGroup>
     <Folder Include="Ioc\" />
     <Folder Include="Logging\" />
-    <Folder Include="Geolocation\" />
+    <Folder Include="Geo\" />
     <Folder Include="Network\" />
     <Folder Include="Auth\" />
     <Folder Include="Persistence\" />
     <Folder Include="Shared\" />
+    <Folder Include="Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj" />

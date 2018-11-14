@@ -45,7 +45,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             var relativeLayout = new RelativeLayout(this) { Id = 1 };
             var relativeLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             relativeLayout.LayoutParameters = relativeLayoutParams;
-            relativeLayout.SetBackgroundColor(Color.Blue);
+            relativeLayout.SetBackgroundColor(Constants.BackgroundColor);
+            relativeLayout.Alpha = 0.5f;
 
             pulloutView = new PulloutView(this);
             var pulloutViewLayoutParms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);

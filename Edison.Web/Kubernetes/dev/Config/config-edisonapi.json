@@ -12,8 +12,11 @@
       }
     }
   },
-  "ServiceBus": {
+  "ServiceBusRabbitMQ": {
     "Uri": "rabbitmq://abi-rabbit"
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds":  5
   },
   "CosmosDb": {
     "Endpoint": "https://edisondevcosmosdb.documents.azure.com:443/",
@@ -24,22 +27,36 @@
       "Devices": "Devices",
       "Actions": "Actions",
       "ActionPlans": "ActionPlans",
-      "Users": "Users"
+      "Notifications": "Notifications"
     }
   },
   "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
-    "ClientId": "448bfde2-c717-433a-a030-6b54cbd34cf5",
-    "TenantId": "ed26e15f-1b3b-44aa-920a-c1f812d800bd"
+    "ClientId": "2373be1e-6d0b-4e38-9115-e0bd01dadd61",
+    "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
   },
   "AzureAdB2CWeb": {
     "Instance": "https://login.microsoftonline.com/tfp/",
-    "ClientId": "1133966b-9c18-4edb-9efc-0d0c01494e6b",
+    "ClientId": "19cb746c-3066-4cd8-8cd2-e0ce1176ae33",
     "Domain": "edisondevb2c.onmicrosoft.com",
     "SignUpSignInPolicyId": "B2C_1_Edision_SignInAndSignUp"
   },
-  "BotConfigOptions": {
-    "MicrosoftAppId": "113054d8-8831-4e25-a048-353dafd7a4e5"
+  "WebApiConfiguration": {
+    "Boundaries": {
+      "Epicenter": {
+        "Longitude": -87.651506,
+        "Latitude": 41.879946
+      },
+      "Radius": 20.0
+    },
+    "ClaimsId": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+      "emails",
+      "preferred_username"
+    ]
+  },
+  "NotificationHub": {
+    "PathName": "edisondevnotificationhub"
   },
   "AllowedHosts": "*"
 }

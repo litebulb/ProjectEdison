@@ -2,7 +2,6 @@
 using Edison.Common.Messages;
 using Edison.Common.Messages.Interfaces;
 using Edison.MessageDispatcherService.Config;
-using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -15,12 +14,12 @@ namespace Edison.MessageDispatcherService
     {
         private readonly ILogger<MessageDispatcherService> _logger;
         private readonly IAzureServiceBusClient _azureBusManagerClient;
-        private readonly IServiceBusClient _serviceBus;
+        private readonly IMassTransitServiceBus _serviceBus;
         private readonly MessageDispatcherOptions _config;
 
         public MessageDispatcherService(IOptions<MessageDispatcherOptions> config,
-            IAzureServiceBusClient azureBusManagerClient, 
-            IServiceBusClient serviceBus, ILogger<MessageDispatcherService> logger)
+            IAzureServiceBusClient azureBusManagerClient,
+            IMassTransitServiceBus serviceBus, ILogger<MessageDispatcherService> logger)
         {
             _logger = logger;
             _azureBusManagerClient = azureBusManagerClient;
@@ -65,9 +64,6 @@ namespace Edison.MessageDispatcherService
                     case "updateTwin":
                         _logger.LogInformation($"Routing Twin Message.");
                         await PushMessageToDeviceManagementService(deviceId, eventType, date, body);
-                        break;
-                    case "chat":
-                        _logger.LogInformation($"Routing Chat Message.");
                         break;
                     default:
                         _logger.LogInformation($"Message Type '{messageType}' does not have a route. Skipping message.");

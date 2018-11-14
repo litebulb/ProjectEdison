@@ -16,10 +16,6 @@ namespace Edison.Devices.Common
     public class AppIoTBackgroundDeviceTask
     {
         /// <summary>
-        /// TPM Device to retrieve IoT Hub config
-        /// </summary>
-        private TpmDevice _tpmDevice;
-        /// <summary>
         /// Next time that the device need to ping IoT Hub
         /// </summary>
         private DateTime _nextPingTime = DateTime.MinValue;
@@ -54,7 +50,7 @@ namespace Edison.Devices.Common
         /// <summary>
         /// Ping interval to IoT Hub
         /// </summary>
-        private readonly int _pingIntervalMinute = 5;
+        private readonly int _pingIntervalSecond = 60;
         /// <summary>
         /// Event type for test direct method
         /// </summary>
@@ -62,23 +58,31 @@ namespace Edison.Devices.Common
         /// <summary>
         /// Hook for Init Application 
         /// </summary>
-        private Func<LoggingChannel, AzureIoTHubService, GPIOService, bool> _funcInitApplication;
+        public event Func<LoggingChannel, AzureIoTHubService, GPIOService, bool> InitApplication;
         /// <summary>
         /// Hook for Start Application 
         /// </summary>
-        private Func<Task> _funcStartApplication;
+        public event Func<Task> StartApplication;
         /// <summary>
         /// Hook for Run Application loop
         /// </summary>
-        private Func<Task> _funcRunApplication;
+        public event Func<Task> RunApplication;
         /// <summary>
         /// Hook for End Application 
         /// </summary>
-        private Func<Task> _funcEndApplication;
+        public event Func<Task> EndApplication;
+        /// <summary>
+        /// Hook for Disconnected 
+        /// </summary>
+        public event Func<Task> DisconnectedApplication;
+        /// <summary>
+        /// Hook for General Error in loop 
+        /// </summary>
+        public event Func<Task> GeneralError;
         /// <summary>
         /// Hook for Change Configuration 
         /// </summary>
-        private Func<TwinCollection, Task> _funcChangeConfiguration;
+        public event Func<TwinCollection, Task> ChangeConfiguration;
 
         /// <summary>
         /// Constructor
@@ -97,98 +101,102 @@ namespace Edison.Devices.Common
         /// <param name="taskInstance">IBackgroundTaskInstance object</param>
         public async Task Run()
         {
-            //Get TPM Device ConnectionString IoT Core
-            _tpmDevice = new TpmDevice(0);
-
             //Create services
             _logging = new LoggingChannel(_loggingAppName, null, _loggingAppId);
-            _azureIoTHubService = new AzureIoTHubService();
+            _azureIoTHubService = new AzureIoTHubService(_loggingAppId);
             _azureIoTHubService.SetDesiredPropertyCallback(ReceiveDesiredConfiguration);
-            _gpioService = new GPIOService();
+            _gpioService = new GPIOService(_loggingAppId);
 
+            //First time configuration (runs only once)
+            _logging.LogMessage("Initializing Application", LoggingLevel.Verbose);
+            if (!InitApplicationInternal())
+                return;
+
+            //Run application (loop indefinitely)
+            _logging.LogMessage("Run Application", LoggingLevel.Verbose);
             await RunApplicationInternal();
-        }
-
-        public void SetInitApplication(Func<LoggingChannel, AzureIoTHubService, GPIOService, bool> method)
-        {
-            _funcInitApplication = method;
-        }
-        
-        public void SetStartApplication(Func<Task> method)
-        {
-            _funcStartApplication = method;
-        }
-
-        public void SetRunApplicationLoop(Func<Task> method)
-        {
-            _funcRunApplication = method;
-        }
-
-        public void SetEndApplication(Func<Task> method)
-        {
-            _funcEndApplication = method;
-        }
-
-        public void SetChangeConfiguration(Func<TwinCollection, Task> method)
-        {
-            _funcChangeConfiguration = method;
         }
 
         private async Task RunApplicationInternal()
         {
-            _logging.LogMessage("Initializing Application", LoggingLevel.Verbose);
-
-            //First time configuration (runs only once)
-            if (!InitApplicationInternal())
-                return;
-
             //Application phase
             try
             {
-                //Set up IoT Hub Device
-                if (await _azureIoTHubService.Init(_tpmDevice.GetConnectionString()))
-                {
-                    //Start application hook
-                    if(_funcInitApplication != null)
-                        await _funcStartApplication();
+                //Application Loop
 
-                    //Loop through the app
-                    _interruptApplication = false;
-                    do
-                    {
-                        if (_nextPingTime < DateTime.UtcNow)
-                        {
-                            await _azureIoTHubService.SendPingMessage();
-                            _nextPingTime = DateTime.UtcNow.AddMinutes(_pingIntervalMinute);
-                        }
-                        //Run Application hook
-                        if(_funcRunApplication != null)
-                            await _funcRunApplication();
-                        else
-                            await Task.Delay(1000);
-                    }
-                    while (!_interruptApplication && _azureIoTHubService.Connected);  
-                }
-                else
+                _logging.LogMessage("Entering Application Loop", LoggingLevel.Verbose);
+                _interruptApplication = false;
+                while (!_interruptApplication)
                 {
-                    _logging.LogMessage("The connection to IoT Hub did not succeed. Please make sure that the TPM service is properly set up on Device 0 and that the connection string is properly set up.", LoggingLevel.Error);
+                    _logging.LogMessage("Connecting to IoT Hub", LoggingLevel.Verbose);
+                    //Ensure connection
+                    if (await _azureIoTHubService.Init())
+                    {
+                        //Start application hook
+                        _logging.LogMessage("Starting Application", LoggingLevel.Verbose);
+                        if (StartApplication != null)
+                            await StartApplication();
+
+                        //Main Loop
+                        _logging.LogMessage("Entering Logic Loop", LoggingLevel.Verbose);
+                        while (!_interruptApplication && _azureIoTHubService.Connected)
+                        {
+                            if (_nextPingTime < DateTime.UtcNow)
+                            {
+                                await _azureIoTHubService.SendPingMessage();
+                                _nextPingTime = DateTime.UtcNow.AddSeconds(_pingIntervalSecond);
+                            }
+                            //Run Application hook
+                            if (RunApplication != null)
+                                await RunApplication();
+                            else
+                                await Task.Delay(500);
+                        }
+                        if (_interruptApplication)
+                            _logging.LogMessage("Leaving Logic Loop - Manual interruption", LoggingLevel.Verbose);
+                        else if (!_azureIoTHubService.Connected)
+                            _logging.LogMessage("Leaving Logic Loop - Disconnected", LoggingLevel.Verbose);
+                        else
+                            _logging.LogMessage("Leaving Logic Loop - Unknown reason", LoggingLevel.Critical);
+                    }
+                    else
+                    {
+                        _logging.LogMessage("The connection to IoT Hub did not succeed. Please make sure that the TPM service is properly set up on Device 0 and that the connection string is properly set up.", LoggingLevel.Error);
+                        if (DisconnectedApplication != null)
+                            await DisconnectedApplication();
+                        else
+                            await Task.Delay(500);
+                    } 
                 }
+                _logging.LogMessage("Leaving Application Loop", LoggingLevel.Verbose);
             }
             catch (Exception e)
             {
                 _logging.LogMessage($"General Running Error: '{e.Message}'", LoggingLevel.Critical);
                 _logging.LogMessage($"Stacktrace: '{e.StackTrace}'", LoggingLevel.Critical);
+                if (GeneralError != null)
+                {
+                    try
+                    {
+                        await GeneralError();
+                    }
+                    catch (Exception eg)
+                    {
+                        _logging.LogMessage($"Error in GeneralError hook: '{eg.Message}'", LoggingLevel.Error);
+                    }
+                }
             }
 
             //End application phase
+            _logging.LogMessage("Exiting Application", LoggingLevel.Information);
             try
             {
                 //End Application hook
-                if (_funcEndApplication != null)
-                    await _funcEndApplication();
+                if (EndApplication != null)
+                    await EndApplication();
 
                 //Program interrupted, dispose the services
-                if (_azureIoTHubService != null && !_azureIoTHubService.Connected)
+                if (_azureIoTHubService != null)
                     _azureIoTHubService.Dispose();
                 if (_gpioService != null)
                     _gpioService.Dispose();
@@ -212,7 +220,7 @@ namespace Edison.Devices.Common
 
             try
             {
-                _configurationLoaded = _funcInitApplication != null ? _funcInitApplication(_logging, _azureIoTHubService, _gpioService) : true;
+                _configurationLoaded = InitApplication != null ? InitApplication(_logging, _azureIoTHubService, _gpioService) : true;
                 _azureIoTHubService.SetDirectMethodCallback("test", DirectMethodTest);
                 return true;
             }
@@ -232,8 +240,10 @@ namespace Edison.Devices.Common
 
         protected async Task ReceiveDesiredConfiguration(TwinCollection desiredProperties, object userContext)
         {
-            if (_funcChangeConfiguration != null)
-                await _funcChangeConfiguration(desiredProperties);
+            _logging.LogMessage("ReceiveDesiredConfiguration", LoggingLevel.Verbose);
+
+            if (ChangeConfiguration != null)
+                await ChangeConfiguration(desiredProperties);
             else
                 RestartApplication();
         }

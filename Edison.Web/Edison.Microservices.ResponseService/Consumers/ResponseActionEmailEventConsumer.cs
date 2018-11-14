@@ -37,6 +37,12 @@ namespace Edison.ResponseService.Consumers
                     _logger.LogDebug($"ResponseActionEmailEventConsumer: CCLine: '{action.CCLine}'.");
                     _logger.LogDebug($"ResponseActionEmailEventConsumer: Body: '{action.Body}'.");
                     //await new Task(() => { throw new NotImplementedException("Need ResponseActionEmailEventConsumer Logic"); });
+                    await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                    {
+                        ResponseId = context.Message.ResponseId,
+                        ActionId = context.Message.ActionId,
+                        IsSuccessful = true
+                    });
                     await Task.Delay(1000);
                 }
                 _logger.LogError("ResponseActionEmailEventConsumer: Invalid Null or Empty Action Email");
@@ -45,6 +51,12 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
+                await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                {
+                    ResponseId = context.Message.ResponseId,
+                    ActionId = context.Message.ActionId,
+                    IsSuccessful = false
+                });
                 _logger.LogError($"ResponseActionEmailEventConsumer: {e.Message}");
                 throw e;
             }

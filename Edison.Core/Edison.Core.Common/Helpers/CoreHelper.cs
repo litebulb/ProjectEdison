@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Edison.Core.Common
@@ -25,6 +26,11 @@ namespace Edison.Core.Common
             });
             task.Start();
             return task;
+        }
+
+        public static string GetWildCardExpression(string value)
+        {
+            return "^" + Regex.Escape(value).Replace("\\*", ".*") + "$";
         }
     }
 }

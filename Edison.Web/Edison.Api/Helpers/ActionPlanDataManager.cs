@@ -15,15 +15,12 @@ namespace Edison.Api.Helpers
 {
     public class ActionPlanDataManager
     {
-        private readonly WebApiConfiguration _config;
         private readonly ICosmosDBRepository<ActionPlanDAO> _repoActionPlans;
         private readonly IMapper _mapper;
 
-        public ActionPlanDataManager(IOptions<WebApiConfiguration> config,
-            IMapper mapper,
+        public ActionPlanDataManager(IMapper mapper,
             ICosmosDBRepository<ActionPlanDAO> repoActionPlans)
         {
-            _config = config.Value;
             _mapper = mapper;
             _repoActionPlans = repoActionPlans;
         }
@@ -85,7 +82,7 @@ namespace Edison.Api.Helpers
             ActionPlanDAO plan = _mapper.Map<ActionPlanDAO>(actionPlanObj);
 
             plan.Id = await _repoActionPlans.CreateItemAsync(plan);
-            if (plan.Id == Guid.Empty)
+            if (_repoActionPlans.IsDocumentKeyNull(plan))
                 throw new Exception($"An error occured when creating a new action plan");
 
             return _mapper.Map<ActionPlanModel>(plan);

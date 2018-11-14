@@ -18,7 +18,7 @@ namespace Edison.Tests
             {
                 new EventClusterDAO()
                 {
-                    Device = GetEventClusterDAODevice("fbc64b5c-ff21-4ade-9440-85f7b16ef01e"),
+                    Device = GetEventClusterDAOSource("fbc64b5c-ff21-4ade-9440-85f7b16ef01e"),
                     CreationDate = DateTime.UtcNow.AddMinutes(-10),
                     StartDate = DateTime.UtcNow.AddMinutes(-10),
                     EndDate = DateTime.MinValue,
@@ -40,11 +40,11 @@ namespace Edison.Tests
                     EventType = "button",
                     UpdateDate = DateTime.UtcNow.AddMinutes(-5),
                     ETag = Guid.NewGuid().ToString(),
-                    Id = new Guid("fa2528dc-bdd4-4e27-bac6-56b8f38024e8")
+                    Id = "fa2528dc-bdd4-4e27-bac6-56b8f38024e8"
                 },
                 new EventClusterDAO()
                 {
-                    Device = GetEventClusterDAODevice("fbc64b5c-ff21-4ade-9440-85f7b16ef01e"),
+                    Device = GetEventClusterDAOSource("fbc64b5c-ff21-4ade-9440-85f7b16ef01e"),
                     CreationDate = DateTime.UtcNow.AddMinutes(-90),
                     StartDate = DateTime.UtcNow.AddMinutes(-90),
                     EndDate = DateTime.UtcNow.AddMinutes(-75),
@@ -61,11 +61,11 @@ namespace Edison.Tests
                     EventType = "button",
                     UpdateDate = DateTime.UtcNow.AddMinutes(-75),
                     ETag = Guid.NewGuid().ToString(),
-                    Id = new Guid("9c7a02f5-b657-4b53-a11f-b5fc8c98194c"),
+                    Id = "9c7a02f5-b657-4b53-a11f-b5fc8c98194c",
                 },
                 new EventClusterDAO()
                 {
-                    Device = GetEventClusterDAODevice("7776a948-90f8-4ffd-9578-f8078b07d96f"),
+                    Device = GetEventClusterDAOSource("7776a948-90f8-4ffd-9578-f8078b07d96f"),
                     CreationDate = DateTime.UtcNow.AddMinutes(-60),
                     StartDate = DateTime.UtcNow.AddMinutes(-60),
                     EndDate = DateTime.UtcNow.AddMinutes(-5),
@@ -102,11 +102,11 @@ namespace Edison.Tests
                     EventType = "button",
                     UpdateDate = DateTime.UtcNow.AddMinutes(-5),
                     ETag = Guid.NewGuid().ToString(),
-                    Id = new Guid("ddd6db1a-0a6f-447c-a0ed-dca531c5ab11"),
+                    Id = "ddd6db1a-0a6f-447c-a0ed-dca531c5ab11",
                 },
                 new EventClusterDAO()
                 {
-                    Device = GetEventClusterDAODevice("f771c2e7-96c2-450b-912e-262588bdeeaa"),
+                    Device = GetEventClusterDAOSource("f771c2e7-96c2-450b-912e-262588bdeeaa"),
                     CreationDate = DateTime.UtcNow.AddMinutes(-5),
                     StartDate = DateTime.UtcNow.AddMinutes(-5),
                     EndDate = DateTime.MinValue,
@@ -123,14 +123,14 @@ namespace Edison.Tests
                     EventType = "sound",
                     UpdateDate = DateTime.UtcNow.AddMinutes(-5),
                     ETag = Guid.NewGuid().ToString(),
-                    Id = new Guid("539b392a-7ad0-4a91-86ad-bdf5e8056d16"),
+                    Id = "539b392a-7ad0-4a91-86ad-bdf5e8056d16",
                 }
             };
         }
 
-        private static EventClusterDAODevice GetEventClusterDAODevice(string deviceId)
+        private static EventClusterDeviceDAOObject GetEventClusterDAOSource(string deviceId)
         {
-            return AutoMapper.Mapper.Map<EventClusterDAODevice>(DBMockDevice.DBDevices.Find(p => p.Id == new Guid(deviceId)));
+            return AutoMapper.Mapper.Map<EventClusterDeviceDAOObject>(DBMockDevice.DBDevices.Find(p => p.Id == deviceId));
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Azure.Documents.Client;
 using System;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Edison.Common.Interfaces;
 
 namespace Edison.Common
 {

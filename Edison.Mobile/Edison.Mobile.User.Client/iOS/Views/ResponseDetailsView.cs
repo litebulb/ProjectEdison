@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using CoreGraphics;
-using Edison.Core.Common.Models;
-using Edison.Mobile.iOS.Common.Shared;
+﻿using Edison.Core.Common.Models;
 using Edison.Mobile.User.Client.iOS.Shared;
 using UIKit;
 
@@ -17,24 +13,25 @@ namespace Edison.Mobile.User.Client.iOS.Views
         readonly UILabel contentLabel;
         readonly UIButton moreInfoButton;
 
-        ActionPlanModel actionPlan;
+        ResponseModel response;
 
-        public ActionPlanModel ActionPlan
+        public ResponseModel Response
         {
-            get => actionPlan;
+            get => response;
             set
             {
-                actionPlan = value;
-                if (actionPlan != null) UpdateView();
+                response = value;
+                if (response != null) UpdateView();
             }
         }
 
         public ResponseDetailsView()
         {
-            BackgroundColor = PlatformConstants.Color.White;
+            BackgroundColor = Constants.Color.White;
 
             var topBarVerticalPadding = 6f;
             var topBarView = new UIView { TranslatesAutoresizingMaskIntoConstraints = false };
+
             AddSubview(topBarView);
             topBarView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
             topBarView.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
@@ -44,8 +41,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
             logoImageBackground = new UIView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                BackgroundColor = PlatformConstants.Color.LightGray,
+                BackgroundColor = Constants.Color.LightGray,
             };
+
             topBarView.AddSubview(logoImageBackground);
             logoImageBackground.LeftAnchor.ConstraintEqualTo(topBarView.LeftAnchor, Constants.Padding).Active = true;
             logoImageBackground.CenterYAnchor.ConstraintEqualTo(topBarView.CenterYAnchor).Active = true;
@@ -61,15 +59,16 @@ namespace Edison.Mobile.User.Client.iOS.Views
             topBarView.AddSubview(logoImageView);
             logoImageView.CenterXAnchor.ConstraintEqualTo(logoImageBackground.CenterXAnchor).Active = true;
             logoImageView.CenterYAnchor.ConstraintEqualTo(logoImageBackground.CenterYAnchor).Active = true;
-            logoImageView.HeightAnchor.ConstraintEqualTo(logoImageBackground.HeightAnchor, multiplier: 0.70f).Active = true;
-            logoImageView.WidthAnchor.ConstraintEqualTo(logoImageBackground.WidthAnchor, multiplier: 0.70f).Active = true;
+            logoImageView.HeightAnchor.ConstraintEqualTo(logoImageBackground.HeightAnchor, multiplier: 0.65f).Active = true;
+            logoImageView.WidthAnchor.ConstraintEqualTo(logoImageBackground.WidthAnchor, multiplier: 0.65f).Active = true;
 
             titleLabel = new UILabel
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 Font = Constants.Fonts.RubikMediumOfSize(Constants.Fonts.Size.Fourteen),
-                TextColor = PlatformConstants.Color.DarkGray,
+                TextColor = Constants.Color.DarkGray,
             };
+
             topBarView.AddSubview(titleLabel);
             titleLabel.LeftAnchor.ConstraintEqualTo(logoImageBackground.RightAnchor, 8f).Active = true;
             titleLabel.RightAnchor.ConstraintEqualTo(topBarView.RightAnchor, -Constants.Padding).Active = true;
@@ -79,8 +78,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eight),
-                TextColor = PlatformConstants.Color.MidGray,
+                TextColor = Constants.Color.MidGray,
             };
+
             AddSubview(notificationLabel);
             notificationLabel.LeftAnchor.ConstraintEqualTo(LeftAnchor, Constants.Padding).Active = true;
             notificationLabel.TopAnchor.ConstraintEqualTo(topBarView.BottomAnchor, 3f).Active = true;
@@ -90,7 +90,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
             moreInfoButton = new UIButton { TranslatesAutoresizingMaskIntoConstraints = false, UserInteractionEnabled = false };
             moreInfoButton.SetTitle("MORE INFO", UIControlState.Normal);
             moreInfoButton.TitleLabel.Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Fourteen);
-            moreInfoButton.SetTitleColor(PlatformConstants.Color.Blue, UIControlState.Normal);
+            moreInfoButton.SetTitleColor(Constants.Color.Blue, UIControlState.Normal);
+
             AddSubview(moreInfoButton);
             moreInfoButton.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
             moreInfoButton.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
@@ -103,8 +104,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 Lines = 0,
                 LineBreakMode = UILineBreakMode.WordWrap,
                 Font = Constants.Fonts.RubikMediumOfSize(Constants.Fonts.Size.Ten),
-                TextColor = PlatformConstants.Color.DarkGray,
+                TextColor = Constants.Color.DarkGray,
             };
+
             AddSubview(contentLabel);
             contentLabel.LeftAnchor.ConstraintEqualTo(LeftAnchor, Constants.Padding).Active = true;
             contentLabel.RightAnchor.ConstraintEqualTo(RightAnchor, -Constants.Padding).Active = true;
@@ -121,19 +123,12 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
         void UpdateView()
         {
-            titleLabel.Text = ActionPlan.Name;
-            contentLabel.Text = ActionPlan.Description;
-            notificationLabel.Text = ActionPlan.UpdateDate.ToString();
+            titleLabel.Text = Response.ActionPlan.Name;
+            contentLabel.Text = Response.ActionPlan.Description;
+            notificationLabel.Text = Response.StartDate.ToString();
 
-            if (ActionPlan.Icon == "fire") 
-            {
-                logoImageView.Image = Constants.Assets.Fire;
-            }
-
-            if (ActionPlan.Color == "red") 
-            {
-                logoImageBackground.BackgroundColor = PlatformConstants.Color.Red;
-            }
+            logoImageView.Image = Constants.Assets.MapFromActionPlanIcon(Response.ActionPlan.Icon);
+            logoImageBackground.BackgroundColor = Constants.Color.MapFromActionPlanColor(Response.ActionPlan.Color);
         }
     }
 }

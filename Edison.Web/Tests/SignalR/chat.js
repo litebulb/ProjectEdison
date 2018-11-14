@@ -6,16 +6,18 @@
 //
 // See Es5-chat.js for a Babel transpiled version of the following code:
 
-const tokenValue = 'INSERT_TOKEN_HERE';
+const tokenValue = 'USER_SECRET';
 var connection = null;
+
 
 function connectSignalR(){
 	//signalR.HttpTransportType.WebSockets not working??
     //https://edisonapidev.eastus.cloudapp.azure.com/signalr
 	connection = new signalR.HubConnectionBuilder()
-		.withUrl("http://localhost:26000/signalr")
+		.withUrl("http://localhost:51412/signalr",{ () => tokenValue})
 		.configureLogging(signalR.LogLevel.Information)
 		.build();
+	//connection.qs = { 'Token' : tokenValue};
 	//connection.serverTimeoutInMilliseconds = 5000; // 5 second
 
 

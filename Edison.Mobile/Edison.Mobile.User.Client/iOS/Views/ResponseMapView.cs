@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreLocation;
 using Edison.Core.Common.Models;
+using Edison.Mobile.iOS.Common.Extensions;
 using MapKit;
 using UIKit;
 
@@ -39,7 +40,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 ShowsUserLocation = true,
-                //UserInteractionEnabled = false,
+                UserInteractionEnabled = false,
             };
 
             AddSubview(mapView);
@@ -58,9 +59,10 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 return;
             }
 
-            var latitudeDelta = Math.Abs(userLocation.Coordinate.Latitude - eventLocation.Coordinate.Latitude) + 0.2;
-            var longitudeDelta = Math.Abs(userLocation.Coordinate.Longitude - eventLocation.Coordinate.Longitude) + 0.2;
-            var spanRegion = new MKCoordinateRegion(eventLocation.Coordinate, new MKCoordinateSpan(latitudeDelta, longitudeDelta));
+            var deltaPaddingFactor = 1.1;
+            var latitudeDelta = Math.Abs(userLocation.Coordinate.Latitude - eventLocation.Coordinate.Latitude);
+            var longitudeDelta = Math.Abs(userLocation.Coordinate.Longitude - eventLocation.Coordinate.Longitude);
+            var spanRegion = new MKCoordinateRegion(userLocation.Coordinate.GetMidpointCoordinate(eventLocation.Coordinate), new MKCoordinateSpan(latitudeDelta * deltaPaddingFactor, longitudeDelta * deltaPaddingFactor));
             var region = mapView.RegionThatFits(spanRegion);
             mapView.SetRegion(region, false);
             var annotation = new MKPointAnnotation { Coordinate = eventLocation.Coordinate };

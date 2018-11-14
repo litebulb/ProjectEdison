@@ -25,13 +25,13 @@ namespace Edison.MessageDispatcherService
         {
             services.AddOptions();
             services.EnableKubernetes();
-            services.Configure<AppInsightsOptions>(Configuration.GetSection("ApplicationInsights"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.Configure<AzureServiceBusOptions>(Configuration.GetSection("AzureServiceBus"));
             services.Configure<MessageDispatcherOptions>(Configuration.GetSection("MessageDispatcher"));
 
             services.AddSingleton<IAzureServiceBusClient, AzureServiceBusClient>();
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
             services.AddSingleton<MessageDispatcherService>();
         }
 
@@ -43,7 +43,7 @@ namespace Edison.MessageDispatcherService
 
             if (Configuration.GetValue<bool>("MessageDispatcher:DispatcherEnabled"))
             {
-                app.ApplicationServices.GetService<IServiceBusClient>().Start(null);
+                app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(null);
                 app.ApplicationServices.GetService<MessageDispatcherService>().Start();
 
                 app.Run(context =>

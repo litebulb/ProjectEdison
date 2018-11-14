@@ -1,0 +1,16 @@
+<div class="filter-group"
+     *ngFor="let filterGroup of filterGroups">
+    <div class="group-title">{{filterGroup.title}}</div>
+    <div>
+        <mat-checkbox class="checkbox"
+                      *ngFor="let filter of filterGroup.filters"
+                      [checked]="filter.checked"
+                      [(ngModel)]="filter.checked"
+                      (change)="filter.onClick($event.checked)">
+            <span [ngClass]="filter.iconClasses"
+                  class="filter-icon"
+                  *ngIf="filter.iconClasses"></span>
+            <span class="filter-title">{{filter.title}}</span>
+        </mat-checkbox>
+    </div>
+</div>

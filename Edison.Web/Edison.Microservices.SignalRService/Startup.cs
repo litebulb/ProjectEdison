@@ -29,19 +29,23 @@ namespace Edison.SignalRService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+            services.EnableKubernetes();
+            services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<RestServiceOptions>(Configuration.GetSection("RestService"));
-            services.Configure<ServiceBusOptions>(Configuration.GetSection("ServiceBus"));
+            services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.AddMassTransit(c =>
             {
                 c.AddConsumer<EventUIUpdateConsumer>();
                 c.AddConsumer<DeviceUIUpdateConsumer>();
                 c.AddConsumer<ResponseUIUpdateConsumer>();
+                c.AddConsumer<ActionCloseUIUpdateConsumer>();
             });
             services.AddScoped<EventUIUpdateConsumer>();
             services.AddScoped<DeviceUIUpdateConsumer>();
             services.AddScoped<ResponseUIUpdateConsumer>();
+            services.AddScoped<ActionCloseUIUpdateConsumer>();
             services.AddSingleton<ISignalRRestService, SignalRRestService>();
-            services.AddSingleton<IServiceBusClient, RabbitMQServiceBus>();
+            services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +53,7 @@ namespace Edison.SignalRService
         {
             // mirror logger messages to AppInsights
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Debug);
-            app.ApplicationServices.GetService<IServiceBusClient>().Start(ep =>
+            app.ApplicationServices.GetService<IMassTransitServiceBus>().Start(ep =>
             {
                 ep.LoadFrom(app.ApplicationServices);
             });

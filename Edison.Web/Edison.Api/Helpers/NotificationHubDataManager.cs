@@ -7,111 +7,73 @@ using System.Linq;
 using AutoMapper;
 using System;
 using Microsoft.Azure.NotificationHubs;
+using Edison.Common.Interfaces;
+using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {
     public class NotificationHubDataManager
     {
-        private readonly WebApiConfiguration _config;
-        //private readonly IMapper _mapper;
-        private static string _notificationHubConnectionString;
-        private static NotificationHubClient _hubClient;
+        private readonly IMapper _mapper;
+        private readonly ICosmosDBRepository<NotificationDAO> _repoNotifications;
 
-        public NotificationHubDataManager(IOptions<WebApiConfiguration> config, string notificationHubConnectionString, string pathName)
+        public NotificationHubDataManager(
+            IMapper mapper,
+            ICosmosDBRepository<NotificationDAO> repoNotifications)
         {
-            _config = config.Value;
-            _notificationHubConnectionString = notificationHubConnectionString;
-            _hubClient = NotificationHubClient
-                                .CreateClientFromConnectionString(notificationHubConnectionString, pathName, true);
-
+            _mapper = mapper;
+            _repoNotifications = repoNotifications;
         }
 
-
-        public async Task<Boolean> RegisterMobileDevice(MobileDeviceNotificationHubInstallationModel deviceUpdate)
+        public async Task<NotificationModel> CreateNotification(NotificationCreationModel notification)
         {
-            Dictionary<string, InstallationTemplate> templates = new Dictionary<string, InstallationTemplate>();
-            foreach (var t in deviceUpdate.Templates)
+            var date = DateTime.UtcNow;
+
+            NotificationDAO notificationDao = new NotificationDAO()
             {
-                templates.Add(t.Key, new InstallationTemplate { Body = t.Value.Body });
-            }
-            Installation installation = new Installation()
-            {
-                InstallationId = deviceUpdate.InstallationId,
-                PushChannel = deviceUpdate.PushChannel,
-                Tags = deviceUpdate.Tags,
-                Templates = templates
+                NotificationText = notification.NotificationText,
+                CreationDate = date,
+                UpdateDate = date,
+                ResponseId = notification.ResponseId.ToString(),
+                Status = notification.Status,
+                Tags = notification.Tags,
+                Title = notification.Title,
+                User = notification.User
             };
-            switch (deviceUpdate.Platform)
-            {
-                case "apns":
-                    installation.Platform = NotificationPlatform.Apns;
-                    break;
-                case "gcm":
-                    installation.Platform = NotificationPlatform.Gcm;
-                    break;
-                default:
-                    throw new ArgumentException("Bad Request");
-            }
-            installation.Tags = new List<string>(deviceUpdate.Tags);
-            try
-            {
-                await _hubClient.CreateOrUpdateInstallationAsync(installation);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+            notificationDao.Id = await _repoNotifications.CreateItemAsync(notificationDao);
+            if (_repoNotifications.IsDocumentKeyNull(notificationDao))
+                throw new Exception($"An error occured when creating a new notification");
+
+            NotificationModel output = _mapper.Map<NotificationModel>(notificationDao);
+            return output;
         }
 
-        public async Task DeleteDeviceInstallation(string id)
+        public async Task<IEnumerable<NotificationModel>> GetNotifications(int pageSize, string continuationToken)
         {
-            try
-            {
-                await _hubClient.DeleteInstallationAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var notifications = await _repoNotifications.GetItemsPagingAsync(pageSize, continuationToken);
+            IEnumerable<NotificationModel> output = _mapper.Map<IEnumerable<NotificationModel>>(notifications.List);
+            return output;
         }
 
-        public async Task<NotificationOutcome> SendNotification(string payload, string tag)
+        public async Task<IEnumerable<NotificationModel>> GetNotifications(Guid responseId)
         {
-            try
-            {
-                var response = await _hubClient.SendGcmNativeNotificationAsync(payload, tag);
-                return response;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public async Task SendNotificationMultipleDevices(string payload, List<string> tags)
-        {
-            try
-            {
-                var splitTagsList = SplitList(tags, 20);
-                // mag taglist size is 20
-                foreach (var tagList in splitTagsList)
+            var notifications = await _repoNotifications.GetItemsAsync(p => p.ResponseId == responseId.ToString(),
+                p => new NotificationDAO()
                 {
-                    var response = await _hubClient.SendGcmNativeNotificationAsync(payload, tagList);
+                    Id = p.Id,
+                    CreationDate = p.CreationDate,
+                    NotificationText = p.NotificationText,
+                    ResponseId = p.ResponseId,
+                    Status = p.Status,
+                    Tags = p.Tags,
+                    Title = p.Title,
+                    UpdateDate = p.UpdateDate,
+                    User = p.User
                 }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        private static List<List<string>> SplitList(List<string> tags, int size)
-        {
-            var list = new List<List<string>>();
-            for (int i = 0; i < tags.Count; i += size)
-                list.Add(tags.GetRange(i, Math.Min(size, tags.Count - i)));
-            return list;
+                );
+            IEnumerable<NotificationModel> output = _mapper.Map<IEnumerable<NotificationModel>>(notifications);
+            return output;
         }
     }
 }

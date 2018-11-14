@@ -82,7 +82,7 @@ namespace Edison.Simulators.Sensors
             ConsoleHelper.WriteInfo("5. Start test simulation on one sensor");
             ConsoleHelper.WriteInfo("6. Start test simulation on all sensors");
             ConsoleHelper.WriteInfo("7. Start orchestrated simulation");
-            ConsoleHelper.WriteInfo("8. Monitor lightbulbs");
+            //ConsoleHelper.WriteInfo("8. Monitor lightbulbs"); //Removed because cause issues with running physical devices.
             ConsoleHelper.WriteInfo("9. Exit");
 
             ConsoleKeyInfo key = Console.ReadKey();
@@ -117,10 +117,11 @@ namespace Edison.Simulators.Sensors
                 case ConsoleKey.D7:
                     await MenuSimulate();
                     break;
-                case ConsoleKey.NumPad8:
-                case ConsoleKey.D8:
-                    await MenuMonitorLights();
-                    break;
+                //Removed because cause issues with running physical devices.
+                //case ConsoleKey.NumPad8:
+                //case ConsoleKey.D8:
+                //    await MenuMonitorLights();
+                //    break;
                 case ConsoleKey.NumPad9:
                 case ConsoleKey.D9:
                     _Interrupt = true;

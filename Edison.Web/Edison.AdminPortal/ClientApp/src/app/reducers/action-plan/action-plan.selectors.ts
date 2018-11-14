@@ -7,3 +7,5 @@ export const actionPlanStateSelector = createFeatureSelector<AppState, State>('a
 export const actionPlansSelector = createSelector(actionPlanStateSelector, selectAll);
 
 export const selectedActionPlanSelector = createSelector(actionPlanStateSelector, state => state.selectedActionPlan);
+
+export const selectingActionPlanSelector = createSelector(actionPlanStateSelector, state => state.selectingActionPlan);

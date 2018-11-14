@@ -4,5 +4,6 @@ export interface MapDefaults {
     height?: string;
     padding?: number;
     useHtmlLayer?: boolean;
+    showZoomControls?: boolean;
     zoom?: number;
 }

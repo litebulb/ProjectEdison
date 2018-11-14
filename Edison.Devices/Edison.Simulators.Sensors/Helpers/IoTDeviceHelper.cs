@@ -19,7 +19,6 @@ namespace Edison.Simulators.Sensors.Helpers
         private readonly RegistryManager _registryManager;
         private readonly JobClient _jobClient;
         private readonly SimulatorConfig _config;
-        private bool _MonitorDesired = false;
         private List<IoTDevice> _CacheDevices = null;
 
         public IoTDeviceHelper(IOptions<SimulatorConfig> config)
@@ -60,10 +59,10 @@ namespace Edison.Simulators.Sensors.Helpers
             twin.Tags["Enabled"] = newDevice.Enabled;
             twin.Tags["Sensor"] = newDevice.Sensor;
             twin.Tags["DeviceType"] = newDevice.DeviceType;
-            twin.Tags["LocationName"] = newDevice.LocationName;
-            twin.Tags["LocationLevel1"] = newDevice.LocationLevel1;
-            twin.Tags["LocationLevel2"] = newDevice.LocationLevel2;
-            twin.Tags["LocationLevel3"] = newDevice.LocationLevel3;
+            twin.Tags["Name"] = newDevice.Name;
+            twin.Tags["Location1"] = newDevice.Location1;
+            twin.Tags["Location2"] = newDevice.Location2;
+            twin.Tags["Location3"] = newDevice.Location3;
             twin.Tags["Geolocation"] = new Geolocation()
             {
                 Latitude = newDevice.Latitude,
@@ -84,11 +83,12 @@ namespace Edison.Simulators.Sensors.Helpers
                 "SELECT deviceId, " +
                 "tags.Demo as Demo, " +
                 "tags.Sensor as Sensor, " +
+                "tags.Enabled as Enabled, " +
                 "tags.DeviceType as DeviceType, " +
-                "tags.LocationName as LocationName, " +
-                "tags.LocationLevel1 as LocationLevel1, " +
-                "tags.LocationLevel2 as LocationLevel2, " +
-                "tags.LocationLevel3 as LocationLevel3, " +
+                "tags.Name as Name, " +
+                "tags.Location1 as Location1, " +
+                "tags.Location2 as Location2, " +
+                "tags.Location3 as Location3, " +
                 "tags.Geolocation.Latitude as Latitude, " +
                 "tags.Geolocation.Longitude as Longitude, " +
                 "properties.desired " +
@@ -106,33 +106,20 @@ namespace Edison.Simulators.Sensors.Helpers
             foreach (var iotDevice in iotDevices)
             {
                 iotDevice.Client = DeviceClient.CreateFromConnectionString(_config.IoTHubConnectionString, iotDevice.DeviceId);
-                if(!iotDevice.Sensor)
-                    await iotDevice.Client.SetDesiredPropertyUpdateCallbackAsync(ReceiveDesiredConfiguration, iotDevice.DeviceId);
+                //Removed because cause issues with running physical devices.
+                //if(!iotDevice.Sensor)
+                //    await iotDevice.Client.SetDesiredPropertyUpdateCallbackAsync(ReceiveDesiredConfiguration, iotDevice.DeviceId);
             }
 
             _CacheDevices = iotDevices;
             return iotDevices;
         }
 
-        public void StartMonitoringLightBulbs()
-        {
-            _MonitorDesired = true;
-        }
-
-        public void StopMonitoringLightBulbs()
-        {
-            _MonitorDesired = false;
-        }
-
         private async Task ReceiveDesiredConfiguration(TwinCollection desiredProperties, object userContext)
         {
-            if (_MonitorDesired)
-            {
-                var deviceOutput = await GetAllOutputDevices();
-                var device = deviceOutput.Find(p => p.DeviceId == userContext.ToString());
-                device.Desired = JsonConvert.DeserializeObject<Dictionary<string,object>>(desiredProperties.ToString());
-            }
-            return;
+            var deviceOutput = await GetAllOutputDevices();
+            var device = deviceOutput.Find(p => p.DeviceId == userContext.ToString());
+            device.Desired = JsonConvert.DeserializeObject<Dictionary<string,object>>(desiredProperties.ToString());
         }
 
         public async Task<List<IoTDevice>> GetDemoDevices()
@@ -144,13 +131,13 @@ namespace Edison.Simulators.Sensors.Helpers
         public async Task<List<IoTDevice>> GetAllInputDevices()
         {
             List<IoTDevice> devices = await GetDevices();
-            return devices.Where(p => p.Sensor).ToList();
+            return devices.Where(p => p.Sensor && p.Enabled).OrderBy(p => p.Longitude).ThenByDescending(p => p.Latitude).ToList();
         }
 
         public async Task<List<IoTDevice>> GetAllOutputDevices()
         {
             List<IoTDevice> devices = await GetDevices();
-            return devices.Where(p => !p.Sensor).ToList();
+            return devices.Where(p => !p.Sensor && p.Enabled).OrderBy(p => p.Longitude).ThenByDescending(p => p.Latitude).ToList();
         }
 
         public async Task DeleteMultipleDevicesAsync(List<IoTDevice> iotDevices)
@@ -188,7 +175,7 @@ namespace Edison.Simulators.Sensors.Helpers
             }
         }
 
-        public async Task SendMessage(IoTDevice device, string eventType, DeviceTriggerIoTMessage message)
+        public async Task SendMessage(IoTDevice device, string eventType, object message)
         {
             string messageJson = JsonConvert.SerializeObject(message);
 

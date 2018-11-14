@@ -16,13 +16,13 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
             switch (indexPath.Item)
             {
                 case 0:
-                    cell.Initialize(PlatformConstants.Color.LightGray, Constants.Assets.EmergencyRed, "Emergency");
+                    cell.Initialize(Constants.Color.LightGray, Constants.Assets.EmergencyRed, "Emergency");
                     break;
                 case 1:
-                    cell.Initialize(PlatformConstants.Color.LightGray, Constants.Assets.ChatBlue, "Report Activity");
+                    cell.Initialize(Constants.Color.LightGray, Constants.Assets.ChatBlue, "Report Activity");
                     break;
                 case 2:
-                    cell.Initialize(PlatformConstants.Color.LightGray, Constants.Assets.PersonBlue, "I'm Safe");
+                    cell.Initialize(Constants.Color.LightGray, Constants.Assets.PersonBlue, "I'm Safe");
                     break;
             }
 

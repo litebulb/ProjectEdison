@@ -1,24 +1,6 @@
 @import 'icons';
 
 :host {
-	.grey-subheader {
-        display: flex;
-        flex-grow: 2;
-        align-items: center;
-        justify-content: center;
-
-        > div {
-            background-color: #9F9EA5;
-            font-size: 12px;
-            color: #F9F9FA;
-            padding: 0 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-	}
-	
 	.button-container {
 		margin-top: 20px;
 		margin-bottom: 20px;
@@ -52,6 +34,26 @@
 					align-items: center;
 					justify-content: center;
 					flex-direction: column;
+					transition: background-color 1.5s ease;
+
+					&.active {
+						&.red {
+							background-color: #FF3023;
+						}
+	
+						&.blue {
+							background-color: #2182FF;
+						}
+	
+						&.yellow {
+							background-color: #FFBC02;
+						}
+					}
+
+
+					&:hover {
+						background-color: #1F17A5;
+					}
 
 					.text {
 						font-size: 10px;

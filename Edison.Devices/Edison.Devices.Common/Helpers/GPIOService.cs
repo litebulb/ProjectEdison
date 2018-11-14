@@ -11,9 +11,9 @@ namespace Edison.Devices.Common
         private readonly LoggingChannel _logging;
         private Dictionary<int, GpioPin> _pins;
 
-        public GPIOService()
+        public GPIOService(Guid providerId)
         {
-            _logging = new LoggingChannel("GPIOController", null, new Guid("d67750e6-462a-4bea-9a3b-c9b193f822b6"));
+            _logging = new LoggingChannel("GPIOController", null, providerId);
             _pins = new Dictionary<int, GpioPin>();
         }
 

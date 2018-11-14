@@ -1,7 +1,5 @@
-<div
-    *ngFor="let navLink of navLinks;"
-    [ngClass]="[navLink.active ? navLink.icon + ' active' : navLink.icon]"
-    (click)="navLink.onClick(navLink)"
-    [title]="navLink.title"
-  >
+<div *ngFor="let navLink of navLinks;"
+     [ngClass]="[activeRoute === navLink.route ? navLink.icon + ' active' : navLink.icon]"
+     (click)="navLink.onClick(navLink)"
+     [title]="navLink.title">
 </div>

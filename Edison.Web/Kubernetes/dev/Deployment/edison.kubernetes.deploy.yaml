@@ -283,68 +283,68 @@ spec:
       imagePullSecrets:
       - name: acr-authentication
 ---      
-#apiVersion: apps/v1beta1
-#kind: Deployment
-#metadata:
-#  name: edisonchatservice
-#spec:
-#  replicas: 1
-#  template:
-#    metadata:
-#      labels:
-#        app: edisonchatservice
-#    spec:
-#      containers:
-#      - name: edisonchatservice
-#        image: edisondevcontainerregistry.azurecr.io/edisonchatservice:latest
-#        volumeMounts:
-#          - name: config
-#            mountPath: /app/config
-#            readOnly: true 
-#          - name: secrets
-#            mountPath: /app/secrets
-#            readOnly: true
-#      volumes:
-#      - name: config
-#        configMap:
-#          name: config-edisonchatservice
-#      - name: secrets
-#        secret:
-#          secretName: secrets-common
-#      imagePullSecrets:
-#      - name: acr-authentication
-#---      
-#apiVersion: apps/v1beta1
-#kind: Deployment
-#metadata:
-#  name: edisonnotificationhubservice
-#spec:
-#  replicas: 1
-#  template:
-#    metadata:
-#      labels:
-#        app: edisonnotificationhubservice
-#    spec:
-#      containers:
-#      - name: edisonnotificationhubservice
-#        image: edisondevcontainerregistry.azurecr.io/edisonnotificationhubservice:latest
-#        volumeMounts:
-#          - name: config
-#            mountPath: /app/config
-#            readOnly: true 
-#          - name: secrets
-#            mountPath: /app/secrets
-#            readOnly: true
-#      volumes:
-#      - name: config
-#        configMap:
-#          name: config-edisonnotificationhubservice
-#      - name: secrets
-#        secret:
-#          secretName: secrets-common
-#      imagePullSecrets:
-#      - name: acr-authentication
-#---      
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: edisonchatservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: edisonchatservice
+    spec:
+      containers:
+      - name: edisonchatservice
+        image: edisondevcontainerregistry.azurecr.io/edisonchatservice:latest
+        volumeMounts:
+          - name: config
+            mountPath: /app/config
+            readOnly: true 
+          - name: secrets
+            mountPath: /app/secrets
+            readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: config-edisonchatservice
+      - name: secrets
+        secret:
+          secretName: secrets-common
+      imagePullSecrets:
+      - name: acr-authentication
+---      
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: edisonnotificationhubservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: edisonnotificationhubservice
+    spec:
+      containers:
+      - name: edisonnotificationhubservice
+        image: edisondevcontainerregistry.azurecr.io/edisonnotificationhubservice:latest
+        volumeMounts:
+          - name: config
+            mountPath: /app/config
+            readOnly: true 
+          - name: secrets
+            mountPath: /app/secrets
+            readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: config-edisonnotificationhubservice
+      - name: secrets
+        secret:
+          secretName: secrets-common
+      imagePullSecrets:
+      - name: acr-authentication
+---      
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -373,5 +373,45 @@ spec:
       - name: secrets
         secret:
           secretName: secrets-common
+      imagePullSecrets:
+      - name: acr-authentication
+---      
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: edisondeviceprovisioning
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: edisondeviceprovisioning
+    spec:
+      containers:
+      - name: edisondeviceprovisioning
+        image: edisondevcontainerregistry.azurecr.io/edisondeviceprovisioning:latest
+        volumeMounts:
+          - name: config
+            mountPath: /app/config
+            readOnly: true 
+          - name: secrets
+            mountPath: /app/secrets
+            readOnly: true
+          - name: certificates
+            mountPath: /app/certificates
+            readOnly: true
+        ports:
+        - containerPort: 80
+          name: deviceprov
+      volumes:
+      - name: config
+        configMap:
+          name: config-edisondeviceprovisioning
+      - name: secrets
+        secret:
+          secretName: secrets-common
+      - name: certificates
+        secret:
+          secretName: secrets-provision-certificates
       imagePullSecrets:
       - name: acr-authentication

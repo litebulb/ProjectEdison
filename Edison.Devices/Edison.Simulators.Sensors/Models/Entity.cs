@@ -1,4 +1,5 @@
 ﻿using Edison.Common.DAO;
+using Edison.Common.Interfaces;
 using Edison.Core.Common;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +11,7 @@ namespace Edison.Simulators.Sensors.Models
     public class Entity : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime CreationDate { get; set; }
