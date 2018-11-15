@@ -16,7 +16,11 @@ namespace Edison.Mobile.Common.Network
 
         public async Task UpdateDeviceLocation(Geolocation geolocation) 
         {
-            var request = PrepareRequest("Devices/DeviceLocation", Method.PUT, geolocation);
+            var request = PrepareRequest("Devices/DeviceLocation", Method.PUT, new 
+            {
+                Geolocation = geolocation,
+            });
+
             var queryResult = await client.ExecuteTaskAsync<bool>(request);
             if (queryResult.IsSuccessful)
             {

@@ -19,6 +19,10 @@ namespace Edison.Mobile.User.Client.Core.Shared
             public const string Protest = "protest";
             public const string Pollution = "pollution";
             public const string Health = "health";
+            public const string Package = "package";
+            public const string Tornado = "tornado";
+            public const string Vip = "vip";
+            public const string Emergency = "emergency";
         }
     }
 }

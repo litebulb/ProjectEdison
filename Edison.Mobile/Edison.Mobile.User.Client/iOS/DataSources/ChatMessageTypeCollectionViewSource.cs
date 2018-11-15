@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using Edison.Core.Common.Models;
 using Edison.Mobile.User.Client.iOS.Shared;
 using Edison.Mobile.User.Client.iOS.Views;
 using Foundation;
@@ -6,64 +8,24 @@ using UIKit;
 
 namespace Edison.Mobile.User.Client.iOS.DataSources
 {
+    public class ActionPlanSelectedEventArgs : EventArgs 
+    {
+        public ActionPlanListModel SelectedActionPlan { get; set; }
+    }
+
     public class ChatMessageTypeCollectionViewSource : UICollectionViewSource
     {
-        readonly ChatMessageType[] messageTypes;
+        public ObservableRangeCollection<ActionPlanListModel> ActionPlans;
+        public ActionPlanListModel SelectedActionPlan;
 
-        public ChatMessageTypeCollectionViewSource()
-        {
-            messageTypes = new ChatMessageType[]
-            {
-                new ChatMessageType 
-                {
-                    Title = "EMERGENCY",
-                    IconImage = Constants.Assets.EmergencyRed,
-                    SelectedIconImage = Constants.Assets.EmergencyWhite,
-                    SelectionColor = Constants.Color.Red,
-                },
-                new ChatMessageType
-                {
-                    Title = "FIRE",
-                    IconImage = Constants.Assets.FireRed,
-                    SelectedIconImage = Constants.Assets.FireWhite,
-                    SelectionColor = Constants.Color.Red,
-                },
-                new ChatMessageType 
-                {
-                    Title = "SHOOTER",
-                    IconImage = Constants.Assets.GunRed,
-                    SelectedIconImage = Constants.Assets.GunWhite,
-                    SelectionColor = Constants.Color.Red,
-                },
-                new ChatMessageType
-                {
-                    Title = "SUS. PACKAGE",
-                    IconImage = Constants.Assets.SpamYellow,
-                    SelectedIconImage = Constants.Assets.SpamWhite,
-                    SelectionColor = Constants.Color.YellowWarning,
-                },
-                new ChatMessageType 
-                {
-                    Title = "SAFETY",
-                    IconImage = Constants.Assets.SafetyCheckBlue,
-                    SelectedIconImage = Constants.Assets.SafetyCheckWhite,
-                    SelectionColor = Constants.Color.Blue,
-                },
-                new ChatMessageType 
-                {
-                    Title = "WELL-BEING",
-                    IconImage = Constants.Assets.HealthBlue,
-                    SelectedIconImage = Constants.Assets.HealthWhite,
-                    SelectionColor = Constants.Color.Blue,
-                },
-            };
-        }
+        public event EventHandler<ActionPlanSelectedEventArgs> OnActionPlanSelected;
 
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = collectionView.DequeueReusableCell(typeof(ChatMessageTypeCollectionViewCell).Name, indexPath) as ChatMessageTypeCollectionViewCell;
-            var messageType = messageTypes[(int)indexPath.Item];
-            cell.Initialize(Constants.ChatMessageTypeHeight, messageType);
+            var actionPlan = ActionPlans[(int)indexPath.Item];
+            cell.Initialize(Constants.ChatMessageTypeHeight, actionPlan);
+            cell.SetSelected(actionPlan == SelectedActionPlan);
             return cell;
         }
 
@@ -74,24 +36,28 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
 
         public override nint GetItemsCount(UICollectionView collectionView, nint section)
         {
-            return messageTypes.Length;
+            return ActionPlans?.Count ?? 0;
         }
 
         public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            //var cell = 
-        }
+            SelectedActionPlan = ActionPlans[(int)indexPath.Item];
 
-        public override void ItemHighlighted(UICollectionView collectionView, NSIndexPath indexPath)
-        {
             var cell = collectionView.CellForItem(indexPath) as ChatMessageTypeCollectionViewCell;
             cell.SetSelected(true);
-        }
 
-        public override void ItemUnhighlighted(UICollectionView collectionView, NSIndexPath indexPath)
-        {
-            var cell = collectionView.CellForItem(indexPath) as ChatMessageTypeCollectionViewCell;
-            cell.SetSelected(false);
+            foreach (var otherCell in collectionView.VisibleCells) 
+            {
+                if (otherCell is ChatMessageTypeCollectionViewCell chatCell)
+                {
+                    chatCell.SetSelected(otherCell == cell);
+                }
+            }
+
+            OnActionPlanSelected?.Invoke(this, new ActionPlanSelectedEventArgs
+            {
+                SelectedActionPlan = SelectedActionPlan,
+            });
         }
     }
 }

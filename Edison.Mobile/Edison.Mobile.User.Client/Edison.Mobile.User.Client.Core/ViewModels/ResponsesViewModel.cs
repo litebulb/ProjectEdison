@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Edison.Mobile.Common.Network;
 using Edison.Mobile.Common.Shared;
 using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
@@ -24,11 +25,16 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
             if (Responses.Count == 0)
             {
-                var responses = await responseRestService.GetResponses();
-                if (responses != null)
-                {
-                    Responses.AddRange(responses.Select(r => new ResponseCollectionItemViewModel(r)));
-                }
+                await GetResponses();
+            }
+        }
+
+        public async Task GetResponses() 
+        {
+            var responses = await responseRestService.GetResponses();
+            if (responses != null)
+            {
+                Responses.AddRange(responses.Select(r => new ResponseCollectionItemViewModel(r)));
             }
         }
     }

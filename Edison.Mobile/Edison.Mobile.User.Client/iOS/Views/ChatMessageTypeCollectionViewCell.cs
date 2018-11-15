@@ -1,4 +1,5 @@
 ﻿using System;
+using Edison.Core.Common.Models;
 using Edison.Mobile.iOS.Common.Shared;
 using Edison.Mobile.User.Client.iOS.Shared;
 using UIKit;
@@ -24,7 +25,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
         {
         }
 
-        public void Initialize(nfloat cellHeight, ChatMessageType suggestion)
+        public void Initialize(nfloat cellHeight, ActionPlanListModel actionPlan)
         {
             if (!isInitialized)
             {
@@ -76,10 +77,10 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 isInitialized = true;
             }
 
-            selectionColor = suggestion.SelectionColor;
-            iconImage = suggestion.IconImage;
-            selectedIconImage = suggestion.SelectedIconImage;
-            titleLabel.Text = suggestion.Title;
+            selectionColor = Constants.Color.MapFromActionPlanColor(actionPlan.Color);
+            iconImage = Constants.Assets.MapFromActionPlanIcon(actionPlan.Icon, true);
+            selectedIconImage = Constants.Assets.MapFromActionPlanIcon(actionPlan.Icon);
+            titleLabel.Text = actionPlan.Name;
             iconImageView.Image = iconImage;
         }
 

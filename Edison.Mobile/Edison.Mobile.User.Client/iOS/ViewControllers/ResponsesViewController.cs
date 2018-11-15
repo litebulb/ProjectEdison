@@ -27,6 +27,8 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         UISlider brightnessSlider;
         UIImageView moonImageView;
 
+        UITapGestureRecognizer alertsTapGestureRecognizer;
+
         public event EventHandler OnMenuTapped;
         public event EventHandler OnViewResponseDetails;
         public event EventHandler OnDismissResponseDetails;
@@ -46,8 +48,8 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             NavigationController.NavigationBar.Translucent = true;
             NavigationController.NavigationBar.BackgroundColor = UIColor.Clear;
 
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.Menu, UIBarButtonItemStyle.Plain, InternalOnMenuTapped);
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem(Constants.Assets.Brightness, UIBarButtonItemStyle.Plain, OnBrightnessTapped);
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.Menu, UIBarButtonItemStyle.Plain, HandleInternalOnMenuTapped);
+            NavigationItem.RightBarButtonItem = new UIBarButtonItem(Constants.Assets.Brightness, UIBarButtonItemStyle.Plain, HandleOnBrightnessTapped);
             NavigationController.NavigationBar.TintColor = Constants.Color.Blue;
 
             alertsCircleView = new AlertsCircleView
@@ -104,6 +106,8 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             moonImageView.CenterXAnchor.ConstraintEqualTo(brightnessSlider.CenterXAnchor).Active = true;
             moonImageView.WidthAnchor.ConstraintEqualTo(20).Active = true;
             moonImageView.HeightAnchor.ConstraintEqualTo(moonImageView.WidthAnchor).Active = true;
+
+            alertsTapGestureRecognizer = new UITapGestureRecognizer(HandleAlertViewTapped);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -131,14 +135,16 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             base.BindEventHandlers();
 
-            ViewModel.Responses.CollectionChanged += OnResponsesCollectionChanged;
+            ViewModel.Responses.CollectionChanged += HandleOnResponsesCollectionChanged;
+            alertsCircleView.AddGestureRecognizer(alertsTapGestureRecognizer);
         }
 
         protected override void UnBindEventHandlers()
         {
             base.UnBindEventHandlers();
 
-            ViewModel.Responses.CollectionChanged -= OnResponsesCollectionChanged;
+            ViewModel.Responses.CollectionChanged -= HandleOnResponsesCollectionChanged;
+            alertsCircleView.RemoveGestureRecognizer(alertsTapGestureRecognizer);
         }
 
         public override void ViewDidLayoutSubviews()
@@ -149,7 +155,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             {
                 responsesCollectionViewSource = new ResponsesCollectionViewSource(ViewModel.Responses);
 
-                responsesCollectionViewSource.OnResponseSelected += OnResponseSelected;
+                responsesCollectionViewSource.OnResponseSelected += HandleOnResponseSelected;
 
                 var collectionViewFrameTop = alertsCircleView.Frame.Bottom + collectionViewVerticalMargin;
                 var collectionViewFrameBottom = View.Bounds.Bottom - Constants.PulloutBottomMargin - collectionViewVerticalMargin;
@@ -200,12 +206,12 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             }
         }
 
-        void InternalOnMenuTapped(object sender, EventArgs e)
+        void HandleInternalOnMenuTapped(object sender, EventArgs e)
         {
             OnMenuTapped?.Invoke(sender, e);
         }
 
-        void OnBrightnessTapped(object sender, EventArgs e)
+        void HandleOnBrightnessTapped(object sender, EventArgs e)
         {
             brightnessSliderVisible = !brightnessSliderVisible;
             UIView.AnimateNotify(PlatformConstants.AnimationDuration, 0, UIViewAnimationOptions.BeginFromCurrentState, () =>
@@ -221,21 +227,24 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             UIScreen.MainScreen.Brightness = brightnessSlider.Value;
         }
 
-        void OnReceivedResponses()
+        void HandleOnReceivedResponses()
         {
             if (ViewModel.Responses == null) return;
 
-            ViewModel.Responses.CollectionChanged -= OnResponsesCollectionChanged;
-            ViewModel.Responses.CollectionChanged += OnResponsesCollectionChanged;
+            ViewModel.Responses.CollectionChanged -= HandleOnResponsesCollectionChanged;
+            ViewModel.Responses.CollectionChanged += HandleOnResponsesCollectionChanged;
         }
 
-        void OnResponsesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void HandleOnResponsesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var anyResponses = ViewModel.Responses.Count > 0;
             noAlertsLabel.Alpha = anyResponses ? 0 : 1;
             alertsCircleView.Alpha = anyResponses ? 1 : alertCircleDisabledAlpha;
 
             alertsCircleView.AlertCount = ViewModel.Responses.Count;
+
+            if (alertsCircleView.AlertCount > 0) alertsCircleView.StartAnimating();
+
             collectionView.ReloadData();
 
             // TODO: more detailed insertion/deletion of cells, rather than a blanket rerender
@@ -254,7 +263,12 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             //}, null);
         }
 
-        void OnResponseSelected(object sender, int index)
+        void HandleAlertViewTapped(UITapGestureRecognizer gestureRecognizer) 
+        {
+            Console.WriteLine(gestureRecognizer);
+        }
+
+        void HandleOnResponseSelected(object sender, int index)
         {
             IsShowingDetails = true;
 

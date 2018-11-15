@@ -136,6 +136,16 @@ namespace Edison.Mobile.User.Client.iOS.Views
             locationImageViewCenterYAnchorConstraint.Constant = -GetRelativeFloat(4);
         }
 
+        public void StartAnimating() 
+        {
+            ringView.StartAnimating();
+        }
+
+        public void StopAnimating() 
+        {
+            ringView.StopAnimating();
+        }
+
         float GetRelativeFloat(float originalSize) => (float) (Bounds.Height > 0 ? Bounds.Height : 200) * (originalSize / 200f);
     }
 }

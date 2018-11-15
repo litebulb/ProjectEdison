@@ -314,6 +314,30 @@
     <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness.png" />
     <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%402x.png" />
     <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%403x.png" />
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow.png" />
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow%402x.png" />
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow%403x.png" />
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite.png" />
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite.png" />
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed%403x.png" />
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed%402x.png" />
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed.png" />
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue.png" />
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue%402x.png" />
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue%403x.png" />
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite.png" />
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%402x.png" />
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -351,6 +375,12 @@
     <Folder Include="Assets.xcassets\ProtestWhite.imageset\" />
     <Folder Include="Assets.xcassets\ProtestBlue.imageset\" />
     <Folder Include="Assets.xcassets\BrightnessMoon.imageset\" />
+    <Folder Include="Assets.xcassets\TornadoYellow.imageset\" />
+    <Folder Include="Assets.xcassets\TornadoWhite.imageset\" />
+    <Folder Include="Assets.xcassets\PackageWhite.imageset\" />
+    <Folder Include="Assets.xcassets\PackageRed.imageset\" />
+    <Folder Include="Assets.xcassets\VIPBlue.imageset\" />
+    <Folder Include="Assets.xcassets\VIPWhite.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -402,6 +432,7 @@
     <Compile Include="Shared\ChatMessageType.cs" />
     <Compile Include="Shared\ChatCollectionViewLayout.cs" />
     <Compile Include="Views\CircleAvatarView.cs" />
+    <Compile Include="Views\TriangleChatView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

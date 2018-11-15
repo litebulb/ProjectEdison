@@ -2,6 +2,7 @@
 using Edison.Core.Common.Models;
 using Edison.Mobile.User.Client.iOS.Shared;
 using UIKit;
+using CoreGraphics;
 using Edison.Mobile.User.Client.Core.Chat;
 
 namespace Edison.Mobile.User.Client.iOS.Views
@@ -16,6 +17,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
         UILabel messageLabel;
         UIView messageBackgroundView;
         CircleAvatarView speakerAvatarView;
+        TriangleChatView leftTriangleView;
+        TriangleChatView rightTriangleView;
 
         UIView topView;
         UIView bottomView;
@@ -47,7 +50,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
         {
         }
 
-        public void Initialize(ChatMessage message, ChatMessageType suggestionType = null, string initials = null)
+        public void Initialize(ChatMessage message, string initials = null)
         {
             if (!isInitialized)
             {
@@ -136,6 +139,33 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 messageBackgroundView.BottomAnchor.ConstraintEqualTo(bottomView.BottomAnchor, constant: padding).Active = true;
                 messageBackgroundView.Layer.CornerRadius = 4;
 
+                leftTriangleView = new TriangleChatView
+                {
+                    TranslatesAutoresizingMaskIntoConstraints = false,
+                    BackgroundColor = Constants.Color.LightGray,
+                    Mirrored = true,
+                };
+
+                ContentView.InsertSubviewBelow(leftTriangleView, messageBackgroundView);
+                leftTriangleView.RightAnchor.ConstraintEqualTo(messageBackgroundView.LeftAnchor, constant: 3).Active = true;
+                leftTriangleView.TopAnchor.ConstraintEqualTo(speakerAvatarView.BottomAnchor, constant: -10).Active = true;
+                leftTriangleView.WidthAnchor.ConstraintEqualTo(8).Active = true;
+                leftTriangleView.HeightAnchor.ConstraintEqualTo(14).Active = true;
+                leftTriangleView.Transform = CGAffineTransform.Rotate(leftTriangleView.Transform, -(nfloat)Math.PI * 0.08f);
+
+                rightTriangleView = new TriangleChatView
+                {
+                    TranslatesAutoresizingMaskIntoConstraints = false,
+                    BackgroundColor = Constants.Color.LightGray,
+                };
+
+                ContentView.InsertSubviewBelow(rightTriangleView, messageBackgroundView);
+                rightTriangleView.LeftAnchor.ConstraintEqualTo(messageBackgroundView.RightAnchor, constant: -3).Active = true;
+                rightTriangleView.TopAnchor.ConstraintEqualTo(speakerAvatarView.BottomAnchor, constant: -10).Active = true;
+                rightTriangleView.WidthAnchor.ConstraintEqualTo(8).Active = true;
+                rightTriangleView.HeightAnchor.ConstraintEqualTo(14).Active = true;
+                rightTriangleView.Transform = CGAffineTransform.Rotate(rightTriangleView.Transform, (nfloat)Math.PI * 0.08f);
+
                 outgoingMessageConstraints = new NSLayoutConstraint[]
                 {
                     circleImageViewRightAnchorOutgoingConstraint,
@@ -154,7 +184,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             }
 
             var isOutgoing = message.UserModel.Role == ChatUserRole.Consumer;
-            var isNewPrompt = suggestionType != null;
+            var isNewPrompt = message.IsNewActionPlan;
             var topViewHeight = smallerCircleSize;
             var bottomViewheight = 13;
 
@@ -173,6 +203,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
             bottomViewRightAnchorConstraint.Active = isNewPrompt;
             topViewRightAnchorConstraint.Active = isNewPrompt;
 
+            leftTriangleView.Hidden = isOutgoing;
+            rightTriangleView.Hidden = !isOutgoing;
+
             if (isNewPrompt)
             {
                 foreach (var v in topView.Subviews) { v.RemoveFromSuperview(); }
@@ -180,8 +213,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 var suggestionCircleView = new CircleAvatarView
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    Image = suggestionType.SelectedIconImage,
-                    BackgroundColor = suggestionType.SelectionColor,
+                    Image = Constants.Assets.MapFromActionPlanIcon(message.ActionPlan.Icon),
+                    BackgroundColor = Constants.Color.MapFromActionPlanColor(message.ActionPlan.Color),
                 };
 
                 topView.AddSubview(suggestionCircleView);
@@ -193,7 +226,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 var titleLabel = new UILabel
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    Text = suggestionType.Title,
+                    Text = message.ActionPlan.Name,
                     Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Ten),
                     TextColor = Constants.Color.MidGray,
                 };

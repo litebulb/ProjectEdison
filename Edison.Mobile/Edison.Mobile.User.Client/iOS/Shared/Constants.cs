@@ -81,17 +81,28 @@ namespace Edison.Mobile.User.Client.iOS.Shared
             public static UIImage HealthBlue => UIImage.FromBundle("HealthBlue");
             public static UIImage LocationSent => UIImage.FromBundle("LocationSent");
             public static UIImage ProtestWhite => UIImage.FromBundle("ProtestWhite");
+            public static UIImage ProtestBlue => UIImage.FromBundle("ProtestBlue");
             public static UIImage BrightnessMoon => UIImage.FromBundle("BrightnessMoon");
+            public static UIImage TornadoWhite => UIImage.FromBundle("TornadoWhite");
+            public static UIImage TornadoYellow => UIImage.FromBundle("TornadoYellow");
+            public static UIImage PackageWhite => UIImage.FromBundle("PackageWhite");
+            public static UIImage PackageRed => UIImage.FromBundle("PackageRed");
+            public static UIImage VipBlue => UIImage.FromBundle("VIPBlue");
+            public static UIImage VipWhite => UIImage.FromBundle("VIPWhite");
 
-            public static UIImage MapFromActionPlanIcon(string str) 
+            public static UIImage MapFromActionPlanIcon(string str, bool colored = false) 
             {
                 switch (str) 
                 {
-                    case Core.Shared.Constants.IconName.Fire: return FireWhite;
-                    case Core.Shared.Constants.IconName.Gun: return GunWhite;
-                    case Core.Shared.Constants.IconName.Protest: return ProtestWhite;
-                    case Core.Shared.Constants.IconName.Pollution: return HealthWhite;
-                    case Core.Shared.Constants.IconName.Health: return HealthWhite;
+                    case Core.Shared.Constants.IconName.Fire: return colored ? FireRed : FireWhite;
+                    case Core.Shared.Constants.IconName.Gun: return colored ? GunRed : GunWhite;
+                    case Core.Shared.Constants.IconName.Protest: return colored ? ProtestBlue : ProtestWhite;
+                    case Core.Shared.Constants.IconName.Pollution: return colored ? HealthBlue : HealthWhite;
+                    case Core.Shared.Constants.IconName.Health: return colored ? HealthBlue : HealthWhite;
+                    case Core.Shared.Constants.IconName.Tornado: return colored ? TornadoYellow : TornadoWhite;
+                    case Core.Shared.Constants.IconName.Package: return colored ? PackageRed : PackageWhite;
+                    case Core.Shared.Constants.IconName.Vip: return colored ? VipBlue : VipWhite;
+                    case Core.Shared.Constants.IconName.Emergency: return colored ? EmergencyRed : EmergencyWhite;
                     default: return null;
                 }
             }

@@ -17,13 +17,7 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
         {
             var cell = collectionView.DequeueReusableCell(typeof(ChatMessageCollectionViewCell).Name, indexPath) as ChatMessageCollectionViewCell;
             var message = Messages[(int)indexPath.Item];
-            cell.Initialize(message, indexPath.Item == 0 ? new ChatMessageType 
-            {
-                SelectedIconImage = Constants.Assets.EmergencyWhite,
-                SelectionColor = Constants.Color.Red,
-                Title = "EMERGENCY",
-            } : null, Initials);
-
+            cell.Initialize(message, Initials);
             return cell;
         }
 

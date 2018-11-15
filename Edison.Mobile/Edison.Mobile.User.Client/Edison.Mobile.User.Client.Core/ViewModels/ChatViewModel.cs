@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
@@ -15,6 +14,7 @@ using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Network;
 using Timer = System.Timers.Timer;
+using System.Linq;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {
@@ -24,13 +24,16 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         readonly LocationRestService locationRestService;
         readonly ILocationService locationService;
         readonly INotificationService notificationService;
+        readonly ActionPlanRestService actionPlanRestService;
         readonly AuthService authService;
         readonly ChatClientConfig chatClientConfig;
         readonly Timer geolocationTimer;
 
+        bool isInConversation;
         string chatWatermark;
         Task readMessagesTask;
         CancellationTokenSource readMessagesCancellationTokenSource;
+        ActionPlanListModel currentActionPlan;
 
         DirectLineClient client;
         Conversation conversation;
@@ -38,6 +41,20 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         public ChatUserTokenContext ChatTokenContext { get; set; }
 
         public ObservableRangeCollection<ChatMessage> ChatMessages { get; } = new ObservableRangeCollection<ChatMessage>();
+        public ObservableRangeCollection<ActionPlanListModel> ActionPlans { get; } = new ObservableRangeCollection<ActionPlanListModel>();
+
+
+        public ActionPlanListModel CurrentActionPlan 
+        {
+            get => currentActionPlan;
+            set 
+            {
+                currentActionPlan = value;
+                OnCurrentActionPlanChanged?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public event EventHandler<EventArgs> OnCurrentActionPlanChanged;
 
         public string Initials => authService.Initials;
 
@@ -47,7 +64,8 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             INotificationService notificationService,
             AuthService authService,
             LocationRestService locationRestService,
-            ILocationService locationService
+            ILocationService locationService,
+            ActionPlanRestService actionPlanRestService
         )
         {
             this.chatRestService = chatRestService;
@@ -55,15 +73,20 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             this.chatClientConfig = chatClientConfig;
             this.notificationService = notificationService;
             this.authService = authService;
+            this.actionPlanRestService = actionPlanRestService;
             this.locationService = locationService;
 
-            geolocationTimer = new Timer(User.Client.Core.Shared.Constants.UpdateLocationTimerInterval);
+            geolocationTimer = new Timer(Shared.Constants.UpdateLocationTimerInterval);
             geolocationTimer.Elapsed += HandleGeolocationTimer;
         }
 
         public async override void ViewAppeared()
         {
             base.ViewAppeared();
+
+            var actionPlans = await actionPlanRestService.GetActionPlans();
+
+            ActionPlans.AddRange(actionPlans);
 
             ChatTokenContext = await chatRestService.GetToken();
 
@@ -88,19 +111,28 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             readMessagesCancellationTokenSource.Cancel();
         }
 
-        public async Task<bool> SendMessage(string message)
+        public async Task<bool> SendMessage(string message, bool isPromptedFromActionPlanButton = false)
         {
-            var userMessage = new Activity
+            var newActivity = new Activity
             {
                 From = new ChannelAccount(chatClientConfig.UserId, chatClientConfig.Username),
                 Type = ActivityTypes.Message,
                 Text = message,
             };
 
-            userMessage.Properties["reportType"] = chatClientConfig.ReportType;
-            userMessage.Properties["deviceId"] = chatClientConfig.DeviceId;
+            if (CurrentActionPlan == null) 
+            {
+                CurrentActionPlan = GetDefaultActionPlan();
+            }
 
-            var response = await client.Conversations.PostActivityAsync(conversation.ConversationId, userMessage);
+            if (isPromptedFromActionPlanButton)
+            {
+                newActivity.Properties["reportType"] = CurrentActionPlan.ActionPlanId;
+            }
+
+            newActivity.Properties["deviceId"] = chatClientConfig.DeviceId;
+
+            var response = await client.Conversations.PostActivityAsync(conversation.ConversationId, newActivity);
             return response != null;
         }
 
@@ -113,6 +145,23 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         public void ChatDismissed()
         {
             geolocationTimer.Stop();
+        }
+
+        public void BeginConversationWithActionPlan(ActionPlanListModel actionPlanListModel = null)
+        {
+            var actionPlan = actionPlanListModel ?? GetDefaultActionPlan();
+            CurrentActionPlan = actionPlan;
+
+            Task.Run(async () => 
+            {
+                await locationRestService.UpdateDeviceLocation(new Geolocation 
+                {
+                    Latitude = locationService.LastKnownLocation.Latitude,
+                    Longitude = locationService.LastKnownLocation.Longitude,
+                });
+
+                await SendMessage(CurrentActionPlan.Name, true);
+            });
         }
 
         async void HandleGeolocationTimer(object sender, EventArgs e)
@@ -163,20 +212,21 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                             if (command == Commands.SendMessage)
                             {
                                 var sendMessageProperties = channelData["data"].ToObject<CommandSendMessageProperties>();
+                                var actionPlan = ActionPlans.FirstOrDefault(a => a.ActionPlanId.ToString() == sendMessageProperties.ReportType); // reportType is only populated by action plan button press
                                 chatMessages.Add(new ChatMessage
                                 {
                                     Text = activity.Text,
                                     UserModel = sendMessageProperties.From,
+                                    ActionPlan = actionPlan,
+                                    IsNewActionPlan = actionPlan != null && IsMyChatId(sendMessageProperties.From.Id),
                                 });
-                            }
-                            else if (command == Commands.EndConversation)
-                            {
-                                isEndingConversation = true;
-                                break;
                             }
                         }
                         else if (IsMyChatId(activity.From.Id))
                         {
+                            var previouslySentMessage = ChatMessages.LastOrDefault(m => IsMyChatId(m.UserModel.Id));
+                            var isNewActionPlan = previouslySentMessage == null || previouslySentMessage.ActionPlan != CurrentActionPlan;
+
                             chatMessages.Add(new ChatMessage
                             {
                                 Text = activity.Text,
@@ -186,17 +236,28 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                                     Name = activity.From.Name,
                                     Role = ChatUserRole.Consumer,
                                 },
+                                ActionPlan = CurrentActionPlan,
+                                IsNewActionPlan = isNewActionPlan,
                             });
                         }
+
+                        isEndingConversation = activity.Type == "endOfConversation";
+                    }
+
+                    if (chatMessages.Count > 0)
+                    {
+                        if (!isInConversation)
+                        {
+                            ChatMessages.Clear();
+                        }
+
+                        isInConversation = true;
+                        ChatMessages.AddRange(chatMessages);
                     }
 
                     if (isEndingConversation)
                     {
-                        ChatMessages.Clear();
-                    }
-                    else if (chatMessages.Count > 0)
-                    {
-                        ChatMessages.AddRange(chatMessages);
+                        isInConversation = false;
                     }
                 }
                 catch (Exception e)
@@ -209,5 +270,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         }
 
         bool IsMyChatId(string chatId) => chatId.Contains(authService.Email);
+
+        ActionPlanListModel GetDefaultActionPlan() => ActionPlans.First(a => a.Name == "Emergency"); // TODO: no magic strings
     }
 }
