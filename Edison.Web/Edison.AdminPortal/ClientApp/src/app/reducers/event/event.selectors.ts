@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AppState } from '..';
-import { State, selectAll } from './event.reducer';
+
+import { AppState } from '../';
+import { selectAll, State } from './event.reducer';
 
 export const eventStateSelector = createFeatureSelector<AppState, State>('event');
 

@@ -3,7 +3,7 @@ import { GeoLocation } from '../../core/models/geoLocation';
 export interface Device {
     deviceId: string;
     deviceType: string;
-    online: boolean;
+    online?: boolean;
     name: string;
     location1: string;
     location2: string;

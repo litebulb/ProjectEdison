@@ -1,36 +1,33 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
-import { MapDefaults } from '../../../map/models/mapDefaults'
-import { MapPin } from '../../../map/models/mapPin'
-import { AppState } from '../../../../reducers'
-import { Store, select } from '@ngrx/store'
-import { MapComponent } from '../../../map/components/map/map.component'
-import { eventsSelector } from '../../../../reducers/event/event.selectors'
-import { GetDevices } from '../../../../reducers/device/device.actions'
-import { GetEvents, EventActionTypes, ShowEvents } from '../../../../reducers/event/event.actions'
-import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors'
-import { Event, EventType } from '../../../../reducers/event/event.model'
-import {
-    responsesExist,
-    responsesSelector,
-} from '../../../../reducers/response/response.selectors'
-import { Observable, combineLatest, Subscription } from 'rxjs'
-import {
-    ResponseState,
-    Response,
-} from '../../../../reducers/response/response.model'
-import { GetResponses } from '../../../../reducers/response/response.actions'
-import { Device } from '../../../../reducers/device/device.model'
-import { environment } from '../../../../../environments/environment'
-import { Actions, ofType } from '@ngrx/effects'
-import {
-    AppActionTypes,
-    SetPageData,
-} from '../../../../reducers/app/app.actions'
-import { AddChat, GetChatAuthToken, ChatActionTypes, ToggleUserChatWindow, ToggleAllUsersChatWindow } from '../../../../reducers/chat/chat.actions';
-import { chatAuthSelector } from '../../../../reducers/chat/chat.selectors';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first } from 'rxjs/operators';
+
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+
+import { environment } from '../../../../../environments/environment';
 import { DirectlineService } from '../../../../core/services/directline/directline.service';
 import { MessageModel } from '../../../../core/services/directline/models/activity-model';
+import { AppState } from '../../../../reducers';
+import { AppActionTypes, SetPageData } from '../../../../reducers/app/app.actions';
+import {
+    AddChat, ChatActionTypes, GetChatAuthToken, ToggleAllUsersChatWindow, ToggleUserChatWindow
+} from '../../../../reducers/chat/chat.actions';
+import { chatAuthSelector } from '../../../../reducers/chat/chat.selectors';
+import { GetDevices } from '../../../../reducers/device/device.actions';
+import { Device } from '../../../../reducers/device/device.model';
+import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors';
+import { EventActionTypes, GetEvents, ShowEvents } from '../../../../reducers/event/event.actions';
+import { Event, EventType } from '../../../../reducers/event/event.model';
+import { activeEventsSelector, eventsSelector } from '../../../../reducers/event/event.selectors';
+import { GetResponses } from '../../../../reducers/response/response.actions';
+import { Response, ResponseState } from '../../../../reducers/response/response.model';
+import {
+    responsesExist, responsesSelector
+} from '../../../../reducers/response/response.selectors';
+import { MapComponent } from '../../../map/components/map/map.component';
+import { MapDefaults } from '../../../map/models/mapDefaults';
+import { MapPin } from '../../../map/models/mapPin';
 
 @Component({
     selector: 'app-dashboard',
@@ -64,7 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const responseStream = this.store.pipe(select(responsesSelector));
-        const eventStream = this.store.pipe(select(eventsSelector));
+        const eventStream = this.store.pipe(select(activeEventsSelector));
         const deviceStream = this.store.pipe(select(devicesFilteredSelector));
 
         this.actions$
