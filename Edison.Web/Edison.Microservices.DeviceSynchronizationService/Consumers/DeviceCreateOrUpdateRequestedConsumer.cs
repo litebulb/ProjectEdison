@@ -50,8 +50,7 @@ namespace Edison.DeviceSynchronizationService.Consumers
             {
                 //Push message to Service bus queue
                 _logger.LogDebug($"DeviceCreateOrUpdateRequestedConsumer: Device heartbeat updated with device id '{context.Message.DeviceId}'.");
-                if(result.NeedsUpdate)
-                    await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = result.Device, CorrelationId = context.Message.CorrelationId });
+                await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = result.Device, CorrelationId = context.Message.CorrelationId, NotifyUI = result.NeedsUpdate });
                 return;
             }
             _logger.LogError("DeviceCreateOrUpdateRequestedConsumer: The device heartbeat could not be updated.");
@@ -72,7 +71,7 @@ namespace Edison.DeviceSynchronizationService.Consumers
                 {
                     //Push message to Service bus queue
                     _logger.LogDebug($"DeviceCreateOrUpdateRequestedConsumer: Device created/updated with device id '{context.Message.DeviceId}'.");
-                    await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = device, CorrelationId = context.Message.CorrelationId });
+                    await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = device, CorrelationId = context.Message.CorrelationId, NotifyUI = true });
                     return;
                 }
                 _logger.LogError("DeviceCreateOrUpdateRequestedConsumer: The device could not be updated.");

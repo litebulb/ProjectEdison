@@ -63,6 +63,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
                         {
                             if (response.BaseCommand == requestCommand.BaseCommand + 100)
                             {
+                                Close();
                                 return JsonConvert.DeserializeObject<T>(response.Data);
                             }
                             else

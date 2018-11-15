@@ -65,16 +65,18 @@ namespace Edison.Workflows
             During(Waiting,
                 When(DeviceCreatedOrUpdated)
                     .ThenAsync(context => Console.Out.WriteLineAsync($"DeviceSynchronization---{context.Instance.CorrelationId}: Device Updated: {context.Instance.ChangeType}."))
-                    .ThenAsync(context => context.Publish(new DeviceUIUpdateRequestedEvent()
-                    {
-                        CorrelationId = context.Instance.CorrelationId,
-                        DeviceUI = new DeviceUIModel()
+                    .If(new StateMachineCondition<DeviceSynchronizationState, IDeviceCreatedOrUpdated>(bc => bc.Data.NotifyUI), x => x
+                        .ThenAsync(context => context.Publish(new DeviceUIUpdateRequestedEvent()
                         {
-                            DeviceId = context.Instance.DeviceId,
-                            Device = context.Data.Device,
-                            UpdateType = context.Instance.ChangeType == "twinChangeNotification" || context.Instance.ChangeType == "ping"  ? "UpdateDevice" : "NewDevice"
-                        }
-                    }))
+                            CorrelationId = context.Instance.CorrelationId,
+                            DeviceUI = new DeviceUIModel()
+                            {
+                                DeviceId = context.Instance.DeviceId,
+                                Device = context.Data.Device,
+                                UpdateType = context.Instance.ChangeType == "twinChangeNotification" || context.Instance.ChangeType == "ping"  ? "UpdateDevice" : "NewDevice"
+                            }
+                        }))
+                    )
                     .Finalize(),
                 When(EventDeviceDeleted)
                     .ThenAsync(context => Console.Out.WriteLineAsync($"DeviceSynchronization---{context.Instance.CorrelationId}: Device Deleted: {context.Instance.DeviceId}."))

@@ -9,9 +9,11 @@ namespace Edison.Devices.Onboarding.Client.Interfaces
         Task<ResultCommandGenerateCSR> GenerateCSR();
         Task<ResultCommand> ProvisionDevice(RequestCommandProvisionDevice requestProvisionDevice);
         Task<ResultCommandListFirmwares> ListFirmwares();
+        Task<ResultCommandSoftAPSettings> GetAccessPointSettings();
         Task<ResultCommand> SetDeviceType(RequestCommandSetDeviceType requestSetDeviceType);
         Task<ResultCommandAvailableNetworks> RequestGetAvailableNetworks();
         Task<ResultCommandNetworkStatus> ConnectToClientNetwork(RequestCommandConnectToNetwork requestConnectToNetwork);
+        Task<ResultCommand> SetDeviceSecretKeys(RequestCommandSetDeviceSecretKeys requestSetDeviceSecretKeys);
         Task<ResultCommandNetworkStatus> DisconnectFromClientNetwork(RequestCommandDisconnectFromNetwork requestDisconnectFromNetwork);
     }
 }

@@ -33,6 +33,7 @@
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
+      <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="300" iOS="Auto" Android="*" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
     </Grid.RowDefinitions>
@@ -58,19 +59,33 @@
                 VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
+        <Frame x:Name="_CommandGetAccessPointSettings" Padding="1" Grid.Row="3">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="4.  " VerticalTextAlignment="Center" />
+                <Button Text="Command - Get Access Point Settings" Clicked="CommandGetAccessPointSettings"
+                VerticalOptions="Center" HorizontalOptions="Center" />
+            </StackLayout>
+        </Frame>
+        <Frame x:Name="_CommandSetDeviceSecretKeys" Padding="1" Grid.Row="4">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="5.  " VerticalTextAlignment="Center" />
+                <Button Text="Command - Set Device Secret Keys" Clicked="CommandSetDeviceSecretKeys"
+                VerticalOptions="Center" HorizontalOptions="Center" />
+            </StackLayout>
+        </Frame>
 
-        <Frame x:Name="_ScanApsGrouping" Padding="1" Grid.Row="4">
+        <Frame x:Name="_ScanApsGrouping" Padding="1" Grid.Row="5">
       <StackLayout Orientation="Horizontal">
-        <Label Text="3.  " VerticalTextAlignment="Center" />
+        <Label Text="6.  " VerticalTextAlignment="Center" />
 	      <Button Text="Scan for Access Points" 
                 Clicked="FindAccessPoints"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" />
       </StackLayout>
     </Frame>
-    <Frame x:Name="_ConnectApGrouping" Padding="1" Grid.Row="5">
+    <Frame x:Name="_ConnectApGrouping" Padding="1" Grid.Row="6">
       <StackLayout Orientation="Horizontal">
-        <Label Text="4.  " VerticalTextAlignment="Center" />
+        <Label Text="7.  " VerticalTextAlignment="Center" />
         <Button x:Name="_connectButton"
               Clicked="ConnectToAccessPoint"
               Text="Connect to Access Point"
@@ -78,9 +93,9 @@
               HorizontalOptions="Center" />
       </StackLayout>
     </Frame>
-    <Frame x:Name="_NetworksGrouping" Padding="1" Grid.Row="6">
+    <Frame x:Name="_NetworksGrouping" Padding="1" Grid.Row="7">
       <StackLayout Orientation="Horizontal">
-        <Label Text="5.  " VerticalTextAlignment="Center" />
+        <Label Text="8.  " VerticalTextAlignment="Center" />
         <Button x:Name="_requestClientNetworks"
               Clicked="RequestClientNetworks"
               Text="Get Networks"
@@ -88,9 +103,9 @@
               HorizontalOptions="Center" />
       </StackLayout>
     </Frame>
-    <Frame x:Name="_ConnectGrouping" Padding="1" Grid.Row="7">
+    <Frame x:Name="_ConnectGrouping" Padding="1" Grid.Row="8">
       <StackLayout Orientation="Horizontal">
-        <Label Text="6.  " VerticalTextAlignment="Center" />
+        <Label Text="9.  " VerticalTextAlignment="Center" />
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -112,9 +127,9 @@
         </Grid>
       </StackLayout>
     </Frame>
-    <Frame x:Name="_DisconnectGrouping" Padding="1" Grid.Row="8">
+    <Frame x:Name="_DisconnectGrouping" Padding="1" Grid.Row="9">
       <StackLayout Orientation="Horizontal">
-        <Label Text="7.  " VerticalTextAlignment="Center" />
+        <Label Text="10.  " VerticalTextAlignment="Center" />
         <Button x:Name="_disconnectClientNetwork"
               Clicked="DisconnectClientNetwork"
               Text="Disconnect"
@@ -122,9 +137,9 @@
               HorizontalOptions="Center" />
       </StackLayout>
     </Frame>
-    <Frame x:Name="_ExitGrouping" Padding="1" Grid.Row="9">
+    <Frame x:Name="_ExitGrouping" Padding="1" Grid.Row="10">
       <StackLayout Orientation="Horizontal">
-        <Label Text="8.  " VerticalTextAlignment="Center" />
+        <Label Text="11.  " VerticalTextAlignment="Center" />
         <Button x:Name="_exitButton"
               Clicked="Exit"
               Text="Exit"
@@ -133,9 +148,9 @@
       </StackLayout>
     </Frame>
 
-    <Label x:Name="_Spacer" Text="   "  Grid.Row="10"/>
+    <Label x:Name="_Spacer" Text="   "  Grid.Row="11"/>
 
-    <StackLayout Orientation="Horizontal" Grid.Row="11">
+    <StackLayout Orientation="Horizontal" Grid.Row="12">
       <ListView x:Name="_availableAccessPointListView"
                 Header="Access Points"
                 ItemSelected="SelectAccessPoint">
@@ -156,7 +171,7 @@
       </ListView>
     </StackLayout>
 
-    <Label x:Name="_Status" Text="" BackgroundColor="Gray" Grid.Row="12"/>
+    <Label x:Name="_Status" Text="" BackgroundColor="Gray" Grid.Row="13"/>
 
   </Grid>
 </ContentPage>

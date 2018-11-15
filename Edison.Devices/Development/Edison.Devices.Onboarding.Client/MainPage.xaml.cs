@@ -201,9 +201,34 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatus($"CommandListFirmwares", "");
             var resultListFirmwares = await CommandsHelper.ListFirmwares();
             if (resultListFirmwares.IsSuccess)
-                UpdateStatus($"CommandListFirmwares", string.Join(',', resultListFirmwares.Firmwares));
+                UpdateStatus($"CommandListFirmwares", string.Join(", ", resultListFirmwares.Firmwares));
             else
                 UpdateStatusError($"CommandListFirmwares", resultListFirmwares.ErrorMessage);
+        }
+
+        public async void CommandGetAccessPointSettings(object sender, EventArgs e)
+        {
+            UpdateStatus($"CommandGetAccessPointSettings", "");
+            var resultGetAvailableNetworks = await CommandsHelper.GetAccessPointSettings();
+            if (resultGetAvailableNetworks.IsSuccess)
+                UpdateStatus($"CommandGetAccessPointSettings", $"Enabled: {resultGetAvailableNetworks.SoftAPSettings.SoftAPEnabled}, SSID: {resultGetAvailableNetworks.SoftAPSettings.SoftApSsid}, Password: {resultGetAvailableNetworks.SoftAPSettings.SoftApPassword}");
+            else
+                UpdateStatusError($"CommandGetAccessPointSettings", resultGetAvailableNetworks.ErrorMessage);
+        }
+
+        public async void CommandSetDeviceSecretKeys(object sender, EventArgs e)
+        {
+            UpdateStatus($"CommandSetDeviceSecretKeys", "");
+            var resultGetAvailableNetworks = await CommandsHelper.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys() //This will be retrieve from a REST endpoint
+            {
+                 PortalPassword = "Edison12345",
+                 APSsid = "EDISON",
+                 APPassword = "Edison12345",
+                 SocketPassphrase = "DONOTRUN"
+            });
+            if (!resultGetAvailableNetworks.IsSuccess)
+                UpdateStatusError($"CommandSetDeviceSecretKeys", resultGetAvailableNetworks.ErrorMessage);
+            UpdateStatusError($"CommandSetDeviceSecretKeys", "Device secret keys reset.");
         }
 
         public async void CommandProvisionDevice(object sender, EventArgs e)

@@ -60,6 +60,17 @@ namespace Edison.Devices.Onboarding.Client.Helpers
         }
 
         /// <summary>
+        /// Return AP settings
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ResultCommandSoftAPSettings> GetAccessPointSettings()
+        {
+            var resultGetAccessPointSettings = await _socketClient.SendCommand<ResultCommandSoftAPSettings>
+                (CommandsEnum.GetAccessPointSettings, Common.Helpers.SharedConstants.DEFAULT_SOCKET_PASSPHRASE);
+            return resultGetAccessPointSettings;
+        }
+
+        /// <summary>
         /// Set Device Type and start the proper firmware
         /// </summary>
         /// <param name="requestSetDeviceType"></param>
@@ -69,6 +80,18 @@ namespace Edison.Devices.Onboarding.Client.Helpers
             var resultSetDeviceType = await _socketClient.SendCommand<RequestCommandSetDeviceType, ResultCommand>
                 (CommandsEnum.SetDeviceType, requestSetDeviceType, Common.Helpers.SharedConstants.DEFAULT_SOCKET_PASSPHRASE);
             return resultSetDeviceType;
+        }
+
+        /// <summary>
+        /// Set Device Secret Keys. Access Point and Encryption key need to be refresh after that
+        /// </summary>
+        /// <param name="requestSetDeviceType"></param>
+        /// <returns></returns>
+        public async Task<ResultCommand> SetDeviceSecretKeys(RequestCommandSetDeviceSecretKeys requestSetDeviceSecretKeys)
+        {
+            var resultSetDeviceSecretKeys = await _socketClient.SendCommand<RequestCommandSetDeviceSecretKeys, ResultCommand>
+                (CommandsEnum.SetDeviceSecretKeys, requestSetDeviceSecretKeys, Common.Helpers.SharedConstants.DEFAULT_SOCKET_PASSPHRASE);
+            return resultSetDeviceSecretKeys;
         }
 
         /// <summary>

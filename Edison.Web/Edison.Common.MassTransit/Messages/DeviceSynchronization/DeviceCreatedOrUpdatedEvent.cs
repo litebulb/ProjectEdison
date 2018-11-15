@@ -7,6 +7,7 @@ namespace Edison.Common.Messages
     public class DeviceCreatedOrUpdatedEvent : IDeviceCreatedOrUpdated
     {
         public Guid CorrelationId { get; set; }
+        public bool NotifyUI { get; set; }
         public DeviceModel Device { get; set; }
     }
 }
