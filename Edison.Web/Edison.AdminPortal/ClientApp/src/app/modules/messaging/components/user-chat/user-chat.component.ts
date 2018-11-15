@@ -1,15 +1,26 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Observable, Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { AppState } from '../../../../reducers';
-import { chatActiveMessagesSelector, chatActiveUserSelector } from '../../../../reducers/chat/chat.selectors';
-import { ToggleAllUsersChatWindow, SendNewMessage, EndConversation } from '../../../../reducers/chat/chat.actions';
-import { actionPlansSelector } from '../../../../reducers/action-plan/action-plan.selectors';
-import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
-import { Message } from '../../../../reducers/chat/chat.model';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { select, Store } from '@ngrx/store';
+
 import { ConfirmDialogData } from '../../../../core/models/confirmDialogData';
+import { AppState } from '../../../../reducers';
+import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
+import { actionPlansSelector } from '../../../../reducers/action-plan/action-plan.selectors';
+import {
+    EndConversation, SendNewMessage, ToggleUserChatWindow
+} from '../../../../reducers/chat/chat.actions';
+import { Message } from '../../../../reducers/chat/chat.model';
+import {
+    chatActiveMessagesSelector, chatActiveUserSelector
+} from '../../../../reducers/chat/chat.selectors';
+import { Event, EventInstance } from '../../../../reducers/event/event.model';
+import { activeMobileEventsSelector } from '../../../../reducers/event/event.selectors';
+import { ShowActivateResponse } from '../../../../reducers/response/response.actions';
+import {
+    ConfirmDialogComponent
+} from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-user-chat',
@@ -21,9 +32,12 @@ export class UserChatComponent implements OnInit, OnDestroy {
     messages: Message[];
     activeUserId$: Subscription;
     actionPlans$: Observable<ActionPlan[]>;
+    activeMobileEvents$: Subscription;
     message: string
     userId: string;
     userName: string;
+    event: Event;
+    latestEventInstance: EventInstance;
 
     constructor (private store: Store<AppState>, public dialog: MatDialog) { }
 
@@ -36,6 +50,13 @@ export class UserChatComponent implements OnInit, OnDestroy {
             this.userName = user.name;
         });
         this.actionPlans$ = this.store.pipe(select(actionPlansSelector));
+        this.activeMobileEvents$ = this.store
+            .pipe(select(activeMobileEventsSelector))
+            .subscribe(events => {
+                this.event = events.find(event => event.events.some(ee => ee.metadata.userId === this.userId));
+                this.latestEventInstance = this.event.events
+                    .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[ 0 ]
+            })
     }
 
     ngOnDestroy() {
@@ -62,7 +83,7 @@ export class UserChatComponent implements OnInit, OnDestroy {
     }
 
     close() {
-        this.store.dispatch(new ToggleAllUsersChatWindow({ open: false }));
+        this.store.dispatch(new ToggleUserChatWindow({ open: false }));
     }
 
     confirmEndChat() {
@@ -80,6 +101,14 @@ export class UserChatComponent implements OnInit, OnDestroy {
                 this.close();
             }
         });
+    }
+
+    activateResponse = () => {
+        this.store.dispatch(new ShowActivateResponse({
+            event: this.event,
+            actionPlanId: this.latestEventInstance.metadata.reportType
+        }))
+        this.close();
     }
 
     private endChat() {

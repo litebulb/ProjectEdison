@@ -5,10 +5,10 @@
 </div>
 <div class="response-container">
     <div>
-        <div>
-            Activity Reported
+        <div class="activity-reported">
+            <div>Activity Reported:</div>
             <mat-form-field>
-                <mat-select>
+                <mat-select [(ngModel)]="latestEventInstance.metadata.reportType">
                     <mat-option *ngFor="let actionPlan of actionPlans$ | async"
                                 [value]="actionPlan.actionPlanId">{{actionPlan.name}}</mat-option>
                 </mat-select>
@@ -24,7 +24,8 @@
         <div class="app-icon time small"></div>
         <div>15:09</div>
     </div>
-    <button class="app-button secondary">ACTIVATE RESPONSE</button>
+    <button class="app-button secondary"
+            (click)="activateResponse()">ACTIVATE RESPONSE</button>
     <button class="app-button primary"
             (click)="confirmEndChat()">END CONVERSATION</button>
 </div>

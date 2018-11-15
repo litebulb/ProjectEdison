@@ -1,9 +1,10 @@
-import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
-import { Response, ResponseState } from './response.model';
-import { Event } from '../event/event.model';
-import { ActionPlan, AddEditAction } from '../action-plan/action-plan.model';
+import { Action } from '@ngrx/store';
+
 import { MapPosition } from '../../modules/map/models/mapPosition';
+import { ActionPlan, AddEditAction } from '../action-plan/action-plan.model';
+import { Event } from '../event/event.model';
+import { Response, ResponseState } from './response.model';
 
 export enum ResponseActionTypes {
     LoadResponses = '[Response] Load Responses',
@@ -45,7 +46,7 @@ export enum ResponseActionTypes {
 export class ShowActivateResponse implements Action {
     readonly type = ResponseActionTypes.ShowActivateResponse;
 
-    constructor (public payload: { event?: Event }) { }
+    constructor (public payload: { event?: Event, actionPlanId?: string }) { }
 }
 
 export class UpdateResponseActions implements Action {

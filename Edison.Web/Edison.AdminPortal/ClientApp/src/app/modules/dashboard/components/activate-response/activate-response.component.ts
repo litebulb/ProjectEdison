@@ -1,38 +1,27 @@
-import {
-    Component,
-    OnInit,
-    OnDestroy,
-} from '@angular/core'
-import { fadeInOut } from '../../../../core/animations/fadeInOut'
-import { Store, select } from '@ngrx/store'
-import { AppState } from '../../../../reducers'
-import {
-    eventsSelector,
-    activeEventSelector,
-} from '../../../../reducers/event/event.selectors'
-import {
-    ActionPlan,
-    ActionPlanStatus,
-} from '../../../../reducers/action-plan/action-plan.model'
-import {
-    selectedActionPlanSelector,
-    actionPlansSelector,
-} from '../../../../reducers/action-plan/action-plan.selectors'
-import {
-    SelectActionPlan,
-    GetActionPlans,
-    GetActionPlan,
-    SetSelectingActionPlan,
-    PutActionPlan,
-} from '../../../../reducers/action-plan/action-plan.actions'
-import { PostNewResponse, ResponseActionTypes, ShowActivateResponse } from '../../../../reducers/response/response.actions'
-import { Event } from '../../../../reducers/event/event.model'
-import { SelectActiveEvent } from '../../../../reducers/event/event.actions'
-import { SearchListItem } from '../../../../core/models/searchListItem'
-import { Subscription } from 'rxjs'
-import { responsesSelector } from '../../../../reducers/response/response.selectors'
-import { Response } from '../../../../reducers/response/response.model'
+import { Subscription } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+
+import { fadeInOut } from '../../../../core/animations/fadeInOut';
+import { SearchListItem } from '../../../../core/models/searchListItem';
+import { AppState } from '../../../../reducers';
+import {
+    GetActionPlan, GetActionPlans, PutActionPlan, SelectActionPlan, SetSelectingActionPlan
+} from '../../../../reducers/action-plan/action-plan.actions';
+import { ActionPlan, ActionPlanStatus } from '../../../../reducers/action-plan/action-plan.model';
+import {
+    actionPlansSelector, selectedActionPlanSelector
+} from '../../../../reducers/action-plan/action-plan.selectors';
+import { SelectActiveEvent } from '../../../../reducers/event/event.actions';
+import { Event } from '../../../../reducers/event/event.model';
+import { activeEventSelector, eventsSelector } from '../../../../reducers/event/event.selectors';
+import {
+    PostNewResponse, ResponseActionTypes, ShowActivateResponse
+} from '../../../../reducers/response/response.actions';
+import { Response } from '../../../../reducers/response/response.model';
+import { responsesSelector } from '../../../../reducers/response/response.selectors';
 
 @Component({
     selector: 'app-activate-response',
@@ -100,12 +89,15 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
 
         this.activeEventSub$ = this.actions$
             .pipe(ofType(ResponseActionTypes.ShowActivateResponse))
-            .subscribe(({ payload: { event } }: ShowActivateResponse) => {
+            .subscribe(({ payload: { event, actionPlanId } }: ShowActivateResponse) => {
                 this.active = true;
                 this.activated = false;
                 this.activeEvent = event;
                 this.showActionPlan = false;
                 this.selectedActionPlan = null;
+
+                if (actionPlanId) { this._selectActionPlan(actionPlanId); }
+
                 this.store.dispatch(new SetSelectingActionPlan({ isSelecting: this.active }))
             })
 
@@ -127,15 +119,20 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
     }
 
     selectActionPlan = (item: SearchListItem) => {
-        let actionPlan: ActionPlan = null
         if (item) {
-            actionPlan = this.actionPlans.find(ap => ap.actionPlanId === item.id)
-            if (!actionPlan.openActions) {
-                this.loadingFullActionPlan = true;
-                this.store.dispatch(new GetActionPlan({ actionPlanId: actionPlan.actionPlanId }));
-            }
-            this.showActionPlan = true
+            this._selectActionPlan(item.id);
+        } else {
+            this.store.dispatch(new SelectActionPlan({ actionPlan: null }))
         }
+    }
+
+    private _selectActionPlan(actionPlanId: string) {
+        const actionPlan = this.actionPlans.find(ap => ap.actionPlanId === actionPlanId)
+        if (!actionPlan.openActions) {
+            this.loadingFullActionPlan = true;
+            this.store.dispatch(new GetActionPlan({ actionPlanId: actionPlan.actionPlanId }));
+        }
+        this.showActionPlan = true
 
         this.store.dispatch(new SelectActionPlan({ actionPlan }))
     }
