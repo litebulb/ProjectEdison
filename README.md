@@ -18,7 +18,6 @@ In addition to Smart devices that are IoT-enabled,the following components/servi
 - Azure Notification Hub
 - Azure API Mananagement
 - Notification microservice
-- Rapid SoS service
 
 # Artifacts
 The visual designs can be found at the links below.  The password is "edison".
