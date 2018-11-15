@@ -1,5 +1,6 @@
 <div class="container"
-     (click)="click()">
+     (click)="click()"
+     [ngClass]="{'testable': device.deviceType === 'Lightbulb'}">
     <div class="connection">
         <div class="app-icon dot"
              [ngClass]="{'active': device.online}"></div>

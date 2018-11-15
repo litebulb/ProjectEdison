@@ -200,6 +200,9 @@ $icon-size: 36px;
     }
     &.light {
         @include icon('light');
+        &.grey {
+            @include icon('light_grey');
+        }
     }
     &.close {
         @include icon('close');

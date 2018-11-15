@@ -1,16 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FilterGroupModel } from '../../models/filter-group.model';
-import { Store, select } from '@ngrx/store';
+import { combineLatest, Subscription } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { DeviceType } from '../../../../core/models/deviceType';
 import { AppState } from '../../../../reducers';
-import { Subscription, combineLatest } from 'rxjs';
-import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors';
-import { responsesSelector } from '../../../../reducers/response/response.selectors';
-import { eventsSelector } from '../../../../reducers/event/event.selectors';
-import { ExpandedDevice } from '../../models/expanded-device.model';
-import { Event } from '../../../../reducers/event/event.model';
-import { Response } from '../../../../reducers/response/response.model';
-import { TestDevice } from '../../../../reducers/device/device.actions';
 import { SetPageData } from '../../../../reducers/app/app.actions';
+import { TestDevice } from '../../../../reducers/device/device.actions';
+import { devicesSelector } from '../../../../reducers/device/device.selectors';
+import { Event } from '../../../../reducers/event/event.model';
+import { eventsSelector } from '../../../../reducers/event/event.selectors';
+import { Response } from '../../../../reducers/response/response.model';
+import { responsesSelector } from '../../../../reducers/response/response.selectors';
+import { ExpandedDevice } from '../../models/expanded-device.model';
+import { FilterGroupModel } from '../../models/filter-group.model';
 
 @Component({
     selector: 'app-devices',
@@ -25,6 +28,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     private showButtons: boolean = true;
     private showSoundSensors: boolean = true;
+    private showLightBulbs: boolean = true;
     private showOnline: boolean = true;
     private showOffline: boolean = true;
 
@@ -42,19 +46,22 @@ export class DevicesComponent implements OnInit, OnDestroy {
     }
 
     onRowClick(device: ExpandedDevice) {
-        this.store.dispatch(new TestDevice(device));
+        if (device.deviceType === DeviceType.LightBulb) {
+            this.store.dispatch(new TestDevice(device));
+        }
     }
 
     private setupSubscriptions() {
-        const devicesObs = this.store.pipe(select(devicesFilteredSelector));
+        const devicesObs = this.store.pipe(select(devicesSelector));
         const responsesObs = this.store.pipe(select(responsesSelector));
         const eventsObs = this.store.pipe(select(eventsSelector));
 
-        this.combinedStream$ = combineLatest(devicesObs, responsesObs, eventsObs).subscribe(([ devices, responses, events ]) => {
-            this.devices = devices;
-            this.expandDevices(responses, events);
-            this.filterDevices();
-        })
+        this.combinedStream$ = combineLatest(devicesObs, responsesObs, eventsObs)
+            .subscribe(([ devices, responses, events ]) => {
+                this.devices = devices;
+                this.expandDevices(responses, events);
+                this.filterDevices();
+            })
     }
 
     private expandDevices(responses: Response[], events: Event[]) {
@@ -86,8 +93,9 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     private filterDevices() {
         this.filteredDevices = this.devices.filter(device => {
-            return (device.deviceType.toLowerCase() !== 'buttonsensor' || this.showButtons) &&
-                (device.deviceType.toLowerCase() !== 'soundsensor' || this.showSoundSensors) &&
+            return (device.deviceType !== DeviceType.ButtonSensor || this.showButtons) &&
+                (device.deviceType !== DeviceType.SoundSensor || this.showSoundSensors) &&
+                (device.deviceType !== DeviceType.LightBulb || this.showLightBulbs) &&
                 (this.showOnline && device.online || this.showOffline && !device.online)
         });
     }
@@ -106,6 +114,12 @@ export class DevicesComponent implements OnInit, OnDestroy {
                     title: 'Sound Sensors',
                     onClick: (checked: boolean) => { this.showSoundSensors = checked; this.filterDevices() },
                     iconClasses: 'app-icon medium-small grey sound',
+                    checked: true,
+                },
+                {
+                    title: 'LightBulbs',
+                    onClick: (checked: boolean) => { this.showSoundSensors = checked; this.filterDevices() },
+                    iconClasses: 'app-icon medium-small grey light',
                     checked: true,
                 }
             ],
