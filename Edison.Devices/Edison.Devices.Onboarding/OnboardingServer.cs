@@ -12,7 +12,7 @@ namespace Edison.Devices.Onboarding
     internal class OnboardingServer
     {
         private StreamSockerServer _StreamSockerHandler = null;
-        private WifiService _WifiService = null;
+        private WifiService _WifiService = null; 
         private ProvisioningService _ProvisioningService = null;
         private PortalService _PortalService = null;
         private DateTime _LastAccess = DateTime.UtcNow;

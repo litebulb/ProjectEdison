@@ -8,7 +8,6 @@ namespace Edison.Devices.Onboarding.Common.Models
 {
     public sealed class ResultCommandNetworkStatus : ResultCommand
     {
-        public int Code { get; set; }
         public string Status { get; set; }
     }
 }

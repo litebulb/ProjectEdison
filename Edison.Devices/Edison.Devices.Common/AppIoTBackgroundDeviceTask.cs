@@ -64,6 +64,10 @@ namespace Edison.Devices.Common
         /// </summary>
         public event Func<Task> StartApplication;
         /// <summary>
+        /// Hook for Start Application 
+        /// </summary>
+        public event Func<Task> TestMethod;
+        /// <summary>
         /// Hook for Run Application loop
         /// </summary>
         public event Func<Task> RunApplication;
@@ -250,7 +254,18 @@ namespace Edison.Devices.Common
 
         private async Task<MethodResponse> DirectMethodTest(MethodRequest methodRequest, object userContext)
         {
-            await _azureIoTHubService.SendIoTMessage(_eventTypeTest);
+            try
+            {
+                if (TestMethod != null)
+                    await TestMethod();
+                else
+                    await _azureIoTHubService.SendIoTMessage(_eventTypeTest);
+            }
+            catch(Exception e)
+            {
+                _logging.LogMessage($"DirectMethodTest Error: '{e.Message}'", LoggingLevel.Error);
+                _logging.LogMessage($"Stacktrace: '{e.StackTrace}'", LoggingLevel.Error);
+            }
             return new MethodResponse(200);
         }
     }

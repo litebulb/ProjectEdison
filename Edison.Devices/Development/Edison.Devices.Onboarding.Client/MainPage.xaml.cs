@@ -5,6 +5,7 @@ using Edison.Devices.Onboarding.Client.Models;
 using Edison.Devices.Onboarding.Client.Services;
 using Edison.Devices.Onboarding.Common.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
@@ -17,7 +18,7 @@ namespace Edison.Devices.Onboarding.Client
         enum State
         {
             Started,
-            AccessPointsEnmerated,
+            AccessPointsEnumerated,
             AccessPointSelected,
             AccessPointConnected,
             NetworksRequested,
@@ -37,10 +38,8 @@ namespace Edison.Devices.Onboarding.Client
             _connectClientNetwork.IsEnabled = (nextState >= State.NetworksEnumerated) && (_availableNetworkListView.SelectedItem != null);
 
             _ScanApsGrouping.BorderColor = (nextState == State.Started) ? Color.Yellow : Color.Default;
-            _ConnectApGrouping.BorderColor = (nextState == State.AccessPointsEnmerated || nextState == State.AccessPointSelected) ? Color.Yellow : Color.Default;
             _NetworksGrouping.BorderColor = (nextState == State.AccessPointConnected) ? Color.Yellow : Color.Default;
             _ConnectGrouping.BorderColor = (nextState == State.NetworksEnumerated || nextState == State.NetworkSelected) ? Color.Yellow : Color.Default;
-            _DisconnectGrouping.BorderColor = (nextState == State.NetworkConnected) ? Color.Yellow : Color.Default;
 
             CurrentState = nextState;
         }
@@ -51,11 +50,6 @@ namespace Edison.Devices.Onboarding.Client
         private ObservableCollection<AccessPoint> _AvailableAccessPoints = new ObservableCollection<AccessPoint>();
         private ObservableCollection<Network> _AvailableNetworks = new ObservableCollection<Network>();
 
-        private bool AccessPointsScanned { get; set; }
-        private bool AccessPointConnected { get; set; }
-        private bool ClientNetworksEnumerated { get; set; }
-        private bool ClientNetworkConnected { get; set; }
-
         public MainPage()
         {
             InitializeComponent();
@@ -65,25 +59,13 @@ namespace Edison.Devices.Onboarding.Client
             _availableAccessPointListView.ItemsSource = _AvailableAccessPoints;
             _availableNetworkListView.ItemsSource = _AvailableNetworks;
 
-            AccessPointHelper.AccessPointConnectedEvent += AccessPointHelper_AccessPointConnectedEvent;
-            AccessPointHelper.AccessPointsEnumeratedEvent += AccessPointHelper_AccessPointsEnumeratedEvent;
-            //NetworkCommandsHelper.ClientNetworkConnectedEvent += AccessPointHelper_ClientNetworkConnectedEvent;
-            //NetworkCommandsHelper.ClientNetworksEnumeratedEvent += AccessPointHelper_ClientNetworksEnumeratedEvent;
-
-            AccessPointsScanned = false;
-            AccessPointConnected = false;
-            ClientNetworkConnected = false;
-            ClientNetworksEnumerated = false;
-
             _clientNetworkPassword.IsEnabled = false;
             _connectClientNetwork.IsEnabled = false;
             _connectButton.IsEnabled = false;
             _requestClientNetworks.IsEnabled = false;
 
             _ScanApsGrouping.BorderColor = Color.Yellow;
-            _ConnectApGrouping.BorderColor = Color.Default;
             _NetworksGrouping.BorderColor = Color.Default;
-            _DisconnectGrouping.BorderColor = Color.Default;
             _ConnectGrouping.BorderColor = Color.Default;
         }
 
@@ -97,40 +79,11 @@ namespace Edison.Devices.Onboarding.Client
             _Status.Text = string.Format("{0} ... Error: {1}", action, result);
         }
 
-        private void AccessPointHelper_ClientNetworksEnumeratedEvent(string status)
-        {
-            Device.BeginInvokeOnMainThread(() => {
-
-                HandleState(State.NetworksEnumerated);
-                UpdateStatus(null, status);
-            });
-        }
-
         private void AccessPointHelper_ClientNetworkConnectedEvent(string status)
         {
             Device.BeginInvokeOnMainThread(() => {
                 HandleState(State.NetworkConnected);
                 UpdateStatus(null, status);
-            });
-        }
-
-        private void AccessPointHelper_AccessPointsEnumeratedEvent(string status)
-        {
-            Device.BeginInvokeOnMainThread(() => {
-                HandleState(State.AccessPointsEnmerated);
-                UpdateStatus(null, status);
-            });
-        }
-
-        private void AccessPointHelper_AccessPointConnectedEvent(string status)
-        {
-            Device.BeginInvokeOnMainThread(() => {
-                HandleState(State.AccessPointConnected);
-                UpdateStatus(null, status);
-
-#if AUTOMATE_FOR_TESTING
-                AccessPointHelper.RequestClientNetworks(_AvailableNetworks);
-#endif
             });
         }
 
@@ -149,44 +102,90 @@ namespace Edison.Devices.Onboarding.Client
             HandleState(State.NetworkSelected);
         }
 
-        void ConnectClientNetwork(object sender, System.EventArgs e)
+        async void WifiFindAccessPoints(object sender, EventArgs e)
         {
-            UpdateStatus("Connecting to client network", "");
-            var network = _availableNetworkListView.SelectedItem as Network;
-            //var task = NetworkCommandsHelper.ConnectToClientNetwork(network.Ssid, _clientNetworkPassword.Text);
-            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            UpdateStatus("WifiFindAccessPoints", "");
+
+            _AvailableAccessPoints.Clear();
+            IEnumerable<AccessPoint> accessPoints = await AccessPointHelper.FindAccessPoints();
+            foreach (AccessPoint accessPoint in accessPoints)
+            {
+                _AvailableAccessPoints.Add(accessPoint);
+            }
+            HandleState(State.AccessPointsEnumerated);
+            UpdateStatus("WifiFindAccessPoints", "Enumerated");
         }
 
-        void DisconnectClientNetwork(object sender, System.EventArgs e)
+        async void WifiConnectToAccessPoint(object sender, System.EventArgs e)
         {
-            UpdateStatus("Disconnecting from client network", "");
-            var network = _availableNetworkListView.SelectedItem as Network;
-            //var task = NetworkCommandsHelper.DisconnectFromClientNetwork(network.Ssid);
-            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
-        }
-
-        void ConnectToAccessPoint(object sender, System.EventArgs e)
-        {
-            UpdateStatus("Connecting to access point", "");
+            UpdateStatus("WifiConnectToAccessPoint", "");
             var accessPoint = _availableAccessPointListView.SelectedItem as AccessPoint;
-            //var task = AccessPointHelper.ConnectToAccessPoint(accessPoint);
-            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            var result = await AccessPointHelper.ConnectToAccessPoint(accessPoint);
+            //if(result == WifiConnectionStatus.Connected)
+                HandleState(State.AccessPointConnected);
+            //else
+            //    HandleState(State.AccessPointsEnumerated);
+            UpdateStatus("WifiConnectToAccessPoint", result.ToString());
         }
 
-        public void RequestClientNetworks(object sender, System.EventArgs e)
+        async void CommandRequestClientNetworks(object sender, System.EventArgs e)
         {
-            UpdateStatus("Getting available client networks", "");
-            //var task = NetworkCommandsHelper.RequestClientNetworks(_AvailableNetworks);
-            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            UpdateStatus("CommandRequestClientNetworks", "");
+
+            _AvailableNetworks.Clear();
+            var resultRequestGetAvailableNetworks = await CommandsHelper.RequestGetAvailableNetworks();
+            if (resultRequestGetAvailableNetworks.IsSuccess)
+            {
+                foreach (string networkSsid in resultRequestGetAvailableNetworks.Networks)
+                {
+                    _AvailableNetworks.Add(new Network() { Ssid = networkSsid });
+                }
+                HandleState(State.NetworksEnumerated);
+                UpdateStatus($"CommandRequestClientNetworks", string.Join(", ", resultRequestGetAvailableNetworks.Networks));
+            }
+            else
+                UpdateStatusError($"CommandRequestClientNetworks", resultRequestGetAvailableNetworks.ErrorMessage);
         }
 
-        public void FindAccessPoints(object sender, System.EventArgs e)
+        async void CommandConnectClientNetwork(object sender, System.EventArgs e)
         {
-            UpdateStatus("Getting available access points", "");
-            //var task = AccessPointHelper.FindAccessPoints(_AvailableAccessPoints);
+            UpdateStatus("ConnectClientNetwork", "");
+            var network = _availableNetworkListView.SelectedItem as Network;
+            var resultRequestConnectToClientNetwork = await CommandsHelper.ConnectToClientNetwork(new RequestCommandConnectToNetwork()
+            {
+                NetworkInformation = new NetworkInformation()
+                {
+                    Ssid = network.Ssid,
+                    Password = _clientNetworkPassword.Text
+                }
+            });
+            if (resultRequestConnectToClientNetwork.IsSuccess)
+            {
+                HandleState(State.NetworkConnected);
+                UpdateStatus($"ConnectClientNetwork", resultRequestConnectToClientNetwork.Status);
+            }
+            else
+                UpdateStatusError($"ConnectClientNetwork", resultRequestConnectToClientNetwork.ErrorMessage);
         }
 
-        public async void CommandGetDeviceId(object sender, EventArgs e)
+        async void CommandDisconnectClientNetwork(object sender, System.EventArgs e)
+        {
+            UpdateStatus("DisconnectClientNetwork", "");
+            var network = _availableNetworkListView.SelectedItem as Network;
+            var resultRequestDisconnectFromClientNetwork = await CommandsHelper.DisconnectFromClientNetwork(new RequestCommandDisconnectFromNetwork()
+            {
+                Ssid = network.Ssid 
+            });
+            if (resultRequestDisconnectFromClientNetwork.IsSuccess)
+            {
+                HandleState(State.NetworksEnumerated);
+                UpdateStatus($"DisconnectClientNetwork", resultRequestDisconnectFromClientNetwork.Status);
+            }
+            else
+                UpdateStatusError($"DisconnectClientNetwork", resultRequestDisconnectFromClientNetwork.ErrorMessage);
+        }
+
+        async void CommandGetDeviceId(object sender, EventArgs e)
         {
             UpdateStatus($"CommandGetDeviceId", "");
             var resultGetDevice = await CommandsHelper.GetDeviceId();
@@ -196,7 +195,7 @@ namespace Edison.Devices.Onboarding.Client
                 UpdateStatusError($"CommandGetDeviceId", resultGetDevice.ErrorMessage);
         }
 
-        public async void CommandListFirmwares(object sender, EventArgs e)
+        async void CommandListFirmwares(object sender, EventArgs e)
         {
             UpdateStatus($"CommandListFirmwares", "");
             var resultListFirmwares = await CommandsHelper.ListFirmwares();
@@ -206,7 +205,7 @@ namespace Edison.Devices.Onboarding.Client
                 UpdateStatusError($"CommandListFirmwares", resultListFirmwares.ErrorMessage);
         }
 
-        public async void CommandGetAccessPointSettings(object sender, EventArgs e)
+        async void CommandGetAccessPointSettings(object sender, EventArgs e)
         {
             UpdateStatus($"CommandGetAccessPointSettings", "");
             var resultGetAvailableNetworks = await CommandsHelper.GetAccessPointSettings();
@@ -216,7 +215,7 @@ namespace Edison.Devices.Onboarding.Client
                 UpdateStatusError($"CommandGetAccessPointSettings", resultGetAvailableNetworks.ErrorMessage);
         }
 
-        public async void CommandSetDeviceSecretKeys(object sender, EventArgs e)
+        async void CommandSetDeviceSecretKeys(object sender, EventArgs e)
         {
             UpdateStatus($"CommandSetDeviceSecretKeys", "");
             var resultGetAvailableNetworks = await CommandsHelper.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys() //This will be retrieve from a REST endpoint
@@ -231,7 +230,7 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatusError($"CommandSetDeviceSecretKeys", "Device secret keys reset.");
         }
 
-        public async void CommandProvisionDevice(object sender, EventArgs e)
+        async void CommandProvisionDevice(object sender, EventArgs e)
         {
             UpdateStatus($"CommandProvisionDevice", "");
 
@@ -276,7 +275,7 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatus($"CommandProvisionDevice", "Provisionning complete");
         }
         
-        public void Exit(object sender, EventArgs e)
+        void Exit(object sender, EventArgs e)
         {
             AccessPointHelper.Disconnect();
         }

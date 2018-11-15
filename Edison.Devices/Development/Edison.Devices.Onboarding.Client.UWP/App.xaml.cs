@@ -24,7 +24,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            Client.MainPage.StreamSockerClient = new StreamSocketClient(SharedConstants.DEBUG_NETWORK_IP, SharedConstants.CONNECTION_PORT);
+            Client.MainPage.StreamSockerClient = new StreamSocketClient(SharedConstants.SOFT_AP_IP, SharedConstants.CONNECTION_PORT); //use SharedConstants.DEBUG_NETWORK_IP for debugging
             Client.MainPage.AccessPointHelper = new WifiService();
             Client.MainPage.CommandsHelper = new CommandsHelper(Client.MainPage.StreamSockerClient);
         }

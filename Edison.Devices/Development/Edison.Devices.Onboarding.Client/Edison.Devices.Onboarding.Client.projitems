@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\WifiConnectionStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DeviceProvisioningRestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\RestBaseService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedConstants.cs" />

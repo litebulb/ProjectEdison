@@ -147,5 +147,56 @@ namespace Edison.Devices.Onboarding.Helpers
             }
             return false;
         }
+
+        internal static async Task<AvailableNetworksModel> GetAvailableNetworks(Guid interfaceStr)
+        {
+            RestRequest request = PrepareQuery("wifi/networks?interface={interface}", Method.GET);
+            request.AddUrlSegment("interface", interfaceStr.ToString().ToUpper());
+            var queryResult = await _client.ExecuteTaskAsync<AvailableNetworksModel>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return queryResult.Data;
+            }
+            return null;
+        }
+
+        internal static async Task<bool> ConnectToNetwork(Guid interfaceStr, string ssid, string password)
+        {
+            RestRequest request = PrepareQuery("wifi/network?interface={interface}&ssid={ssid}&op=connect&createprofile=yes&key={password}", Method.POST);
+            request.AddUrlSegment("interface", interfaceStr.ToString().ToUpper());
+            request.AddUrlSegment("ssid", GetBase64String(ssid));
+            request.AddUrlSegment("password", GetBase64String(password));
+            var queryResult = await _client.ExecuteTaskAsync<HttpStatusCode>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal static async Task<bool> DisconnectFromNetwork(Guid interfaceStr)
+        {
+            RestRequest request = PrepareQuery("wifi/network?interface={interface}&op=disconnect", Method.POST);
+            request.AddUrlSegment("interface", interfaceStr.ToString().ToUpper());
+            var queryResult = await _client.ExecuteTaskAsync<HttpStatusCode>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal static async Task<bool> DeleteNetworkProfile(Guid interfaceStr, string profile)
+        {
+            RestRequest request = PrepareQuery("wifi/profile?interface={interface}&profile={profile}", Method.DELETE);
+            request.AddUrlSegment("interface", interfaceStr.ToString().ToUpper());
+            request.AddUrlSegment("profile", GetBase64String(profile));
+            var queryResult = await _client.ExecuteTaskAsync<HttpStatusCode>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

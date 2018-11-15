@@ -60,6 +60,7 @@ namespace Edison.Devices.SmartBulb
             app.GeneralError += GeneralError;
             app.ChangeConfiguration += ReceiveDesiredConfiguration;
             app.DisconnectedApplication += DisconnectedApplication;
+            app.TestMethod += TestMethod;
 
             await app.Run();
             deferral.Complete();
@@ -268,6 +269,13 @@ namespace Edison.Devices.SmartBulb
                 _gpioService.PinSetLow(_config.GpioConfig.GpioColorBlue);
             else
                 _gpioService.PinSetHigh(_config.GpioConfig.GpioColorBlue);
+        }
+
+
+        private async Task TestMethod()
+        {
+            await BlinkLED(Color.White, 20, 500);
+            SetLED(_previousColor);
         }
     }
 }

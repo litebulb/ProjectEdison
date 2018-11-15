@@ -9,11 +9,7 @@ using Windows.Security.Credentials;
 
 namespace Edison.Devices.Onboarding.Services
 {
-    //Not working for now, using the internal IoT Core API.
-    //var result = await wifiSet.Adapter.ConnectAsync(wifiSet.Network, WiFiReconnectionKind.Automatic, credential);
-    //https://github.com/Microsoft/Windows-iotcore-samples/issues/235 
-
-    /*internal class WifiService
+    internal class WifiService
     {
         public WifiService()
         {
@@ -29,14 +25,20 @@ namespace Edison.Devices.Onboarding.Services
                 var wifiSet = await FindWifi(networkInfo.Ssid);
                 if (wifiSet != null)
                 {
-                    PasswordCredential credential = new PasswordCredential
-                    {
-                        Password = networkInfo.Password
-                    };
+                    if (!await PortalApiHelper.DisconnectFromNetwork(wifiSet.Adapter.NetworkAdapter.NetworkAdapterId))
+                        DebugHelper.LogWarning($"Error while trying to disconnect from network: {wifiSet.Adapter.NetworkAdapter.NetworkAdapterId}");
 
-                    DebugHelper.LogInformation($"Connecting to network using credentials: {wifiSet.Network.Ssid} [{credential.Password}]");
-                    var result = await wifiSet.Adapter.ConnectAsync(wifiSet.Network, WiFiReconnectionKind.Automatic, credential);
-                    return new ResultCommandNetworkStatus() { Code = (int)result.ConnectionStatus, IsSuccess = true, Status = result.ConnectionStatus == WiFiConnectionStatus.Success ? "Connected" : result.ConnectionStatus.ToString() };
+                    var availableNetworks = await PortalApiHelper.GetAvailableNetworks(wifiSet.Adapter.NetworkAdapter.NetworkAdapterId);
+                    foreach(var network in availableNetworks.AvailableNetworks)
+                    {
+                        if (network.ProfileAvailable && !await PortalApiHelper.DeleteNetworkProfile(wifiSet.Adapter.NetworkAdapter.NetworkAdapterId, network.ProfileName))
+                            DebugHelper.LogWarning($"Error while trying to disconnect from network: {wifiSet.Adapter.NetworkAdapter.NetworkAdapterId}");
+                    }
+                    if (!await PortalApiHelper.ConnectToNetwork(wifiSet.Adapter.NetworkAdapter.NetworkAdapterId, networkInfo.Ssid, networkInfo.Password))
+                        return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"Error ConnectToNetworkHandler: Could not connect to network '{networkInfo.Ssid}'.");
+
+                    return new ResultCommandNetworkStatus() { IsSuccess = true, Status = "Connected" };
+
                 }
                 return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"Error ConnectToNetworkHandler: UnspecifiedFailure.");
             }
@@ -56,7 +58,7 @@ namespace Edison.Devices.Onboarding.Services
                 {
                     DebugHelper.LogInformation($"Disconnecting from network: {wifiSet.Network.Ssid}");
                     wifiSet.Adapter.Disconnect();
-                    return new ResultCommandNetworkStatus() { Code = 1, Status = "Disconnected", IsSuccess = true };
+                    return new ResultCommandNetworkStatus() { Status = "Disconnected", IsSuccess = true };
                 }
                 return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"Error DisconnectFromNetworkHandler: UnspecifiedFailure.");
             }
@@ -95,5 +97,5 @@ namespace Edison.Devices.Onboarding.Services
                            select new WifiSet() { Adapter = adapter, Network = network };
             return wifiList.First();
         }
-    }*/
+    }
 }

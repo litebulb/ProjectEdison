@@ -5,6 +5,8 @@ using Edison.Devices.Onboarding.Client.Models;
 using Edison.Devices.Onboarding.Common.Helpers;
 using Edison.Devices.Onboarding.Common.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -26,15 +28,11 @@ namespace Edison.Devices.Onboarding.Client.UWP
 {
     public class WifiService : IAccessPointHelper
     {
-        public event Action<string> AccessPointsEnumeratedEvent;
-        public event Action<string> AccessPointConnectedEvent;
         private WiFiAdapter _connectedWifiAdapter = null;
 
-        public async Task FindAccessPoints(ObservableCollection<AccessPoint> availableAccessPoints)
+        public async Task<IEnumerable<AccessPoint>> FindAccessPoints()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                availableAccessPoints.Clear();
-            });
+            List<AccessPoint> availableAccessPoints = new List<AccessPoint>();
 
             // Add distinct AP Ssids in sorted order
             var wifiAdapterList = await WiFiAdapter.FindAllAdaptersAsync();
@@ -42,17 +40,15 @@ namespace Edison.Devices.Onboarding.Client.UWP
                             Select(network => network.Ssid).
                             Distinct().
                             OrderBy(ssid => ssid).ToList().
-                            ForEach(async ssid => {
-                var ap = new AccessPoint() { Ssid = ssid };
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                    availableAccessPoints.Add(ap);
-                });
-            });
+                            ForEach(ssid => {
+                                var ap = new AccessPoint() { Ssid = ssid };
+                                availableAccessPoints.Add(ap);
+                            });
 
-            AccessPointsEnumeratedEvent?.Invoke("Enumerated");
+            return availableAccessPoints;
         }
 
-        public async Task ConnectToAccessPoint(AccessPoint accessPoint)
+        public async Task<WifiConnectionStatus> ConnectToAccessPoint(AccessPoint accessPoint)
         {
             var wifiAdapterList = await WiFiAdapter.FindAllAdaptersAsync();
 
@@ -74,7 +70,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
                 {
                     PasswordCredential credential = new PasswordCredential
                     {
-                        Password = "p@ssw0rd"
+                        Password = "Edison1234" //Need to be dynamic
                     };
 
                     Debug.WriteLine($"Opening connection to using credentials: {wifiNetwork.Ssid} [{credential.Password}]");
@@ -85,11 +81,14 @@ namespace Edison.Devices.Onboarding.Client.UWP
                 {
                     Debug.WriteLine($"Connected successfully to: {wiFiAdapter.NetworkAdapter.NetworkAdapterId}.{wifiNetwork.Ssid}");
                     _connectedWifiAdapter = wiFiAdapter;
+                    return WifiConnectionStatus.Connected;
+                }
+                else
+                {
+                    Debug.WriteLine($"Connection failed: {(result != null ? result.ConnectionStatus.ToString() : "access point not found")}");
                 }
             }
-
-            string connectionEventString = "Connected";
-            AccessPointConnectedEvent?.Invoke(connectionEventString);
+            return WifiConnectionStatus.FailedConnected;
         }
 
         public void Disconnect()
@@ -100,8 +99,6 @@ namespace Edison.Devices.Onboarding.Client.UWP
                 _connectedWifiAdapter = null;
                 wifiAdapter.Disconnect();
             }
-
-            Windows.UI.Xaml.Application.Current.Exit();
         }
     }
 }

@@ -100,6 +100,8 @@
     <Compile Include="Models\CommandEventArgs.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\SimulatedDevice.cs" />
+    <Compile Include="Models\PortalAPI\AvailableNetwork.cs" />
+    <Compile Include="Models\PortalAPI\AvailableNetworksModel.cs" />
     <Compile Include="Models\PortalAPI\HeadlessApp.cs" />
     <Compile Include="Models\PortalAPI\HeadlessModel.cs" />
     <Compile Include="Models\PortalAPI\PackageModel.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Helpers\PortalApiHelper.cs" />
     <Compile Include="Services\PortalService.cs" />
     <Compile Include="Services\ProvisioningService.cs" />
+    <Compile Include="Services\WifiServiceApi.cs" />
     <Compile Include="Services\WifiService.cs" />
     <Compile Include="Services\StreamSockerServer.cs" />
     <Compile Include="OnboardingServer.cs" />

@@ -27,7 +27,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
             _port = port.ToString();
         }
 
-        public async Task<U> SendCommand<T, U>(CommandsEnum requestCommandType, T parameters, string passkey) where T : RequestCommand where U : ResultCommand
+        public async Task<U> SendCommand<T, U>(CommandsEnum requestCommandType, T parameters, string passkey) where T : RequestCommand where U : ResultCommand, new()
         {
             Command requestCommand = new Command()
             {
@@ -38,7 +38,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
             return await SendCommand<U>(requestCommand, passkey);
         }
 
-        public async Task<T> SendCommand<T>(CommandsEnum requestCommandType, string passkey) where T : ResultCommand
+        public async Task<T> SendCommand<T>(CommandsEnum requestCommandType, string passkey) where T : ResultCommand, new()
         {
             Command requestCommand = new Command()
             {
@@ -49,9 +49,10 @@ namespace Edison.Devices.Onboarding.Client.UWP
             return await SendCommand<T>(requestCommand, passkey);
         }
 
-        private async Task<T> SendCommand<T>(Command requestCommand, string passkey) where T : ResultCommand
+        private async Task<T> SendCommand<T>(Command requestCommand, string passkey) where T : ResultCommand, new()
         {
             await _SocketLock.WaitAsync();
+            string errorMessage = null;
             try
             {
                 if (await Connect(_hostname, _port))
@@ -68,34 +69,41 @@ namespace Edison.Devices.Onboarding.Client.UWP
                             }
                             else
                             {
-                                Debug.WriteLine($"SendCommand: The response command should be {requestCommand.BaseCommand + 100} but instead is {response.BaseCommand}.");
+                                errorMessage =$"SendCommand: The response command should be {requestCommand.BaseCommand + 100} but instead is {response.BaseCommand}.";
                             }
                         }
                         else
                         {
-                            Debug.WriteLine($"SendCommand: The response could not be read.");
+                            errorMessage = $"SendCommand: The response could not be read.";
                         }
                     }
                     else
                     {
-                        Debug.WriteLine($"SendCommand: The command could not be sent.");
+                        errorMessage = $"SendCommand: The command could not be sent.";
                     }
                     Close();
                 }
                 else
                 {
-                    Debug.WriteLine($"SendCommand: The connection failed.");
+                    errorMessage = $"SendCommand: The connection failed.";
                 }
             }
             catch(Exception e)
             {
-                Debug.WriteLine($"SendCommand: Unexpected error: {e.Message}");
+                errorMessage = $"SendCommand: Unexpected error: {e.Message}";
             }
             finally
             {
                 _SocketLock.Release();
             }
-            return null;
+
+            //Return Error result
+            Debug.WriteLine(errorMessage);
+            return new T
+            {
+                IsSuccess = false,
+                ErrorMessage = errorMessage
+            };
         }
 
         private async Task<bool> Connect(HostName hostName, string connectionPortString)
