@@ -41,9 +41,9 @@ namespace Edison.Devices.Onboarding
 
             while (true)
             {
-                if (_LastAccess.AddMinutes(-10) > _LastAccess)
+                if (DateTime.UtcNow.AddMinutes(-5) > _LastAccess)
                 {
-                    DebugHelper.LogInformation("Onboarding has been on for 10 minutes without new commands. Turning off Access Point.");
+                    DebugHelper.LogInformation("Onboarding has been on for 5 minutes without new commands. Turning off Access Point.");
                     await PortalApiHelper.SetSoftAPState(false);
                     //Ending app
                     break;
