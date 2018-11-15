@@ -12,7 +12,7 @@ namespace Edison.Core.Interfaces
         Task<DeviceModel> GetMobileDeviceFromUserId(string userId);
         Task<IEnumerable<Guid>> GetDevicesInRadius(DeviceGeolocationModel deviceGeocodeCenterUpdate);
         Task<bool> IsInBoundaries(DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj);
-        Task<DeviceModel> UpdateHeartbeat(Guid deviceId);
+        Task<DeviceHeartbeatUpdatedModel> UpdateHeartbeat(Guid deviceId);
         Task<bool> UpdateGeolocation(DeviceGeolocationUpdateModel updateGeolocationObj);
         Task<bool> DeleteDevice(Guid deviceId);
     }

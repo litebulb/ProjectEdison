@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
-//#define AUTOMATE_FOR_TESTING
 using Edison.Devices.Onboarding.Client.Interfaces;
 using Edison.Devices.Onboarding.Client.Models;
 using Edison.Devices.Onboarding.Client.Services;
@@ -11,16 +10,10 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 using Xamarin.Forms;
 
-
 namespace Edison.Devices.Onboarding.Client
 {
     public partial class MainPage : ContentPage
     {
-#if AUTOMATE_FOR_TESTING
-        private string _TestAutomation_AccessPointPartial = "";
-        private string _TestAutomation_NetworkPartial = "";
-        private string _TestAutomation_NetworkPassword = "";
-#endif
         enum State
         {
             Started,
@@ -52,16 +45,11 @@ namespace Edison.Devices.Onboarding.Client
             CurrentState = nextState;
         }
 
+        public static IStreamSockerClient StreamSockerClient { get; set; }
         public static IAccessPointHelper AccessPointHelper { get; set; }
-        public static INetworkCommandsHelper NetworkCommandsHelper { get; set; }
-        public static IDeviceConfigurationCommandsHelper DeviceConfigurationHelper { get; set; }
-        public static IDeviceProvisionCommandsHelper DeviceProvisionCommandsHelper { get; set; }
+        public static ICommandsHelper CommandsHelper { get; set; }
         private ObservableCollection<AccessPoint> _AvailableAccessPoints = new ObservableCollection<AccessPoint>();
         private ObservableCollection<Network> _AvailableNetworks = new ObservableCollection<Network>();
-
-        private string _StatusAction = "";
-        private string _StatusResult = "";
-
 
         private bool AccessPointsScanned { get; set; }
         private bool AccessPointConnected { get; set; }
@@ -79,8 +67,8 @@ namespace Edison.Devices.Onboarding.Client
 
             AccessPointHelper.AccessPointConnectedEvent += AccessPointHelper_AccessPointConnectedEvent;
             AccessPointHelper.AccessPointsEnumeratedEvent += AccessPointHelper_AccessPointsEnumeratedEvent;
-            NetworkCommandsHelper.ClientNetworkConnectedEvent += AccessPointHelper_ClientNetworkConnectedEvent;
-            NetworkCommandsHelper.ClientNetworksEnumeratedEvent += AccessPointHelper_ClientNetworksEnumeratedEvent;
+            //NetworkCommandsHelper.ClientNetworkConnectedEvent += AccessPointHelper_ClientNetworkConnectedEvent;
+            //NetworkCommandsHelper.ClientNetworksEnumeratedEvent += AccessPointHelper_ClientNetworksEnumeratedEvent;
 
             AccessPointsScanned = false;
             AccessPointConnected = false;
@@ -97,20 +85,16 @@ namespace Edison.Devices.Onboarding.Client
             _NetworksGrouping.BorderColor = Color.Default;
             _DisconnectGrouping.BorderColor = Color.Default;
             _ConnectGrouping.BorderColor = Color.Default;
-
-            _StatusAction = "";
-            _StatusResult = "";
-
-#if AUTOMATE_FOR_TESTING
-            AccessPointHelper.FindAccessPoints(_AvailableAccessPoints);
-#endif
         }
 
         private void UpdateStatus(string action, string result)
         {
-            if (action != null) _StatusAction = action;
-            if (result != null) _StatusResult = result;
-            _Status.Text = string.Format("{0} ... {1}", _StatusAction, _StatusResult);
+            _Status.Text = string.Format("{0} ... {1}", action, result);
+        }
+
+        private void UpdateStatusError(string action, string result)
+        {
+            _Status.Text = string.Format("{0} ... Error: {1}", action, result);
         }
 
         private void AccessPointHelper_ClientNetworksEnumeratedEvent(string status)
@@ -119,17 +103,6 @@ namespace Edison.Devices.Onboarding.Client
 
                 HandleState(State.NetworksEnumerated);
                 UpdateStatus(null, status);
-
-#if AUTOMATE_FOR_TESTING
-                foreach (var n in _AvailableNetworks)
-                {
-                    if (n.Ssid.Contains(_TestAutomation_NetworkPartial))
-                    {
-                        AccessPointHelper.ConnectToClientNetwork(n.Ssid.ToString(), _TestAutomation_NetworkPassword);
-                        break;
-                    }
-                }
-#endif
             });
         }
 
@@ -146,18 +119,6 @@ namespace Edison.Devices.Onboarding.Client
             Device.BeginInvokeOnMainThread(() => {
                 HandleState(State.AccessPointsEnmerated);
                 UpdateStatus(null, status);
-
-#if AUTOMATE_FOR_TESTING
-                foreach (var ap in _AvailableAccessPoints)
-                {
-                    if (ap.Ssid.Contains(_TestAutomation_AccessPointPartial))
-                    {
-                        _availableAccessPointListView.SelectedItem = ap;
-                        AccessPointHelper.ConnectToAccessPoint(ap);
-                        break;
-                    }
-                }
-#endif
             });
         }
 
@@ -188,136 +149,109 @@ namespace Edison.Devices.Onboarding.Client
             HandleState(State.NetworkSelected);
         }
 
-        void HandleException(AggregateException exception)
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                HandleState(State.Started);
-                UpdateStatus(null, string.Format("Encountered problem: {0}", exception.Message));
-            });
-        }
-
         void ConnectClientNetwork(object sender, System.EventArgs e)
         {
             UpdateStatus("Connecting to client network", "");
             var network = _availableNetworkListView.SelectedItem as Network;
-            var task = NetworkCommandsHelper.ConnectToClientNetwork(network.Ssid, _clientNetworkPassword.Text);
-            task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            //var task = NetworkCommandsHelper.ConnectToClientNetwork(network.Ssid, _clientNetworkPassword.Text);
+            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         void DisconnectClientNetwork(object sender, System.EventArgs e)
         {
             UpdateStatus("Disconnecting from client network", "");
             var network = _availableNetworkListView.SelectedItem as Network;
-            var task = NetworkCommandsHelper.DisconnectFromClientNetwork(network.Ssid);
-            task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            //var task = NetworkCommandsHelper.DisconnectFromClientNetwork(network.Ssid);
+            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         void ConnectToAccessPoint(object sender, System.EventArgs e)
         {
             UpdateStatus("Connecting to access point", "");
             var accessPoint = _availableAccessPointListView.SelectedItem as AccessPoint;
-            var task = AccessPointHelper.ConnectToAccessPoint(accessPoint);
-            task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            //var task = AccessPointHelper.ConnectToAccessPoint(accessPoint);
+            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public void RequestClientNetworks(object sender, System.EventArgs e)
         {
             UpdateStatus("Getting available client networks", "");
-            var task = NetworkCommandsHelper.RequestClientNetworks(_AvailableNetworks);
-            task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            //var task = NetworkCommandsHelper.RequestClientNetworks(_AvailableNetworks);
+            //task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public void FindAccessPoints(object sender, System.EventArgs e)
         {
             UpdateStatus("Getting available access points", "");
-            var task = AccessPointHelper.FindAccessPoints(_AvailableAccessPoints);
-            task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            //var task = AccessPointHelper.FindAccessPoints(_AvailableAccessPoints);
         }
 
-        public void DebugConnectToServer(object sender, System.EventArgs e)
+        public async void CommandGetDeviceId(object sender, EventArgs e)
         {
-            UpdateStatus($"Connecting to Stream Server", SharedConstants.DEBUG_NETWORK_IP);
-            var task = AccessPointHelper.DebugConnectToStreamServer();
-            _getDeviceId.IsEnabled = true;
-            task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            UpdateStatus($"CommandGetDeviceId", "");
+            var resultGetDevice = await CommandsHelper.GetDeviceId();
+            if(resultGetDevice.IsSuccess)
+                UpdateStatus($"CommandGetDeviceId", resultGetDevice.DeviceId);
+            else
+                UpdateStatusError($"CommandGetDeviceId", resultGetDevice.ErrorMessage);
         }
 
-        public async void DebugGetDeviceId(object sender, System.EventArgs e)
+        public async void CommandListFirmwares(object sender, EventArgs e)
         {
-            UpdateStatus($"GetDeviceId", "");
-            string deviceId = await DeviceProvisionCommandsHelper.GetDeviceId();
-            UpdateStatus($"GetDeviceId", deviceId);
-           // task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            UpdateStatus($"CommandListFirmwares", "");
+            var resultListFirmwares = await CommandsHelper.ListFirmwares();
+            if (resultListFirmwares.IsSuccess)
+                UpdateStatus($"CommandListFirmwares", string.Join(',', resultListFirmwares.Firmwares));
+            else
+                UpdateStatusError($"CommandListFirmwares", resultListFirmwares.ErrorMessage);
         }
 
-        /// <summary>
-        /// Provision device using device Id. Use CSR Instead
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void DebugProvisionSmartBulbCsr(object sender, System.EventArgs e)
+        public async void CommandProvisionDevice(object sender, EventArgs e)
         {
-            UpdateStatus($"DebugProvisionSmartBulbCsr", "");
-            string csr = await DeviceProvisionCommandsHelper.GenerateCSR();
+            UpdateStatus($"CommandProvisionDevice", "");
 
-            //Generate Certificate
-            //TODO Retrieve AzureAD token from current phone session
-            string token = "ADTOKEN";
-            DeviceProvisioningRestService client = new DeviceProvisioningRestService
-                ("http://localhost:49563/", token);
-            //("https://edisonapidev.eastus.cloudapp.azure.com/deviceprovisioning/", token);
+            //Generate CSR
+            var resultGenerateCSR = await CommandsHelper.GenerateCSR();
+            if (!resultGenerateCSR.IsSuccess)
+            {
+                UpdateStatusError($"CommandProvisionDevice", resultGenerateCSR.ErrorMessage);
+                return;
+            }
+
+            //Sign Certificate
+            string token = "ADTOKEN"; //TODO Retrieve AzureAD token from current phone session
+            DeviceProvisioningRestService client = new DeviceProvisioningRestService("https://edisonapidev.eastus.cloudapp.azure.com/deviceprovisioning/", token);
             var certificate = await client.GenerateCertificate(new DeviceCertificateRequestModel()
             {
-                DeviceType = "Edison.Devices.SmartBulb",
-                Csr = csr
+                DeviceType = "Edison.Devices.SoundSensor", //TODO Need it dynamic from ListFirmwares
+                Csr = resultGenerateCSR.Csr
             });
-
-            bool result = false;
-            if (certificate != null)
-                result = await DeviceProvisionCommandsHelper.ProvisionDevice(certificate);
-
-            if(result)
-                result = await DeviceConfigurationHelper.SetDeviceType(certificate.DeviceType);
-
-            UpdateStatus($"DebugProvisionSmartBulbCsr", result.ToString());
-            // task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
-        }
-
-        /// <summary>
-        /// Provision device using CSR
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void DebugProvisionSoundSensorCsr(object sender, System.EventArgs e)
-        {
-            UpdateStatus($"DebugProvisionSoundSensorCsr", "");
-            string csr = await DeviceProvisionCommandsHelper.GenerateCSR();
-
-            //Generate Certificate
-            //TODO Retrieve AzureAD token from current phone session
-            string token = "ADTOKEN";
-            DeviceProvisioningRestService client = new DeviceProvisioningRestService
-                //("http://localhost:49563/", token);
-            ("https://edisonapidev.eastus.cloudapp.azure.com/deviceprovisioning/", token);
-            var certificate = await client.GenerateCertificate(new DeviceCertificateRequestModel()
+            if(certificate == null)
             {
-                DeviceType = "Edison.Devices.SoundSensor",
-                Csr = csr
-            });
+                UpdateStatusError($"CommandProvisionDevice", "The signed certificate could not be retrieved.");
+                return;
+            }
 
-            bool result = false;
-            if (certificate != null)
-                result = await DeviceProvisionCommandsHelper.ProvisionDevice(certificate);
+            //Provision device
+            var resultProvisionDevice = await CommandsHelper.ProvisionDevice(new RequestCommandProvisionDevice() { DeviceCertificateInformation = certificate });
+            if (!resultProvisionDevice.IsSuccess)
+            {
+                UpdateStatusError($"CommandProvisionDevice", resultProvisionDevice.ErrorMessage);
+                return;
+            }
 
-            if (result)
-                result = await DeviceConfigurationHelper.SetDeviceType(certificate.DeviceType);
+            //Set Device Type
+            var resultSetDeviceType = await CommandsHelper.SetDeviceType(new RequestCommandSetDeviceType() { DeviceType = certificate.DeviceType });
+            if (!resultSetDeviceType.IsSuccess)
+            {
+                UpdateStatusError($"CommandProvisionDevice", resultSetDeviceType.ErrorMessage);
+                return;
+            }
 
-            UpdateStatus($"DebugProvisionSoundSensorCsr", result.ToString());
-            // task.ContinueWith(t => { HandleException(t.Exception); }, TaskContinuationOptions.OnlyOnFaulted);
+            UpdateStatus($"CommandProvisionDevice", "Provisionning complete");
         }
-
-        public void Exit(object sender, System.EventArgs e)
+        
+        public void Exit(object sender, EventArgs e)
         {
             AccessPointHelper.Disconnect();
         }

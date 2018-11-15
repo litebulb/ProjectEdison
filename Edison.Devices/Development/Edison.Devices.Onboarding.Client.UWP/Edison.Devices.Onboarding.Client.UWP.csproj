@@ -97,9 +97,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DeviceConfigurationCommandsHelper.cs" />
-    <Compile Include="Services\NetworkCommandsHelper.cs" />
-    <Compile Include="Services\DeviceProvisionCommandsHelper.cs" />
+    <Compile Include="Services\StreamSocketClient.cs" />
     <Compile Include="Services\WifiService.cs" />
   </ItemGroup>
   <ItemGroup>

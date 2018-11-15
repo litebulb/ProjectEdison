@@ -9,9 +9,9 @@
     <Import_RootNamespace>Edison.Devices.Onboarding.Client</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDeviceConfigurationCommandsHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDeviceProvisionCommandsHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INetworkCommandsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CommandsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStreamSockerClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICommandsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DeviceCertificateRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Network.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccessPoint.cs" />

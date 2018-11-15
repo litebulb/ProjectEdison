@@ -72,11 +72,11 @@ namespace Edison.Core
             return null;
         }
 
-        public async Task<DeviceModel> UpdateHeartbeat(Guid deviceId)
+        public async Task<DeviceHeartbeatUpdatedModel> UpdateHeartbeat(Guid deviceId)
         {
             RestRequest request = await PrepareQuery("Devices/Heartbeat", Method.PUT);
             request.AddParameter("application/json", JsonConvert.SerializeObject(deviceId), ParameterType.RequestBody);
-            var queryResult = await _client.ExecuteTaskAsync<DeviceModel>(request);
+            var queryResult = await _client.ExecuteTaskAsync<DeviceHeartbeatUpdatedModel>(request);
             if (!queryResult.IsSuccessful)
             {
                 _logger.LogError($"UpdateHeartbeat: Error while updating heartbeat: {queryResult.StatusCode}");

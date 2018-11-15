@@ -1,12 +1,9 @@
 ﻿using Edison.Devices.Onboarding.Client.Models;
 using Edison.Devices.Onboarding.Common.Models;
-using Edison.Devices.Onboarding.Common.Models.CommandModels;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.Devices.Onboarding.Client.Services

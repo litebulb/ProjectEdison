@@ -99,7 +99,7 @@ namespace Edison.Api.Controllers
 
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPut("Heartbeat")]
-        [Produces(typeof(DeviceModel))]
+        [Produces(typeof(DeviceHeartbeatUpdatedModel))]
         public async Task<IActionResult> UpdateHeartbeat([FromBody]Guid deviceId)
         {
             var result = await _devicesDataManager.UpdateHeartbeat(deviceId);

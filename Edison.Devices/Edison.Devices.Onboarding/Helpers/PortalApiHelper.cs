@@ -1,12 +1,7 @@
 ﻿using Edison.Devices.Onboarding.Common.Models;
-using Edison.Devices.Onboarding.Common.Models.CommandModels;
-using Edison.Devices.Onboarding.Helpers;
 using Edison.Devices.Onboarding.Models.PortalAPI;
-using Newtonsoft.Json;
 using RestSharp;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +72,22 @@ namespace Edison.Devices.Onboarding.Helpers
             request.AddUrlSegment("SoftAPEnabled", enabled ? GetBase64String("true") : GetBase64String("false"));
             request.AddUrlSegment("SoftApSsid", GetBase64String(ssid));
             request.AddUrlSegment("SoftApPassword", GetBase64String(password));
+            var queryResult = await _client.ExecuteTaskAsync<HttpStatusCode>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal static async Task<bool> SetSoftAPState(bool state)
+        {
+            var settings = await GetSoftAPSettings();
+
+            RestRequest request = PrepareQuery("iot/iotonboarding/softapsettings?SoftAPEnabled={SoftAPEnabled}&SoftApSsid={SoftApSsid}&SoftApPassword={SoftApPassword}", Method.POST);
+            request.AddUrlSegment("SoftAPEnabled", state ? GetBase64String("true") : GetBase64String("false"));
+            request.AddUrlSegment("SoftApSsid", GetBase64String(settings.SoftApSsid));
+            request.AddUrlSegment("SoftApPassword", GetBase64String(settings.SoftApPassword));
             var queryResult = await _client.ExecuteTaskAsync<HttpStatusCode>(request);
             if (queryResult.IsSuccessful)
             {

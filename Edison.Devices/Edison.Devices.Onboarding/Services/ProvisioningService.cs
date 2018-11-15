@@ -1,5 +1,4 @@
-﻿using Edison.Devices.Onboarding.Common.Models.CommandModels;
-using Edison.Devices.Onboarding.Common.Models;
+﻿using Edison.Devices.Onboarding.Common.Models;
 using Edison.Devices.Onboarding.Helpers;
 using Microsoft.Azure.Devices.Provisioning.Client;
 using Microsoft.Azure.Devices.Provisioning.Client.Transport;
@@ -10,8 +9,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography.Certificates;
 using Microsoft.Azure.Devices.Client;
-using Edison.Devices.Onboarding.Common.Helpers;
-using System.Collections.Generic;
 
 namespace Edison.Devices.Onboarding.Services
 {
@@ -23,35 +20,55 @@ namespace Edison.Devices.Onboarding.Services
 
         public ResultCommandGetDeviceId GetDeviceId()
         {
-            return new ResultCommandGetDeviceId()
+            try
             {
-                DeviceId = SimulatedDevice.DeviceId
-            };
+                return new ResultCommandGetDeviceId()
+                {
+                    DeviceId = SimulatedDevice.DeviceId,
+                    IsSuccess = true
+                };
+            }
+            catch(Exception e)
+            {
+                DebugHelper.LogError($"Error GetDeviceId: {e.Message}.");
+                return ResultCommand.CreateFailedCommand<ResultCommandGetDeviceId>($"Error GetDeviceId: {e.Message}.");
+            }
         }
 
         public ResultCommandGenerateCSR GenerateCSR()
         {
-            //Generate Certificate with RSA Private key
-            byte[] csr = null;
-            using (RSA key = SimulatedDevice.GenerateRSAKey())
+            try
             {
-                CertificateRequest certRequest = new CertificateRequest($"CN={SimulatedDevice.DeviceId}",
-                    key,
-                    HashAlgorithmName.SHA256,
-                    RSASignaturePadding.Pkcs1);
-                csr = certRequest.CreateSigningRequest();
-            }
+                //Generate Certificate with RSA Private key
+                byte[] csr = null;
+                using (RSA key = SimulatedDevice.GenerateRSAKey())
+                {
+                    CertificateRequest certRequest = new CertificateRequest($"CN={SimulatedDevice.DeviceId}",
+                        key,
+                        HashAlgorithmName.SHA256,
+                        RSASignaturePadding.Pkcs1);
+                    csr = certRequest.CreateSigningRequest();
+                }
 
-            return new ResultCommandGenerateCSR()
+                return new ResultCommandGenerateCSR()
+                {
+                    Csr = csr != null ? Convert.ToBase64String(csr) : null,
+                    IsSuccess = true
+                };
+            }
+            catch(Exception e)
             {
-                Csr = csr != null ? Convert.ToBase64String(csr) : null
-            };
+                DebugHelper.LogError($"Error GenerateCSR: {e.Message}.");
+                return ResultCommand.CreateFailedCommand<ResultCommandGenerateCSR>($"Error GenerateCSR: {e.Message}.");
+            }
         }
 
-        public async Task<ResultCommand> ProvisionDevice(DeviceCertificateModel certificateInfo, string password)
+        public async Task<ResultCommand> ProvisionDevice(RequestCommandProvisionDevice requestProvisionDevice, string password)
         {
             try
             {
+                DeviceCertificateModel certificateInfo = requestProvisionDevice.DeviceCertificateInformation;
+
                 //Load certificate chain
                 var (deviceCertificate, collectionCertificates) = 
                     LoadCertificateFromPfx(Convert.FromBase64String(certificateInfo.Certificate), password);
@@ -88,8 +105,8 @@ namespace Edison.Devices.Onboarding.Services
             }
             catch (Exception e)
             {
-                DebugHelper.LogCritical(e.Message);
-                return ResultCommand.CreateFailedCommand(e.Message);
+                DebugHelper.LogError($"Error ProvisionDevice: {e.Message}.");
+                return ResultCommand.CreateFailedCommand($"Error ProvisionDevice: {e.Message}.");
             }
         }
 
@@ -116,7 +133,7 @@ namespace Edison.Devices.Onboarding.Services
                     using (RSA key = SimulatedDevice.GetPrivateKey())
                     {
                         certificate = new X509Certificate2(RSACertificateExtensions.CopyWithPrivateKey(element, SimulatedDevice.GetPrivateKey())
-                            .Export(X509ContentType.Pkcs12, SharedConstants.CERTIFICATE_PASSKEY), SharedConstants.CERTIFICATE_PASSKEY, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.UserKeySet | X509KeyStorageFlags.PersistKeySet);
+                            .Export(X509ContentType.Pkcs12, SecretManager.CertificatePasskey), SecretManager.CertificatePasskey, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.UserKeySet | X509KeyStorageFlags.PersistKeySet);
                     }
                 }
                 else
@@ -148,8 +165,8 @@ namespace Edison.Devices.Onboarding.Services
 
                 //Adding certificate in user shared store, with no consent needed as other apps need to access it
                 await CertificateEnrollmentManager.UserCertificateEnrollmentManager
-                    .ImportPfxDataAsync(Convert.ToBase64String(deviceCertificate.Export(X509ContentType.Pkcs12, SharedConstants.CERTIFICATE_PASSKEY)), 
-                    SharedConstants.CERTIFICATE_PASSKEY, ExportOption.Exportable, KeyProtectionLevel.NoConsent, InstallOptions.DeleteExpired, SimulatedDevice.DeviceId);
+                    .ImportPfxDataAsync(Convert.ToBase64String(deviceCertificate.Export(X509ContentType.Pkcs12, SecretManager.CertificatePasskey)),
+                    SecretManager.CertificatePasskey, ExportOption.Exportable, KeyProtectionLevel.NoConsent, InstallOptions.DeleteExpired, SimulatedDevice.DeviceId);
 
                 return true;
             }

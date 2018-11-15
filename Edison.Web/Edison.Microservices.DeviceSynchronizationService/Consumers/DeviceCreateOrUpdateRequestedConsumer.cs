@@ -50,7 +50,8 @@ namespace Edison.DeviceSynchronizationService.Consumers
             {
                 //Push message to Service bus queue
                 _logger.LogDebug($"DeviceCreateOrUpdateRequestedConsumer: Device heartbeat updated with device id '{context.Message.DeviceId}'.");
-                await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = result, CorrelationId = context.Message.CorrelationId });
+                if(result.NeedsUpdate)
+                    await context.Publish(new DeviceCreatedOrUpdatedEvent() { Device = result.Device, CorrelationId = context.Message.CorrelationId });
                 return;
             }
             _logger.LogError("DeviceCreateOrUpdateRequestedConsumer: The device heartbeat could not be updated.");

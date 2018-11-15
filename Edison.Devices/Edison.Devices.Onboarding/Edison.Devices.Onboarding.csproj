@@ -96,7 +96,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helpers\CommandEventArgs.cs" />
+    <Compile Include="Helpers\SecretManager.cs" />
+    <Compile Include="Models\CommandEventArgs.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\SimulatedDevice.cs" />
     <Compile Include="Models\PortalAPI\HeadlessApp.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="Services\PortalService.cs" />
     <Compile Include="Services\ProvisioningService.cs" />
     <Compile Include="Services\WifiService.cs" />
-    <Compile Include="Services\StreamSockerService.cs" />
+    <Compile Include="Services\StreamSockerServer.cs" />
     <Compile Include="OnboardingServer.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

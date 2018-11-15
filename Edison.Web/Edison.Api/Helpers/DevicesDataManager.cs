@@ -198,7 +198,7 @@ namespace Edison.Api.Helpers
             return deviceEntity;
         }
 
-        public async Task<DeviceModel> UpdateHeartbeat(Guid deviceId)
+        public async Task<DeviceHeartbeatUpdatedModel> UpdateHeartbeat(Guid deviceId)
         {
             if (deviceId == Guid.Empty)
                 throw new Exception($"No device found that matches DeviceId: {deviceId}");
@@ -211,7 +211,11 @@ namespace Edison.Api.Helpers
             try
             {
                 await _repoDevices.UpdateItemAsync(deviceDAO);
-                return deviceDAO.Enabled ? _mapper.Map<DeviceModel>(deviceDAO) : null;
+                return new DeviceHeartbeatUpdatedModel()
+                {
+                    Device = _mapper.Map<DeviceModel>(deviceDAO),
+                    NeedsUpdate = deviceDAO.Enabled
+                };
             }
             catch (DocumentClientException e)
             {

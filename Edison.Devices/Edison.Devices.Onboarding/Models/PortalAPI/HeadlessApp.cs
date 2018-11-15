@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Edison.Devices.Onboarding.Models.PortalAPI
+﻿namespace Edison.Devices.Onboarding.Models.PortalAPI
 {
     internal class HeadlessApp
     {

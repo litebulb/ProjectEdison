@@ -1,12 +1,5 @@
 ﻿using Windows.ApplicationModel.Background;
 using Edison.Devices.Onboarding.Helpers;
-using System;
-using System.Threading.Tasks;
-using RestSharp;
-using Newtonsoft.Json;
-using System.Text;
-using System.Net;
-using Edison.Devices.Onboarding.Services;
 
 namespace Edison.Devices.Onboarding
 {
@@ -19,9 +12,6 @@ namespace Edison.Devices.Onboarding
 
             //Init debugging channel
             DebugHelper.Init();
-
-            //Init Portal ApI
-            PortalApiHelper.Init("Administrator", "testTBU1");
             
             //Start background task
             var app = new OnboardingServer();

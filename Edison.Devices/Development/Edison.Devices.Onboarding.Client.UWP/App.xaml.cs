@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
+using Edison.Devices.Onboarding.Client.Helpers;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -23,10 +24,9 @@ namespace Edison.Devices.Onboarding.Client.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
+            Client.MainPage.StreamSockerClient = new StreamSocketClient(SharedConstants.DEBUG_NETWORK_IP, SharedConstants.CONNECTION_PORT);
             Client.MainPage.AccessPointHelper = new WifiService();
-            Client.MainPage.NetworkCommandsHelper = new NetworkCommandsHelper(Client.MainPage.AccessPointHelper);
-            Client.MainPage.DeviceProvisionCommandsHelper = new DeviceProvisionCommandsHelper(Client.MainPage.AccessPointHelper);
-            Client.MainPage.DeviceConfigurationHelper = new DeviceConfigurationCommandsHelper(Client.MainPage.AccessPointHelper);
+            Client.MainPage.CommandsHelper = new CommandsHelper(Client.MainPage.StreamSockerClient);
         }
 
         /// <summary>

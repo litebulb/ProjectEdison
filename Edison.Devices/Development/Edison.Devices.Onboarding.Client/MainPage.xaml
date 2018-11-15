@@ -37,45 +37,28 @@
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
     </Grid.RowDefinitions>
 
-      <Frame x:Name="_DebugStreamServer" Padding="1" Grid.Row="0">
+        <Frame x:Name="_CommandGetDeviceId" Padding="1" Grid.Row="0">
             <StackLayout Orientation="Horizontal">
                 <Label Text="1.  " VerticalTextAlignment="Center" />
-                <Button Text="Debug - Connect to Server (device already in same network)" 
-                Clicked="DebugConnectToServer"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Button Text="Command - Get DeviceId" Clicked="CommandGetDeviceId" 
+                VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
-        <Frame x:Name="_DebugGetDeviceId" Padding="1" Grid.Row="1">
+        <Frame x:Name="_CommandListFirmwares" Padding="1" Grid.Row="1">
             <StackLayout Orientation="Horizontal">
                 <Label Text="2.  " VerticalTextAlignment="Center" />
-                <Button x:Name="_getDeviceId"
-                Text="Debug - Get DeviceId" 
-                Clicked="DebugGetDeviceId"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Button Text="Command - List Firmwares"  Clicked="CommandListFirmwares" 
+                VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
-        <Frame x:Name="_DebugProvisionSoundSensor" Padding="1" Grid.Row="2">
+        <Frame x:Name="_CommandProvisionDevice" Padding="1" Grid.Row="2">
             <StackLayout Orientation="Horizontal">
-                <Label Text="2.  " VerticalTextAlignment="Center" />
-                <Button
-                Text="Debug - Provision Sound Sensor" 
-                Clicked="DebugProvisionSoundSensorCsr"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
+                <Label Text="3.  " VerticalTextAlignment="Center" />
+                <Button Text="Command - Provision Device" Clicked="CommandProvisionDevice"
+                VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
-        <Frame x:Name="_DebugProvisionSmartBulb" Padding="1" Grid.Row="3">
-            <StackLayout Orientation="Horizontal">
-                <Label Text="2.  " VerticalTextAlignment="Center" />
-                <Button
-                Text="Debug - Provision Smart Bulb" 
-                Clicked="DebugProvisionSmartBulbCsr"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            </StackLayout>
-        </Frame>
+
         <Frame x:Name="_ScanApsGrouping" Padding="1" Grid.Row="4">
       <StackLayout Orientation="Horizontal">
         <Label Text="3.  " VerticalTextAlignment="Center" />

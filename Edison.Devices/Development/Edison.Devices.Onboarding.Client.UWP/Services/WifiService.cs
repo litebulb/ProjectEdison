@@ -28,12 +28,6 @@ namespace Edison.Devices.Onboarding.Client.UWP
     {
         public event Action<string> AccessPointsEnumeratedEvent;
         public event Action<string> AccessPointConnectedEvent;
-        public bool IsConnected { get { return _ConnectedSocket != null; } }
-
-        private SemaphoreSlim _SocketLock = new SemaphoreSlim(1, 1);
-        private StreamSocket _ConnectedSocket = null;
-        private DataWriter _DataWriter = null;
-        private DataReader _DataReader = null;
         private WiFiAdapter _connectedWifiAdapter = null;
 
         public async Task FindAccessPoints(ObservableCollection<AccessPoint> availableAccessPoints)
@@ -56,29 +50,6 @@ namespace Edison.Devices.Onboarding.Client.UWP
             });
 
             AccessPointsEnumeratedEvent?.Invoke("Enumerated");
-        }
-
-        private async Task CreateStreamSocketClient(HostName hostName, string connectionPortString)
-        {
-            try
-            {
-                // Conect to port string that was sent
-                var Client = new StreamSocket();
-                Debug.WriteLine($"Opening socket: {hostName}:{connectionPortString}");
-                await Client.ConnectAsync(hostName, connectionPortString, SocketProtectionLevel.PlainSocket);
-                Debug.WriteLine($"Socket connected: {hostName}:{connectionPortString}");
-                HandleSocket(Client);
-            }
-            catch (Exception)
-            {
-                // Handle failure here as desired.  In this sample, 
-                // the failure will be handled by ConnectToAccessPoint
-            }
-        }
-
-        public async Task DebugConnectToStreamServer()
-        {
-            await CreateStreamSocketClient(new HostName(SharedConstants.DEBUG_NETWORK_IP), SharedConstants.CONNECTION_PORT);
         }
 
         public async Task ConnectToAccessPoint(AccessPoint accessPoint)
@@ -114,48 +85,15 @@ namespace Edison.Devices.Onboarding.Client.UWP
                 {
                     Debug.WriteLine($"Connected successfully to: {wiFiAdapter.NetworkAdapter.NetworkAdapterId}.{wifiNetwork.Ssid}");
                     _connectedWifiAdapter = wiFiAdapter;
-
-                    await CreateStreamSocketClient(new HostName(SharedConstants.SOFT_AP_IP), SharedConstants.CONNECTION_PORT);
                 }
             }
 
             string connectionEventString = "Connected";
-            if (_ConnectedSocket == null)
-            {
-                Debug.WriteLine($"Connection failed: {(result != null ? result.ConnectionStatus.ToString() : "access point not found")}");
-                connectionEventString = "FailedConnected";
-            }
             AccessPointConnectedEvent?.Invoke(connectionEventString);
         }
 
-#pragma warning disable 1998
-        public async Task Disconnect()
+        public void Disconnect()
         {
-            _SocketLock.Wait();
-
-            try
-            {
-                if (_DataReader != null)
-                {
-                    _DataReader.Dispose();
-                    _DataReader = null;
-                }
-                if (_DataWriter != null)
-                {
-                    _DataWriter.Dispose();
-                    _DataWriter = null;
-                }
-                if (_ConnectedSocket != null)
-                {
-                    _ConnectedSocket.Dispose();
-                    _ConnectedSocket = null;
-                }
-            }
-            finally
-            {
-                _SocketLock.Release();
-            }
-
             if (_connectedWifiAdapter != null)
             {
                 var wifiAdapter = _connectedWifiAdapter;
@@ -164,71 +102,6 @@ namespace Edison.Devices.Onboarding.Client.UWP
             }
 
             Windows.UI.Xaml.Application.Current.Exit();
-        }
-
-        private void HandleSocket(StreamSocket socket)
-        {
-            _SocketLock.Wait();
-
-            try
-            {
-                Debug.WriteLine($"Connection established from: {socket.Information.RemoteAddress.DisplayName}:{socket.Information.RemotePort}");
-                _ConnectedSocket = socket;
-                _DataWriter = new DataWriter(_ConnectedSocket.OutputStream);
-                _DataReader = new DataReader(_ConnectedSocket.InputStream)
-                {
-                    InputStreamOptions = InputStreamOptions.Partial
-                };
-            }
-            finally
-            {
-                _SocketLock.Release();
-            }
-        }
-
-        public async Task SendRequest(Command communication)
-        {
-            await _SocketLock.WaitAsync();
-            try
-            {
-                string requestData = CommandParserHelper.SerializeAndEncryptCommand(communication);
-                _DataWriter.WriteString(requestData);
-                await _DataWriter.StoreAsync();
-                Debug.WriteLine($"Sent: {communication.BaseCommand}, {communication.Data}");
-            }
-            finally
-            {
-                _SocketLock.Release();
-            }
-        }
-
-        public async Task<Command> GetNextRequest()
-        {
-            Command msg = null;
-
-            await _SocketLock.WaitAsync();
-            try
-            {
-                await _DataReader.LoadAsync(8192);
-
-                string data = string.Empty;
-                while (_DataReader.UnconsumedBufferLength > 0)
-                {
-                    data += _DataReader.ReadString(_DataReader.UnconsumedBufferLength);
-                }
-
-                if (data.Length != 0)
-                {
-                    msg = CommandParserHelper.DeserializeAndDecryptCommand(data);
-                    Debug.WriteLine($"Incoming: {msg.BaseCommand}, {msg.Data}");
-                }
-            }
-            finally
-            {
-                _SocketLock.Release();
-            }
-
-            return msg;
         }
     }
 }

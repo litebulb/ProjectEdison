@@ -11,7 +11,7 @@ namespace Edison.Devices.Onboarding.Helpers
     internal class SimulatedDevice
     {
         private const string PRIVATE_KEY = "iothubdevice";
-        private static string _TemporaryDeviceId = Guid.NewGuid().ToString();
+        private static readonly string _TemporaryDeviceId = Guid.NewGuid().ToString();
 
         public static string DeviceId
         {
