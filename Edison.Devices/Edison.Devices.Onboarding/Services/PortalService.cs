@@ -81,6 +81,36 @@ namespace Edison.Devices.Onboarding.Services
             }
         }
 
+        public async Task<ResultCommand> StopApp(string appName)
+        {
+            var apps = await PortalApiHelper.ListFirmwares();
+            foreach(var app in apps.AppPackages)
+            {
+                if (app.PackageFullName.ToLower().StartsWith(appName.ToLower()))
+                {
+                    if (!await PortalApiHelper.StopHeadlessApp(app.PackageFullName))
+                        return ResultCommand.CreateFailedCommand($"Error StopApp: Error while stopping App {app.PackageFullName}");
+                    break;
+                }
+            }
+            return ResultCommand.CreateSuccessCommand();
+        }
+
+        public async Task<ResultCommand> StartApp(string appName)
+        {
+            var apps = await PortalApiHelper.GetPackages();
+            foreach (var app in apps.InstalledPackages)
+            {
+                if (app.PackageFullName.ToLower().StartsWith(appName.ToLower()))
+                {
+                    if (!await PortalApiHelper.StartHeadlessApp(app.PackageFullName))
+                        return ResultCommand.CreateFailedCommand($"Error StopApp: Error while stopping App {app.PackageFullName}");
+                    break;
+                }
+            }
+            return ResultCommand.CreateSuccessCommand();
+        }
+
         public async Task<ResultCommand> SetDeviceType(RequestCommandSetDeviceType requestDeviceType)
         {
             try
@@ -124,6 +154,25 @@ namespace Edison.Devices.Onboarding.Services
             {
                 DebugHelper.LogError($"Error SetDeviceType: {e.Message}.");
                 return ResultCommand.CreateFailedCommand($"Error SetDeviceType: {e.Message}.");
+            }
+        }
+
+        public async Task<ResultCommand> SetDeviceName(RequestCommandSetDeviceName requestDeviceName)
+        {
+            try
+            {
+                if (!await PortalApiHelper.SetDeviceName(requestDeviceName.Name))
+                {
+                    DebugHelper.LogError($"Error while setting device name: {requestDeviceName.Name}");
+                    return ResultCommand.CreateFailedCommand($"Error SetDeviceName: Error while setting device name: {requestDeviceName.Name}");
+                }
+
+                return ResultCommand.CreateSuccessCommand();
+            }
+            catch (Exception e)
+            {
+                DebugHelper.LogError($"Error SetDeviceName: {e.Message}.");
+                return ResultCommand.CreateFailedCommand($"Error SetDeviceName: {e.Message}.");
             }
         }
 

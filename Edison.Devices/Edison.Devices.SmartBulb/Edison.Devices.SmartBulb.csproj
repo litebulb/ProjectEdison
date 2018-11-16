@@ -29,6 +29,7 @@
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <PackageCertificateThumbprint>DF37791EEEA6B5BDC27099E96F264FFC15FD45E3</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Edison.Devices.SmartBulb_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageDir>D:\Edison\Edison.Devices\AppPackages\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

@@ -20,6 +20,6 @@ namespace Edison.ChatService.Models
         //[JsonProperty(PropertyName = "to")]
         //public ChatUser To { get; set; }
         [JsonProperty(PropertyName = "reportType")]
-        public string ReportType { get; set; }
+        public Guid? ReportType { get; set; }
     }
 }

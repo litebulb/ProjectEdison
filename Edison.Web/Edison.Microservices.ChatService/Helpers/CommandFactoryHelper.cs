@@ -67,7 +67,7 @@ namespace Edison.ChatService.Helpers
             };
         }
 
-        public static Command CreateCommandSendMessage(string botId, string userId, ChatUserModel from, string reportType = "")
+        public static Command CreateCommandSendMessage(string botId, string userId, ChatUserModel from, Guid? reportType = null)
         {
             return CreateCommandSendMessage(botId, new CommandSendMessageProperties()
             {
@@ -77,7 +77,7 @@ namespace Edison.ChatService.Helpers
             });
         }
 
-        public static Command CreateCommandSendMessage(string botId, string userId, ChannelAccount from, string reportType = "")
+        public static Command CreateCommandSendMessage(string botId, string userId, ChannelAccount from, Guid? reportType = null)
         {
             return CreateCommandSendMessage(botId, userId, Mapper.Map<ChatUserModel>(from), reportType);
         }

@@ -11,7 +11,6 @@ namespace Edison.Common.DAO
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
-        public string ReportType { get; set; }
         public string ChannelId { get; set; }
         public ChatUserDAOObject User { get; set; }
         public List<ReportLogDAOObject> ReportLogs { get; set; }

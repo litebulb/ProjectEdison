@@ -15,7 +15,7 @@ namespace Edison.ChatService.Models
     {
         public string UserId { get; set; }
         public string Username { get; set; }
-        public string ReportType { get; set; }
+        public Guid? ReportType { get; set; }
         public string Message { get; set; }
     }
 }

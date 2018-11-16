@@ -14,5 +14,6 @@ namespace Edison.Common.DAO
         public DateTime Date { get; set; }
         public string Id { get; set; }
         public bool IsBroadcast { get; set; }
+        public Guid? ReportType { get; set; }
     }
 }

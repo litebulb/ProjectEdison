@@ -22,7 +22,7 @@ namespace Edison.Devices.Onboarding
             DebugHelper.LogInformation("Onboarding starting");
 
             //Init Portal Api and turn on access point
-            if (!await InitializePortalAPI())
+            if (!InitializePortalAPI())
                 return;
 
             //Start Wifi Service
@@ -44,20 +44,19 @@ namespace Edison.Devices.Onboarding
                 if (DateTime.UtcNow.AddMinutes(-5) > _LastAccess)
                 {
                     DebugHelper.LogInformation("Onboarding has been on for 5 minutes without new commands. Turning off Access Point.");
-                    await PortalApiHelper.SetSoftAPState(false);
-                    //Ending app
+                    //Stopping endpoint
+                    await _PortalService.StopApp("IoTOnboardingTask");
                     break;
                 }
                 await Task.Delay(500);
             }
         }
 
-        private async Task<bool> InitializePortalAPI()
+        private bool InitializePortalAPI()
         {
             try
             {
                 PortalApiHelper.Init("Administrator", SecretManager.PortalPassword);
-                await PortalApiHelper.SetSoftAPState(true);
             }
             catch(Exception e)
             {
@@ -70,7 +69,6 @@ namespace Edison.Devices.Onboarding
                     {
                         PortalApiHelper.Init("Administrator", SharedConstants.DEFAULT_PORTAL_PASSWORD);
                         SecretManager.PortalPassword = SharedConstants.DEFAULT_PORTAL_PASSWORD;
-                        await PortalApiHelper.SetSoftAPState(true);
                     }
                     catch (Exception e2)
                     {
@@ -120,6 +118,11 @@ namespace Edison.Devices.Onboarding
                     case CommandsEnum.SetDeviceType:
                         await ProcessCommand(commandArgs, async (RequestCommandSetDeviceType request) => {
                             return await _PortalService.SetDeviceType(request);
+                        });
+                        break;
+                    case CommandsEnum.SetDeviceName:
+                        await ProcessCommand(commandArgs, async (RequestCommandSetDeviceName request) => {
+                            return await _PortalService.SetDeviceName(request);
                         });
                         break;
                     case CommandsEnum.GetAccessPointSettings:

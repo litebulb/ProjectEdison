@@ -158,9 +158,9 @@ namespace Edison.ChatService.Middleware
             else if(userContext.Role == ChatUserRole.Consumer && !string.IsNullOrWhiteSpace(activity.Text))
             {
                 //Retrieve report type, if provided. Force "Report" if none is provided.
-                string reportType = string.Empty;
-                if (activity.Properties.ContainsKey("reportType"))
-                    reportType = activity.Properties["reportType"].ToString();
+                Guid? reportType = null;
+                if (activity.Properties.ContainsKey("reportType") && Guid.TryParse(activity.Properties["reportType"].ToString(), out Guid parsedReportType))
+                    reportType = parsedReportType;
 
                 CommandSendMessageProperties properties = new CommandSendMessageProperties()
                 {

@@ -17,6 +17,7 @@ namespace Edison.Devices.Onboarding.Common.Models
         SetDeviceType = 107,
         GetAccessPointSettings = 108,
         SetDeviceSecretKeys = 109,
+        SetDeviceName = 110,
 
         ResultGetAvailableNetworks = 200,
         ResultConnectToNetwork = 201,
@@ -28,6 +29,7 @@ namespace Edison.Devices.Onboarding.Common.Models
         ResultSetDeviceType = 207,
         ResultGetAccessPointSettings = 208,
         ResultSetDeviceSecretKeys = 209,
+        ResultSetDeviceName = 210,
         ResultError = 500
     }
 }

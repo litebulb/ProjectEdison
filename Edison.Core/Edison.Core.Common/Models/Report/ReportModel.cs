@@ -9,7 +9,6 @@ namespace Edison.Core.Common.Models
     public class ReportModel
     {
         public Guid ReportId { get; set; }
-        public string ReportType { get; set; }
         public string ChannelId { get; set; }
         public ChatUserModel User { get; set; }
         public List<ReportLogModel> ReportLogs { get; set; }

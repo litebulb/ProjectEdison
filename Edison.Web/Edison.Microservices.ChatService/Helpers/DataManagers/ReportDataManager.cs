@@ -56,9 +56,8 @@ namespace Edison.ChatService.Helpers
 
             //Update
             ReportLogDAOObject reportLogDAO = Mapper.Map<ReportLogDAOObject>(reportLogObj.Message);
+            reportLogDAO.ReportType = reportLogObj.ReportType;
             reportDAO.ReportLogs.Add(reportLogDAO);
-            if (!string.IsNullOrEmpty(reportLogObj.ReportType))
-                reportDAO.ReportType = reportLogObj.ReportType;
 
             try
             {
@@ -82,7 +81,6 @@ namespace Edison.ChatService.Helpers
             {
                 ChannelId = reportLogObj.ChannelId,
                 ReportLogs = new List<ReportLogDAOObject>() { reportLogDAO },
-                ReportType = reportLogObj.ReportType.ToString(),
                 User = Mapper.Map<ChatUserDAOObject>(reportLogObj.User)
             };
             newReportDAO.Id = await _repoReports.CreateItemAsync(newReportDAO);

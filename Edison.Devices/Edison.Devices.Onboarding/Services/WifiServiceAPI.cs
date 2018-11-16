@@ -88,7 +88,7 @@ namespace Edison.Devices.Onboarding.Services
             }
         }
 
-        private async Task<WifiSet> FindWifi(string ssid)
+        public async Task<WifiSet> FindWifi(string ssid)
         {
             var wifiAdapterList = await WiFiAdapter.FindAllAdaptersAsync();
             var wifiList = from adapter in wifiAdapterList

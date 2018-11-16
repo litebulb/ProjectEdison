@@ -5,6 +5,7 @@ using Edison.DeviceProvisioning.Config;
 using Edison.DeviceProvisioning.Helpers;
 using Edison.DeviceProvisioning.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -56,7 +57,7 @@ namespace Edison.DeviceProvisionning.Controllers
                      DeviceType = certificateProperties.DeviceType
                 });
             }
-            return StatusCode((int)HttpStatusCode.InternalServerError);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

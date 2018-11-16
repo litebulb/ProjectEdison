@@ -121,10 +121,10 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatus("WifiConnectToAccessPoint", "");
             var accessPoint = _availableAccessPointListView.SelectedItem as AccessPoint;
             var result = await AccessPointHelper.ConnectToAccessPoint(accessPoint);
-            //if(result == WifiConnectionStatus.Connected)
+            if(result == WifiConnectionStatus.Connected)
                 HandleState(State.AccessPointConnected);
-            //else
-            //    HandleState(State.AccessPointsEnumerated);
+            else
+                HandleState(State.AccessPointsEnumerated);
             UpdateStatus("WifiConnectToAccessPoint", result.ToString());
         }
 

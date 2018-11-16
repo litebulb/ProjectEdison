@@ -29,6 +29,7 @@
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <PackageCertificateThumbprint>D519E72B4C1AB230E79B15941C87F75FA3774FB9</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Edison.Devices.SoundSensor_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageDir>D:\Edison\Edison.Devices\AppPackages\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

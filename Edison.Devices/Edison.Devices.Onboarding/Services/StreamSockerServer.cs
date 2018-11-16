@@ -7,24 +7,62 @@ using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Edison.Devices.Onboarding.Models;
+using Windows.Devices.WiFi;
+using System.Net.NetworkInformation;
+using System.Net;
+using Windows.Networking.Connectivity;
 
 namespace Edison.Devices.Onboarding.Services
 {
     internal class StreamSockerServer
     {
         private const uint BufferSize = 8192;
-        private const uint ServerPort = 50074;
         public event Func<CommandEventArgs, Task> CommandReceived;
+
 
         public async Task Start()
         {
-            DebugHelper.LogInformation($"StreamSocker Server starting on port {ServerPort}");
+            DebugHelper.LogInformation($"StreamSocker Server starting on port {SharedConstants.CONNECTION_PORT}");
+
+            NetworkInterface networkAP = GetAPNetworkInterface();
+            while(networkAP == null || networkAP.OperationalStatus != OperationalStatus.Up)
+            {
+                await Task.Delay(1000);
+                DebugHelper.LogVerbose($"Waiting for AP network to be up...");
+                networkAP = GetAPNetworkInterface();
+            }
 
             StreamSocketListener listener = new StreamSocketListener();
             listener.ConnectionReceived += ConnectionReceived;
-            await listener.BindServiceNameAsync(ServerPort.ToString());
+            await listener.BindServiceNameAsync(SharedConstants.CONNECTION_PORT.ToString());
 
-            DebugHelper.LogInformation($"Listening for StreamSocket connection on {ServerPort}");
+            DebugHelper.LogInformation($"Listening for StreamSocket connection on {SharedConstants.CONNECTION_PORT}");
+        }
+
+        private NetworkInterface GetAPNetworkInterface()
+        {
+            try
+            {
+                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                    {
+                        foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                        {
+                            if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
+                                ip.Address.ToString() == SharedConstants.SOFT_AP_IP)
+                            {
+                                return ni;
+                            }
+                        }
+                    }
+                }
+            } catch(Exception e)
+            {
+                DebugHelper.LogError($"GetAPNetworkInterface: {e.Message}");
+                DebugHelper.LogError($"GetAPNetworkInterface: {e.StackTrace}");
+            }
+            return null;
         }
 
         private async Task SendResponse(Command response, DataWriter writer, string passkey)
@@ -77,31 +115,36 @@ namespace Edison.Devices.Onboarding.Services
                     using (var writer = new DataWriter(args.Socket.OutputStream))
                     {
                         reader.InputStreamOptions = InputStreamOptions.Partial;
-                        while (true)
+                        try
                         {
-                            try
+                            var networkCommand = await ReceiveCommand(reader, passkey);
+                            //if (networkCommand == null) break;
+                            if (networkCommand == null)
                             {
-                                var networkCommand = await ReceiveCommand(reader, passkey);
-                                if (networkCommand == null) break;
-
-                                CommandEventArgs commandArgs = new CommandEventArgs()
-                                {
-                                    InputCommand = networkCommand
-
-                                };
-
-                                //Send command
-                                await CommandReceived?.Invoke(commandArgs);
-
-                                //If output command retrieve, send it
-                                if (commandArgs.OutputCommand != null)
-                                    await SendResponse(commandArgs.OutputCommand, writer, passkey);
+                                await SendResponse(Command.CreateErrorCommand($"The command was null."), writer, passkey);
+                                return;
                             }
-                            catch(Exception loopException)
+
+                            CommandEventArgs commandArgs = new CommandEventArgs()
                             {
-                                await SendResponse(Command.CreateErrorCommand($"Error handling request: {loopException.Message}"), writer, passkey);
-                            }
+                                InputCommand = networkCommand
+
+                            };
+
+                            //Send command
+                            await CommandReceived?.Invoke(commandArgs);
+
+                            //If output command retrieve, send it
+                            if (commandArgs.OutputCommand != null)
+                                await SendResponse(commandArgs.OutputCommand, writer, passkey);
+
+                                
                         }
+                        catch (Exception loopException)
+                        {
+                            await SendResponse(Command.CreateErrorCommand($"Error handling request: {loopException.Message}"), writer, passkey);
+                        }
+                        DebugHelper.LogInformation($"Connection from {args.Socket.Information.RemoteAddress.DisplayName}:{args.Socket.Information.RemotePort} ended");
                     }
                 }
             }

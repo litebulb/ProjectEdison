@@ -186,14 +186,14 @@ namespace Edison.ChatService.Helpers
                         {
                             listBroadcastIds.Add(reportLog.Id);
                             activityLog.ChannelData = CommandFactoryHelper.CreateCommandSendMessage(
-                        selfConversation.Bot.Id, "*", reportLog.From, report.ReportType);
+                        selfConversation.Bot.Id, "*", reportLog.From, reportLog.ReportType);
                         } else
                             continue;
                     }
                     else
                     {
                         activityLog.ChannelData = CommandFactoryHelper.CreateCommandSendMessage(
-                            selfConversation.Bot.Id, report.User.Id, reportLog.From, report.ReportType);
+                            selfConversation.Bot.Id, report.User.Id, reportLog.From, reportLog.ReportType);
                     }
 
                     //Rest of the message

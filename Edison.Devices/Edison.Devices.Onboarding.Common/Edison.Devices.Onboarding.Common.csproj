@@ -115,6 +115,7 @@
     <Compile Include="Models\RequestCommandModels\RequestCommandDisconnectFromNetwork.cs" />
     <Compile Include="Models\RequestCommandModels\RequestCommandConnectToNetwork.cs" />
     <Compile Include="Models\RequestCommandModels\RequestCommandProvisionDevice.cs" />
+    <Compile Include="Models\RequestCommandModels\RequestCommandSetDeviceName.cs" />
     <Compile Include="Models\RequestCommandModels\RequestCommandSetDeviceType.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandAvailableNetworks.cs" />
     <Compile Include="Models\NetworkInformation.cs" />

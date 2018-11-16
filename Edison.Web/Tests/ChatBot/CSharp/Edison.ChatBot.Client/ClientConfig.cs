@@ -12,7 +12,7 @@ namespace Edison.ChatBot.Client
         public string BotId { get; set; }
         public string BotSecret { get; set; }
         public Guid DeviceId { get; set; }
-        public string ReportType { get; set; }
+        public Guid? ReportType { get; set; }
         public string DirectLineServiceAPI { get; set; }
     }
 }

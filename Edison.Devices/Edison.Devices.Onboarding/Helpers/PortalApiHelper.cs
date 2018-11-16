@@ -96,6 +96,21 @@ namespace Edison.Devices.Onboarding.Helpers
             return false;
         }
 
+        internal static async Task<bool> SetDeviceName(string name)
+        {
+            if (name.Length > 15)
+                throw new Exception("The device name must not exceed 15 characters.");
+
+            RestRequest request = PrepareQuery("iot/device/name?newdevicename={newdevicename}", Method.POST);
+            request.AddUrlSegment("newdevicename", GetBase64String(name));
+            var queryResult = await _client.ExecuteTaskAsync<HttpStatusCode>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return true;
+            }
+            return false;
+        }
+
         internal static async Task<bool> SetStartupForHeadlessApp(bool enabled, string package)
         {
             RestRequest request = PrepareQuery("iot/appx/startupHeadlessApp?appid={appid}", enabled ? Method.POST : Method.DELETE);
