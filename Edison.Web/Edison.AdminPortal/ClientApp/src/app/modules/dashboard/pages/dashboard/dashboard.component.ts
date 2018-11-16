@@ -19,7 +19,7 @@ import { Device } from '../../../../reducers/device/device.model';
 import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors';
 import { EventActionTypes, GetEvents, ShowEvents } from '../../../../reducers/event/event.actions';
 import { Event, EventType } from '../../../../reducers/event/event.model';
-import { activeEventsSelector, eventsSelector } from '../../../../reducers/event/event.selectors';
+import { eventsSelector } from '../../../../reducers/event/event.selectors';
 import { GetResponses } from '../../../../reducers/response/response.actions';
 import { Response, ResponseState } from '../../../../reducers/response/response.model';
 import {
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const responseStream = this.store.pipe(select(responsesSelector));
-        const eventStream = this.store.pipe(select(activeEventsSelector));
+        const eventStream = this.store.pipe(select(eventsSelector));
         const deviceStream = this.store.pipe(select(devicesFilteredSelector));
 
         this.actions$
@@ -165,6 +165,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const eventPins: MapPin[] = events
             .filter(e => e.eventType === EventType.Message &&
                 e.device.geolocation)
+            .reduce((acc, event) => {
+                const existingEvent = acc.find(e => e.device.deviceId === event.device.deviceId);
+                if (!existingEvent) { acc.push(event); }
+                else if (existingEvent.startDate < event.startDate) {
+                    acc = acc.filter(e => e.device.deviceId === event.device.deviceId);
+                    acc.push(event);
+                }
+
+                return acc;
+            }, [] as Event[])
             .map(event => ({
                 ...event.device,
                 event: event,

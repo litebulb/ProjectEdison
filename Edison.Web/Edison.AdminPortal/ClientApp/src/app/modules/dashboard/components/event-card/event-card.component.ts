@@ -1,20 +1,21 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { MapDefaults } from '../../../map/models/mapDefaults'
-import { Event, EventInstance } from '../../../../reducers/event/event.model'
-import { AppState } from '../../../../reducers'
-import { Store, select } from '@ngrx/store'
-import { MapPin } from '../../../map/models/mapPin'
-import {
-    ShowEvents,
-    SelectActiveEvent,
-} from '../../../../reducers/event/event.actions'
-import { spinnerColors } from '../../../../core/spinnerColors'
-import { activeEventSelector } from '../../../../reducers/event/event.selectors'
-import { Subscription } from 'rxjs'
-import { responsesSelector } from '../../../../reducers/response/response.selectors'
-import { Response, ResponseState } from '../../../../reducers/response/response.model'
-import { SelectActiveResponse, ShowManageResponse, ShowActivateResponse } from '../../../../reducers/response/response.actions'
+import { Subscription } from 'rxjs';
+
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { spinnerColors } from '../../../../core/spinnerColors';
+import { AppState } from '../../../../reducers';
 import { ToggleUserChatWindow } from '../../../../reducers/chat/chat.actions';
+import { SelectActiveEvent, ShowEvents } from '../../../../reducers/event/event.actions';
+import { Event, EventInstance } from '../../../../reducers/event/event.model';
+import { activeEventSelector } from '../../../../reducers/event/event.selectors';
+import {
+    SelectActiveResponse, ShowActivateResponse, ShowManageResponse
+} from '../../../../reducers/response/response.actions';
+import { Response, ResponseState } from '../../../../reducers/response/response.model';
+import { responsesSelector } from '../../../../reducers/response/response.selectors';
+import { MapDefaults } from '../../../map/models/mapDefaults';
+import { MapPin } from '../../../map/models/mapPin';
 
 @Component({
     selector: 'app-event-card',
@@ -119,7 +120,9 @@ export class EventCardComponent implements OnInit, OnDestroy {
 
     showEvent = () => {
         const { metadata: { userId, username } } = this.latestEventInstance;
-        this.store.dispatch(new ToggleUserChatWindow({ open: true, userId: userId, userName: username }));
+        if (this.event.closureDate === null) {
+            this.store.dispatch(new ToggleUserChatWindow({ open: true, userId: userId, userName: username }));
+        }
         this.store.dispatch(new ShowEvents({ events: [ this.event ] }));
     }
 
