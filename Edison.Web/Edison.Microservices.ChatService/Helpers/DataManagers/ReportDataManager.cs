@@ -56,7 +56,6 @@ namespace Edison.ChatService.Helpers
 
             //Update
             ReportLogDAOObject reportLogDAO = Mapper.Map<ReportLogDAOObject>(reportLogObj.Message);
-            reportLogDAO.ReportType = reportLogObj.ReportType;
             reportDAO.ReportLogs.Add(reportLogDAO);
 
             try

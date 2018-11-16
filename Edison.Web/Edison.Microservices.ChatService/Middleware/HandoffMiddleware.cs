@@ -25,14 +25,16 @@ namespace Edison.ChatService.Middleware
         private readonly IMassTransitServiceBus _serviceBus;
         private readonly IDeviceRestService _deviceRestService;
         private readonly BotRoutingDataManager _routingDataManager;
+        private readonly ReportDataManager _reportDataManager;
         private readonly ILogger<CommandMiddleware> _logger;
 
         public HandoffMiddleware(IOptions<BotOptions> config, IDeviceRestService deviceRestService,
-            BotRoutingDataManager routingDataManager, IMassTransitServiceBus serviceBus,
+            BotRoutingDataManager routingDataManager, ReportDataManager reportDataManager, IMassTransitServiceBus serviceBus,
         ILogger<CommandMiddleware> logger) : base(logger)
         {
             _config = config.Value;
             _deviceRestService = deviceRestService;
+            _reportDataManager = reportDataManager;
             _serviceBus = serviceBus;
             _routingDataManager = routingDataManager;
             _logger = logger;
@@ -106,6 +108,12 @@ namespace Edison.ChatService.Middleware
                     //Get deviceId
                     string userId = GetDatabaseUserId(channelId, consumerMessageProperties.UserId);
                     DeviceModel device = await _deviceRestService.GetMobileDeviceFromUserId(userId);
+
+                    //Get last reportType
+                    Guid? reportType = consumerMessageProperties.ReportType;
+                    if(consumerMessageProperties.ReportType == null || consumerMessageProperties.ReportType == Guid.Empty)
+                        reportType = await GetLastReportTypeFromUser(consumerMessageProperties.UserId);
+
                     if (device != null)
                     {
                         IEventSagaReceived newMessage = new EventSagaReceivedEvent()
@@ -118,7 +126,7 @@ namespace Edison.ChatService.Middleware
                             {
                                 UserId = consumerMessageProperties.UserId,
                                 Username = consumerMessageProperties.From.Name,
-                                ReportType = consumerMessageProperties.ReportType,
+                                ReportType = reportType,
                                 Message = message
                             })
                         };
@@ -133,6 +141,26 @@ namespace Edison.ChatService.Middleware
                 _logger.LogError($"EdisonBot: {e.Message}");
                 return false;
             }
+        }
+
+        private async Task<Guid?> GetLastReportTypeFromUser(string userId)
+        {
+            Guid? reportType = null;
+
+            ReportModel activeReport = await _reportDataManager.GetActiveReportFromUser(userId);
+            if (activeReport != null)
+            {
+                for (int i = activeReport.ReportLogs.Count - 1; 0 <= i; i--)
+                {
+                    Guid? reportLog = activeReport.ReportLogs[i].ReportType;
+                    if (reportLog != null && reportLog != Guid.Empty)
+                    {
+                        reportType = reportLog;
+                        break;
+                    }
+                }
+            }
+            return reportType;
         }
     }
 }

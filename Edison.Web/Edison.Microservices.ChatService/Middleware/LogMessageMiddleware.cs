@@ -53,12 +53,12 @@ namespace Edison.ChatService.Middleware
                         await _reportDataManager.CreateOrUpdateReport(new ReportLogCreationModel()
                         {
                             User = properties.From.Role == ChatUserRole.Admin ? new ChatUserModel() { Id = consumerConversation.User.Id } : properties.From,
-                            ReportType = properties.ReportType,
                             Message = new ReportLogModel()
                             {
                                 From = properties.From,
                                 Date = activity.Timestamp.Value.DateTime,
                                 Message = activity.Text,
+                                ReportType = properties.ReportType,
                                 Id = activity.Id,
                                 IsBroadcast = true
                             }
@@ -72,12 +72,12 @@ namespace Edison.ChatService.Middleware
                     {
                         User = properties.From.Role == ChatUserRole.Admin ? new ChatUserModel() { Id = properties.UserId } : properties.From,
                         ChannelId = activity.ChannelId,
-                        ReportType = properties.ReportType,
                         Message = new ReportLogModel()
                         {
                             From = properties.From,
                             Date = activity.Timestamp.Value.DateTime,
                             Message = activity.Text,
+                            ReportType = properties.ReportType,
                             Id = activity.Id
                         }
                     });
