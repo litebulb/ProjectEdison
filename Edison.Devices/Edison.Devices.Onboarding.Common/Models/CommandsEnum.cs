@@ -18,6 +18,8 @@ namespace Edison.Devices.Onboarding.Common.Models
         GetAccessPointSettings = 108,
         SetDeviceSecretKeys = 109,
         SetDeviceName = 110,
+        DisableAccessPointTimeout = 111,
+        EnableAccessPointTimeout = 112,
 
         ResultGetAvailableNetworks = 200,
         ResultConnectToNetwork = 201,
@@ -30,6 +32,8 @@ namespace Edison.Devices.Onboarding.Common.Models
         ResultGetAccessPointSettings = 208,
         ResultSetDeviceSecretKeys = 209,
         ResultSetDeviceName = 210,
+        ResultDisableAccessPointTimeout = 211,
+        ResultEnableAccessPointTimeout = 212,
         ResultError = 500
     }
 }

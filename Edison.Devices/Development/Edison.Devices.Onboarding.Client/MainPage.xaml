@@ -40,7 +40,7 @@
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
-      <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="300" iOS="Auto" Android="*" /></RowDefinition.Height></RowDefinition>
+      <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="*" /></RowDefinition.Height></RowDefinition>
       <RowDefinition><RowDefinition.Height><OnPlatform x:TypeArguments="GridLength" WinPhone="Auto" iOS="Auto" Android="40" /></RowDefinition.Height></RowDefinition>
     </Grid.RowDefinitions>
         <!-- Connection to device Access Point -->
@@ -102,45 +102,39 @@
         <Label x:Name="_SpacerProvisioningDevice" Text="Provisioning the device"  Grid.Row="8"/>
         <Frame x:Name="_CommandGetDeviceId" Padding="1" Grid.Row="9">
             <StackLayout Orientation="Horizontal">
-                <Label Text="1.  " VerticalTextAlignment="Center" />
                 <Button Text="Command - Get DeviceId" Clicked="CommandGetDeviceId" 
                 VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
         <Frame x:Name="_CommandListFirmwares" Padding="1" Grid.Row="10">
             <StackLayout Orientation="Horizontal">
-                <Label Text="2.  " VerticalTextAlignment="Center" />
                 <Button Text="Command - List Firmwares"  Clicked="CommandListFirmwares" 
                 VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
         <Frame x:Name="_CommandProvisionDevice" Padding="1" Grid.Row="11">
             <StackLayout Orientation="Horizontal">
-                <Label Text="3.  " VerticalTextAlignment="Center" />
                 <Button Text="Command - Provision Device" Clicked="CommandProvisionDevice"
                 VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
         <Frame x:Name="_CommandGetAccessPointSettings" Padding="1" Grid.Row="12">
             <StackLayout Orientation="Horizontal">
-                <Label Text="4.  " VerticalTextAlignment="Center" />
                 <Button Text="Command - Get Access Point Settings" Clicked="CommandGetAccessPointSettings"
                 VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
         <Frame x:Name="_CommandSetDeviceSecretKeys" Padding="1" Grid.Row="13">
             <StackLayout Orientation="Horizontal">
-                <Label Text="5.  " VerticalTextAlignment="Center" />
                 <Button Text="Command - Set Device Secret Keys" Clicked="CommandSetDeviceSecretKeys"
                 VerticalOptions="Center" HorizontalOptions="Center" />
             </StackLayout>
         </Frame>
         
     
-        <Frame x:Name="_ExitGrouping" Padding="1" Grid.Row="15">
-          <StackLayout Orientation="Horizontal">
-            <Label Text="11.  " VerticalTextAlignment="Center" />
-            <Button x:Name="_exitButton"
+        <Frame x:Name="_ExitGrouping" Padding="1" Grid.Row="14">
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="_exitButton"
                   Clicked="Exit"
                   Text="Exit"
                   VerticalOptions="Center"
@@ -148,7 +142,7 @@
           </StackLayout>
         </Frame>
 
-        <Label x:Name="_Status" Text="" BackgroundColor="Gray" Grid.Row="13" Grid.ColumnSpan="2"/>
+        <Label x:Name="_Status" Text="" BackgroundColor="Gray" Grid.Row="15" Grid.ColumnSpan="2"/>
 
         <!-- Lists -->
         <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="10" Grid.Column="1">

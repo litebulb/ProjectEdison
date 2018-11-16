@@ -145,6 +145,11 @@ namespace Edison.Devices.Onboarding.Services
                             await SendResponse(Command.CreateErrorCommand($"Error handling request: {loopException.Message}"), writer, passkey);
                         }
                         DebugHelper.LogInformation($"Connection from {args.Socket.Information.RemoteAddress.DisplayName}:{args.Socket.Information.RemotePort} ended");
+                        if (args.Socket != null)
+                        {
+                            args.Socket.Dispose();
+                            DebugHelper.LogVerbose("Socket disposed.");
+                        }
                     }
                 }
             }

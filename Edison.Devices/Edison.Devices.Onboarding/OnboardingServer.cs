@@ -16,6 +16,8 @@ namespace Edison.Devices.Onboarding
         private ProvisioningService _ProvisioningService = null;
         private PortalService _PortalService = null;
         private DateTime _LastAccess = DateTime.UtcNow;
+        private const int APTimeoutMinutes = 10;
+        private bool _APTimeoutEnabled = true;
 
         public async Task Run()
         {
@@ -25,31 +27,55 @@ namespace Edison.Devices.Onboarding
             if (!InitializePortalAPI())
                 return;
 
-            //Start Wifi Service
+            //Start Services
             _WifiService = new WifiService();
-
-            //Start Provisioning Service
             _ProvisioningService = new ProvisioningService();
-
-            //Start Portal Service
             _PortalService = new PortalService();
+
+            //Start AP App
+            if (!await StartAPApp())
+                return;
 
             //Start Stream Socker Service
             _StreamSockerHandler = new StreamSockerServer();
             _StreamSockerHandler.CommandReceived += CommandReceived;
             await _StreamSockerHandler.Start();
 
+            //Wait for AP Timeout
+            _LastAccess = DateTime.UtcNow;
             while (true)
             {
-                if (DateTime.UtcNow.AddMinutes(-5) > _LastAccess)
+                if (_APTimeoutEnabled && DateTime.UtcNow.AddMinutes(-(APTimeoutMinutes)) > _LastAccess)
                 {
-                    DebugHelper.LogInformation("Onboarding has been on for 5 minutes without new commands. Turning off Access Point.");
-                    //Stopping endpoint
-                    await _PortalService.StopApp("IoTOnboardingTask");
+                    await StopAPApp();
                     break;
                 }
                 await Task.Delay(500);
             }
+        }
+
+        private async Task<bool> StartAPApp()
+        {
+            DebugHelper.LogInformation("Starting IoTOnboardingTask...");
+            var resultStart = await _PortalService.StartApp("IoTOnboardingTask");
+            if (!resultStart.IsSuccess)
+            {
+                DebugHelper.LogCritical("The application IoTOnboardingTask could not be started.");
+                return false;
+            }
+            DebugHelper.LogInformation("IoTOnboardingTask started");
+            return true;
+        }
+
+        private async Task StopAPApp()
+        {
+            DebugHelper.LogInformation($"Onboarding has been on for {APTimeoutMinutes} minutes without new commands. Stopping IoTOnboardingTask...");
+            //Stopping endpoint
+            var resultStop = await _PortalService.StopApp("IoTOnboardingTask");
+            if (!resultStop.IsSuccess)
+                DebugHelper.LogError("The application IoTOnboardingTask could not be stopped.");
+            else
+                DebugHelper.LogInformation("IoTOnboardingTask stopped");
         }
 
         private bool InitializePortalAPI()
@@ -133,6 +159,12 @@ namespace Edison.Devices.Onboarding
                             return await _PortalService.SetDeviceSecretKeys(request);
                         });
                         break;
+                    case CommandsEnum.DisableAccessPointTimeout:
+                        ProcessCommand(commandArgs, () => { return SetAPTimeoutValue(false); });
+                        break;
+                    case CommandsEnum.EnableAccessPointTimeout:
+                        ProcessCommand(commandArgs, () => { return SetAPTimeoutValue(true); });
+                        break;
                     case CommandsEnum.Unknown:
                         throw new Exception($"Command ${commandArgs.InputCommand.BaseCommand} not found.");
                 }
@@ -142,6 +174,12 @@ namespace Edison.Devices.Onboarding
                 DebugHelper.LogCritical(e.Message);
                 DebugHelper.LogCritical(e.StackTrace);
             }
+        }
+
+        private ResultCommand SetAPTimeoutValue(bool state)
+        {
+            _APTimeoutEnabled = state;
+            return ResultCommand.CreateSuccessCommand();
         }
 
         private void ProcessCommand(CommandEventArgs commandArgs, Func<ResultCommand> commandProcess)
