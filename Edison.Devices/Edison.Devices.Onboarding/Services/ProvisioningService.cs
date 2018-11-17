@@ -41,7 +41,7 @@ namespace Edison.Devices.Onboarding.Services
             {
                 //Generate Certificate with RSA Private key
                 byte[] csr = null;
-                using (RSA key = SimulatedDevice.GenerateRSAKey())
+                using (RSA key = SimulatedDevice.GetPrivateKey(true))
                 {
                     CertificateRequest certRequest = new CertificateRequest($"CN={SimulatedDevice.DeviceId}",
                         key,
@@ -96,6 +96,9 @@ namespace Edison.Devices.Onboarding.Services
 
                         //Persist provision in TPM/HSM
                         SimulatedDevice.ProvisionDevice(result.AssignedHub, result.DeviceId);
+
+                        //Provisioned!
+                        SimulatedDevice.IsProvisioned = true;
                     }
                 }
                 if (deviceCertificate != null)
@@ -132,7 +135,7 @@ namespace Edison.Devices.Onboarding.Services
                 {
                     using (RSA key = SimulatedDevice.GetPrivateKey())
                     {
-                        certificate = new X509Certificate2(RSACertificateExtensions.CopyWithPrivateKey(element, SimulatedDevice.GetPrivateKey())
+                        certificate = new X509Certificate2(RSACertificateExtensions.CopyWithPrivateKey(element, key)
                             .Export(X509ContentType.Pkcs12, SecretManager.CertificatePasskey), SecretManager.CertificatePasskey, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.UserKeySet | X509KeyStorageFlags.PersistKeySet);
                     }
                 }

@@ -1,11 +1,5 @@
 ﻿using Edison.Devices.Onboarding.Common.Models;
 using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Edison.Devices.Onboarding.Common.Helpers
 {
@@ -29,6 +23,26 @@ namespace Edison.Devices.Onboarding.Common.Helpers
                 return JsonConvert.DeserializeObject<Command>(decryptedData);
             }
             return null;
+        }
+
+        public static string SerializeCommand(Command command)
+        {
+            return JsonConvert.SerializeObject(command);
+        }
+
+        public static Command DeserializeCommand(string commandData)
+        {
+            return JsonConvert.DeserializeObject<Command>(commandData);
+        }
+
+        public static string EncryptMessage(string message, string socketKey)
+        {
+            return StringCipher.Encrypt(message, socketKey);
+        }
+
+        public static string DecryptMessage(string message, string socketKey)
+        {
+            return StringCipher.Decrypt(message, socketKey);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Edison.Devices.Onboarding.Common.Models;
+﻿using Edison.Devices.Onboarding.Common.Helpers;
+using Edison.Devices.Onboarding.Common.Models;
 using Edison.Devices.Onboarding.Helpers;
 using Edison.Devices.Onboarding.Models.PortalAPI;
 using System;
@@ -14,11 +15,11 @@ namespace Edison.Devices.Onboarding.Services
         {
         }
 
-        public async Task<ResultCommandListFirmwares> ListFirmwares()
+        public async Task<ResultCommandListFirmwares> GetFirmwares()
         {
             try
             {
-                var allFirmwares = await GetFirmwares();
+                var allFirmwares = await LoadFirmwares();
                 return new ResultCommandListFirmwares()
                 {
                     Firmwares = allFirmwares.Select(p => p.PackageFullName),
@@ -46,13 +47,11 @@ namespace Edison.Devices.Onboarding.Services
                 PortalApiHelper.Init("Administrator", SecretManager.PortalPassword);
 
                 //Change Encryption Key
-                SecretManager.SocketPassphrase = requestSetDeviceKeys.SocketPassphrase;
+                SecretManager.EncryptionKey = requestSetDeviceKeys.EncryptionKey;
 
-                //Set new Access Point - Will most likely disconnect
-                if (!await PortalApiHelper.SetSoftAPSettings(true, requestSetDeviceKeys.APSsid, requestSetDeviceKeys.APPassword))
-                {
-                    return ResultCommand.CreateFailedCommand($"Error SetAccessPoint: Error while setting access point.");
-                }
+                //Set new Access Point - Will change the AP after reboot of the app
+                SecretManager.AccessPointSsid = requestSetDeviceKeys.APSsid;
+                SecretManager.AccessPointPassword = requestSetDeviceKeys.APPassword;
 
                 return ResultCommand.CreateSuccessCommand();
             }
@@ -115,7 +114,7 @@ namespace Edison.Devices.Onboarding.Services
         {
             try
             {
-                var apps = await GetFirmwares();
+                var apps = await LoadFirmwares();
 
                 //Find the app
                 var app = apps.FirstOrDefault(p => p.PackageFullName.ToLower().StartsWith(requestDeviceType.DeviceType.ToLower()));
@@ -176,7 +175,7 @@ namespace Edison.Devices.Onboarding.Services
             }
         }
 
-        private async Task<IEnumerable<HeadlessApp>> GetFirmwares()
+        private async Task<IEnumerable<HeadlessApp>> LoadFirmwares()
         {
             var allFirmwares = await PortalApiHelper.ListFirmwares();
             return allFirmwares.AppPackages.Where(p =>

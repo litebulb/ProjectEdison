@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
-using Edison.Devices.Onboarding.Client.Helpers;
+using Edison.Devices.Onboarding.Client.Services;
+using Edison.Devices.Onboarding.Common.Helpers;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -24,9 +25,8 @@ namespace Edison.Devices.Onboarding.Client.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            Client.MainPage.StreamSockerClient = new StreamSocketClient(SharedConstants.SOFT_AP_IP, SharedConstants.CONNECTION_PORT); //use SharedConstants.DEBUG_NETWORK_IP for debugging
             Client.MainPage.AccessPointHelper = new WifiService();
-            Client.MainPage.CommandsHelper = new CommandsHelper(Client.MainPage.StreamSockerClient);
+            Client.MainPage.DeviceApiClient = new WebDeviceApiClient($"http://{SharedConstants.DEVICE_API_IP}:{SharedConstants.DEVICE_API_PORT}/edison/", SharedConstants.DEFAULT_PORTAL_PASSWORD); //API Password will be changed after SetDeviceKeys call!
         }
 
         /// <summary>

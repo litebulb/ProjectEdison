@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Edison.Devices.Onboarding.Client.Services
 {
-    public class DeviceProvisioningRestService : RestServiceBase
+    public class DeviceProvisioningRestService : RestBaseService
     {
         public DeviceProvisioningRestService(string restServiceUrl, string token)
             : base(restServiceUrl, token)
@@ -17,7 +17,7 @@ namespace Edison.Devices.Onboarding.Client.Services
 
         public async Task<DeviceCertificateModel> GenerateCertificate(DeviceCertificateRequestModel deviceRequestObj)
         {
-            RestRequest request = PrepareQuery("Certificates", Method.POST);
+            RestRequest request = await PrepareQuery("Certificates", Method.POST);
             request.AddParameter("application/json", JsonConvert.SerializeObject(deviceRequestObj), ParameterType.RequestBody);
             var queryResult = await _client.ExecuteTaskAsync<DeviceCertificateModel>(request);
             if (queryResult.IsSuccessful)

@@ -5,6 +5,6 @@
         public string APSsid { get; set; }
         public string APPassword { get; set; }
         public string PortalPassword { get; set; }
-        public string SocketPassphrase { get; set; }
+        public string EncryptionKey { get; set; }
     }
 }

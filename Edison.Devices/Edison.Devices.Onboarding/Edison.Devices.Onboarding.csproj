@@ -104,7 +104,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\AccessPointHelper.cs" />
     <Compile Include="Helpers\SecretManager.cs" />
+    <Compile Include="Interfaces\IDeviceApiServer.cs" />
+    <Compile Include="Models\HttpRequest.cs" />
     <Compile Include="Models\CommandEventArgs.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\SimulatedDevice.cs" />
@@ -116,11 +119,14 @@
     <Compile Include="Models\PortalAPI\PackageSetModel.cs" />
     <Compile Include="Models\WifiSet.cs" />
     <Compile Include="Helpers\PortalApiHelper.cs" />
+    <Compile Include="OnboardingAccessPoint.cs" />
     <Compile Include="Services\PortalService.cs" />
     <Compile Include="Services\ProvisioningService.cs" />
+    <Compile Include="Services\DeviceApiServer\BaseDeviceApiServer.cs" />
+    <Compile Include="Services\DeviceApiServer\WebDeviceApiServer.cs" />
     <Compile Include="Services\WifiServiceApi.cs" />
     <Compile Include="Services\WifiService.cs" />
-    <Compile Include="Services\StreamSockerServer.cs" />
+    <Compile Include="Services\DeviceApiServer\SocketDeviceApiServer.cs" />
     <Compile Include="OnboardingServer.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +191,10 @@
     <ProjectReference Include="..\Edison.Devices.Onboarding.Common\Edison.Devices.Onboarding.Common.csproj">
       <Project>{ef5ea191-30d7-4dff-8cdf-fe4b3a0e340d}</Project>
       <Name>Edison.Devices.Onboarding.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IoTOnboardingUtils\IoTOnboardingUtils.vcxproj">
+      <Project>{caf3ef02-b6ae-4dc9-b390-47c342dca8ec}</Project>
+      <Name>IoTOnboardingUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">

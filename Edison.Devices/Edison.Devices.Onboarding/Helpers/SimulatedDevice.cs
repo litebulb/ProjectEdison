@@ -2,6 +2,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Windows.Storage;
 
 namespace Edison.Devices.Onboarding.Helpers
 {
@@ -10,8 +11,9 @@ namespace Edison.Devices.Onboarding.Helpers
     /// </summary>
     internal class SimulatedDevice
     {
-        private const string PRIVATE_KEY = "iothubdevice";
-        private static readonly string _TemporaryDeviceId = Guid.NewGuid().ToString();
+        private const string PRIVATE_KEY = "iotdevice";
+        private static readonly string _temporaryDeviceId = Guid.NewGuid().ToString();
+        private static ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
         public static string DeviceId
         {
@@ -20,8 +22,42 @@ namespace Edison.Devices.Onboarding.Helpers
                 TpmDevice tpm = new TpmDevice(0);
                 string deviceId = tpm.GetDeviceId();
                 if(!Guid.TryParse(deviceId, out Guid parsed))
-                    return _TemporaryDeviceId;
+                    return _temporaryDeviceId;
                 return deviceId;
+            }
+        }
+
+        public static bool IsProvisioned
+        {
+            get
+            {
+                if (_localSettings.Values.ContainsKey("IsProvisioned"))
+                    return bool.Parse(_localSettings.Values["IsProvisioned"].ToString());
+                return false;
+            }
+            set
+            {
+                if (value == true)
+                    _localSettings.Values["IsProvisioned"] = "true";
+                else
+                    _localSettings.Values["IsProvisioned"] = "false";
+            }
+        }
+
+        public static bool IsEncryptionEnabled
+        {
+            get
+            {
+                if (_localSettings.Values.ContainsKey("IsEncryptionEnabled"))
+                    return bool.Parse(_localSettings.Values["IsEncryptionEnabled"].ToString());
+                return false;
+            }
+            set
+            {
+                if (value == true)
+                    _localSettings.Values["IsEncryptionEnabled"] = "true";
+                else
+                    _localSettings.Values["IsEncryptionEnabled"] = "false";
             }
         }
 
@@ -60,13 +96,15 @@ namespace Edison.Devices.Onboarding.Helpers
             return new RSACng(algorithmKey);
         }
 
-        public static RSA GetPrivateKey()
+        public static RSA GetPrivateKey(bool generateIfNull = false)
         {
             if (CngKey.Exists(PRIVATE_KEY))
             {
                 CngKey algorithmKey = CngKey.Open(PRIVATE_KEY);
                 return new RSACng(algorithmKey);
             }
+            if (generateIfNull)
+                return GenerateRSAKey();
             throw new Exception("No private key generated");
         }
 

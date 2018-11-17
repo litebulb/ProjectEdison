@@ -3,6 +3,7 @@
 using Edison.Devices.Onboarding.Client.Interfaces;
 using Edison.Devices.Onboarding.Client.Models;
 using Edison.Devices.Onboarding.Client.Services;
+using Edison.Devices.Onboarding.Common.Helpers;
 using Edison.Devices.Onboarding.Common.Models;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,8 @@ namespace Edison.Devices.Onboarding.Client
             CurrentState = nextState;
         }
 
-        public static IStreamSockerClient StreamSockerClient { get; set; }
         public static IAccessPointHelper AccessPointHelper { get; set; }
-        public static ICommandsHelper CommandsHelper { get; set; }
+        public static IDeviceApiClient DeviceApiClient { get; set; }
         private ObservableCollection<AccessPoint> _AvailableAccessPoints = new ObservableCollection<AccessPoint>();
         private ObservableCollection<Network> _AvailableNetworks = new ObservableCollection<Network>();
 
@@ -133,7 +133,7 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatus("CommandRequestClientNetworks", "");
 
             _AvailableNetworks.Clear();
-            var resultRequestGetAvailableNetworks = await CommandsHelper.RequestGetAvailableNetworks();
+            var resultRequestGetAvailableNetworks = await DeviceApiClient.GetAvailableNetworks();
             if (resultRequestGetAvailableNetworks.IsSuccess)
             {
                 foreach (string networkSsid in resultRequestGetAvailableNetworks.Networks)
@@ -151,7 +151,7 @@ namespace Edison.Devices.Onboarding.Client
         {
             UpdateStatus("ConnectClientNetwork", "");
             var network = _availableNetworkListView.SelectedItem as Network;
-            var resultRequestConnectToClientNetwork = await CommandsHelper.ConnectToClientNetwork(new RequestCommandConnectToNetwork()
+            var resultRequestConnectToClientNetwork = await DeviceApiClient.ConnectToClientNetwork(new RequestCommandConnectToNetwork()
             {
                 NetworkInformation = new NetworkInformation()
                 {
@@ -172,7 +172,7 @@ namespace Edison.Devices.Onboarding.Client
         {
             UpdateStatus("DisconnectClientNetwork", "");
             var network = _availableNetworkListView.SelectedItem as Network;
-            var resultRequestDisconnectFromClientNetwork = await CommandsHelper.DisconnectFromClientNetwork(new RequestCommandDisconnectFromNetwork()
+            var resultRequestDisconnectFromClientNetwork = await DeviceApiClient.DisconnectFromClientNetwork(new RequestCommandDisconnectFromNetwork()
             {
                 Ssid = network.Ssid 
             });
@@ -188,7 +188,7 @@ namespace Edison.Devices.Onboarding.Client
         async void CommandGetDeviceId(object sender, EventArgs e)
         {
             UpdateStatus($"CommandGetDeviceId", "");
-            var resultGetDevice = await CommandsHelper.GetDeviceId();
+            var resultGetDevice = await DeviceApiClient.GetDeviceId();
             if(resultGetDevice.IsSuccess)
                 UpdateStatus($"CommandGetDeviceId", resultGetDevice.DeviceId);
             else
@@ -198,7 +198,7 @@ namespace Edison.Devices.Onboarding.Client
         async void CommandListFirmwares(object sender, EventArgs e)
         {
             UpdateStatus($"CommandListFirmwares", "");
-            var resultListFirmwares = await CommandsHelper.ListFirmwares();
+            var resultListFirmwares = await DeviceApiClient.GetFirmwares();
             if (resultListFirmwares.IsSuccess)
                 UpdateStatus($"CommandListFirmwares", string.Join(", ", resultListFirmwares.Firmwares));
             else
@@ -208,7 +208,7 @@ namespace Edison.Devices.Onboarding.Client
         async void CommandGetAccessPointSettings(object sender, EventArgs e)
         {
             UpdateStatus($"CommandGetAccessPointSettings", "");
-            var resultGetAvailableNetworks = await CommandsHelper.GetAccessPointSettings();
+            var resultGetAvailableNetworks = await DeviceApiClient.GetAccessPointSettings();
             if (resultGetAvailableNetworks.IsSuccess)
                 UpdateStatus($"CommandGetAccessPointSettings", $"Enabled: {resultGetAvailableNetworks.SoftAPSettings.SoftAPEnabled}, SSID: {resultGetAvailableNetworks.SoftAPSettings.SoftApSsid}, Password: {resultGetAvailableNetworks.SoftAPSettings.SoftApPassword}");
             else
@@ -218,12 +218,12 @@ namespace Edison.Devices.Onboarding.Client
         async void CommandSetDeviceSecretKeys(object sender, EventArgs e)
         {
             UpdateStatus($"CommandSetDeviceSecretKeys", "");
-            var resultGetAvailableNetworks = await CommandsHelper.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys() //This will be retrieve from a REST endpoint
+            var resultGetAvailableNetworks = await DeviceApiClient.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys() //This needs to be retrieved from REST endpoint TBD
             {
-                 PortalPassword = "Edison12345",
-                 APSsid = "EDISON",
-                 APPassword = "Edison12345",
-                 SocketPassphrase = "DONOTRUN"
+                 PortalPassword = "Edison12345", //Will replace the password used for internal REST api
+                 APSsid = "EDISON", //will replace Access point name
+                 APPassword = "Edison12345", //Will replace Access point password
+                 EncryptionKey = "DONOTRUN" //Will replace encryption key used to encrypt some data. After this call this becomes the current encrypt key
             });
             if (!resultGetAvailableNetworks.IsSuccess)
                 UpdateStatusError($"CommandSetDeviceSecretKeys", resultGetAvailableNetworks.ErrorMessage);
@@ -235,15 +235,20 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatus($"CommandProvisionDevice", "");
 
             //Generate CSR
-            var resultGenerateCSR = await CommandsHelper.GenerateCSR();
+            var resultGenerateCSR = await DeviceApiClient.GetGeneratedCSR();
             if (!resultGenerateCSR.IsSuccess)
             {
                 UpdateStatusError($"CommandProvisionDevice", resultGenerateCSR.ErrorMessage);
                 return;
             }
 
+            if (string.IsNullOrEmpty(resultGenerateCSR.Csr))
+            {
+                UpdateStatusError($"CommandProvisionDevice", "Error: The CSR was empty.");
+            }
+
             //Sign Certificate
-            string token = "ADTOKEN"; //TODO Retrieve AzureAD token from current phone session
+            string token = "IDTOKEN"; //TODO Retrieve AzureAD token from current phone session
             DeviceProvisioningRestService client = new DeviceProvisioningRestService("https://edisonapidev.eastus.cloudapp.azure.com/deviceprovisioning/", token);
             var certificate = await client.GenerateCertificate(new DeviceCertificateRequestModel()
             {
@@ -257,7 +262,7 @@ namespace Edison.Devices.Onboarding.Client
             }
 
             //Provision device
-            var resultProvisionDevice = await CommandsHelper.ProvisionDevice(new RequestCommandProvisionDevice() { DeviceCertificateInformation = certificate });
+            var resultProvisionDevice = await DeviceApiClient.ProvisionDevice(new RequestCommandProvisionDevice() { DeviceCertificateInformation = certificate });
             if (!resultProvisionDevice.IsSuccess)
             {
                 UpdateStatusError($"CommandProvisionDevice", resultProvisionDevice.ErrorMessage);
@@ -265,7 +270,7 @@ namespace Edison.Devices.Onboarding.Client
             }
 
             //Set Device Type
-            var resultSetDeviceType = await CommandsHelper.SetDeviceType(new RequestCommandSetDeviceType() { DeviceType = certificate.DeviceType });
+            var resultSetDeviceType = await DeviceApiClient.SetDeviceType(new RequestCommandSetDeviceType() { DeviceType = certificate.DeviceType });
             if (!resultSetDeviceType.IsSuccess)
             {
                 UpdateStatusError($"CommandProvisionDevice", resultSetDeviceType.ErrorMessage);

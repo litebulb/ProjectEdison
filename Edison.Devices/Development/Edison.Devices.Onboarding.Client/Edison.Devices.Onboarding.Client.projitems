@@ -9,9 +9,7 @@
     <Import_RootNamespace>Edison.Devices.Onboarding.Client</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CommandsHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStreamSockerClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICommandsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDeviceApiClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DeviceCertificateRequestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Network.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccessPoint.cs" />
@@ -23,9 +21,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\WifiConnectionStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DeviceApiClient\WebDeviceApiClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DeviceProvisioningRestService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\RestBaseService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SharedConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MainPage.xaml">
@@ -36,5 +34,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
   </ItemGroup>
 </Project>

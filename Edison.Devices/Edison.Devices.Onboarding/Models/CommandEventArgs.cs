@@ -7,6 +7,6 @@ namespace Edison.Devices.Onboarding.Models
     {
         public Command InputCommand { get; set; }
         public Command OutputCommand { get; set; }
-        public Deferral Deferral { get; set; }
+        //public Deferral Deferral { get; set; }
     }
 }

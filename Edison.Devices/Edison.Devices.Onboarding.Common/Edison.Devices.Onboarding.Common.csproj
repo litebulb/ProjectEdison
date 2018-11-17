@@ -120,6 +120,7 @@
     <Compile Include="Models\ResultCommandModels\ResultCommandAvailableNetworks.cs" />
     <Compile Include="Models\NetworkInformation.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandGetDeviceId.cs" />
+    <Compile Include="Models\ResultCommandModels\ResultCommandEncryptionStatus.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandNetworkStatus.cs" />
     <Compile Include="Models\DeviceCertificateModel.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommand.cs" />
@@ -139,9 +140,7 @@
       <Version>10.0.3</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -6,12 +6,14 @@ using System;
 using System.Threading.Tasks;
 using Edison.Devices.Onboarding.Common.Helpers;
 using Edison.Devices.Onboarding.Models;
+using System.Net;
+using Edison.Devices.Onboarding.Interfaces;
 
 namespace Edison.Devices.Onboarding
 {
     internal class OnboardingServer
     {
-        private StreamSockerServer _StreamSockerHandler = null;
+        private IDeviceApiServer _DeviceApiServer = null;
         private WifiService _WifiService = null; 
         private ProvisioningService _ProvisioningService = null;
         private PortalService _PortalService = null;
@@ -33,49 +35,25 @@ namespace Edison.Devices.Onboarding
             _PortalService = new PortalService();
 
             //Start AP App
-            if (!await StartAPApp())
-                return;
+            AccessPointHelper.StartAccessPoint();
 
             //Start Stream Socker Service
-            _StreamSockerHandler = new StreamSockerServer();
-            _StreamSockerHandler.CommandReceived += CommandReceived;
-            await _StreamSockerHandler.Start();
+            _DeviceApiServer = new WebDeviceApiServer();
+            _DeviceApiServer.CommandReceived += CommandReceived;
+            await _DeviceApiServer.Start();
 
             //Wait for AP Timeout
             _LastAccess = DateTime.UtcNow;
             while (true)
             {
-                if (_APTimeoutEnabled && DateTime.UtcNow.AddMinutes(-(APTimeoutMinutes)) > _LastAccess)
+                if (_APTimeoutEnabled && SimulatedDevice.IsProvisioned && 
+                    DateTime.UtcNow.AddMinutes(-(APTimeoutMinutes)) > _LastAccess)
                 {
-                    await StopAPApp();
+                    AccessPointHelper.StopAccessPoint();
                     break;
                 }
                 await Task.Delay(500);
             }
-        }
-
-        private async Task<bool> StartAPApp()
-        {
-            DebugHelper.LogInformation("Starting IoTOnboardingTask...");
-            var resultStart = await _PortalService.StartApp("IoTOnboardingTask");
-            if (!resultStart.IsSuccess)
-            {
-                DebugHelper.LogCritical("The application IoTOnboardingTask could not be started.");
-                return false;
-            }
-            DebugHelper.LogInformation("IoTOnboardingTask started");
-            return true;
-        }
-
-        private async Task StopAPApp()
-        {
-            DebugHelper.LogInformation($"Onboarding has been on for {APTimeoutMinutes} minutes without new commands. Stopping IoTOnboardingTask...");
-            //Stopping endpoint
-            var resultStop = await _PortalService.StopApp("IoTOnboardingTask");
-            if (!resultStop.IsSuccess)
-                DebugHelper.LogError("The application IoTOnboardingTask could not be stopped.");
-            else
-                DebugHelper.LogInformation("IoTOnboardingTask stopped");
         }
 
         private bool InitializePortalAPI()
@@ -83,6 +61,7 @@ namespace Edison.Devices.Onboarding
             try
             {
                 PortalApiHelper.Init("Administrator", SecretManager.PortalPassword);
+                SecretManager.PortalPassword = string.IsNullOrEmpty(SecretManager.PortalPassword) ? SharedConstants.DEFAULT_PORTAL_PASSWORD : SecretManager.PortalPassword;
             }
             catch(Exception e)
             {
@@ -135,11 +114,11 @@ namespace Edison.Devices.Onboarding
                             return await _ProvisioningService.ProvisionDevice(request, SecretManager.CertificatePasskey);
                         });
                         break;
-                    case CommandsEnum.GenerateCSR:
+                    case CommandsEnum.GetGeneratedCSR:
                         ProcessCommand(commandArgs, () => { return _ProvisioningService.GenerateCSR(); });
                         break;
-                    case CommandsEnum.ListFirmwares:
-                        await ProcessCommand(commandArgs, async () => { return await _PortalService.ListFirmwares(); });
+                    case CommandsEnum.GetFirmwares:
+                        await ProcessCommand(commandArgs, async () => { return await _PortalService.GetFirmwares(); });
                         break;
                     case CommandsEnum.SetDeviceType:
                         await ProcessCommand(commandArgs, async (RequestCommandSetDeviceType request) => {
@@ -165,6 +144,15 @@ namespace Edison.Devices.Onboarding
                     case CommandsEnum.EnableAccessPointTimeout:
                         ProcessCommand(commandArgs, () => { return SetAPTimeoutValue(true); });
                         break;
+                    case CommandsEnum.EnableEncryption:
+                        ProcessCommand(commandArgs, () => { return SetEncryptionState(true); });
+                        break;
+                    case CommandsEnum.DisableEncryption:
+                        ProcessCommand(commandArgs, () => { return SetEncryptionState(false); });
+                        break;
+                    case CommandsEnum.GetEncryptionState:
+                        ProcessCommand(commandArgs, () => { return GetEncryptionStatus(); });
+                        break;
                     case CommandsEnum.Unknown:
                         throw new Exception($"Command ${commandArgs.InputCommand.BaseCommand} not found.");
                 }
@@ -173,12 +161,30 @@ namespace Edison.Devices.Onboarding
             {
                 DebugHelper.LogCritical(e.Message);
                 DebugHelper.LogCritical(e.StackTrace);
+                ProcessCommand(commandArgs, () => { return ProcessError(e); });
             }
+        }
+
+        #region Command Processing
+        private ResultCommand ProcessError(Exception e)
+        {
+            return ResultCommand.CreateFailedCommand($"Error processing the command: {e.Message}");
+        }
+
+        private ResultCommandEncryptionStatus GetEncryptionStatus()
+        {
+            return new ResultCommandEncryptionStatus() { Enabled = SimulatedDevice.IsEncryptionEnabled, IsSuccess = true };
         }
 
         private ResultCommand SetAPTimeoutValue(bool state)
         {
             _APTimeoutEnabled = state;
+            return ResultCommand.CreateSuccessCommand();
+        }
+
+        private ResultCommand SetEncryptionState(bool state)
+        {
+            SimulatedDevice.IsEncryptionEnabled = state;
             return ResultCommand.CreateSuccessCommand();
         }
 
@@ -216,5 +222,6 @@ namespace Edison.Devices.Onboarding
                 Data = resultCommand != null ? JsonConvert.SerializeObject(resultCommand) : null
             };
         }
+        #endregion
     }
 }
