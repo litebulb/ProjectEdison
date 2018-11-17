@@ -206,7 +206,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             leftTriangleView.Hidden = isOutgoing;
             rightTriangleView.Hidden = !isOutgoing;
 
-            if (isNewPrompt)
+            if (isNewPrompt && message.ActionPlan != null)
             {
                 foreach (var v in topView.Subviews) { v.RemoveFromSuperview(); }
 

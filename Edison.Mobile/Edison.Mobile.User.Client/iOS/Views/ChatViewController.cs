@@ -119,6 +119,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 AlwaysBounceHorizontal = true,
             };
 
+            chatMessageTypeCollectionViewSource.CollectionView = new WeakReference<UICollectionView>(messageTypeCollectionView);
+
             messageTypeCollectionView.RegisterClassForCell(typeof(ChatMessageTypeCollectionViewCell), typeof(ChatMessageTypeCollectionViewCell).Name);
 
             View.AddSubview(messageTypeCollectionView);
@@ -159,6 +161,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             chatMessageTypeCollectionViewSource.OnActionPlanSelected += HandleChatMessageTypeCollectionViewSourceOnActionPlanSelected;
             ViewModel.ChatMessages.CollectionChanged += HandleChatMessagesCollectionChanged;
             ViewModel.ActionPlans.CollectionChanged += HandleActionPlansCollectionChanged;
+            ViewModel.OnCurrentActionPlanChanged += HandleOnCurrentActionPlanChanged;
             sendButton.TouchUpInside += HandleSendButtonTouchUpInside;
         }
 
@@ -207,6 +210,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
         void HandleChatMessageTypeCollectionViewSourceOnActionPlanSelected(object sender, ActionPlanSelectedEventArgs e)
         {
             ViewModel.BeginConversationWithActionPlan(e.SelectedActionPlan);
+        }
+
+        void HandleOnCurrentActionPlanChanged(object sender, EventArgs e)
+        {
+            chatMessageTypeCollectionViewSource.SelectedActionPlan = ViewModel.CurrentActionPlan;
         }
 
         async void HandleSendButtonTouchUpInside(object sender, EventArgs e)

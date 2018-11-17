@@ -15,8 +15,27 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
 
     public class ChatMessageTypeCollectionViewSource : UICollectionViewSource
     {
+        ActionPlanListModel selectedActionPlan;
+
         public ObservableRangeCollection<ActionPlanListModel> ActionPlans;
-        public ActionPlanListModel SelectedActionPlan;
+
+        public WeakReference<UICollectionView> CollectionView { get; set; }
+
+        public ActionPlanListModel SelectedActionPlan
+        {
+            get => selectedActionPlan;
+            set 
+            {
+                selectedActionPlan = value;
+                var index = ActionPlans.IndexOf(selectedActionPlan);
+                if (index > -1) 
+                {
+                    var indexPath = NSIndexPath.FromItemSection(index, 0);
+                    CollectionView.TryGetTarget(out var collectionView);
+                    InvokeOnMainThread(() => collectionView.ReloadSections(NSIndexSet.FromIndex(0)));
+                }
+            }
+        }
 
         public event EventHandler<ActionPlanSelectedEventArgs> OnActionPlanSelected;
 
@@ -41,12 +60,16 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
 
         public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            SelectedActionPlan = ActionPlans[(int)indexPath.Item];
+            var actionPlan = ActionPlans[(int)indexPath.Item];
+
+            if (SelectedActionPlan == actionPlan) return;
+
+            SelectedActionPlan = actionPlan;
 
             var cell = collectionView.CellForItem(indexPath) as ChatMessageTypeCollectionViewCell;
             cell.SetSelected(true);
 
-            foreach (var otherCell in collectionView.VisibleCells) 
+            foreach (var otherCell in collectionView.VisibleCells)
             {
                 if (otherCell is ChatMessageTypeCollectionViewCell chatCell)
                 {

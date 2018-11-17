@@ -122,7 +122,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
             if (CurrentActionPlan == null) 
             {
-                CurrentActionPlan = GetDefaultActionPlan();
+                CurrentActionPlan = GetDefaultActionPlan(); // TODO: must a conversation be associated with an action plan?
             }
 
             if (isPromptedFromActionPlanButton)
@@ -203,6 +203,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
                     var chatMessages = new List<ChatMessage>();
                     var isEndingConversation = false;
+                    ActionPlanListModel previousActionPlan = null;
                     foreach (var activity in activitySet.Activities)
                     {
                         if (activity.ChannelData is JObject channelData)
@@ -213,12 +214,19 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                             {
                                 var sendMessageProperties = channelData["data"].ToObject<CommandSendMessageProperties>();
                                 var actionPlan = ActionPlans.FirstOrDefault(a => a.ActionPlanId.ToString() == sendMessageProperties.ReportType); // reportType is only populated by action plan button press
+                                var isMyChatId = IsMyChatId(sendMessageProperties.From.Id);
+
+                                if (isMyChatId && actionPlan != null)
+                                {
+                                    CurrentActionPlan = actionPlan;
+                                }
+
                                 chatMessages.Add(new ChatMessage
                                 {
                                     Text = activity.Text,
                                     UserModel = sendMessageProperties.From,
                                     ActionPlan = actionPlan,
-                                    IsNewActionPlan = actionPlan != null && IsMyChatId(sendMessageProperties.From.Id),
+                                    IsNewActionPlan = CurrentActionPlan != null && previousActionPlan != CurrentActionPlan,
                                 });
                             }
                         }
@@ -242,6 +250,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                         }
 
                         isEndingConversation = activity.Type == "endOfConversation";
+                        previousActionPlan = CurrentActionPlan;
                     }
 
                     if (chatMessages.Count > 0)
