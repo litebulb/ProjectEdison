@@ -66,6 +66,7 @@ namespace Edison.Api.AutoMapping
                 .ForMember(dto => dto.Name, opts => opts.MapFrom(src => src.ActionPlan.Name))
                 .ForMember(dto => dto.Icon, opts => opts.MapFrom(src => src.ActionPlan.Icon))
                 .ForMember(dto => dto.Color, opts => opts.MapFrom(src => src.ActionPlan.Color))
+                .ForMember(dto => dto.AcceptSafeStatus, opts => opts.MapFrom(src => src.ActionPlan.AcceptSafeStatus))
                 .ForMember(dto => dto.EndDate, opts => opts.MapFrom(src => src.EndDate));
             CreateMap<ResponseDAO, ResponseUpdateModel>()
                 .ForMember(dto => dto.ResponseId, opts => opts.MapFrom(src => src.Id));
