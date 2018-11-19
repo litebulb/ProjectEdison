@@ -9,7 +9,10 @@ namespace Edison.Devices.Onboarding.Helpers
     {
         private const string CERTIFICATE_PASSKEY = "CertificatePasskey";
         private const string ENCRYPTION_KEY = "EncryptionKey";
+        private const string IS_ENCRYPTION_ENABLED = "IsEncryptionEnabled";
         private const string PORTAL_PASSWORD = "PortalPassword";
+        private const string AP_SSID = "AccessPointSsid";
+        private const string AP_PASSWORD = "AccessPointPassword";
         private static ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
         private static string _PortalPasswordBase64;
 
@@ -17,13 +20,13 @@ namespace Edison.Devices.Onboarding.Helpers
         {
             get
             {
-                if (_localSettings.Values.ContainsKey("AccessPointSsid"))
-                    return _localSettings.Values["AccessPointSsid"].ToString();
+                if (_localSettings.Values.ContainsKey(AP_SSID))
+                    return _localSettings.Values[AP_SSID].ToString();
                 return SharedConstants.DEFAULT_AP_SSID;
             }
             set
             {
-                _localSettings.Values["AccessPointSsid"] = value;
+                _localSettings.Values[AP_SSID] = value;
             }
         }
 
@@ -31,13 +34,30 @@ namespace Edison.Devices.Onboarding.Helpers
         {
             get
             {
-                if (_localSettings.Values.ContainsKey("AccessPointPassword"))
-                    return _localSettings.Values["AccessPointPassword"].ToString();
+                if (_localSettings.Values.ContainsKey(AP_PASSWORD))
+                    return _localSettings.Values[AP_PASSWORD].ToString();
                 return SharedConstants.DEFAULT_AP_PASSWORD;
             }
             set
             {
-                _localSettings.Values["AccessPointPassword"] = value;
+                _localSettings.Values[AP_PASSWORD] = value;
+            }
+        }
+
+        public static bool IsEncryptionEnabled
+        {
+            get
+            {
+                if (_localSettings.Values.ContainsKey(IS_ENCRYPTION_ENABLED))
+                    return bool.Parse(_localSettings.Values[IS_ENCRYPTION_ENABLED].ToString());
+                return false;
+            }
+            set
+            {
+                if (value == true)
+                    _localSettings.Values[IS_ENCRYPTION_ENABLED] = "true";
+                else
+                    _localSettings.Values[IS_ENCRYPTION_ENABLED] = "false";
             }
         }
 

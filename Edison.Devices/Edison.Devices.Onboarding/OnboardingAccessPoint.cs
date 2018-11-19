@@ -117,17 +117,21 @@ namespace Edison.Devices.Onboarding
                 ouiData = ouiData.Concat(MakeStringElement(ETLVType.UNCLASSIFIED_DEVICE_TYPE, UNCLASSIFIED_DEVICE_TYPE));
 
                 // Create the IoT Device Wi-Fi Beacons Partner Information Element
-                var infoElement = new WiFiDirectInformationElement();
-                infoElement.OuiType = OUI_TYPE;
-                infoElement.Oui = ByteArrayToBuffer(MICROSOFT_OUI);
-                infoElement.Value = ByteArrayToBuffer(ouiData.ToArray());
+                var infoElement = new WiFiDirectInformationElement
+                {
+                    OuiType = OUI_TYPE,
+                    Oui = ByteArrayToBuffer(MICROSOFT_OUI),
+                    Value = ByteArrayToBuffer(ouiData.ToArray())
+                };
 
                 // The Maximum OUI Data Length was exceeded.  Trim ouiData String lengths 
                 Debug.Assert(infoElement.Value.Length < MAX_OUI_DATA_LENGTH);
 
                 // Add the custom Information Elements for publication
-                var wifiInfoElements = new List<WiFiDirectInformationElement>();
-                wifiInfoElements.Add(infoElement);
+                var wifiInfoElements = new List<WiFiDirectInformationElement>
+                {
+                    infoElement
+                };
                 _publisher.Advertisement.InformationElements = wifiInfoElements;
             }
         }
@@ -144,6 +148,7 @@ namespace Edison.Devices.Onboarding
             Int16 networkOrderValue = System.Net.IPAddress.HostToNetworkOrder(inValue);
             return BitConverter.GetBytes(networkOrderValue);
         }
+
         private byte[] MakeGUIDElement(ETLVType type, Guid value)
         {
             var guidStringValue = value.ToString();

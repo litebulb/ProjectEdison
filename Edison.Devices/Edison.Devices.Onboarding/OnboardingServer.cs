@@ -173,7 +173,7 @@ namespace Edison.Devices.Onboarding
 
         private ResultCommandEncryptionStatus GetEncryptionStatus()
         {
-            return new ResultCommandEncryptionStatus() { Enabled = SimulatedDevice.IsEncryptionEnabled, IsSuccess = true };
+            return new ResultCommandEncryptionStatus() { Enabled = SecretManager.IsEncryptionEnabled, IsSuccess = true };
         }
 
         private ResultCommand SetAPTimeoutValue(bool state)
@@ -184,7 +184,7 @@ namespace Edison.Devices.Onboarding
 
         private ResultCommand SetEncryptionState(bool state)
         {
-            SimulatedDevice.IsEncryptionEnabled = state;
+            SecretManager.IsEncryptionEnabled = state;
             return ResultCommand.CreateSuccessCommand();
         }
 

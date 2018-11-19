@@ -5,7 +5,7 @@ namespace Edison.Devices.Onboarding.Helpers
 {
     public sealed class AccessPointHelper
     {
-        private static Guid AccessPointId = new Guid("c9df83d7-5c53-4c59-8b03-ff6ace20d370");
+        private readonly static Guid AccessPointId = new Guid("c9df83d7-5c53-4c59-8b03-ff6ace20d370");
         private static OnboardingAccessPoint _AccessPoint = null;
 
         private static void InitAccessPoint()

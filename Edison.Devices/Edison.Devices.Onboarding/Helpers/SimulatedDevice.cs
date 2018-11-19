@@ -44,23 +44,6 @@ namespace Edison.Devices.Onboarding.Helpers
             }
         }
 
-        public static bool IsEncryptionEnabled
-        {
-            get
-            {
-                if (_localSettings.Values.ContainsKey("IsEncryptionEnabled"))
-                    return bool.Parse(_localSettings.Values["IsEncryptionEnabled"].ToString());
-                return false;
-            }
-            set
-            {
-                if (value == true)
-                    _localSettings.Values["IsEncryptionEnabled"] = "true";
-                else
-                    _localSettings.Values["IsEncryptionEnabled"] = "false";
-            }
-        }
-
         public static string IoTHubHostname
         {
             get
