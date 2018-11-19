@@ -15,6 +15,7 @@ namespace Edison.Devices.Onboarding.Common.Helpers
         public const string DEFAULT_AP_PASSWORD = "Edison1234";
 
         public const int DEVICE_API_PORT = 9000;
-        public const string DEVICE_API_IP = "192.168.0.24";//"192.168.137.1";
+        public const string DEVICE_HOST_API_IP = "192.168.137.1";
+        public const string DEVICE_DEBUG_API_IP = "192.168.137.1";//"192.168.0.24";//"192.168.137.1";
     }
 }

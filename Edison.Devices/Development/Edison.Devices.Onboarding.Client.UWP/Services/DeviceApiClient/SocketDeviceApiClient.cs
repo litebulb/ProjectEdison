@@ -11,7 +11,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
 
         public SocketDeviceApiClient()
         {
-            _streamClient = new StreamSocketClient(SharedConstants.DEVICE_API_IP, SharedConstants.DEVICE_API_PORT);
+            _streamClient = new StreamSocketClient(SharedConstants.DEVICE_DEBUG_API_IP, SharedConstants.DEVICE_API_PORT);
         }
 
         /// <summary>

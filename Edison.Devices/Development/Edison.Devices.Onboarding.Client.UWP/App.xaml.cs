@@ -26,7 +26,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
             this.Suspending += OnSuspending;
 
             Client.MainPage.AccessPointHelper = new WifiService();
-            Client.MainPage.DeviceApiClient = new WebDeviceApiClient($"http://{SharedConstants.DEVICE_API_IP}:{SharedConstants.DEVICE_API_PORT}/edison/", SharedConstants.DEFAULT_PORTAL_PASSWORD); //API Password will be changed after SetDeviceKeys call!
+            Client.MainPage.DeviceApiClient = new WebDeviceApiClient($"http://{SharedConstants.DEVICE_DEBUG_API_IP}:{SharedConstants.DEVICE_API_PORT}/edison/", SharedConstants.DEFAULT_PORTAL_PASSWORD); //API Password will be changed after SetDeviceKeys call!
         }
 
         /// <summary>

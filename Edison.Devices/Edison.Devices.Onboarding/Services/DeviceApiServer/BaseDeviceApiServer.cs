@@ -33,7 +33,7 @@ namespace Edison.Devices.Onboarding.Services
                         foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                         {
                             if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
-                                ip.Address.ToString() == SharedConstants.DEVICE_API_IP)
+                                ip.Address.ToString() == SharedConstants.DEVICE_HOST_API_IP)
                             {
                                 return ni;
                             }
