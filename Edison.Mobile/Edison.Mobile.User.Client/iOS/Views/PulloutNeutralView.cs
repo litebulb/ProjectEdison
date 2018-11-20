@@ -1,8 +1,7 @@
 ﻿using System;
 using CoreGraphics;
-using Edison.Mobile.iOS.Common.Shared;
+using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.iOS.DataSources;
-using Edison.Mobile.User.Client.iOS.Shared;
 using Foundation;
 using UIKit;
 
@@ -12,8 +11,12 @@ namespace Edison.Mobile.User.Client.iOS.Views
     {
         readonly UICollectionView collectionView;
 
-        public PulloutNeutralView()
+        public ChatViewModel ChatViewModel;
+
+        public PulloutNeutralView(ChatViewModel chatViewModel)
         {
+            ChatViewModel = chatViewModel;
+
             var cellWidth = UIScreen.MainScreen.Bounds.Width / 3;
             var collectionViewLayout = new UICollectionViewFlowLayout
             {
@@ -21,20 +24,20 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 ItemSize = new CGSize
                 {
                     Width = cellWidth,
-                    Height = Constants.PulloutBottomMargin,
+                    Height = Shared.Constants.PulloutBottomMargin,
                 },
                 MinimumInteritemSpacing = 0,
                 MinimumLineSpacing = 0,
             };
 
-            var collectionViewDataSource = new PulloutMinimizedCollectionViewDataSource(); // TODO: wire up item selected events
+            var collectionViewDataSource = new PulloutMinimizedCollectionViewDataSource(chatViewModel.ChatPromptTypes);
 
             collectionView = new UICollectionView(CGRect.Empty, collectionViewLayout)
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 DataSource = collectionViewDataSource,
                 AlwaysBounceHorizontal = true,
-                BackgroundColor = Constants.Color.White,
+                BackgroundColor = Shared.Constants.Color.White,
             };
 
             collectionView.RegisterClassForCell(typeof(PulloutLargeButtonCollectionViewCell), typeof(PulloutLargeButtonCollectionViewCell).Name);
@@ -43,7 +46,10 @@ namespace Edison.Mobile.User.Client.iOS.Views
             collectionView.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
             collectionView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
             collectionView.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
-            collectionView.HeightAnchor.ConstraintEqualTo(Constants.PulloutBottomMargin).Active = true;
+            collectionView.HeightAnchor.ConstraintEqualTo(Shared.Constants.PulloutBottomMargin).Active = true;
+
+
+            ChatViewModel.ChatPromptTypes.CollectionChanged += HandleChatPromptTypesCollectionChanged;
         }
 
         public void SetPercentMinimized(nfloat minimizedPercent) 
@@ -55,6 +61,27 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 {
                     buttonCell.SetPercentMinimized(minimizedPercent);
                 }
+            }
+        }
+
+        void HandleChatPromptTypesCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null && e.NewItems.Count > 0) 
+            {
+                collectionView.InsertItems(new NSIndexPath[] { NSIndexPath.FromItemSection(e.NewStartingIndex, 0) });
+            }
+            else 
+            {
+                collectionView.ReloadData();
+            }
+        }
+
+        public override void MovedToWindow()
+        {
+            if (Window == null) 
+            {
+                ChatViewModel.ChatPromptTypes.CollectionChanged -= HandleChatPromptTypesCollectionChanged;
+                ChatViewModel = null;
             }
         }
     }

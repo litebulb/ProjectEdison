@@ -433,6 +433,7 @@
     <Compile Include="Shared\ChatCollectionViewLayout.cs" />
     <Compile Include="Views\CircleAvatarView.cs" />
     <Compile Include="Views\TriangleChatView.cs" />
+    <Compile Include="Shared\ChatPromptEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

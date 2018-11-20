@@ -8,7 +8,7 @@ namespace Edison.Mobile.iOS.Common.Views
     public class BaseViewController<T> : UIViewController where T : BaseViewModel
     {
         T viewModel;
-        protected T ViewModel => viewModel ?? (viewModel = Container.Instance.Resolve<T>());
+        public T ViewModel => viewModel ?? (viewModel = Container.Instance.Resolve<T>());
 
         public override void ViewDidLoad()
         {

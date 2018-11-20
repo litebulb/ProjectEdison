@@ -15,6 +15,7 @@ using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Network;
 using Timer = System.Timers.Timer;
 using System.Linq;
+using Edison.Mobile.User.Client.Core.Shared;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {
@@ -43,6 +44,11 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         public ObservableRangeCollection<ChatMessage> ChatMessages { get; } = new ObservableRangeCollection<ChatMessage>();
         public ObservableRangeCollection<ActionPlanListModel> ActionPlans { get; } = new ObservableRangeCollection<ActionPlanListModel>();
 
+        public ObservableRangeCollection<ChatPromptType> ChatPromptTypes { get; } = new ObservableRangeCollection<ChatPromptType>
+        {
+            ChatPromptType.Emergency,
+            ChatPromptType.ReportActivity,
+        };
 
         public ActionPlanListModel CurrentActionPlan 
         {
@@ -122,7 +128,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
             if (CurrentActionPlan == null) 
             {
-                CurrentActionPlan = GetDefaultActionPlan(); // TODO: must a conversation be associated with an action plan?
+                CurrentActionPlan = GetDefaultActionPlan();
             }
 
             if (isPromptedFromActionPlanButton)

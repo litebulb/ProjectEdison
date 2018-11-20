@@ -42,7 +42,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             indicatorBarView.WidthAnchor.ConstraintEqualTo(barSize.Width).Active = true;
             indicatorBarView.HeightAnchor.ConstraintEqualTo(barSize.Height).Active = true;
 
-            pulloutNeutralView = new PulloutNeutralView { TranslatesAutoresizingMaskIntoConstraints = false };
+            pulloutNeutralView = new PulloutNeutralView(chatViewController.ViewModel.ChatPromptTypes) { TranslatesAutoresizingMaskIntoConstraints = false };
             AddSubview(pulloutNeutralView);
             pulloutNeutralView.TopAnchor.ConstraintEqualTo(TopAnchor, Constants.PulloutTopBarHeight).Active = true;
             pulloutNeutralView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
