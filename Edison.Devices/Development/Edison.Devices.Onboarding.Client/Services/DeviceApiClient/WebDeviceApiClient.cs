@@ -18,26 +18,26 @@ namespace Edison.Devices.Onboarding.Client.Services
 
         public async Task<ResultCommandNetworkStatus> ConnectToClientNetwork(RequestCommandConnectToNetwork requestConnectToNetwork)
         {
-            RestRequest request = await PrepareQuery("ConnectToClientNetwork", Method.POST);
+            RestRequest request = await PrepareQuery("ConnectToNetwork", Method.POST);
             request.AddParameter("application/json", JsonConvert.SerializeObject(requestConnectToNetwork), ParameterType.RequestBody);
             var queryResult = await _client.ExecuteTaskAsync<Command>(request);
             if (queryResult.IsSuccessful)
                 return GetResultCommand<ResultCommandNetworkStatus>(queryResult.Data);
             else
-                Debug.WriteLine($"ConnectToClientNetwork: {queryResult.StatusCode}");
-            return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"ConnectToClientNetwork: {queryResult.StatusCode}");
+                Debug.WriteLine($"ConnectToNetwork: {queryResult.StatusCode}");
+            return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"ConnectToNetwork: {queryResult.StatusCode}");
         }
 
         public async Task<ResultCommandNetworkStatus> DisconnectFromClientNetwork(RequestCommandDisconnectFromNetwork requestDisconnectFromNetwork)
         {
-            RestRequest request = await PrepareQuery("DisconnectFromClientNetwork", Method.POST);
+            RestRequest request = await PrepareQuery("DisconnectFromNetwork", Method.POST);
             request.AddParameter("application/json", JsonConvert.SerializeObject(requestDisconnectFromNetwork), ParameterType.RequestBody);
             var queryResult = await _client.ExecuteTaskAsync<Command>(request);
             if (queryResult.IsSuccessful)
                 return GetResultCommand<ResultCommandNetworkStatus>(queryResult.Data);
             else
-                Debug.WriteLine($"DisconnectFromClientNetwork: {queryResult.StatusCode}");
-            return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"DisconnectFromClientNetwork: {queryResult.StatusCode}");
+                Debug.WriteLine($"DisconnectFromNetwork: {queryResult.StatusCode}");
+            return ResultCommand.CreateFailedCommand<ResultCommandNetworkStatus>($"DisconnectFromNetwork: {queryResult.StatusCode}");
         }
 
         public async Task<ResultCommandGenerateCSR> GetGeneratedCSR()
