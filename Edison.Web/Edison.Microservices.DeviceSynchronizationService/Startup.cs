@@ -29,7 +29,7 @@ namespace Edison.DeviceSynchronizationService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.EnableKubernetes();
+            services.AddApplicationInsightsKubernetesEnricher();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<RestServiceOptions>(Configuration.GetSection("RestService"));
             services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));

@@ -28,7 +28,7 @@ namespace Edison.IoTHubControllerService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.EnableKubernetes();
+            services.AddApplicationInsightsKubernetesEnricher();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.Configure<IoTHubControllerOptions>(Configuration.GetSection("IoTHubController"));

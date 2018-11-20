@@ -49,7 +49,7 @@ namespace Edison.Api
 
             //Options
             services.AddOptions();
-            services.EnableKubernetes();
+            services.AddApplicationInsightsKubernetesEnricher();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<WebApiOptions>(Configuration.GetSection("WebApiConfiguration"));
             services.Configure<NotificationsOptions>(Configuration.GetSection("NotificationHub"));

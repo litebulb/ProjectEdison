@@ -1,8 +1,5 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using RestSharp;
+﻿using RestSharp;
 using System;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Edison.Devices.Onboarding.Client.Services

@@ -24,7 +24,7 @@ namespace Edison.MessageDispatcherService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.EnableKubernetes();
+            services.AddApplicationInsightsKubernetesEnricher();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.Configure<AzureServiceBusOptions>(Configuration.GetSection("AzureServiceBus"));

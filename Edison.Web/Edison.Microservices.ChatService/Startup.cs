@@ -38,7 +38,7 @@ namespace Edison.ChatService
             services.AddMvc().AddControllersAsServices();
 
             services.AddOptions();
-            services.EnableKubernetes();
+            services.AddApplicationInsightsKubernetesEnricher();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
             services.Configure<RestServiceOptions>(Configuration.GetSection("RestService"));
