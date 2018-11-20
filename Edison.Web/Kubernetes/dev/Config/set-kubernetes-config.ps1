@@ -66,7 +66,4 @@ Copy-Item "Secrets/common.secrets" -Destination "secrets.json"
 kubectl create secret generic secrets-common --from-file=./secrets.json
 Remove-Item "secrets.json"
 
-kubectl create secret generic secrets-provision-certificates --from-file=./Certificates/Intermediate_ButtonSensor.pfx --from-file=./Certificates/Intermediate_SoundSensor.pfx --from-file=./Certificates/Intermediate_LightBulb.pfx
-
-
 kubectl create secret generic rabbitmq-credentials --from-literal=Username=Admin --from-literal=Password=Edison1234

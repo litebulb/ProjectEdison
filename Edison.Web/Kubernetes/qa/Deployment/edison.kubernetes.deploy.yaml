@@ -397,9 +397,6 @@ spec:
           - name: secrets
             mountPath: /app/secrets
             readOnly: true
-          - name: certificates
-            mountPath: /app/certificates
-            readOnly: true
         ports:
         - containerPort: 80
           name: deviceprov
@@ -410,8 +407,5 @@ spec:
       - name: secrets
         secret:
           secretName: secrets-common
-      - name: certificates
-        secret:
-          secretName: secrets-provision-certificates
       imagePullSecrets:
       - name: acr-authentication

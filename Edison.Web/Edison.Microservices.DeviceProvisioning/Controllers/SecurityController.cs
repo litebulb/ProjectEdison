@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Edison.DeviceProvisionning.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
     [Route("Security")]
     [ApiController]
     public class SecurityController : ControllerBase

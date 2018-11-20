@@ -1,46 +1,39 @@
 ﻿using Edison.DeviceProvisioning.Config;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Pkcs;
-using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X509;
-using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Operators;
-using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Pkcs;
 using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Utilities.Encoders;
 using Org.BouncyCastle.X509;
-using System.IO;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography;
+
 
 namespace Edison.DeviceProvisioning.Helpers
 {
     public class CertificateCsrSignator
     {
         private readonly DeviceProvisioningOptions _config;
+        private readonly KeyVaultManager _keyVaultManager;
         private readonly ILogger<CertificateCsrSignator> _logger;
 
-        public CertificateCsrSignator(IOptions<DeviceProvisioningOptions> config, ILogger<CertificateCsrSignator> logger)
+        public CertificateCsrSignator(IOptions<DeviceProvisioningOptions> config, KeyVaultManager keyVaultManager, ILogger<CertificateCsrSignator> logger)
         {
             _config = config.Value;
+            _keyVaultManager = keyVaultManager;
             _logger = logger;
         }
 
-        public byte[] SignCertificate(DeviceProvisioningCertificateEntry signingCertificateInfo, byte[] csrCert)
+        public async Task<byte[]> SignCertificate(DeviceProvisioningCertificateEntry signingCertificateInfo, byte[] csrCert)
         {
-            X509Certificate2 signingCert = new X509Certificate2(signingCertificateInfo.Path,
-                signingCertificateInfo.Password, X509KeyStorageFlags.Exportable);
+            X509Certificate2 signingCert = await _keyVaultManager.GetCertificateAsync(signingCertificateInfo.CertificateIdentifier);
 
             X509Certificate2 signedCert = SignCertificate(signingCert, csrCert);
             return CertificateUtils.GeneratePfxCertificate(

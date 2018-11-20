@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using Edison.Core.Common.Models;
 using Edison.DeviceProvisioning.Config;
 using Edison.DeviceProvisioning.Helpers;
@@ -30,7 +31,7 @@ namespace Edison.DeviceProvisionning.Controllers
 
         [HttpPost]
         [Produces(typeof(DeviceCertificateModel))]
-        public IActionResult GenerateNewDeviceCertificate([FromBody]DeviceCertificateRequestModel deviceCertificateRequest)
+        public async Task<IActionResult> GenerateNewDeviceCertificate([FromBody]DeviceCertificateRequestModel deviceCertificateRequest)
         {
             //Get Intermediate certificate properties
             var certificateProperties = _config.SigningCertificates?.Find(p => p.DeviceType.ToLower().StartsWith(deviceCertificateRequest.DeviceType.ToLower()));
@@ -42,7 +43,7 @@ namespace Edison.DeviceProvisionning.Controllers
 
             //Use a Certificate Signature Request generate from the Device. Generally safer as the private key does not travel. //Currently not working
             if (!string.IsNullOrEmpty(deviceCertificateRequest.Csr))
-                certificate = _certificateCsrSignator.SignCertificate(certificateProperties, Convert.FromBase64String(deviceCertificateRequest.Csr));
+                certificate = await _certificateCsrSignator.SignCertificate(certificateProperties, Convert.FromBase64String(deviceCertificateRequest.Csr));
             //Generate the certificate from the endpoint.
             //else
             //    certificate = _certificateGenerator.GenerateNewCertificate(certificateProperties, deviceCertificateRequest.DeviceId);

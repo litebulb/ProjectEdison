@@ -2,16 +2,13 @@
 using Microsoft.Azure.KeyVault;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using System.Threading;
 using Microsoft.Extensions.Logging;
-using Microsoft.Rest;
 using Edison.DeviceProvisioning.Models;
 using Microsoft.Azure.KeyVault.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Edison.DeviceProvisioning.Helpers
 {
@@ -65,6 +62,18 @@ namespace Edison.DeviceProvisioning.Helpers
             output.EncryptionKey = !string.IsNullOrEmpty(encryptionKey) ? encryptionKey : _config.DefaultSecrets.EncryptionKey;
 
             return output;
+        }
+
+        public async Task<X509Certificate2> GetCertificateAsync(string certificateIdentifier)
+        {
+            var secret = await _keyVault.GetSecretAsync(_config.KeyVaultAddress, certificateIdentifier);
+            var bytes = Convert.FromBase64String(secret.Value);
+            var certificateCollection = new X509Certificate2Collection();
+            certificateCollection.Import(bytes, null, X509KeyStorageFlags.Exportable);
+            foreach(var certificate in certificateCollection)
+                if (certificate.HasPrivateKey)
+                    return certificate;
+            return null;
         }
 
         private async Task<string> GetSecret(string secretIdentifier)
