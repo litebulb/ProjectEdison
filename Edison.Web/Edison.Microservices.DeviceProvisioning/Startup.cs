@@ -34,8 +34,10 @@ namespace Edison.DeviceProvisionning
             services.AddOptions();
             services.EnableKubernetes();
             services.Configure<DeviceProvisioningOptions>(Configuration.GetSection("DeviceProvisioning"));
+            services.Configure<AzureAdOptions>(Configuration.GetSection("RestService:AzureAd"));
             //services.AddSingleton<CertificateGenerator>();
             services.AddSingleton<CertificateCsrSignator>();
+            services.AddSingleton<KeyVaultManager>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

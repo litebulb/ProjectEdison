@@ -190,7 +190,7 @@ namespace Edison.Devices.Onboarding.Client
             UpdateStatus($"CommandGetDeviceId", "");
             var resultGetDevice = await DeviceApiClient.GetDeviceId();
             if(resultGetDevice.IsSuccess)
-                UpdateStatus($"CommandGetDeviceId", resultGetDevice.DeviceId);
+                UpdateStatus($"CommandGetDeviceId", resultGetDevice.DeviceId.ToString());
             else
                 UpdateStatusError($"CommandGetDeviceId", resultGetDevice.ErrorMessage);
         }
@@ -218,12 +218,20 @@ namespace Edison.Devices.Onboarding.Client
         async void CommandSetDeviceSecretKeys(object sender, EventArgs e)
         {
             UpdateStatus($"CommandSetDeviceSecretKeys", "");
+
+            var resultGetDevice = await DeviceApiClient.GetDeviceId();
+
+            //Generate new keys
+            string token = "IDTOKEN"; //TODO Retrieve AzureAD token from current phone session
+            DeviceProvisioningRestService client = new DeviceProvisioningRestService("https://edisonapidev.eastus.cloudapp.azure.com/deviceprovisioning/", token);
+            var newKeys = await client.GenerateDeviceKeys(resultGetDevice.DeviceId);
+
+            //Pass keys to the device / Activate encryption first!!!
             var resultGetAvailableNetworks = await DeviceApiClient.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys() //This needs to be retrieved from REST endpoint TBD
             {
-                 PortalPassword = "Edison12345", //Will replace the password used for internal REST api
-                 APSsid = "EDISON", //will replace Access point name
-                 APPassword = "Edison12345", //Will replace Access point password
-                 EncryptionKey = "DONOTRUN" //Will replace encryption key used to encrypt some data. After this call this becomes the current encrypt key
+                 PortalPassword = newKeys.PortalPassword, //Will replace the password used for internal REST api
+                 AccessPointPassword = newKeys.AccessPointPassword, //Will replace Access point password
+                 EncryptionKey = newKeys.EncryptionKey //Will replace encryption key used to encrypt some data. After this call this becomes the current encrypt key
             });
             if (!resultGetAvailableNetworks.IsSuccess)
                 UpdateStatusError($"CommandSetDeviceSecretKeys", resultGetAvailableNetworks.ErrorMessage);

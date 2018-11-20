@@ -50,8 +50,8 @@ namespace Edison.Devices.Onboarding.Services
                 SecretManager.EncryptionKey = requestSetDeviceKeys.EncryptionKey;
 
                 //Set new Access Point - Will change the AP after reboot of the app
-                SecretManager.AccessPointSsid = requestSetDeviceKeys.APSsid;
-                SecretManager.AccessPointPassword = requestSetDeviceKeys.APPassword;
+                //SecretManager.AccessPointSsid = SecretManager.AccessPointSsid;
+                SecretManager.AccessPointPassword = requestSetDeviceKeys.AccessPointPassword;
 
                 return ResultCommand.CreateSuccessCommand();
             }

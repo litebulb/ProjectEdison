@@ -12,10 +12,10 @@ namespace Edison.Devices.Onboarding.Helpers
     internal class SimulatedDevice
     {
         private const string PRIVATE_KEY = "iotdevice";
-        private static readonly string _temporaryDeviceId = Guid.NewGuid().ToString();
+        private static readonly Guid _temporaryDeviceId = Guid.NewGuid();
         private static ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
-        public static string DeviceId
+        public static Guid DeviceId
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Edison.Devices.Onboarding.Helpers
                 string deviceId = tpm.GetDeviceId();
                 if(!Guid.TryParse(deviceId, out Guid parsed))
                     return _temporaryDeviceId;
-                return deviceId;
+                return parsed;
             }
         }
 

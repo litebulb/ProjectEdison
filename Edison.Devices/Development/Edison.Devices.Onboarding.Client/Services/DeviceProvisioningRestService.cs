@@ -26,5 +26,29 @@ namespace Edison.Devices.Onboarding.Client.Services
                 Debug.WriteLine($"CreationModel: Error while adding a device: {queryResult.StatusCode}");
             return null;
         }
+
+        public async Task<DeviceSecretKeysModel> GetDeviceKeys(Guid deviceId)
+        {
+            RestRequest request = await PrepareQuery("Security/{deviceId}", Method.GET);
+            request.AddUrlSegment("deviceId", deviceId);
+            var queryResult = await _client.ExecuteTaskAsync<DeviceSecretKeysModel>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                Debug.WriteLine($"GetDeviceKeys: Error while retrieving device keys: {queryResult.StatusCode}");
+            return null;
+        }
+
+        public async Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId)
+        {
+            RestRequest request = await PrepareQuery("Security", Method.POST);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(deviceId), ParameterType.RequestBody);
+            var queryResult = await _client.ExecuteTaskAsync<DeviceSecretKeysModel>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                Debug.WriteLine($"GenerateDeviceKeys: Error while generating or retrieving device keys: {queryResult.StatusCode}");
+            return null;
+        }
     }
 }

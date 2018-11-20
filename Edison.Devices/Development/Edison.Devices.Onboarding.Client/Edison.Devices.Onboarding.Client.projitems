@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDeviceApiClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DeviceCertificateRequestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DeviceSecretKeysModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Network.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccessPoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">

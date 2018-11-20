@@ -169,7 +169,7 @@ namespace Edison.Devices.Onboarding.Services
                 //Adding certificate in user shared store, with no consent needed as other apps need to access it
                 await CertificateEnrollmentManager.UserCertificateEnrollmentManager
                     .ImportPfxDataAsync(Convert.ToBase64String(deviceCertificate.Export(X509ContentType.Pkcs12, SecretManager.CertificatePasskey)),
-                    SecretManager.CertificatePasskey, ExportOption.Exportable, KeyProtectionLevel.NoConsent, InstallOptions.DeleteExpired, SimulatedDevice.DeviceId);
+                    SecretManager.CertificatePasskey, ExportOption.Exportable, KeyProtectionLevel.NoConsent, InstallOptions.DeleteExpired, SimulatedDevice.DeviceId.ToString());
 
                 return true;
             }

@@ -17,6 +17,13 @@
     "ClientId": "2373be1e-6d0b-4e38-9115-e0bd01dadd61",
     "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
   },
+  "RestService": {
+    "AzureAd": {
+      "Instance": "https://login.microsoftonline.com/",
+      "ClientId": "2373be1e-6d0b-4e38-9115-e0bd01dadd61",
+      "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
+    }
+  },
   "DeviceProvisioning": {
     "DeviceCertificatePassword": "Edison1234",
     "DeviceCertificateValidityDays": 365,
@@ -39,6 +46,13 @@
         "Path": "certificates/Intermediate_LightBulb.pfx"
       }
     ]
+  },
+  "KeyVaultAddress": "https://edisondevkeyvault.vault.azure.net/",
+  "DefaultSecrets": {
+    "PortalPassword": "Edison1234",
+    "AccessPointSSID": "EDISON",
+    "AccessPointPassword": "Edison1234",
+    "EncryptionKey": "c7c0dd2d09a4efc7d2f39f53fd9b207f5b7aafa272639c4b8771f9ba60b14400"
   },
   "AllowedHosts": "*"
 }
