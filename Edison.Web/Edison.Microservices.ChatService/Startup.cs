@@ -46,7 +46,7 @@ namespace Edison.ChatService
             services.Configure<AzureAdB2CWebOptions>(Configuration.GetSection("AzureAdB2CWeb"));
             services.Configure<CosmosDBOptions>(Configuration.GetSection("CosmosDb"));
             services.AddSingletonCosmosDBRepository<ChatUserSessionDAO>(Configuration["CosmosDb:Collections:Bot"]);
-            services.AddSingletonCosmosDBRepository<ReportDAO>(Configuration["CosmosDb:Collections:Conversations"]);
+            services.AddSingletonCosmosDBRepository<ChatReportDAO>(Configuration["CosmosDb:Collections:ChatReports"]);
             services.AddSingleton<IDirectLineRestService>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotOptions>>().Value;
@@ -57,7 +57,7 @@ namespace Edison.ChatService
             services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
             services.AddSingleton<IRoutingDataStore, BotRoutingDataStore>();
             services.AddSingleton<BotRoutingDataManager>();
-            services.AddSingleton<ReportDataManager>();
+            services.AddSingleton<ChatReportDataManager>();
             AddBot(services);
 
             //Automapper Can't use DI because all services are singletons

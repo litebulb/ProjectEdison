@@ -25,11 +25,11 @@ namespace Edison.ChatService.Middleware
         private readonly IMassTransitServiceBus _serviceBus;
         private readonly IDeviceRestService _deviceRestService;
         private readonly BotRoutingDataManager _routingDataManager;
-        private readonly ReportDataManager _reportDataManager;
+        private readonly ChatReportDataManager _reportDataManager;
         private readonly ILogger<CommandMiddleware> _logger;
 
         public HandoffMiddleware(IOptions<BotOptions> config, IDeviceRestService deviceRestService,
-            BotRoutingDataManager routingDataManager, ReportDataManager reportDataManager, IMassTransitServiceBus serviceBus,
+            BotRoutingDataManager routingDataManager, ChatReportDataManager reportDataManager, IMassTransitServiceBus serviceBus,
         ILogger<CommandMiddleware> logger) : base(logger)
         {
             _config = config.Value;
@@ -147,7 +147,7 @@ namespace Edison.ChatService.Middleware
         {
             Guid? reportType = null;
 
-            ReportModel activeReport = await _reportDataManager.GetActiveReportFromUser(userId);
+            ChatReportModel activeReport = await _reportDataManager.GetActiveChatReportFromUser(userId);
             if (activeReport != null)
             {
                 for (int i = activeReport.ReportLogs.Count - 1; 0 <= i; i--)

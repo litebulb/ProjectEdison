@@ -66,7 +66,7 @@
     "Database": "Edison",
     "Collections": {
       "Bot": "Bot",
-      "Conversations": "Conversations"
+      "ChatReports": "ChatReports"
     }
   },
   "RestService": {

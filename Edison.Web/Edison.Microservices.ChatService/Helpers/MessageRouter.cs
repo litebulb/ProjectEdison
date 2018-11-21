@@ -123,7 +123,7 @@ namespace Edison.ChatService.Helpers
 
         #region Transcript
         public async Task<ResourceResponse> SendTranscriptAsync(
-            string conversationId, IEnumerable<ReportModel> conversations,
+            string conversationId, IEnumerable<ChatReportModel> conversations,
             IEnumerable<ChatUserReadStatusModel> usersReadStatus = null)
         {
             var transcriptActivities = GetActivityFromConversationLogs(conversations);
@@ -163,7 +163,7 @@ namespace Edison.ChatService.Helpers
             return resourceResponse;
         }
 
-        public IList<Activity> GetActivityFromConversationLogs(IEnumerable<ReportModel> reports)
+        public IList<Activity> GetActivityFromConversationLogs(IEnumerable<ChatReportModel> reports)
         {
             if (reports == null)
                 return null;
@@ -172,9 +172,9 @@ namespace Edison.ChatService.Helpers
             IList<Activity> replayTranscriptActivities = new List<Activity>();
             List<string> listBroadcastIds = new List<string>();
             ConversationAccount conversationAccount = new ConversationAccount(null, null, _currentActivity.Conversation.Id, null, null);
-            foreach (ReportModel report in reports)
+            foreach (ChatReportModel report in reports)
             {
-                foreach (ReportLogModel reportLog in report.ReportLogs)
+                foreach (ChatReportLogModel reportLog in report.ReportLogs)
                 {
                     Activity activityLog = new Activity();
                     activityLog.ApplyConversationReference(selfConversation);

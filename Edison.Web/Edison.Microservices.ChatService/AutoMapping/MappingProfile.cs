@@ -27,7 +27,7 @@ namespace Edison.ChatService
                .ForMember(dto => dto.Bot, opts => opts.MapFrom(src => new ChannelAccount(src.BotId, src.BotName, null)));
 
             //Conversation
-            CreateMap<ReportDAO, ReportModel>()
+            CreateMap<ChatReportDAO, ChatReportModel>()
                 .ForMember(dto => dto.ReportId, opts => opts.MapFrom(src => src.Id));
         }
     }

@@ -25,11 +25,11 @@ namespace Edison.ChatService.Middleware
         private readonly IMassTransitServiceBus _serviceBus;
         private readonly IDeviceRestService _deviceRestService;
         private readonly BotRoutingDataManager _routingDataManager;
-        private readonly ReportDataManager _reportDataManager;
+        private readonly ChatReportDataManager _reportDataManager;
         private readonly ILogger<CommandMiddleware> _logger;
 
         public CommandMiddleware(IOptions<BotOptions> config, BotRoutingDataManager routingDataManager, IMassTransitServiceBus serviceBus,
-             IDeviceRestService deviceRestService, ReportDataManager reportDataManager, ILogger<CommandMiddleware> logger) : base(logger)
+             IDeviceRestService deviceRestService, ChatReportDataManager reportDataManager, ILogger<CommandMiddleware> logger) : base(logger)
         {
             _config = config.Value;
             _serviceBus = serviceBus;
@@ -53,14 +53,14 @@ namespace Edison.ChatService.Middleware
                     case Commands.GetTranscript:
                         if (userContext.Role == ChatUserRole.Admin)
                         {
-                            var conversations = await _reportDataManager.GetActiveReports();
+                            var conversations = await _reportDataManager.GetActiveChatReports();
                             var readUsersStatus = await _routingDataManager.GetUsersReadStatusPerUser(userContext.Id);
                             await messageRouter.SendTranscriptAsync(activity.Conversation.Id, conversations, readUsersStatus);
                         }
                         else
                         {
-                            var conversation = await _reportDataManager.GetActiveReportFromUser(activity.From.Id);
-                            await messageRouter.SendTranscriptAsync(activity.Conversation.Id, new List<ReportModel>() { conversation });
+                            var conversation = await _reportDataManager.GetActiveChatReportFromUser(activity.From.Id);
+                            await messageRouter.SendTranscriptAsync(activity.Conversation.Id, new List<ChatReportModel>() { conversation });
                         }
                         break;
 
@@ -87,8 +87,8 @@ namespace Edison.ChatService.Middleware
                         {
                             if (JsonConvert.DeserializeObject<CommandEndConversation>(command.Data.ToString()) is CommandEndConversation properties)
                             {
-                                ReportModel userReport = await _reportDataManager.GetActiveReportFromUser(properties.UserId);
-                                var result = await _reportDataManager.CloseReport(new ReportLogCloseModel() { EndDate = DateTime.UtcNow, UserId = properties.UserId });
+                                ChatReportModel userReport = await _reportDataManager.GetActiveChatReportFromUser(properties.UserId);
+                                var result = await _reportDataManager.CloseReport(new ChatReportLogCloseModel() { EndDate = DateTime.UtcNow, UserId = properties.UserId });
                                 if (result)
                                 {
                                     var userConversationReference = await _routingDataManager.GetConversationsFromUser(properties.UserId);

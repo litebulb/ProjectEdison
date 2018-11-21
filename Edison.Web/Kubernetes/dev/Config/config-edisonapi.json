@@ -27,7 +27,8 @@
       "Devices": "Devices",
       "Actions": "Actions",
       "ActionPlans": "ActionPlans",
-      "Notifications": "Notifications"
+      "Notifications": "Notifications",
+	  "ChatReports": "ChatReports"
     }
   },
   "AzureAd": {

@@ -63,6 +63,8 @@ namespace Edison.Api
             services.Configure<CosmosDBOptions>(typeof(ResponseDAO).FullName, opt => opt.Collection = opt.Collections.Responses);
             services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, Configuration.GetSection("CosmosDb"));
             services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, opt => opt.Collection = opt.Collections.Notifications);
+            services.Configure<CosmosDBOptions>(typeof(ChatReportDAO).FullName, Configuration.GetSection("CosmosDb"));
+            services.Configure<CosmosDBOptions>(typeof(ChatReportDAO).FullName, opt => opt.Collection = opt.Collections.ChatReports);
 
             //Service Bus
             services.Configure<ServiceBusRabbitMQOptions>(Configuration.GetSection("ServiceBusRabbitMQ"));
@@ -78,6 +80,7 @@ namespace Edison.Api
             services.AddScoped<ActionPlanDataManager>();
             services.AddScoped<IoTHubControllerDataManager>();
             services.AddScoped<NotificationHubDataManager>();
+            services.AddScoped<ReportDataManager>();
             services.AddSignalR().AddRedis(Configuration.GetValue<string>("SignalR:ConnectionString"));
 
             //Cors
