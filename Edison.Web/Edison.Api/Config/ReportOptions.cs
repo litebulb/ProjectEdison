@@ -12,6 +12,7 @@ namespace Edison.Api.Config
         public List<ReportColumnOptions> UsersReport { get; set; }
         public List<ReportColumnOptions> ConversationsReport { get; set; }
         public List<ReportColumnOptions> EventsReport { get; set; }
+        public int DefaultWidth { get; set; }
     }
 
     public enum ReportDataType

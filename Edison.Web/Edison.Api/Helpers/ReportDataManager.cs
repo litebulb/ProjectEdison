@@ -43,9 +43,9 @@ namespace Edison.Api.Helpers
         
         public async Task<byte[]> GetReport(ReportCreationModel reportRequest)
         {
-            reportRequest.MinimumDate = DateTime.UtcNow.AddDays(-30);
-            reportRequest.MaximumDate = DateTime.UtcNow.AddDays(30);
-            reportRequest.Type = ReportCreationType.Responses | ReportCreationType.Events | ReportCreationType.Conversations;
+            //reportRequest.MinimumDate = DateTime.UtcNow.AddDays(-30);
+            //reportRequest.MaximumDate = DateTime.UtcNow.AddDays(30);
+            //reportRequest.Type = ReportCreationType.Responses | ReportCreationType.Events | ReportCreationType.Conversations;
 
             byte[] export = null;
 
@@ -79,6 +79,7 @@ namespace Edison.Api.Helpers
             if (eventClusters != null)
             {
                 ISheet eventClustersEventSheet = workbook.CreateSheet($"Events");
+                eventClustersEventSheet.DefaultColumnWidth = GetColumnWidth(_config.ReportConfiguration.DefaultWidth);
                 GenerateEventsReport(eventClustersEventSheet, 0, eventClusters);
             }
         }
@@ -102,9 +103,18 @@ namespace Edison.Api.Helpers
                 foreach (var response in responses)
                 {
                     ISheet responseEventSheet = workbook.CreateSheet($"{response.ActionPlan.Name} - Events - {response.Id}");
+                    responseEventSheet.DefaultColumnWidth = GetColumnWidth(_config.ReportConfiguration.DefaultWidth);
                     IEnumerable<EventClusterDAO> responseEventClusters = eventClusters.Where(e => response.EventClusterIds.Any(r => r.ToString() == e.Id));
                     GenerateResponseHeaderReport(workbook, responseEventSheet, 0, response);
                     GenerateEventsReport(responseEventSheet, responseEventSheet.LastRowNum + 1, responseEventClusters);
+
+                    if (response.ActionPlan.AcceptSafeStatus && response.SafeUsers != null && response.SafeUsers.Count > 0)
+                    {
+                        ISheet userSafeListEventSheet = workbook.CreateSheet($"{response.ActionPlan.Name} - User SafeList - {response.Id}");
+                        userSafeListEventSheet.DefaultColumnWidth = GetColumnWidth(_config.ReportConfiguration.DefaultWidth);
+                        GenerateResponseHeaderReport(workbook, userSafeListEventSheet, 0, response);
+                        GenerateUserSafeListReport(userSafeListEventSheet, userSafeListEventSheet.LastRowNum + 1, response.SafeUsers);
+                    }
                 }
 
             }
@@ -160,6 +170,24 @@ namespace Edison.Api.Helpers
 
                     rowIndex++;
                 }
+            }
+        }
+
+        private void GenerateUserSafeListReport(ISheet sheet, int rowStartIndex, IEnumerable<string> userSafeList)
+        {
+            Dictionary<string, XSSFCellStyle> rowCellStyles = SetupRowStyles(sheet.Workbook, _config.ReportConfiguration.UsersReport);
+            SetupColumns(sheet, rowStartIndex, _config.ReportConfiguration.UsersReport);
+            int rowIndex = rowStartIndex + 1;
+
+            //Enum event clusters
+            foreach (var userEmail in userSafeList)
+            {
+                //Enum events
+                    IRow row = sheet.CreateRow(rowIndex);
+
+                    SetCellValue(row, _mappingUserColumns["userEmail"], userEmail, rowCellStyles["userEmail"]);
+
+                    rowIndex++;
             }
         }
 

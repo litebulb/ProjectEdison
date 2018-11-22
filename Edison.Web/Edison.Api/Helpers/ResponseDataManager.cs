@@ -15,7 +15,6 @@ namespace Edison.Api.Helpers
 {
     public class ResponseDataManager
     {
-        private readonly ActionPlanDataManager _actionPlansDataManager;
         private readonly ICosmosDBRepository<ResponseDAO> _repoResponses;
         private readonly IMapper _mapper;
 
@@ -23,13 +22,10 @@ namespace Edison.Api.Helpers
         private const int RESPONSE_STATE_ACTIVE = 1;
         private const int RESPONSE_STATE_INACTIVE = 0;
 
-        public ResponseDataManager(IMapper mapper,
-            ActionPlanDataManager actionPlansDataManager,
-            ICosmosDBRepository<ResponseDAO> repoResponses)
+        public ResponseDataManager(IMapper mapper, ICosmosDBRepository<ResponseDAO> repoResponses)
         {
             _mapper = mapper;
             _repoResponses = repoResponses;
-            _actionPlansDataManager = actionPlansDataManager;
         }
 
         public async Task<ResponseModel> GetResponse(Guid responseId)
