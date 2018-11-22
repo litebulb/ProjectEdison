@@ -74,7 +74,7 @@ namespace Edison.Workflows
                             PrimaryRadius = context.Data.ResponseModel.ActionPlan.PrimaryRadius,
                             SecondaryRadius = context.Data.ResponseModel.ActionPlan.SecondaryRadius
                         })))
-                    .ThenAsync(context => Console.Out.WriteLineAsync($"ResponseModel--{context.Instance.CorrelationId}: NewResponseCreated."))
+                    .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: NewResponseCreated."))
                     .TransitionTo(Waiting)
                     );
 
@@ -91,7 +91,7 @@ namespace Edison.Workflows
                     }
                 })),
                 When(ResponseActionsUpdated)
-                .Then(context => Console.Out.WriteLineAsync($"ResponseModel--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
+                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
                 //Run close actions
                 .ThenAsync(context => context.Data.Actions.TaskForEach(action =>
                         context.Publish(
@@ -119,7 +119,7 @@ namespace Edison.Workflows
                      }
                  })),
                 When(ResponseActionClosed)
-                .Then(context => Console.Out.WriteLineAsync($"ResponseModel--{context.Instance.CorrelationId}: ResponseActionClosed"))
+                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionClosed"))
                  //Track action callbacks
                  .ThenAsync(context => context.Publish(new ActionCloseUIUpdatedRequestedEvent()
                  {
@@ -141,7 +141,7 @@ namespace Edison.Workflows
                         return context.Publish(new EventSagaFinalize() { ResponseId = context.Data.ResponseId });
                     })),
                 When(ResponseClosed)
-                .Then(context => Console.Out.WriteLineAsync($"ResponseModel--{context.Instance.CorrelationId}: ResponseClosed."))
+                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseClosed."))
                 //Run close actions
                 .ThenAsync(context =>
                 {

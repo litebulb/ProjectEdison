@@ -51,7 +51,7 @@ namespace Edison.ChatService.Middleware
                 ConversationReference selfConversation = activity.GetConversationReference();
 
                 //Broadcast to many users
-                IEnumerable<ConversationReference> conversations = await GetHandoffConversation(activity, properties, selfConversation);
+                IEnumerable<ConversationReference> conversations = await GetHandoffConversation(turnContext, activity, properties, selfConversation);
 
                 //Send messages
                 if (conversations != null)
@@ -62,8 +62,8 @@ namespace Edison.ChatService.Middleware
             }
         }
 
-        private async Task<IEnumerable<ConversationReference>> GetHandoffConversation(Activity activity, 
-            CommandSendMessageProperties properties, ConversationReference selfConversation)
+        private async Task<IEnumerable<ConversationReference>> GetHandoffConversation(ITurnContext turnContext, 
+            Activity activity, CommandSendMessageProperties properties, ConversationReference selfConversation)
         {
             //Broadcast to many users
             IEnumerable<ConversationReference> conversations = null;
@@ -71,7 +71,8 @@ namespace Edison.ChatService.Middleware
             {
                 conversations = await _routingDataManager.GetAdminConversations();
                 //Send event to event processor... if possible
-                await PushMessageToEventProcessorSaga(activity.Text, activity.ChannelId, properties);
+                if (turnContext.TurnState.TryGetValue(typeof(ChatReportModel).FullName, out object result))
+                    await PushMessageToEventProcessorSaga(activity.Text, activity.ChannelId, properties, (ChatReportModel)result);
             }
             //To one user only - Admin only
             else if (properties.From.Role == ChatUserRole.Admin)
@@ -97,7 +98,7 @@ namespace Edison.ChatService.Middleware
             return conversations;
         }
 
-        private async Task<bool> PushMessageToEventProcessorSaga(string message, string channelId, CommandSendMessageProperties consumerMessageProperties)
+        private async Task<bool> PushMessageToEventProcessorSaga(string message, string channelId, CommandSendMessageProperties consumerMessageProperties, ChatReportModel chatReport)
         {
             try
             {
@@ -127,7 +128,8 @@ namespace Edison.ChatService.Middleware
                                 UserId = consumerMessageProperties.UserId,
                                 Username = consumerMessageProperties.From.Name,
                                 ReportType = reportType,
-                                Message = message
+                                Message = message,
+                                ChatReportId = chatReport.ReportId
                             })
                         };
                         await _serviceBus.BusAccess.Publish(newMessage);

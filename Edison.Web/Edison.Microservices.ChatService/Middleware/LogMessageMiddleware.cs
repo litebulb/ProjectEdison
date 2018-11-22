@@ -68,7 +68,7 @@ namespace Edison.ChatService.Middleware
                 else
                 {
                     //Log one message
-                    await _reportDataManager.CreateOrUpdateChatReport(new ChatReportLogCreationModel()
+                    ChatReportModel chatReportModel = await _reportDataManager.CreateOrUpdateChatReport(new ChatReportLogCreationModel()
                     {
                         User = properties.From.Role == ChatUserRole.Admin ? new ChatUserModel() { Id = properties.UserId } : properties.From,
                         ChannelId = activity.ChannelId,
@@ -81,7 +81,9 @@ namespace Edison.ChatService.Middleware
                             Id = activity.Id
                         }
                     });
+                    turnContext.TurnState.Add(typeof(ChatReportModel).FullName, chatReportModel);
                 }
+
                 await next(cancellationToken).ConfigureAwait(false);
             }
         }
