@@ -1,14 +1,8 @@
-﻿using Edison.Simulators.Sensors.Config;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Timers;
-using Microsoft.Azure.Devices;
-using Microsoft.Azure.Devices.Common.Exceptions;
-using Microsoft.Azure.Devices.Shared;
 using Edison.Simulators.Sensors.Helpers;
 using CsvHelper;
 using System.IO;
@@ -25,19 +19,32 @@ namespace Edison.Simulators.Sensors
         private ICosmosDBRepository<EventClusterDAO> _repoEventClusters;
         private ICosmosDBRepository<ResponseDAO> _repoResponses;
         private ICosmosDBRepository<Entity> _repoSagas;
+        private ICosmosDBRepository<BotDAO> _repoBot;
+        private ICosmosDBRepository<ChatReportDAO> _repoChatReports;
+        private ICosmosDBRepository<DeviceDAO> _repoDevices;
+        private ICosmosDBRepository<NotificationDAO> _repoNotifications;
+        private ICosmosDBRepository<ActionPlanDAO> _repoActionPlans;
         private readonly IoTDeviceHelper _iotDeviceHelper;
         private const int SIMULATION_WINDOW_SIZE = 10;
 
         private readonly Random _rand = new Random();
         private bool _InterruptSimulation = false;
 
-        public Application(ILogger<Application> logger, ICosmosDBRepository<EventClusterDAO> repoEventClusters, ICosmosDBRepository<ResponseDAO> repoResponses, ICosmosDBRepository<Entity> repoSagas,
-        IoTDeviceHelper iotDeviceHelper)
+        public Application(ILogger<Application> logger, 
+            ICosmosDBRepository<EventClusterDAO> repoEventClusters, ICosmosDBRepository<ResponseDAO> repoResponses, ICosmosDBRepository<Entity> repoSagas,
+            ICosmosDBRepository<BotDAO> repoBot, ICosmosDBRepository<ChatReportDAO> repoChatReports, ICosmosDBRepository<DeviceDAO> repoDevices,
+            ICosmosDBRepository<NotificationDAO> repoNotifications, ICosmosDBRepository<ActionPlanDAO> repoActionPlans, IoTDeviceHelper iotDeviceHelper)
         {
             _logger = logger;
             _repoEventClusters = repoEventClusters;
             _repoResponses = repoResponses;
             _repoSagas = repoSagas;
+            _repoBot = repoBot;
+            _repoChatReports = repoChatReports;
+            _repoDevices = repoDevices;
+            _repoNotifications = repoNotifications;
+            _repoActionPlans = repoActionPlans;
+
             _iotDeviceHelper = iotDeviceHelper;
         }
 
@@ -80,6 +87,31 @@ namespace Edison.Simulators.Sensors
             ConsoleHelper.WriteHighlight($"Responses removed...");
             await _repoSagas.DeleteItemsAsync(p => p.Id != null);
             ConsoleHelper.WriteHighlight($"Sagas removed...");
+            await Task.Delay(5000);
+        }
+
+        public async Task InitializeDB()
+        {
+            ConsoleHelper.WriteInfo($"Create Saga Collection");
+            await _repoSagas.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create Bot Collection");
+            await _repoBot.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create ChatReports Collection");
+            await _repoChatReports.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create Devices Collection");
+            await _repoDevices.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create Responses Collection");
+            await _repoResponses.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create EventClusters Collection");
+            await _repoEventClusters.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create Notifications Collection");
+            await _repoNotifications.EnsureDatabaseAndCollectionExists();
+            ConsoleHelper.WriteInfo($"Create ActionPlans Collection");
+            await _repoActionPlans.EnsureDatabaseAndCollectionExists();
+
+            foreach(var actionPlanDAO in ActionPlanDB.GetActionPlans())
+                await _repoActionPlans.CreateItemAsync(actionPlanDAO);
+
             await Task.Delay(5000);
         }
 

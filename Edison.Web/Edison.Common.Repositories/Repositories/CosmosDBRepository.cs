@@ -419,6 +419,10 @@ namespace Edison.Common
             try
             {
                 await EnsureDatabaseAndCollectionExists();
+
+                if (item == null)
+                    return false;
+
                 item.UpdateDate = DateTime.UtcNow;
 
                 var requestOptions = new RequestOptions()

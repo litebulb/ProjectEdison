@@ -33,7 +33,7 @@ namespace Edison.Common
             return _client;
         }
 
-        protected async Task EnsureDatabaseAndCollectionExists()
+        public async Task EnsureDatabaseAndCollectionExists()
         {
             if (!isInitialized)
             {

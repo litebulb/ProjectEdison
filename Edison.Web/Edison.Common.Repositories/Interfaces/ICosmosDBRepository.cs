@@ -28,6 +28,7 @@ namespace Edison.Common.Interfaces
         Task<bool> DeleteItemAsync(string id);
         Task<bool> DeleteItemAsync(Guid id);
         Task<bool> DeleteItemsAsync(Expression<Func<T, bool>> where);
+        Task EnsureDatabaseAndCollectionExists();
         bool IsDocumentKeyNull(IEntityDAO id);
     }
 }

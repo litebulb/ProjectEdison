@@ -68,6 +68,16 @@ namespace Edison.Simulators.Sensors
             services.Configure<CosmosDBOptions>(typeof(ResponseDAO).FullName, opt => opt.Collection = opt.Collections.Responses);
             services.Configure<CosmosDBOptions>(typeof(Entity).FullName, configuration.GetSection("CosmosDb"));
             services.Configure<CosmosDBOptions>(typeof(Entity).FullName, opt => opt.Collection = "Sagas");
+            services.Configure<CosmosDBOptions>(typeof(BotDAO).FullName, configuration.GetSection("CosmosDb"));
+            services.Configure<CosmosDBOptions>(typeof(BotDAO).FullName, opt => opt.Collection = opt.Collections.Bot);
+            services.Configure<CosmosDBOptions>(typeof(DeviceDAO).FullName, configuration.GetSection("CosmosDb"));
+            services.Configure<CosmosDBOptions>(typeof(DeviceDAO).FullName, opt => opt.Collection = opt.Collections.Devices);
+            services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, configuration.GetSection("CosmosDb"));
+            services.Configure<CosmosDBOptions>(typeof(NotificationDAO).FullName, opt => opt.Collection = opt.Collections.Notifications);
+            services.Configure<CosmosDBOptions>(typeof(ActionPlanDAO).FullName, configuration.GetSection("CosmosDb"));
+            services.Configure<CosmosDBOptions>(typeof(ActionPlanDAO).FullName, opt => opt.Collection = opt.Collections.ActionPlans);
+            services.Configure<CosmosDBOptions>(typeof(ChatReportDAO).FullName, configuration.GetSection("CosmosDb"));
+            services.Configure<CosmosDBOptions>(typeof(ChatReportDAO).FullName, opt => opt.Collection = opt.Collections.ChatReports);
             services.AddSingleton<IoTDeviceHelper>();
             services.AddScoped(typeof(ICosmosDBRepository<>), typeof(CosmosDBRepository<>));
             services.AddSingleton<Application>();
@@ -83,6 +93,7 @@ namespace Edison.Simulators.Sensors
             ConsoleHelper.WriteInfo("6. Start test simulation on all sensors");
             ConsoleHelper.WriteInfo("7. Start orchestrated simulation");
             //ConsoleHelper.WriteInfo("8. Monitor lightbulbs"); //Removed because cause issues with running physical devices.
+            ConsoleHelper.WriteInfo("A. Initialize Database");
             ConsoleHelper.WriteInfo("9. Exit");
 
             ConsoleKeyInfo key = Console.ReadKey();
@@ -122,6 +133,9 @@ namespace Edison.Simulators.Sensors
                 //case ConsoleKey.D8:
                 //    await MenuMonitorLights();
                 //    break;
+                case ConsoleKey.A:
+                    await MenuInitializeDB();
+                    break;
                 case ConsoleKey.NumPad9:
                 case ConsoleKey.D9:
                     _Interrupt = true;
@@ -131,6 +145,21 @@ namespace Edison.Simulators.Sensors
                     await Menu();
                     break;
             }
+        }
+
+        private async static Task MenuInitializeDB()
+        {
+            ConsoleHelper.ClearConsole();
+            ConsoleHelper.WriteInfo("Please enter 'Y' if you want to initialize the DB.");
+
+            ConsoleKeyInfo key = Console.ReadKey();
+
+            if (key.Key == ConsoleKey.Y)
+            {
+                await _App.InitializeDB();
+            }
+            ConsoleHelper.ClearConsole();
+            await Menu();
         }
 
         private async static Task MenuAddSensors(bool overrideTags)
