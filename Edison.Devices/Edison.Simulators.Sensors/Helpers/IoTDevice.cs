@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper.Configuration;
 
 namespace Edison.Simulators.Sensors.Models.Helpers
 {
@@ -24,10 +25,25 @@ namespace Edison.Simulators.Sensors.Models.Helpers
         public bool Sensor { get; set; }
         public bool Demo { get; set; }
         public bool Enabled { get; set; }
+    }
 
-        internal Task SetDesiredPropertyUpdateCallbackAsync(object callback, object p)
+    public class IoTDevicetMap : ClassMap<IoTDevice>
+    {
+        public IoTDevicetMap()
         {
-            throw new NotImplementedException();
+            Map(m => m.Client).Ignore();
+            Map(m => m.Desired).Ignore();
+            Map(m => m.DeviceId);
+            Map(m => m.DeviceType);
+            Map(m => m.Name);
+            Map(m => m.Location1);
+            Map(m => m.Location2);
+            Map(m => m.Location3);
+            Map(m => m.Longitude);
+            Map(m => m.Latitude);
+            Map(m => m.Sensor);
+            Map(m => m.Demo);
+            Map(m => m.Enabled);
         }
     }
 }

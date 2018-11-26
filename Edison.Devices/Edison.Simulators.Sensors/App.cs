@@ -55,6 +55,7 @@ namespace Edison.Simulators.Sensors
             {
                 using (var csv = new CsvReader(fileReader))
                 {
+                    csv.Configuration.RegisterClassMap<IoTDevicetMap>();
                     var records = csv.GetRecords<IoTDevice>().ToList();
                     ConsoleHelper.WriteInfo($"{records.Count} devices found");
 
