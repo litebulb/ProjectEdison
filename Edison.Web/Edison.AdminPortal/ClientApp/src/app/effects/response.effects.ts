@@ -229,7 +229,7 @@ export class ResponseEffects {
                     sub.next(new AddLocationToActiveResponseSuccess())
                 )
                 : this.http
-                    .post(`${environment.baseUrl}${environment.apiUrl}responses/start`, {
+                    .post(`${environment.baseUrl}${environment.apiUrl}responses/locate`, {
                         responseId: responseId,
                         geolocation: location
                     })

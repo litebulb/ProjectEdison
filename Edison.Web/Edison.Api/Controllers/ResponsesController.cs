@@ -81,16 +81,16 @@ namespace Edison.Api.Controllers
                 {
                     ResponseModel = result
                 };
-                await _serviceBus.BusAccess.Publish(newMessage);
             }
+            await _serviceBus.BusAccess.Publish(newMessage);
             return Ok(result);
         }
 
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
-        [HttpPost("Start")]
-        public async Task<IActionResult> StartResponse([FromBody]ResponseStartModel responseObj)
+        [HttpPost("Locate")]
+        public async Task<IActionResult> LocateResponse([FromBody]ResponseStartModel responseObj)
         {
-            var result = await _responseDataManager.UpdateResponse(new ResponseUpdateModel()
+            var result = await _responseDataManager.LocateResponse(new ResponseUpdateModel()
             {
                 ResponseId = responseObj.ResponseId,
                 Geolocation = responseObj.Geolocation
@@ -149,9 +149,9 @@ namespace Edison.Api.Controllers
                     //We do not want to trigger events for deleted actions or close actions
                     Actions = responseObj.Actions.Where(x => !x.IsCloseAction && x.ActionChangedString != "delete").Select(a => a.Action),
                     ResponseId = responseObj.ResponseId,
-                    Geolocation =  responseObj.Geolocation,
-                    PrimaryRadius = responseObj.PrimaryRadius,
-                    SecondaryRadius = responseObj.SecondaryRadius
+                    Geolocation = result.Geolocation,
+                    PrimaryRadius = result.ActionPlan.PrimaryRadius,
+                    SecondaryRadius = result.ActionPlan.SecondaryRadius
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }

@@ -9,9 +9,6 @@ namespace Edison.Core.Common.Models
     public class ResponseChangeActionPlanModel
     {
         public Guid ResponseId { get; set; }
-        public double PrimaryRadius { get; set; }
-        public double SecondaryRadius { get; set; }
-        public Geolocation Geolocation { get; set; }
         public List<ActionChangedModel> Actions { get; set; }
     }
 

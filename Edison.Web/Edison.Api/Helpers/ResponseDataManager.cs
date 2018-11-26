@@ -119,7 +119,7 @@ namespace Edison.Api.Helpers
             return _mapper.Map<ResponseModel>(response);
         }
 
-        public async Task<ResponseModel> UpdateResponse(ResponseUpdateModel responseObj)
+        public async Task<ResponseModel> LocateResponse(ResponseUpdateModel responseObj)
         {
             ResponseDAO response = await _repoResponses.GetItemAsync(responseObj.ResponseId);
             if (response == null)
@@ -137,7 +137,7 @@ namespace Edison.Api.Helpers
             {
                 //Update concurrency issue, retrying
                 if (e.StatusCode == HttpStatusCode.PreconditionFailed)
-                    return await UpdateResponse(responseObj);
+                    return await LocateResponse(responseObj);
                 throw e;
             }
 

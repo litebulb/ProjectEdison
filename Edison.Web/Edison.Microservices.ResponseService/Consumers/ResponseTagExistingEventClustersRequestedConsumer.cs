@@ -35,6 +35,12 @@ namespace Edison.ResponseService.Consumers
             {
                 _logger.LogDebug($"EventClusterAssignResponseRequestedConsumer: Retrieved message from response '{context.Message.ResponseId}'.");
 
+                if (context.Message.ResponseGeolocation == null)
+                {
+                    _logger.LogDebug($"EventClusterAssignResponseRequestedConsumer: The response does not have a location.");
+                    return;
+                }
+
                 var eventClusterIds = await _eventClusterRestService.GetClustersInRadius(new EventClusterGeolocationModel()
                 {
                     Radius = context.Message.Radius,

@@ -39,7 +39,7 @@ namespace Edison.Api.Controllers
             return Ok(actionObjs);
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut]
         [Produces(typeof(ActionPlanModel))]
         public async Task<IActionResult> UpdateActionPlan(ActionPlanUpdateModel actionPlanObj)
@@ -48,7 +48,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPost]
         [Produces(typeof(ActionPlanModel))]
         public async Task<IActionResult> CreationActionPlan(ActionPlanCreationModel actionPlanObj)
@@ -57,7 +57,7 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpDelete]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> DeleteActionPlan(Guid actionPlanId)

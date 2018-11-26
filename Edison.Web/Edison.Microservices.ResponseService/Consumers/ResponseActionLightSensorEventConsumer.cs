@@ -46,6 +46,20 @@ namespace Edison.ResponseService.Consumers
                     IActionLightSensorEvent action = context.Message;
                     _logger.LogDebug($"ResponseActionLightSensorEventConsumer: ActionId: '{action.ActionId}'.");
 
+                    if(action.Epicenter == null)
+                    {
+                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                        {
+                            ResponseId = context.Message.ResponseId,
+                            ActionId = context.Message.ActionId,
+                            IsSuccessful = false,
+                            IsSkipped = true,
+                            ErrorMessage = "The response has no location. This action can not be executed."
+                        });
+                        _logger.LogDebug("ResponseActionLightSensorEventConsumer: The response has no location. This action can not be executed.");
+                        return;
+                    }
+
                     IEnumerable<Guid> devicesInRadius = await _deviceRestService.GetDevicesInRadius(new DeviceGeolocationModel()
                     {
                         DeviceType = "Lightbulb",
@@ -120,7 +134,8 @@ namespace Edison.ResponseService.Consumers
                         {
                             ResponseId = context.Message.ResponseId,
                             ActionId = context.Message.ActionId,
-                            IsSuccessful = false
+                            IsSuccessful = false,
+                            ErrorMessage = "Desired properties not applied properly."
                         });
                         _logger.LogError("ResponseActionLightSensorEventConsumer: Desired properties not applied properly.");
                         throw new Exception("Desired properties not applied properly.");

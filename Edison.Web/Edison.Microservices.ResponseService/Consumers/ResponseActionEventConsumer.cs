@@ -36,10 +36,6 @@ namespace Edison.ResponseService.Consumers
                     //Switch statement directing different action types
                     switch(action.ActionType)
                     {
-                        case "email":
-                            _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionEmailEvent.");
-                            await context.Publish(new ActionEmailEvent(action, context.Message.IsCloseAction) { ResponseId = context.Message.ResponseId });
-                            break;
                         case "notification":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionNotificationEvent.");
                             await context.Publish(new ActionNotificationEvent(action, context.Message.IsCloseAction) { ResponseId = context.Message.ResponseId });

@@ -13,6 +13,8 @@ namespace Edison.Common.Messages
         }
         public Guid ResponseId { get; set; }
         public bool IsSuccessful { get; set; }
+        public bool IsSkipped { get; set; }
+        public string ErrorMessage { get; set; }
         public bool IsCloseAction { get; set; }
         public Guid ActionId { get; set; }
     }

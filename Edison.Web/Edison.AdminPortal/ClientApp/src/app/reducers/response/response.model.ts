@@ -22,7 +22,7 @@ export class Response {
     name: string;
     icon: string;
     color: string;
-    delayResponse: boolean = false;
+    delayStart: boolean = false;
 
     constructor (event: Event, actionPlan: ActionPlan, user, responseId?: string) {
         this.responderUserId = user.profile[ 'oid' ];
@@ -39,7 +39,7 @@ export class Response {
             this.geolocation = event.device.geolocation;
             this.event = event;
         } else {
-            this.delayResponse = true;
+            this.delayStart = true;
             this.primaryEventClusterId = null;
         }
 

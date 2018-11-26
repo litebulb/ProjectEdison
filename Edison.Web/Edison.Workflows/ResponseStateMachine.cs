@@ -130,6 +130,8 @@ namespace Edison.Workflows
                          UpdateType = "CloseResponseAction",
                          ActionId = context.Data.ActionId,
                          IsSuccessful = context.Data.IsSuccessful,
+                         IsSkipped = context.Data.IsSkipped,
+                         ErrorMessage = context.Data.ErrorMessage,
                          ResponseId = context.Data.ResponseId
                      }
                  }))
