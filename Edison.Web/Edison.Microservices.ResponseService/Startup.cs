@@ -38,7 +38,6 @@ namespace Edison.ResponseService
             {
                 c.AddConsumer<ResponseTagExistingEventClustersRequestedConsumer>();
                 c.AddConsumer<ResponseTagNewEventClusterRequestedConsumer>();
-                c.AddConsumer<ResponseActionEmailEventConsumer>();
                 c.AddConsumer<ResponseActionLightSensorEventConsumer>();
                 c.AddConsumer<ResponseActionNotificationEventConsumer>();
                 c.AddConsumer<ResponseActionRapidSOSEventConsumer>();
@@ -46,7 +45,6 @@ namespace Edison.ResponseService
             });
             services.AddScoped<ResponseTagExistingEventClustersRequestedConsumer>();
             services.AddScoped<ResponseTagNewEventClusterRequestedConsumer>();
-            services.AddScoped<ResponseActionEmailEventConsumer>();
             services.AddScoped<ResponseActionLightSensorEventConsumer>();
             services.AddScoped<ResponseActionNotificationEventConsumer>();
             services.AddScoped<ResponseActionRapidSOSEventConsumer>();

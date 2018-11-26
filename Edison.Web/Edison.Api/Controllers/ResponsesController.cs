@@ -81,8 +81,8 @@ namespace Edison.Api.Controllers
                 {
                     ResponseModel = result
                 };
+                await _serviceBus.BusAccess.Publish(newMessage);
             }
-            await _serviceBus.BusAccess.Publish(newMessage);
             return Ok(result);
         }
 
