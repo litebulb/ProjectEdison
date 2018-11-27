@@ -75,10 +75,10 @@ export class DirectlineService implements OnDestroy {
         this._sendMessage(message, sendToUserId);
     }
 
-    sendReadReceipt(userId: string, date: number) {
+    sendReadReceipt(userId: string, date: Date) {
         this._sendCommand(DirectLineCommand.ReadUserMessages, null, {
             userId,
-            date: parseInt(date.toString(), 10)
+            date
         })
     }
 

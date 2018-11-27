@@ -116,7 +116,7 @@ export function reducer(
         case ChatActionTypes.UpdateUserReadReceipt: {
             const updatedMessages: Update<Chat>[] = selectAll(state)
                 .filter(message => message.channelData.data.userId === action.payload.userId
-                    && new Date(message.timestamp).getTime() < new Date(action.payload.date * 1000).getTime())
+                    && new Date(message.timestamp).getTime() < action.payload.date.getTime())
                 .map(message => {
                     return {
                         id: message.id,

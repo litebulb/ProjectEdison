@@ -39,7 +39,7 @@
             </app-circle-spinner>
             <div class="access-times">
                 <ng-container *ngFor="let event of eventEvents; let first = first; let last = last">
-                    <div [ngClass]="{'first': first, 'last': last}">{{ event.date | numberdate | date : 'shortTime'}}</div>
+                    <div [ngClass]="{'first': first, 'last': last}">{{ event.date | date : 'shortTime'}}</div>
                     <div *ngIf="!last"
                          class="comma">,</div>
                 </ng-container>

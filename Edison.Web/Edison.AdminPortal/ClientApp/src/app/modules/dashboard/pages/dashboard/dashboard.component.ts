@@ -94,9 +94,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                 this.store.dispatch(new AddChat({ chat: message }))
                                 break;
                             case DirectLineCommand.ReadUserMessages:
-                                console.log(message);
                                 if (message.channelData.data.userId) {
-                                    this.store.dispatch(new UpdateUserReadReceipt({ userId: message.channelData.data.userId, date: message.channelData.data.date }));
+                                    this.store.dispatch(new UpdateUserReadReceipt({
+                                        userId: message.channelData.data.userId,
+                                        date: new Date(message.channelData.data.date)
+                                    }));
                                 }
                                 break;
                         }
@@ -227,7 +229,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         return events
             .filter(event => event.device.deviceId === deviceId)
-            .sort((a, b) => b.startDate - a.startDate)
+            .sort((a, b) => b.startDate.getTime() - a.startDate.getTime())
             .slice(0, 1)[ 0 ]
     }
 }

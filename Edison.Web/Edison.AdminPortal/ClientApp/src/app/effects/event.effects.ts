@@ -1,19 +1,17 @@
+import { Observable, of, Subscriber } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of, Subscriber } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { mergeMap, catchError, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+
 import { environment } from '../../environments/environment';
+import { mockEvents } from '../mockData/mockEvents';
 import {
-    EventActionTypes,
-    LoadEvents,
-    GetEventsError,
-    ShowEventInEventBar,
-    SelectActiveEvent,
+    EventActionTypes, GetEventsError, LoadEvents, SelectActiveEvent, ShowEventInEventBar
 } from '../reducers/event/event.actions';
 import { Event } from '../reducers/event/event.model';
-import { mockEvents } from '../mockData/mockEvents';
 
 @Injectable()
 export class EventEffects {

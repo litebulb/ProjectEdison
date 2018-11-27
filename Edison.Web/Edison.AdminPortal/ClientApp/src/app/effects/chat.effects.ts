@@ -43,7 +43,7 @@ export class ChatEffects {
         ofType(ChatActionTypes.SendNewMessage),
         map(({ payload: { message, userId } }: SendNewMessage) => {
             this.directlineService.sendMessage(message, userId);
-            return new SendUserReadReceipt({ userId, date: new Date().getTime() / 1000 })
+            return new SendUserReadReceipt({ userId, date: new Date() })
         })
     )
 

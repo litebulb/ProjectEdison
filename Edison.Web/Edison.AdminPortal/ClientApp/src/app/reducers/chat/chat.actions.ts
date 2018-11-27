@@ -30,13 +30,13 @@ export enum ChatActionTypes {
 export class SendUserReadReceipt implements Action {
     readonly type = ChatActionTypes.SendUserReadReceipt;
 
-    constructor (public payload: { userId: string, date: number }) { }
+    constructor (public payload: { userId: string, date: Date }) { }
 }
 
 export class UpdateUserReadReceipt implements Action {
     readonly type = ChatActionTypes.UpdateUserReadReceipt;
 
-    constructor (public payload: { userId: string, date: number }) { }
+    constructor (public payload: { userId: string, date: Date }) { }
 }
 
 export class ToggleAllUsersChatWindow implements Action {

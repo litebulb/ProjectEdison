@@ -1,5 +1,5 @@
-import { ActionPlan } from '../action-plan/action-plan.model';
 import { GeoLocation } from '../../core/models/geoLocation';
+import { ActionPlan } from '../action-plan/action-plan.model';
 import { Event } from '../event/event.model';
 
 export enum ResponseState {
@@ -11,8 +11,8 @@ export class Response {
     responseId: string;
     responderUserId: string;
     responseState: ResponseState;
-    startDate: number;
-    endDate: number;
+    startDate: Date;
+    endDate: Date;
     actionPlan: ActionPlan;
     actionPlanId: string;
     primaryEventClusterId?: string;

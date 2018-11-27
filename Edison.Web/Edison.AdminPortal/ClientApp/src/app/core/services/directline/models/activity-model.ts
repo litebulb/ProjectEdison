@@ -7,7 +7,7 @@ export interface IActivityModel {
             from?: UserModel,
             reportType?: string,
             userId?: string,
-            date?: number
+            date?: string
         },
         baseCommand: string,
     },

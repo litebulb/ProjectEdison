@@ -49,7 +49,7 @@ export class UserChatComponent implements OnInit, OnDestroy {
                 if (!this.messages || this.messages.length < messages.length) {
                     this.messages = messages;
                     if (this.userId) {
-                        this.store.dispatch(new SendUserReadReceipt({ userId: this.userId, date: new Date().getTime() / 1000 }))
+                        this.store.dispatch(new SendUserReadReceipt({ userId: this.userId, date: new Date() }))
                     }
                 }
             });
@@ -60,7 +60,7 @@ export class UserChatComponent implements OnInit, OnDestroy {
                     this.userId = user.userId;
                     this.userName = user.name;
 
-                    this.store.dispatch(new SendUserReadReceipt({ userId: user.userId, date: new Date().getTime() / 1000 }))
+                    this.store.dispatch(new SendUserReadReceipt({ userId: user.userId, date: new Date() }))
                 }
             });
         this.actionPlans$ = this.store.pipe(select(actionPlansSelector));
