@@ -11,6 +11,9 @@ export const mockActionPlans: ActionPlan[] = [
     name: 'Test',
     description: 'Testing Plan',
     isActive: true,
+    acceptSafeStatus: true,
+    primaryRadius: 1,
+    secondaryRadius: 2,
     color: ActionPlanColor.Red,
     icon: ActionPlanIcon.Fire,
     openActions: [
