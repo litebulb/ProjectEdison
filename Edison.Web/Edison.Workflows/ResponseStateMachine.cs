@@ -65,7 +65,8 @@ namespace Edison.Workflows
                         }
                     }))
                     //Run open actions
-                     .ThenAsync(context => context.Data.ResponseModel.ActionPlan.OpenActions.TaskForEach(action => context.Publish(
+                     .ThenAsync(context => context.Data.ResponseModel.ActionPlan.OpenActions.Where(p => !p.RequiresLocation && (context.Data.ResponseModel.Geolocation != null && p.RequiresLocation))
+                     .TaskForEach(action => context.Publish(
                         new ActionEvent()
                         {
                             ResponseId = context.Data.ResponseModel.ResponseId,
@@ -76,9 +77,36 @@ namespace Edison.Workflows
                         })))
                     .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: NewResponseCreated."))
                     .TransitionTo(Waiting)
-                    );
+            );
 
+            //Waiting state
             During(Waiting,
+            #region Response
+                //Triggers when the responses has been located located.
+                //Runs ResponseTagExistingEventClustersRequestedEvent to associated event clusters
+                //Runs Open Actions that requires location
+                When(ResponseLocated)
+                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseLocated."))
+                .ThenAsync(context => context.Publish(new ResponseTagExistingEventClustersRequestedEvent()
+                {
+                    ResponseId = context.Data.ResponseModel.ResponseId,
+                    ResponseGeolocation = context.Data.ResponseModel.Geolocation,
+                    Radius = context.Data.ResponseModel.ActionPlan.PrimaryRadius
+                }))
+                .ThenAsync(context =>
+                {
+                    return context.Data.ResponseModel.ActionPlan.OpenActions.Where(p => p.RequiresLocation).TaskForEach(action => context.Publish(
+                            new ActionEvent(true)
+                            {
+                                ResponseId = context.Data.ResponseModel.ResponseId,
+                                Action = action,
+                                Geolocation = context.Data.ResponseModel.Geolocation,
+                                PrimaryRadius = context.Data.ResponseModel.ActionPlan.PrimaryRadius,
+                                SecondaryRadius = context.Data.ResponseModel.ActionPlan.SecondaryRadius
+                            }));
+                }),
+                
+                //Triggers when event clusters have been associated
                 When(ResponseEventClusterTagged)
                 .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
                 {
@@ -90,58 +118,8 @@ namespace Edison.Workflows
                         ResponseId = context.Data.Response.ResponseId
                     }
                 })),
-                When(ResponseActionsUpdated)
-                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
-                //Run close actions
-                .ThenAsync(context => context.Data.Actions.TaskForEach(action =>
-                        context.Publish(
-                            new ActionEvent()
-                            {
-                                ResponseId = context.Data.ResponseId,
-                                Action = action,
-                                Geolocation = context.Data.Geolocation,
-                                PrimaryRadius = context.Data.PrimaryRadius,
-                                SecondaryRadius = context.Data.SecondaryRadius
-                            })))
-                 .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
-                 {
-                     ResponseId = context.Instance.CorrelationId,
-                     ResponseUI = new ResponseUIModel()
-                     {
-                         UpdateType = "UpdateResponseActions",
-                         Response = new ResponseModel()
-                         {
-                             ResponseId = context.Data.ResponseId,
-                             ActionPlan = new ResponseActionPlanModel() {
-                                 OpenActions = context.Data.Actions }
-                         },
-                         ResponseId = context.Data.ResponseId
-                     }
-                 })),
-                When(ResponseActionClosed)
-                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionClosed"))
-                 //Track action callbacks
-                 .ThenAsync(context => context.Publish(new ActionCloseUIUpdatedRequestedEvent()
-                 {
-                     ResponseId = context.Data.ResponseId,
-                     ActionId = context.Data.ActionId,
-                     ActionCloseModel = new ActionCloseUIModel()
-                     {
-                         UpdateType = "CloseResponseAction",
-                         ActionId = context.Data.ActionId,
-                         IsSuccessful = context.Data.IsSuccessful,
-                         IsSkipped = context.Data.IsSkipped,
-                         ErrorMessage = context.Data.ErrorMessage,
-                         ResponseId = context.Data.ResponseId
-                     }
-                 }))
-                 .If(new StateMachineCondition<ResponseState, IEventSagaReceiveResponseActionClosed>(bc =>
-                    bc.Data.IsCloseAction), x => x
-                    .ThenAsync(context =>
-                    {
-                        _closeEventsComplete += 1;
-                        return context.Publish(new EventSagaFinalize() { ResponseId = context.Data.ResponseId });
-                    })),
+
+                //Triggers when the response was closed
                 When(ResponseClosed)
                 .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseClosed."))
                 //Run close actions
@@ -168,6 +146,66 @@ namespace Edison.Workflows
                          ResponseId = context.Data.ResponseModel.ResponseId
                      }
                  })),
+            #endregion
+
+            #region Response Actions
+                //Triggers when new actions are added
+                When(ResponseActionsUpdated)
+                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
+                .ThenAsync(context => context.Data.Actions.TaskForEach(action =>
+                        context.Publish(
+                            new ActionEvent()
+                            {
+                                ResponseId = context.Data.ResponseId,
+                                Action = action,
+                                Geolocation = context.Data.Geolocation,
+                                PrimaryRadius = context.Data.PrimaryRadius,
+                                SecondaryRadius = context.Data.SecondaryRadius
+                            })))
+                .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
+                {
+                    ResponseId = context.Instance.CorrelationId,
+                    ResponseUI = new ResponseUIModel()
+                    {
+                        UpdateType = "UpdateResponseActions",
+                        Response = new ResponseModel()
+                        {
+                            ResponseId = context.Data.ResponseId,
+                            ActionPlan = new ResponseActionPlanModel()
+                            {
+                                OpenActions = context.Data.Actions
+                            }
+                        },
+                        ResponseId = context.Data.ResponseId
+                    }
+                })),
+
+                When(ResponseActionClosed)
+                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionClosed"))
+                 //Track action callbacks
+                 .ThenAsync(context => context.Publish(new ActionCloseUIUpdatedRequestedEvent()
+                 {
+                     ResponseId = context.Data.ResponseId,
+                     ActionId = context.Data.ActionId,
+                     ActionCloseModel = new ActionCloseUIModel()
+                     {
+                         UpdateType = "CloseResponseAction",
+                         ActionId = context.Data.ActionId,
+                         IsSuccessful = context.Data.IsSuccessful,
+                         IsSkipped = context.Data.IsSkipped,
+                         ErrorMessage = context.Data.ErrorMessage,
+                         ResponseId = context.Data.ResponseId
+                     }
+                 }))
+                 .If(new StateMachineCondition<ResponseState, IEventSagaReceiveResponseActionClosed>(bc =>
+                    bc.Data.IsCloseAction), x => x
+                    .ThenAsync(context =>
+                    {
+                        _closeEventsComplete += 1;
+                        return context.Publish(new EventSagaFinalize() { ResponseId = context.Data.ResponseId });
+                    })),
+            #endregion
+
                 When(ResponseFinalize)
                 .If(new StateMachineCondition<ResponseState, IEventSagaFinalize>(bc =>
                     _closeEventsComplete >= _closeEventsCount), x => x.Finalize()));
@@ -182,6 +220,7 @@ namespace Edison.Workflows
         #region "Events"
         public Event<IResponseTaggedEventClusters> ResponseEventClusterTagged { get; private set; }
         public Event<IEventSagaReceiveResponseCreated> NewResponseCreated { get; private set; }
+        public Event<IEventSagaReceiveResponseLocated> ResponseLocated { get; private set; }
         public Event<IEventSagaReceiveResponseActionsUpdated> ResponseActionsUpdated { get; private set; }
         public Event<IEventSagaReceiveResponseActionClosed> ResponseActionClosed { get; private set; }
         public Event<IEventSagaReceiveResponseClosed> ResponseClosed { get; private set; }

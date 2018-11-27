@@ -11,6 +11,7 @@ namespace Edison.Core.Common.Models
         public Guid ActionId { get; set; }
         public string ActionType { get; set; }
         public bool IsActive { get; set; }
+        public bool RequiresLocation { get; set; }
         public string Description { get; set; }
         public Dictionary<string,string> Parameters { get; set; }
     }

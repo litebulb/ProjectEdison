@@ -124,6 +124,8 @@ namespace Edison.Api.Helpers
             ResponseDAO response = await _repoResponses.GetItemAsync(responseObj.ResponseId);
             if (response == null)
                 throw new Exception($"No response found that matches responseid: {responseObj.ResponseId}");
+            if(response.Geolocation != null)
+                throw new Exception($"The response already had a geolocation: {responseObj.ResponseId}");
 
             string etag = response.ETag;
             response.Geolocation = _mapper.Map<GeolocationDAOObject>(responseObj.Geolocation);

@@ -75,7 +75,7 @@ namespace Edison.Api.Controllers
         public async Task<IActionResult> CreateResponse([FromBody]ResponseCreationModel responseObj)
         {
             var result = await _responseDataManager.CreateResponse(responseObj);
-            if (!responseObj.DelayStart)
+            if (result != null)
             {
                 IEventSagaReceiveResponseCreated newMessage = new EventSagaReceiveResponseCreated()
                 {
@@ -94,13 +94,15 @@ namespace Edison.Api.Controllers
             {
                 ResponseId = responseObj.ResponseId,
                 Geolocation = responseObj.Geolocation
-            }
-            );
-            IEventSagaReceiveResponseCreated newMessage = new EventSagaReceiveResponseCreated()
+            });
+            if (result != null)
             {
-                ResponseModel = result
-            };
-            await _serviceBus.BusAccess.Publish(newMessage);
+                IEventSagaReceiveResponseLocated newMessage = new EventSagaReceiveResponseLocated()
+                {
+                    ResponseModel = result
+                };
+                await _serviceBus.BusAccess.Publish(newMessage);
+            }
             return Ok();
         }
 

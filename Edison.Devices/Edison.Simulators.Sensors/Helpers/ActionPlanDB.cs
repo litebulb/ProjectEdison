@@ -239,6 +239,7 @@ namespace Edison.Simulators.Sensors.Helpers
                 ActionId = Guid.NewGuid(),
                 ActionType = "lightsensor",
                 IsActive = 1,
+                RequiresLocation = true,
                 Description = "Connected Lights Primary Radius",
                 Parameters = new Dictionary<string, string>()
                  {
@@ -257,6 +258,7 @@ namespace Edison.Simulators.Sensors.Helpers
                 ActionId = Guid.NewGuid(),
                 ActionType = "lightsensor",
                 IsActive = 1,
+                RequiresLocation = true,
                 Description = "Connected Lights Secondary Radius",
                 Parameters = new Dictionary<string, string>()
                  {
