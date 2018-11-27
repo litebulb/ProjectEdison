@@ -34,6 +34,8 @@ namespace Edison.Workflows
             Event(() => EventClusterCreatedOrUpdated, x => x.CorrelateById(context => context.Message.EventCluster.EventClusterId));
             Event(() => EventClusterClosed, x => x.CorrelateById(context => context.Message.EventCluster.EventClusterId));
 
+            Event(() => EventClusterCreateOrUpdateRequestedFault, x => x.CorrelateById(context => context.Message.Message.EventClusterId));
+
             //UI Update notification, can be ignored if saga doesn't exist anymore
             //Event(() => EventClusterUIUpdated, x => { x.CorrelateById(context => context.Message.CorrelationId); x.OnMissingInstance(m => m.Discard()); });
 

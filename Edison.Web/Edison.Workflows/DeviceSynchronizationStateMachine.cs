@@ -29,6 +29,9 @@ namespace Edison.Workflows
             Event(() => DeviceCreatedOrUpdated, x => x.CorrelateById(context => context.Message.CorrelationId));
             //UI Update notification, can be ignored if saga doesn't exist anymore
             Event(() => DeviceUIUpdated, x => { x.CorrelateById(context => context.Message.CorrelationId); x.OnMissingInstance(m => m.Discard()); });
+
+            Event(() => DeviceDeleteRequestedFault, x => x.CorrelateById(context => context.Message.Message.CorrelationId));
+            Event(() => DeviceCreateOrUpdateRequestedFault, x => x.CorrelateById(context => context.Message.Message.CorrelationId));
             #endregion
 
             //The event is submitted from Azure Service Queue
