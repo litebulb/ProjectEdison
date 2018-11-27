@@ -42,9 +42,6 @@ namespace Edison.Api.Helpers
                 Name = p.Name,
                 Color = p.Color,
                 Icon = p.Icon,
-                AcceptSafeStatus = p.AcceptSafeStatus,
-                PrimaryRadius = p.PrimaryRadius,
-                SecondaryRadius = p.SecondaryRadius,
                 Description = p.Description
             }
             );
