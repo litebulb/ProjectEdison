@@ -79,6 +79,9 @@ export interface ActionPlan {
     name: string
     description: string
     isActive: true
+    acceptSafeStatus: boolean
+    primaryRadius: number
+    secondaryRadius: number
     color: ActionPlanColor
     icon: ActionPlanIcon
     openActions?: ActionPlanAction[]
