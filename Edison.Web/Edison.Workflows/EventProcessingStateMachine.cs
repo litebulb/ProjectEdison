@@ -151,10 +151,10 @@ namespace Edison.Workflows
                      EventClusterId = context.Data.EventClusterId,
                      ClosureDate = DateTime.UtcNow,
                      EndDate = DateTime.UtcNow.AddMinutes(_configWorkflow.EventClusterCooldown)
-                 }))//,
+                 })),
                 //Fault while creating/adding an event to cluster
-                // When(EventClusterCreateOrUpdateRequestedFault)
-                //.ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing---{context.Instance.CorrelationId}: !!FAULT!! Event Cluster: {context.Data.Message}")),
+                When(EventClusterCreateOrUpdateRequestedFault)
+                .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing---{context.Instance.CorrelationId}: !!FAULT!! Event Cluster: {context.Data.Message}"))
                 //UI Update acknoledgement - Disabled for performance improvement
                 //When(EventClusterUIUpdated)
                 //    .ThenAsync(context => Console.Out.WriteLineAsync($"EventProcessing---{context.Instance.CorrelationId}: UI Updated."))
@@ -169,6 +169,7 @@ namespace Edison.Workflows
 
         #region "Events"
         public Event<IEventClusterCreatedOrUpdated> EventClusterCreatedOrUpdated { get; private set; }
+        public Event<Fault<IEventClusterCreateOrUpdateRequested>> EventClusterCreateOrUpdateRequestedFault { get; private set; }
         public Event<IEventClusterClosed> EventClusterClosed { get; private set; }
 
         public Event<IEventSagaReceived> EventReceived { get; private set; }

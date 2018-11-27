@@ -39,13 +39,13 @@ namespace Edison.Core.Common
             long seconds = (long)reader.Value;
             //if (seconds == 0)
             //    return DateTime.MinValue;
-            return new DateTime(1970, 1, 1).AddSeconds(seconds);
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(seconds);
         }
 
         public ulong ToEpoch(DateTime date)
         {
             if (date == null) return ulong.MinValue;
-            DateTime epoch = new DateTime(1970, 1, 1);
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             TimeSpan epochTimeSpan = date - epoch;
             return (ulong)epochTimeSpan.TotalSeconds;
         }

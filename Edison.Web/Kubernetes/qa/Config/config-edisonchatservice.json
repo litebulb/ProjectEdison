@@ -73,7 +73,7 @@
     "RestServiceUrl": "http://edisonapi/api",
     "AzureAd": {
       "Instance": "https://login.microsoftonline.com/",
-      "ClientId": "2373be1e-6d0b-4e38-9115-e0bd01dadd61",
+      "ClientId": "570220f8-4a34-4a3b-b470-c6e84cd36f94",
       "ClientSecret": "USER_SECRET",
       "TenantId": "1114b48d-24b1-4492-970a-d07d610a741c"
     }

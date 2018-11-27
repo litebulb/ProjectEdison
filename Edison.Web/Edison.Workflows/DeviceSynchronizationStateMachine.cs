@@ -93,11 +93,15 @@ namespace Edison.Workflows
                 );
 
             //Stateless
-            //DuringAny(
+            DuringAny(
+                When(DeviceDeleteRequestedFault)
+                .ThenAsync(context => Console.Out.WriteLineAsync($"DeviceSynchronization---{context.Instance.CorrelationId}: !!FAULT!! Device Deleted: {context.Data.Message}")),
+                When(DeviceCreateOrUpdateRequestedFault)
+                .ThenAsync(context => Console.Out.WriteLineAsync($"DeviceSynchronization---{context.Instance.CorrelationId}: !!FAULT!! Device Updated: {context.Data.Message}"))
             //    //UI Update acknoledgement
             //    When(DeviceUIUpdated)
             //        .ThenAsync(context => Console.Out.WriteLineAsync($"DeviceSynchronization---{context.Instance.CorrelationId}: UI Updated."))
-            //    );
+                );
 
 
             //Delete persisted saga after completion
@@ -109,6 +113,8 @@ namespace Edison.Workflows
         #region "Events"
         public Event<IDeviceDeleted> EventDeviceDeleted { get; private set; }
         public Event<IDeviceCreatedOrUpdated> DeviceCreatedOrUpdated { get; private set; }
+        public Event<Fault<IDeviceDeleteRequested>> DeviceDeleteRequestedFault { get; private set; }
+        public Event<Fault<IDeviceCreateOrUpdateRequested>> DeviceCreateOrUpdateRequestedFault { get; private set; }
         public Event<IEventSagaReceivedDeviceChange> EventReceived { get; private set; }
         public Event<IDeviceUIUpdateRequested> DeviceUIUpdated { get; private set; }
         #endregion
