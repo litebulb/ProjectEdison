@@ -4,7 +4,7 @@
     <div class="name">{{userName}}</div>
 </div>
 <div class="response-container">
-    <div>
+    <div *ngIf="latestEventInstance && latestEventInstance.metadata">
         <div class="activity-reported">
             <div>Activity Reported:</div>
             <mat-form-field>

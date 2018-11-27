@@ -33,6 +33,9 @@ $icon-size: 36px;
     &.medium {
         @include iconSize(24px);
     }
+    &.large-medium {
+        @include iconSize(26px);
+    }
     &.large {
         @include iconSize(32px);
     }

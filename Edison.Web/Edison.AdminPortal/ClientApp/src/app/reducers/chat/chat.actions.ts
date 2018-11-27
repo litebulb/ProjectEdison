@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
+import { Action } from '@ngrx/store';
+
 import { Chat } from './chat.model';
 
 export enum ChatActionTypes {
@@ -21,7 +22,21 @@ export enum ChatActionTypes {
     SendNewMessage = '[Chat] Send New Message',
     EndConversation = '[Chat] End Conversation',
     ToggleAllUsersChatWindow = '[Chat] Toggle All Users Chat Window',
-    ToggleUserChatWindow = '[Chat] Toggle User Chat Window'
+    ToggleUserChatWindow = '[Chat] Toggle User Chat Window',
+    UpdateUserReadReceipt = '[Chat] Update User Read Receipt',
+    SendUserReadReceipt = '[Chat] Send User Read Receipt'
+}
+
+export class SendUserReadReceipt implements Action {
+    readonly type = ChatActionTypes.SendUserReadReceipt;
+
+    constructor (public payload: { userId: string, date: number }) { }
+}
+
+export class UpdateUserReadReceipt implements Action {
+    readonly type = ChatActionTypes.UpdateUserReadReceipt;
+
+    constructor (public payload: { userId: string, date: number }) { }
 }
 
 export class ToggleAllUsersChatWindow implements Action {
@@ -150,4 +165,6 @@ export type ChatActions =
     | SelectActiveConversation
     | EndConversation
     | ToggleAllUsersChatWindow
-    | ToggleUserChatWindow;
+    | ToggleUserChatWindow
+    | UpdateUserReadReceipt
+    | SendUserReadReceipt;

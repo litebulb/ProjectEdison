@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AppState } from '..';
-import { State, selectAll } from './chat.reducer';
+
+import { AppState } from '../';
 import { Chat } from './chat.model';
+import { selectAll, State } from './chat.reducer';
 
 const onlyUnique = (value, index, self) => {
     return self.indexOf(value.id) === index;
@@ -39,6 +40,7 @@ export const chatActiveUsersSelector = createSelector(
                 id: chat.channelData.data.from.id,
                 conversationId: chat.conversation.id,
                 name: chat.channelData.data.from.name,
+                reportType: chat.channelData.data.reportType
             }))
             .filter((chat, index, self) => self.findIndex(c => c.id === chat.id) === index)
 
@@ -62,6 +64,7 @@ const formatChatMessage = (chat: Chat, userId: string) => {
         id: chat.id,
         role: role.toLowerCase(),
         self: id === userId,
+        read: chat.read,
     }
 }
 

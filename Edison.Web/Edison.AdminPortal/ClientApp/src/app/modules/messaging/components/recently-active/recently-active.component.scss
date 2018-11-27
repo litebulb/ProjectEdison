@@ -1,55 +1,76 @@
 @import 'sizes';
-
+@import 'icons';
 :host {
-  max-width: 330px;
-  z-index: 2;
-  min-width: 330px;
-  -webkit-box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
-  padding-top: $topnav-height;
-  font-family: 'Rubik';
-  padding-left: 20px;
-
-  .header {
-    font-size: 20px;
-    margin-top: 60px;
-    color: #3e3d4a;
-    cursor: pointer;
-
-    &:hover {
-        text-transform: underline;
-        color: #3322ff;
+    max-width: 330px;
+    z-index: 2;
+    min-width: 330px;
+    -webkit-box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+    padding-top: $topnav-height;
+    font-family: 'Rubik';
+    padding-left: 20px;
+    .header {
+        font-size: 20px;
+        margin-top: 60px;
+        color: #3e3d4a;
+        cursor: pointer;
+        &:hover {
+            text-transform: underline;
+            color: #3322ff;
+        }
+        &.active {
+            color: #3322ff;
+        }
     }
-
-    &.active {
-        color: #3322ff;
-      }
-  }
-
-  .sub-header {
-    font-size: 10px;
-    color: #8886a0;
-    margin-top: 40px;
-  }
-
-  .people-container {
-    margin-top: 20px;
-
-    .person {
-      padding-left: 40px;
-      color: #3e3d4a;
-      margin-bottom: 10px;
-      cursor: pointer;
-
-      &:hover {
-        text-transform: underline;
-        color: #3322ff;
-      }
-
-      &.active {
-        color: #3322ff;
-      }
+    .sub-header {
+        font-size: 10px;
+        color: #8886a0;
+        margin-top: 40px;
     }
-  }
+    .people-container {
+        margin-top: 20px;
+        .person {
+            color: #3e3d4a;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            position: relative;
+            &:hover {
+                text-transform: underline;
+                color: #3322ff;
+            }
+            &.active {
+                color: #3322ff;
+            }
+            .icon-container {
+                min-width: 40px;
+                .action-plan-icon {
+                    width: 26px;
+                    height: 26px;
+                    min-width: 26px;
+                }
+            }
+            .unread {
+                height: 16px;
+                width: 28px;
+                border-radius: 5px;
+                background-color: #E0E0E6;
+                position: absolute;
+                right: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                >div {
+                    font-family: 'Rubik';
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #3E3D4A;
+                }
+            }
+        }
+    }
 }

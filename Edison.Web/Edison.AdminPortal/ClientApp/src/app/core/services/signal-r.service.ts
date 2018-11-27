@@ -1,27 +1,23 @@
-import { Injectable, OnDestroy } from '@angular/core'
-import { HubConnectionBuilder, HubConnection, LogLevel } from '@aspnet/signalr'
-import { environment } from '../../../environments/environment'
-import { SignalRTypes } from '../models/signalRTypes'
-import { Store, select } from '@ngrx/store'
-import { AppState } from '../../reducers'
-import { authTokenSelector } from '../../reducers/auth/auth.selectors'
+import { Subscription } from 'rxjs';
+
+import { Injectable, OnDestroy } from '@angular/core';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import { select, Store } from '@ngrx/store';
+
+import { environment } from '../../../environments/environment';
+import { AppState } from '../../reducers';
+import { authTokenSelector } from '../../reducers/auth/auth.selectors';
 import {
-    SignalRNewEvent,
-    SignalRUpdateEvent,
-    SignalRCloseEvent,
-} from '../../reducers/event/event.actions'
+    SignalRDeleteDevice, SignalRNewDevice, SignalRUpdateDevice
+} from '../../reducers/device/device.actions';
 import {
-    SignalRUpdateDevice,
-    SignalRNewDevice,
-    SignalRDeleteDevice,
-} from '../../reducers/device/device.actions'
-import { SignalRModels } from '../models/signalRModels'
+    SignalRCloseEvent, SignalRNewEvent, SignalRUpdateEvent
+} from '../../reducers/event/event.actions';
 import {
-    SignalRNewResponse,
-    SignalRUpdateResponse,
-    SignalRCloseResponse,
-} from '../../reducers/response/response.actions'
-import { Subscription } from 'rxjs'
+    SignalRCloseResponse, SignalRNewResponse, SignalRUpdateResponse
+} from '../../reducers/response/response.actions';
+import { SignalRModels } from '../models/signalRModels';
+import { SignalRTypes } from '../models/signalRTypes';
 
 @Injectable({
     providedIn: 'root',

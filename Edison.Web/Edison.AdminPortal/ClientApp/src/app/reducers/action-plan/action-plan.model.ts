@@ -70,20 +70,21 @@ export interface ActionPlanRadiusAction extends ActionPlanAction {
 }
 
 export type ActionPlanActionTypes =
+    | ActionPlanAction
     | ActionPlanNotificationAction
     | ActionPlanRadiusAction
     | ActionPlanTextAction
 
 export interface ActionPlan {
-    actionPlanId: string
-    name: string
-    description: string
-    isActive: true
-    acceptSafeStatus: boolean
-    primaryRadius: number
-    secondaryRadius: number
-    color: ActionPlanColor
-    icon: ActionPlanIcon
-    openActions?: ActionPlanAction[]
-    closeActions?: ActionPlanAction[]
+    actionPlanId: string;
+    name: string;
+    description: string;
+    isActive: true;
+    color: ActionPlanColor;
+    icon: ActionPlanIcon;
+    openActions?: ActionPlanActionTypes[];
+    closeActions?: ActionPlanActionTypes[];
+    primaryRadius: number;
+    secondaryRadius: number;
+    acceptSafeStatus: boolean;
 }

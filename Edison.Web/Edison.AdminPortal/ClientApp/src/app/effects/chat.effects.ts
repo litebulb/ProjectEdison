@@ -1,12 +1,18 @@
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { mergeMap, catchError, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+
 import { environment } from '../../environments/environment';
-import { ChatActionTypes, GetChatAuthTokenSuccess, GetChatAuthTokenError, SendNewMessage, EndConversation, ToggleAllUsersChatWindow, SelectActiveUser, ToggleUserChatWindow } from '../reducers/chat/chat.actions';
 import { DirectlineService } from '../core/services/directline/directline.service';
+import {
+    ChatActionTypes, EndConversation, GetChatAuthTokenError, GetChatAuthTokenSuccess,
+    SelectActiveUser, SendNewMessage, SendUserReadReceipt, ToggleAllUsersChatWindow,
+    ToggleUserChatWindow
+} from '../reducers/chat/chat.actions';
 
 @Injectable()
 export class ChatEffects {
@@ -32,12 +38,12 @@ export class ChatEffects {
         })
     )
 
-    @Effect({ dispatch: false })
-    sendNewMessage$: Observable<void> = this.actions$.pipe(
+    @Effect()
+    sendNewMessage$: Observable<Action> = this.actions$.pipe(
         ofType(ChatActionTypes.SendNewMessage),
         map(({ payload: { message, userId } }: SendNewMessage) => {
             this.directlineService.sendMessage(message, userId);
-            return null;
+            return new SendUserReadReceipt({ userId, date: new Date().getTime() / 1000 })
         })
     )
 
@@ -45,6 +51,15 @@ export class ChatEffects {
     openChatWindow$: Observable<Action> = this.actions$.pipe(
         ofType(ChatActionTypes.ToggleAllUsersChatWindow, ChatActionTypes.ToggleUserChatWindow),
         map(({ payload }: ToggleUserChatWindow) => new SelectActiveUser(payload))
+    )
+
+    @Effect({ dispatch: false })
+    sendUserReadReceipt$: Observable<void> = this.actions$.pipe(
+        ofType(ChatActionTypes.SendUserReadReceipt),
+        map(({ payload: { userId, date } }: SendUserReadReceipt) => {
+            this.directlineService.sendReadReceipt(userId, date);
+            return null;
+        })
     )
 
     constructor (private actions$: Actions,

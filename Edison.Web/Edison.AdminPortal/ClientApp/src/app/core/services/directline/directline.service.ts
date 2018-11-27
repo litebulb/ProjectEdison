@@ -1,19 +1,24 @@
-import { OnDestroy, Injectable } from '@angular/core';
-import { HttpClient, HttpBackend } from '@angular/common/http';
-import { Subscription, throwError, Observable, Subscriber, interval } from 'rxjs';
-import { TokenResponseModel } from './models/response-models/token-response.model';
-import { StartConversationResponseModel } from './models/response-models/start-conversation-response.model';
-import { ReconnectResponseModel } from './models/response-models/reconnect-response.model';
-import { ActivityModel, MessageModel } from './models/activity-model';
-import { SendActivityResponseModel } from './models/response-models/send-activity-response.model';
+import { interval, Observable, Subscriber, Subscription, throwError } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
+
+import { HttpBackend, HttpClient } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
+
+import { ActivityModel, MessageModel } from './models/activity-model';
 import { ActivitiesResponseModel } from './models/response-models/activities-response.model';
+import { ReconnectResponseModel } from './models/response-models/reconnect-response.model';
+import { SendActivityResponseModel } from './models/response-models/send-activity-response.model';
+import {
+    StartConversationResponseModel
+} from './models/response-models/start-conversation-response.model';
+import { TokenResponseModel } from './models/response-models/token-response.model';
 import { UserModel } from './models/user-model';
 
-enum CommandType {
+export enum DirectLineCommand {
     SendMessage = 'SendMessage',
     EndConversation = 'EndConversation',
-    GetTranscript = 'getTranscript'
+    GetTranscript = 'getTranscript',
+    ReadUserMessages = 'ReadUserMessages',
 }
 
 @Injectable({
@@ -63,15 +68,22 @@ export class DirectlineService implements OnDestroy {
     }
 
     endConversation(userId: string) {
-        this._sendCommand(CommandType.EndConversation, userId);
+        this._sendCommand(DirectLineCommand.EndConversation, userId);
     }
 
     sendMessage(message: string, sendToUserId: string) {
         this._sendMessage(message, sendToUserId);
     }
 
+    sendReadReceipt(userId: string, date: number) {
+        this._sendCommand(DirectLineCommand.ReadUserMessages, null, {
+            userId,
+            date: parseInt(date.toString(), 10)
+        })
+    }
+
     private _getTranscript() {
-        this._sendCommand(CommandType.GetTranscript);
+        this._sendCommand(DirectLineCommand.GetTranscript);
     }
 
     private _subscribeToMessages(streamUrl: string, subscriber) {
@@ -94,12 +106,12 @@ export class DirectlineService implements OnDestroy {
                 sub = interval(1000).subscribe(_ => this.socket.send(''));
                 subscriber.next();
             }
-        })
+        });
 
         this.socket.onclose = close => {
             if (sub) sub.unsubscribe();
             subscriber.error(close);
-        }
+        };
 
         return onOpen$;
     }
@@ -167,14 +179,14 @@ export class DirectlineService implements OnDestroy {
     }
 
     private _sendMessage(message: string, sendToUserId: string) {
-        this._sendActivity(CommandType.SendMessage, message, sendToUserId);
+        this._sendActivity(DirectLineCommand.SendMessage, message, sendToUserId);
     }
 
-    private _sendCommand(command: CommandType, sendToUserId?: string) {
-        this._sendActivity(command, null, sendToUserId);
+    private _sendCommand(command: DirectLineCommand, sendToUserId?: string, channelData?) {
+        this._sendActivity(command, null, sendToUserId, channelData);
     }
 
-    private _sendActivity(command: CommandType, message?: string, sendToUserId?: string) {
+    private _sendActivity(command: DirectLineCommand, message?: string, sendToUserId?: string, channelData?) {
         const { conversationId } = this.conversationToken;
         const activity: ActivityModel = {
             type: 'message',
@@ -185,7 +197,8 @@ export class DirectlineService implements OnDestroy {
                 data: {
                     from: this.user,
                     userId: sendToUserId,
-                },
+                    ...channelData,
+                }
             }
         }
 

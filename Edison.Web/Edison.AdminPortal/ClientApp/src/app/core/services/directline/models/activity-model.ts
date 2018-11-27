@@ -1,4 +1,4 @@
-import { UserModel } from "./user-model";
+import { UserModel } from './user-model';
 
 export interface IActivityModel {
     type: string,
@@ -7,6 +7,7 @@ export interface IActivityModel {
             from?: UserModel,
             reportType?: string,
             userId?: string,
+            date?: number
         },
         baseCommand: string,
     },
@@ -29,7 +30,8 @@ export interface MessageModel extends IActivityModel {
     // suggestedActions?: { actions: CardAction[], to?: string[] },
     speak?: string,
     inputHint?: string,
-    value?: object
+    value?: object,
+    read?: boolean,
 }
 
 export interface TypingModel extends IActivityModel {

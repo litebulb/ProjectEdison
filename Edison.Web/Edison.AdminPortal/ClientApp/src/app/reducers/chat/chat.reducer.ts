@@ -1,6 +1,7 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Chat } from './chat.model';
+import { createEntityAdapter, EntityAdapter, EntityState, Update } from '@ngrx/entity';
+
 import { ChatActions, ChatActionTypes } from './chat.actions';
+import { Chat } from './chat.model';
 
 export function sortByStartDate(a: Chat, b: Chat): number {
     return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
@@ -110,6 +111,23 @@ export function reducer(
                     message.channelData.data.userId === action.payload.userId)
                 .map(message => message.id);
             return adapter.removeMany(messagesToRemove, state);
+        }
+
+        case ChatActionTypes.UpdateUserReadReceipt: {
+            const updatedMessages: Update<Chat>[] = selectAll(state)
+                .filter(message => message.channelData.data.userId === action.payload.userId
+                    && new Date(message.timestamp).getTime() < new Date(action.payload.date * 1000).getTime())
+                .map(message => {
+                    return {
+                        id: message.id,
+                        changes: {
+                            ...message,
+                            read: true
+                        }
+                    }
+                });
+
+            return adapter.updateMany(updatedMessages, state);
         }
 
         default: {

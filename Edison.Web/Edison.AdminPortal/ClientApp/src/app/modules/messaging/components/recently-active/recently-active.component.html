@@ -4,5 +4,17 @@
 <div class="people-container">
     <div class="person"
          *ngFor="let user of activeUsers$ | async"
-         (click)="selectActiveUser(user)">{{user.name}}</div>
+         (click)="selectActiveUser(user)">
+        <div class="icon-container">
+            <div class="action-plan-icon"
+                 [ngClass]="getActionPlanIcon(user.id)"></div>
+        </div>
+        <div class="username">{{user.name}}</div>
+        <div class="unread"
+             *ngIf="getUnreadMessageCount(user.id) > 0">
+            <div>
+                {{getUnreadMessageCount(user.id)}}
+            </div>
+        </div>
+    </div>
 </div>

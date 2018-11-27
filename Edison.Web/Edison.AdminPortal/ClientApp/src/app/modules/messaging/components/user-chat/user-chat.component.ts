@@ -1,4 +1,5 @@
 import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -9,7 +10,7 @@ import { AppState } from '../../../../reducers';
 import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
 import { actionPlansSelector } from '../../../../reducers/action-plan/action-plan.selectors';
 import {
-    EndConversation, SendNewMessage, ToggleUserChatWindow
+    EndConversation, SendNewMessage, SendUserReadReceipt, ToggleUserChatWindow
 } from '../../../../reducers/chat/chat.actions';
 import { Message } from '../../../../reducers/chat/chat.model';
 import {
@@ -42,13 +43,26 @@ export class UserChatComponent implements OnInit, OnDestroy {
     constructor (private store: Store<AppState>, public dialog: MatDialog) { }
 
     ngOnInit() {
-        this.messagesSub$ = this.store.pipe(select(chatActiveMessagesSelector)).subscribe(messages => {
-            this.messages = messages;
-        });
-        this.activeUserId$ = this.store.pipe(select(chatActiveUserSelector)).subscribe(user => {
-            this.userId = user.userId;
-            this.userName = user.name;
-        });
+        this.messagesSub$ = this.store
+            .pipe(select(chatActiveMessagesSelector))
+            .subscribe(messages => {
+                if (!this.messages || this.messages.length < messages.length) {
+                    this.messages = messages;
+                    if (this.userId) {
+                        this.store.dispatch(new SendUserReadReceipt({ userId: this.userId, date: new Date().getTime() / 1000 }))
+                    }
+                }
+            });
+        this.activeUserId$ = this.store
+            .pipe(select(chatActiveUserSelector))
+            .subscribe(user => {
+                if (this.userId !== user.userId) {
+                    this.userId = user.userId;
+                    this.userName = user.name;
+
+                    this.store.dispatch(new SendUserReadReceipt({ userId: user.userId, date: new Date().getTime() / 1000 }))
+                }
+            });
         this.actionPlans$ = this.store.pipe(select(actionPlansSelector));
         this.activeMobileEvents$ = this.store
             .pipe(select(activeMobileEventsSelector))
@@ -56,7 +70,7 @@ export class UserChatComponent implements OnInit, OnDestroy {
                 this.event = events.find(event => event.events.some(ee => ee.metadata.userId === this.userId));
                 this.latestEventInstance = this.event.events
                     .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[ 0 ]
-            })
+            });
     }
 
     ngOnDestroy() {
@@ -107,7 +121,7 @@ export class UserChatComponent implements OnInit, OnDestroy {
         this.store.dispatch(new ShowActivateResponse({
             event: this.event,
             actionPlanId: this.latestEventInstance.metadata.reportType
-        }))
+        }));
         this.close();
     }
 

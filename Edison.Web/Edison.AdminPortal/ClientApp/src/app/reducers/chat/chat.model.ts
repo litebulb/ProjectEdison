@@ -1,6 +1,7 @@
-import { MessageModel } from "../../core/services/directline/models/activity-model";
+import { MessageModel } from '../../core/services/directline/models/activity-model';
 
 export interface Chat extends MessageModel {
+    read?: boolean;
 }
 
 export interface Message {
@@ -8,4 +9,5 @@ export interface Message {
     text: string;
     role: string;
     self: boolean;
+    read?: boolean;
 }

@@ -6,12 +6,15 @@ import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
 import { environment } from '../../../../../environments/environment';
-import { DirectlineService } from '../../../../core/services/directline/directline.service';
+import {
+    DirectLineCommand, DirectlineService
+} from '../../../../core/services/directline/directline.service';
 import { MessageModel } from '../../../../core/services/directline/models/activity-model';
 import { AppState } from '../../../../reducers';
 import { AppActionTypes, SetPageData } from '../../../../reducers/app/app.actions';
 import {
-    AddChat, ChatActionTypes, GetChatAuthToken, ToggleAllUsersChatWindow, ToggleUserChatWindow
+    AddChat, ChatActionTypes, GetChatAuthToken, ToggleAllUsersChatWindow, ToggleUserChatWindow,
+    UpdateUserReadReceipt
 } from '../../../../reducers/chat/chat.actions';
 import { chatAuthSelector } from '../../../../reducers/chat/chat.selectors';
 import { GetDevices } from '../../../../reducers/device/device.actions';
@@ -84,9 +87,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 filter(auth => auth.token !== null),
                 first(auth => auth.token !== null))
             .subscribe(auth => {
-                this.directlineService.connect(auth.token, auth.user).subscribe((chatMessage: MessageModel) => {
-                    this.store.dispatch(new AddChat({ chat: chatMessage }))
-                });
+                this.directlineService.connect(auth.token, auth.user)
+                    .subscribe((message: MessageModel) => {
+                        switch (message.channelData.baseCommand) {
+                            case DirectLineCommand.SendMessage:
+                                this.store.dispatch(new AddChat({ chat: message }))
+                                break;
+                            case DirectLineCommand.ReadUserMessages:
+                                console.log(message);
+                                if (message.channelData.data.userId) {
+                                    this.store.dispatch(new UpdateUserReadReceipt({ userId: message.channelData.data.userId, date: message.channelData.data.date }));
+                                }
+                                break;
+                        }
+                    });
             });
 
         this.combinedStream$ = combineLatest(

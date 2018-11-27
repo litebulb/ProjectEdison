@@ -4,6 +4,7 @@ export namespace SignalRTypes {
         Device = 'UpdateDeviceUI',
         Event = 'UpdateEventClusterUI',
         Response = 'UpdateResponseUI',
+        ReadUserMessages = 'ReadUserMessages',
     }
 
     export enum Event {
