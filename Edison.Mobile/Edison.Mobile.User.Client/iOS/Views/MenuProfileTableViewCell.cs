@@ -48,7 +48,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 avatarView = new CircleAvatarView
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    BackgroundColor = Constants.Color.LightGray,
+                    BackgroundColor = Constants.Color.MidGray,
                 };
 
                 avatarView.Layer.CornerRadius = avatarHeight / 2;

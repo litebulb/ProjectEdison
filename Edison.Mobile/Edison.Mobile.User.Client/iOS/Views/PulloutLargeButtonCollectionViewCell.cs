@@ -15,6 +15,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
         UIImageView assetImageView;
         UILabel titleLabel;
 
+        nfloat circleSize;
+
         NSLayoutConstraint widthConstraint;
 
         public PulloutLargeButtonCollectionViewCell(IntPtr handle) : base(handle) { }
@@ -27,9 +29,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
                 AddSubview(circleView);
 
+                circleSize = (UIScreen.MainScreen.Bounds.Width / 3f) - (2 * circleMargin);
+
                 circleView.CenterXAnchor.ConstraintEqualTo(ContentView.CenterXAnchor).Active = true;
                 circleView.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
-                widthConstraint = circleView.WidthAnchor.ConstraintEqualTo(ContentView.WidthAnchor, constant: -(2 * circleMargin));
+                widthConstraint = circleView.WidthAnchor.ConstraintEqualTo(circleSize);
                 widthConstraint.Active = true;
                 circleView.HeightAnchor.ConstraintEqualTo(circleView.WidthAnchor).Active = true;
 
@@ -71,9 +75,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
         public void SetPercentMinimized(nfloat percentMinimized) 
         {
-            var maximizedWidthConstant = -(2 * circleMargin);
-            var minimizedWidthConstant = ContentView.Frame.Width / 2;
-            widthConstraint.Constant = maximizedWidthConstant - (minimizedWidthConstant * percentMinimized);
+            var maximizedWidthConstant = 0;
+            var minimizedWidthConstant = circleSize / 1.5f;
+            var width = maximizedWidthConstant - (minimizedWidthConstant * percentMinimized);
+
+            widthConstraint.Constant = circleSize + width;
 
             titleLabel.Alpha = 1 - (percentMinimized * 2);
 

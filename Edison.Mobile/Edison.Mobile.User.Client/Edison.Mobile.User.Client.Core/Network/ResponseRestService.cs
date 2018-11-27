@@ -15,18 +15,6 @@ namespace Edison.Mobile.User.Client.Core.Network
 
         public async Task<IEnumerable<ResponseLightModel>> GetResponses()
         {
-            //return new List<ResponseLightModel>
-            //{
-            //    new ResponseLightModel
-            //    {
-            //        ResponseId = new Guid(),
-            //    },
-            //    new ResponseLightModel
-            //    {
-            //        ResponseId = new Guid(),
-            //    },
-            //};
-
             var request = PrepareRequest("Responses", Method.GET);
             var queryResult = await client.ExecuteGetTaskAsync<IEnumerable<ResponseLightModel>>(request);
             if (queryResult.IsSuccessful)
@@ -34,29 +22,13 @@ namespace Edison.Mobile.User.Client.Core.Network
                 return queryResult.Data;
             }
 
-            logger.Log($"Error getting responses. Response Status: {queryResult.ResponseStatus}, Error Message: {queryResult.ErrorMessage}");
+            logger.Log($"Error getting responses. Response Status: {queryResult.ResponseStatus}, Error Message: {queryResult.ErrorMessage}", LogLevel.Error);
 
             return null;
         }
 
         public async Task<ResponseModel> GetResponse(Guid responseId)
         {
-            //return new ResponseModel
-            //{
-            //    ActionPlan = new ResponseActionPlanModel
-            //    {
-            //        Color = "red",
-            //        Name = "Fire",
-            //        Description = "Pre-configured action plan for a fire",
-            //        Icon = "fire",
-            //    },
-            //    Geolocation = new Edison.Core.Common.Models.Geolocation
-            //    {
-            //        Latitude = 41.405372,
-            //        Longitude = 2.157819,
-            //    },
-            //};
-
             var request = PrepareRequest("Responses/{responseId}", Method.GET);
             request.AddUrlSegment("responseId", responseId);
 
@@ -66,7 +38,7 @@ namespace Edison.Mobile.User.Client.Core.Network
                 return queryResult.Data;
             }
 
-            logger.Log($"GetResponse: {queryResult.ResponseStatus}, {queryResult.ErrorMessage}");
+            logger.Log($"GetResponse: {queryResult.ResponseStatus}, {queryResult.ErrorMessage}", LogLevel.Error);
 
             return null;
         }
@@ -83,9 +55,25 @@ namespace Edison.Mobile.User.Client.Core.Network
                 return queryResult.Data;
             }
 
-            logger.Log($"Error getting response notifications. Response Status: {queryResult.ResponseStatus}, Error Message: {queryResult.ErrorMessage}");
+            logger.Log($"Error getting response notifications. Response Status: {queryResult.ResponseStatus}, Error Message: {queryResult.ErrorMessage}", LogLevel.Error);
 
             return null;
+        }
+
+        public async Task<bool> SendIsSafe(bool isSafe) 
+        {
+            var request = PrepareRequest("Responses/Safe", Method.PUT, new 
+            {
+                IsSafe = isSafe,
+            });
+
+            var queryResult = await client.ExecuteTaskAsync(request);
+            if (!queryResult.IsSuccessful) 
+            {
+                logger.Log($"Error sending is safe, {queryResult.ErrorMessage}", LogLevel.Error);
+            }
+
+            return queryResult.IsSuccessful;
         }
     }
 }

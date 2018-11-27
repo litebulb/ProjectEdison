@@ -338,6 +338,10 @@
     <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite.png" />
     <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%402x.png" />
     <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%403x.png" />
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck.png" />
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck%402x.png" />
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -381,6 +385,7 @@
     <Folder Include="Assets.xcassets\PackageRed.imageset\" />
     <Folder Include="Assets.xcassets\VIPBlue.imageset\" />
     <Folder Include="Assets.xcassets\VIPWhite.imageset\" />
+    <Folder Include="Assets.xcassets\PersonCheck.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -400,7 +405,7 @@
     <Compile Include="Views\MainPulloutView.cs" />
     <Compile Include="Views\PulloutLargeButtonCollectionViewCell.cs" />
     <Compile Include="Views\PulloutNeutralView.cs" />
-    <Compile Include="DataSources\PulloutMinimizedCollectionViewDataSource.cs" />
+    <Compile Include="DataSources\PulloutMinimizedCollectionViewSource.cs" />
     <Compile Include="Views\ChatViewController.cs" />
     <Compile Include="ViewControllers\ResponsesViewController.cs" />
     <Compile Include="ViewControllers\MenuViewController.cs" />

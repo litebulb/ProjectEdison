@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using Edison.Mobile.iOS.Common.Shared;
+using Edison.Mobile.User.Client.Core.Shared;
 using Edison.Mobile.User.Client.iOS.Shared;
 using Foundation;
 using UIKit;
@@ -16,21 +17,23 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
         PulloutState prevPulloutState = PulloutState.Neutral;
 
+        public event EventHandler<ChatPromptType> OnChatPromptActivated;
+
         public MainPulloutView(ChatViewController chatViewController)
         {
            this.chatViewController = chatViewController;
 
             Layer.MasksToBounds = false;
-            Layer.ShadowColor = Constants.Color.Black.CGColor;
+            Layer.ShadowColor = Shared.Constants.Color.Black.CGColor;
             Layer.ShadowOffset = new CGSize(2, 2);
             Layer.ShadowOpacity = 0.75f;
             Layer.ShadowRadius = 5;
-            Layer.CornerRadius = Constants.CornerRadius;
+            Layer.CornerRadius = Shared.Constants.CornerRadius;
 
             indicatorBarView = new UIView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                BackgroundColor = Constants.Color.BackgroundGray,
+                BackgroundColor = Shared.Constants.Color.BackgroundGray,
             };
 
             indicatorBarView.Layer.MasksToBounds = false;
@@ -38,24 +41,34 @@ namespace Edison.Mobile.User.Client.iOS.Views
 
             AddSubview(indicatorBarView);
             indicatorBarView.CenterXAnchor.ConstraintEqualTo(CenterXAnchor).Active = true;
-            indicatorBarView.TopAnchor.ConstraintEqualTo(TopAnchor, (Constants.PulloutTopBarHeight / 2) - (barSize.Height / 2)).Active = true;
+            indicatorBarView.TopAnchor.ConstraintEqualTo(TopAnchor, (Shared.Constants.PulloutTopBarHeight / 2) - (barSize.Height / 2)).Active = true;
             indicatorBarView.WidthAnchor.ConstraintEqualTo(barSize.Width).Active = true;
             indicatorBarView.HeightAnchor.ConstraintEqualTo(barSize.Height).Active = true;
 
-            pulloutNeutralView = new PulloutNeutralView(chatViewController.ViewModel.ChatPromptTypes) { TranslatesAutoresizingMaskIntoConstraints = false };
+            pulloutNeutralView = new PulloutNeutralView(chatViewController.ViewModel) { TranslatesAutoresizingMaskIntoConstraints = false };
             AddSubview(pulloutNeutralView);
-            pulloutNeutralView.TopAnchor.ConstraintEqualTo(TopAnchor, Constants.PulloutTopBarHeight).Active = true;
+            pulloutNeutralView.TopAnchor.ConstraintEqualTo(TopAnchor, Shared.Constants.PulloutTopBarHeight).Active = true;
             pulloutNeutralView.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
             pulloutNeutralView.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
-            pulloutNeutralView.HeightAnchor.ConstraintEqualTo(Constants.PulloutBottomMargin - Constants.PulloutTopBarHeight).Active = true;
+            pulloutNeutralView.HeightAnchor.ConstraintEqualTo(Shared.Constants.PulloutBottomMargin - Shared.Constants.PulloutTopBarHeight).Active = true;
 
             chatViewController.View.TranslatesAutoresizingMaskIntoConstraints = false;
             chatViewController.View.Alpha = 0;
             AddSubview(chatViewController.View);
-            chatViewController.View.TopAnchor.ConstraintEqualTo(TopAnchor, constant: Constants.PulloutTopBarHeight).Active = true;
+            chatViewController.View.TopAnchor.ConstraintEqualTo(TopAnchor, constant: Shared.Constants.PulloutTopBarHeight).Active = true;
             chatViewController.View.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
             chatViewController.View.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
-            chatViewController.View.HeightAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Height - Constants.PulloutTopMargin - Constants.PulloutTopBarHeight).Active = true;
+            chatViewController.View.HeightAnchor.ConstraintEqualTo(UIScreen.MainScreen.Bounds.Height - Shared.Constants.PulloutTopMargin - Shared.Constants.PulloutTopBarHeight).Active = true;
+
+            chatViewController.ViewModel.OnChatPromptActivated += HandleOnChatPromptActivated;
+        }
+
+        public override void MovedToWindow()
+        {
+            if (Window == null)
+            {
+                chatViewController.ViewModel.OnChatPromptActivated -= HandleOnChatPromptActivated;
+            }
         }
 
         public void SetPercentMaximized(nfloat maximizedPercent)
@@ -89,6 +102,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
             {
                 chatViewController.ChatDismissing();
             }
+        }
+
+        void HandleOnChatPromptActivated(object sender, ChatPromptType chatPromptType)
+        {
+            OnChatPromptActivated?.Invoke(this, chatPromptType);
         }
     }
 }

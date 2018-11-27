@@ -172,6 +172,8 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             responsesViewController.OnMenuTapped += OnMenuTapped;
             responsesViewController.OnViewResponseDetails += HandleOnViewResponseDetails;
             responsesViewController.OnDismissResponseDetails += HandleOnDismissResponseDetails;
+
+            pulloutView.OnChatPromptActivated += HandleOnChatPromptActivated;
         }
 
         protected override void UnBindEventHandlers()
@@ -181,6 +183,8 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             responsesViewController.OnMenuTapped -= OnMenuTapped;
             responsesViewController.OnViewResponseDetails -= HandleOnViewResponseDetails;
             responsesViewController.OnDismissResponseDetails -= HandleOnDismissResponseDetails;
+
+            pulloutView.OnChatPromptActivated -= HandleOnChatPromptActivated;
         }
 
         void HandleDimViewTap(UITapGestureRecognizer tapGestureRecognizer)
@@ -446,6 +450,14 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             AnimatePullout(PulloutState.Neutral);
             isPulloutInMinMode = false;
+        }
+
+        void HandleOnChatPromptActivated(object sender, Core.Shared.ChatPromptType e)
+        {
+            if (e == Core.Shared.ChatPromptType.Emergency || e == Core.Shared.ChatPromptType.ReportActivity) 
+            {
+                AnimatePullout(PulloutState.Maximized);
+            }
         }
 
         UISpringTimingParameters GetSpringTimingParameters(CGVector initialVelocity) => new UISpringTimingParameters(4.5f, 900f, 90f, initialVelocity);

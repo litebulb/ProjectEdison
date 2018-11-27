@@ -65,6 +65,7 @@ namespace Edison.Mobile.User.Client.iOS.Shared
             public static UIImage ChatBlue => UIImage.FromBundle("ChatBlue");
             public static UIImage PersonBlue => UIImage.FromBundle("PersonBlue");
             public static UIImage PersonWhite => UIImage.FromBundle("PersonWhite");
+            public static UIImage PersonCheckWhite => UIImage.FromBundle("PersonCheck");
             public static UIImage Logo => UIImage.FromBundle("Logo");
             public static UIImage Location => UIImage.FromBundle("Location");
             public static UIImage CloseX => UIImage.FromBundle("CloseX");

@@ -33,7 +33,7 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
                 case 0:
                     {
                         cell = tableView.DequeueReusableCell(typeof(MenuProfileTableViewCell).Name, indexPath) as MenuProfileTableViewCell;
-                        (cell as MenuProfileTableViewCell).Initialize(ViewModel?.ProfileName);
+                        (cell as MenuProfileTableViewCell).Initialize(ViewModel?.ProfileName, null, 12, ViewModel?.Initials);
                     }
                     break;
                 default:
