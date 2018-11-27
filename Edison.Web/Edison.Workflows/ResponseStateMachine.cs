@@ -32,6 +32,7 @@ namespace Edison.Workflows
             #region Initialization Events
             //Devices Updates
             Event(() => NewResponseCreated, x => x.CorrelateById(context => context.Message.ResponseModel.ResponseId));
+            Event(() => ResponseLocated, x => x.CorrelateById(context => context.Message.ResponseModel.ResponseId));
             //UI Update notification, can be ignored if saga doesn't exist anymore
             Event(() => ResponseActionsUpdated, x => x.CorrelateById(context => context.Message.ResponseId));
             Event(() => ResponseActionClosed, x => x.CorrelateById(context => context.Message.ResponseId));
