@@ -8,7 +8,7 @@ namespace Edison.Core.Common.Models
     public class ChatReportLogCloseModel
     {
         public string UserId { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime EndDate { get; set; }
     }
 }

@@ -17,8 +17,6 @@ namespace Edison.ChatService.Models
         public string UserId { get; set; }
         [JsonProperty(PropertyName = "from")]
         public ChatUserModel From { get; set; }
-        //[JsonProperty(PropertyName = "to")]
-        //public ChatUser To { get; set; }
         [JsonProperty(PropertyName = "reportType")]
         public Guid? ReportType { get; set; }
     }

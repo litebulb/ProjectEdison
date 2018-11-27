@@ -16,7 +16,7 @@ namespace Edison.ChatService.Models
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
         [JsonProperty(PropertyName = "date")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime Date { get; set; }
     }
 }

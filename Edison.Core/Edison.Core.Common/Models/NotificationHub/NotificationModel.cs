@@ -13,9 +13,9 @@ namespace Edison.Core.Common.Models
         public List<string> Tags { get; set; }
         public int Status { get; set; }
         public Guid NotificationId { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime CreationDate { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime UpdateDate { get; set; }
     }
 }

@@ -8,9 +8,9 @@ namespace Edison.Core.Common.Models
 {
     public class ReportCreationModel
     {
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime? MinimumDate { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime? MaximumDate { get; set; }
         public ReportCreationType Type { get; set; }
     }

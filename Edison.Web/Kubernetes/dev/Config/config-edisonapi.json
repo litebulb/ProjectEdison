@@ -54,7 +54,281 @@
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
       "emails",
       "preferred_username"
-    ]
+    ],
+	"ReportConfiguration": {
+      "DefaultWidth": 25,
+      "ResponseHeader": [
+        {
+          "RowIndex": 0,
+          "Columns": [
+            {
+              "ColumnIndex": 0,
+              "Value": "Response Type",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "White",
+                "FontWeight": "Bold"
+              }
+            },
+            {
+              "ColumnIndex": 1,
+              "Value": "{RESPONSETYPE}",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "Yellow"
+              }
+            },
+            {
+              "ColumnIndex": 2,
+              "Value": "Response Description",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "White",
+                "FontWeight": "Bold"
+              }
+            },
+            {
+              "ColumnIndex": 3,
+              "Value": "{RESPONSEDESCRIPTION}",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "Yellow"
+              }
+            },
+            {
+              "ColumnIndex": 4,
+              "Value": "Start Date",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "White",
+                "FontWeight": "Bold"
+              }
+            },
+            {
+              "ColumnIndex": 5,
+              "Value": "{CREATIONDATE}",
+              "Style": {
+                "DataFormat": "yyyy-dd-MM HH:mm:ss",
+                "HorizontalAlignment": "Left",
+                "BackgroundColor": "Black",
+                "FontColor": "Yellow"
+              }
+            },
+            {
+              "ColumnIndex": 6,
+              "Value": "End Date",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "White",
+                "FontWeight": "Bold"
+              }
+            },
+            {
+              "ColumnIndex": 7,
+              "Value": "{ENDDATE}",
+              "Style": {
+                "DataFormat": "yyyy-dd-MM HH:mm:ss",
+                "HorizontalAlignment": "Left",
+                "BackgroundColor": "Black",
+                "FontColor": "Yellow"
+              }
+            },
+            {
+              "ColumnIndex": 8,
+              "Value": "Primary Event Id",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "White",
+                "FontWeight": "Bold"
+              }
+            },
+            {
+              "ColumnIndex": 9,
+              "Value": "{PRIMARYEVENTCLUSTERID}",
+              "Style": {
+                "BackgroundColor": "Black",
+                "FontColor": "Yellow"
+              }
+            }
+          ]
+        }
+      ],
+      "EventsReport": [
+        {
+          "ColumnIndex": 0,
+          "Name": "eventDate",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Event Date",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold"
+          },
+          "RowStyle": {
+            "DataFormat": "yyyy-dd-MM HH:mm:ss",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 1,
+          "Name": "eventType",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Event Type",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 2,
+          "Name": "deviceType",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Device Type",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 3,
+          "Name": "deviceName",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Device Name",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 4,
+          "Name": "deviceLocation1",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Location 1",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 5,
+          "Name": "deviceLocation2",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Location 2",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 6,
+          "Name": "deviceLocation3",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Location 3",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 7,
+          "Name": "deviceGeolocationLon",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Longitude",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 8,
+          "Name": "deviceGeolocationLat",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Latitude",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 9,
+          "Name": "eventMetadata",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Metadata",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 10,
+          "Name": "eventClusterId",
+          "Width": 37,
+          "IsHidden": true,
+          "HeaderName": "Event Frequency ID",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        },
+        {
+          "ColumnIndex": 11,
+          "Name": "deviceId",
+          "Width": 37,
+          "IsHidden": true,
+          "HeaderName": "Device ID",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold",
+            "HorizontalAlignment": "Left"
+          }
+        }
+      ],
+      "UsersReport": [
+        {
+          "ColumnIndex": 0,
+          "Name": "userEmail",
+          "Width": 25,
+          "IsHidden": false,
+          "HeaderName": "Safe Users",
+          "HeaderStyle": {
+            "BackgroundColor": "Black",
+            "FontColor": "White",
+            "FontWeight": "Bold"
+          }
+        }
+      ]
+    }
   },
   "NotificationHub": {
     "PathName": "edisondevnotificationhub"

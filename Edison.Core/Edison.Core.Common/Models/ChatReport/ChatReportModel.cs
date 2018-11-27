@@ -12,7 +12,7 @@ namespace Edison.Core.Common.Models
         public string ChannelId { get; set; }
         public ChatUserModel User { get; set; }
         public List<ChatReportLogModel> ReportLogs { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime? EndDate { get; set; }
         public string ETag { get; set; }
     }

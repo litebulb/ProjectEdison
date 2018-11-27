@@ -8,9 +8,9 @@ namespace Edison.Core.Common.Models
     public class EventClusterCloseModel
     {
         public Guid EventClusterId { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime ClosureDate { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime EndDate { get; set; }
     }
 }

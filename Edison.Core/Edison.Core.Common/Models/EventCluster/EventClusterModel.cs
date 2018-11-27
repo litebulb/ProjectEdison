@@ -11,13 +11,13 @@ namespace Edison.Core.Common.Models
         public EventClusterDeviceModel Device { get; set; }
         public int EventCount { get; set; }
         public IEnumerable<EventModel> Events { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime StartDate { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime? ClosureDate { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime? EndDate { get; set; }
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        //[JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime UpdateDate { get; set; }
     }
 }

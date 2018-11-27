@@ -28,7 +28,7 @@
     "DeviceCertificatePassword": "Edison1234",
     "DeviceCertificateValidityDays": 365,
 	"DPSInstance": "global.azure-devices-provisioning.net",
-    "DPSIdScope": "0ne000318DA",
+    "DPSIdScope": "0ne00032F83",
     "SigningCertificates": [
       {
         "DeviceType": "Edison.Devices.ButtonSensor",
@@ -44,7 +44,7 @@
       }
     ]
   },
-  "KeyVaultAddress": "https://edisondevkeyvault.vault.azure.net/",
+  "KeyVaultAddress": "https://edisonqakeyvault.vault.azure.net/",
   "DefaultSecrets": {
     "PortalPassword": "Edison1234",
     "AccessPointSSID": "EDISON",
