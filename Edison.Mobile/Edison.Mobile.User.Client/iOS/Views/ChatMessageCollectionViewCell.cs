@@ -184,7 +184,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             }
 
             var isOutgoing = message.UserModel.Role == ChatUserRole.Consumer;
-            var isNewPrompt = message.IsNewActionPlan;
+            var isNewActopmPlanPrompt = message.IsNewActionPlan && message.ActionPlan != null;
             var topViewHeight = smallerCircleSize;
             var bottomViewheight = 13;
 
@@ -194,19 +194,19 @@ namespace Edison.Mobile.User.Client.iOS.Views
             messageLabel.Text = message.Text;
             speakerAvatarView.Initials = isOutgoing ? initials : string.Empty;
 
-            topViewHeightConstraint.Constant = isNewPrompt ? topViewHeight : 0;
-            bottomViewHeightConstraint.Constant = isNewPrompt ? bottomViewheight : 0;
+            topViewHeightConstraint.Constant = isNewActopmPlanPrompt ? topViewHeight : 0;
+            bottomViewHeightConstraint.Constant = isNewActopmPlanPrompt ? bottomViewheight : 0;
 
-            bottomViewTopAnchorConstraint.Constant = isNewPrompt ? padding : 0;
-            messageLabelTopAnchorConstraint.Constant = isNewPrompt ? padding : 0;
+            bottomViewTopAnchorConstraint.Constant = isNewActopmPlanPrompt ? padding : 0;
+            messageLabelTopAnchorConstraint.Constant = isNewActopmPlanPrompt ? padding : 0;
 
-            bottomViewRightAnchorConstraint.Active = isNewPrompt;
-            topViewRightAnchorConstraint.Active = isNewPrompt;
+            bottomViewRightAnchorConstraint.Active = isNewActopmPlanPrompt;
+            topViewRightAnchorConstraint.Active = isNewActopmPlanPrompt;
 
             leftTriangleView.Hidden = isOutgoing;
             rightTriangleView.Hidden = !isOutgoing;
 
-            if (isNewPrompt && message.ActionPlan != null)
+            if (isNewActopmPlanPrompt && message.ActionPlan != null)
             {
                 foreach (var v in topView.Subviews) { v.RemoveFromSuperview(); }
 

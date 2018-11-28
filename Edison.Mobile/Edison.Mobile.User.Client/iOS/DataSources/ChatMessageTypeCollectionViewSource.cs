@@ -26,14 +26,10 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
             get => selectedActionPlan;
             set 
             {
+
                 selectedActionPlan = value;
-                var index = ActionPlans.IndexOf(selectedActionPlan);
-                if (index > -1) 
-                {
-                    var indexPath = NSIndexPath.FromItemSection(index, 0);
-                    CollectionView.TryGetTarget(out var collectionView);
-                    InvokeOnMainThread(() => collectionView.ReloadSections(NSIndexSet.FromIndex(0)));
-                }
+                CollectionView.TryGetTarget(out var collectionView);
+                InvokeOnMainThread(() => collectionView.ReloadSections(NSIndexSet.FromIndex(0)));
             }
         }
 

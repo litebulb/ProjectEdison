@@ -104,7 +104,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
         {
             if (chatPromptType == ChatPromptType.SafetyCheck) 
             {
-                ChatViewModel.IsSafe = !ChatViewModel.IsSafe;
+                //ChatViewModel.IsSafe = !ChatViewModel.IsSafe;
             }
         }
 

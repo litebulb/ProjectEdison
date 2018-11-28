@@ -66,7 +66,11 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
 
             WeakCollectionView.TryGetTarget(out var collectionView);
             var cell = collectionView.CellForItem(NSIndexPath.FromItemSection(2, 0)) as PulloutLargeButtonCollectionViewCell;
-            cell.Initialize(Shared.Constants.Color.Blue, Shared.Constants.Assets.PersonCheckWhite, "I'm Safe");
+            cell.Initialize(
+                isSafe ? Shared.Constants.Color.Green : Shared.Constants.Color.BackgroundGray, 
+                isSafe ? Shared.Constants.Assets.PersonCheckWhite : Shared.Constants.Assets.PersonBlue, 
+                "I'm Safe"
+            );
         }
 
         public void UnbindEventHandlers() 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreGraphics;
+using Edison.Core.Common.Models;
 using Edison.Mobile.iOS.Common.Views;
 using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.iOS.DataSources;
@@ -212,9 +213,9 @@ namespace Edison.Mobile.User.Client.iOS.Views
             ViewModel.BeginConversationWithActionPlan(e.SelectedActionPlan);
         }
 
-        void HandleOnCurrentActionPlanChanged(object sender, EventArgs e)
+        void HandleOnCurrentActionPlanChanged(object sender, ActionPlanListModel actionPlan)
         {
-            chatMessageTypeCollectionViewSource.SelectedActionPlan = ViewModel.CurrentActionPlan;
+            chatMessageTypeCollectionViewSource.SelectedActionPlan = actionPlan;
         }
 
         async void HandleSendButtonTouchUpInside(object sender, EventArgs e)

@@ -68,11 +68,11 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             set 
             {
                 currentActionPlan = value;
-                OnCurrentActionPlanChanged?.Invoke(this, new EventArgs());
+                OnCurrentActionPlanChanged?.Invoke(this, currentActionPlan);
             }
         }
 
-        public event EventHandler<EventArgs> OnCurrentActionPlanChanged;
+        public event EventHandler<ActionPlanListModel> OnCurrentActionPlanChanged;
         public event EventHandler<ChatPromptType> OnChatPromptActivated;
         public event EventHandler<bool> OnIsSafeChanged;
 
@@ -262,7 +262,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                                     Text = activity.Text,
                                     UserModel = sendMessageProperties.From,
                                     ActionPlan = actionPlan,
-                                    IsNewActionPlan = CurrentActionPlan != null && previousActionPlan != CurrentActionPlan,
+                                    IsNewActionPlan = isMyChatId && CurrentActionPlan != null && previousActionPlan != CurrentActionPlan,
                                 });
                             }
                         }
@@ -303,6 +303,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     if (isEndingConversation)
                     {
                         isInConversation = false;
+                        CurrentActionPlan = null;
                     }
                 }
                 catch (Exception e)
