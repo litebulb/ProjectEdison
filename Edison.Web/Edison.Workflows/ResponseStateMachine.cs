@@ -66,7 +66,7 @@ namespace Edison.Workflows
                         }
                     }))
                     //Run open actions
-                     .ThenAsync(context => context.Data.ResponseModel.ActionPlan.OpenActions.Where(p => !p.RequiresLocation && (context.Data.ResponseModel.Geolocation != null && p.RequiresLocation))
+                     .ThenAsync(context => context.Data.ResponseModel.ActionPlan.OpenActions.Where(p => !p.RequiresLocation || (context.Data.ResponseModel.Geolocation != null && p.RequiresLocation))
                      .TaskForEach(action => context.Publish(
                         new ActionEvent()
                         {
