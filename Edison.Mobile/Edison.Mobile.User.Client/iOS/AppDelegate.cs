@@ -17,6 +17,8 @@ using Microsoft.Identity.Client;
 using UIKit;
 using WindowsAzure.Messaging;
 
+using SharedConstants = Edison.Mobile.User.Client.Core.Shared.Constants;
+
 namespace Edison.Mobile.User.Client.iOS
 {
     [Register("AppDelegate")]
@@ -54,7 +56,7 @@ namespace Edison.Mobile.User.Client.iOS
 
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            Hub = new SBNotificationHub(Shared.Constants.ListenConnectionString, Shared.Constants.NotificationHubName);
+            Hub = new SBNotificationHub(SharedConstants.ListenConnectionString, SharedConstants.NotificationHubName);
 
             Hub.UnregisterAllAsync(deviceToken, async (error) =>
             {

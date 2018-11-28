@@ -3,6 +3,10 @@ namespace Edison.Mobile.User.Client.Core.Shared
 {
     public static class Constants
     {
+
+        public static readonly string ListenConnectionString = "Endpoint=sb://edisondev.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=CNCM1xn79hHuUUj6GiAct1JJe5kdzGuPmzBOaVoSGsA=";
+        public static readonly string NotificationHubName = "edisondevnotificationhub";
+
         public static int UpdateLocationTimerInterval { get; } = 10000;
 
         public static class ColorName

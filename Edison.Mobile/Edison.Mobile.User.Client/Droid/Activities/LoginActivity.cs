@@ -23,6 +23,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
     public class LoginActivity : BaseActivity<LoginViewModel>
     {
         Button signInButton;
+        
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

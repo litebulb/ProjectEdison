@@ -1,7 +1,5 @@
 ﻿using Android.App;
-using Android.Graphics;
 using Android.OS;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Edison.Mobile.Android.Common;
@@ -11,8 +9,9 @@ using Edison.Mobile.User.Client.Droid.Shared;
 using Android.Support.Animation;
 using System;
 
+
 namespace Edison.Mobile.User.Client.Droid.Activities
-{
+{       
     [Activity(Theme = "@android:style/Theme.NoTitleBar")]
     public class MainActivity : BaseActivity<MainViewModel>, View.IOnTouchListener
     {
@@ -52,12 +51,35 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             var pulloutViewLayoutParms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             pulloutViewLayoutParms.AddRule(LayoutRules.AlignEnd, relativeLayout.Id);
             pulloutView.LayoutParameters = pulloutViewLayoutParms;
+            
+            SetContentView(relativeLayout);
+            CreateNotificationChannel();
 
             pulloutView.SetOnTouchListener(this);
+        }
+                
 
-            relativeLayout.AddView(pulloutView);
+        void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification
+                // channel on older versions of Android.
+                return;
+            }
 
-            SetContentView(relativeLayout);
+            var name = "Local Notifications";
+            var description = "The count from MainActivity.";
+            var channel = new NotificationChannel(Constants.CHANNEL_ID, name, NotificationImportance.Default)
+            {
+                Description = description
+            };
+
+
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+
         }
 
         public bool OnTouch(View v, MotionEvent e)

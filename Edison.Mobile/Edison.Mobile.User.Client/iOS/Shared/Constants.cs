@@ -9,8 +9,6 @@ namespace Edison.Mobile.User.Client.iOS.Shared
         //public static readonly string ClientId = "fc3bf201-80f6-404d-9a70-8c19b8774a8b"; // edison ios user 
         public static readonly string ClientId = "19cb746c-3066-4cd8-8cd2-e0ce1176ae33";
 
-        public static readonly string ListenConnectionString = "Endpoint=sb://edisondev.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=CNCM1xn79hHuUUj6GiAct1JJe5kdzGuPmzBOaVoSGsA=";
-        public static readonly string NotificationHubName = "edisondevnotificationhub";
 
         public static nfloat PulloutTopMargin { get; set; }
         public static nfloat PulloutBottomMargin { get; set; }

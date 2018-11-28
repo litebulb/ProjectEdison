@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.Common", "Edison.Mobile.Common\Edison.Mobile.Common.csproj", "{2EC1B495-F342-42B5-9792-4A6AE5E764CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Mobile.Common", "Edison.Mobile.Common\Edison.Mobile.Common.csproj", "{2EC1B495-F342-42B5-9792-4A6AE5E764CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Admin", "Admin", "{72387AFA-6771-4F82-B7E4-9FED92C7D4BB}"
 EndProject
@@ -16,9 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.User.Client.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.User.Client.iOS", "..\Edison.Mobile.User.Client\iOS\Edison.Mobile.User.Client.iOS.csproj", "{7C8A411D-413E-4BC5-9493-0B3D2FAEA26F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.Admin.Client.Core", "..\Edison.Mobile.Admin.Client\Edison.Mobile.Admin.Client.Core\Edison.Mobile.Admin.Client.Core.csproj", "{50AE3418-3E4F-44BF-BF13-94372085A4D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Mobile.Admin.Client.Core", "..\Edison.Mobile.Admin.Client\Edison.Mobile.Admin.Client.Core\Edison.Mobile.Admin.Client.Core.csproj", "{50AE3418-3E4F-44BF-BF13-94372085A4D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.User.Client.Core", "..\Edison.Mobile.User.Client\Edison.Mobile.User.Client.Core\Edison.Mobile.User.Client.Core.csproj", "{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Mobile.User.Client.Core", "..\Edison.Mobile.User.Client\Edison.Mobile.User.Client.Core\Edison.Mobile.User.Client.Core.csproj", "{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.iOS.Common", "Edison.Mobile.iOS.Common\Edison.Mobile.iOS.Common.csproj", "{52DCB616-8D77-4CEB-AFAF-8CD935513BD5}"
 EndProject
@@ -28,9 +28,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Mobile.Android.Commo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Edison.Common", "Edison.Common", "{BB852809-AD3E-41E6-8B61-D89E27514B4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Core.Common", "..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj", "{3A1C71AF-E551-498A-BF79-C84D4E741F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Core.Common", "..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj", "{3A1C71AF-E551-498A-BF79-C84D4E741F83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Core.ApiRestClient", "..\..\Edison.Core\Edison.Core.ApiRestClient\Edison.Core.ApiRestClient.csproj", "{B0BDB942-7BE5-4F71-8F80-4B7CEEFE249E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Core.ApiRestClient", "..\..\Edison.Core\Edison.Core.ApiRestClient\Edison.Core.ApiRestClient.csproj", "{B0BDB942-7BE5-4F71-8F80-4B7CEEFE249E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +130,7 @@ Global
 		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Android User|iPhoneSimulator.Deploy.0 = Android User|iPhoneSimulator
 		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{B6BB24BF-FC1A-4C07-AEE5-560F823AA9CF}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU

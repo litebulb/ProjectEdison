@@ -46,9 +46,10 @@ namespace Edison.Mobile.Android.Common.Geolocation
             {
                 return true;
             }
-
+                        
             ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, 0);
-            return false;
+
+            return await Task.FromResult(ContextCompat.CheckSelfPermission(locationProvider.ApplicationContext, permission) == Permission.Granted);            
         }
 
 

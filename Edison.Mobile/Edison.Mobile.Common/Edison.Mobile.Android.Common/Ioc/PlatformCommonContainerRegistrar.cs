@@ -22,7 +22,10 @@ namespace Edison.Mobile.Android.Common.Ioc
 
         public void Register(ContainerBuilder builder)
         {
-            builder.Register(i => new LocationService(this.mainActivity))
+            builder.RegisterInstance<Activity>(this.mainActivity)
+                .SingleInstance();
+
+            builder.RegisterType<LocationService>()
                    .As<ILocationService>()
                    .SingleInstance();
 

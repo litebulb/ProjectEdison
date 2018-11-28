@@ -6,6 +6,12 @@ namespace Edison.Mobile.User.Client.Droid.Shared
     {
         public static string ClientId = "64531b8c-3d22-4c2a-8d72-bf37c8609fbe";
 
+        static readonly string TAG = "MainActivity";
+
+        internal static readonly string CHANNEL_ID = "my_notification_channel";
+        internal static readonly int NOTIFICATION_ID = 100;
+
+
         public static readonly float PulloutTopMargin = 80;
         public static readonly float PulloutBottomMargin = 180;
         public static readonly float PulloutVelocityThreshold = 200;

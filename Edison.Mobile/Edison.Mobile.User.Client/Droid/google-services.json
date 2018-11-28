@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "134900854580",
+    "firebase_url": "https://edisondev-d43a6.firebaseio.com",
+    "project_id": "edisondev-d43a6",
+    "storage_bucket": "edisondev-d43a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134900854580:android:27320ebde5d9dd49",
+        "android_client_info": {
+          "package_name": "com.bluemetal.Edison_Mobile_User_Client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134900854580-uaasfk1pgcrrpi70uighadmnqabdkm1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD22V6ooDqRfTmGWwy6484xG9gQMnWboec"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

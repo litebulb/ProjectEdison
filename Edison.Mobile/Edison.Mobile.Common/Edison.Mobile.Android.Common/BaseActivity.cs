@@ -1,13 +1,15 @@
 ﻿using Android.App;
 using Android.Graphics;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Views;
 using Autofac;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Shared;
 
 namespace Edison.Mobile.Android.Common
-{
+{ 
+
     public class BaseActivity<T> : Activity, ViewTreeObserver.IOnGlobalLayoutListener where T : BaseViewModel
     {
         T viewModel;
