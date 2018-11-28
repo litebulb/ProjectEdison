@@ -130,13 +130,6 @@ namespace Edison.ResponseService.Consumers
                     }
                     else
                     {
-                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
-                        {
-                            ResponseId = context.Message.ResponseId,
-                            ActionId = context.Message.ActionId,
-                            IsSuccessful = false,
-                            ErrorMessage = "Desired properties not applied properly."
-                        });
                         _logger.LogError("ResponseActionLightSensorEventConsumer: Desired properties not applied properly.");
                         throw new Exception("Desired properties not applied properly.");
                     }
@@ -144,6 +137,12 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
+                await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                {
+                    ResponseId = context.Message.ResponseId,
+                    ActionId = context.Message.ActionId,
+                    IsSuccessful = false
+                });
                 _logger.LogError($"ResponseActionLightSensorEventConsumer: {e.Message}");
                 throw e;
             }
