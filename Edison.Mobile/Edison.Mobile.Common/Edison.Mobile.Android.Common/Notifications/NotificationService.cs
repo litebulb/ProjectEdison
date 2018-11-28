@@ -25,7 +25,7 @@ namespace Edison.Mobile.Android.Common.Notifications
             return Task.FromResult<bool>(true);
         }
 
-        public Task<DeviceMobileModel> RegisterForNotifications(DeviceRegistrationModel deviceRegistrationModel)
+        public Task<bool> RegisterForNotifications(DeviceRegistrationModel deviceRegistrationModel)
         {
             return notificationRestService.Register(deviceRegistrationModel);
         }
