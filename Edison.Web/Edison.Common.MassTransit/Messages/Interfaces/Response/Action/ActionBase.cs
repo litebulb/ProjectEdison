@@ -11,6 +11,7 @@ namespace Edison.Common.Messages
             Action = model;
             IsCloseAction = isCloseAction;
         }
+        public Guid ActionCorrelationId { get; set; }
         public Guid ActionId { get { return Action.ActionId; } }
         public Guid ResponseId { get; set; }
         public bool IsCloseAction { get; set; }

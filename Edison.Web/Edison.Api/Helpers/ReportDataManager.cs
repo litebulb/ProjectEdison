@@ -15,6 +15,9 @@ using Edison.Api.Config;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for Audit and report generation
+    /// </summary>
     public class ReportDataManager
     {
         private readonly WebApiOptions _config;
@@ -25,6 +28,9 @@ namespace Edison.Api.Helpers
         private readonly Dictionary<string, int> _mappingConversationColumns;
         private readonly Dictionary<string, int> _mappingEventColumns;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public ReportDataManager(IOptions<WebApiOptions> config,
             ICosmosDBRepository<ResponseDAO> repoResponses, 
             ICosmosDBRepository<EventClusterDAO> repoEventClusters,
@@ -40,7 +46,12 @@ namespace Edison.Api.Helpers
             _mappingEventColumns = new Dictionary<string, int>();
             SetupMappingTable();
         }
-        
+
+        /// <summary>
+        /// Generate a report
+        /// </summary>
+        /// <param name="reportRequest">ReportCreationModel</param>
+        /// <returns>XLSX data</returns>
         public async Task<byte[]> GetReport(ReportCreationModel reportRequest)
         {
             byte[] export = null;
@@ -68,6 +79,13 @@ namespace Edison.Api.Helpers
             return export;
         }
 
+        /// <summary>
+        /// Generate a report of events
+        /// </summary>
+        /// <param name="workbook">Workbook</param>
+        /// <param name="requestedMinDate">Filter minimum date</param>
+        /// <param name="requestedMaxDate">Filter maximum date</param>
+        /// <returns>Task</returns>
         private async Task GenerateEventsReport(IWorkbook workbook, DateTime? requestedMinDate, DateTime? requestedMaxDate)
         {
             //Retrieve responses
@@ -80,6 +98,13 @@ namespace Edison.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Generate a report of responses
+        /// </summary>
+        /// <param name="workbook">Workbook</param>
+        /// <param name="requestedMinDate">Filter minimum date</param>
+        /// <param name="requestedMaxDate">Filter maximum date</param>
+        /// <returns>Task</returns>
         private async Task GenerateResponsesReport(IWorkbook workbook, DateTime? requestedMinDate, DateTime? requestedMaxDate)
         {
             //Retrieve responses
@@ -116,6 +141,13 @@ namespace Edison.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Generate the header of a response sheet
+        /// </summary>
+        /// <param name="workbook">Workbook</param>
+        /// <param name="sheet">Sheet</param>
+        /// <param name="rowStartIndex">Starting row</param>
+        /// <param name="response">Response object</param>
         private void GenerateResponseHeaderReport(IWorkbook workbook, ISheet sheet, int rowStartIndex, ResponseDAO response)
         {
             List<ReportResponseHeaderRowOptions> responseHeaders = _config.ReportConfiguration.ResponseHeader;
@@ -137,6 +169,12 @@ namespace Edison.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Generate the events report
+        /// </summary>
+        /// <param name="sheet">Sheet</param>
+        /// <param name="rowStartIndex">Starting row</param>
+        /// <param name="eventClusters">List of Event Clusters</param>
         private void GenerateEventsReport(ISheet sheet, int rowStartIndex, IEnumerable<EventClusterDAO> eventClusters)
         {
             Dictionary<string, XSSFCellStyle> rowCellStyles = SetupRowStyles(sheet.Workbook, _config.ReportConfiguration.EventsReport);
@@ -169,6 +207,12 @@ namespace Edison.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Generate a user safe list
+        /// </summary>
+        /// <param name="sheet">Sheet</param>
+        /// <param name="rowStartIndex">Starting row</param>
+        /// <param name="userSafeList">List of user safe</param>
         private void GenerateUserSafeListReport(ISheet sheet, int rowStartIndex, IEnumerable<string> userSafeList)
         {
             Dictionary<string, XSSFCellStyle> rowCellStyles = SetupRowStyles(sheet.Workbook, _config.ReportConfiguration.UsersReport);
@@ -188,6 +232,14 @@ namespace Edison.Api.Helpers
         }
 
         #region Utility Methods
+        /// <summary>
+        /// Set the value of a cell
+        /// </summary>
+        /// <param name="row">Row</param>
+        /// <param name="cellIndex">Index of the cell in the sheet</param>
+        /// <param name="value">Value of the cell</param>
+        /// <param name="cellStyle">Style of the cell</param>
+        /// <param name="dataType">DataType</param>
         private void SetCellValue(IRow row, int cellIndex, object value, XSSFCellStyle cellStyle, ReportDataType dataType = ReportDataType.Text)
         {
             ICell cell = row.CreateCell(cellIndex);
@@ -215,6 +267,12 @@ namespace Edison.Api.Helpers
             cell.CellStyle = cellStyle;
         }
 
+        /// <summary>
+        /// Generate columns and styles for a sheet
+        /// </summary>
+        /// <param name="sheet">Sheet</param>
+        /// <param name="rowIndex">Index of the row</param>
+        /// <param name="columnsOptions">List of ReportColumnOptions</param>
         private void SetupColumns(ISheet sheet, int rowIndex, IEnumerable<ReportColumnOptions> columnsOptions)
         {
             IWorkbook workbook = sheet.Workbook;
@@ -240,6 +298,12 @@ namespace Edison.Api.Helpers
             sheet.SetAutoFilter(new CellRangeAddress(rowIndex, rowIndex, 0, columnsOptions.Count() - 1));
         }
 
+        /// <summary>
+        /// Get a specific cell style
+        /// </summary>
+        /// <param name="workbook">Workbook</param>
+        /// <param name="reportStyle">ReportStyleCell</param>
+        /// <returns>XSSFCellStyle</returns>
         private XSSFCellStyle GetStyle(IWorkbook workbook, ReportStyleCell reportStyle)
         {
             ICreationHelper creationHelper = workbook.GetCreationHelper();
@@ -279,6 +343,9 @@ namespace Edison.Api.Helpers
             return cellStyle;
         }
 
+        /// <summary>
+        /// One time setup of the maping time, to map a column name to an index
+        /// </summary>
         private void SetupMappingTable()
         {
             _mappingConversationColumns.Clear();
@@ -301,6 +368,12 @@ namespace Edison.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Generate rows and styles for a sheet
+        /// </summary>
+        /// <param name="workbook">Workbook</param>
+        /// <param name="columnsOptions">List of ReportColumnOptions</param>
+        /// <returns>Dictionary of XSSFCellStyle</returns>
         private Dictionary<string, XSSFCellStyle> SetupRowStyles(IWorkbook workbook, IEnumerable<ReportColumnOptions> columnsOptions)
         {
             if (columnsOptions == null)
@@ -318,6 +391,14 @@ namespace Edison.Api.Helpers
             return output;
         }
 
+        /// <summary>
+        /// Get a list of data object from one starting date to another
+        /// </summary>
+        /// <typeparam name="T">Type of the repository</typeparam>
+        /// <param name="repository">ICosmosDBRepository object</param>
+        /// <param name="minDate">Minimum date</param>
+        /// <param name="maxDate">Maximum date</param>
+        /// <returns>List of repository objects</returns>
         private async Task<IEnumerable<T>> GetListBetweenDates<T>(ICosmosDBRepository<T> repository, DateTime? minDate, DateTime? maxDate) where T : IEntityDAO
         {
             var results = await repository.GetItemsAsync(p =>
@@ -326,6 +407,11 @@ namespace Edison.Api.Helpers
             return results;
         }
 
+        /// <summary>
+        /// Get a calculated value of a row size
+        /// </summary>
+        /// <param name="width">Size in pixels</param>
+        /// <returns>Actual size</returns>
         private int GetColumnWidth(int width)
         {
             if (width > 254)
@@ -341,6 +427,12 @@ namespace Edison.Api.Helpers
                 return 450; // default to column size 1 if zero, one or negative number is passed. 
         }
 
+        /// <summary>
+        /// Map a header key to its actual value
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="response">Response object</param>
+        /// <returns>Value</returns>
         private object GetResponseHeaderValue(string key, ResponseDAO response)
         {
             switch (key)

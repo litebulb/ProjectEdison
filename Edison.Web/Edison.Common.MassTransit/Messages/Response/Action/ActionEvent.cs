@@ -6,6 +6,7 @@ namespace Edison.Common.Messages
 {
     public class ActionEvent : IActionEvent
     {
+        public Guid ActionCorrelationId { get; set; }
         public Guid ResponseId { get; set; }
         public Guid ActionId { get; set; }
         public ResponseActionModel Action { get; set; }

@@ -4,6 +4,9 @@ using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Helper class to calculate if a point is within a specific radius
+    /// </summary>
     public static class RadiusHelper
     {
         private const double EARTH_RADIUS_KM = 6371;

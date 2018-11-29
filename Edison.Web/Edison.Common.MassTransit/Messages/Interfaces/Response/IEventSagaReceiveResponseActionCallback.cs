@@ -6,6 +6,7 @@ namespace Edison.Common.Messages.Interfaces
 {
     public interface IEventSagaReceiveResponseActionCallback : IMessage
     {
+        Guid ActionCorrelationId { get; set; }
         Guid ResponseId { get; set; }
         Guid ActionId { get; set; }
         ActionStatus Status { get; set; }

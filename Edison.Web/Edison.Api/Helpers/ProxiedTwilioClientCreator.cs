@@ -2,13 +2,15 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using Edison.Api.Config;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Twilio.Clients;
+using Edison.Api.Config;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for Twilio service
+    /// </summary>
     public class ProxiedTwilioClientCreator
     {
         private readonly IOptions<TwilioOptions> _twilioOptions;

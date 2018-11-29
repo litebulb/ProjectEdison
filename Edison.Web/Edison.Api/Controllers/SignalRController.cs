@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Edison.Core.Common;
 using Edison.Core.Common.Models;
+using Edison.Api.Helpers;
 
 namespace Edison.Api.Controllers
 {
@@ -15,10 +17,12 @@ namespace Edison.Api.Controllers
     public class SignalRController : ControllerBase
     {
         private readonly IHubContext<SignalRHub> _hub;
+        private readonly ResponseDataManager _responseDataManager;
 
-        public SignalRController(IHubContext<SignalRHub> hub)
+        public SignalRController(IHubContext<SignalRHub> hub, ResponseDataManager responseDataManager)
         {
             _hub = hub;
+            _responseDataManager = responseDataManager;
         }
 
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
@@ -41,6 +45,8 @@ namespace Edison.Api.Controllers
         [HttpPut("Response")]
         public async Task<IActionResult> UpdateResponseUI([FromBody]ResponseUIModel responseUIUpdate)
         {
+            if (responseUIUpdate.Response == null && responseUIUpdate.ResponseId != Guid.Empty)
+                responseUIUpdate.Response = await _responseDataManager.GetResponse(responseUIUpdate.ResponseId);
             await _hub.Clients.All.SendAsync("UpdateResponseUI", responseUIUpdate);
             return Ok();
         }

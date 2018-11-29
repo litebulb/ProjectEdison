@@ -2,8 +2,7 @@
 
 namespace Edison.Common.Messages.Interfaces
 {
-    public interface IEventSagaReceiveResponseClosed : IMessage
+    public interface IEventSagaReceiveResponseClosed : IResponseMessage, IMessage
     {
-        ResponseModel ResponseModel { get; set; }
     }
 }

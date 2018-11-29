@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Extensions.Options;
-using Automatonymous;
 using MassTransit;
-using Edison.Core.Common;
+using Automatonymous;
 using Edison.Core.Common.Models;
 using Edison.Common.Config;
-using Edison.Common.Messages.Interfaces;
 using Edison.Common.Messages;
+using Edison.Common.Messages.Interfaces;
 using Edison.Workflows.Config;
+using Edison.Workflows.Extensions;
 
 namespace Edison.Workflows
 {
@@ -27,48 +26,20 @@ namespace Edison.Workflows
             InstanceState(x => x.State);
 
             //Response events
-            Event(() => NewResponseCreated, x => x.CorrelateById(context => context.Message.ResponseModel.ResponseId));
-            //UI Update notification, can be ignored if saga doesn't exist anymore
-            Event(() => ResponseActionsUpdated, x => x.CorrelateById(context => context.Message.ResponseId));
+            Event(() => ResponseCreated, x => x.CorrelateById(context => context.Message.Response.ResponseId));
+            Event(() => ResponseUpdated, x => x.CorrelateById(context => context.Message.Response.ResponseId));
             Event(() => ResponseActionCallback, x => x.CorrelateById(context => context.Message.ResponseId));
-            Event(() => ResponseClosed, x => x.CorrelateById(context => context.Message.ResponseModel.ResponseId));
+            Event(() => ResponseClosed, x => x.CorrelateById(context => context.Message.Response.ResponseId));
             Event(() => ResponseEventClusterTagged, x => x.CorrelateById(context => context.Message.Response.ResponseId));
 
             //The event is submitted from the Response endpoint
             Initially(
-                When(NewResponseCreated)
-                    .Then(context => context.Instance.CorrelationId = context.Data.ResponseModel.ResponseId)
+                When(ResponseCreated)
+                    .Then(context => context.Instance.CorrelationId = context.Data.Response.ResponseId)
                     .ThenAsync(context => Console.Out.WriteLineAsync($"Response-{context.Instance.CorrelationId}: Saga Initiated."))
                     .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: Event Received."))
-                    .ThenAsync(context => context.Publish(new ResponseTagExistingEventClustersRequestedEvent()
-                    {
-                        ResponseId = context.Data.ResponseModel.ResponseId,
-                        ResponseGeolocation = context.Data.ResponseModel.Geolocation,
-                        Radius = context.Data.ResponseModel.ActionPlan.PrimaryRadius
-                    }))
-                    .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
-                    {
-                        ResponseId = context.Instance.CorrelationId,
-                        ResponseUI = new ResponseUIModel()
-                        {
-                            UpdateType = "NewResponse",
-                            Response = context.Data.ResponseModel,
-                            ResponseId = context.Data.ResponseModel.ResponseId
-                        }
-                    }))
-                    //Run open actions
-                     .ThenAsync(context => context.Data.ResponseModel.ActionPlan.OpenActions
-                     .TaskForEach(action => context.Publish(
-                        new ActionEvent()
-                        {
-                            ActionId = action.ActionId,
-                            ResponseId = context.Data.ResponseModel.ResponseId,
-                            Action = action,
-                            Geolocation = context.Data.ResponseModel.Geolocation,
-                            PrimaryRadius = context.Data.ResponseModel.ActionPlan.PrimaryRadius,
-                            SecondaryRadius = context.Data.ResponseModel.ActionPlan.SecondaryRadius
-                        })))
-                    .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: NewResponseCreated."))
+                    .ThenPublishActions(ResponseUpdateType.NewResponse) //Run open actions
+                    .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseCreated."))
                     .TransitionTo(Waiting)
             );
 
@@ -90,96 +61,52 @@ namespace Edison.Workflows
                 //Triggers when the response was closed
                 When(ResponseClosed)
                 .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseClosed."))
-                .ThenAsync(context => //Run close actions
-                {
-                    context.Instance.CloseActionsCount = 0;
-                    context.Instance.CloseActionsTotal = context.Data.ResponseModel.ActionPlan.CloseActions.Count();
-                    context.Instance.ActionPlanCloseTriggered = true;
-                    return context.Data.ResponseModel.ActionPlan.CloseActions.TaskForEach(action => context.Publish(
-                            new ActionEvent()
-                            {
-                                IsCloseAction = true,
-                                ActionId = action.ActionId,
-                                ResponseId = context.Data.ResponseModel.ResponseId,
-                                Action = action,
-                                Geolocation = context.Data.ResponseModel.Geolocation,
-                                PrimaryRadius = context.Data.ResponseModel.ActionPlan.PrimaryRadius,
-                                SecondaryRadius = context.Data.ResponseModel.ActionPlan.SecondaryRadius
-                            }));
-                })
-                .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
-                {
-                    ResponseId = context.Instance.CorrelationId,
-                    ResponseUI = new ResponseUIModel()
-                    {
-                        UpdateType = "CloseResponse",
-                        Response = context.Data.ResponseModel,
-                        ResponseId = context.Data.ResponseModel.ResponseId
-                    }
-                })),
+                .ThenPublishActions(ResponseUpdateType.CloseResponse), //Run close actions
 
                 //Triggers when the was updated with new actions
-                When(ResponseActionsUpdated)
+                When(ResponseUpdated)
                 .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
-                .ThenAsync(context => context.Publish(new ResponseTagExistingEventClustersRequestedEvent()
-                {
-                    ResponseId = context.Data.ResponseId,
-                    ResponseGeolocation = context.Data.Geolocation,
-                    Radius = context.Data.PrimaryRadius
-                }))
-                .ThenAsync(context => context.Data.Actions.Where(p => p.Status == ActionStatus.NotRun || p.Status == ActionStatus.Skipped).TaskForEach(action =>
-                        context.Publish(new ActionEvent()
-                        {
-                            ResponseId = context.Data.ResponseId,
-                            Action = action,
-                            Geolocation = context.Data.Geolocation,
-                            PrimaryRadius = context.Data.PrimaryRadius,
-                            SecondaryRadius = context.Data.SecondaryRadius
-                        })))
-                .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
-                {
-                    ResponseId = context.Instance.CorrelationId,
-                    ResponseUI = new ResponseUIModel()
-                    {
-                        UpdateType = "UpdateResponseActions",
-                        Response = new ResponseModel()
-                        {
-                            ResponseId = context.Data.ResponseId,
-                            ActionPlan = new ResponseActionPlanModel()
-                            {
-                                OpenActions = context.Data.Actions
-                            }
-                        },
-                        ResponseId = context.Data.ResponseId
-                    }
-                })),
+                .ThenPublishActions(ResponseUpdateType.UpdateResponseActions, p => p.Status == ActionStatus.NotRun || p.Status == ActionStatus.Skipped), //Run update action,
 
                 //Triggers call back on actions, ends the saga if all close actions are performed successfully
                 When(ResponseActionCallback)
                 .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionCallback"))
                 .ThenAsync(context => context.Publish(new ActionCallbackUIUpdatedRequestedEvent() //Track action callbacks
                 {
-                     ResponseId = context.Data.ResponseId,
-                     ActionId = context.Data.ActionId,
-                     ActionCloseModel = new ActionCallbackUIModel()
-                     {
-                         UpdateType = "ResponseActionCallback",
-                         ActionId = context.Data.ActionId,
-                         Status = context.Data.Status,
-                         ErrorMessage = context.Data.ErrorMessage,
-                         StartDate = context.Data.StartDate,
-                         EndDate = context.Data.EndDate,
-                         ResponseId = context.Data.ResponseId
-                     }
-                }))
-                .If(new StateMachineCondition<ResponseState, IEventSagaReceiveResponseActionCallback>(bc =>
-                    bc.Data.IsCloseAction && (bc.Data.Status == ActionStatus.Success || bc.Data.Status == ActionStatus.Skipped)), x => x
-                    .Then(context =>
+                    ResponseId = context.Data.ResponseId,
+                    ActionId = context.Data.ActionId,
+                    ActionCloseModel = new ActionCallbackUIModel()
                     {
-                        context.Instance.CloseActionsCount++;
-                        if (context.Instance.ActionPlanCloseTriggered && context.Instance.CloseActionsCount >= context.Instance.CloseActionsTotal)
-                            x.Finalize();
-                    }))
+                        UpdateType = "ResponseActionCallback",
+                        ActionId = context.Data.ActionId,
+                        Status = context.Data.Status,
+                        ErrorMessage = context.Data.ErrorMessage,
+                        StartDate = context.Data.StartDate,
+                        EndDate = context.Data.EndDate,
+                        ResponseId = context.Data.ResponseId
+                    }
+                }))
+                //Add 1 to the action completed count
+                .If(new StateMachineCondition<ResponseState, IEventSagaReceiveResponseActionCallback>(bc =>
+                    bc.Data.ActionCorrelationId == bc.Instance.ActionCorrelationId), x => x
+                    .Then(context => context.Instance.ActionsCompletedCount++))
+                //When the count is complete, we send a UI update
+                .If(new StateMachineCondition<ResponseState, IEventSagaReceiveResponseActionCallback>(bc =>
+                    bc.Data.ActionCorrelationId == bc.Instance.ActionCorrelationId && bc.Instance.ActionsCompletedCount >= bc.Instance.ActionsTotal), x => x
+                    .ThenAsync(context => context.Publish(new ResponseUIUpdateRequestedEvent()
+                    {
+                        ResponseId = context.Instance.CorrelationId,
+                        ResponseUI = new ResponseUIModel()
+                        {
+                            UpdateType = context.Instance.ActionUpdateType.ToString(),
+                            ResponseId = context.Instance.CorrelationId
+                        }
+                    })))
+                //If the update type was close response, we finalize the saga
+                .If(new StateMachineCondition<ResponseState, IEventSagaReceiveResponseActionCallback>(bc =>
+                    bc.Data.ActionCorrelationId == bc.Instance.ActionCorrelationId && bc.Instance.ActionsCompletedCount >= bc.Instance.ActionsTotal 
+                    && bc.Instance.ActionUpdateType == ResponseUpdateType.CloseResponse), x => x
+                    .Finalize())
                 );
 
             //Delete persisted saga after completion
@@ -188,11 +115,10 @@ namespace Edison.Workflows
 
         public State Waiting { get; private set; }
 
-
         #region "Events"
         public Event<IResponseTaggedEventClusters> ResponseEventClusterTagged { get; private set; }
-        public Event<IEventSagaReceiveResponseCreated> NewResponseCreated { get; private set; }
-        public Event<IEventSagaReceiveResponseActionsUpdated> ResponseActionsUpdated { get; private set; }
+        public Event<IEventSagaReceiveResponseCreated> ResponseCreated { get; private set; }
+        public Event<IEventSagaReceiveResponseUpdated> ResponseUpdated { get; private set; }
         public Event<IEventSagaReceiveResponseActionCallback> ResponseActionCallback { get; private set; }
         public Event<IEventSagaReceiveResponseClosed> ResponseClosed { get; private set; }
         #endregion

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Edison.Api.Config;
-using Edison.Api.Helpers;
-using Edison.Core.Common;
-using Edison.Core.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +8,10 @@ using Microsoft.Extensions.Options;
 using Twilio.Clients;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
+using Edison.Core.Common;
+using Edison.Core.Common.Models;
+using Edison.Api.Config;
+using Edison.Api.Helpers;
 
 namespace Edison.Api.Controllers
 {

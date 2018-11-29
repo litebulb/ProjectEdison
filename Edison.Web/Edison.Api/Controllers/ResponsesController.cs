@@ -82,7 +82,7 @@ namespace Edison.Api.Controllers
             {
                 IEventSagaReceiveResponseCreated newMessage = new EventSagaReceiveResponseCreated()
                 {
-                    ResponseModel = result
+                    Response = result
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }
@@ -100,13 +100,9 @@ namespace Edison.Api.Controllers
             });
             if (result != null)
             {
-                IEventSagaReceiveResponseActionsUpdated newMessage = new EventSagaReceiveResponseActionsUpdated()
+                IEventSagaReceiveResponseUpdated newMessage = new EventSagaReceiveResponseUpdated()
                 {
-                    Actions = result.ActionPlan.OpenActions,
-                    ResponseId = responseObj.ResponseId,
-                    Geolocation = result.Geolocation,
-                    PrimaryRadius = result.ActionPlan.PrimaryRadius,
-                    SecondaryRadius = result.ActionPlan.SecondaryRadius
+                    Response = result
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }
@@ -121,7 +117,7 @@ namespace Edison.Api.Controllers
             var result = await _responseDataManager.CloseResponse(responseObj);
             IEventSagaReceiveResponseClosed newMessage = new EventSagaReceiveResponseClosed()
             {
-                ResponseModel = result
+                Response = result
             };
             await _serviceBus.BusAccess.Publish(newMessage);
             return Ok(result);
@@ -162,13 +158,9 @@ namespace Edison.Api.Controllers
             ResponseModel result = await _responseDataManager.ChangeActionOnResponse(responseObj);
             if (result != null)
             {
-                IEventSagaReceiveResponseActionsUpdated newMessage = new EventSagaReceiveResponseActionsUpdated()
+                IEventSagaReceiveResponseUpdated newMessage = new EventSagaReceiveResponseUpdated()
                 {
-                    Actions = result.ActionPlan.OpenActions,
-                    ResponseId = responseObj.ResponseId,
-                    Geolocation = result.Geolocation,
-                    PrimaryRadius = result.ActionPlan.PrimaryRadius,
-                    SecondaryRadius = result.ActionPlan.SecondaryRadius
+                    Response = result
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }

@@ -11,6 +11,9 @@ using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for the response repository
+    /// </summary>
     public class ResponseDataManager
     {
         private readonly ICosmosDBRepository<ResponseDAO> _repoResponses;
@@ -20,6 +23,9 @@ namespace Edison.Api.Helpers
         private const int RESPONSE_STATE_ACTIVE = 1;
         private const int RESPONSE_STATE_INACTIVE = 0;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public ResponseDataManager(IMapper mapper, ICosmosDBRepository<ResponseDAO> repoResponses)
         {
             _mapper = mapper;
