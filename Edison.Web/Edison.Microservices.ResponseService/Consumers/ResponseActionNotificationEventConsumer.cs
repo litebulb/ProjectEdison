@@ -25,11 +25,11 @@ namespace Edison.ResponseService.Consumers
 
         public async Task Consume(ConsumeContext<IActionNotificationEvent> context)
         {
+            DateTime actionStartDate = DateTime.UtcNow;
             try
             {
                 if (context.Message != null && context.Message as IActionNotificationEvent != null)
                 {
-                    DateTime actionStartDate = DateTime.UtcNow;
                     IActionNotificationEvent action = context.Message;
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: ActionId: '{action.ActionId}'.");
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: User: '{action.User}'.");
@@ -62,6 +62,7 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
+                await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Action '{context?.Message?.ActionId}': {e.Message}.");
                 _logger.LogError($"ResponseActionNotificationEventConsumer: {e.Message}");
                 throw e;
             }

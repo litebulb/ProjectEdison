@@ -22,7 +22,6 @@
     "MicrosoftAppId": "74cc99aa-6496-4ca7-b390-1ca99b8af542",
     "BotBasePath": "",
     "BotMessagesPath": "/messages",
-    "EmergencyActionPlanId": "0bbe4f8e-fe45-4c85-8d59-f4c3031823a5",
     "AdminChannel": "directline",
     "RestService": {
       "RestServiceUrl": "https://directline.botframework.com/v3/directline/"

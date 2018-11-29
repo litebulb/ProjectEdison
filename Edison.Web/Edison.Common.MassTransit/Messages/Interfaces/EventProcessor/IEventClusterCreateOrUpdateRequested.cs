@@ -9,6 +9,5 @@ namespace Edison.Common.Messages.Interfaces
         string EventType { get; set; }
         DateTime Date { get; set; }
         string Data { get; set; }
-        bool CheckBoundary { get; set; }
     }
 }

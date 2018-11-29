@@ -33,7 +33,9 @@ namespace Edison.ResponseService.Consumers
                     {
                         case "notification":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionNotificationEvent.");
-                            await context.Publish(new ActionNotificationEvent(action, context.Message.IsCloseAction) { ResponseId = context.Message.ResponseId });
+                            await context.Publish(new ActionNotificationEvent(action, context.Message.IsCloseAction) {
+                                ResponseId = context.Message.ResponseId
+                            });
                             break;
                         case "lightsensor":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionLightSensorEvent.");
@@ -56,6 +58,7 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
+                await GenerateActionCallback(context, ActionStatus.Error, DateTime.UtcNow, $"Action '{context?.Message?.ActionId}': {e.Message}.");
                 _logger.LogError($"ResponseActionEventConsumer: {e.Message}");
                 throw e;
             }

@@ -125,7 +125,6 @@ namespace Edison.ChatService.Middleware
                             DeviceId = device.DeviceId,
                             EventType = "message",
                             Date = DateTime.UtcNow,
-                            CheckBoundary = consumerMessageProperties.ReportType == _config.EmergencyActionPlanId,
                             Data = JsonConvert.SerializeObject(new MessageEventMetadata()
                             {
                                 UserId = consumerMessageProperties.UserId,

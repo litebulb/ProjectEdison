@@ -35,20 +35,6 @@ namespace Edison.EventProcessorService.Consumers
             {
                 _logger.LogDebug($"EventClusterCreateRequestedConsumer: Retrieved message from source '{context.Message.DeviceId}'.");
 
-                if (context.Message.CheckBoundary)
-                {
-                    _logger.LogDebug($"EventClusterCreateRequestedConsumer: '{context.Message.DeviceId}' event must be checked for boundaries.");
-                    if (!await _deviceRestService.IsInBoundaries(new DeviceBoundaryGeolocationModel()
-                    {
-                        DeviceId = context.Message.DeviceId
-                    }))
-                    {
-                        _logger.LogError("EventClusterCreateRequestedConsumer: The event was not triggered within the geolocation boundaries.");
-                        return;
-                    }
-                }
-
-
                 if (JsonConvert.DeserializeObject<Dictionary<string,object>>(context.Message.Data) is Dictionary<string,object> deviceMessage)
                 {
                     EventClusterCreationModel newEvent = new EventClusterCreationModel()

@@ -38,11 +38,11 @@ namespace Edison.ResponseService.Consumers
 
         public async Task Consume(ConsumeContext<IActionLightSensorEvent> context)
         {
+            DateTime actionStartDate = DateTime.UtcNow;
             try
             {
                 if (context.Message != null && context.Message as IActionLightSensorEvent != null)
                 {
-                    DateTime actionStartDate = DateTime.UtcNow;
                     IActionLightSensorEvent action = context.Message;
                     _logger.LogDebug($"ResponseActionLightSensorEventConsumer: ActionId: '{action.ActionId}'.");
 
@@ -130,6 +130,7 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
+                await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Action '{context?.Message?.ActionId}': {e.Message}.");
                 _logger.LogError($"ResponseActionLightSensorEventConsumer: {e.Message}");
                 throw e;
             }

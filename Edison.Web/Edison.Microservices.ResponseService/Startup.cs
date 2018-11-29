@@ -48,6 +48,7 @@ namespace Edison.ResponseService
             services.AddScoped<ResponseActionNotificationEventConsumer>();
             services.AddScoped<ResponseActionEventConsumer>();
             services.AddSingleton<IEventClusterRestService, EventClusterRestService>();
+            services.AddSingleton<INotificationRestService, NotificationRestService>();
             services.AddSingleton<IDeviceRestService, DeviceRestService>();
             services.AddSingleton<IIoTHubControllerRestService, IoTHubControllerRestService>();
             services.AddSingleton<IResponseRestService, ResponseRestService>();
