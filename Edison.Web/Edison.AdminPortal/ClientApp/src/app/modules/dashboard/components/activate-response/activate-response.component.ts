@@ -10,18 +10,17 @@ import { AppState } from '../../../../reducers';
 import {
     GetActionPlan, GetActionPlans, PutActionPlan, SelectActionPlan, SetSelectingActionPlan
 } from '../../../../reducers/action-plan/action-plan.actions';
-import { ActionPlan, ActionPlanStatus } from '../../../../reducers/action-plan/action-plan.model';
+import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
 import {
     actionPlansSelector, selectedActionPlanSelector
 } from '../../../../reducers/action-plan/action-plan.selectors';
 import { SelectActiveEvent } from '../../../../reducers/event/event.actions';
 import { Event } from '../../../../reducers/event/event.model';
-import { activeEventSelector, eventsSelector } from '../../../../reducers/event/event.selectors';
 import {
     PostNewResponse, ResponseActionTypes, ShowActivateResponse
 } from '../../../../reducers/response/response.actions';
 import { Response } from '../../../../reducers/response/response.model';
-import { responsesSelector } from '../../../../reducers/response/response.selectors';
+import { activeResponseSelector } from '../../../../reducers/response/response.selectors';
 
 @Component({
     selector: 'app-activate-response',
@@ -93,8 +92,6 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
                 this.active = true;
                 this.activated = false;
                 this.activeEvent = event;
-                this.showActionPlan = false;
-                this.selectedActionPlan = null;
 
                 if (actionPlanId) { this._selectActionPlan(actionPlanId); }
 
@@ -102,14 +99,11 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
             })
 
         this.responsesSub$ = this.store
-            .pipe(select(responsesSelector))
-            .subscribe(responses => {
-                if (this.activeEvent && this.selectedActionPlan) {
-                    this.activeResponse = responses.find(
-                        response =>
-                            // response.actionPlan.actionPlanId === this.selectedActionPlan.actionPlanId &&
-                            response.primaryEventClusterId === this.activeEvent.eventClusterId
-                    )
+            .pipe(select(activeResponseSelector))
+            .subscribe(({ activeResponse }) => {
+                this.activeResponse = activeResponse;
+                if (activeResponse) {
+                    this.selectedActionPlan = this.activeResponse.actionPlan;
                 }
             })
     }
@@ -145,14 +139,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
             })
         )
         this.store.dispatch(new PutActionPlan({ actionPlan: this.selectedActionPlan }));
-        this.activated = true
-        this.selectedActionPlan = {
-            ...this.selectedActionPlan,
-            openActions: this.selectedActionPlan.openActions.map(a => ({
-                ...a,
-                status: ActionPlanStatus.Complete,
-            })),
-        }
+        this.activated = true;
     }
 
     onReturnToMapClick() {

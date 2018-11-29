@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { spinnerColors } from '../../../../core/spinnerColors';
 import { AppState } from '../../../../reducers';
 import { ToggleUserChatWindow } from '../../../../reducers/chat/chat.actions';
-import { SelectActiveEvent, ShowEvents } from '../../../../reducers/event/event.actions';
+import { ShowEvents } from '../../../../reducers/event/event.actions';
 import { Event, EventInstance } from '../../../../reducers/event/event.model';
 import { activeEventSelector } from '../../../../reducers/event/event.selectors';
 import {

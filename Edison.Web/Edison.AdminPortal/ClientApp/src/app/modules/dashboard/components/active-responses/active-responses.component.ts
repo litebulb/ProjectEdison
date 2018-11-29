@@ -1,23 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Subscription } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { fadeInOut } from '../../../../core/animations/fadeInOut';
+import { SearchListItem } from '../../../../core/models/searchListItem';
+import { AppState } from '../../../../reducers';
+import { SetSelectingActionPlan } from '../../../../reducers/action-plan/action-plan.actions';
+import { GetResponse, SelectActiveResponse } from '../../../../reducers/response/response.actions';
+import { Response, ResponseState } from '../../../../reducers/response/response.model';
 import {
-    Response,
-    ResponseState,
-} from '../../../../reducers/response/response.model'
-import { Store, select } from '@ngrx/store'
-import { AppState } from '../../../../reducers'
-import {
-    activeResponsesSelector,
-    activeResponseSelector,
-} from '../../../../reducers/response/response.selectors'
-import { fadeInOut } from '../../../../core/animations/fadeInOut'
-import { SearchListItem } from '../../../../core/models/searchListItem'
-import {
-    SelectActiveResponse,
-    GetResponse,
-} from '../../../../reducers/response/response.actions'
-import { Subscription } from 'rxjs'
-import { SetSelectingActionPlan } from '../../../../reducers/action-plan/action-plan.actions'
-import { ActionPlanStatus } from '../../../../reducers/action-plan/action-plan.model'
+    activeResponseSelector, activeResponsesSelector, responsesSelector
+} from '../../../../reducers/response/response.selectors';
 
 enum ActiveView {
     Default,
@@ -33,18 +27,19 @@ enum ActiveView {
     animations: [ fadeInOut ],
 })
 export class ActiveResponsesComponent implements OnInit, OnDestroy {
-    active = false
-    items: SearchListItem[]
-    responses: Response[]
-    activeResponses: Response[]
-    activeResponse: Response
-    activeId = null
-    activeView = ActiveView.Default
-    scrollConfig = { suppressScrollX: false, suppressScrollY: true, useBothWheelAxes: true, scrollIndicators: true }
-    loadingFullResponse = false;
+    active = false;
+    items: SearchListItem[];
+    responses: Response[];
+    activeResponses: Response[];
+    activeResponse: Response;
+    activeId = null;
+    activeView = ActiveView.Default;
+    scrollConfig = { suppressScrollX: false, suppressScrollY: true, useBothWheelAxes: true, scrollIndicators: true };
+    loadingFullResponse = false;;
 
-    private activeResponsesSub$: Subscription
-    private activeResponseSub$: Subscription
+    private activeResponsesSub$: Subscription;
+    private activeResponseSub$: Subscription;
+    private responsesSub$: Subscription;
 
     constructor (private store: Store<AppState>) { }
 
@@ -52,14 +47,14 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
         this.activeResponsesSub$ = this.store
             .pipe(select(activeResponsesSelector))
             .subscribe(responses => {
-                this.activeResponses = responses
+                this.activeResponses = [ ...responses ]
 
-                let responsesToShow = responses
+                let responsesToShow = [ ...responses ]
                 if (this.activeResponse) {
-                    const activeResponseResolved = !responsesToShow.some(
+                    const activeResponse = responsesToShow.find(
                         response => response.responseId === this.activeResponse.responseId
                     )
-                    if (activeResponseResolved) {
+                    if (!activeResponse) {
                         // we want to let this response still show until the active responses window closes
                         responsesToShow = [
                             ...responses,
@@ -67,7 +62,12 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
                                 ...this.activeResponse,
                                 responseState: ResponseState.Inactive,
                             },
-                        ].sort((a, b) => a.actionPlan.name.localeCompare(b.actionPlan.name))
+                        ].filter(resp => resp.name).sort((a, b) => a.name.localeCompare(b.name))
+                    } else {
+                        this.activeResponse = activeResponse;
+                        this.activeId = activeResponse.responseId;
+
+                        this.getFullResponse();
                     }
                 }
 
@@ -81,11 +81,20 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
                     this.openResponse(activeResponse)
                 }
             })
+
+        this.responsesSub$ = this.store
+            .pipe(select(responsesSelector))
+            .subscribe(responses => {
+                if (this.activeResponse) {
+                    this.activeResponse = responses.find(resp => resp.responseId === this.activeResponse.responseId);
+                }
+            })
     }
 
     ngOnDestroy() {
         this.activeResponsesSub$.unsubscribe()
         this.activeResponseSub$.unsubscribe()
+        this.responsesSub$.unsubscribe();
     }
 
     responseUpdated() {
@@ -98,22 +107,14 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
             name: r.name,
             icon: r.icon,
             color: r.color,
-        }))
-        this.responses = responses
-
-        if (this.activeResponse) {
-            this.activeResponse = responses.find(
-                response => response.responseId === this.activeResponse.responseId
-            )
-            this.updateCloseActions()
-        }
+        }));
+        this.responses = responses;
     }
 
     selectActiveResponse(item: SearchListItem) {
         if (item) {
-            this.activeResponse = this.responses.find(r => r.responseId === item.id)
+            this.activeResponse = { ...this.responses.find(r => r.responseId === item.id) }
             this.getFullResponse()
-            this.updateCloseActions()
         } else {
             this.deactivateActiveResponse()
         }
@@ -122,32 +123,12 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
 
     openResponse(response: Response) {
         this.active = true
-        this.activeResponse = response
-        this.activeId = response.responseId
+        this.activeResponse = { ...response }
+        this.activeId = this.activeResponse.responseId
         this.activeView = ActiveView.Default
 
         this.getFullResponse()
         this.store.dispatch(new SetSelectingActionPlan({ isSelecting: true }))
-    }
-
-    updateCloseActions() {
-        if (
-            this.activeResponse &&
-            this.activeResponse.responseState === ResponseState.Inactive &&
-            this.activeResponse.actionPlan &&
-            this.activeResponse.actionPlan.closeActions
-        ) {
-            this.activeResponse = {
-                ...this.activeResponse,
-                actionPlan: {
-                    ...this.activeResponse.actionPlan,
-                    closeActions: this.activeResponse.actionPlan.closeActions.map(a => ({
-                        ...a,
-                        status: ActionPlanStatus.Complete,
-                    })),
-                },
-            }
-        }
     }
 
     getFullResponse() {

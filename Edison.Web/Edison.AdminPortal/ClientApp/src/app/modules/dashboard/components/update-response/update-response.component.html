@@ -1,5 +1,5 @@
 <div class="container"
-     *ngIf="activeResponse && activeResponse.actionPlan && _closeActions.length > 0">
+     *ngIf="activeResponse && activeResponse.actionPlan && _openActions.length > 0">
     <div class="header">UPDATE {{activeResponse.actionPlan.name}} RESPONSE</div>
     <div class="subheader success"
          *ngIf="updateSucceeded">Updates successfullly sent</div>
@@ -14,7 +14,7 @@
                 [ngClass]="{'disabled': !modified}">SEND
             UPDATES</button>
     </div>
-    <app-action-list [actions]="_closeActions"
+    <app-action-list [actions]="_openActions"
                      [canEdit]="true"
                      (onchange)="updated($event)"></app-action-list>
 </div>

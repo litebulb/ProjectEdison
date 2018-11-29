@@ -8,5 +8,5 @@
                 (click)="deactivate()"
                 *ngIf="activeResponse.responseState !== 0">DEACTIVATE</button>
     </div>
-    <app-action-list [actions]="activeResponse.actionPlan.closeActions"></app-action-list>
+    <app-action-list [actions]="activeResponse.actionPlan.openActions"></app-action-list>
 </div>

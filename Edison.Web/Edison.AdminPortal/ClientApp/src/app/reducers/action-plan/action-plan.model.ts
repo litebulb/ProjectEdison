@@ -23,18 +23,24 @@ export enum ActionPlanType {
     LightSensor = 'lightsensor',
 }
 
-export enum ActionPlanStatus {
-    InComplete,
-    Complete,
+export enum ActionStatus {
+    None = '',
+    Unknown = 'Unknown',
+    Success = 'Success',
+    Skipped = 'Skipped',
+    NotStarted = 'NotStarted',
+    Error = 'Error'
 }
 
 export interface ActionPlanAction {
-    actionId?: string
-    actionType: ActionPlanType
-    isActive: true
-    description?: string
-    parameters?: any
-    status?: ActionPlanStatus
+    actionId?: string;
+    actionType: ActionPlanType;
+    isActive: true;
+    description?: string;
+    parameters?: any;
+    endDate?: Date;
+    startDate?: Date;
+    status?: ActionStatus;
 }
 
 export enum ActionChangeType {

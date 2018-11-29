@@ -5,6 +5,7 @@ export namespace SignalRTypes {
         Event = 'UpdateEventClusterUI',
         Response = 'UpdateResponseUI',
         ReadUserMessages = 'ReadUserMessages',
+        UpdateAction = 'UpdateActionCallbackUI'
     }
 
     export enum Event {
@@ -23,6 +24,11 @@ export namespace SignalRTypes {
         Update = 'UpdateResponse',
         New = 'NewResponse',
         Close = 'CloseResponse',
+        UpdateResponseActions = 'UpdateResponseActions',
+    }
+
+    export enum Action {
+        ResponseActionCallback = 'ResponseActionCallback'
     }
 
 }

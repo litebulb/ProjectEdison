@@ -1,12 +1,20 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core'
-import { Response } from '../../../../reducers/response/response.model'
-import { AddEditAction, ActionPlanAction, ActionPlanNotificationAction, ActionPlanType, ActionChangeType } from '../../../../reducers/action-plan/action-plan.model';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../reducers';
-import { UpdateResponseActions, ResponseActionTypes } from '../../../../reducers/response/response.actions';
 import { Subscription } from 'rxjs';
 import uuid from 'uuid/v4';
+
+import {
+    Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output
+} from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../../../../reducers';
+import {
+    ActionChangeType, ActionPlanAction, ActionPlanNotificationAction, ActionPlanType, AddEditAction
+} from '../../../../reducers/action-plan/action-plan.model';
+import {
+    ResponseActionTypes, UpdateResponseActions
+} from '../../../../reducers/response/response.actions';
+import { Response } from '../../../../reducers/response/response.model';
 
 @Component({
     selector: 'app-update-response',
@@ -28,7 +36,7 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
     updateSucceeded = false
     modified = false
     addEditActions = new Map<string, AddEditAction>();
-    _closeActions: ActionPlanAction[];
+    _openActions: ActionPlanAction[];
 
     constructor (private store: Store<AppState>, private updates$: Actions) { }
 
@@ -50,20 +58,20 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
 
     updateActions() {
         if (this.activeResponse && this.activeResponse.actionPlan) {
-            this._closeActions = [ ...this.activeResponse.actionPlan.closeActions ];
+            this._openActions = [ ...this.activeResponse.actionPlan.openActions ];
         }
     }
 
     onCancel() {
         this.cancel.emit()
-        this.removeEmptyCloseActions();
+        this.removeEmptyopenActions();
     }
 
-    removeEmptyCloseActions() {
-        const actionsToRemove = this._closeActions.filter(ca => !ca.parameters.message || ca.parameters.message.trim() === '')
+    removeEmptyopenActions() {
+        const actionsToRemove = this._openActions.filter(ca => !ca.parameters.message || ca.parameters.message.trim() === '')
 
         // remove from local arr
-        this._closeActions = this._closeActions.filter(ca => !actionsToRemove.some(atr => atr.actionId === ca.actionId));
+        this._openActions = this._openActions.filter(ca => !actionsToRemove.some(atr => atr.actionId === ca.actionId));
 
         actionsToRemove.forEach(actionToRemove => {
             const addEditAction = this.addEditActions.get(actionToRemove.actionId);
@@ -136,7 +144,7 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
             }
         }
 
-        this._closeActions.push(notification);
+        this._openActions.push(notification);
         this.updateAddEditActions({
             actionChangedString: ActionChangeType.Add,
             isCloseAction: true,

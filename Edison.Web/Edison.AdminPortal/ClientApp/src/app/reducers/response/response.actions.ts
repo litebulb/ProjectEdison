@@ -1,6 +1,7 @@
 import { Update } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 
+import { SignalRModels } from '../../core/models/signalRModels';
 import { MapPosition } from '../../modules/map/models/mapPosition';
 import { ActionPlan, AddEditAction } from '../action-plan/action-plan.model';
 import { Event } from '../event/event.model';
@@ -40,7 +41,21 @@ export enum ResponseActionTypes {
     UpdateResponseActions = '[Response] Update Response Actions',
     UpdateResponseActionsSuccess = '[Response] Update Response Actions Success',
     UpdateResponseActionsError = '[Response] Update Response Actions Error',
-    ShowActivateResponse = '[Response] Show Activate Response'
+    ShowActivateResponse = '[Response] Show Activate Response',
+    SignalRUpdateResponseAction = '[Response] SignalR Update Response Action',
+    ActivateResponseActionPlan = '[Response] Activate Response Action Plan',
+}
+
+export class ActivateResponseActionPlan implements Action {
+    readonly type = ResponseActionTypes.ActivateResponseActionPlan;
+
+    constructor (public payload: { response: Response }) { }
+}
+
+export class SignalRUpdateResponseAction implements Action {
+    readonly type = ResponseActionTypes.SignalRUpdateResponseAction;
+
+    constructor (public payload: { message: SignalRModels.ActionMessage }) { }
 }
 
 export class ShowActivateResponse implements Action {
@@ -159,6 +174,8 @@ export class PostNewResponseError implements Action {
 
 export class PostNewResponseSuccess implements Action {
     readonly type = ResponseActionTypes.PostNewResponseSuccess;
+
+    constructor (public payload: { response: Response }) { }
 }
 
 export class PostNewResponse implements Action {
@@ -246,4 +263,7 @@ export type ResponseActions =
     | ShowManageResponse
     | UpdateResponseActions
     | UpdateResponseActionsError
-    | UpdateResponseActionsSuccess;
+    | UpdateResponseActionsSuccess
+    | SignalRUpdateResponseAction
+    | ActivateResponseActionPlan
+    | PostNewResponseSuccess;

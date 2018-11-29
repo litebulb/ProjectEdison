@@ -1,5 +1,5 @@
 import {
-    ActionPlan, ActionPlanColor, ActionPlanIcon, ActionPlanRadiusAction, ActionPlanType
+    ActionPlan, ActionPlanColor, ActionPlanIcon, ActionPlanType, ActionStatus
 } from '../reducers/action-plan/action-plan.model';
 
 export const mockActionPlans: ActionPlan[] = [
@@ -19,7 +19,7 @@ export const mockActionPlans: ActionPlan[] = [
                 actionType: ActionPlanType.RapidSOS,
                 isActive: true,
                 description: '911 will be called by RapidSOS',
-                status: 0,
+                status: ActionStatus.None,
             },
             {
                 actionId: '2',
@@ -30,7 +30,7 @@ export const mockActionPlans: ActionPlan[] = [
                     content: `A potential fire has been detected near the Performing Arts Center on the
              Southeast Side of campus. If in the vicinity, leave immediately via the nearest fire exit.`,
                 },
-                status: 0,
+                status: ActionStatus.None,
             },
             {
                 actionId: '3',
@@ -40,7 +40,7 @@ export const mockActionPlans: ActionPlan[] = [
                 parameters: {
                     color: 'RED',
                 },
-                status: 0,
+                status: ActionStatus.None,
             },
             {
                 actionId: '4',
@@ -50,7 +50,7 @@ export const mockActionPlans: ActionPlan[] = [
                 parameters: {
                     color: 'YELLOW',
                 },
-                status: 0,
+                status: ActionStatus.None,
             },
         ],
         closeActions: [
@@ -59,7 +59,7 @@ export const mockActionPlans: ActionPlan[] = [
                 actionType: ActionPlanType.RapidSOS,
                 isActive: true,
                 description: '911 will be called by RapidSOS',
-                status: 0,
+                status: ActionStatus.None,
             },
             {
                 actionId: '2',
@@ -70,7 +70,7 @@ export const mockActionPlans: ActionPlan[] = [
                     content: `A potential fire has been detected near the Performing Arts Center on the
              Southeast Side of campus. If in the vicinity, leave immediately via the nearest fire exit.`,
                 },
-                status: 0,
+                status: ActionStatus.None,
             },
             {
                 actionId: '3',
@@ -80,7 +80,7 @@ export const mockActionPlans: ActionPlan[] = [
                 parameters: {
                     color: 'RED',
                 },
-                status: 0,
+                status: ActionStatus.None,
             },
             {
                 actionId: '4',
@@ -90,7 +90,7 @@ export const mockActionPlans: ActionPlan[] = [
                 parameters: {
                     color: 'YELLOW',
                 },
-                status: 0,
+                status: ActionStatus.None,
             },
         ],
     }

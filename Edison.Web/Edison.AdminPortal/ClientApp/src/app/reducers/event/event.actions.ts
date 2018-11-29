@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
+import { Action } from '@ngrx/store';
+
 import { Event } from './event.model';
 
 export enum EventActionTypes {

@@ -1,6 +1,7 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Response } from './response.model';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
 import { ResponseActions, ResponseActionTypes } from './response.actions';
+import { Response } from './response.model';
 
 export interface State extends EntityState<Response> {
     // additional entities state properties
@@ -26,11 +27,12 @@ export function reducer(
     action: ResponseActions
 ): State {
     switch (action.type) {
-        case ResponseActionTypes.SignalRNewResponse:
         case ResponseActionTypes.AddResponse: {
             return adapter.addOne(action.payload.response, state);
         }
 
+        case ResponseActionTypes.SignalRNewResponse:
+        case ResponseActionTypes.PostNewResponseSuccess:
         case ResponseActionTypes.UpsertResponse: {
             return adapter.upsertOne(action.payload.response, state);
         }

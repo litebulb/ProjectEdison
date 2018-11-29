@@ -14,7 +14,7 @@ import {
     SignalRCloseEvent, SignalRNewEvent, SignalRUpdateEvent
 } from '../../reducers/event/event.actions';
 import {
-    SignalRCloseResponse, SignalRNewResponse, SignalRUpdateResponse
+    SignalRCloseResponse, SignalRNewResponse, SignalRUpdateResponse, SignalRUpdateResponseAction
 } from '../../reducers/response/response.actions';
 import { SignalRModels } from '../models/signalRModels';
 import { SignalRTypes } from '../models/signalRTypes';
@@ -69,6 +69,17 @@ export class SignalRService implements OnDestroy {
     }
 
     private setupHandlers = () => {
+        this.connection.on(
+            SignalRTypes.Channel.UpdateAction,
+            (message: SignalRModels.ActionMessage) => {
+                switch (message.updateType) {
+                    case SignalRTypes.Action.ResponseActionCallback:
+                        this.store.dispatch(new SignalRUpdateResponseAction({ message }));
+                        break;
+                }
+            }
+        )
+
         this.connection.on(
             SignalRTypes.Channel.Event,
             (message: SignalRModels.EventMessage) => {
@@ -131,6 +142,9 @@ export class SignalRService implements OnDestroy {
                     case SignalRTypes.Response.New:
                         this.store.dispatch(new SignalRNewResponse({ response }))
                         break
+                    case SignalRTypes.Response.UpdateResponseActions:
+                        console.log(message);
+                        break;
                     case SignalRTypes.Response.Update:
                         this.store.dispatch(
                             new SignalRUpdateResponse({

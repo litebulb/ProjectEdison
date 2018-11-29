@@ -1,14 +1,19 @@
 <div class="container">
-  <div class="header">DEACTIVATE {{activeResponse.actionPlan.name}} RESPONSE</div>
-  <div *ngIf="deactivated" class="subheader success">Response deactivated. Updates successfully sent.</div>
-  <div *ngIf="!deactivated" class="subheader">Review the new action items that will occur upon deactivation.</div>
-  <button class="app-button secondary" *ngIf="!deactivated" (click)="onBackClick()">GO BACK</button>
-  <button class="app-button primary" *ngIf="deactivated" (click)="onReturnToMapClick()">Return To Map</button>
-  <app-action-list [actions]="activeResponse.actionPlan.closeActions" [canEdit]="true"></app-action-list>
-  <app-delay-button
-      (clickCompleted)="onDeactivateClick()"
-      [subheaderText]="deactivated ? 'Response Deactivated' : 'Press and Hold to deactivate'"
-      [buttonText]="deactivated ? 'Complete' : 'Deactivate'"
-      [disabled]="deactivated"
-  ></app-delay-button>
+    <div class="header">DEACTIVATE {{activeResponse.actionPlan.name}} RESPONSE</div>
+    <div *ngIf="deactivated"
+         class="subheader success">Response deactivated. Updates successfully sent.</div>
+    <div *ngIf="!deactivated"
+         class="subheader">Review the new action items that will occur upon deactivation.</div>
+    <button class="app-button secondary"
+            *ngIf="!deactivated"
+            (click)="onBackClick()">GO BACK</button>
+    <button class="app-button primary"
+            *ngIf="deactivated"
+            (click)="onReturnToMapClick()">Return To Map</button>
+    <app-action-list [actions]="activeResponse.actionPlan.closeActions"
+                     [canEdit]="true"></app-action-list>
+    <app-delay-button (clickCompleted)="onDeactivateClick()"
+                      [subheaderText]="deactivated ? 'Response Deactivated' : 'Press and Hold to deactivate'"
+                      [buttonText]="deactivated ? 'Complete' : 'Deactivate'"
+                      [disabled]="disabled"></app-delay-button>
 </div>

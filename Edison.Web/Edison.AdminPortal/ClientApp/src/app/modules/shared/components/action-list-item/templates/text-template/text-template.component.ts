@@ -1,5 +1,8 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ActionPlanTextAction } from '../../../../../../reducers/action-plan/action-plan.model';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+
+import {
+    ActionPlanTextAction, ActionStatus
+} from '../../../../../../reducers/action-plan/action-plan.model';
 
 @Component({
     selector: 'app-text-template',
@@ -13,6 +16,8 @@ export class TextTemplateComponent implements OnInit {
 
     @Input()
     last: boolean;
+
+    actionStatus = ActionStatus;
 
     ngOnInit() {
     }

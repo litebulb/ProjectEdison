@@ -1,6 +1,9 @@
-import { Component, Output, EventEmitter, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core'
-import { interval, Subscription } from 'rxjs'
-import { startWith, take } from 'rxjs/operators'
+import { interval, Subscription } from 'rxjs';
+import { startWith, take } from 'rxjs/operators';
+
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output
+} from '@angular/core';
 
 @Component({
     selector: 'app-delay-button',

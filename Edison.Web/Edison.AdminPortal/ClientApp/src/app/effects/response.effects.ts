@@ -1,39 +1,26 @@
-import { Injectable } from '@angular/core'
-import { Actions, Effect, ofType } from '@ngrx/effects'
-import { Observable, of, Subscriber } from 'rxjs'
-import { Action, Store } from '@ngrx/store'
-import { mergeMap, catchError, map, withLatestFrom } from 'rxjs/operators'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
-import UUIDv1 from 'uuid/v1'
-import {
-    ResponseActionTypes,
-    PostNewResponse,
-    PostNewResponseError,
-    UpdateResponse,
-    PutResponse,
-    PutResponseError,
-    LoadResponses,
-    GetResponsesError,
-    GetResponse,
-    GetResponseError,
-    CloseResponse,
-    CloseResponseError,
-    PostNewResponseSuccess,
-    AddResponse,
-    ShowSelectingLocation,
-    AddLocationToActiveResponse,
-    AddLocationToActiveResponseError,
-    SelectActiveResponse,
-    AddLocationToActiveResponseSuccess,
-    UpdateResponseActions,
-    UpdateResponseActionsError,
-    UpdateResponseActionsSuccess,
-    ShowActivateResponse,
-} from '../reducers/response/response.actions'
-import { AppState } from '../reducers'
-import { Response } from '../reducers/response/response.model'
+import { Observable, of, Subscriber } from 'rxjs';
+import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import UUIDv1 from 'uuid/v1';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+
+import { environment } from '../../environments/environment';
+import { AppState } from '../reducers';
+import { SelectActionPlan } from '../reducers/action-plan/action-plan.actions';
 import { SelectActiveEvent } from '../reducers/event/event.actions';
+import {
+    ActivateResponseActionPlan, AddLocationToActiveResponse, AddLocationToActiveResponseError,
+    AddLocationToActiveResponseSuccess, AddResponse, CloseResponse, CloseResponseError, GetResponse,
+    GetResponseError, GetResponsesError, LoadResponses, PostNewResponse, PostNewResponseError,
+    PostNewResponseSuccess, PutResponse, PutResponseError, ResponseActionTypes,
+    SelectActiveResponse, ShowActivateResponse, ShowSelectingLocation, SignalRUpdateResponseAction,
+    UpdateResponse, UpdateResponseActions, UpdateResponseActionsError, UpdateResponseActionsSuccess
+} from '../reducers/response/response.actions';
+import { Response } from '../reducers/response/response.model';
+import { selectAll } from '../reducers/response/response.reducer';
 
 @Injectable()
 export class ResponseEffects {
@@ -99,7 +86,7 @@ export class ResponseEffects {
                     map(
                         (response: Response) =>
                             response
-                                ? new PostNewResponseSuccess()
+                                ? new PostNewResponseSuccess({ response })
                                 : new PostNewResponseError()
                     ),
                     catchError(() => of(new PostNewResponseError()))
@@ -244,6 +231,63 @@ export class ResponseEffects {
     showActivateResponse$: Observable<Action> = this.actions$.pipe(
         ofType(ResponseActionTypes.ShowActivateResponse),
         map(({ payload: { event } }: ShowActivateResponse) => new SelectActiveEvent({ event }))
+    )
+
+    @Effect()
+    updateResponseAction$: Observable<Action> = this.actions$.pipe(
+        ofType(ResponseActionTypes.SignalRUpdateResponseAction),
+        withLatestFrom(this.store$),
+        map(([ action, { response } ]) => ({
+            action,
+            responses: selectAll(response)
+        })),
+        map(({ action, responses }: { action: SignalRUpdateResponseAction, responses: Response[] }) => {
+            const { responseId, actionId } = action.payload.message;
+            const respToUpdate = responses.find(r => r.responseId === responseId);
+            if (respToUpdate) {
+                const { openActions, closeActions } = respToUpdate.actionPlan;
+                if (openActions) {
+                    let foundAction = openActions.find(oa => oa.actionId === actionId);
+                    if (foundAction) {
+                        foundAction = {
+                            ...foundAction,
+                            ...action.payload.message,
+                        }
+                    }
+                }
+
+                if (closeActions) {
+                    let foundAction = openActions.find(oa => oa.actionId === actionId);
+                    if (foundAction) {
+                        foundAction = {
+                            ...foundAction,
+                            ...action.payload.message,
+                        }
+                    }
+                }
+
+                return new ActivateResponseActionPlan({ response: respToUpdate });
+            }
+        })
+    )
+
+    @Effect()
+    activateResponseActionPlan$: Observable<Action> = this.actions$.pipe(
+        ofType(ResponseActionTypes.ActivateResponseActionPlan),
+        map((action: ActivateResponseActionPlan) => new SelectActionPlan({
+            actionPlan: action.payload.response.actionPlan,
+        }))
+    )
+
+    @Effect()
+    updateResponseActionResponse$: Observable<Action> = this.actions$.pipe(
+        ofType(ResponseActionTypes.ActivateResponseActionPlan),
+        map((action: ActivateResponseActionPlan) => new UpdateResponse({
+            response: {
+                id: action.payload.response.responseId,
+                changes: action.payload.response,
+            }
+        }))
     )
 
     constructor (
