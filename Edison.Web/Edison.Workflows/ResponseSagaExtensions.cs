@@ -15,7 +15,7 @@ namespace Edison.Workflows.Extensions
     {
         internal static EventActivityBinder<ResponseState, T> ThenPublishActions<T>(this EventActivityBinder<ResponseState, T> binder, ResponseUpdateType responseUpdateType, Func<ResponseActionModel, bool> actionsFilter = null) where T : class, IResponseMessage
         {
-            binder.ThenAsync(async context =>
+            return binder.ThenAsync(async context =>
             {
                 //Retrieve the list of actions
                 IEnumerable<ResponseActionModel> actions = responseUpdateType == ResponseUpdateType.CloseResponse
@@ -64,7 +64,6 @@ namespace Edison.Workflows.Extensions
                     SecondaryRadius = context.Data.Response.ActionPlan.SecondaryRadius
                 }));
             });
-            return binder;
         }
     }
 }
