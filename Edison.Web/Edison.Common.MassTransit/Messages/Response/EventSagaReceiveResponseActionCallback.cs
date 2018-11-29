@@ -10,7 +10,6 @@ namespace Edison.Common.Messages
         public Guid ResponseId { get; set; }
         public ActionStatus Status { get; set; }
         public string ErrorMessage { get; set; }
-        public bool IsCloseAction { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Guid ActionId { get; set; }

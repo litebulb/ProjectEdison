@@ -7,6 +7,5 @@ namespace Edison.Common.Messages.Interfaces
         Guid ActionCorrelationId { get; set; }
         Guid ActionId { get; }
         Guid ResponseId { get; set; }
-        bool IsCloseAction { get; set; }
     }
 }

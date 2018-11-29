@@ -13,6 +13,5 @@ namespace Edison.Common.Messages.Interfaces
         string ErrorMessage { get; set; }
         DateTime StartDate { get; set; }
         DateTime EndDate { get; set; }
-        bool IsCloseAction { get; set; }
     }
 }

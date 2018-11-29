@@ -4,7 +4,7 @@ namespace Edison.Common.Messages.Interfaces
 {
     public class ActionLightSensorEvent : ActionBase, IActionLightSensorEvent
     {
-        public ActionLightSensorEvent(ResponseActionModel model, bool isCloseAction = false) : base(model, isCloseAction) { }
+        public ActionLightSensorEvent(ResponseActionModel model) : base(model) { }
         public double PrimaryRadius { get; set; }
         public double SecondaryRadius { get; set; }
         public Geolocation GeolocationPoint { get; set; }

@@ -33,17 +33,19 @@ namespace Edison.ResponseService.Consumers
                     {
                         case "notification":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionNotificationEvent.");
-                            await context.Publish(new ActionNotificationEvent(action, context.Message.IsCloseAction) {
-                                ResponseId = context.Message.ResponseId
+                            await context.Publish(new ActionNotificationEvent(action) {
+                                ResponseId = context.Message.ResponseId,
+                                ActionCorrelationId = context.Message.ActionCorrelationId
                             });
                             break;
                         case "lightsensor":
                             _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionLightSensorEvent.");
-                            await context.Publish(new ActionLightSensorEvent(action, context.Message.IsCloseAction) {
-                                 ResponseId = context.Message.ResponseId,
-                                 GeolocationPoint = context.Message.Geolocation,
-                                 PrimaryRadius = context.Message.PrimaryRadius,
-                                 SecondaryRadius = context.Message.SecondaryRadius
+                            await context.Publish(new ActionLightSensorEvent(action) {
+                                ActionCorrelationId = context.Message.ActionCorrelationId,
+                                ResponseId = context.Message.ResponseId,
+                                GeolocationPoint = context.Message.Geolocation,
+                                PrimaryRadius = context.Message.PrimaryRadius,
+                                SecondaryRadius = context.Message.SecondaryRadius
                             });
                             break;
                         default:

@@ -33,7 +33,6 @@ namespace Edison.ResponseService.Consumers
                 await context.Publish(new EventSagaReceiveResponseActionCallback()
                 {
                     ActionCorrelationId = context.Message.ActionCorrelationId,
-                    IsCloseAction = context.Message.IsCloseAction,
                     ResponseId = context.Message.ResponseId,
                     ActionId = context.Message.ActionId,
                     Status = status,
