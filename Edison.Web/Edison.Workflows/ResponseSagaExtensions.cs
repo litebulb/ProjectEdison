@@ -53,16 +53,19 @@ namespace Edison.Workflows.Extensions
                 context.Instance.ActionUpdateType = responseUpdateType;
                 context.Instance.ActionsTotal = actions.Count();
                 context.Instance.ActionsCompletedCount = 0;
-                await actions.TaskForEach(action => context.Publish(new ActionEvent()
-                {
-                    ActionCorrelationId = context.Instance.ActionCorrelationId,
-                    ActionId = action.ActionId,
-                    ResponseId = context.Data.Response.ResponseId,
-                    Action = action,
-                    Geolocation = context.Data.Response.Geolocation,
-                    PrimaryRadius = context.Data.Response.ActionPlan.PrimaryRadius,
-                    SecondaryRadius = context.Data.Response.ActionPlan.SecondaryRadius
-                }));
+                await actions.TaskForEach(async action => {
+                    await Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: Start Action {action.ActionId} of type {action.ActionType}.");
+                    await context.Publish(new ActionEvent()
+                    {
+                        ActionCorrelationId = context.Instance.ActionCorrelationId,
+                        ActionId = action.ActionId,
+                        ResponseId = context.Data.Response.ResponseId,
+                        Action = action,
+                        Geolocation = context.Data.Response.Geolocation,
+                        PrimaryRadius = context.Data.Response.ActionPlan.PrimaryRadius,
+                        SecondaryRadius = context.Data.Response.ActionPlan.SecondaryRadius
+                    });
+                });
             });
         }
     }

@@ -36,10 +36,10 @@ namespace Edison.Workflows
             Initially(
                 When(ResponseCreated)
                     .Then(context => context.Instance.CorrelationId = context.Data.Response.ResponseId)
-                    .ThenAsync(context => Console.Out.WriteLineAsync($"Response-{context.Instance.CorrelationId}: Saga Initiated."))
-                    .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: Event Received."))
+                    .Then(context => Console.WriteLine($"Response-{context.Instance.CorrelationId}: Saga Initiated."))
+                    .Then(context => Console.WriteLine($"Response--{context.Instance.CorrelationId}: Event Received."))
                     .ThenPublishActions(ResponseUpdateType.NewResponse) //Run open actions
-                    .ThenAsync(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseCreated."))
+                    .Then(context => Console.Out.WriteLine($"Response--{context.Instance.CorrelationId}: ResponseCreated."))
                     .TransitionTo(Waiting)
             );
 
@@ -60,17 +60,17 @@ namespace Edison.Workflows
 
                 //Triggers when the response was closed
                 When(ResponseClosed)
-                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseClosed."))
+                .Then(context => Console.Out.WriteLine($"Response--{context.Instance.CorrelationId}: ResponseClosed."))
                 .ThenPublishActions(ResponseUpdateType.CloseResponse), //Run close actions
 
                 //Triggers when the was updated with new actions
                 When(ResponseUpdated)
-                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
+                .Then(context => Console.Out.WriteLine($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
                 .ThenPublishActions(ResponseUpdateType.UpdateResponseActions, p => p.Status == ActionStatus.NotRun || p.Status == ActionStatus.Skipped), //Run update action,
 
                 //Triggers call back on actions, ends the saga if all close actions are performed successfully
                 When(ResponseActionCallback)
-                .Then(context => Console.Out.WriteLineAsync($"Response--{context.Instance.CorrelationId}: ResponseActionCallback"))
+                .Then(context => Console.Out.WriteLine($"Response--{context.Instance.CorrelationId}: ResponseActionCallback"))
                 .ThenAsync(context => context.Publish(new ActionCallbackUIUpdatedRequestedEvent() //Track action callbacks
                 {
                     ResponseId = context.Data.ResponseId,

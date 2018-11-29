@@ -6,8 +6,10 @@ using Microsoft.Extensions.Logging;
 using MassTransit;
 using Edison.Core.Interfaces;
 using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
 using Edison.Common.Messages.Interfaces;
 using Edison.Common.Messages;
+using Newtonsoft.Json;
 
 namespace Edison.ResponseService.Consumers
 {
@@ -18,6 +20,7 @@ namespace Edison.ResponseService.Consumers
     {
         private readonly IDeviceRestService _deviceRestService;
         private readonly IIoTHubControllerRestService _iotHubControllerRestService;
+        private readonly IMassTransitServiceBus _serviceBus;
         private List<string> _colors = new List<string>()
         {
             "off", "red", "green", "blue", "cyan", "yellow", "purple", "white"
@@ -30,10 +33,12 @@ namespace Edison.ResponseService.Consumers
         public ResponseActionLightSensorEventConsumer(IDeviceRestService deviceRestService,
             IResponseRestService responseRestService,
             IIoTHubControllerRestService iotHubControllerRestService,
+            IMassTransitServiceBus serviceBus,
             ILogger<ResponseActionLightSensorEventConsumer> logger) : base(responseRestService, logger)
         {
             _deviceRestService = deviceRestService;
             _iotHubControllerRestService = iotHubControllerRestService;
+            _serviceBus = serviceBus;
         }
 
         public async Task Consume(ConsumeContext<IActionLightSensorEvent> context)
@@ -104,7 +109,21 @@ namespace Edison.ResponseService.Consumers
                     }
 
                     //Run the job
-                    bool result = await _iotHubControllerRestService.UpdateDevicesDesired(new DevicesUpdateDesiredModel()
+                    var resultMessage = await context.Request<IIoTDevicesUpdateRequested, IIoTDevicesUpdated>(_serviceBus.BusAccess, new IoTDevicesUpdateRequestedEvent()
+                    {
+                        DeviceIds = devicesInRadius.ToList(),
+                        JsonDesired = JsonConvert.SerializeObject(new Dictionary<string, object>()
+                        {
+                            { "State", state },
+                            { "Color", color },
+                            { "FlashFrequency", frequency }
+                        }),
+                        JsonTags = string.Empty,
+                        WaitForCompletion = true
+                    });
+                    bool result = resultMessage != null & resultMessage.Message != null;
+
+                    /*bool result = await _iotHubControllerRestService.UpdateDevicesDesired(new DevicesUpdateDesiredModel()
                     {
                         DeviceIds = devicesInRadius.ToList(),
                         Desired = new Dictionary<string, object>()
@@ -113,7 +132,7 @@ namespace Edison.ResponseService.Consumers
                             { "Color", color },
                             { "FlashFrequency", frequency }
                         }
-                    });
+                    });*/
 
                     //Success
                     if (result)
