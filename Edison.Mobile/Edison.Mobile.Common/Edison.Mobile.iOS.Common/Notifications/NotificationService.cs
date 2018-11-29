@@ -46,7 +46,7 @@ namespace Edison.Mobile.iOS.Common.Notifications
         {
             var deviceMobileModel = await notificationRestService.Register(deviceRegistrationModel);
 
-            DeviceId = deviceMobileModel.DeviceId;
+            DeviceId = deviceMobileModel?.DeviceId ?? DeviceId;
 
             return deviceMobileModel;
         }

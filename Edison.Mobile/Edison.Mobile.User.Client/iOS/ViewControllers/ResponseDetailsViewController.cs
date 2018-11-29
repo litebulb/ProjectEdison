@@ -253,7 +253,11 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
                 eventCoordinate = new CLLocationCoordinate2D(ViewModel.Response.Geolocation.Latitude, ViewModel.Response.Geolocation.Longitude);
             }
 
-            lastUserCoordinate = new CLLocationCoordinate2D(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
+            if (e.CurrentLocation != null)
+            {
+                lastUserCoordinate = new CLLocationCoordinate2D(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
+            }
+
             UpdateMapView(true);
         }
 

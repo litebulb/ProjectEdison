@@ -128,6 +128,11 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             base.ViewDidAppear(animated);
 
+            if (!isInitialAppearance)
+            {
+                if (alertsCircleView.AlertCount > 0) alertsCircleView.StartAnimating();
+            }
+
             isInitialAppearance = false;
         }
 
@@ -263,7 +268,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             //}, null);
         }
 
-        void HandleAlertViewTapped(UITapGestureRecognizer gestureRecognizer) 
+        void HandleAlertViewTapped(UITapGestureRecognizer gestureRecognizer)
         {
             Console.WriteLine(gestureRecognizer);
         }

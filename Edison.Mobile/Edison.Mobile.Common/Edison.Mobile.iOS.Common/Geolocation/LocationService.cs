@@ -29,12 +29,12 @@ namespace Edison.Mobile.iOS.Common.LocationServices
         {
             logger.Log($"iOS Authorization status changed: {status}");
 
-            if (status != CLAuthorizationStatus.AuthorizedAlways && status != CLAuthorizationStatus.NotDetermined)
+            if ((status != CLAuthorizationStatus.AuthorizedAlways || status != CLAuthorizationStatus.AuthorizedWhenInUse) && status != CLAuthorizationStatus.NotDetermined)
             {
-                requestPrivilegesTaskCompletionSource.TrySetResult(false);
                 var alertController = UIAlertController.Create(null, "We couldn't gain access to your location!", UIAlertControllerStyle.Alert);
                 alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
                 UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, true, null);
+                requestPrivilegesTaskCompletionSource.TrySetResult(true);
             }
 
             if (status == CLAuthorizationStatus.Authorized || status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse)
