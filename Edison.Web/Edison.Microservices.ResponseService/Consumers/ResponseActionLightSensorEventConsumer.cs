@@ -109,7 +109,7 @@ namespace Edison.ResponseService.Consumers
                     }
 
                     //Run the job
-                    var resultMessage = await context.Request<IIoTDevicesUpdateRequested, IIoTDevicesUpdated>(_serviceBus.BusAccess, new IoTDevicesUpdateRequestedEvent()
+                    var result = await context.Request<IIoTDevicesUpdateRequested, IIoTDevicesUpdated>(_serviceBus.BusAccess, new IoTDevicesUpdateRequestedEvent()
                     {
                         DeviceIds = devicesInRadius.ToList(),
                         JsonDesired = JsonConvert.SerializeObject(new Dictionary<string, object>()
@@ -121,9 +121,10 @@ namespace Edison.ResponseService.Consumers
                         JsonTags = string.Empty,
                         WaitForCompletion = true
                     });
-                    bool result = resultMessage != null & resultMessage.Message != null;
 
-                    /*bool result = await _iotHubControllerRestService.UpdateDevicesDesired(new DevicesUpdateDesiredModel()
+                    /*
+                     * Use if you don't wish to wait for answer
+                     * bool result = await _iotHubControllerRestService.UpdateDevicesDesired(new DevicesUpdateDesiredModel()
                     {
                         DeviceIds = devicesInRadius.ToList(),
                         Desired = new Dictionary<string, object>()
@@ -135,7 +136,7 @@ namespace Edison.ResponseService.Consumers
                     });*/
 
                     //Success
-                    if (result)
+                    if (result != null & result.Message != null)
                     {
                         await GenerateActionCallback(context, ActionStatus.Success, actionStartDate);
                         _logger.LogDebug($"ResponseActionLightSensorEventConsumer: Desired properties applied properly.");

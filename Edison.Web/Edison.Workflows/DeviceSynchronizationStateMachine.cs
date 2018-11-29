@@ -77,7 +77,7 @@ namespace Edison.Workflows
                             {
                                 DeviceId = context.Instance.DeviceId,
                                 Device = context.Data.Device,
-                                UpdateType = context.Instance.ChangeType == "twinChangeNotification" || context.Instance.ChangeType == "ping"  ? "UpdateDevice" : "NewDevice"
+                                UpdateType = context.Instance.ChangeType == "twinChangeNotification" || context.Instance.ChangeType == "ping"  ? DeviceUpdateType.UpdateDevice.ToString() : DeviceUpdateType.NewDevice.ToString()
                             }
                         }))
                     )
@@ -90,7 +90,7 @@ namespace Edison.Workflows
                         DeviceUI = new DeviceUIModel()
                         {
                             DeviceId = context.Instance.DeviceId,
-                            UpdateType = "DeleteDevice"
+                            UpdateType = DeviceUpdateType.DeleteDevice.ToString()
                         }
                     }))
                     .Finalize()

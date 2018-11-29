@@ -52,7 +52,7 @@ namespace Edison.Workflows
                     ResponseId = context.Instance.CorrelationId,
                     ResponseUI = new ResponseUIModel()
                     {
-                        UpdateType = "UpdateResponse",
+                        UpdateType = ResponseUpdateType.UpdateResponse.ToString(),
                         Response = context.Data.Response,
                         ResponseId = context.Data.Response.ResponseId
                     }
@@ -77,7 +77,7 @@ namespace Edison.Workflows
                     ActionId = context.Data.ActionId,
                     ActionCloseModel = new ActionCallbackUIModel()
                     {
-                        UpdateType = "ResponseActionCallback",
+                        UpdateType = ResponseUpdateType.ResponseActionCallback.ToString(),
                         ActionId = context.Data.ActionId,
                         Status = context.Data.Status,
                         ErrorMessage = context.Data.ErrorMessage,

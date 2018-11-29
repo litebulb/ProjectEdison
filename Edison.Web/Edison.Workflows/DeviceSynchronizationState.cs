@@ -2,9 +2,18 @@
 using Automatonymous;
 using MassTransit.DocumentDbIntegration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Edison.Workflows
 {
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum DeviceUpdateType
+    {
+        NewDevice,
+        UpdateDevice,
+        DeleteDevice
+    }
+
     /// <summary>
     /// State object for the device synchronization saga
     /// </summary>

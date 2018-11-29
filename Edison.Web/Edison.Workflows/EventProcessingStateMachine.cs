@@ -103,7 +103,7 @@ namespace Edison.Workflows
                             EventClusterUI = new EventClusterUIModel()
                             {
                                 EventCluster = context.Data.EventCluster,
-                                UpdateType = context.Data.EventCluster.EventCount > 1 ? "UpdateEventCluster" : "NewEventCluster"
+                                UpdateType = context.Data.EventCluster.EventCount > 1 ? EventClusterUpdateType.UpdateEventCluster.ToString() : EventClusterUpdateType.NewEventCluster.ToString()
                             }
                         }))
                         
@@ -135,7 +135,7 @@ namespace Edison.Workflows
                         EventClusterUI = new EventClusterUIModel()
                         {
                             EventCluster = context.Data.EventCluster,
-                            UpdateType = "CloseEventCluster"
+                            UpdateType = EventClusterUpdateType.CloseEventCluster.ToString()
                         }
                     }))
                     .Finalize()   
