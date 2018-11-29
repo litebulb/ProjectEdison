@@ -7,6 +7,11 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 {
 	public class MainViewController : BaseViewController<MainViewModel>
     {
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
 
+
+        }
     }
 }

@@ -1,17 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Geo;
-using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.Shared;
 using Edison.Mobile.Common.ViewModels;
 
-namespace Edison.Mobile.User.Client.Core.ViewModels
+namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        readonly AuthService authService;
-        readonly INotificationService notificationService;
         readonly ILocationService locationService;
+        readonly AuthService authService;
 
         bool isInitialAppearance = true;
 
@@ -19,11 +18,10 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         public event ViewNotification OnNavigateToMainViewModel;
         public event ViewNotification OnAppPermissionsFailed;
 
-        public LoginViewModel(AuthService authService, ILocationService locationService, INotificationService notificationService)
+        public LoginViewModel(AuthService authService, ILocationService locationService)
         {
             this.authService = authService;
             this.locationService = locationService;
-            this.notificationService = notificationService;
         }
 
         public override async void ViewAppearing()
@@ -31,7 +29,6 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             base.ViewAppearing();
 
             await locationService.RequestLocationPrivileges();
-            await notificationService.RequestNotificationPrivileges();
         }
 
         public override async void ViewAppeared()
@@ -93,22 +90,15 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         async Task<bool> GetAppPermissions()
         {
-            var hasNotificationPrivileges = await notificationService.HasNotificationPrivileges();
             var hasLocationPrivileges = await locationService.HasLocationPrivileges();
             var locationSuccess = hasLocationPrivileges;
-            var notificationSuccess = hasNotificationPrivileges;
-            
+
             if (!locationSuccess)
             {
-                locationSuccess = await locationService.RequestLocationPrivileges();            
+                locationSuccess = await locationService.RequestLocationPrivileges();
             }
 
-            if (!hasNotificationPrivileges)
-            {
-                notificationSuccess = await notificationService.RequestNotificationPrivileges();
-            }
-            
-            return notificationSuccess && locationSuccess;
+            return locationSuccess;
         }
     }
 }

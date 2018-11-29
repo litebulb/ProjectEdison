@@ -15,7 +15,6 @@ namespace Edison.Mobile.User.Client.Core.Ioc
         public void Register(ContainerBuilder builder)
         {
             builder.RegisterType<MainViewModel>();
-            builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ResponsesViewModel>();
             builder.RegisterType<MenuViewModel>();
             builder.RegisterType<ResponseDetailsViewModel>();

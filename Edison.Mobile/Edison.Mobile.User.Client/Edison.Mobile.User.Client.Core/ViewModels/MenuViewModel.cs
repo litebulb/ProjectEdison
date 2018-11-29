@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Edison.Mobile.Common.Auth;
-using Edison.Mobile.Common.Shared;
+using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {

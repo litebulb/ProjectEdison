@@ -3,6 +3,7 @@ using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Network;
 using Edison.Mobile.Common.Shared;
+using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.Common.Ioc
 {

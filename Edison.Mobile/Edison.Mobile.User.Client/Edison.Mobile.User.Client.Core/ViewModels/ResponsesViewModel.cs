@@ -2,11 +2,10 @@
 using System.Linq;
 using Autofac;
 using System.Threading.Tasks;
-using Edison.Mobile.Common.Network;
-using Edison.Mobile.Common.Shared;
 using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
 using Edison.Mobile.User.Client.Core.Network;
 using Edison.Mobile.Common.Ioc;
+using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {

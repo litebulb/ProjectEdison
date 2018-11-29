@@ -1,5 +1,4 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Common.Ioc;
 
@@ -10,6 +9,7 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
         public void Register(ContainerBuilder builder)
         {
             builder.RegisterType<MainViewModel>();
+            builder.RegisterType<LoginViewModel>();
         }
     }
 }

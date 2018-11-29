@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Edison.Mobile.Common.Shared;
 using Edison.Mobile.Common.Ioc;
 using UIKit;
+using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.iOS.Common.Views
 {

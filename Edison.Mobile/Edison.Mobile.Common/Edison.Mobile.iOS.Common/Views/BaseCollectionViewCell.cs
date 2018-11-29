@@ -1,5 +1,5 @@
 ﻿using System;
-using Edison.Mobile.Common.Shared;
+using Edison.Mobile.Common.ViewModels;
 using UIKit;
 
 namespace Edison.Mobile.iOS.Common.Views

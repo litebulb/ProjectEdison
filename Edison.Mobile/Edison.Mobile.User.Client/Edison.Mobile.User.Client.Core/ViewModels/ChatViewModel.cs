@@ -8,7 +8,6 @@ using Edison.Mobile.User.Client.Core.Network;
 using Edison.Mobile.User.Client.Core.Chat;
 using Microsoft.Bot.Connector.DirectLine;
 using Newtonsoft.Json.Linq;
-using Edison.Mobile.Common.Shared;
 using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.Auth;
@@ -16,6 +15,7 @@ using Edison.Mobile.Common.Network;
 using Timer = System.Timers.Timer;
 using System.Linq;
 using Edison.Mobile.User.Client.Core.Shared;
+using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {

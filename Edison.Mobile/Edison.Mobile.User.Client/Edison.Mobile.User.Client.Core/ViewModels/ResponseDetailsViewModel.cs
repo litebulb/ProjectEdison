@@ -3,9 +3,8 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using Edison.Core.Common.Models;
 using Edison.Mobile.Common.Geo;
-using Edison.Mobile.Common.Network;
-using Edison.Mobile.Common.Shared;
 using Edison.Mobile.User.Client.Core.Network;
+using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {

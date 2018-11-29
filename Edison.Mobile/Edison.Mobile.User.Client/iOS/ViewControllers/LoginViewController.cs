@@ -1,4 +1,5 @@
 ﻿using System;
+using Edison.Mobile.Common.ViewModels;
 using Edison.Mobile.iOS.Common.Shared;
 using Edison.Mobile.iOS.Common.Views;
 using Edison.Mobile.User.Client.Core.ViewModels;

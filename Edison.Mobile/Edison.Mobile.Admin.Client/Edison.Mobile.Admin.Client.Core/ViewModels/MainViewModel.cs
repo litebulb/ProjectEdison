@@ -1,5 +1,4 @@
-﻿using Edison.Mobile.Common;
-using Edison.Mobile.Common.Shared;
+﻿using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {

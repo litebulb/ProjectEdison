@@ -1,4 +1,5 @@
 ﻿using Edison.Mobile.Admin.Client.Core.Ioc;
+using Edison.Mobile.Admin.Client.iOS.Ioc;
 using Edison.Mobile.Admin.Client.iOS.ViewControllers;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.iOS.Common.Ioc;
@@ -25,13 +26,13 @@ namespace Edison.Mobile.Admin.Client.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar());
+            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(), new PlatformContainerRegistrar());
 
             AppCenter.Start("988970ac-9a0b-4c85-ac5f-986687d1d4ca", typeof(Analytics), typeof(Crashes));
 
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
-                RootViewController = new UINavigationController(new MainViewController()),
+                RootViewController = new LoginViewController(),
             };
 
             Window.MakeKeyAndVisible();
