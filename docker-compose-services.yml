@@ -43,11 +43,6 @@ services:
     build:
       context: .
       dockerfile: Edison.Web/Edison.Microservices.SignalRService/Dockerfile
-  edisonnotificationhubservice:
-    image: edisonnotificationhubservice
-    build:
-      context: .
-      dockerfile: Edison.Web/Edison.Microservices.NotificationHubService/Dockerfile
   edisonchatservice:
     image: edisonchatservice
     build:

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Edison.Core.Common;
 using Edison.DeviceProvisioning.Config;
 using Edison.DeviceProvisioning.Helpers;
 
@@ -26,7 +27,7 @@ namespace Edison.DeviceProvisionning
             //Authorization
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireAssertion(context => context.User.HasClaim(c =>
+                options.AddPolicy(AuthenticationRoles.Admin, policy => policy.RequireAssertion(context => context.User.HasClaim(c =>
                     (c.Type == ClaimTypes.Role && c.Value == "Admin"))));
             });
 

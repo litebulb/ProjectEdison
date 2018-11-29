@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
 using Edison.Api.Helpers;
 
@@ -21,6 +23,7 @@ namespace Edison.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Admin)]
         public async Task<IActionResult> GetReports([FromBody]ReportCreationModel reportRequest)
         {
 

@@ -50,10 +50,6 @@ Copy-Item "config-edisonresponseservice.json" -Destination "config.json"
 kubectl create configmap config-edisonresponseservice --from-file=./config.json
 Remove-Item "config.json"
 
-Copy-Item "config-edisonnotificationhubservice.json" -Destination "config.json"
-kubectl create configmap config-edisonnotificationhubservice --from-file=./config.json
-Remove-Item "config.json"
-
 Copy-Item "config-edisonmessagedispatcherservice.json" -Destination "config.json"
 kubectl create configmap config-edisonmessagedispatcherservice --from-file=./config.json
 Remove-Item "config.json"

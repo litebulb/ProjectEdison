@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
+using Edison.Core.Common;
 using Edison.Common;
 using Edison.Common.Interfaces;
 using Edison.Common.Config;
@@ -35,16 +36,16 @@ namespace Edison.Api
             //Authorization
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireAssertion(context => context.User.HasClaim(c =>
+                options.AddPolicy(AuthenticationRoles.Admin, policy => policy.RequireAssertion(context => context.User.HasClaim(c =>
                     (c.Type == ClaimTypes.Role && c.Value == "Admin") ||
                     (c.Type == "appidacr" && c.Value == "1") ||
                     (c.Type == "azpacr" && c.Value == "1"))));
 
-                options.AddPolicy("SuperAdmin", policy => policy.RequireAssertion(context => context.User.HasClaim(c => 
+                options.AddPolicy(AuthenticationRoles.SuperAdmin, policy => policy.RequireAssertion(context => context.User.HasClaim(c => 
                     (c.Type == "appidacr" && c.Value == "1") || 
                     (c.Type == "azpacr" && c.Value == "1"))));
 
-                options.AddPolicy("Consumer", policy => policy.RequireAuthenticatedUser());
+                options.AddPolicy(AuthenticationRoles.Consumer, policy => policy.RequireAuthenticatedUser());
             });
 
             //Options

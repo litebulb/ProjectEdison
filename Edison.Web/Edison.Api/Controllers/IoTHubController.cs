@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
 using Edison.Api.Helpers;
 
@@ -31,7 +32,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="device">DeviceCreationModel</param>
         /// <returns>True if the masstransit publish command has succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPost]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> CreationDevice(DeviceCreationModel device)
@@ -45,7 +46,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="device">DeviceUpdateModel</param>
         /// <returns>True if the masstransit publish command has succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> UpdateDevice(DeviceUpdateModel device)
@@ -59,7 +60,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="devices">List of device ids</param>
         /// <returns>True if the masstransit publish command has succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut("Tags")]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> UpdateDevicesTags(DevicesUpdateTagsModel devices)
@@ -73,7 +74,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="devices">List of device ids</param>
         /// <returns>True if the masstransit publish command has succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut("Desired")]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> UpdateDevicesDesired(DevicesUpdateDesiredModel devices)
@@ -87,7 +88,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         //// <param name="devices">List of device ids</param>
         /// <returns>True if the masstransit publish command has succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut("DirectMethods")]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> LaunchDevicesDirectMethod(DevicesLaunchDirectMethodModel devices)
@@ -101,7 +102,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="deviceId">Device Id</param>
         /// <returns>True if the masstransit publish command has succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpDelete]
         [Produces(typeof(HttpStatusCode))]
         public async Task<IActionResult> DeleteDevice(Guid deviceId)

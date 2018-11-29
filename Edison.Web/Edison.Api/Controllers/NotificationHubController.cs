@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.NotificationHubs;
 using Newtonsoft.Json;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
 using Edison.Api.Config;
 using Edison.Api.Helpers;
@@ -46,7 +47,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="deviceRegistration">DeviceRegistrationModel</param>
         /// <returns>DeviceMobileModel</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [Route("Register")]
         [Produces(typeof(DeviceMobileModel))]
         [HttpPost]
@@ -129,7 +130,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="registrationId"></param>
         /// <returns>True of the operation succeeded</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [Route("Register")]
         [HttpDelete]
         [Produces(typeof(bool))]
@@ -152,7 +153,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="notificationReq">NotificationCreationModel</param>
         /// <returns>List of responses per platform</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPost]
         [Produces(typeof(List<NotificationOutcome>))]
         public async Task<IActionResult> SendNotification([FromBody] NotificationCreationModel notificationReq)
@@ -197,7 +198,7 @@ namespace Edison.Api.Controllers
         /// <param name="pageSize">Size of a result page</param>
         /// <param name="continuationToken">Continuation token</param>
         /// <returns>List of notifications</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [Route("Responses")]
         [HttpGet]
         [Produces(typeof(IEnumerable<NotificationModel>))]
@@ -222,7 +223,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="responseId">Response Id</param>
         /// <returns></returns>
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [Route("Responses/{responseId}")]
         [HttpGet]
         [Produces(typeof(IEnumerable<NotificationModel>))]
@@ -248,7 +249,7 @@ namespace Edison.Api.Controllers
         /// <param name="pageSize">Size of a result page</param>
         /// <param name="continuationToken">Continuation token</param>
         /// <returns>List of registrations</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Admin)]
         [Route("Register")]
         [HttpGet]
         [Produces(typeof(CollectionQueryResult<RegistrationDescription>))]

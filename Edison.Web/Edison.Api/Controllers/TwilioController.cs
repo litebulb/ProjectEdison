@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Edison.Api.Config;
 using Edison.Api.Helpers;
-using Edison.Common.Config;
-using Edison.Common.Interfaces;
-using Edison.Common.Messages;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.NotificationHubs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Twilio;
 using Twilio.Clients;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -37,7 +31,7 @@ namespace Edison.Api.Controllers
             _restClient = twilioCreator.GetClient();
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [Route("Emergency")]
         [Produces(typeof(DeviceMobileModel))]
         [HttpGet]

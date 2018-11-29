@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Edison.Core.Common;
 
 namespace Microsoft.AspNetCore.Authentication
 {
@@ -11,7 +12,7 @@ namespace Microsoft.AspNetCore.Authentication
     {
         public static AuthenticationBuilder AddAzureAdAndB2CBearer(this AuthenticationBuilder builder, IConfiguration configuration)
         {
-            builder.AddJwtBearer("AzureAd", options =>
+            builder.AddJwtBearer(AuthenticationBearers.AzureAD, options =>
             {
                 options.Audience = configuration["AzureAd:ClientId"];
                 options.TokenValidationParameters.ValidIssuers = new List<string>()
@@ -24,7 +25,7 @@ namespace Microsoft.AspNetCore.Authentication
                     OnMessageReceived = OnMessageReceived
                 };
             })
-            .AddJwtBearer("B2CWeb", options =>
+            .AddJwtBearer(AuthenticationBearers.AzureB2C, options =>
             {
                 options.Audience = configuration["AzureAdB2CWeb:ClientId"];
                 options.Authority = $"{configuration["AzureAdB2CWeb:Instance"]}/{configuration["AzureAdB2CWeb:Domain"]}/{configuration["AzureAdB2CWeb:SignUpSignInPolicyId"]}/v2.0";

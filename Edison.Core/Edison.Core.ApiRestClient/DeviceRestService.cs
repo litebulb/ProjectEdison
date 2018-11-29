@@ -47,10 +47,9 @@ namespace Edison.Core
             return null;
         }
 
-        public async Task<bool> IsInBoundaries(DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj)
+        public async Task<bool> IsInBoundaries()
         {
-            RestRequest request = await PrepareQuery("Devices/IsInBoundaries", Method.POST);
-            request.AddParameter("application/json", JsonConvert.SerializeObject(deviceBoundaryGeolocationObj), ParameterType.RequestBody);
+            RestRequest request = await PrepareQuery("Devices/IsInBoundaries", Method.GET);
             var queryResult = await _client.ExecuteTaskAsync<bool>(request);
             if (queryResult.IsSuccessful)
                 return queryResult.Data;

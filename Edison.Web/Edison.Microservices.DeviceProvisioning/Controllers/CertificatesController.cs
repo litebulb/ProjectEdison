@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Edison.Core.Common;
 using Edison.DeviceProvisioning.Config;
 using Edison.DeviceProvisioning.Helpers;
 using Edison.DeviceProvisioning.Models;
@@ -13,7 +14,7 @@ namespace Edison.DeviceProvisionning.Controllers
     /// <summary>
     /// Controller to handle certificate generation for the onboarding app
     /// </summary>
-    [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
     [Route("Certificates")]
     [ApiController]
     public class CertificatesController : ControllerBase

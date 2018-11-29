@@ -115,13 +115,16 @@ namespace Edison.Api.Helpers
         /// <summary>
         /// Determine if a device location is within the radius of a epicente
         /// </summary>
-        /// <param name="deviceBoundaryGeolocationObj">DeviceBoundaryGeolocationModel</param>
+        /// <param name="userId">User Id</param>
         /// <param name="geolocationPoint">Geolocation of the geolocationPoint</param>
         /// <param name="radius">Radius in kilometer</param>
         /// <returns>True if the device is within the radius</returns>
-        public async Task<bool> IsInBoundaries(DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj, Geolocation geolocationPoint, double radius)
+        public async Task<bool> IsInBoundaries(string userId, Geolocation geolocationPoint, double radius)
         {
-            DeviceDAO device = await _repoDevices.GetItemAsync(deviceBoundaryGeolocationObj.DeviceId);
+            if (string.IsNullOrEmpty(userId))
+                throw new Exception($"The userId was not found.");
+
+            DeviceModel device = await GetMobileDeviceFromUserId(userId);
             return RadiusHelper.IsWithinRadius(device.Geolocation, geolocationPoint, radius);
         }
 

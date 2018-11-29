@@ -5,17 +5,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
-using Edison.Core.Interfaces;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
+using Edison.Core.Interfaces;
 using Edison.ChatService.Config;
 using Edison.ChatService.Models;
+
 
 namespace Edison.ChatService.Controllers
 {
     /// <summary>
     /// Controller to handle security related to the Bot Chat
     /// </summary>
-    [Authorize(AuthenticationSchemes = "B2CWeb,AzureAd")]
+    [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C)]
     [Route("Security")]
     [ApiController]
     public class SecurityController : ControllerBase

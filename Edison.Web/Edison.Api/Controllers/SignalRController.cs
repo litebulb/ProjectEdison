@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
 
 namespace Edison.Api.Controllers
@@ -20,7 +21,7 @@ namespace Edison.Api.Controllers
             _hub = hub;
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("EventCluster")]
         public async Task<IActionResult> UpdateEventClusterUI([FromBody]EventClusterUIModel eventClusterUIUpdate)
         {
@@ -28,7 +29,7 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("Device")]
         public async Task<IActionResult> UpdateDeviceUI([FromBody]DeviceUIModel deviceUIUpdate)
         {
@@ -36,7 +37,7 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("Response")]
         public async Task<IActionResult> UpdateResponseUI([FromBody]ResponseUIModel responseUIUpdate)
         {
@@ -44,7 +45,7 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("Response/ActionClose")]
         public async Task<IActionResult> UpdateActionCallbackUI([FromBody]ActionCallbackUIModel actionCallbackUIUpdate)
         {

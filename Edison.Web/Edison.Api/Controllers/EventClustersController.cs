@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Edison.Core.Common;
 using Edison.Core.Common.Models;
 using Edison.Api.Helpers;
 
@@ -30,7 +31,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="eventClusterId">Event Cluster Id</param>
         /// <returns>EventClusterModel</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpGet("{eventClusterId}")]
         [Produces(typeof(EventClusterModel))]
         public async Task<IActionResult> GetEventCluster(Guid eventClusterId)
@@ -44,7 +45,7 @@ namespace Edison.Api.Controllers
         /// Only the last 3 events are returned
         /// </summary>
         /// <returns>List of Event Clusters</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpGet]
         [Produces(typeof(IEnumerable<EventClusterModel>))]
         public async Task<IActionResult> GetEventClusters()
@@ -58,7 +59,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="eventClusterGeolocationObj">EventClusterGeolocationModel</param>
         /// <returns>List of Event Clusters Ids</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPost("Radius")]
         [Produces(typeof(IEnumerable<Guid>))]
         public async Task<IActionResult> GetClustersInRadius([FromBody] EventClusterGeolocationModel eventClusterGeolocationObj)
@@ -72,7 +73,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="eventObj">EventClusterCreationModel</param>
         /// <returns>EventClusterModel</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPost]
         [Produces(typeof(EventClusterModel))]
         public async Task<IActionResult> CreateOrUpdateEventCluster([FromBody]EventClusterCreationModel eventObj)
@@ -86,7 +87,7 @@ namespace Edison.Api.Controllers
         /// </summary>
         /// <param name="eventObj">EventClusterCloseModel</param>
         /// <returns>EventClusterModel</returns>
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut("Close")]
         [Produces(typeof(EventClusterModel))]
         public async Task<IActionResult> CloseEventCluster([FromBody]EventClusterCloseModel eventObj)
