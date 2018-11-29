@@ -7,7 +7,7 @@
 <div class="content-container">
     <div>
         Connected Lights {{context.parameters.radius}} Radius: <span class="color-text"
-              *ngIf="!canEdit || _color === 'off'">{{_color}}</span>
+              *ngIf="!canEdit">{{_color}}</span>
     </div>
     <div *ngIf="canEdit"
          class="colors-container">
