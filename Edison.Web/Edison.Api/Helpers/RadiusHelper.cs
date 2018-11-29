@@ -1,9 +1,6 @@
-﻿using Edison.Common.DAO;
+﻿using System;
 using Edison.Core.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {

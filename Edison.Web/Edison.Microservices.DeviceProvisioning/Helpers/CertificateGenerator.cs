@@ -1,4 +1,6 @@
-﻿using Edison.DeviceProvisioning.Config;
+﻿/* Generate certificate without a CSR. Not recommended as the private key isn't generated on the device */
+
+/*using Edison.DeviceProvisioning.Config;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -7,7 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Edison.DeviceProvisioning.Helpers
 {
-    /*public class CertificateGenerator
+    public class CertificateGenerator
     {
         private readonly DeviceProvisioningOptions _config;
         private readonly ILogger<CertificateGenerator> _logger;
@@ -106,5 +108,6 @@ namespace Edison.DeviceProvisioning.Helpers
 
             return null;
         }
-    }*/
+    }
 }
+*/

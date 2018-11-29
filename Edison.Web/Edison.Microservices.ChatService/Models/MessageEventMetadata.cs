@@ -1,15 +1,10 @@
-﻿using Edison.Core.Common;
-using Edison.Core.Common.Models;
-using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Edison.ChatService.Models
 {
+    /// <summary>
+    /// Object that represents the metadata to be sent in the message event to the event processor
+    /// </summary>
     [Serializable]
     public class MessageEventMetadata
     {

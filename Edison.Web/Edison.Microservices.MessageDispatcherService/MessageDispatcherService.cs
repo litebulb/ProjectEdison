@@ -1,15 +1,18 @@
-﻿using Edison.Common.Interfaces;
-using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.MessageDispatcherService.Config;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Edison.Common.Interfaces;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
+using Edison.MessageDispatcherService.Config;
 
 namespace Edison.MessageDispatcherService
 {
+    /// <summary>
+    /// Service to handle messages coming from Azure Service Bus
+    /// </summary>
     public class MessageDispatcherService
     {
         private readonly ILogger<MessageDispatcherService> _logger;

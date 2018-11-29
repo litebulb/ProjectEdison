@@ -1,13 +1,15 @@
-﻿using Edison.ChatService.Helpers;
-using Edison.ChatService.Models;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Builder;
+using Edison.ChatService.Helpers;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Middleware
 {
+    /// <summary>
+    /// Base Middleware that automatically adds the objects ChatUserContext and MessageRouter to a middleware
+    /// </summary>
     public abstract class BaseMiddleware : IMiddleware
     {
         private readonly ILogger<BaseMiddleware> _logger;

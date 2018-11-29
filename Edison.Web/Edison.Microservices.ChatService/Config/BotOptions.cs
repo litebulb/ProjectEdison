@@ -1,9 +1,6 @@
-﻿using Edison.Core.Common.Models;
-using Edison.Core.Config;
+﻿using Edison.Core.Config;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Edison.ChatService.Config
 {

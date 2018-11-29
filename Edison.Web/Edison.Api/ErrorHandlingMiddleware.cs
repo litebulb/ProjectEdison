@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.Documents;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Documents;
+using Newtonsoft.Json;
 
 namespace Edison.Api
 {
+    /// <summary>
+    /// Middleware that handles any errors happening on API endpoints
+    /// </summary>
     internal class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate next;

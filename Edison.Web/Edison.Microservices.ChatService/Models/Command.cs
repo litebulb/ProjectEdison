@@ -1,35 +1,12 @@
-﻿using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace Edison.ChatService.Models
 {
     /// <summary>
-    /// The commands.
-    /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum Commands
-    {
-        Undefined,
-        GetTranscript,
-        SendMessage,
-        ReadUserMessages,
-        EndConversation,
-        Error
-    }
-
-    /// <summary>
-    /// Command representation.
+    /// Object Command
     /// </summary>
     public class Command
     {
-        public const string CommandKeyword = "command"; // Used if the channel does not support mentions
-        public const string CommandParameterAll = "*";
-
         [JsonProperty(PropertyName = "baseCommand")]
         public Commands BaseCommand
         {
@@ -49,10 +26,6 @@ namespace Edison.ChatService.Models
         {
             get;
             set;
-        }
-
-        public Command()
-        {
         }
     }
 }

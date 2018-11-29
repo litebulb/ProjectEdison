@@ -1,5 +1,4 @@
-﻿using Edison.Core.Common.Models;
-using System;
+﻿using System;
 
 namespace Edison.Core.Common.Models
 {
@@ -9,6 +8,4 @@ namespace Edison.Core.Common.Models
         public DeviceTwinTagsModel Tags { get; set; }
         public DeviceTwinPropertiesModel Properties { get; set; }
     }
-
-    
 }

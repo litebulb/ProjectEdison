@@ -1,19 +1,18 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.ResponseService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles the association of existing event clusters to a response
+    /// </summary>
     public class ResponseTagExistingEventClustersRequestedConsumer : IConsumer<IResponseTagExistingEventClustersRequested>
     {
         private readonly IEventClusterRestService _eventClusterRestService;
@@ -44,7 +43,7 @@ namespace Edison.ResponseService.Consumers
                 var eventClusterIds = await _eventClusterRestService.GetClustersInRadius(new EventClusterGeolocationModel()
                 {
                     Radius = context.Message.Radius,
-                    ResponseEpicenterLocation = context.Message.ResponseGeolocation
+                    ResponseGeolocationPointLocation = context.Message.ResponseGeolocation
                 });
                 if (eventClusterIds != null)
                 {

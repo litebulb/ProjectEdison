@@ -3,11 +3,9 @@ using System;
 
 namespace Edison.Common.Messages.Interfaces
 {
-    public interface IActionEvent : IMessage
+    public interface IActionEvent : IMessage, IActionBaseEvent
     {
-        ActionModel Action { get; set; }
-        Guid ResponseId { get; set; }
-        bool IsCloseAction { get; set; }
+        ResponseActionModel Action { get; set; }
         Geolocation Geolocation { get; set; }
         double PrimaryRadius { get; set; }
         double SecondaryRadius { get; set; }

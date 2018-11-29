@@ -17,6 +17,4 @@ namespace Edison.Core.Common.Models
         public Dictionary<string, object> Desired { get; set; }
         
     }
-
-    
 }

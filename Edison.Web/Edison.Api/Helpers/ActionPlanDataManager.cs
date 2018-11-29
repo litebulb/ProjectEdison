@@ -1,23 +1,26 @@
-﻿using Edison.Api.Config;
-using Edison.Core.Common.Models;
-using Microsoft.Extensions.Options;
+﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
-using AutoMapper;
-using System;
 using Microsoft.Azure.Documents;
-using System.Net;
+using AutoMapper;
+using Edison.Core.Common.Models;
 using Edison.Common.Interfaces;
 using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for the Action Plan repository
+    /// </summary>
     public class ActionPlanDataManager
     {
         private readonly ICosmosDBRepository<ActionPlanDAO> _repoActionPlans;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public ActionPlanDataManager(IMapper mapper,
             ICosmosDBRepository<ActionPlanDAO> repoActionPlans)
         {
@@ -25,13 +28,21 @@ namespace Edison.Api.Helpers
             _repoActionPlans = repoActionPlans;
         }
 
-        #region Action Plans
+        /// <summary>
+        /// Get action plan from an action plan Id
+        /// </summary>
+        /// <param name="actionPlanId">Action Plan Id</param>
+        /// <returns>ActionPlanModel</returns>
         public async Task<ActionPlanModel> GetActionPlan(Guid actionPlanId)
         {
             ActionPlanDAO plan = await _repoActionPlans.GetItemAsync(actionPlanId);
             return _mapper.Map<ActionPlanModel>(plan);
         }
 
+        /// <summary>
+        /// Get all the actions plans
+        /// </summary>
+        /// <returns>List of Action Plans</returns>
         public async Task<IEnumerable<ActionPlanListModel>> GetActionPlans()
         {
             IEnumerable<ActionPlanDAO> plans = await _repoActionPlans.GetItemsAsync(
@@ -49,6 +60,11 @@ namespace Edison.Api.Helpers
             return _mapper.Map<IEnumerable<ActionPlanListModel>>(plans);
         }
 
+        /// <summary>
+        /// Update an action plan
+        /// </summary>
+        /// <param name="actionPlanObj">ActionPlanUpdateModel</param>
+        /// <returns>ActionPlanModel</returns>
         public async Task<ActionPlanModel> UpdateActionPlan(ActionPlanUpdateModel actionPlanObj)
         {
             ActionPlanDAO plan = await _repoActionPlans.GetItemAsync(actionPlanObj.ActionPlanId);
@@ -77,6 +93,11 @@ namespace Edison.Api.Helpers
             return output;
         }
 
+        /// <summary>
+        /// Create an action plan
+        /// </summary>
+        /// <param name="actionPlanObj">ActionPlanCreationModel</param>
+        /// <returns>ActionPlanModel</returns>
         public async Task<ActionPlanModel> CreationActionPlan(ActionPlanCreationModel actionPlanObj)
         {
             ActionPlanDAO plan = _mapper.Map<ActionPlanDAO>(actionPlanObj);
@@ -88,12 +109,16 @@ namespace Edison.Api.Helpers
             return _mapper.Map<ActionPlanModel>(plan);
         }
 
+        /// <summary>
+        /// Delete an action plan
+        /// </summary>
+        /// <param name="actionPlanId">Id of the action plan</param>
+        /// <returns>True if the action plan was removed</returns>
         public async Task<bool> DeleteActionPlan(Guid actionPlanId)
         {
             if (await _repoActionPlans.GetItemAsync(actionPlanId) != null)
                 return await _repoActionPlans.DeleteItemAsync(actionPlanId);
             return true;
         }
-        #endregion
     }
 }

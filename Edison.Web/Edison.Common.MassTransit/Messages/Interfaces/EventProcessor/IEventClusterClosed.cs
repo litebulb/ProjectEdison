@@ -1,4 +1,4 @@
-﻿   using Edison.Core.Common.Models;
+﻿using Edison.Core.Common.Models;
 
 namespace Edison.Common.Messages.Interfaces
 {

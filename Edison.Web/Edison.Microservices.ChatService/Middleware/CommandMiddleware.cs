@@ -1,24 +1,27 @@
-﻿using Edison.ChatService.Config;
-using Edison.ChatService.Helpers;
-using Edison.Common.Interfaces;
-using Edison.ChatService.Models;
-using Microsoft.Bot.Builder;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using Microsoft.Bot.Schema;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Edison.Core.Common.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
 using Edison.Common.Messages.Interfaces;
 using Edison.Common.Messages;
-using Edison.Core.Interfaces;
+using Edison.ChatService.Config;
+using Edison.ChatService.Helpers;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Middleware
 {
+    /// <summary>
+    /// Middleware that handles all the command passed to the bot via channeldata, prior to treating the message
+    /// </summary>
     public class CommandMiddleware : BaseMiddleware
     {
         private readonly BotOptions _config;

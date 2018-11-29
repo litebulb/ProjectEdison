@@ -1,23 +1,23 @@
-﻿using Edison.ChatService.Config;
-using Microsoft.Bot.Builder;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.Bot.Schema;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Edison.ChatService.Models;
-using Edison.ChatService.Helpers;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Connector;
 using Edison.Core.Common.Models;
-using Edison.ChatService.Helpers.Interfaces;
-using System;
+using Edison.ChatService.Config;
+using Edison.ChatService.Helpers;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Middleware
 {
-    public class ContextMiddleware : Microsoft.Bot.Builder.IMiddleware
+    /// <summary>
+    /// Middleware that retrieves the user context and role.
+    /// </summary>
+    public class ContextMiddleware : IMiddleware
     {
         private readonly BotOptions _config;
         private readonly BotRoutingDataManager _routingDataManager;

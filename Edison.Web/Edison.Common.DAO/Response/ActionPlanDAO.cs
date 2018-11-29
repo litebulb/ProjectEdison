@@ -6,6 +6,9 @@ using Edison.Common.Interfaces;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Contains information pertaining to an action plan template
+    /// </summary>
     public class ActionPlanDAO : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]

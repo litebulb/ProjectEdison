@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Edison.Core.Common.Models
+﻿namespace Edison.Core.Common.Models
 {
     public class NotificationPushTemplateModel
     {

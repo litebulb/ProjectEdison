@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using Swashbuckle.AspNetCore.Swagger;
-using Edison.Api.Config;
-using Edison.Api.Helpers;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
+using Edison.Common;
 using Edison.Common.Interfaces;
 using Edison.Common.Config;
 using Edison.Common.DAO;
-using Edison.Common;
-using System.Security.Claims;
+using Edison.Api.Config;
+using Edison.Api.Helpers;
 
 namespace Edison.Api
 {

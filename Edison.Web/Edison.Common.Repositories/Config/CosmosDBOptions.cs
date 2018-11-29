@@ -7,7 +7,6 @@
         public string Database { get; set; }
         public string Collection { get; set; }
 
-
         public CosmosDBCollections Collections { get; set; }
     }
 }

@@ -1,29 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Edison.Api.Helpers;
-using Edison.Common.Interfaces;
-using Edison.Common.Messages;
-using Edison.Core.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Edison.Core.Common.Models;
+using Edison.Api.Helpers;
 
 namespace Edison.Api.Controllers
 {
+    /// <summary>
+    /// Controller to handle operations on Iot Hub devices
+    /// </summary>
     [ApiController]
     [Route("api/IoTHub")]
     public class IoTHubController : ControllerBase
     {
         private readonly IoTHubControllerDataManager _iotHubControllerDataManager;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public IoTHubController(IoTHubControllerDataManager iotHubControllerDataManager)
         {
             _iotHubControllerDataManager = iotHubControllerDataManager;
         }
 
-        //Call for debug only. Device Creation should be done through DPS only
+        /// <summary>
+        /// Create a device
+        /// Call for debug only. Device Creation should be done through DPS only
+        /// </summary>
+        /// <param name="device">DeviceCreationModel</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPost]
         [Produces(typeof(HttpStatusCode))]
@@ -33,6 +40,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Update a device
+        /// </summary>
+        /// <param name="device">DeviceUpdateModel</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut]
         [Produces(typeof(HttpStatusCode))]
@@ -42,6 +54,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Update a set of devices tags
+        /// </summary>
+        /// <param name="devices">List of device ids</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("Tags")]
         [Produces(typeof(HttpStatusCode))]
@@ -51,6 +68,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Update a set of devices desired properties
+        /// </summary>
+        /// <param name="devices">List of device ids</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("Desired")]
         [Produces(typeof(HttpStatusCode))]
@@ -60,6 +82,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Launch a direct method on a set of devices
+        /// </summary>
+        //// <param name="devices">List of device ids</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("DirectMethods")]
         [Produces(typeof(HttpStatusCode))]
@@ -69,6 +96,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpDelete]
         [Produces(typeof(HttpStatusCode))]

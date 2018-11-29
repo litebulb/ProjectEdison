@@ -1,10 +1,13 @@
-﻿using Automatonymous;
+﻿using System;
+using Automatonymous;
 using MassTransit.DocumentDbIntegration;
 using Newtonsoft.Json;
-using System;
 
 namespace Edison.Workflows
 {
+    /// <summary>
+    /// State object for the event processing saga
+    /// </summary>
     internal class EventProcessingState : SagaStateMachineInstance, IVersionedSaga
     {
         public string State { get; set; }

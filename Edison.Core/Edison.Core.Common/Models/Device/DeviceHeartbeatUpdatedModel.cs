@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Edison.Core.Common.Models
+﻿namespace Edison.Core.Common.Models
 {
     public class DeviceHeartbeatUpdatedModel
     {

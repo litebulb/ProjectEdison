@@ -1,24 +1,33 @@
-﻿using Edison.Common.Interfaces;
-using Edison.Common.Messages;
-using Edison.Core.Common.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for the Iot Hub registry service
+    /// </summary>
     public class IoTHubControllerDataManager
     {
         private readonly IMassTransitServiceBus _serviceBus;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public IoTHubControllerDataManager(IMassTransitServiceBus serviceBus)
         {
             _serviceBus = serviceBus;
         }
 
+        /// <summary>
+        /// Create a device
+        /// </summary>
+        /// <param name="device">DeviceCreationModel</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> CreationDevice(DeviceCreationModel device)
         {
             var tags = new
@@ -42,6 +51,11 @@ namespace Edison.Api.Helpers
             return true;
         }
 
+        /// <summary>
+        /// Update a device
+        /// </summary>
+        /// <param name="device">DeviceUpdateModel</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> UpdateDevice(DeviceUpdateModel device)
         {
             var tags = new
@@ -65,6 +79,11 @@ namespace Edison.Api.Helpers
             return true;
         }
 
+        /// <summary>
+        /// Update a set of devices tags
+        /// </summary>
+        /// <param name="devices">List of device ids</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> UpdateDevicesTags(DevicesUpdateTagsModel devices)
         {
             var tags = new
@@ -88,6 +107,11 @@ namespace Edison.Api.Helpers
             return true;
         }
 
+        /// <summary>
+        /// Update a set of devices desired properties
+        /// </summary>
+        /// <param name="devices">List of device ids</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> UpdateDevicesDesired(DevicesUpdateDesiredModel devices)
         {
             await _serviceBus.BusAccess.Publish(new IoTDevicesUpdateRequestedEvent()
@@ -100,6 +124,11 @@ namespace Edison.Api.Helpers
             return true;
         }
 
+        /// <summary>
+        /// Launch a direct method on a set of devices
+        /// </summary>
+        //// <param name="devices">List of device ids</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> LaunchDevicesDirectMethods(DevicesLaunchDirectMethodModel devices)
         {
             await _serviceBus.BusAccess.Publish(new IoTDevicesDirectMethodRequestedEvent()
@@ -111,6 +140,11 @@ namespace Edison.Api.Helpers
             return true;
         }
 
+        /// <summary>
+        /// Delete a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> DeleteDevice(Guid deviceId)
         {
             await _serviceBus.BusAccess.Publish(new IoTDeviceDeleteRequestedEvent()

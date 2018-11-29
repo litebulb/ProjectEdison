@@ -1,21 +1,20 @@
-﻿using Edison.ChatService.Config;
-using Edison.ChatService.Helpers;
-using Edison.Common.Interfaces;
-using Microsoft.Bot.Builder;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.ChatService.Config;
+using Edison.ChatService.Helpers;
 using Edison.ChatService.Models;
-using AutoMapper;
-using Newtonsoft.Json;
 
 namespace Edison.ChatService.Middleware
 {
+    /// <summary>
+    /// Middleware that logs new messages from admins/consumer
+    /// </summary>
     public class LogMessageMiddleware : BaseMiddleware
     {
         private readonly BotOptions _config;

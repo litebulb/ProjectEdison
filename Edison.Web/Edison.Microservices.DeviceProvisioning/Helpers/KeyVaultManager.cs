@@ -1,17 +1,20 @@
-﻿using Edison.DeviceProvisioning.Config;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Extensions.Logging;
-using Edison.DeviceProvisioning.Models;
-using Microsoft.Azure.KeyVault.Models;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.KeyVault.Models;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Edison.DeviceProvisioning.Config;
+using Edison.DeviceProvisioning.Models;
 
 namespace Edison.DeviceProvisioning.Helpers
 {
+    /// <summary>
+    /// Class that manages Azure Key Vault
+    /// </summary>
     public class KeyVaultManager
     {
         private readonly DeviceProvisioningOptions _config;
@@ -20,6 +23,9 @@ namespace Edison.DeviceProvisioning.Helpers
         private readonly ILogger<KeyVaultManager> _logger;
         private readonly Random _random = new Random();
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public KeyVaultManager(IOptions<AzureAdOptions> azureConfig, IOptions<DeviceProvisioningOptions> config, ILogger<KeyVaultManager> logger)
         {
             _config = config.Value;
@@ -34,6 +40,11 @@ namespace Edison.DeviceProvisioning.Helpers
             });
         }
 
+        /// <summary>
+        /// Retrieve the set of security keys for a particular device
+        /// </summary>
+        /// <param name="deviceId">Device id</param>
+        /// <returns>DeviceSecretKeysModel</returns>
         public async Task<DeviceSecretKeysModel> GetSecretForDevice(Guid deviceId)
         {
             var output = new DeviceSecretKeysModel();
@@ -49,6 +60,12 @@ namespace Edison.DeviceProvisioning.Helpers
             return output;
         }
 
+        /// <summary>
+        /// Generate a new set of keys for a particular device, and store it to Azure Key Vault.
+        /// The Previous keys will be erased.
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>DeviceSecretKeysModel</returns>
         public async Task<DeviceSecretKeysModel> SetSecretForDevice(Guid deviceId)
         {
             DeviceSecretKeysModel output = new DeviceSecretKeysModel();
@@ -64,6 +81,11 @@ namespace Edison.DeviceProvisioning.Helpers
             return output;
         }
 
+        /// <summary>
+        /// Get a CA Certificate from Azure Key Vault
+        /// </summary>
+        /// <param name="certificateIdentifier">CA X509Certificate2</param>
+        /// <returns>X509Certificate2</returns>
         public async Task<X509Certificate2> GetCertificateAsync(string certificateIdentifier)
         {
             var secret = await _keyVault.GetSecretAsync(_config.KeyVaultAddress, certificateIdentifier);
@@ -76,6 +98,11 @@ namespace Edison.DeviceProvisioning.Helpers
             return null;
         }
 
+        /// <summary>
+        /// Get a secret from its id
+        /// </summary>
+        /// <param name="secretIdentifier">Id of the secret</param>
+        /// <returns>Value of the secret</returns>
         private async Task<string> GetSecret(string secretIdentifier)
         {
             try
@@ -96,6 +123,12 @@ namespace Edison.DeviceProvisioning.Helpers
             return string.Empty;
         }
 
+        /// <summary>
+        /// Set a secret
+        /// </summary>
+        /// <param name="secretIdentifier">Id of the secret</param>
+        /// <param name="value">Value of the secret</param>
+        /// <returns>Value of the secret</returns>
         private async Task<string> SetSecret(string secretIdentifier, string value)
         {
             try
@@ -110,8 +143,12 @@ namespace Edison.DeviceProvisioning.Helpers
             return string.Empty;
         }
 
-        
-        public string GenerateSecret(int length)
+        /// <summary>
+        /// Generate a new secret
+        /// </summary>
+        /// <param name="length">Length of the secret</param>
+        /// <returns>Value of the secret</returns>
+        private string GenerateSecret(int length)
         {
             const string allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             return new string(Enumerable.Repeat(allowed, length)

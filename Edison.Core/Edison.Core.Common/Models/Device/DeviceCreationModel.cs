@@ -15,8 +15,5 @@ namespace Edison.Core.Common.Models
         public string Location3 { get; set; }
         public Dictionary<string, object> Custom { get; set; }
         public Dictionary<string, object> Desired { get; set; }
-        
     }
-
-    
 }

@@ -6,12 +6,9 @@ namespace Edison.Common.Messages
 {
     public class ActionEvent : IActionEvent
     {
-        public ActionEvent(bool _isCloseAction = false)
-        {
-            IsCloseAction = _isCloseAction;
-        }
         public Guid ResponseId { get; set; }
-        public ActionModel Action { get; set; }
+        public Guid ActionId { get; set; }
+        public ResponseActionModel Action { get; set; }
         public bool IsCloseAction { get; set; }
         public Geolocation Geolocation { get; set; }
         public double PrimaryRadius { get; set; }

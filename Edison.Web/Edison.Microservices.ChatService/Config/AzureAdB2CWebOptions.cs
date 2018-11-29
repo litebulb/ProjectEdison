@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Edison.ChatService.Config
+﻿namespace Edison.ChatService.Config
 {
     public class AzureAdB2CWebOptions
     {

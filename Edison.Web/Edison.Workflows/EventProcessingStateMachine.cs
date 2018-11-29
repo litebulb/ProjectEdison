@@ -1,28 +1,28 @@
-﻿using Automatonymous;
-using Edison.Common.Config;
-using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Workflows.Config;
-using MassTransit;
+﻿using System;
 using Microsoft.Extensions.Options;
-using System;
-using System.Threading.Tasks;
+using MassTransit;
+using Automatonymous;
+using Edison.Core.Common.Models;
+using Edison.Common.Config;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
+using Edison.Workflows.Config;
 
 namespace Edison.Workflows
 {
+    /// <summary>
+    /// Saga to handle the lifecycle of an event cluster
+    /// </summary>
     internal class EventProcessingStateMachine : MassTransitStateMachine<EventProcessingState>
     {
         //Warning keep concurrency limit to 1
         private readonly ServiceBusRabbitMQOptions _configBus;
         private readonly WorkflowConfigEventProcessor _configWorkflow;
-        //private readonly WorkflowConfigResponse _configWorkflowResponse;
 
         public EventProcessingStateMachine(IOptions<ServiceBusRabbitMQOptions> configBus, IOptions<WorkflowConfig> configWorkflow)
         {
             _configBus = configBus.Value;
             _configWorkflow = configWorkflow.Value.EventProcessingWorkflow;
-            //_configWorkflowResponse = configWorkflow.Value.ResponseWorkflow;
 
             InstanceState(x => x.State);
 

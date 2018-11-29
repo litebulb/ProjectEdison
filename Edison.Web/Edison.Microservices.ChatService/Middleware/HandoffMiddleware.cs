@@ -1,24 +1,27 @@
-﻿using Edison.ChatService.Config;
-using Edison.ChatService.Helpers;
-using Edison.Common.Interfaces;
-using Microsoft.Bot.Builder;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using Microsoft.Bot.Schema;
-using System.Linq;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Edison.Core.Common.Models;
-using Edison.ChatService.Models;
 using System.Collections.Generic;
-using Edison.Common.Messages.Interfaces;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
-using Edison.Common.Messages;
 using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
+using Edison.ChatService.Config;
+using Edison.ChatService.Helpers;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Middleware
 {
+    /// <summary>
+    /// Middleware that treats the message and forwards them to admins/consumer
+    /// </summary>
     public class HandoffMiddleware : BaseMiddleware
     {
         private readonly BotOptions _config;

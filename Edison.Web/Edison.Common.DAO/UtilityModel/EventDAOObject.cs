@@ -1,5 +1,4 @@
-﻿using Edison.Core;
-using Edison.Core.Common;
+﻿using Edison.Core.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

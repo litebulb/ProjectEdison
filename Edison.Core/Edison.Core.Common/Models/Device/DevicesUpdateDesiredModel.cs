@@ -1,5 +1,4 @@
-﻿using Edison.Core.Common.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Edison.Core.Common.Models
@@ -10,6 +9,4 @@ namespace Edison.Core.Common.Models
         public Dictionary<string, object> Desired { get; set; }
         
     }
-
-    
 }

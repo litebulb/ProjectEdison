@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.Documents;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Edison.Api
 {
+    /// <summary>
+    /// Middleware to handle signalr authentication.
+    /// The token has to be passed in the query for signalr. The middleware ensure that the parameter 
+    /// passed in query is translated into a Authorize header
+    /// </summary>
     internal class SignalRMiddleware
     {
         private readonly RequestDelegate next;

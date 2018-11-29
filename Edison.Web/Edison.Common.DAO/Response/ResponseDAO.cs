@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Contains information pertaining to a response
+    /// </summary>
     public class ResponseDAO : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]
@@ -18,7 +21,7 @@ namespace Edison.Common.DAO
         public DateTime CreationDate { get; set; }
         [JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime UpdateDate { get; set; }
-        public ActionPlanDAOObject ActionPlan { get; set; }
+        public ResponseActionPlanDAOObject ActionPlan { get; set; }
         public Guid? PrimaryEventClusterId { get; set; }
         public GeolocationDAOObject Geolocation { get; set; }
         public IEnumerable<Guid> EventClusterIds { get; set; }

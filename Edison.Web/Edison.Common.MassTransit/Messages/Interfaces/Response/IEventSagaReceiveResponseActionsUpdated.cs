@@ -7,7 +7,7 @@ namespace Edison.Common.Messages.Interfaces
     public interface IEventSagaReceiveResponseActionsUpdated : IMessage
     {
         Guid ResponseId { get; set; }
-        IEnumerable<ActionModel> Actions { get; set; }
+        IEnumerable<ResponseActionModel> Actions { get; set; }
         Geolocation Geolocation { get; set; }
         double PrimaryRadius { get; set; }
         double SecondaryRadius { get; set; }

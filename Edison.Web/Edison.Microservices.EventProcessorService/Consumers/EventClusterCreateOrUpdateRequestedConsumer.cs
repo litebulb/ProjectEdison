@@ -1,16 +1,19 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Newtonsoft.Json;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.EventProcessorService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles the creation or update of an event cluster.
+    /// </summary>
     public class EventClusterCreateOrUpdateRequestedConsumer : IConsumer<IEventClusterCreateOrUpdateRequested>
     {
         private readonly IEventClusterRestService _eventClusterRestService;

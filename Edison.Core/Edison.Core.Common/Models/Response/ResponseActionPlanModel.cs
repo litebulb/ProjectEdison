@@ -1,8 +1,4 @@
-﻿using Edison.Core.Common.Interfaces;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Edison.Core.Common.Models
 {
@@ -15,7 +11,7 @@ namespace Edison.Core.Common.Models
         public double PrimaryRadius { get; set; }
         public double SecondaryRadius { get; set; }
         public bool AcceptSafeStatus { get; set; }
-        public virtual IEnumerable<ActionModel> OpenActions { get; set; }
-        public virtual IEnumerable<ActionModel> CloseActions { get; set; }
+        public virtual IEnumerable<ResponseActionModel> OpenActions { get; set; }
+        public virtual IEnumerable<ResponseActionModel> CloseActions { get; set; }
     }
 }

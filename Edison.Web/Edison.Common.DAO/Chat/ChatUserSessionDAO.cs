@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Keeps track of user session information for the chat, such as the Conversation object and the read status per user
+    /// </summary>
     public class ChatUserSessionDAO : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]

@@ -1,5 +1,4 @@
-﻿using Edison.Core.Common.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Edison.Core.Common.Models

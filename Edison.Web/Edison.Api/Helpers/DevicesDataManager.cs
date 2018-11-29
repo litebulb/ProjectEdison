@@ -1,34 +1,48 @@
-﻿using Edison.Core.Common.Models;
-using System.Threading.Tasks;
-using AutoMapper;
-using System;
-using Edison.Common.DAO;
-using Edison.Common.Interfaces;
-using System.Collections.Generic;
-using Microsoft.Extensions.Options;
-using Edison.Api.Config;
-using Microsoft.Azure.Documents;
+﻿using System;
 using System.Net;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Azure.Documents;
+using AutoMapper;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for the Device repository
+    /// </summary>
     public class DevicesDataManager
     {
         private readonly ICosmosDBRepository<DeviceDAO> _repoDevices;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public DevicesDataManager(IMapper mapper, ICosmosDBRepository<DeviceDAO> repoDevices)
         {
             _mapper = mapper;
             _repoDevices = repoDevices;
         }
 
+        /// <summary>
+        /// Get a device from a device id
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>DeviceModel</returns>
         public async Task<DeviceModel> GetDevice(Guid deviceId)
         {
             DeviceDAO deviceEntity = await _repoDevices.GetItemAsync(deviceId);
             return _mapper.Map<DeviceModel>(deviceEntity);
         }
 
+        /// <summary>
+        /// Get a mobile device from a user id
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>DeviceModel</returns>
         public async Task<DeviceModel> GetMobileDeviceFromUserId(string userId)
         {
             if (string.IsNullOrEmpty(userId))
@@ -39,6 +53,10 @@ namespace Edison.Api.Helpers
             return _mapper.Map<DeviceModel>(deviceEntity);
         }
 
+        /// <summary>
+        /// Get the list of devices in a light model for map display
+        /// </summary>
+        /// <returns>List of devices</returns>
         public async Task<IEnumerable<DeviceMapModel>> GetDevicesForMap()
         {
             IEnumerable<DeviceDAO> devices = await _repoDevices.GetItemsAsync(
@@ -55,12 +73,21 @@ namespace Edison.Api.Helpers
             return _mapper.Map<IEnumerable<DeviceMapModel>>(devices);
         }
 
+        /// <summary>
+        /// Get the list of devices
+        /// </summary>
+        /// <returns>List of devices</returns>
         public async Task<IEnumerable<DeviceModel>> GetDevices()
         {
             IEnumerable<DeviceDAO> devices = await _repoDevices.GetItemsAsync(p => p.Enabled && p.IoTDevice);
             return _mapper.Map<IEnumerable<DeviceModel>>(devices);
         }
 
+        /// <summary>
+        /// Get the list of devices in a specific radius
+        /// </summary>
+        /// <param name="deviceGeolocationObj">DeviceGeolocationModel</param>
+        /// <returns>List of device ids</returns>
         public async Task<IEnumerable<Guid>> GetDevicesInRadius(DeviceGeolocationModel deviceGeolocationObj)
         {
             IEnumerable<DeviceDAO> devices = await _repoDevices.GetItemsAsync(
@@ -74,7 +101,7 @@ namespace Edison.Api.Helpers
                );
 
             List<Guid> output = new List<Guid>();
-            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(deviceGeolocationObj.ResponseEpicenterLocation);
+            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(deviceGeolocationObj.ResponseGeolocationPointLocation);
             if (devices != null)
             {
                 foreach (DeviceDAO deviceObj in devices)
@@ -85,12 +112,24 @@ namespace Edison.Api.Helpers
             return output;
         }
 
-        public async Task<bool> IsInBoundaries(DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj, Geolocation epicenter, double radius)
+        /// <summary>
+        /// Determine if a device location is within the radius of a epicente
+        /// </summary>
+        /// <param name="deviceBoundaryGeolocationObj">DeviceBoundaryGeolocationModel</param>
+        /// <param name="geolocationPoint">Geolocation of the geolocationPoint</param>
+        /// <param name="radius">Radius in kilometer</param>
+        /// <returns>True if the device is within the radius</returns>
+        public async Task<bool> IsInBoundaries(DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj, Geolocation geolocationPoint, double radius)
         {
             DeviceDAO device = await _repoDevices.GetItemAsync(deviceBoundaryGeolocationObj.DeviceId);
-            return RadiusHelper.IsWithinRadius(device.Geolocation, epicenter, radius);
+            return RadiusHelper.IsWithinRadius(device.Geolocation, geolocationPoint, radius);
         }
 
+        /// <summary>
+        /// Create or update a device
+        /// </summary>
+        /// <param name="deviceTwinObj">DeviceTwinModel</param>
+        /// <returns>DeviceModel</returns>
         public async Task<DeviceModel> CreateOrUpdateDevice(DeviceTwinModel deviceTwinObj)
         {
             if (deviceTwinObj.DeviceId == Guid.Empty)
@@ -136,6 +175,11 @@ namespace Edison.Api.Helpers
             return _mapper.Map<DeviceModel>(deviceDAO);
         }
 
+        /// <summary>
+        /// Create or update a mobile device
+        /// </summary>
+        /// <param name="deviceMobile">DeviceMobileModel</param>
+        /// <returns>DeviceMobileModel</returns>
         public async Task<DeviceMobileModel> CreateOrUpdateDevice(DeviceMobileModel deviceMobile)
         {
             if (deviceMobile.DeviceId == Guid.Empty  && string.IsNullOrEmpty(deviceMobile.MobileId))
@@ -153,7 +197,7 @@ namespace Edison.Api.Helpers
             if (deviceDAO == null)
             //Create
             {
-                deviceDAO = await CreateDevice(deviceMobile);
+                deviceDAO = await CreateMobileDevice(deviceMobile);
             }   
             else
             //Update
@@ -175,6 +219,11 @@ namespace Edison.Api.Helpers
             return _mapper.Map<DeviceMobileModel>(deviceDAO);
         }
 
+        /// <summary>
+        /// Create a device
+        /// </summary>
+        /// <param name="deviceTwinObj">DeviceTwinModel</param>
+        /// <returns>DeviceModel</returns>
         public async Task<DeviceModel> CreateDevice(DeviceTwinModel deviceTwinObj)
         {
             //If device doesn't exist, throw exception
@@ -186,7 +235,12 @@ namespace Edison.Api.Helpers
             return _mapper.Map<DeviceModel>(deviceEntity);
         }
 
-        public async Task<DeviceDAO> CreateDevice(DeviceMobileModel deviceMobileObj)
+        /// <summary>
+        /// Create a mobile device
+        /// </summary>
+        /// <param name="deviceMobileObj">DeviceMobileModel</param>
+        /// <returns>DeviceDAO</returns>
+        public async Task<DeviceDAO> CreateMobileDevice(DeviceMobileModel deviceMobileObj)
         {
             //If device doesn't exist, throw exception
             DeviceDAO deviceEntity = _mapper.Map<DeviceDAO>(deviceMobileObj);
@@ -198,6 +252,11 @@ namespace Edison.Api.Helpers
             return deviceEntity;
         }
 
+        /// <summary>
+        /// Update the LastAccessTime of a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>DeviceHeartbeatUpdatedModel</returns>
         public async Task<DeviceHeartbeatUpdatedModel> UpdateHeartbeat(Guid deviceId)
         {
             if (deviceId == Guid.Empty)
@@ -226,6 +285,12 @@ namespace Edison.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Update the geolocation of a mobile device
+        /// </summary>
+        /// <param name="geolocation">Geolocation of the device</param>
+        /// <param name="userId">UserId</param>
+        /// <returns>DeviceGeolocationUpdateResultModel</returns>
         public async Task<DeviceGeolocationUpdateResultModel> UpdateMobileGeolocation(Geolocation geolocation, string userId)
         {
             if (geolocation == null)
@@ -270,6 +335,11 @@ namespace Edison.Api.Helpers
             return new DeviceGeolocationUpdateResultModel() { Success = false };
         }
 
+        /// <summary>
+        /// Delete a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>True if the device was successfully deleted</returns>
         public async Task<bool> DeleteDevice(Guid deviceId)
         {
             if (await _repoDevices.GetItemAsync(deviceId) != null)
@@ -277,7 +347,12 @@ namespace Edison.Api.Helpers
             return true;
         }
 
-        public async Task<bool> DeleteDevice(string registrationId)
+        /// <summary>
+        /// Delete a mobile device
+        /// </summary>
+        /// <param name="registrationId">RegistrationId</param>
+        /// <returns>True if the device was successfully deleted</returns>
+        public async Task<bool> DeleteMobileDevice(string registrationId)
         {
             DeviceDAO device = await _repoDevices.GetItemAsync(d => (string)d.Custom["RegistrationId"] == registrationId);
             if (device != null)

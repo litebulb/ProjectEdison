@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.Core
@@ -78,6 +77,18 @@ namespace Edison.Core
                 return false;
             }
             return true;
+        }
+
+        public async Task<bool> CompleteAction(ActionCompletionModel actionCompletionObj)
+        {
+            RestRequest request = await PrepareQuery("Responses/CompleteAction", Method.POST);
+            request.AddParameter("application/json", JsonConvert.SerializeObject(actionCompletionObj), ParameterType.RequestBody);
+            var queryResult = await _client.ExecuteTaskAsync<bool>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                _logger.LogError($"CompleteAction: Error while completing an action: {queryResult.StatusCode}");
+            return false;
         }
 
         public async Task<ResponseModel> CloseResponse(ResponseCloseModel responseObj)

@@ -1,14 +1,13 @@
-﻿using Automatonymous;
-using Edison.Core.Common.Models;
+﻿using System;
+using Automatonymous;
 using MassTransit.DocumentDbIntegration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Edison.Workflows
 {
+    /// <summary>
+    /// State object for the device synchronization saga
+    /// </summary>
     internal class DeviceSynchronizationState : SagaStateMachineInstance, IVersionedSaga
     {
         public string State { get; set; }

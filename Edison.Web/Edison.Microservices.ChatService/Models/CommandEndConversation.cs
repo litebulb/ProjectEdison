@@ -1,15 +1,11 @@
-﻿using Edison.Core.Common;
-using Edison.Core.Common.Models;
-using Microsoft.Bot.Schema;
+﻿using System;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Edison.ChatService.Models
 {
+    /// <summary>
+    /// Object that represents the channeldata for command EndConversation
+    /// </summary>
     [Serializable]
     public class CommandEndConversation
     {

@@ -1,14 +1,15 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Interfaces;
-using MassTransit;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Net;
-using System.Threading.Tasks;
+using MassTransit;
+using Edison.Core.Interfaces;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.SignalRService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles a signal R UI update for Event update message
+    /// </summary>
     public class EventUIUpdateConsumer : IConsumer<IEventUIUpdateRequested>
     {
         private readonly ISignalRRestService _signalsRestService;

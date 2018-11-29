@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using Edison.Api.Config;
-using Edison.Api.Helpers;
-using Edison.Common.Interfaces;
-using Edison.Common.Messages;
-using Edison.Core.Common;
-using Edison.Core.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using Edison.Core.Common;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.Common.Messages;
+using Edison.Api.Config;
+using Edison.Api.Helpers;
 
 namespace Edison.Api.Controllers
 {
+    /// <summary>
+    /// Controller to handle operations on Devices
+    /// </summary>
     [ApiController]
     [Route("api/Devices")]
     public class DevicesController : ControllerBase
@@ -25,6 +27,9 @@ namespace Edison.Api.Controllers
         private readonly EventClustersDataManager _eventClustersDataManager;
         private readonly IMassTransitServiceBus _serviceBus;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public DevicesController(DevicesDataManager eventDataManager, EventClustersDataManager eventClustersDataManager,
             IOptions<WebApiOptions> config, IMassTransitServiceBus serviceBus)
         {
@@ -34,6 +39,11 @@ namespace Edison.Api.Controllers
             _serviceBus = serviceBus;
         }
 
+        /// <summary>
+        /// Get a device from a device id
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>DeviceModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpGet("{deviceId}")]
         [Produces(typeof(DeviceModel))]
@@ -43,6 +53,11 @@ namespace Edison.Api.Controllers
             return Ok(device);
         }
 
+        /// <summary>
+        /// Get a mobile device from a user id
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>DeviceModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpGet("Mobile/{userId}")]
         [Produces(typeof(DeviceModel))]
@@ -52,6 +67,10 @@ namespace Edison.Api.Controllers
             return Ok(device);
         }
 
+        /// <summary>
+        /// Get the list of devices in a light model for map display
+        /// </summary>
+        /// <returns>List of devices</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpGet("Map")]
         [Produces(typeof(IEnumerable<DeviceMapModel>))]
@@ -61,24 +80,10 @@ namespace Edison.Api.Controllers
             return Ok(devices);
         }
 
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
-        [HttpPost("Radius")]
-        [Produces(typeof(IEnumerable<Guid>))]
-        public async Task<IActionResult> GetDevicesInRadius([FromBody] DeviceGeolocationModel deviceGeolocationObj)
-        {
-            IEnumerable<Guid> deviceIds = await _devicesDataManager.GetDevicesInRadius(deviceGeolocationObj);
-            return Ok(deviceIds);
-        }
-
-        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
-        [HttpPost("IsInBoundaries")]
-        [Produces(typeof(bool))]
-        public async Task<IActionResult> IsInBoundaries([FromBody] DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj)
-        {
-            var result = await _devicesDataManager.IsInBoundaries(deviceBoundaryGeolocationObj, _config.Boundaries.Epicenter, _config.Boundaries.Radius);
-            return Ok(result);
-        }
-
+        /// <summary>
+        /// Get the list of devices
+        /// </summary>
+        /// <returns>List of devices</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpGet]
         [Produces(typeof(IEnumerable<DeviceModel>))]
@@ -88,6 +93,39 @@ namespace Edison.Api.Controllers
             return Ok(devices);
         }
 
+        /// <summary>
+        /// Get the list of devices in a specific radius
+        /// </summary>
+        /// <param name="deviceGeolocationObj">DeviceGeolocationModel</param>
+        /// <returns>List of device ids</returns>
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [HttpPost("Radius")]
+        [Produces(typeof(IEnumerable<Guid>))]
+        public async Task<IActionResult> GetDevicesInRadius([FromBody] DeviceGeolocationModel deviceGeolocationObj)
+        {
+            IEnumerable<Guid> deviceIds = await _devicesDataManager.GetDevicesInRadius(deviceGeolocationObj);
+            return Ok(deviceIds);
+        }
+
+        /// <summary>
+        /// Determine if a device location is within the radius of a epicente
+        /// </summary>
+        /// <param name="deviceBoundaryGeolocationObj">DeviceBoundaryGeolocationModel</param>
+        /// <returns>True if the device is within the radius</returns>
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
+        [HttpPost("IsInBoundaries")]
+        [Produces(typeof(bool))]
+        public async Task<IActionResult> IsInBoundaries([FromBody] DeviceBoundaryGeolocationModel deviceBoundaryGeolocationObj)
+        {
+            var result = await _devicesDataManager.IsInBoundaries(deviceBoundaryGeolocationObj, _config.Boundaries.GeolocationPoint, _config.Boundaries.Radius);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Create or update a device
+        /// </summary>
+        /// <param name="deviceTwinObj">DeviceTwinModel</param>
+        /// <returns>DeviceModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPost]
         [Produces(typeof(DeviceModel))]
@@ -97,6 +135,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Update the LastAccessTime of a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>DeviceHeartbeatUpdatedModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpPut("Heartbeat")]
         [Produces(typeof(DeviceHeartbeatUpdatedModel))]
@@ -109,6 +152,11 @@ namespace Edison.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error updating the heartbeat.");
         }
 
+        /// <summary>
+        /// Update the geolocation of a mobile device
+        /// </summary>
+        /// <param name="geolocation">Geolocation of the device</param>
+        /// <returns>200 if successful</returns>
         [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
         [HttpPut("DeviceLocation")]
         public async Task<IActionResult> UpdateMobileGeolocation([FromBody]DeviceGeolocationUpdateModel updateGeolocationObj)
@@ -163,6 +211,11 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>True if the device was successfully deleted</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteDevice(Guid deviceId)

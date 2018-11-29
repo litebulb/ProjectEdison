@@ -6,15 +6,15 @@ namespace Edison.Common.Messages
 {
     public class ActionBase : IActionBaseEvent
     {
-        public ActionBase(ActionModel _model, bool _isCloseAction = false)
+        public ActionBase(ResponseActionModel model, bool isCloseAction = false)
         {
-            Action = _model;
-            IsCloseAction = _isCloseAction;
+            Action = model;
+            IsCloseAction = isCloseAction;
         }
         public Guid ActionId { get { return Action.ActionId; } }
         public Guid ResponseId { get; set; }
         public bool IsCloseAction { get; set; }
-        private ActionModel Action { get; set; }
+        private ResponseActionModel Action { get; set; }
 
         public T GetProperty<T>(string key)
         {

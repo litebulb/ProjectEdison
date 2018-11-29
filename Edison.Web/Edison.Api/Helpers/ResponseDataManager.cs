@@ -1,13 +1,11 @@
-﻿using Edison.Api.Config;
-using Edison.Core.Common.Models;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using AutoMapper;
-using System;
-using Microsoft.Azure.Documents;
+﻿using System;
 using System.Net;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Azure.Documents;
+using AutoMapper;
+using Edison.Core.Common.Models;
 using Edison.Common.Interfaces;
 using Edison.Common.DAO;
 
@@ -57,7 +55,7 @@ namespace Edison.Api.Helpers
 
         public async Task<IEnumerable<ResponseModel>> GetResponsesFromPointRadius(ResponseGeolocationModel responseGeolocationObj)
         {
-            if (responseGeolocationObj == null || responseGeolocationObj.EventClusterEpicenterLocation == null)
+            if (responseGeolocationObj == null || responseGeolocationObj.EventClusterGeolocationPointLocation == null)
                 return new List<ResponseModel>();
 
             IEnumerable<ResponseDAO> responseObjs = await _repoResponses.GetItemsAsync(p => p.EndDate.Value == null);
@@ -65,7 +63,7 @@ namespace Edison.Api.Helpers
                 return null;
 
             List<ResponseDAO> output = new List<ResponseDAO>();
-            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(responseGeolocationObj.EventClusterEpicenterLocation);
+            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(responseGeolocationObj.EventClusterGeolocationPointLocation);
             foreach (var response in responseObjs)
                 if (RadiusHelper.IsWithinRadius(daoGeocodeCenterPoint, response.Geolocation, response.ActionPlan.PrimaryRadius))
                     output.Add(response);
@@ -74,14 +72,20 @@ namespace Edison.Api.Helpers
 
         public async Task<ResponseModel> CreateResponse(ResponseCreationModel responseObj)
         {
+            //Instantiate the actions
+            InstantiateResponseActions(responseObj.ActionPlan.OpenActions);
+            InstantiateResponseActions(responseObj.ActionPlan.CloseActions);
+
             ResponseDAO response = new ResponseDAO()
             {
-                ActionPlan = _mapper.Map<ActionPlanDAOObject>(responseObj.ActionPlan),
+                ActionPlan = _mapper.Map<ResponseActionPlanDAOObject>(responseObj.ActionPlan),
                 ResponderUserId = responseObj.ResponderUserId,
                 ResponseState = RESPONSE_STATE_ACTIVE,
                 PrimaryEventClusterId = responseObj.PrimaryEventClusterId,
                 Geolocation = _mapper.Map<GeolocationDAOObject>(responseObj.Geolocation)
             };
+
+            
 
             response.Id = await _repoResponses.CreateItemAsync(response);
             if (_repoResponses.IsDocumentKeyNull(response))
@@ -117,34 +121,6 @@ namespace Edison.Api.Helpers
             }
 
             return _mapper.Map<ResponseModel>(response);
-        }
-
-        public async Task<ResponseModel> LocateResponse(ResponseUpdateModel responseObj)
-        {
-            ResponseDAO response = await _repoResponses.GetItemAsync(responseObj.ResponseId);
-            if (response == null)
-                throw new Exception($"No response found that matches responseid: {responseObj.ResponseId}");
-            if(response.Geolocation != null)
-                throw new Exception($"The response already had a geolocation: {responseObj.ResponseId}");
-
-            string etag = response.ETag;
-            response.Geolocation = _mapper.Map<GeolocationDAOObject>(responseObj.Geolocation);
-            response.ETag = etag;
-
-            try
-            {
-                await _repoResponses.UpdateItemAsync(response);
-            }
-            catch (DocumentClientException e)
-            {
-                //Update concurrency issue, retrying
-                if (e.StatusCode == HttpStatusCode.PreconditionFailed)
-                    return await LocateResponse(responseObj);
-                throw e;
-            }
-
-            var output = _mapper.Map<ResponseModel>(response);
-            return output;
         }
 
         public async Task<bool> SetSafeStatus(string userId, bool isSafe)
@@ -268,6 +244,8 @@ namespace Edison.Api.Helpers
 
         private ResponseDAO UpdateActionsOnResponseModel(ResponseDAO response, ResponseChangeActionPlanModel responseChangeAction)
         {
+            InstantiateResponseActions(responseChangeAction.Actions);
+
             var openAddActions = responseChangeAction.Actions.Where(x => !x.IsCloseAction && x.ActionChangedString == "add");
             var openEditActions = responseChangeAction.Actions.Where(x => !x.IsCloseAction && x.ActionChangedString == "edit");
             var openDeleteActions = responseChangeAction.Actions.Where(x => !x.IsCloseAction && x.ActionChangedString == "delete");
@@ -282,7 +260,9 @@ namespace Edison.Api.Helpers
                 {
                     //Edit Open
                     if (openEditActions.Select(a => a.Action.ActionId).Contains(openList[i].ActionId))
-                        openList[i] = _mapper.Map<ActionDAOObject>(openEditActions.First(a => a.Action.ActionId == openList[i].ActionId).Action);
+                    {
+                        openList[i] = _mapper.Map<ResponseActionDAOObject>(openEditActions.First(a => a.Action.ActionId == openList[i].ActionId).Action);
+                    }
                     //Delete Open
                     else if (openDeleteActions.Select(a => a.Action.ActionId).Contains(openList[i].ActionId))
                         openList.RemoveAt(i);
@@ -293,7 +273,7 @@ namespace Edison.Api.Helpers
                 {
                     //Edit Close
                     if (closeEditActions.Select(a => a.Action.ActionId).Contains(closeList[i].ActionId))
-                        closeList[i] = _mapper.Map<ActionDAOObject>(closeEditActions.First(a => a.Action.ActionId == closeList[i].ActionId).Action);
+                        closeList[i] = _mapper.Map<ResponseActionDAOObject>(closeEditActions.First(a => a.Action.ActionId == closeList[i].ActionId).Action);
                     //Delete Close
                     else if (closeDeleteActions.Select(a => a.Action.ActionId).Contains(closeList[i].ActionId))
                         closeList.RemoveAt(i);
@@ -301,15 +281,98 @@ namespace Edison.Api.Helpers
 
             //Add Close
             if(closeAddActions.Any())
-                closeList.AddRange(_mapper.Map<IEnumerable<ActionDAOObject>>(closeAddActions.Select(a => { a.Action.ActionId = Guid.NewGuid(); return a.Action; })));
+                closeList.AddRange(_mapper.Map<IEnumerable<ResponseActionDAOObject>>(closeAddActions));
             //Add Open
             if(openAddActions.Any())
-                openList.AddRange(_mapper.Map<IEnumerable<ActionDAOObject>>(openAddActions.Select(a => { a.Action.ActionId = Guid.NewGuid(); return a.Action; })));
+                openList.AddRange(_mapper.Map<IEnumerable<ResponseActionDAOObject>>(openAddActions));
 
             response.ActionPlan.OpenActions = openList.AsEnumerable();
             response.ActionPlan.CloseActions = closeList.AsEnumerable();
 
             return response;
+        }
+
+        public async Task<ResponseModel> LocateResponse(ResponseUpdateModel responseObj)
+        {
+            ResponseDAO response = await _repoResponses.GetItemAsync(responseObj.ResponseId);
+            if (response == null)
+                throw new Exception($"No response found that matches responseid: {responseObj.ResponseId}");
+            if (response.Geolocation != null)
+                throw new Exception($"The response already had a geolocation: {responseObj.ResponseId}");
+
+            string etag = response.ETag;
+            response.Geolocation = _mapper.Map<GeolocationDAOObject>(responseObj.Geolocation);
+            response.ETag = etag;
+
+            try
+            {
+                await _repoResponses.UpdateItemAsync(response);
+            }
+            catch (DocumentClientException e)
+            {
+                //Update concurrency issue, retrying
+                if (e.StatusCode == HttpStatusCode.PreconditionFailed)
+                    return await LocateResponse(responseObj);
+                throw e;
+            }
+
+            var output = _mapper.Map<ResponseModel>(response);
+            return output;
+        }
+
+        public async Task<bool> CompleteAction(ActionCompletionModel actionCompletionObj)
+        {
+            ResponseDAO response = await _repoResponses.GetItemAsync(actionCompletionObj.ResponseId);
+            if (response == null)
+                throw new Exception($"No response found that matches responseid: {actionCompletionObj.ResponseId}");
+
+            var action = response.ActionPlan.OpenActions.FirstOrDefault(p => p.ActionId == actionCompletionObj.ActionId);
+            if(action == null)
+                action = response.ActionPlan.CloseActions.FirstOrDefault(p => p.ActionId == actionCompletionObj.ActionId);
+
+            if (action != null)
+            {
+                action.StartDate = actionCompletionObj.StartDate;
+                action.EndDate = actionCompletionObj.EndDate;
+                action.Status = actionCompletionObj.Status.ToString();
+                action.ErrorMessage = actionCompletionObj.ErrorMessage;
+            }
+            else
+                return false;
+
+            try
+            {
+                await _repoResponses.UpdateItemAsync(response);
+                return true;
+            }
+            catch (DocumentClientException e)
+            {
+                //Update concurrency issue, retrying
+                if (e.StatusCode == HttpStatusCode.PreconditionFailed)
+                    return await CompleteAction(actionCompletionObj);
+                throw e;
+            }
+        }
+
+        private void InstantiateResponseActions(IEnumerable<ResponseActionModel> actions)
+        {
+            foreach (var action in actions)
+                InstantiateResponseActions(action);
+        }
+
+        private void InstantiateResponseActions(List<ActionChangedModel> actions)
+        {
+            foreach (var actionPlan in actions)
+                InstantiateResponseActions(actionPlan.Action);
+        }
+
+        private void InstantiateResponseActions(ResponseActionModel action)
+        {
+            if (action.ActionId == Guid.Empty)
+                action.ActionId = Guid.NewGuid();
+            action.Status = ActionStatus.NotRun;
+            action.StartDate = null;
+            action.EndDate = null;
         }
     }
 }

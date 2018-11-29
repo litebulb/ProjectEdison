@@ -1,34 +1,40 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
-using Edison.Core.Common.Models;
-using Edison.DeviceProvisioning.Config;
-using Edison.DeviceProvisioning.Helpers;
-using Edison.DeviceProvisioning.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Edison.DeviceProvisioning.Config;
+using Edison.DeviceProvisioning.Helpers;
+using Edison.DeviceProvisioning.Models;
 
 namespace Edison.DeviceProvisionning.Controllers
 {
+    /// <summary>
+    /// Controller to handle certificate generation for the onboarding app
+    /// </summary>
     [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
     [Route("Certificates")]
     [ApiController]
     public class CertificatesController : ControllerBase
     {
         private readonly CertificateCsrSignator _certificateCsrSignator;
-        //private readonly CertificateGenerator _certificateGenerator; //CSR generation is recommended
         private readonly DeviceProvisioningOptions _config;
 
-        //public CertificatesController(IOptions<DeviceProvisioningOptions> config, CertificateGenerator certificateGenerator, CertificateCsrSignator certificateCsrSignator)
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public CertificatesController(IOptions<DeviceProvisioningOptions> config, CertificateCsrSignator certificateCsrSignator)
         {
             _config = config.Value;
-            //_certificateGenerator = certificateGenerator;
             _certificateCsrSignator = certificateCsrSignator;
         }
 
+        /// <summary>
+        /// Generate a new device based on a CSR certificate
+        /// </summary>
+        /// <param name="deviceCertificateRequest">DeviceCertificateRequestModel containing DeviceType and CSR</param>
+        /// <returns>DeviceCertificateModel containing signed certificate</returns>
         [HttpPost]
         [Produces(typeof(DeviceCertificateModel))]
         public async Task<IActionResult> GenerateNewDeviceCertificate([FromBody]DeviceCertificateRequestModel deviceCertificateRequest)
@@ -44,9 +50,6 @@ namespace Edison.DeviceProvisionning.Controllers
             //Use a Certificate Signature Request generate from the Device. Generally safer as the private key does not travel. //Currently not working
             if (!string.IsNullOrEmpty(deviceCertificateRequest.Csr))
                 certificate = await _certificateCsrSignator.SignCertificate(certificateProperties, Convert.FromBase64String(deviceCertificateRequest.Csr));
-            //Generate the certificate from the endpoint.
-            //else
-            //    certificate = _certificateGenerator.GenerateNewCertificate(certificateProperties, deviceCertificateRequest.DeviceId);
 
             if(certificate != null)
             {

@@ -1,27 +1,26 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Net;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.ResponseService.Consumers
 {
-    public class ResponseActionNotificationEventConsumer : IConsumer<IActionNotificationEvent>
+    /// <summary>
+    /// Masstransit consumer that handles the notification action from a response
+    /// </summary>
+    public class ResponseActionNotificationEventConsumer : ResponseActionBaseConsumer, IConsumer<IActionNotificationEvent>
     {
-        private readonly ILogger<ResponseActionNotificationEventConsumer> _logger;
+        private readonly INotificationRestService _notificationRestService;
 
-        public ResponseActionNotificationEventConsumer(
-            ILogger<ResponseActionNotificationEventConsumer> logger)
+        public ResponseActionNotificationEventConsumer(IResponseRestService responseRestService,
+            INotificationRestService notificationRestService,
+            ILogger<ResponseActionNotificationEventConsumer> logger) : base(responseRestService, logger)
         {
-            _logger = logger;
+            _notificationRestService = notificationRestService;
         }
 
         public async Task Consume(ConsumeContext<IActionNotificationEvent> context)
@@ -30,31 +29,36 @@ namespace Edison.ResponseService.Consumers
             {
                 if (context.Message != null && context.Message as IActionNotificationEvent != null)
                 {
+                    DateTime actionStartDate = DateTime.UtcNow;
                     IActionNotificationEvent action = context.Message;
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: ActionId: '{action.ActionId}'.");
-                    _logger.LogDebug($"ResponseActionNotificationEventConsumer: PhoneNumber: '{action.PhoneNumber}'.");
+                    _logger.LogDebug($"ResponseActionNotificationEventConsumer: User: '{action.User}'.");
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: Message: '{action.Message}'.");
                     _logger.LogDebug($"ResponseActionNotificationEventConsumer: IsSilent: '{action.IsSilent}'.");
-                    DateTime date = DateTime.UtcNow;
-                    await context.Publish(new NotificationSendEvent() {
-                        Notification = new NotificationCreationModel()
-                        {
-                            ResponseId = action.ResponseId,
-                            NotificationText = action.Message,
-                            Status = 1,
-                            Title = "Alert Notification",
-                            User = action.PhoneNumber,
-                            Tags = null
-                        },
-                        ActionId = action.ActionId,
+
+                    NotificationModel result = await _notificationRestService.SendNotification(new NotificationCreationModel()
+                    {
                         ResponseId = action.ResponseId,
-                        IsCloseAction = action.IsCloseAction
-                        });
-                    return;
+                        NotificationText = action.Message,
+                        Status = 1,
+                        Title = "Alert Notification",
+                        Tags = null
+                    });
+
+                    //Success
+                    if (result != null)
+                    {
+                        await GenerateActionCallback(context, ActionStatus.Success, actionStartDate);
+                        _logger.LogDebug($"ResponseActionNotificationEventConsumer: NotificationId: '{result.NotificationId}' published.");
+                        return;
+                    }
+
+                    //Error
+                    await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, "Action '{action.ActionId}': The notification could not be sent.");
+                    _logger.LogError("ResponseActionNotificationEventConsumer: The notification could not be sent.");
                 }
                 _logger.LogError("ResponseActionNotificationEventConsumer: Invalid Null or Empty Action Notification");
                 throw new Exception("Invalid or Null Action Notification");
-
             }
             catch (Exception e)
             {

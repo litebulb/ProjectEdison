@@ -1,17 +1,17 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Net;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.EventProcessorService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles the closure of an event cluster.
+    /// </summary>
     public class EventClusterCloseRequestedConsumer : IConsumer<IEventClusterCloseRequested>
     {
         private readonly IEventClusterRestService _eventClusterRestService;

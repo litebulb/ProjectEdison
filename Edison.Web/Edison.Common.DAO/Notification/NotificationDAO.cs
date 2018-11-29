@@ -6,6 +6,9 @@ using Edison.Common.Interfaces;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Contains information pertaining to a notification message, associated to a response
+    /// </summary>
     public class NotificationDAO : IEntityDAO
     {
         public string Title { get; set; }

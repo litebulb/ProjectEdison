@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
-using System;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Bot.Builder.Integration.AspNet.Core

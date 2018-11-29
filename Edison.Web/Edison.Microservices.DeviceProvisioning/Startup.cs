@@ -1,12 +1,12 @@
-﻿using Edison.DeviceProvisioning.Config;
-using Edison.DeviceProvisioning.Helpers;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
+using Edison.DeviceProvisioning.Config;
+using Edison.DeviceProvisioning.Helpers;
 
 namespace Edison.DeviceProvisionning
 {
@@ -30,12 +30,10 @@ namespace Edison.DeviceProvisionning
                     (c.Type == ClaimTypes.Role && c.Value == "Admin"))));
             });
 
-
             services.AddOptions();
             services.AddApplicationInsightsKubernetesEnricher();
             services.Configure<DeviceProvisioningOptions>(Configuration.GetSection("DeviceProvisioning"));
             services.Configure<AzureAdOptions>(Configuration.GetSection("RestService:AzureAd"));
-            //services.AddSingleton<CertificateGenerator>();
             services.AddSingleton<CertificateCsrSignator>();
             services.AddSingleton<KeyVaultManager>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

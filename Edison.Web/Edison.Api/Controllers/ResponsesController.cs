@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Edison.Api.Config;
-using Edison.Api.Helpers;
-using Edison.Common.Interfaces;
-using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common;
-using Edison.Core.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Edison.Core.Common;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
+using Edison.Api.Config;
+using Edison.Api.Helpers;
 
 namespace Edison.Api.Controllers
 {
+    /// <summary>
+    /// Controller to handle operations on responses
+    /// </summary>
     [ApiController]
     [Route("api/Responses")]
     public class ResponsesController : ControllerBase
@@ -97,9 +100,13 @@ namespace Edison.Api.Controllers
             });
             if (result != null)
             {
-                IEventSagaReceiveResponseLocated newMessage = new EventSagaReceiveResponseLocated()
+                IEventSagaReceiveResponseActionsUpdated newMessage = new EventSagaReceiveResponseActionsUpdated()
                 {
-                    ResponseModel = result
+                    Actions = result.ActionPlan.OpenActions,
+                    ResponseId = responseObj.ResponseId,
+                    Geolocation = result.Geolocation,
+                    PrimaryRadius = result.ActionPlan.PrimaryRadius,
+                    SecondaryRadius = result.ActionPlan.SecondaryRadius
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }
@@ -138,6 +145,15 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(AuthenticationSchemes = "AzureAd", Policy = "SuperAdmin")]
+        [HttpPost("CompleteAction")]
+        [Produces(typeof(bool))]
+        public async Task<IActionResult> CompleteAction(ActionCompletionModel actionCompletionObj)
+        {
+            var result = await _responseDataManager.CompleteAction(actionCompletionObj);
+            return Ok(result);
+        }
+
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut("ChangeAction")]
         [Produces(typeof(ResponseModel))]
@@ -146,10 +162,9 @@ namespace Edison.Api.Controllers
             ResponseModel result = await _responseDataManager.ChangeActionOnResponse(responseObj);
             if (result != null)
             {
-                EventSagaReceiveResponseActionsUpdated newMessage = new EventSagaReceiveResponseActionsUpdated()
+                IEventSagaReceiveResponseActionsUpdated newMessage = new EventSagaReceiveResponseActionsUpdated()
                 {
-                    //We do not want to trigger events for deleted actions or close actions
-                    Actions = responseObj.Actions.Where(x => !x.IsCloseAction && x.ActionChangedString != "delete").Select(a => a.Action),
+                    Actions = result.ActionPlan.OpenActions,
                     ResponseId = responseObj.ResponseId,
                     Geolocation = result.Geolocation,
                     PrimaryRadius = result.ActionPlan.PrimaryRadius,

@@ -1,5 +1,4 @@
 ﻿using Edison.Core.Common.Models;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.Core.Interfaces
@@ -9,6 +8,6 @@ namespace Edison.Core.Interfaces
         Task<bool> UpdateEventClusterUI(EventClusterUIModel eventClusterUIUpdate);
         Task<bool> UpdateDeviceUI(DeviceUIModel deviceUIUpdate);
         Task<bool> UpdateResponseUI(ResponseUIModel responseUIUpdate);
-        Task<bool> UpdateActionCloseUI(ActionCloseUIModel actionCloseUIUpdate);
+        Task<bool> UpdateActionCloseUI(ActionCallbackUIModel actionCloseUIUpdate);
     }
 }

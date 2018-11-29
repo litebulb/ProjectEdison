@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Edison.Common.Config
+﻿namespace Edison.Common.Config
 {
     public class ServiceBusRabbitMQOptions
     {

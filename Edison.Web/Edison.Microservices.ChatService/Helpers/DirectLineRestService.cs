@@ -1,12 +1,10 @@
-﻿using Edison.Core;
-using Edison.Core.Common.Models;
-using Edison.Core.Config;
-using Edison.Core.Interfaces;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
-using System.Threading.Tasks;
+using Edison.Core;
+using Edison.Core.Common.Models;
+using Edison.Core.Interfaces;
 
 namespace Edison.ChatService.Helpers
 {

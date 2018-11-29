@@ -1,17 +1,17 @@
-﻿using Edison.Core.Common.Models;
-using Microsoft.Extensions.Options;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using System;
-using Edison.Common.Interfaces;
-using Edison.Common.DAO;
 using System.IO;
+using System.Drawing;
+using Microsoft.Extensions.Options;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using System.Drawing;
-using Edison.Api.Config;
 using NPOI.SS.Util;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
+using Edison.Common.DAO;
+using Edison.Api.Config;
 
 namespace Edison.Api.Helpers
 {
@@ -43,10 +43,6 @@ namespace Edison.Api.Helpers
         
         public async Task<byte[]> GetReport(ReportCreationModel reportRequest)
         {
-            //reportRequest.MinimumDate = DateTime.UtcNow.AddDays(-30);
-            //reportRequest.MaximumDate = DateTime.UtcNow.AddDays(30);
-            //reportRequest.Type = ReportCreationType.Responses | ReportCreationType.Events | ReportCreationType.Conversations;
-
             byte[] export = null;
 
             using (MemoryStream stream = new MemoryStream())

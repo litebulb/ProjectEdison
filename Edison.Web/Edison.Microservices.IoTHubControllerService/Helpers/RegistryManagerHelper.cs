@@ -1,18 +1,19 @@
-﻿using Edison.Core.Common.Models;
-using Edison.IoTHubControllerService.Config;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Common.Exceptions;
 using Microsoft.Azure.Devices.Shared;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Edison.IoTHubControllerService.Config;
 
 namespace Edison.IoTHubControllerService.Helpers
 {
+    /// <summary>
+    /// Manager for the IoT Hub Registry
+    /// </summary>
     public class RegistryManagerHelper
     {
         private readonly RegistryManager _registryManager;
@@ -20,6 +21,9 @@ namespace Edison.IoTHubControllerService.Helpers
         private readonly IoTHubControllerOptions _config;
         private readonly ILogger<RegistryManagerHelper> _logger;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public RegistryManagerHelper(IOptions<IoTHubControllerOptions> config, ILogger<RegistryManagerHelper> logger)
         {
             _config = config.Value;
@@ -28,6 +32,13 @@ namespace Edison.IoTHubControllerService.Helpers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Create a new device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <param name="jsonTags">Tags for the device, in json format</param>
+        /// <param name="jsonDesired">Desired properties for the device, in json format</param>
+        /// <returns>True if the device was successfully created</returns>
         public async Task<bool> CreateDevice(Guid deviceId, string jsonTags, string jsonDesired)
         {
             try
@@ -51,6 +62,13 @@ namespace Edison.IoTHubControllerService.Helpers
             return await UpdateDevice(deviceId, jsonTags, jsonDesired);
         }
 
+        /// <summary>
+        /// Update an existing device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <param name="jsonTags">Tags for the device, in json format</param>
+        /// <param name="jsonDesired">Desired properties for the device, in json format</param>
+        /// <returns>True if the device was successfully updated</returns>
         public async Task<bool> UpdateDevice(Guid deviceId, string jsonTags, string jsonDesired)
         {
             try
@@ -66,6 +84,14 @@ namespace Edison.IoTHubControllerService.Helpers
             }
         }
 
+        /// <summary>
+        /// Update a set of devices using a job
+        /// </summary>
+        /// <param name="deviceId">List of Device Ids</param>
+        /// <param name="jsonTags">Tags for the devices, in json format</param>
+        /// <param name="jsonDesired">Desired properties for the devices, in json format</param>
+        /// /// <param name="waitForCompletion">True if the call should wait for the completion of the job before returning the result</param>
+        /// <returns>True if the devices were successfully updated</returns>
         public async Task<bool> UpdateDevices(List<Guid> deviceIds, string jsonTags, string jsonDesired, bool waitForCompletion)
         {
             if (deviceIds == null || deviceIds.Count == 0 ||
@@ -102,6 +128,14 @@ namespace Edison.IoTHubControllerService.Helpers
             }
         }
 
+        /// <summary>
+        /// Launch a direct method on a set of devices
+        /// </summary>
+        /// <param name="deviceIds">List of Device Ids</param>
+        /// <param name="methodName">Method name</param>
+        /// <param name="payload">Payload of the method, in json format</param>
+        /// <param name="waitForCompletion">True if the call should wait for the completion of the job before returning the result</param>
+        /// <returns>True if the direct method was successfully launch on all devices</returns>
         public async Task<bool> LaunchDirectMethods(List<Guid> deviceIds, string methodName, string payload, bool waitForCompletion)
         {
             if (deviceIds == null || deviceIds.Count == 0 || string.IsNullOrEmpty(methodName))
@@ -138,6 +172,11 @@ namespace Edison.IoTHubControllerService.Helpers
             }
         }
 
+        /// <summary>
+        /// Delete a device
+        /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <returns>True if the device was successfully deleted</returns>
         public async Task<bool> DeleteDevice(Guid deviceId)
         {
             try
@@ -154,6 +193,12 @@ namespace Edison.IoTHubControllerService.Helpers
             }
         }
 
+        /// <summary>
+        /// Get a twin object from a json string of tags/desired
+        /// </summary>
+        /// <param name="jsonTags">Tags for the device, in json format</param>
+        /// <param name="jsonDesired">Desired properties for the device, in json format</param>
+        /// <returns></returns>
         private Twin ComposeTwin(string jsonTags, string jsonDesired)
         {
             Twin twin = new Twin();
@@ -166,11 +211,21 @@ namespace Edison.IoTHubControllerService.Helpers
             return twin;
         }
 
+        /// <summary>
+        /// Generate a job query from a list of devices ids
+        /// </summary>
+        /// <param name="deviceIds">List of Device Ids</param>
+        /// <returns>Job query</returns>
         private string GetJobQuery(List<Guid> deviceIds)
         {
             return "deviceId IN ['" + String.Join("','", deviceIds) + "']";
         }
 
+        /// <summary>
+        /// Get a timeout integer based on the number of devices to process in the job
+        /// </summary>
+        /// <param name="deviceIds">List of Device Ids</param>
+        /// <returns>Timeout count</returns>
         private int GetJobTimeout(List<Guid> deviceIds)
         {
             int timeout = _config.JobTimeout;
@@ -179,6 +234,12 @@ namespace Edison.IoTHubControllerService.Helpers
             return timeout;
         }
 
+        /// <summary>
+        /// Wait for a job to complete
+        /// </summary>
+        /// <param name="jobId">Job Id</param>
+        /// <param name="job">Job Response object</param>
+        /// <returns>True if the job succeeded</returns>
         private async Task<bool> WaitForJobCompletion(string jobId, JobResponse job)
         {
             while ((job.Status != JobStatus.Completed) && (job.Status != JobStatus.Failed))

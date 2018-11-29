@@ -2,7 +2,6 @@
 using Microsoft.Azure.NotificationHubs;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.Core.Interfaces

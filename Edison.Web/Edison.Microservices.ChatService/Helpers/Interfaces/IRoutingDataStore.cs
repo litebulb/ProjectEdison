@@ -1,8 +1,8 @@
-﻿using Edison.ChatService.Models;
-using Edison.Core.Common.Models;
-using Microsoft.Bot.Schema;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Schema;
+using Edison.Core.Common.Models;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Helpers.Interfaces
 {

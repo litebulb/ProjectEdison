@@ -1,26 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Edison.Api.Helpers;
-using Edison.Core.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Edison.Core.Common.Models;
+using Edison.Api.Helpers;
 
 namespace Edison.Api.Controllers
 {
+    /// <summary>
+    /// Controller to handle CRUD operation on Action Plans
+    /// </summary>
     [ApiController]
     [Route("api/ActionPlans")]
     public class ActionPlansController : ControllerBase
     {
         private readonly ActionPlanDataManager _actionPlanDataManager;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public ActionPlansController(ActionPlanDataManager actionPlanDataManager)
         {
             _actionPlanDataManager = actionPlanDataManager;
         }
 
+        /// <summary>
+        /// Get action plan from an action plan Id
+        /// </summary>
+        /// <param name="actionPlanId">Action Plan Id</param>
+        /// <returns>ActionPlanModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
         [HttpGet("{actionPlanId}")]
         [Produces(typeof(ActionPlanModel))]
@@ -30,6 +40,10 @@ namespace Edison.Api.Controllers
             return Ok(actionObj);
         }
 
+        /// <summary>
+        /// Get all the actions plans
+        /// </summary>
+        /// <returns>List of Action Plans</returns>
         [Authorize(AuthenticationSchemes = "AzureAd,B2CWeb", Policy = "Consumer")]
         [HttpGet]
         [Produces(typeof(IEnumerable<ActionPlanListModel>))]
@@ -39,6 +53,11 @@ namespace Edison.Api.Controllers
             return Ok(actionObjs);
         }
 
+        /// <summary>
+        /// Update an action plan
+        /// </summary>
+        /// <param name="actionPlanObj">ActionPlanUpdateModel</param>
+        /// <returns>ActionPlanModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPut]
         [Produces(typeof(ActionPlanModel))]
@@ -48,6 +67,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Create an action plan
+        /// </summary>
+        /// <param name="actionPlanObj">ActionPlanCreationModel</param>
+        /// <returns>ActionPlanModel</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpPost]
         [Produces(typeof(ActionPlanModel))]
@@ -57,6 +81,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete an action plan
+        /// </summary>
+        /// <param name="actionPlanId">Id of the action plan</param>
+        /// <returns>True if the action plan was removed</returns>
         [Authorize(AuthenticationSchemes = "AzureAd", Policy = "Admin")]
         [HttpDelete]
         [Produces(typeof(HttpStatusCode))]

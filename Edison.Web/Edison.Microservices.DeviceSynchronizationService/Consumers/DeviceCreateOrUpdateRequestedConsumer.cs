@@ -1,20 +1,19 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Newtonsoft.Json;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.DeviceSynchronizationService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles a creation or modification update coming from IoT Hub
+    /// </summary>
     public class DeviceCreateOrUpdateRequestedConsumer : IConsumer<IDeviceCreateOrUpdateRequested>
     {
         private readonly IDeviceRestService _deviceRestService;

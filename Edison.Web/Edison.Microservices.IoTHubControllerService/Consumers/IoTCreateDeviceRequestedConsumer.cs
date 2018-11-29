@@ -1,21 +1,17 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Azure.Devices;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 using Edison.IoTHubControllerService.Helpers;
 
 namespace Edison.IoTHubControllerService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles the creation of an IoT Hub device.
+    /// This consumer is meant to be used for debugging only. The devices should be self provisioned.
+    /// </summary>
     public class IoTCreateDeviceRequestedConsumer : IConsumer<IIoTDeviceCreateRequested>
     {
         private readonly RegistryManagerHelper _registryManager;

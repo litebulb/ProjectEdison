@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Edison.Common.DAO
+﻿namespace Edison.Common.DAO
 {
     public class ChatUserDAOObject
     {

@@ -2,10 +2,12 @@
 using Edison.Core.Common;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Contains information pertaining to a set of events grouped together by device and a time constraint
+    /// </summary>
     public class EventClusterDAO : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]

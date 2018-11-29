@@ -1,17 +1,17 @@
-﻿using Edison.Common.Interfaces;
-using Edison.Common.Config;
-using Edison.Common;
-using Edison.Core.Interfaces;
-using Edison.Core.Config;
-using Edison.Core;
-using MassTransit;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MassTransit;
+using MassTransit.ExtensionsDependencyInjectionIntegration;
+using Edison.Core;
+using Edison.Core.Interfaces;
+using Edison.Core.Config;
+using Edison.Common;
+using Edison.Common.Interfaces;
+using Edison.Common.Config;
 using Edison.ResponseService.Consumers;
 
 namespace Edison.ResponseService
@@ -40,14 +40,12 @@ namespace Edison.ResponseService
                 c.AddConsumer<ResponseTagNewEventClusterRequestedConsumer>();
                 c.AddConsumer<ResponseActionLightSensorEventConsumer>();
                 c.AddConsumer<ResponseActionNotificationEventConsumer>();
-                c.AddConsumer<ResponseActionRapidSOSEventConsumer>();
                 c.AddConsumer<ResponseActionEventConsumer>();
             });
             services.AddScoped<ResponseTagExistingEventClustersRequestedConsumer>();
             services.AddScoped<ResponseTagNewEventClusterRequestedConsumer>();
             services.AddScoped<ResponseActionLightSensorEventConsumer>();
             services.AddScoped<ResponseActionNotificationEventConsumer>();
-            services.AddScoped<ResponseActionRapidSOSEventConsumer>();
             services.AddScoped<ResponseActionEventConsumer>();
             services.AddSingleton<IEventClusterRestService, EventClusterRestService>();
             services.AddSingleton<IDeviceRestService, DeviceRestService>();

@@ -1,7 +1,6 @@
 ﻿using Edison.Core.Common.Models;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.Core.Interfaces
@@ -13,6 +12,5 @@ namespace Edison.Core.Interfaces
         Task<ActionPlanModel> UpdateActionPlan(ActionPlanUpdateModel actionPlanObj);
         Task<ActionPlanModel> CreateActionPlan(ActionPlanCreationModel actionPlanObj);
         Task<bool> DeleteActionPlan(Guid actionPlanId);
-
     }
 }

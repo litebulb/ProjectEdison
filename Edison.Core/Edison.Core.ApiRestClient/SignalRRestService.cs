@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Edison.Core
@@ -64,7 +63,7 @@ namespace Edison.Core
             return true;
         }
 
-        public async Task<bool> UpdateActionCloseUI(ActionCloseUIModel actionCloseUIUpdate)
+        public async Task<bool> UpdateActionCloseUI(ActionCallbackUIModel actionCloseUIUpdate)
         {
             RestRequest request = await PrepareQuery("SignalR/Response/ActionClose", Method.PUT);
             request.AddParameter("application/json", JsonConvert.SerializeObject(actionCloseUIUpdate), ParameterType.RequestBody);

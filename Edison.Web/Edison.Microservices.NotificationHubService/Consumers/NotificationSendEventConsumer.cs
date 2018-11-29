@@ -1,19 +1,17 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
 using Edison.Core.Common.Models;
 using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
+using Edison.Common.Messages;
+using Edison.Common.Messages.Interfaces;
 
 namespace Edison.NotificationHubService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that handles notifications sent to consumers
+    /// </summary>
     public class NotificationSendEventConsumer : IConsumer<INotificationSendEvent>
     {
         private readonly ILogger<NotificationSendEventConsumer> _logger;
@@ -43,11 +41,12 @@ namespace Edison.NotificationHubService.Consumers
                     NotificationModel result = await _notificationRestService.SendNotification(notification);
                     if(result != null)
                     {
-                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                        await context.Publish(new EventSagaReceiveResponseActionCallback()
                         {
+                            IsCloseAction = context.Message.IsCloseAction,
                             ResponseId = context.Message.ResponseId,
                             ActionId = context.Message.ActionId,
-                            IsSuccessful = true
+                            Status = ActionStatus.Success
                         });
                         _logger.LogDebug($"NotificationSendEventConsumer: NotificationId: '{result.NotificationId}' published.");
                         return;
@@ -59,11 +58,12 @@ namespace Edison.NotificationHubService.Consumers
             }
             catch (Exception e)
             {
-                await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
+                await context.Publish(new EventSagaReceiveResponseActionCallback()
                 {
+                    IsCloseAction = context.Message.IsCloseAction,
                     ResponseId = context.Message.ResponseId,
                     ActionId = context.Message.ActionId,
-                    IsSuccessful = false
+                    Status = ActionStatus.Error
                 });
                 _logger.LogError($"NotificationSendEventConsumer: {e.Message}");
                 throw e;

@@ -1,22 +1,18 @@
-﻿using AutoMapper;
-using Edison.ChatService.Helpers.Interfaces;
-using Edison.ChatService.Models;
-using Edison.Common.DAO;
-using Edison.Common.Interfaces;
-using Edison.Core.Common.Models;
-using Microsoft.Azure.Documents;
-using Microsoft.Bot.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Azure.Documents;
+using Microsoft.Bot.Schema;
+using AutoMapper;
+using Edison.Core.Common.Models;
+using Edison.Common.DAO;
+using Edison.Common.Interfaces;
+using Edison.ChatService.Helpers.Interfaces;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Helpers
 {
-    /// <summary>
-    /// Routing data store that stores the data in Azure Table Storage.
-    /// See the IRoutingDataStore interface for the general documentation of properties and methods.
-    /// </summary>
     [Serializable]
     public class BotRoutingDataStore : IRoutingDataStore
     {

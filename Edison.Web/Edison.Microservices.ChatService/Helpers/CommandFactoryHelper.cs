@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using Edison.ChatService.Models;
-using Edison.Core.Common.Models;
+﻿using System;
+using AutoMapper;
 using Microsoft.Bot.Schema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Edison.Core.Common.Models;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Helpers
 {

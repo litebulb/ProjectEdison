@@ -1,16 +1,18 @@
-﻿using Edison.ChatService.Config;
-using Edison.Core.Common;
-using Edison.Core.Common.Models;
-using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Bot.Schema;
 using System.Security.Claims;
+using Edison.Core.Common;
+using Edison.Core.Common.Models;
+using Edison.ChatService.Config;
 using Edison.ChatService.Helpers;
 
 namespace Edison.ChatService.Models
 {
+    /// <summary>
+    /// Class that adds some helper methods to generate a ChatUserModel
+    /// </summary>
     public class ChatUserContext : ChatUserModel
     {
         public static ChatUserContext FromClaims(IEnumerable<Claim> claims, BotOptions config)

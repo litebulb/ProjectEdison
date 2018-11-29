@@ -1,20 +1,16 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 using Edison.IoTHubControllerService.Helpers;
 
 namespace Edison.IoTHubControllerService.Consumers
 {
+    /// <summary>
+    /// Masstransit consumer that creates a job for IoT Hub to update the desired properties of a set of devices
+    /// </summary>
     public class IoTUpdateTwinDesiredRequestedConsumer : IConsumer<IIoTDevicesUpdateRequested>
     {
         private readonly RegistryManagerHelper _registryManager;

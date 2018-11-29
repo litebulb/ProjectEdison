@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Contains information pertaining to a IoT Device or a Phone
+    /// </summary>
     public class DeviceDAO : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]

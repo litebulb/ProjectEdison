@@ -1,21 +1,21 @@
-﻿using Edison.ChatService.Config;
-using Edison.ChatService.Helpers;
-using Edison.Common;
-using Edison.Common.Config;
-using Edison.Common.Interfaces;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
 using AutoMapper;
-using Edison.ChatService.Helpers.Interfaces;
+using Edison.Core;
 using Edison.Core.Config;
 using Edison.Core.Interfaces;
-using Edison.Core;
+using Edison.Common;
 using Edison.Common.DAO;
-using Microsoft.Extensions.Options;
+using Edison.Common.Config;
+using Edison.Common.Interfaces;
+using Edison.ChatService.Config;
+using Edison.ChatService.Helpers;
+using Edison.ChatService.Helpers.Interfaces;
 
 namespace Edison.ChatService
 {

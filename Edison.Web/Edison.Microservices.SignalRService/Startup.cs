@@ -1,18 +1,18 @@
-﻿using Edison.Common.Interfaces;
-using Edison.Common.Config;
-using Edison.Common;
-using Edison.Core.Interfaces;
-using Edison.Core.Config;
-using Edison.Core;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using MassTransit;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
+using Edison.Core;
+using Edison.Core.Interfaces;
+using Edison.Core.Config;
+using Edison.Common;
+using Edison.Common.Interfaces;
+using Edison.Common.Config;
 using Edison.SignalRService.Consumers;
-using Microsoft.Extensions.Logging;
 
 namespace Edison.SignalRService
 {

@@ -1,22 +1,21 @@
-﻿using Edison.Common.Messages;
-using Edison.Common.Messages.Interfaces;
-using Edison.Core.Common.Models;
-using Edison.Core.Interfaces;
-using MassTransit;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using MassTransit;
+using Edison.Core.Interfaces;
+using Edison.Core.Common.Models;
+using Edison.Common.Messages.Interfaces;
+using Edison.Common.Messages;
 
 namespace Edison.ResponseService.Consumers
 {
-    public class ResponseActionLightSensorEventConsumer : IConsumer<IActionLightSensorEvent>
+    /// <summary>
+    /// Masstransit consumer that handles the light sensor action from a response
+    /// </summary>
+    public class ResponseActionLightSensorEventConsumer : ResponseActionBaseConsumer, IConsumer<IActionLightSensorEvent>
     {
-        private readonly ILogger<ResponseActionLightSensorEventConsumer> _logger;
         private readonly IDeviceRestService _deviceRestService;
         private readonly IIoTHubControllerRestService _iotHubControllerRestService;
         private List<string> _colors = new List<string>()
@@ -29,12 +28,12 @@ namespace Edison.ResponseService.Consumers
         };
 
         public ResponseActionLightSensorEventConsumer(IDeviceRestService deviceRestService,
+            IResponseRestService responseRestService,
             IIoTHubControllerRestService iotHubControllerRestService,
-            ILogger<ResponseActionLightSensorEventConsumer> logger)
+            ILogger<ResponseActionLightSensorEventConsumer> logger) : base(responseRestService, logger)
         {
             _deviceRestService = deviceRestService;
             _iotHubControllerRestService = iotHubControllerRestService;
-            _logger = logger;
         }
 
         public async Task Consume(ConsumeContext<IActionLightSensorEvent> context)
@@ -43,28 +42,24 @@ namespace Edison.ResponseService.Consumers
             {
                 if (context.Message != null && context.Message as IActionLightSensorEvent != null)
                 {
+                    DateTime actionStartDate = DateTime.UtcNow;
                     IActionLightSensorEvent action = context.Message;
                     _logger.LogDebug($"ResponseActionLightSensorEventConsumer: ActionId: '{action.ActionId}'.");
 
-                    if(action.Epicenter == null)
+                    //Return skipped, there is no location set for the response
+                    if(action.GeolocationPoint == null)
                     {
-                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
-                        {
-                            ResponseId = context.Message.ResponseId,
-                            ActionId = context.Message.ActionId,
-                            IsSuccessful = false,
-                            IsSkipped = true,
-                            ErrorMessage = "The response has no location. This action can not be executed."
-                        });
+                        await GenerateActionCallback(context, ActionStatus.Skipped, actionStartDate, "The response has no location. This action can not be executed.");
                         _logger.LogDebug("ResponseActionLightSensorEventConsumer: The response has no location. This action can not be executed.");
                         return;
                     }
 
+                    //Get devices in radius
                     IEnumerable<Guid> devicesInRadius = await _deviceRestService.GetDevicesInRadius(new DeviceGeolocationModel()
                     {
                         DeviceType = "Lightbulb",
                         Radius = action.PrimaryRadius,
-                        ResponseEpicenterLocation = action.Epicenter 
+                        ResponseGeolocationPointLocation = action.GeolocationPoint
                     });
 
                     if(action.RadiusType == "secondary")
@@ -73,13 +68,14 @@ namespace Edison.ResponseService.Consumers
                         {
                             DeviceType = "Lightbulb",
                             Radius = action.SecondaryRadius,
-                            ResponseEpicenterLocation = action.Epicenter
+                            ResponseGeolocationPointLocation = action.GeolocationPoint
                         });
                         devicesInRadius = devicesInSecondaryRadius.Except(devicesInRadius);
                     }
 
                     if(devicesInRadius.ToList().Count == 0)
                     {
+                        await GenerateActionCallback(context, ActionStatus.Success, actionStartDate);
                         _logger.LogDebug($"ResponseActionLightSensorEventConsumer: No light in radius.");
                         return;
                     }
@@ -107,6 +103,7 @@ namespace Edison.ResponseService.Consumers
                         frequency = action.FlashFrequency;
                     }
 
+                    //Run the job
                     bool result = await _iotHubControllerRestService.UpdateDevicesDesired(new DevicesUpdateDesiredModel()
                     {
                         DeviceIds = devicesInRadius.ToList(),
@@ -117,32 +114,22 @@ namespace Edison.ResponseService.Consumers
                             { "FlashFrequency", frequency }
                         }
                     });
+
+                    //Success
                     if (result)
                     {
+                        await GenerateActionCallback(context, ActionStatus.Success, actionStartDate);
                         _logger.LogDebug($"ResponseActionLightSensorEventConsumer: Desired properties applied properly.");
-                        await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
-                        {
-                            ResponseId = context.Message.ResponseId,
-                            ActionId = context.Message.ActionId,
-                            IsSuccessful = true
-                        });
                         return;
                     }
-                    else
-                    {
-                        _logger.LogError("ResponseActionLightSensorEventConsumer: Desired properties not applied properly.");
-                        throw new Exception("Desired properties not applied properly.");
-                    }
+
+                    //Error
+                    await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Action '{action.ActionId}': Desired properties not applied properly.");
+                    _logger.LogError("ResponseActionLightSensorEventConsumer: Desired properties not applied properly.");
                 }
             }
             catch (Exception e)
             {
-                await context.Publish(new EventSagaReceiveResponseActionClosed(context.Message.IsCloseAction)
-                {
-                    ResponseId = context.Message.ResponseId,
-                    ActionId = context.Message.ActionId,
-                    IsSuccessful = false
-                });
                 _logger.LogError($"ResponseActionLightSensorEventConsumer: {e.Message}");
                 throw e;
             }

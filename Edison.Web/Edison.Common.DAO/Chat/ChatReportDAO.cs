@@ -3,10 +3,12 @@ using Edison.Core.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Edison.Common.DAO
 {
+    /// <summary>
+    /// DAO - Keeps track of a conversation between one consumer and the administrators. 
+    /// </summary>
     public class ChatReportDAO : IEntityDAO
     {
         [JsonProperty(PropertyName = "id")]

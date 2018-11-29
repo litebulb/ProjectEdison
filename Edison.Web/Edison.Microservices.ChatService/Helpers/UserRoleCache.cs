@@ -1,5 +1,5 @@
-﻿using Edison.Core.Common.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Edison.Core.Common.Models;
 
 namespace Edison.ChatService.Helpers
 {

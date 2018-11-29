@@ -1,11 +1,11 @@
-﻿using Edison.Core.Common.Models;
-using System.Threading.Tasks;
-using AutoMapper;
-using System;
-using Edison.Common.Interfaces;
-using System.Collections.Generic;
-using Microsoft.Azure.Documents;
+﻿using System;
 using System.Net;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Azure.Documents;
+using AutoMapper;
+using Edison.Core.Common.Models;
+using Edison.Common.Interfaces;
 using Edison.Common.DAO;
 
 namespace Edison.ChatService.Helpers

@@ -1,18 +1,15 @@
-﻿using Edison.ChatService.Helpers.Interfaces;
-using Edison.ChatService.Models;
-using Edison.Core.Common.Models;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Logging;
+using Edison.Core.Common.Models;
+using Edison.ChatService.Helpers.Interfaces;
+using Edison.ChatService.Models;
 
 namespace Edison.ChatService.Helpers
 {
-    /// <summary>
-    /// The routing data manager.
-    /// </summary>
     [Serializable]
     public class BotRoutingDataManager
     {

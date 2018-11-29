@@ -1,24 +1,28 @@
-﻿using Edison.Api.Config;
-using Edison.Core.Common.Models;
-using Microsoft.Extensions.Options;
+﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using AutoMapper;
-using System;
 using Microsoft.Azure.Documents;
-using System.Net;
+using AutoMapper;
+using Edison.Core.Common.Models;
 using Edison.Common.Interfaces;
 using Edison.Common.DAO;
 
 namespace Edison.Api.Helpers
 {
+    /// <summary>
+    /// Manager for the Event Clusters repository
+    /// </summary>
     public class EventClustersDataManager
     {
         private ICosmosDBRepository<EventClusterDAO> _repoEventClusters;
         private ICosmosDBRepository<DeviceDAO> _repoDevices;
         private IMapper _mapper;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public EventClustersDataManager(IMapper mapper,
             ICosmosDBRepository<EventClusterDAO> repoEventClusters,
             ICosmosDBRepository<DeviceDAO> repoDevices)
@@ -28,12 +32,22 @@ namespace Edison.Api.Helpers
             _repoDevices = repoDevices;
         }
 
+        /// <summary>
+        /// Get Event Cluster by Id
+        /// </summary>
+        /// <param name="eventClusterId">Event Cluster Id</param>
+        /// <returns>EventClusterModel</returns>
         public async Task<EventClusterModel> GetEventCluster(Guid eventClusterId)
         {
             EventClusterDAO eventCluster = await _repoEventClusters.GetItemAsync(eventClusterId);
             return _mapper.Map<EventClusterModel>(eventCluster);
         }
 
+        /// <summary>
+        /// Get Event Clusters
+        /// Only the last 3 events are returned
+        /// </summary>
+        /// <returns>List of Event Clusters</returns>
         public async Task<IEnumerable<EventClusterModel>> GetEventClusters()
         {
             IEnumerable<EventClusterDAO> eventClusters = await _repoEventClusters.GetItemsAsync(
@@ -56,22 +70,18 @@ namespace Edison.Api.Helpers
                 }
                 );
 
-            //Only keep the first eventCluster for each device + event type sorted by start date descending
-            /*var groupedEventClusters = 
-                eventClusters
-                .OrderByDescending(p => p.StartDate)
-                .GroupBy(x => new { x.Device.DeviceId, x.EventType })
-                .Select(p => p.First());*/
-            //Order by start data descending
             var orderedEventClusters = eventClusters.OrderByDescending(p => p.StartDate);
-
-
             return _mapper.Map<IEnumerable<EventClusterModel>>(orderedEventClusters);
         }
 
+        /// <summary>
+        /// Get a list of Event Clusters in a specific geolocation radius
+        /// </summary>
+        /// <param name="eventClusterGeolocationObj">EventClusterGeolocationModel</param>
+        /// <returns>List of Event Clusters Ids</returns>
         public async Task<IEnumerable<Guid>> GetClustersInRadius(EventClusterGeolocationModel eventClusterGeolocationObj)
         {
-            if (eventClusterGeolocationObj == null || eventClusterGeolocationObj.ResponseEpicenterLocation == null)
+            if (eventClusterGeolocationObj == null || eventClusterGeolocationObj.ResponseGeolocationPointLocation == null)
                 return new List<Guid>();
 
             IEnumerable<EventClusterDAO> eventClusters = await _repoEventClusters.GetItemsAsync(
@@ -85,13 +95,18 @@ namespace Edison.Api.Helpers
                );
 
             List<Guid> output = new List<Guid>();
-            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(eventClusterGeolocationObj.ResponseEpicenterLocation);
+            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(eventClusterGeolocationObj.ResponseGeolocationPointLocation);
             foreach (EventClusterDAO eventClusterObj in eventClusters)
                 if (RadiusHelper.IsWithinRadius(eventClusterObj.Device.Geolocation, daoGeocodeCenterPoint, eventClusterGeolocationObj.Radius))
                     output.Add(new Guid(eventClusterObj.Id));
             return output;
         }
 
+        /// <summary>
+        /// Create or Update an Event Cluster
+        /// </summary>
+        /// <param name="eventObj">EventClusterCreationModel</param>
+        /// <returns>EventClusterModel</returns>
         public async Task<EventClusterModel> CreateOrUpdateEventCluster(EventClusterCreationModel eventObj)
         {
             //Look for existing cluster that matches DeviceId + EventType and hasn't ended yet.
@@ -120,6 +135,11 @@ namespace Edison.Api.Helpers
             return output;
         }
 
+        /// <summary>
+        /// Create an Event Cluster
+        /// </summary>
+        /// <param name="eventObj">EventClusterCreationModel</param>
+        /// <returns>EventClusterModel</returns>
         public async Task<EventClusterModel> CreateEventCluster(EventClusterCreationModel eventObj)
         {
             //If device doesn't exist, throw exception
@@ -143,6 +163,12 @@ namespace Edison.Api.Helpers
             return _mapper.Map<EventClusterModel>(eventCluster);
         }
 
+        /// <summary>
+        /// Update the geolocation of a mobile device
+        /// </summary>
+        /// <param name="geolocation">Geolocation of the event cluster</param>
+        /// <param name="deviceId">Device Id</param>
+        /// <returnsEventClusterGeolocationUpdateResultModel></returns>
         public async Task<EventClusterGeolocationUpdateResultModel> UpdateGeolocation(Geolocation geolocation, Guid deviceId)
         {
             if (geolocation == null)
@@ -186,6 +212,11 @@ namespace Edison.Api.Helpers
             return new EventClusterGeolocationUpdateResultModel() { Success = false };
         }
 
+        /// <summary>
+        /// Close an Event Cluster
+        /// </summary>
+        /// <param name="eventObj">EventClusterCloseModel</param>
+        /// <returns>EventClusterModel</returns>
         public async Task<EventClusterModel> CloseEventCluster(EventClusterCloseModel eventObj)
         {
             EventClusterDAO eventCluster = await _repoEventClusters.GetItemAsync(eventObj.EventClusterId);
