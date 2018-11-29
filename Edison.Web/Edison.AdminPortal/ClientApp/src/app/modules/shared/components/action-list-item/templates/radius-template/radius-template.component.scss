@@ -24,10 +24,11 @@
             margin-top: 20px;
             .colorBtn {
                 padding: 8px 25px;
-                border: 1px solid #e0e0e6;
+                border: 2px solid #e0e0e6;
                 border-radius: 20px;
                 cursor: pointer;
                 outline: none;
+                text-transform: capitalize;
                 &:hover,
                 &.active {
                     border-color: #87879f;

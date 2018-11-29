@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<button class="app-button map primary"
+<button class="app-button map primary activate-resp-button"
         (click)="toggleActive()"
         (mouseover)="hover = true"
         (mouseout)="hover = false"
@@ -55,5 +55,5 @@
         [style.z-index]="active ? 5 : 3">
     <span class="app-icon horn teal medium"
           [ngClass]="{'hover': hover && !disabled, 'active close': active, 'horn': !active}"></span>
-    <span class="text noselect">{{ active ? 'Cancel' : 'Activate Response' }}</span>
+    <span class="text noselect">{{ activated ? 'Close' : active ? 'Cancel' : 'Activate Response' }}</span>
 </button>

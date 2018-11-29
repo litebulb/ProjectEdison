@@ -16,6 +16,7 @@ import { Message } from '../../../../reducers/chat/chat.model';
 import {
     chatActiveMessagesSelector, chatActiveUserSelector
 } from '../../../../reducers/chat/chat.selectors';
+import { ShowEvents } from '../../../../reducers/event/event.actions';
 import { Event, EventInstance } from '../../../../reducers/event/event.model';
 import { activeMobileEventsSelector } from '../../../../reducers/event/event.selectors';
 import { ShowActivateResponse } from '../../../../reducers/response/response.actions';
@@ -94,6 +95,10 @@ export class UserChatComponent implements OnInit, OnDestroy {
 
         event.preventDefault()
         return false
+    }
+
+    showOnMap() {
+        this.store.dispatch(new ShowEvents({ events: [ this.event ] }));
     }
 
     close() {

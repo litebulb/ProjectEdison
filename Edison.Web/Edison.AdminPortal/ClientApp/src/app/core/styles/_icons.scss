@@ -191,6 +191,9 @@ $icon-size: 36px;
     }
     &.vip-static {
         @include icon('vip_active');
+        &.grey {
+            @include icon('vip_grey');
+        }
     }
     &.search {
         @include icon('search');

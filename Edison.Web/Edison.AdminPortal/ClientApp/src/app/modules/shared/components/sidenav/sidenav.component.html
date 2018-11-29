@@ -1,5 +1,8 @@
 <div *ngFor="let navLink of navLinks;"
+     class="navlink"
      [ngClass]="[activeRoute === navLink.route ? navLink.icon + ' active' : navLink.icon]"
      (click)="navLink.onClick(navLink)"
-     [title]="navLink.title">
+     [matTooltip]="navLink.title"
+     matTooltipPosition="after"
+     matTooltipClass="navlink-tooltip">
 </div>

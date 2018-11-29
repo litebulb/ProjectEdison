@@ -62,3 +62,25 @@ body {
     display: flex;
     align-items: center;
 }
+
+.mat-tooltip {
+    // overflow: visible !important;
+    // border-top-left-radius: unset;
+    // border-bottom-left-radius: unset;
+}
+
+.navlink-tooltip {
+    font-size: 16px;
+    position: relative; // &::after {
+    //     content: '';
+    //     width: 0;
+    //     height: 0;
+    //     border-top: 10px solid transparent;
+    //     border-bottom: 10px solid transparent;
+    //     border-right: 10px solid rgba(97, 97, 97, .9);
+    //     position: absolute;
+    //     left: 0;
+    //     margin-left: -10px;
+    //     z-index: 10;
+    // }
+}

@@ -16,7 +16,7 @@ export class RadiusTemplateComponent implements OnInit, OnChanges {
     @Input() onchange: EventEmitter<{ actionId: string, addEditAction: AddEditAction }>;
 
     _color: string;
-    actionPlanColors = Object.keys(ActionPlanColor).map(key => ActionPlanColor[ key ]);
+    actionPlanColors = Object.keys(ActionPlanColor).map(key => (ActionPlanColor[ key ]).toLowerCase());
     actionStatus = ActionStatus;
 
     ngOnInit(): void {

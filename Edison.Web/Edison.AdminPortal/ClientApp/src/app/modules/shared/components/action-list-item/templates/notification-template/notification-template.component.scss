@@ -82,8 +82,11 @@
                     height: 20px;
                     font-size: 20px;
                     cursor: pointer;
+                    margin-right: 8px;
                 }
                 .edit-done {
+                    font-size: 14px;
+                    color: #1F16A5;
                     &:hover {
                         text-decoration: underline;
                         cursor: pointer;

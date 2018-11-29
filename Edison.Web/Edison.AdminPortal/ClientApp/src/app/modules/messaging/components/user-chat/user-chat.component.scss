@@ -74,11 +74,7 @@
                 flex-grow: 2;
             }
             .map-link {
-                color: $blue;
-                cursor: pointer;
-                &:hover {
-                    text-decoration: underline;
-                }
+                min-height: 20px;
             }
         }
         button {

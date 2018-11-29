@@ -1,24 +1,23 @@
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes entrance {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .spinner {
     position: relative;
-
     .tooltip-container {
         height: 30px;
         display: flex;
@@ -28,7 +27,7 @@
         top: -40px;
         width: 100%;
         opacity: 0.6;
-
+        z-index: 3;
         .tooltip {
             display: flex;
             justify-content: center;
@@ -40,7 +39,6 @@
             padding: 5px 20px;
             white-space: nowrap;
         }
-
         .down-arrow {
             width: 0;
             height: 0;
@@ -51,19 +49,16 @@
             bottom: -6px;
         }
     }
-
     .container {
         position: relative;
         transition: entrance 2s ease;
         opacity: 0;
     }
-
     .outer-circle {
         border-radius: 50%;
         position: absolute;
         overflow: hidden;
     }
-
     .circle {
         border-radius: 50%;
         position: absolute;
@@ -73,17 +68,14 @@
         animation-iteration-count: infinite;
         animation-timing-function: cubic-bezier(0.27, 0.47, 0.67, 0.87);
     }
-
     .inner-circle {
         border-radius: 50%;
         position: absolute;
-
-    .sub-circle-1,
-    .sub-circle-2 {
-        transition: background-color 2s ease;
+        .sub-circle-1,
+        .sub-circle-2 {
+            transition: background-color 2s ease;
+        }
     }
-    }
-
     .content-circle {
         border-radius: 50%;
         overflow: hidden;

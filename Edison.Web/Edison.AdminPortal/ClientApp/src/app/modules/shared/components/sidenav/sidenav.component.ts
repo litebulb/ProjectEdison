@@ -1,16 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Router, NavigationStart } from '@angular/router'
-import { Store } from '@ngrx/store'
-import { AppState } from '../../../../reducers'
-import { SetPageData } from '../../../../reducers/app/app.actions'
-import { Subscription } from 'rxjs'
-import { filter, map } from 'rxjs/operators'
-import { ShowManageResponse, ShowSelectingLocation } from '../../../../reducers/response/response.actions';
+import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../../../../reducers';
+import {
+    ToggleAllUsersChatWindow, ToggleUserChatWindow
+} from '../../../../reducers/chat/chat.actions';
+import {
+    ShowManageResponse, ShowSelectingLocation
+} from '../../../../reducers/response/response.actions';
 
 @Component({
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
-    styleUrls: [ './sidenav.component.scss' ],
+    styleUrls: [ './sidenav.component.scss' ]
 })
 export class SidenavComponent implements OnInit, OnDestroy {
     public navLinks = []
@@ -60,14 +66,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
                 onClick: this.activateNavLink,
             },
             {
-                title: 'Action Screen',
+                title: 'History',
                 route: '/actions',
                 sidebar: false,
                 icon: 'app-icon history',
                 onClick: this.activateNavLink,
             },
             {
-                title: 'Configuration',
+                title: 'Settings',
                 route: '/configuration',
                 sidebar: false,
                 icon: 'app-icon gear',
@@ -85,6 +91,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.router.navigate([ activeNavLink.rootRoute, activeNavLink.route ]);
         } else {
             this.router.navigate([ activeNavLink.route ]);
+        }
+        if (activeNavLink.route !== '/dashboard/messaging') {
+            this.store.dispatch(new ToggleAllUsersChatWindow({ open: false }));
+            this.store.dispatch(new ToggleUserChatWindow({ open: false }));
         }
         this.store.dispatch(new ShowManageResponse({ showManageResponse: false }));
         this.store.dispatch(new ShowSelectingLocation({ showSelectingLocation: false }));

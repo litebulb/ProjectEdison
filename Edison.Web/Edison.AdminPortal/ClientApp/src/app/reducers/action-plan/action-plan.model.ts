@@ -2,6 +2,7 @@ export enum ActionPlanColor {
     Red = 'Red',
     Green = 'Green',
     Yellow = 'Yellow',
+    Off = 'Off',
 }
 
 export enum ActionPlanIcon {

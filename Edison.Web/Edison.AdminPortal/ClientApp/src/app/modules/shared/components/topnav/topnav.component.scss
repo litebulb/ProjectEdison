@@ -1,102 +1,90 @@
 @import 'sizes';
 @import 'icons';
-
 :host {
-  position: absolute;
-  top: 0;
-  min-height: $topnav-height;
-  width: 100%;
-  z-index: 4;
-
-  .overlay {
     position: absolute;
     top: 0;
-    min-height: 60px;
+    min-height: $topnav-height;
     width: 100%;
-    background-color: #1f16a5;
-    opacity: 0.8;
-  }
-
-  .logo {
-    position: absolute;
-    left: 20px;
-    top: 8px;
-
-    img {
-      width: 40px;
+    z-index: 4;
+    .overlay {
+        position: absolute;
+        top: 0;
+        min-height: 60px;
+        width: 100%;
+        background-color: #1f16a5;
+        opacity: 0.8;
     }
-  }
-
-  .map-controls {
-    position: absolute;
-    left: $side-width-total;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-
-    .app-icon {
-      cursor: pointer;
-      padding: 10px;
-
-      &.reload {
-        transform: rotateY(180deg);
-      }
+    .logo {
+        position: absolute;
+        left: 20px;
+        top: 8px;
+        img {
+            width: 40px;
+        }
     }
-  }
-
-  .title {
-    left: $sidenav-width;
-    min-width: $eventbar-width;
-    min-height: 60px;
-    color: white;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-family: Rubik;
-    font-size: 20px;
-    line-height: 25px;
-    text-transform: uppercase;
-
-    .down-arrow {
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-
-      border-top: 20px solid #1f16a5;
-      opacity: 0.8;
-      position: absolute;
-      bottom: -20px;
+    .map-controls {
+        position: absolute;
+        left: $side-width-total;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        .app-icon {
+            cursor: pointer;
+            padding: 10px;
+            &.reload {
+                transform: rotateY(180deg);
+            }
+        }
     }
-  }
-
-  .user-icon {
-    position: absolute;
-    right: 15px;
-    top: 5px;
-    cursor: pointer;
-    background-color: white;
-    width: 48px;
-    height: 48px;
-    border-radius: 48px;
-    overflow: hidden;
-    img {
-      width: 100%;
+    .title {
+        left: $sidenav-width;
+        min-width: $eventbar-width;
+        min-height: 60px;
+        color: white;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-family: Rubik;
+        font-size: 20px;
+        line-height: 25px;
+        text-transform: uppercase;
+        .down-arrow {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 20px solid #1f16a5;
+            opacity: 0.8;
+            position: absolute;
+            bottom: -20px;
+        }
     }
-  }
-
-  .logout {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    &:hover {
-        text-decoration: underline;
+    .user-icon {
+        position: absolute;
+        right: 15px;
+        top: 5px;
+        cursor: pointer;
+        background-color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 48px;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
     }
-  }
+    .logout {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }

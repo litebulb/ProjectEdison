@@ -21,6 +21,7 @@
         }
         &.active {
             color: #3322ff;
+            border-right: 4px solid #3322ff;
         }
     }
     .sub-header {
@@ -43,6 +44,7 @@
             }
             &.active {
                 color: #3322ff;
+                border-right: 4px solid #3322ff;
             }
             .icon-container {
                 min-width: 40px;

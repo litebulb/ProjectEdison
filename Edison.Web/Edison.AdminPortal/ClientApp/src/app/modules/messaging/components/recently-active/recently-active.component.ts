@@ -12,7 +12,7 @@ import {
     SelectActiveConversation, ToggleAllUsersChatWindow, ToggleUserChatWindow
 } from '../../../../reducers/chat/chat.actions';
 import {
-    chatActiveUsersSelector, chatMessagesSelector
+    chatActiveUserSelector, chatActiveUsersSelector, chatMessagesSelector
 } from '../../../../reducers/chat/chat.selectors';
 import { Event } from '../../../../reducers/event/event.model';
 import { activeMobileEventsSelector } from '../../../../reducers/event/event.selectors';
@@ -27,9 +27,11 @@ export class RecentlyActiveComponent implements OnInit, OnDestroy {
     actionPlansSub$: Subscription;
     activeMobileEvents$: Subscription;
     messagesSub$: Subscription;
+    activeUserSub$: Subscription;
     actionPlans: ActionPlan[];
     events: Event[];
     messages: MessageModel[];
+    activeUserId: string;
 
     constructor (private store: Store<AppState>) { }
 
@@ -42,6 +44,11 @@ export class RecentlyActiveComponent implements OnInit, OnDestroy {
         this.activeMobileEvents$ = this.store
             .pipe(select(activeMobileEventsSelector))
             .subscribe(events => this.events = events);
+
+
+        this.activeUserSub$ = this.store
+            .pipe(select(chatActiveUserSelector))
+            .subscribe(user => this.activeUserId = user.userId);
     }
 
     ngOnDestroy() {
