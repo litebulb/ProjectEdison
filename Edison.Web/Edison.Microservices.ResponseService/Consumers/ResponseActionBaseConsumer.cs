@@ -30,9 +30,8 @@ namespace Edison.ResponseService.Consumers
 
             if (context != null && context.Message != null && context.Message.ActionId != Guid.Empty)
             {
-                await context.Publish(new EventSagaReceiveResponseActionCallback()
+                bool result = await _responseRestService.CompleteAction(new ActionCompletionModel()
                 {
-                    ActionCorrelationId = context.Message.ActionCorrelationId,
                     ResponseId = context.Message.ResponseId,
                     ActionId = context.Message.ActionId,
                     Status = status,
@@ -41,8 +40,9 @@ namespace Edison.ResponseService.Consumers
                     ErrorMessage = errorMessage
                 });
 
-                bool result = await _responseRestService.CompleteAction(new ActionCompletionModel()
+                await context.Publish(new EventSagaReceiveResponseActionCallback()
                 {
+                    ActionCorrelationId = context.Message.ActionCorrelationId,
                     ResponseId = context.Message.ResponseId,
                     ActionId = context.Message.ActionId,
                     Status = status,
