@@ -2,7 +2,8 @@ import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import {
-    AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild
+    AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
+    Output, ViewChild
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
@@ -47,6 +48,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private clusteringStarted = false
     private addedPins: HtmlPushpin[] = []
     private addedClusterPins: HtmlPushpin[] = []
+    private searchManager: Microsoft.Maps.Search.SearchManager;
     spinnerColors = spinnerColors
     mapLoaded = false
     pinsFocused = false
@@ -66,6 +68,8 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
 
     @Input()
     pins: MapPin[] = []
+
+    @Output() onLoad = new EventEmitter();
 
     @ViewChild('redPinSpinner')
     redPinSpinner: CircleSpinnerComponent
@@ -164,6 +168,31 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         this.hideShowSelectingLocation();
         this.selectedLocation = null;
         this.selectingLocation = false;
+    }
+
+    getAddressByLocation(longitude: number, latitude: number, callback: any) {
+        if (this.mapLoaded) {
+            var searchRequest = {
+                location: new Microsoft.Maps.Location(latitude, longitude),
+                callback: function (r) {
+                    if (callback) {
+                        //Tell the user the name of the result.
+                        callback(r.name);
+                    }
+                },
+                errorCallback: function (e) {
+                    //If there is an error, alert the user about it.
+                    alert("Unable to reverse geocode location.");
+                }
+            };
+
+            //Make the reverse geocode request.
+            this.searchManager.reverseGeocode(searchRequest);
+        } else {
+            setTimeout(() => {
+                this.getAddressByLocation(longitude, latitude, callback);
+            }, 100)
+        }
     }
 
     private hideShowSelectingLocation() {
@@ -291,7 +320,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         })
 
         Microsoft.Maps.loadModule(
-            [ 'HtmlPushpinLayerModule', 'Microsoft.Maps.Clustering' ],
+            [ 'HtmlPushpinLayerModule', 'Microsoft.Maps.Clustering', 'Microsoft.Maps.Search' ],
             () => {
                 if (this.defaultOptions.useHtmlLayer) {
                     this.createHtmlPushpinLayer()
@@ -299,7 +328,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
                 }
                 this.createClusterLayer()
 
+                this.searchManager = new Microsoft.Maps.Search.SearchManager(this.map);
+
                 this.mapLoaded = true
+                this.onLoad.emit(true);
                 this.updateMap()
                 this.initMapEvents();
                 this.cdr.markForCheck()

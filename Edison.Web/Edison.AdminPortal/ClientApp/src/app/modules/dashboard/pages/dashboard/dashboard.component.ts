@@ -20,7 +20,9 @@ import { chatAuthSelector } from '../../../../reducers/chat/chat.selectors';
 import { GetDevices } from '../../../../reducers/device/device.actions';
 import { Device } from '../../../../reducers/device/device.model';
 import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors';
-import { EventActionTypes, GetEvents, ShowEvents } from '../../../../reducers/event/event.actions';
+import {
+    EventActionTypes, GetEvents, ShowEvents, UpdateEvent
+} from '../../../../reducers/event/event.actions';
 import { Event, EventType } from '../../../../reducers/event/event.model';
 import { eventsSelector } from '../../../../reducers/event/event.selectors';
 import { GetResponses } from '../../../../reducers/response/response.actions';
@@ -109,9 +111,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             responseStream,
             eventStream,
             deviceStream
-        ).subscribe(([ responses, events, devices ]) =>
-            this.updatePins(devices, events, responses)
-        )
+        ).subscribe(([ responses, events, devices ]) => {
+            this.updatePins(devices, events, responses);
+            this.updateEventAddresses(events);
+        })
 
         this.showEventsSub$ = this.actions$
             .pipe(ofType(EventActionTypes.ShowEvents))
@@ -142,6 +145,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.combinedStream$.unsubscribe()
         this.focusAllPinsSub$.unsubscribe()
         this.showEventsSub$.unsubscribe()
+    }
+
+    updateEventAddresses(events: Event[]) {
+        events
+            .filter(event => event.device.geolocation && !event.device.location1)
+            .forEach(event => {
+                const { longitude, latitude } = event.device.geolocation;
+                this.mapComponent.getAddressByLocation(longitude, latitude, (addr) => {
+                    this.updateEventLocation(event, addr);
+                });
+            })
     }
 
     getPinColor(event: Event, response: Response) {
@@ -191,11 +205,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
                 return acc;
             }, [] as Event[])
-            .map(event => ({
-                ...event.device,
-                event: event,
-                color: this.getPinColor(event, this.getActiveResponse(responses, event.eventClusterId))
-            }))
+            .map(event => {
+                return ({
+                    ...event.device,
+                    event: event,
+                    color: this.getPinColor(event, this.getActiveResponse(responses, event.eventClusterId))
+                });
+            })
 
         const actionPlanPins: MapPin[] = responses
             .filter(resp => resp.primaryEventClusterId === null &&
@@ -212,6 +228,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }))
 
         this.pins = [ ...devicePins, ...eventPins, ...actionPlanPins ];
+    }
+
+    updateEventLocation(event: Event, location: string) {
+        const action = new UpdateEvent({
+            event: {
+                id: event.eventClusterId,
+                changes: {
+                    ...event,
+                    device: {
+                        ...event.device,
+                        location1: location
+                    }
+                }
+            }
+        });
+        this.store.dispatch(action);
     }
 
     getActiveResponse(responses: Response[], eventClusterId: string) {
