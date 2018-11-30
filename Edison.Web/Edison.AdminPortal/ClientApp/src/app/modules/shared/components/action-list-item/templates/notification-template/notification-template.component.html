@@ -14,7 +14,7 @@
             <div class="edit-icon app-icon edit small"
                  (click)="!editing && edit()"></div>
             <span class="edit-done"
-                  *ngIf="editing"
+                  *ngIf="editing && !adding"
                   (click)="editComplete()">Done</span>
         </div>
     </div>
@@ -26,7 +26,9 @@
                   rows="8"
                   *ngIf="editing"
                   (change)="notificationChanged()">
-    </textarea>
+        </textarea>
+        <span class="removeBtn"
+              (click)="remove()">Remove</span>
     </div>
 </div>
 <div class="line-hider"

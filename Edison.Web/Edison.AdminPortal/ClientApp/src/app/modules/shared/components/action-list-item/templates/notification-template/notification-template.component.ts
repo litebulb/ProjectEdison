@@ -51,8 +51,12 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
     }
 
     remove() {
-        this.notificationText = '';
-        this.adding = false;
+        const addEditAction: AddEditAction = { isRemoveAction: true };
+
+        this.onchange.emit({
+            actionId: this.context.actionId,
+            addEditAction,
+        });
     }
 
     edit() {

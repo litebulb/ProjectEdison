@@ -112,11 +112,13 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    updated({ addEditAction, actionId }) {
-        this.modified = true
-
-        if (addEditAction) {
+    updated({ addEditAction, actionId }: { addEditAction: AddEditAction, actionId: string }) {
+        if (addEditAction && !addEditAction.isRemoveAction) {
             this.updateAddEditActions(addEditAction, actionId);
+            this.modified = true
+        } else {
+            this.addEditActions.delete(actionId);
+            this._openActions = this._openActions.filter(oa => oa.actionId !== actionId);
         }
     }
 

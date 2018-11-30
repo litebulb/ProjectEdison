@@ -51,9 +51,10 @@ export enum ActionChangeType {
 }
 
 export interface AddEditAction {
-    isCloseAction: boolean;
-    actionChangedString: ActionChangeType
-    action: ActionPlanAction,
+    isRemoveAction?: boolean;
+    isCloseAction?: boolean;
+    actionChangedString?: ActionChangeType
+    action?: ActionPlanAction,
 }
 
 export interface ActionPlanTextAction extends ActionPlanAction {
