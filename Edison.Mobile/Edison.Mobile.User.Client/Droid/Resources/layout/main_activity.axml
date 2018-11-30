@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:orientation="vertical"
+    android:background="@color/material_grey_300"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="200dp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/pulloutView"
+        android:background="@drawable/drawer_shape"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:background="@drawable/thumb_shape"
+            android:layout_width="68dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="2dp"
+            android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:id="@+id/alert_button"
+            android:tint="@color/red"
+            android:layout_width="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/emergency" />
+        <ImageButton
+            android:id="@+id/chat_button"
+            android:tint="@color/app_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/chat" />
+        <ImageButton
+            android:id="@+id/safe_button"
+            android:tint="@color/app_blue"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/person" />
+    </RelativeLayout>
+</RelativeLayout>

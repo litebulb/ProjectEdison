@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="270dp">
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto" android:background="@android:color/white" card_view:cardElevation="4dp" card_view:cardCornerRadius="5dp" app:layout_widthPercent="90%" app:layout_heightPercent="100%" app:layout_marginTopPercent="25%" app:layout_marginLeftPercent="5%">
+        <LinearLayout android:background="@android:color/white" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+            <View android:layout_marginTop="70dp" android:background="@color/app_blue" android:layout_width="match_parent" android:layout_height="4dp" />
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="left" android:orientation="horizontal">
+                <ImageView android:id="@+id/card_icon" android:background="@color/app_blue" android:layout_width="30dp" android:layout_height="30dp" android:layout_marginTop="10dp" android:layout_marginRight="8dp" android:layout_marginLeft="13dp" />
+                <TextView android:id="@+id/card_alert" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="Air Quailty" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:id="@+id/card_alert_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="november 19, 2018" android:layout_marginLeft="13dp" android:layout_marginTop="8dp" android:textColor="@color/notification_icon_bg_color" />
+            <TextView android:id="@+id/card_alert_description" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="13dp" android:text="Pre-configured action plan for air quality" />
+            <Button android:id="@+id/more_info_btn" android:text="MORE INFO" android:background="@android:color/transparent" android:textColor="@color/app_blue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:layout_marginBottom="5dp" android:layout_gravity="center" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</android.support.percent.PercentFrameLayout>
