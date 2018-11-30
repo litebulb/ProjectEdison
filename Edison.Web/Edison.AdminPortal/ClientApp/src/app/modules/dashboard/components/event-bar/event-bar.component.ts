@@ -1,22 +1,23 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'
-import { Event } from '../../../../reducers/event/event.model'
-import { AppState } from '../../../../reducers'
-import { Store, select } from '@ngrx/store'
-import { eventsSelector } from 'src/app/reducers/event/event.selectors'
-import { ShowEvents, EventActionTypes, ShowEventInEventBar } from '../../../../reducers/event/event.actions'
-import { spinnerColors } from '../../../../core/spinnerColors'
-import { fadeInOut } from '../../../../core/animations/fadeInOut'
-import { responsesSelector } from '../../../../reducers/response/response.selectors'
-import { getRankingColor } from '../../../../core/colorRank'
-import {
-    ResponseState,
-    Response,
-} from '../../../../reducers/response/response.model'
-import { Subscription } from 'rxjs'
-import { listFadeInOut } from '../../../../core/animations/listFadeInOut'
-import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { Subscription } from 'rxjs';
+import { eventsSelector } from 'src/app/reducers/event/event.selectors';
+
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+
+import { fadeInOut } from '../../../../core/animations/fadeInOut';
+import { listFadeInOut } from '../../../../core/animations/listFadeInOut';
+import { getRankingColor } from '../../../../core/colorRank';
+import { spinnerColors } from '../../../../core/spinnerColors';
+import { AppState } from '../../../../reducers';
 import { SetPageData } from '../../../../reducers/app/app.actions';
+import {
+    EventActionTypes, ShowEventInEventBar, ShowEvents
+} from '../../../../reducers/event/event.actions';
+import { Event } from '../../../../reducers/event/event.model';
+import { Response, ResponseState } from '../../../../reducers/response/response.model';
+import { responsesSelector } from '../../../../reducers/response/response.selectors';
 
 @Component({
     selector: 'app-event-bar',
@@ -169,8 +170,12 @@ export class EventBarComponent implements OnInit, OnDestroy {
         this.store.dispatch(new ShowEvents({ events: this.events }))
     }
 
+    getCleanSelector(id: string) {
+        return `card-anchor-${id}`;
+    }
+
     getCardClass(event: Event, first: boolean) {
-        return `${event.eventClusterId} ${first ? 'first' : ''}`
+        return `${this.getCleanSelector(event.eventClusterId)} ${first ? 'first' : ''}`
     }
 
     scrollToEvent(eventClusterId: string) {
@@ -179,7 +184,7 @@ export class EventBarComponent implements OnInit, OnDestroy {
         while (!eventInArr && this.onScroll()) { }
 
         setTimeout(() => {
-            this.perfectScrollbar.directiveRef.scrollToElement(`.${eventClusterId}`, -5, 2000);
+            this.perfectScrollbar.directiveRef.scrollToElement(`.${this.getCleanSelector(eventClusterId)}`, -5, 2000);
         })
     }
 }

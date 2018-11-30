@@ -1,34 +1,37 @@
-import {
-    Component,
-    OnInit,
-    OnChanges,
-    Input,
-    AfterViewInit,
-    ViewChild,
-    ChangeDetectorRef,
-    OnDestroy,
-} from '@angular/core'
-import { MapDefaults } from '../../models/mapDefaults'
-import { MapPin } from '../../models/mapPin'
-import { CircleSpinnerComponent } from '../../../shared/components/circle-spinner/circle-spinner.component'
-import { fadeInOut } from '../../../../core/animations/fadeInOut'
-import { environment } from '../../../../../environments/environment'
-import { spinnerColors } from '../../../../core/spinnerColors'
-import { Event, EventType } from '../../../../reducers/event/event.model'
-import { getRankingColor } from '../../../../core/colorRank'
-import { Observable, Subscription } from 'rxjs'
-import { AppState } from '../../../../reducers'
-import { Store, select } from '@ngrx/store'
-import { selectingActionPlanSelector } from '../../../../reducers/action-plan/action-plan.selectors'
-import { fadeInOutHalfOpacity } from '../../../../core/animations/fadeInOutHalfOpacity'
-import { showSelectingLocationSelector, activeResponseSelector } from '../../../../reducers/response/response.selectors';
-import { ShowSelectingLocation, AddLocationToActiveResponse, UpdateResponse } from '../../../../reducers/response/response.actions';
-import { MapClick } from '../../models/mapClick';
-import { MapPosition } from '../../models/mapPosition';
-import { Response } from '../../../../reducers/response/response.model';
+import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
+import {
+    AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild
+} from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { environment } from '../../../../../environments/environment';
+import { fadeInOut } from '../../../../core/animations/fadeInOut';
+import { fadeInOutHalfOpacity } from '../../../../core/animations/fadeInOutHalfOpacity';
+import { getRankingColor } from '../../../../core/colorRank';
 import { GeoLocation } from '../../../../core/models/geoLocation';
+import { spinnerColors } from '../../../../core/spinnerColors';
+import { AppState } from '../../../../reducers';
+import {
+    selectingActionPlanSelector
+} from '../../../../reducers/action-plan/action-plan.selectors';
 import { ShowEventInEventBar } from '../../../../reducers/event/event.actions';
+import { Event, EventType } from '../../../../reducers/event/event.model';
+import {
+    AddLocationToActiveResponse, ShowSelectingLocation, UpdateResponse
+} from '../../../../reducers/response/response.actions';
+import { Response } from '../../../../reducers/response/response.model';
+import {
+    activeResponseSelector, showSelectingLocationSelector
+} from '../../../../reducers/response/response.selectors';
+import {
+    CircleSpinnerComponent
+} from '../../../shared/components/circle-spinner/circle-spinner.component';
+import { MapClick } from '../../models/mapClick';
+import { MapDefaults } from '../../models/mapDefaults';
+import { MapPin } from '../../models/mapPin';
+import { MapPosition } from '../../models/mapPosition';
 
 @Component({
     selector: 'app-map',
@@ -444,12 +447,13 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private createHtmlPin(pin: MapPin) {
         const tooltip = pin.event ? pin.event.eventType === EventType.Message ? pin.event.events[ 0 ].metadata.username : null : null;
         const occurences = pin.event ? pin.event.eventCount : 0;
-        const html = this.getHtmlElement(occurences, 1, pin.color, tooltip, pin.event !== null && pin.event !== undefined)
+        const html = this.getHtmlElement(occurences, 1, pin.color, tooltip)
 
         const anchor = new Microsoft.Maps.Point(30, 30)
 
         const htmlPin = new HtmlPushpin(this.getPinLocation(pin), html, { anchor })
         Microsoft.Maps.Events.addHandler(htmlPin, 'click', () => { this.handlePinClick(pin.event); })
+        Microsoft.Maps.Events.addHandler(htmlPin, 'dblclick', () => { this.handlePinDblClick(this.getPinLocation(pin)); })
         htmlPin.metadata = pin
 
         return htmlPin
@@ -458,6 +462,12 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private handlePinClick(event: Event) {
         if (!event) { return; }
         this.store.dispatch(new ShowEventInEventBar({ event }))
+    }
+
+    private handlePinDblClick(location: Microsoft.Maps.Location) {
+        const bounds = Microsoft.Maps.LocationRect.fromLocations([ location ]);
+
+        this.setMapBounds(bounds, this.map.getZoom() + 2);
     }
 
     private createClusterPin(pin: MapPin) {
@@ -489,33 +499,33 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             gridKey,
         }
 
+        Microsoft.Maps.Events.addHandler(pin, 'dblclick', () => { this.handlePinDblClick(location); })
+
         return pin
     }
 
-    private getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string, clickable?: boolean) {
+    private getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string) {
         if (occurences > 0) {
             const occurencesString = `${occurences}x`;
             const tooltip = specialTooltip ? specialTooltip : devices > 1 ? `${devices} Devices` : '';
             if (color) {
                 switch (color.toLowerCase()) {
                     case 'red':
-                        return this.redPinSpinner.getSpinnerElement(occurencesString, tooltip, clickable)
+                        return this.redPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
                     case 'yellow':
-                        return this.yellowPinSpinner.getSpinnerElement(occurencesString, tooltip, clickable)
+                        return this.yellowPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
                     case 'blue':
-                        return this.bluePinSpinner.getSpinnerElement(occurencesString, tooltip, clickable)
+                        return this.bluePinSpinner.getSpinnerElement(occurencesString, tooltip, true)
                     case 'green':
-                        return this.greenPinSpinner.getSpinnerElement(occurencesString, tooltip, clickable)
+                        return this.greenPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
                     case 'grey':
-                        return this.greyPinSpinner.getSpinnerElement(occurencesString, tooltip, clickable)
+                        return this.greyPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
                 }
             }
             return this.bluePinSpinner.getSpinnerElement(occurencesString, tooltip)
         } else {
-            if (clickable) {
-                return '<img src="assets/icons/pin.svg" style="cursor: pointer" />'
-            }
-            return '<img src="assets/icons/pin.svg" />'
+            return '<img src="assets/icons/pin.svg" style="cursor: pointer" />'
+
         }
     }
 }
