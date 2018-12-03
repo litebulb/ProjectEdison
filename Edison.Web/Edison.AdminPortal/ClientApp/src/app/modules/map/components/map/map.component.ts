@@ -537,9 +537,9 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     }
 
     private getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string) {
+        const occurencesString = `${occurences}x`;
+        const tooltip = specialTooltip ? specialTooltip : devices > 1 ? `${devices} Devices` : '';
         if (occurences > 0) {
-            const occurencesString = `${occurences}x`;
-            const tooltip = specialTooltip ? specialTooltip : devices > 1 ? `${devices} Devices` : '';
             if (color) {
                 switch (color.toLowerCase()) {
                     case 'red':
@@ -556,7 +556,16 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             }
             return this.bluePinSpinner.getSpinnerElement(occurencesString, tooltip)
         } else {
-            return '<img src="assets/icons/pin.svg" style="cursor: pointer" />'
+            const displayedTooltip = tooltip.length === 0 ? '' : `<div style="height: 30px; display: flex; justify-content: center; align-items: center; position: absolute; top: -40px; width: 100%; opacity: 0.6; z-index: 3;">
+                <div style="display: flex; justify-content: center; align-items: center; background-color: black; border-radius: 4px; font-size: 14px; color: white; padding: 5px 20px; white-space: nowrap;">${tooltip}</div>
+                <div style="width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid black; position: absolute; bottom: -6px;"></div>
+            </div>`
+            return `
+            <div>
+                ${displayedTooltip}
+                <img src="assets/icons/pin.svg" style="cursor: pointer" />
+            </div>
+            `
 
         }
     }
