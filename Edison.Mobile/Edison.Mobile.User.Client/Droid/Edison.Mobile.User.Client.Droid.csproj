@@ -210,6 +210,8 @@
     <Compile Include="Ioc\PlatformContainerRegistrar.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Shared\Constants.cs" />
+    <Compile Include="Shared\EdisonFirebaseMessagingService.cs" />
+    <Compile Include="Shared\FirebaseRegistrationService.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Views\PulloutView.cs" />
   </ItemGroup>
