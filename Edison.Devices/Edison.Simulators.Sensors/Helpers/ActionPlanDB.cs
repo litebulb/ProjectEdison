@@ -25,13 +25,13 @@ namespace Edison.Simulators.Sensors.Helpers
                 OpenActions = new List<ActionDAOObject>()
                 {
                      GenerateEmergencyCallMessage(),
-                     GenerateNotificationMessage("A potential fire has been detected. If in the vicinity, leave immediately near the nearest fire exit."),
+                     GenerateNotificationMessage("A fire has been detected in the area. If you are inside, listen for alarms instructing you to go outside."),
                      GenerateActionPrimaryLightMessage("red"),
                      GenerateActionSecondaryLightMessage("yellow")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The fire situation has been resolved."),
+                     GenerateNotificationMessage("The fire has been contained. Safe to proceed as directed by authorities on the ground."),
                      GenerateActionPrimaryLightMessage("off"),
                      GenerateActionSecondaryLightMessage("off")
                 }
@@ -50,13 +50,13 @@ namespace Edison.Simulators.Sensors.Helpers
                 OpenActions = new List<ActionDAOObject>()
                 {
                      GenerateEmergencyCallMessage(),
-                     GenerateNotificationMessage("An active shooter has been detected."),
+                     GenerateNotificationMessage("Active Shooter in the area. Proceed with action plan immediately."),
                      GenerateActionPrimaryLightMessage("red"),
                      GenerateActionSecondaryLightMessage("yellow")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The shooter situation has been resolved."),
+                     GenerateNotificationMessage("Active Shooter situation ended. More info to come."),
                      GenerateActionPrimaryLightMessage("off"),
                      GenerateActionSecondaryLightMessage("off")
                 }
@@ -74,11 +74,11 @@ namespace Edison.Simulators.Sensors.Helpers
                 AcceptSafeStatus = true,
                 OpenActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("Warning. Air pollution was detected in your area.")
+                     GenerateNotificationMessage("Air Quality issues have been reported in the area.")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The Air pollution situation was resolved.")
+                     GenerateNotificationMessage("Air Quality issues in the area have improved.")
                 }
             };
             var actionPlanHealthCheck = new ActionPlanDAO()
@@ -114,13 +114,13 @@ namespace Edison.Simulators.Sensors.Helpers
                 AcceptSafeStatus = false,
                 OpenActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("A protest has been detected near your location."),
+                     GenerateNotificationMessage("A planned protest will occur today in the area. Travel routes may be affected."),
                      GenerateActionPrimaryLightMessage("red"),
                      GenerateActionSecondaryLightMessage("yellow")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The protest situation has been resolved."),
+                     GenerateNotificationMessage("The planned protest has concluded."),
                      GenerateActionPrimaryLightMessage("off"),
                      GenerateActionSecondaryLightMessage("off")
                 }
@@ -162,13 +162,13 @@ namespace Edison.Simulators.Sensors.Helpers
                 AcceptSafeStatus = true,
                 OpenActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("An incoming tornado has been detected near your location."),
+                     GenerateNotificationMessage("A tornado watch is in effect for the area."),
                      GenerateActionPrimaryLightMessage("red"),
                      GenerateActionSecondaryLightMessage("yellow")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The tornado situation has been resolved."),
+                     GenerateNotificationMessage("The tornado watch has expired."),
                      GenerateActionPrimaryLightMessage("off"),
                      GenerateActionSecondaryLightMessage("off")
                 }
@@ -186,11 +186,11 @@ namespace Edison.Simulators.Sensors.Helpers
                 AcceptSafeStatus = true,
                 OpenActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("VIP")
+                     GenerateNotificationMessage("There is a planned appearance by a public figure in the area today. Travel routes may be affected.")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The VIP situation was resolved.")
+                     GenerateNotificationMessage("The planned appearance by a public figure has concluded.")
                 }
             };
             var actionPlanActiveEmergency = new ActionPlanDAO()
@@ -207,13 +207,13 @@ namespace Edison.Simulators.Sensors.Helpers
                 OpenActions = new List<ActionDAOObject>()
                 {
                      GenerateEmergencyCallMessage(),
-                     GenerateNotificationMessage("Emergency"),
+                     GenerateNotificationMessage("Emergency."),
                      GenerateActionPrimaryLightMessage("red"),
                      GenerateActionSecondaryLightMessage("yellow")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("Emergency"),
+                     GenerateNotificationMessage("End of emergency."),
                      GenerateActionPrimaryLightMessage("off"),
                      GenerateActionSecondaryLightMessage("off")
                 }

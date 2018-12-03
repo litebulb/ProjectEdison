@@ -19,12 +19,20 @@ namespace Edison.Api.Controllers
         private readonly IHubContext<SignalRHub> _hub;
         private readonly ResponseDataManager _responseDataManager;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public SignalRController(IHubContext<SignalRHub> hub, ResponseDataManager responseDataManager)
         {
             _hub = hub;
             _responseDataManager = responseDataManager;
         }
 
+        /// <summary>
+        /// Send a signalR message of type UpdateEventClusterUI
+        /// </summary>
+        /// <param name="eventClusterUIUpdate">EventClusterUIModel</param>
+        /// <returns>200 if the operation succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("EventCluster")]
         public async Task<IActionResult> UpdateEventClusterUI([FromBody]EventClusterUIModel eventClusterUIUpdate)
@@ -33,6 +41,11 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Send a signalR message of type UpdateDeviceUI
+        /// </summary>
+        /// <param name="eventClusterUIUpdate">DeviceUIModel</param>
+        /// <returns>200 if the operation succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("Device")]
         public async Task<IActionResult> UpdateDeviceUI([FromBody]DeviceUIModel deviceUIUpdate)
@@ -41,6 +54,11 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Send a signalR message of type UpdateResponseUI
+        /// </summary>
+        /// <param name="eventClusterUIUpdate">ResponseUIModel</param>
+        /// <returns>200 if the operation succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("Response")]
         public async Task<IActionResult> UpdateResponseUI([FromBody]ResponseUIModel responseUIUpdate)
@@ -51,6 +69,11 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Send a signalR message of type UpdateActionCallbackUI
+        /// </summary>
+        /// <param name="eventClusterUIUpdate">ActionCallbackUIModel</param>
+        /// <returns>200 if the operation succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("Response/ActionClose")]
         public async Task<IActionResult> UpdateActionCallbackUI([FromBody]ActionCallbackUIModel actionCallbackUIUpdate)

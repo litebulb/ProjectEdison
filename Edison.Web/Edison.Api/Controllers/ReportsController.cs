@@ -17,11 +17,19 @@ namespace Edison.Api.Controllers
     {
         private readonly ReportDataManager _reportDataManager;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public ReportsController(ReportDataManager reportDataManager)
         {
             _reportDataManager = reportDataManager;
         }
 
+        /// <summary>
+        /// Get reports based on minimum date, maximum date and a type of report
+        /// </summary>
+        /// <param name="reportRequest">ReportCreationModel</param>
+        /// <returns>XLSX Data</returns>
         [HttpPost]
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Admin)]
         public async Task<IActionResult> GetReports([FromBody]ReportCreationModel reportRequest)

@@ -7,7 +7,7 @@ namespace Edison.Core.Common.Models
     public enum ActionStatus
     {
         Unknown = 0,
-        NotRun = 1,
+        NotStarted = 1,
         Error = 2,
         Skipped = 3,
         Success = 4

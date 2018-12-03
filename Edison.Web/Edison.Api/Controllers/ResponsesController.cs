@@ -26,6 +26,9 @@ namespace Edison.Api.Controllers
         private readonly ResponseDataManager _responseDataManager;
         private readonly IMassTransitServiceBus _serviceBus;
 
+        /// <summary>
+        /// DI Constructor
+        /// </summary>
         public ResponsesController(ResponseDataManager responseDataManager,
             IOptions<WebApiOptions> config, IMassTransitServiceBus serviceBusClient)
         {
@@ -34,6 +37,11 @@ namespace Edison.Api.Controllers
             _serviceBus = serviceBusClient;
         }
 
+        /// <summary>
+        /// Get a response full object by Id
+        /// </summary>
+        /// <param name="responseId">Response Id</param>
+        /// <returns>ResponseModel</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [HttpGet("{responseId}")]
         [Produces(typeof(ResponseModel))]
@@ -43,6 +51,10 @@ namespace Edison.Api.Controllers
             return Ok(responseObj);
         }
 
+        /// <summary>
+        /// Get a list of responses light objects
+        /// </summary>
+        /// <returns>List of Response Light Model</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [HttpGet]
         [Produces(typeof(IEnumerable<ResponseLightModel>))]
@@ -52,6 +64,11 @@ namespace Edison.Api.Controllers
             return Ok(responseObjs);
         }
 
+        /// <summary>
+        /// Get a list of responses that are within the radius of a point. The size of the radius is the primary radius of the action plan
+        /// </summary>
+        /// <param name="responseGeolocationObj">ResponseGeolocationModel</param>
+        /// <returns>List of Response Model</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
         [HttpPost("Radius")]
         [Produces(typeof(IEnumerable<ResponseModel>))]
@@ -61,17 +78,11 @@ namespace Edison.Api.Controllers
             return Ok(responseObjs);
         }
 
-        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
-        [HttpPut("Safe")]
-        [Produces(typeof(bool))]
-        public async Task<IActionResult> SetSafeStatus([FromBody]ResponseSafeUpdateModel responseSafeUpdateObj)
-        {
-            string userId = UserHelper.GetBestClaimValue(User.Claims.ToList(), _config.ClaimsId, true).ToLower();
-
-            bool result = await _responseDataManager.SetSafeStatus(userId, responseSafeUpdateObj.IsSafe);
-            return Ok(result);
-        }
-
+        /// <summary>
+        /// Create a new response and start a response saga
+        /// </summary>
+        /// <param name="responseObj">ResponseCreationModel</param>
+        /// <returns>ResponseModel</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPost]
         [Produces(typeof(ResponseModel))]
@@ -89,6 +100,28 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Set the safe status of the current user
+        /// </summary>
+        /// <param name="responseSafeUpdateObj">ResponseSafeUpdateModel</param>
+        /// <returns>True if the call succeeded</returns>
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureADAndB2C, Policy = AuthenticationRoles.Consumer)]
+        [HttpPut("Safe")]
+        [Produces(typeof(bool))]
+        public async Task<IActionResult> SetSafeStatus([FromBody]ResponseSafeUpdateModel responseSafeUpdateObj)
+        {
+            string userId = UserHelper.GetBestClaimValue(User.Claims.ToList(), _config.ClaimsId, true).ToLower();
+
+            bool result = await _responseDataManager.SetSafeStatus(userId, responseSafeUpdateObj.IsSafe);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Locate a response by adding a geolocation. The call will fail if a geolocation already exist.
+        /// Trigger a new Masstransit message if the call succeeded
+        /// </summary>
+        /// <param name="responseObj">ResponseStartModel</param>
+        /// <returns>Returns 200 if the call succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPost("Locate")]
         public async Task<IActionResult> LocateResponse([FromBody]ResponseStartModel responseObj)
@@ -109,6 +142,12 @@ namespace Edison.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Close a response by adding a end date.
+        /// Trigger a new Masstransit message if the call succeeded
+        /// </summary>
+        /// <param name="responseObj">EventSagaReceiveResponseClosed</param>
+        /// <returns>ResponseModel</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut("Close")]
         [Produces(typeof(ResponseModel))]
@@ -123,6 +162,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Associated a set of Event Clusters Ids to a response
+        /// </summary>
+        /// <param name="responseObj">ResponseEventClustersUpdateModel</param>
+        /// <returns>ResponseModel</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPut("AddEventClusters")]
         [Produces(typeof(ResponseModel))]
@@ -132,6 +176,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a response. This call is for debugging purposes only
+        /// </summary>
+        /// <param name="responseId">Response Id</param>
+        /// <returns>true if the call succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpDelete]
         [Produces(typeof(bool))]
@@ -141,6 +190,11 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Complete an action and update the action object
+        /// </summary>
+        /// <param name="actionCompletionObj">ActionCompletionModel</param>
+        /// <returns>true if the call succeeded</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.SuperAdmin)]
         [HttpPost("CompleteAction")]
         [Produces(typeof(bool))]
@@ -150,6 +204,12 @@ namespace Edison.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Add action to a response
+        /// Trigger a MassTransit message if the call succeeded
+        /// </summary>
+        /// <param name="responseObj">ResponseChangeActionPlanModel</param>
+        /// <returns>ResponseModel</returns>
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpPut("ChangeAction")]
         [Produces(typeof(ResponseModel))]
