@@ -12,6 +12,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
     {   
         UIButton signInButton;
         UIImageView sensorsImageView;
+        UIImageView logoImageView;
         UILabel deviceSetupLabel;
         UIView containerView;
 
@@ -21,7 +22,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             View.BackgroundColor = Constants.Color.White;
 
-            containerView = new UIView { TranslatesAutoresizingMaskIntoConstraints = false, Alpha = 1, BackgroundColor = UIColor.Purple };
+            containerView = new UIView { TranslatesAutoresizingMaskIntoConstraints = false, Alpha = 1 };
             View.AddSubview(containerView);
             containerView.TopAnchor.ConstraintEqualTo(View.LayoutMarginsGuide.TopAnchor).Active = true;
             containerView.BottomAnchor.ConstraintEqualTo(View.LayoutMarginsGuide.BottomAnchor).Active = true;
@@ -87,14 +88,24 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 TextColor = Constants.Color.MidGray,
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Twelve),
             };
+            containerView.AddSubview(browserLabel);
+            browserLabel.CenterXAnchor.ConstraintEqualTo(containerView.CenterXAnchor).Active = true;
+            browserLabel.TopAnchor.ConstraintEqualTo(signInButtonBackground.BottomAnchor, constant: 30).Active = true;
 
-
+            logoImageView = new UIImageView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                Image = Constants.Assets.LoginLogo,
+            };
+            containerView.AddSubview(logoImageView);
+            logoImageView.BottomAnchor.ConstraintEqualTo(sensorsImageView.TopAnchor, constant: -60).Active = true;
+            logoImageView.CenterXAnchor.ConstraintEqualTo(containerView.CenterXAnchor).Active = true;
         }
 
         protected override void BindEventHandlers()
         {
             base.BindEventHandlers();
-            //signInButton.TouchUpInside += OnSignInButtonTouchUpInside;
+            signInButton.TouchUpInside += OnSignInButtonTouchUpInside;
             ViewModel.OnDisplayLogin += OnDisplayLogin;
             ViewModel.OnNavigateToMainViewModel += OnNavigateToMainViewModel;
         }
@@ -102,7 +113,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         protected override void UnBindEventHandlers()
         {
             base.UnBindEventHandlers();
-            //signInButton.TouchUpInside -= OnSignInButtonTouchUpInside;
+            signInButton.TouchUpInside -= OnSignInButtonTouchUpInside;
             ViewModel.OnDisplayLogin -= OnDisplayLogin;
             ViewModel.OnNavigateToMainViewModel -= OnNavigateToMainViewModel;
         }

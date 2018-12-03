@@ -35,5 +35,9 @@
 		<string>Rubik-Regular.ttf</string>
 		<string>Rubik-Light.ttf</string>
 	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location to help you set up IoT devices.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to help you set up IoT devices.</string>
 </dict>
 </plist>

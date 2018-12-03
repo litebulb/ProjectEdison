@@ -856,6 +856,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.String.common_open_on_phone = global::Edison.Mobile.User.Client.Droid.Resource.String.common_open_on_phone;
 			global::Edison.Mobile.Android.Common.Resource.String.common_signin_button_text = global::Edison.Mobile.User.Client.Droid.Resource.String.common_signin_button_text;
 			global::Edison.Mobile.Android.Common.Resource.String.common_signin_button_text_long = global::Edison.Mobile.User.Client.Droid.Resource.String.common_signin_button_text_long;
+			global::Edison.Mobile.Android.Common.Resource.String.fcm_fallback_notification_channel_label = global::Edison.Mobile.User.Client.Droid.Resource.String.fcm_fallback_notification_channel_label;
 			global::Edison.Mobile.Android.Common.Resource.String.library_name = global::Edison.Mobile.User.Client.Droid.Resource.String.library_name;
 			global::Edison.Mobile.Android.Common.Resource.String.search_menu_title = global::Edison.Mobile.User.Client.Droid.Resource.String.search_menu_title;
 			global::Edison.Mobile.Android.Common.Resource.String.status_bar_notification_info_overflow = global::Edison.Mobile.User.Client.Droid.Resource.String.status_bar_notification_info_overflow;
@@ -4016,26 +4017,26 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f020054
 			public const int avd_hide_password = 2130837588;
 			
-			// aapt resource value: 0x7f020084
-			public const int avd_hide_password_1 = 2130837636;
-			
 			// aapt resource value: 0x7f020085
-			public const int avd_hide_password_2 = 2130837637;
+			public const int avd_hide_password_1 = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int avd_hide_password_3 = 2130837638;
+			public const int avd_hide_password_2 = 2130837638;
+			
+			// aapt resource value: 0x7f020087
+			public const int avd_hide_password_3 = 2130837639;
 			
 			// aapt resource value: 0x7f020055
 			public const int avd_show_password = 2130837589;
 			
-			// aapt resource value: 0x7f020087
-			public const int avd_show_password_1 = 2130837639;
-			
 			// aapt resource value: 0x7f020088
-			public const int avd_show_password_2 = 2130837640;
+			public const int avd_show_password_1 = 2130837640;
 			
 			// aapt resource value: 0x7f020089
-			public const int avd_show_password_3 = 2130837641;
+			public const int avd_show_password_2 = 2130837641;
+			
+			// aapt resource value: 0x7f02008a
+			public const int avd_show_password_3 = 2130837642;
 			
 			// aapt resource value: 0x7f020056
 			public const int common_full_open_on_phone = 2130837590;
@@ -4122,58 +4123,61 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int googleg_standard_color_18 = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int menu = 2130837618;
+			public const int ic_launcher = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int menu_layout = 2130837619;
+			public const int menu = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int navigation_empty_icon = 2130837620;
+			public const int menu_layout = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int notification_action_background = 2130837621;
+			public const int navigation_empty_icon = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int notification_bg = 2130837622;
+			public const int notification_action_background = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int notification_bg_low = 2130837623;
+			public const int notification_bg = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int notification_bg_low_normal = 2130837624;
+			public const int notification_bg_low = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int notification_bg_low_pressed = 2130837625;
+			public const int notification_bg_low_normal = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int notification_bg_normal = 2130837626;
+			public const int notification_bg_low_pressed = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int notification_bg_normal_pressed = 2130837627;
+			public const int notification_bg_normal = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int notification_icon_background = 2130837628;
-			
-			// aapt resource value: 0x7f020082
-			public const int notification_template_icon_bg = 2130837634;
-			
-			// aapt resource value: 0x7f020083
-			public const int notification_template_icon_low_bg = 2130837635;
+			public const int notification_bg_normal_pressed = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int notification_tile_bg = 2130837629;
+			public const int notification_icon_background = 2130837629;
+			
+			// aapt resource value: 0x7f020083
+			public const int notification_template_icon_bg = 2130837635;
+			
+			// aapt resource value: 0x7f020084
+			public const int notification_template_icon_low_bg = 2130837636;
 			
 			// aapt resource value: 0x7f02007e
-			public const int notify_panel_notification_icon_bg = 2130837630;
+			public const int notification_tile_bg = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int thumb_shape = 2130837631;
+			public const int notify_panel_notification_icon_bg = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int tooltip_frame_dark = 2130837632;
+			public const int thumb_shape = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int tooltip_frame_light = 2130837633;
+			public const int tooltip_frame_dark = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public const int tooltip_frame_light = 2130837634;
 			
 			static Drawable()
 			{
@@ -5095,104 +5099,104 @@ namespace Edison.Mobile.User.Client.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f080011
-			public const int abc_action_bar_home_description = 2131230737;
-			
-			// aapt resource value: 0x7f080012
-			public const int abc_action_bar_up_description = 2131230738;
-			
 			// aapt resource value: 0x7f080013
-			public const int abc_action_menu_overflow_description = 2131230739;
+			public const int abc_action_bar_home_description = 2131230739;
 			
 			// aapt resource value: 0x7f080014
-			public const int abc_action_mode_done = 2131230740;
+			public const int abc_action_bar_up_description = 2131230740;
 			
 			// aapt resource value: 0x7f080015
-			public const int abc_activity_chooser_view_see_all = 2131230741;
+			public const int abc_action_menu_overflow_description = 2131230741;
 			
 			// aapt resource value: 0x7f080016
-			public const int abc_activitychooserview_choose_application = 2131230742;
+			public const int abc_action_mode_done = 2131230742;
 			
 			// aapt resource value: 0x7f080017
-			public const int abc_capital_off = 2131230743;
+			public const int abc_activity_chooser_view_see_all = 2131230743;
 			
 			// aapt resource value: 0x7f080018
-			public const int abc_capital_on = 2131230744;
-			
-			// aapt resource value: 0x7f080023
-			public const int abc_font_family_body_1_material = 2131230755;
-			
-			// aapt resource value: 0x7f080024
-			public const int abc_font_family_body_2_material = 2131230756;
-			
-			// aapt resource value: 0x7f080025
-			public const int abc_font_family_button_material = 2131230757;
-			
-			// aapt resource value: 0x7f080026
-			public const int abc_font_family_caption_material = 2131230758;
-			
-			// aapt resource value: 0x7f080027
-			public const int abc_font_family_display_1_material = 2131230759;
-			
-			// aapt resource value: 0x7f080028
-			public const int abc_font_family_display_2_material = 2131230760;
-			
-			// aapt resource value: 0x7f080029
-			public const int abc_font_family_display_3_material = 2131230761;
-			
-			// aapt resource value: 0x7f08002a
-			public const int abc_font_family_display_4_material = 2131230762;
-			
-			// aapt resource value: 0x7f08002b
-			public const int abc_font_family_headline_material = 2131230763;
-			
-			// aapt resource value: 0x7f08002c
-			public const int abc_font_family_menu_material = 2131230764;
-			
-			// aapt resource value: 0x7f08002d
-			public const int abc_font_family_subhead_material = 2131230765;
-			
-			// aapt resource value: 0x7f08002e
-			public const int abc_font_family_title_material = 2131230766;
+			public const int abc_activitychooserview_choose_application = 2131230744;
 			
 			// aapt resource value: 0x7f080019
-			public const int abc_search_hint = 2131230745;
+			public const int abc_capital_off = 2131230745;
 			
 			// aapt resource value: 0x7f08001a
-			public const int abc_searchview_description_clear = 2131230746;
+			public const int abc_capital_on = 2131230746;
 			
-			// aapt resource value: 0x7f08001b
-			public const int abc_searchview_description_query = 2131230747;
+			// aapt resource value: 0x7f080025
+			public const int abc_font_family_body_1_material = 2131230757;
 			
-			// aapt resource value: 0x7f08001c
-			public const int abc_searchview_description_search = 2131230748;
+			// aapt resource value: 0x7f080026
+			public const int abc_font_family_body_2_material = 2131230758;
 			
-			// aapt resource value: 0x7f08001d
-			public const int abc_searchview_description_submit = 2131230749;
+			// aapt resource value: 0x7f080027
+			public const int abc_font_family_button_material = 2131230759;
 			
-			// aapt resource value: 0x7f08001e
-			public const int abc_searchview_description_voice = 2131230750;
+			// aapt resource value: 0x7f080028
+			public const int abc_font_family_caption_material = 2131230760;
 			
-			// aapt resource value: 0x7f08001f
-			public const int abc_shareactionprovider_share_with = 2131230751;
+			// aapt resource value: 0x7f080029
+			public const int abc_font_family_display_1_material = 2131230761;
 			
-			// aapt resource value: 0x7f080020
-			public const int abc_shareactionprovider_share_with_application = 2131230752;
+			// aapt resource value: 0x7f08002a
+			public const int abc_font_family_display_2_material = 2131230762;
 			
-			// aapt resource value: 0x7f080021
-			public const int abc_toolbar_collapse_description = 2131230753;
+			// aapt resource value: 0x7f08002b
+			public const int abc_font_family_display_3_material = 2131230763;
 			
-			// aapt resource value: 0x7f08003a
-			public const int app_name = 2131230778;
+			// aapt resource value: 0x7f08002c
+			public const int abc_font_family_display_4_material = 2131230764;
+			
+			// aapt resource value: 0x7f08002d
+			public const int abc_font_family_headline_material = 2131230765;
+			
+			// aapt resource value: 0x7f08002e
+			public const int abc_font_family_menu_material = 2131230766;
 			
 			// aapt resource value: 0x7f08002f
-			public const int appbar_scrolling_view_behavior = 2131230767;
+			public const int abc_font_family_subhead_material = 2131230767;
 			
 			// aapt resource value: 0x7f080030
-			public const int bottom_sheet_behavior = 2131230768;
+			public const int abc_font_family_title_material = 2131230768;
+			
+			// aapt resource value: 0x7f08001b
+			public const int abc_search_hint = 2131230747;
+			
+			// aapt resource value: 0x7f08001c
+			public const int abc_searchview_description_clear = 2131230748;
+			
+			// aapt resource value: 0x7f08001d
+			public const int abc_searchview_description_query = 2131230749;
+			
+			// aapt resource value: 0x7f08001e
+			public const int abc_searchview_description_search = 2131230750;
+			
+			// aapt resource value: 0x7f08001f
+			public const int abc_searchview_description_submit = 2131230751;
+			
+			// aapt resource value: 0x7f080020
+			public const int abc_searchview_description_voice = 2131230752;
+			
+			// aapt resource value: 0x7f080021
+			public const int abc_shareactionprovider_share_with = 2131230753;
+			
+			// aapt resource value: 0x7f080022
+			public const int abc_shareactionprovider_share_with_application = 2131230754;
+			
+			// aapt resource value: 0x7f080023
+			public const int abc_toolbar_collapse_description = 2131230755;
+			
+			// aapt resource value: 0x7f080012
+			public const int app_name = 2131230738;
 			
 			// aapt resource value: 0x7f080031
-			public const int character_counter_pattern = 2131230769;
+			public const int appbar_scrolling_view_behavior = 2131230769;
+			
+			// aapt resource value: 0x7f080032
+			public const int bottom_sheet_behavior = 2131230770;
+			
+			// aapt resource value: 0x7f080033
+			public const int character_counter_pattern = 2131230771;
 			
 			// aapt resource value: 0x7f080001
 			public const int common_google_play_services_enable_button = 2131230721;
@@ -5245,44 +5249,47 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f080010
 			public const int common_signin_button_text_long = 2131230736;
 			
-			// aapt resource value: 0x7f080039
-			public const int hello = 2131230777;
-			
-			// aapt resource value: 0x7f080038
-			public const int library_name = 2131230776;
-			
-			// aapt resource value: 0x7f08003d
-			public const int nav_info = 2131230781;
-			
-			// aapt resource value: 0x7f08003e
-			public const int nav_notifications = 2131230782;
-			
-			// aapt resource value: 0x7f08003c
-			public const int navigation_drawer_close = 2131230780;
+			// aapt resource value: 0x7f080011
+			public const int fcm_fallback_notification_channel_label = 2131230737;
 			
 			// aapt resource value: 0x7f08003b
-			public const int navigation_drawer_open = 2131230779;
+			public const int hello = 2131230779;
 			
-			// aapt resource value: 0x7f080032
-			public const int password_toggle_content_description = 2131230770;
+			// aapt resource value: 0x7f08003a
+			public const int library_name = 2131230778;
 			
-			// aapt resource value: 0x7f080033
-			public const int path_password_eye = 2131230771;
+			// aapt resource value: 0x7f08003e
+			public const int nav_info = 2131230782;
+			
+			// aapt resource value: 0x7f08003f
+			public const int nav_notifications = 2131230783;
+			
+			// aapt resource value: 0x7f08003d
+			public const int navigation_drawer_close = 2131230781;
+			
+			// aapt resource value: 0x7f08003c
+			public const int navigation_drawer_open = 2131230780;
 			
 			// aapt resource value: 0x7f080034
-			public const int path_password_eye_mask_strike_through = 2131230772;
+			public const int password_toggle_content_description = 2131230772;
 			
 			// aapt resource value: 0x7f080035
-			public const int path_password_eye_mask_visible = 2131230773;
+			public const int path_password_eye = 2131230773;
 			
 			// aapt resource value: 0x7f080036
-			public const int path_password_strike_through = 2131230774;
-			
-			// aapt resource value: 0x7f080022
-			public const int search_menu_title = 2131230754;
+			public const int path_password_eye_mask_strike_through = 2131230774;
 			
 			// aapt resource value: 0x7f080037
-			public const int status_bar_notification_info_overflow = 2131230775;
+			public const int path_password_eye_mask_visible = 2131230775;
+			
+			// aapt resource value: 0x7f080038
+			public const int path_password_strike_through = 2131230776;
+			
+			// aapt resource value: 0x7f080024
+			public const int search_menu_title = 2131230756;
+			
+			// aapt resource value: 0x7f080039
+			public const int status_bar_notification_info_overflow = 2131230777;
 			
 			static String()
 			{

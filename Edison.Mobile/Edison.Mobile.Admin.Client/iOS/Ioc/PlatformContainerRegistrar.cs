@@ -13,7 +13,7 @@ namespace Edison.Mobile.Admin.Client.iOS.Ioc
         {
             var publicClientApplication = new PublicClientApplication(Constants.ClientId, AuthConfig.Authority)
             {
-                RedirectUri = AuthConfig.UserRedirectUri,
+                RedirectUri = AuthConfig.AdminRedirectUri,
             };
 
             builder.RegisterInstance(publicClientApplication)

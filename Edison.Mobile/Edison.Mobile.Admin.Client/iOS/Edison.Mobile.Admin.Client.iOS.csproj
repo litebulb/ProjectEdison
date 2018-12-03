@@ -80,6 +80,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>EdisonAdmin</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS User|iPhoneSimulator' ">
     <Optimize>false</Optimize>
@@ -176,9 +177,6 @@
     <Reference Include="Microsoft.AppCenter.Crashes.iOS.Bindings">
       <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.AppCenter.Crashes.1.11.0\lib\Xamarin.iOS10\Microsoft.AppCenter.Crashes.iOS.Bindings.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Identity.Client">
-      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.Identity.Client.2.5.0-preview\lib\xamarinios10\Microsoft.Identity.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Edison.Mobile.Common\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -197,6 +195,9 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt">
       <HintPath>..\..\Edison.Mobile.Common\packages\System.IdentityModel.Tokens.Jwt.5.3.0\lib\netstandard2.0\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Identity.Client">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.Identity.Client.2.5.0-preview\lib\xamarinios10\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -209,6 +210,10 @@
     <ImageAsset Include="Assets.xcassets\Sensors.imageset\sensors.png" />
     <ImageAsset Include="Assets.xcassets\Sensors.imageset\sensors%402x.png" />
     <ImageAsset Include="Assets.xcassets\Sensors.imageset\sensors%403x.png" />
+    <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\loginLogo.png" />
+    <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\loginLogo%402x.png" />
+    <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\loginLogo%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -216,6 +221,7 @@
     <Folder Include="ViewControllers\" />
     <Folder Include="Shared\" />
     <Folder Include="Assets.xcassets\Sensors.imageset\" />
+    <Folder Include="Assets.xcassets\LoginLogo.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

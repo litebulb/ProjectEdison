@@ -50,7 +50,11 @@ namespace Edison.Mobile.User.Client.iOS
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-            AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(url);
+            if (!AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(url))
+            {
+                return false;
+            }
+
             return true;
         }
 

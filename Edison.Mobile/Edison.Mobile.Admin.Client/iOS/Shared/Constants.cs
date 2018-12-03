@@ -39,6 +39,7 @@ namespace Edison.Mobile.Admin.Client.iOS.Shared
         public static class Assets
         {
             public static UIImage Sensors => UIImage.FromBundle("Sensors");
+            public static UIImage LoginLogo => UIImage.FromBundle("LoginLogo");
         }
     }
 }

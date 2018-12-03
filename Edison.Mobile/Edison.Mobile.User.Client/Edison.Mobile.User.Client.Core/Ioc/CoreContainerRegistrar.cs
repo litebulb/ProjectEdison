@@ -15,13 +15,14 @@ namespace Edison.Mobile.User.Client.Core.Ioc
         public void Register(ContainerBuilder builder)
         {
             builder.RegisterType<MainViewModel>();
+            builder.RegisterType<LoginViewModel>();
+            builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ResponsesViewModel>();
             builder.RegisterType<MenuViewModel>();
             builder.RegisterType<ResponseDetailsViewModel>();
             builder.RegisterType<ChatViewModel>().SingleInstance();
 
             builder.RegisterType<ChatClientConfig>().SingleInstance();
-
 
             builder.Register((c, p) => new ResponseRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
             builder.Register((c, p) => new EventClusterRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
