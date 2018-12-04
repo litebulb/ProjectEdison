@@ -128,19 +128,22 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS Admin|iPhoneSimulator' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\iOS Admin</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <MtouchVerbosity></MtouchVerbosity>
+    <MtouchVerbosity>
+    </MtouchVerbosity>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS Admin|iPhone' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\iOS Admin</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
@@ -149,7 +152,8 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <MtouchVerbosity></MtouchVerbosity>
+    <MtouchVerbosity>
+    </MtouchVerbosity>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -232,143 +236,417 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Brightness.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Brightness.imageset\brightness.png" />
-    <ImageAsset Include="Assets.xcassets\Brightness.imageset\brightness%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Brightness.imageset\brightness%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Logo.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Logo.imageset\logo.png" />
-    <ImageAsset Include="Assets.xcassets\Logo.imageset\logo%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Logo.imageset\logo%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu.png" />
-    <ImageAsset Include="Assets.xcassets\Location.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Location.imageset\location.png" />
-    <ImageAsset Include="Assets.xcassets\Location.imageset\location%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Location.imageset\location%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\chat white.png" />
-    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\chat white%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\chat white%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\emergency.png" />
-    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\emergency%402x.png" />
-    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\emergency%403x.png" />
-    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\emergencyRed.png" />
-    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\emergencyRed%402x.png" />
-    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\emergencyRed%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\chatBlue.png" />
-    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\chatBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\chatBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\person.png" />
-    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\person%402x.png" />
-    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\person%403x.png" />
-    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\personBlue.png" />
-    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\personBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\personBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX.png" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%402x.png" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%403x.png" />
-    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency.png" />
-    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency%402x.png" />
-    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency%403x.png" />
-    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite.png" />
-    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\GunRed.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed.png" />
-    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed%402x.png" />
-    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed%403x.png" />
-    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire.png" />
-    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire%402x.png" />
-    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire%403x.png" />
-    <ImageAsset Include="Assets.xcassets\FireRed.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed.png" />
-    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed%402x.png" />
-    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed%403x.png" />
-    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite.png" />
-    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow.png" />
-    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow%402x.png" />
-    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow%403x.png" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite.png" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue.png" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue.png" />
-    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite.png" />
-    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent.png" />
-    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent%402x.png" />
-    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness.png" />
-    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%402x.png" />
-    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%403x.png" />
-    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow.png" />
-    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow%402x.png" />
-    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow%403x.png" />
-    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite.png" />
-    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite.png" />
-    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed%403x.png" />
-    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed%402x.png" />
-    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed.png" />
-    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue.png" />
-    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite.png" />
-    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%402x.png" />
-    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%403x.png" />
-    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck.png" />
-    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck%402x.png" />
-    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Brightness.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Brightness.imageset\brightness.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Brightness.imageset\brightness%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Brightness.imageset\brightness%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Logo.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Logo.imageset\logo.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Logo.imageset\logo%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Logo.imageset\logo%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Location.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Location.imageset\location.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Location.imageset\location%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Location.imageset\location%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\chat white.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\chat white%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\chat white%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\emergency.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\emergency%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyWhite.imageset\emergency%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\emergencyRed.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\emergencyRed%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\EmergencyRed.imageset\emergencyRed%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\chatBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\chatBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ChatBlue.imageset\chatBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\person.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\person%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonWhite.imageset\person%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\personBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\personBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonBlue.imageset\personBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\NotificationBell.imageset\emergency%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunWhite.imageset\gunWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\GunRed.imageset\gunRed%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireWhite.imageset\fire%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\FireRed.imageset\fireRed%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamWhite.imageset\spamWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SpamYellow.imageset\spamYellow%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckWhite.imageset\safetyCheckWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SafetyCheckBlue.imageset\safetyCheckBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthBlue.imageset\healthBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\HealthWhite.imageset\healthWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LocationSent.imageset\LocationSent%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHand%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestWhite.imageset\protestHandWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ProtestBlue.imageset\protestHandBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\BrightnessMoon.imageset\moonBrightness%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoYellow.imageset\TornadoYellow%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\TornadoWhite.imageset\TornadoWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageWhite.imageset\PackageWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PackageRed.imageset\PackageRed.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPBlue.imageset\VIPBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\VIPWhite.imageset\VIPWhite%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\PersonCheck.imageset\PersonCheck%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

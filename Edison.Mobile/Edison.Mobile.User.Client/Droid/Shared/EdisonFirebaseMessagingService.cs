@@ -12,6 +12,8 @@ using Android.Views;
 using Android.Widget;
 using Edison.Mobile.User.Client.Droid.Activities;
 using Firebase.Messaging;
+using Edison.Mobile.User.Client.Droid;
+
 
 namespace Edison.Mobile.User.Client.Droid.Shared
 {
@@ -42,7 +44,7 @@ namespace Edison.Mobile.User.Client.Droid.Shared
             
             var notificationBuilder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID)
                         .SetContentTitle("FCM Message")
-                        .SetSmallIcon(Resource.Drawable.ic_launcher)
+                        .SetSmallIcon(global::Android.Resource.Drawable.IcMenuAdd)
                         .SetContentText(messageBody)
                         .SetAutoCancel(true)
                         .SetContentIntent(pendingIntent);

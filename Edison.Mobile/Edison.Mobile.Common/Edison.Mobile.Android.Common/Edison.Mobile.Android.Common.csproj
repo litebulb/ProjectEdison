@@ -152,16 +152,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base Classes\BaseApplication.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="Extensions\DrawableExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BaseActivity.cs" />
-    <Compile Include="Geolocation\LocationService.cs" />
-    <Compile Include="Geolocation\EdisonLocationCallback.cs" />
-    <Compile Include="Logging\PlatformLogger.cs" />
-    <Compile Include="Ioc\PlatformCommonContainerRegistrar.cs" />
-    <Compile Include="Auth\PlatformAuthService.cs" />
+    <Compile Include="Base Classes\BaseActivity.cs" />
+    <Compile Include="Services\Geolocation\LocationService.cs" />
+    <Compile Include="Services\Geolocation\EdisonLocationCallback.cs" />
+    <Compile Include="Services\Keyboard\KeyboardStatusService.cs" />
+    <Compile Include="Services\Logging\PlatformLogger.cs" />
+    <Compile Include="Services\Ioc\PlatformCommonContainerRegistrar.cs" />
+    <Compile Include="Services\Auth\PlatformAuthService.cs" />
     <Compile Include="Shared\CurrentActivityHelper.cs" />
-    <Compile Include="Notifications\NotificationService.cs" />
+    <Compile Include="Services\Notifications\NotificationService.cs" />
+    <Compile Include="Extensions\ToolbarExtensions.cs" />
+    <Compile Include="Utilities\FloatingActionButtonSize.cs" />
+    <Compile Include="Utilities\Padding.cs" />
+    <Compile Include="Utilities\PixelSizeConverter.cs" />
+    <Compile Include="Utilities\ResourcePair.cs" />
+    <Compile Include="Utilities\ScreenOrientation.cs" />
+    <Compile Include="Utilities\StateListUtilities.cs" />
+    <Compile Include="Utilities\TextAppearance.cs" />
+    <Compile Include="Utilities\TextImageResourcePair.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
