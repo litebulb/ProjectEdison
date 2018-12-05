@@ -124,7 +124,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
                 },
                 {
                     title: 'SmartBulbs',
-                    onClick: (checked: boolean) => { this.showSoundSensors = checked; this.filterDevices() },
+                    onClick: (checked: boolean) => { this.showSmartBulbs = checked; this.filterDevices() },
                     iconClasses: 'app-icon medium-small grey light',
                     checked: true,
                 }

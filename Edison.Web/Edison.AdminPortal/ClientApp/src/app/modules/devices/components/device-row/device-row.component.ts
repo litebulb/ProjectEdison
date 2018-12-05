@@ -27,7 +27,7 @@ export class DeviceRowComponent {
         if (this.device.deviceType.toLowerCase().includes('button')) { return 'button' }
         if (this.device.deviceType.toLowerCase().includes('sound')) { return 'sound' }
         if (this.device.deviceType.toLowerCase().includes('mobile')) { return 'chat' }
-        if (this.device.deviceType.toLowerCase().includes('light')) { return 'light' }
+        if (this.device.deviceType.toLowerCase().includes('bulb')) { return 'light' }
     }
 
     getLastAccessTime() {
