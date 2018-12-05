@@ -1,5 +1,8 @@
 <mat-icon class="closeBtn"
-          (click)="close()">close</mat-icon>
+          (click)="close()"
+          (keyup.space)="close()"
+          (keyup.enter)="close()"
+          tabindex="440">close</mat-icon>
 <div class="header">
     <div class="name">{{userName}}</div>
 </div>
@@ -17,24 +20,35 @@
     </div>
     <div class="info-row">
         <div class="app-icon building small"></div>
-        <div class="location">{{this.event.device.location1}}</div>
+        <div class="location">{{this.event ? this.event.device.location1 : 'Unknown'}}</div>
         <div class="map-link app-button primary"
-             (click)="showOnMap()">MAP</div>
+             (click)="showOnMap()"
+             (keyup.space)="showOnMap()"
+             (keyup.enter)="showOnMap()"
+             tabindex="430">MAP</div>
     </div>
     <div class="info-row">
         <div class="app-icon time small"></div>
-        <div>{{latestEventInstance.date | date : 'shortTime'}}</div>
+        <div>{{latestEventInstance ? (latestEventInstance.date | date : 'shortTime') : 'Unknown'}}</div>
     </div>
     <button class="app-button primary"
-            (click)="activateResponse()">ACTIVATE RESPONSE</button>
+            (click)="activateResponse()"
+            (keyup.space)="activateResponse()"
+            (keyup.enter)="activateResponse()"
+            tabindex="410">ACTIVATE RESPONSE</button>
     <button class="app-button secondary"
-            (click)="confirmEndChat()">END CONVERSATION</button>
+            (click)="confirmEndChat()"
+            (keyup.space)="confirmEndChat()"
+            (keyup.enter)="confirmEndChat()"
+            tabindex="420">END CONVERSATION</button>
 </div>
 <div class="body">
     <div class="subheader">Message <span class="user-name">{{userName}}</span></div>
     <app-message-list [messages]="messages"></app-message-list>
 </div>
-<textarea rows="8"
+<textarea #textarea
+          rows="8"
           placeholder="Send a message"
           [(ngModel)]="message"
-          (keydown)="onEnter($event)"></textarea>
+          (keydown)="onEnter($event)"
+          tabindex="400"></textarea>

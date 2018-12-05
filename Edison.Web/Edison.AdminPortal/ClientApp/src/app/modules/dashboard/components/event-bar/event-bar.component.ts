@@ -2,7 +2,9 @@ import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-
 import { Subscription } from 'rxjs';
 import { eventsSelector } from 'src/app/reducers/event/event.selectors';
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    Component, ElementRef, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren
+} from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
@@ -13,11 +15,12 @@ import { spinnerColors } from '../../../../core/spinnerColors';
 import { AppState } from '../../../../reducers';
 import { SetPageData } from '../../../../reducers/app/app.actions';
 import {
-    EventActionTypes, ShowEventInEventBar, ShowEvents
+    EventActionTypes, SelectActiveEvent, ShowEventInEventBar, ShowEvents
 } from '../../../../reducers/event/event.actions';
 import { Event } from '../../../../reducers/event/event.model';
 import { Response, ResponseState } from '../../../../reducers/response/response.model';
 import { responsesSelector } from '../../../../reducers/response/response.selectors';
+import { EventCardComponent } from '../event-card/event-card.component';
 
 @Component({
     selector: 'app-event-bar',
@@ -27,7 +30,9 @@ import { responsesSelector } from '../../../../reducers/response/response.select
 })
 export class EventBarComponent implements OnInit, OnDestroy {
     @ViewChild(PerfectScrollbarComponent) perfectScrollbar: PerfectScrollbarComponent;
+    @ViewChildren(EventCardComponent) eventCards !: QueryList<EventCardComponent>;
 
+    activeCard: EventCardComponent;
     events: Event[]
     recentEventsLazy: Event[]
     responses: Response[] = []
@@ -36,6 +41,7 @@ export class EventBarComponent implements OnInit, OnDestroy {
     circleColor: string
     spinnerColor: string
     animate = true
+    tabindex = 0;
     scrollConfig: PerfectScrollbarConfigInterface = {
 
     }
@@ -43,8 +49,9 @@ export class EventBarComponent implements OnInit, OnDestroy {
     private eventsSub$: Subscription
     private responsesSub$: Subscription
     private showEventInEventBarSub$: Subscription;
+    private keydownListener: Function;
 
-    constructor (private store: Store<AppState>, private actions$: Actions) { }
+    constructor (private store: Store<AppState>, private actions$: Actions, private _element: ElementRef, private renderer: Renderer2) { }
 
     ngOnInit() {
         this.store.dispatch(new SetPageData({ title: 'RIGHT NOW', sidebar: true }));
@@ -65,12 +72,26 @@ export class EventBarComponent implements OnInit, OnDestroy {
         this.showEventInEventBarSub$ = this.actions$
             .pipe(ofType(EventActionTypes.ShowEventInEventBar))
             .subscribe(({ payload: { event } }: ShowEventInEventBar) => this.scrollToEvent(event.eventClusterId))
+
+        this.keydownListener = this.renderer.listen(this._element.nativeElement, 'keydown', (event) => {
+            if (this.activeCard) {
+                if (event.keyCode === 9) {
+                    if (this.events.length > 1) {
+                        event.preventDefault();
+                        event.shiftKey ? this.tabPrevious() : this.tabNext();
+                    } else {
+                        this.store.dispatch(new SelectActiveEvent({ event: null }));
+                    }
+                }
+            }
+        });
     }
 
     ngOnDestroy() {
         this.eventsSub$.unsubscribe()
         this.responsesSub$.unsubscribe()
         this.showEventInEventBarSub$.unsubscribe();
+        this.keydownListener();
     }
 
     onEventsUpdate = (events: Event[]) => {
@@ -163,6 +184,41 @@ export class EventBarComponent implements OnInit, OnDestroy {
             return true;
         } else {
             return false;
+        }
+    }
+
+    onFocus = () => {
+        if (this.events.length > 0) {
+            const activeEvent = this.events[ 0 ];
+            this.activeCard = this.eventCards.find(eventCard => eventCard.event.eventClusterId === activeEvent.eventClusterId);
+            if (this.activeCard) {
+                this.store.dispatch(new ShowEventInEventBar({ event: activeEvent }));
+                this.tabindex = 1;
+            }
+        }
+    }
+
+    tabNext = () => {
+        if (this.activeCard.focused) {
+            if (this.events[ this.tabindex ]) {
+                const activeEvent = this.events[ this.tabindex ];
+                this.activeCard.blur();
+                this.activeCard = this.eventCards.find(eventCard => eventCard.event.eventClusterId === activeEvent.eventClusterId);
+                if (this.activeCard) {
+                    this.store.dispatch(new ShowEventInEventBar({ event: this.events[ this.tabindex ] }));
+                    this.tabindex += 1;
+                }
+            }
+        } else {
+            this.activeCard.focus();
+        }
+    }
+
+    tabPrevious = () => {
+        this.tabindex += -2;
+        if (this.events[ this.tabindex ]) {
+            this.store.dispatch(new ShowEventInEventBar({ event: this.events[ this.tabindex ] }));
+            this.tabindex += 1;
         }
     }
 

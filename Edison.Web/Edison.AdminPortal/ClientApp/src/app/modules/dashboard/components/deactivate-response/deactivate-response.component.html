@@ -6,11 +6,14 @@
          class="subheader">Review the new action items that will occur upon deactivation.</div>
     <button class="app-button secondary"
             *ngIf="!deactivated"
-            (click)="onBackClick()">GO BACK</button>
+            (click)="onBackClick()"
+            tabindex="380">GO BACK</button>
     <button class="app-button primary"
             *ngIf="deactivated"
-            (click)="onReturnToMapClick()">Return To Map</button>
-    <app-action-list [actions]="activeResponse.actionPlan.closeActions"
+            (click)="onReturnToMapClick()"
+            tabindex="380">Return To Map</button>
+    <app-action-list tabindex="200"
+                     [actions]="activeResponse.actionPlan.closeActions"
                      [canEdit]="true"></app-action-list>
     <app-delay-button (clickCompleted)="onDeactivateClick()"
                       [subheaderText]="deactivated ? 'Response Deactivated' : 'Press and Hold to deactivate'"

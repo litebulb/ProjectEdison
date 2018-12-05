@@ -34,7 +34,7 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
     activeResponse: Response;
     activeId = null;
     activeView = ActiveView.Default;
-    scrollConfig = { suppressScrollX: false, suppressScrollY: true, useBothWheelAxes: true, scrollIndicators: true };
+    scrollConfig = { suppressScrollX: true, suppressScrollY: false, useBothWheelAxes: true, scrollIndicators: true };
     loadingFullResponse = false;;
 
     private activeResponsesSub$: Subscription;

@@ -3,6 +3,11 @@
     max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    button:focus {
+        outline: 2px solid $blue;
+        outline-offset: 4px;
+        outline-style: inset;
+    }
     .container {
         padding: 15px;
         display: flex;

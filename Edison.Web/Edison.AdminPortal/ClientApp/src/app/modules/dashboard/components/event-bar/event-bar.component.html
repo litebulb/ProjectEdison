@@ -19,7 +19,9 @@
 
 <perfect-scrollbar class="events-container"
                    (psYReachEnd)="onScroll()"
-                   [@listFadeInOut]>
+                   [@listFadeInOut]
+                   tabindex="2"
+                   (focus)="onFocus()">
 
     <ng-container *ngFor="let event of recentEventsLazy; let first = first;">
         <div [ngClass]="getCardClass(event, first)">

@@ -1,6 +1,6 @@
 import { combineLatest, Subscription } from 'rxjs';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { DeviceType } from '../../../../core/models/deviceType';
@@ -20,7 +20,9 @@ import { FilterGroupModel } from '../../models/filter-group.model';
     templateUrl: './devices.component.html',
     styleUrls: [ './devices.component.scss' ]
 })
-export class DevicesComponent implements OnInit, OnDestroy {
+export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild('container') container: ElementRef;
+
     filters: FilterGroupModel[];
     devices: ExpandedDevice[];
     filteredDevices: ExpandedDevice[];
@@ -39,6 +41,10 @@ export class DevicesComponent implements OnInit, OnDestroy {
         this.setupFilters();
 
         this.store.dispatch(new SetPageData({ title: 'DEVICES', sidebar: false }))
+    }
+
+    ngAfterViewInit() {
+        this.container.nativeElement.focus();
     }
 
     ngOnDestroy() {

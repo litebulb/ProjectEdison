@@ -8,6 +8,8 @@
              [ngClass]="{'search': currentFilter === '', 'close grey': currentFilter !== ''}"
              (click)="clearFilter()"></div>
         <input type="text"
+               tabindex="100"
+               #searchInput
                placeholder="Search"
                (keyup)="updateSearchFilter($event.target.value)"
                [(ngModel)]="currentFilter" />
@@ -15,9 +17,12 @@
     <div class="action-plan-list">
         <perfect-scrollbar>
             <app-search-list-item *ngFor="let item of filteredItems"
+                                  tabindex="110"
                                   [item]="item"
                                   [active]="isRowActive(item)"
                                   (click)="selectItem(item)"
+                                  (keyup.enter)="selectItem(item)"
+                                  (keyup.space)="selectItem(item)"
                                   (close)="selectItem(null)"
                                   (mouseenter)="hoveredId = item.id"
                                   (mouseleave)="hoveredId = null"></app-search-list-item>

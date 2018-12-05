@@ -1,13 +1,9 @@
 import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    OnChanges,
-} from '@angular/core'
-import { SearchListItem } from '../../../../core/models/searchListItem'
-import { listFadeInOut } from '../../../../core/animations/listFadeInOut'
+    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild
+} from '@angular/core';
+
+import { listFadeInOut } from '../../../../core/animations/listFadeInOut';
+import { SearchListItem } from '../../../../core/models/searchListItem';
 
 @Component({
     selector: 'app-search-list',
@@ -16,6 +12,7 @@ import { listFadeInOut } from '../../../../core/animations/listFadeInOut'
     animations: [ listFadeInOut ],
 })
 export class SearchListComponent implements OnInit, OnChanges {
+    @ViewChild('searchInput') searchInput: ElementRef;
     @Input()
     title: string
     @Input()
@@ -34,8 +31,9 @@ export class SearchListComponent implements OnInit, OnChanges {
     constructor () { }
 
     ngOnInit() {
-        this.filteredItems = this.items
-        this.updateActiveItem()
+        this.filteredItems = this.items;
+        this.updateActiveItem();
+        this.searchInput.nativeElement.focus();
     }
 
     ngOnChanges() {

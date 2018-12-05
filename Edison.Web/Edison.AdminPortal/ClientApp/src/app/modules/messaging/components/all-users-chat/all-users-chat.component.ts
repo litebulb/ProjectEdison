@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core'
 import { Observable, Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
 import { AppState } from '../../../../reducers';
-import { chatActiveUsersCountSelector, chatAllMessagesSelector } from '../../../../reducers/chat/chat.selectors';
-import { ToggleAllUsersChatWindow, SendNewMessage } from '../../../../reducers/chat/chat.actions';
+import { SendNewMessage, ToggleAllUsersChatWindow } from '../../../../reducers/chat/chat.actions';
 import { Message } from '../../../../reducers/chat/chat.model';
+import {
+    chatActiveUsersCountSelector, chatAllMessagesSelector
+} from '../../../../reducers/chat/chat.selectors';
+import { ShowActivateResponse } from '../../../../reducers/response/response.actions';
 
 @Component({
     selector: 'app-all-users-chat',
@@ -12,6 +17,8 @@ import { Message } from '../../../../reducers/chat/chat.model';
     styleUrls: [ './all-users-chat.component.scss' ],
 })
 export class AllUsersChatComponent implements OnInit {
+    @ViewChild('activateResponseButton') activateResponseButton: ElementRef;
+
     messagesSub$: Subscription;
     messages: Message[];
     userCount$: Observable<number>;
@@ -24,6 +31,12 @@ export class AllUsersChatComponent implements OnInit {
             this.messages = messages;
         });
         this.userCount$ = this.store.pipe(select(chatActiveUsersCountSelector));
+
+        this.activateResponseButton.nativeElement.focus();
+    }
+
+    showActivateResponse() {
+        this.store.dispatch(new ShowActivateResponse({ event: null }));
     }
 
     onEnter(event) {

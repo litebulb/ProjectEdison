@@ -1,6 +1,6 @@
 import { Observable, Subscription } from 'rxjs';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { MessageModel } from '../../../../core/services/directline/models/activity-model';
@@ -23,6 +23,8 @@ import { activeMobileEventsSelector } from '../../../../reducers/event/event.sel
     styleUrls: [ './recently-active.component.scss' ],
 })
 export class RecentlyActiveComponent implements OnInit, OnDestroy {
+    @ViewChild('header') header: ElementRef;
+
     activeUsers$: Observable<any[]>;
     actionPlansSub$: Subscription;
     activeMobileEvents$: Subscription;
@@ -49,6 +51,8 @@ export class RecentlyActiveComponent implements OnInit, OnDestroy {
         this.activeUserSub$ = this.store
             .pipe(select(chatActiveUserSelector))
             .subscribe(user => this.activeUserId = user.userId);
+
+        this.header.nativeElement.focus();
     }
 
     ngOnDestroy() {

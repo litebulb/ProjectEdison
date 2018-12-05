@@ -2,10 +2,15 @@
      [style.opacity]="disabled ? .5 : 1">
     <div>
         <div class="progress-overlay"
+             tabindex="350"
              (mouseenter)="hover = true"
              (mouseleave)="hover = false"
-             (mousedown)="onMouseDown()"
-             (mouseup)="onMouseUp()"
+             (mousedown)="activateInterval()"
+             (mouseup)="deactivateInterval()"
+             (keydown.enter)="activateInterval()"
+             (keydown.space)="activateInterval()"
+             (keyup.enter)="deactivateInterval()"
+             (keyup.space)="deactivateInterval()"
              [style.cursor]="disabled ? 'default' : 'pointer'">
             <div class="progress-circle"
                  [ngClass]="getCircleClass()">

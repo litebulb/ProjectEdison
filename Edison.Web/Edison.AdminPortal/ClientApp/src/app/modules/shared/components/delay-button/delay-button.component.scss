@@ -1,68 +1,63 @@
 @import 'icons';
-
 :host {
-	.button-container {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		> div {
-			width: 100px;
-			height: 100px;
-			position: relative;
-
-			.progress-overlay {
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				z-index: 2;
-				cursor: pointer;
-
-				.progress-circle {
-					width: 80px;
-					height: 80px;
-					border-radius: 50%;
-					background-color: #2E31F5;
-					position: absolute;
-					top: 10px;
-					left: 10px;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					flex-direction: column;
-					transition: background-color 1.5s ease;
-
-					&.active {
-						&.red {
-							background-color: #FF3023;
-						}
-	
-						&.blue {
-							background-color: #2182FF;
-						}
-	
-						&.yellow {
-							background-color: #FFBC02;
-						}
-					}
-
-
-					&:hover {
-						background-color: #1F17A5;
-					}
-
-					.text {
-						font-size: 10px;
-						color: #fff;
-						margin-top: 5px;
-						text-transform: uppercase;
-					}
-				}
-			}
-		}
-	}
+    .button-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        >div {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            .progress-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2;
+                cursor: pointer;
+                &:focus {
+                    outline: 2px solid $blue;
+                    outline-offset: 4px;
+                    outline-style: inset;
+                }
+                .progress-circle {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    background-color: #2E31F5;
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    transition: background-color 1.5s ease;
+                    &.active {
+                        &.red {
+                            background-color: #FF3023;
+                        }
+                        &.blue {
+                            background-color: #2182FF;
+                        }
+                        &.yellow {
+                            background-color: #FFBC02;
+                        }
+                    }
+                    &:hover {
+                        background-color: #1F17A5;
+                    }
+                    .text {
+                        font-size: 10px;
+                        color: #fff;
+                        margin-top: 5px;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
 }

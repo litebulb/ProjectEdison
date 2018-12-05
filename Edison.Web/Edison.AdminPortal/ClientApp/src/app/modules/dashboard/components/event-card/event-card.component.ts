@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs';
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatCard } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
 import { spinnerColors } from '../../../../core/spinnerColors';
@@ -23,6 +24,9 @@ import { MapPin } from '../../../map/models/mapPin';
     styleUrls: [ './event-card.component.scss' ]
 })
 export class EventCardComponent implements OnInit, OnDestroy {
+    @ViewChild('manageButton') manageButton: ElementRef;
+    @ViewChild('activateButton') activateButton: ElementRef;
+
     mapOptions: MapDefaults
     pins: MapPin[]
     mapVisible = false
@@ -33,6 +37,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
     spinnerColor = spinnerColors.activeSpinnerColor
     active = false
     response: Response
+    focused = false;
 
     latestEventInstance: EventInstance;
 
@@ -99,6 +104,19 @@ export class EventCardComponent implements OnInit, OnDestroy {
                     this.active = false;
                 }
             })
+    }
+
+    focus() {
+        this.focused = true;
+        if (this.event && !this.event.closureDate && !this.response) {
+            this.activateButton.nativeElement.focus();
+        } else if (this.response && this.response.responseState === 1) {
+            this.manageButton.nativeElement.focus();
+        }
+    }
+
+    blur() {
+        this.focused = false;
     }
 
     getResponseColor() {

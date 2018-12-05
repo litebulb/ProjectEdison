@@ -4,6 +4,9 @@
     margin-top: 20px;
     flex-direction: column;
     position: relative;
+    &:focus {
+        outline: none;
+    }
     .list-container {
         display: flex;
         flex-direction: column;

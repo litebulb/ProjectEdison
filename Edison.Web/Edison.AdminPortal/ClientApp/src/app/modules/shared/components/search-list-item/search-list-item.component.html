@@ -1,6 +1,11 @@
-<div class="container" [ngClass]="getRowClass()" (click)="onClick($event)">
-  <span class="app-icon round" [ngClass]="getIconClass()"></span>
-  <span class="text">{{item.name}}</span>
-  <span class="dismiss app-icon close small" *ngIf="active" (click)="onClose($event)"></span>
-  <!-- <span class="active-arrow" *ngIf="selectedActionPlan && selectedActionPlan.actionPlanId === actionPlan.actionPlanId"></span> -->
+<div class="container"
+     [ngClass]="getRowClass()"
+     (click)="onClick($event)">
+    <span class="app-icon round"
+          [ngClass]="getIconClass()"></span>
+    <span class="text">{{item.name}}</span>
+    <span class="dismiss app-icon close small"
+          *ngIf="active"
+          (click)="onClose($event)"></span>
+    <!-- <span class="active-arrow" *ngIf="selectedActionPlan && selectedActionPlan.actionPlanId === actionPlan.actionPlanId"></span> -->
 </div>

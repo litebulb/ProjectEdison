@@ -58,6 +58,9 @@
         .first {
             margin-top: 20px;
         }
+        &:focus {
+            outline: none;
+        }
     }
     mat-icon {
         color: $primary-color;

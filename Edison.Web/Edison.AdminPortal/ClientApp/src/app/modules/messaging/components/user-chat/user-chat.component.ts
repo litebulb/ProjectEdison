@@ -1,7 +1,7 @@
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
@@ -30,6 +30,8 @@ import {
     styleUrls: [ './user-chat.component.scss' ],
 })
 export class UserChatComponent implements OnInit, OnDestroy {
+    @ViewChild('textarea') textareaRef: ElementRef;
+
     messagesSub$: Subscription;
     messages: Message[];
     activeUserId$: Subscription;
@@ -69,9 +71,13 @@ export class UserChatComponent implements OnInit, OnDestroy {
             .pipe(select(activeMobileEventsSelector))
             .subscribe(events => {
                 this.event = events.find(event => event.events.some(ee => ee.metadata.userId === this.userId));
-                this.latestEventInstance = this.event.events
-                    .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[ 0 ]
+                if (this.event) {
+                    this.latestEventInstance = this.event.events
+                        .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))[ 0 ]
+                }
             });
+
+        this.textareaRef.nativeElement.focus();
     }
 
     ngOnDestroy() {

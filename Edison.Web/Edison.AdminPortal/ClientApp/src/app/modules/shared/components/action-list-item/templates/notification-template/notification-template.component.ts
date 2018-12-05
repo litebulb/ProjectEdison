@@ -15,9 +15,11 @@ import {
 })
 export class NotificationTemplateComponent implements OnInit, AfterViewInit {
     @ViewChild('textarea') textarea: ElementRef;
+    @ViewChild('editButton') editButton: ElementRef;
 
     @Input() context: ActionPlanNotificationAction;
     @Input() last: boolean;
+    @Input() first: boolean;
     @Input() canEdit: boolean;
     @Input() onchange: EventEmitter<{ actionId: string, addEditAction: AddEditAction }>;
 
@@ -34,6 +36,10 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
         } else {
             this.editing = false;
             this.adding = false;
+        }
+
+        if (this.canEdit && this.first) {
+            this.editButton.nativeElement.focus();
         }
     }
 

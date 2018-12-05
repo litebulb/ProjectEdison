@@ -68,12 +68,15 @@
     <div class="card-footer">
         <button class="app-button default"
                 (click)="activateResponse()"
-                *ngIf="event && !event.closureDate && !response">Activate
+                *ngIf="event && !event.closureDate && !response"
+                #activateButton>Activate
             Response</button>
         <div *ngIf="response && response.responseState === 0">Response Resolved</div>
         <button class="app-button default"
+                #manageButton
                 *ngIf="response && response.responseState === 1"
-                (click)="manageResponse()"><span class="app-icon small static"
+                (click)="manageResponse()"
+                tabindex="-1"><span class="app-icon small static"
                   [ngClass]="response.icon.toLowerCase()"></span>Manage
             Response</button>
     </div>

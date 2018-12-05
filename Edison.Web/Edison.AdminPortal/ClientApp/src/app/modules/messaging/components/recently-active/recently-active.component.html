@@ -1,12 +1,19 @@
 <div class="header"
+     #header
      [ngClass]="{'active': activeUserId === '*'}"
-     (click)="selectAllChat()">All Messages</div>
+     (click)="selectAllChat()"
+     (keyup.space)="selectAllChat()"
+     (keyup.enter)="selectAllChat()"
+     tabindex="300">All Messages</div>
 <div class="sub-header">RECENTLY ACTIVE PEOPLE</div>
 <div class="people-container">
     <div class="person"
          [ngClass]="{'active': user.id === activeUserId}"
          *ngFor="let user of activeUsers$ | async"
-         (click)="selectActiveUser(user)">
+         (click)="selectActiveUser(user)"
+         (keyup.space)="selectActiveUser(user)"
+         (keyup.enter)="selectActiveUser(user)"
+         tabindex="350">
         <div class="icon-container">
             <div class="action-plan-icon"
                  [ngClass]="getActionPlanIcon(user.id)"></div>

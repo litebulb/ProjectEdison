@@ -12,15 +12,24 @@
         <div class="edit-notification-container"
              *ngIf="canEdit">
             <div class="edit-icon app-icon edit small"
-                 (click)="!editing && edit()"></div>
+                 (click)="!editing && edit()"
+                 (keyup.space)="!editing && edit()"
+                 (keyup.enter)="!editing && edit()"
+                 #editButton
+                 tabindex="300"></div>
             <span class="edit-done"
                   *ngIf="editing && !adding"
-                  (click)="editComplete()">Done</span>
+                  (click)="editComplete()"
+                  (keyup.space)="editComplete()"
+                  (keyup.enter)="editComplete()"
+                  tabindex="300">Done</span>
         </div>
     </div>
     <div class="content-text">
         <ng-container *ngIf="!editing">{{notificationText}}</ng-container>
         <textarea #textarea
+                  class="text-area"
+                  tabindex="310"
                   [(ngModel)]="notificationText"
                   placeholder="Enter text here"
                   rows="8"
@@ -28,7 +37,11 @@
                   (change)="notificationChanged()">
         </textarea>
         <span class="removeBtn"
-              (click)="remove()">Remove</span>
+              *ngIf="editing && adding"
+              tabindex="320"
+              (click)="remove()"
+              (keyup.space)="remove()"
+              (keyup.enter)="remove()">Remove</span>
     </div>
 </div>
 <div class="line-hider"

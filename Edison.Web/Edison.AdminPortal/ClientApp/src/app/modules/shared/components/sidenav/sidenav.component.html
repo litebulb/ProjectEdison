@@ -2,7 +2,10 @@
      class="navlink"
      [ngClass]="[activeRoute === navLink.route ? navLink.icon + ' active' : navLink.icon]"
      (click)="navLink.onClick(navLink)"
+     (keyup.space)="navLink.onClick(navLink)"
+     (keyup.enter)="navLink.onClick(navLink)"
      [matTooltip]="navLink.title"
      matTooltipPosition="after"
-     matTooltipClass="navlink-tooltip">
+     matTooltipClass="navlink-tooltip"
+     tabindex="1">
 </div>

@@ -149,7 +149,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     updateEventAddresses(events: Event[]) {
         events
-            .filter(event => event.device.geolocation && !event.device.location1)
+            .filter(event => event.device && event.device.geolocation && !event.device.location1)
             .forEach(event => {
                 const { longitude, latitude } = event.device.geolocation;
                 this.mapComponent.getAddressByLocation(longitude, latitude, (addr) => {

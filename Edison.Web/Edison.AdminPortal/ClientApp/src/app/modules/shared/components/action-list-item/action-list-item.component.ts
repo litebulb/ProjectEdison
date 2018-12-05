@@ -1,24 +1,17 @@
 import {
-    Component,
-    OnInit,
-    ViewChild,
-    ViewContainerRef,
-    Input,
-    ComponentRef,
-    ComponentFactoryResolver,
-    OnDestroy,
-    Output,
-    EventEmitter,
-} from '@angular/core'
+    Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Input, OnDestroy, OnInit,
+    Output, ViewChild, ViewContainerRef
+} from '@angular/core';
+
+import { fadeMSeconds } from '../../../../core/animations/fadeInOut';
 import {
-    ActionPlanActionTypes,
-    ActionPlanType,
-    AddEditAction,
-} from '../../../../reducers/action-plan/action-plan.model'
-import { TextTemplateComponent } from './templates/text-template/text-template.component'
-import { NotificationTemplateComponent } from './templates/notification-template/notification-template.component'
-import { RadiusTemplateComponent } from './templates/radius-template/radius-template.component'
-import { fadeMSeconds } from '../../../../core/animations/fadeInOut'
+    ActionPlanActionTypes, ActionPlanType, AddEditAction
+} from '../../../../reducers/action-plan/action-plan.model';
+import {
+    NotificationTemplateComponent
+} from './templates/notification-template/notification-template.component';
+import { RadiusTemplateComponent } from './templates/radius-template/radius-template.component';
+import { TextTemplateComponent } from './templates/text-template/text-template.component';
 
 @Component({
     selector: 'app-action-list-item',
@@ -26,20 +19,13 @@ import { fadeMSeconds } from '../../../../core/animations/fadeInOut'
     styleUrls: [ './action-list-item.component.scss' ],
 })
 export class ActionListItemComponent implements OnInit, OnDestroy {
-    @ViewChild('container', { read: ViewContainerRef })
-    container: ViewContainerRef
+    @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
-    @Input()
-    context: ActionPlanActionTypes
-
-    @Input()
-    last: boolean
-
-    @Input()
-    canEdit: boolean
-
-    @Output()
-    onchange = new EventEmitter<AddEditAction>()
+    @Input() context: ActionPlanActionTypes;
+    @Input() last: boolean;
+    @Input() first: boolean;
+    @Input() canEdit: boolean;
+    @Output() onchange = new EventEmitter<AddEditAction>();
 
     private componentRef: ComponentRef<{}>
 
@@ -71,6 +57,7 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
             const instance = <ActionListItemContext> this.componentRef.instance
             instance.context = this.context
             instance.last = this.last
+            instance.first = this.first;
             instance.canEdit = this.canEdit
             instance.onchange = this.onchange
         }
@@ -89,6 +76,7 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
 export abstract class ActionListItemContext {
     context: ActionPlanActionTypes
     last: boolean
+    first: boolean;
     canEdit: boolean
     onchange: EventEmitter<any>
 }

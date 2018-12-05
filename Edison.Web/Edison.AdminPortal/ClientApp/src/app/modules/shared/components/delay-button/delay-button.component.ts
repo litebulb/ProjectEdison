@@ -35,8 +35,8 @@ export class DelayButtonComponent {
     active = false
     activated = false
 
-    onMouseDown = () => {
-        if (this.disabled) {
+    activateInterval = () => {
+        if (this.disabled || (this.intervalSub$ && !this.intervalSub$.closed)) {
             return
         }
 
@@ -59,7 +59,7 @@ export class DelayButtonComponent {
             })
     }
 
-    onMouseUp = () => {
+    deactivateInterval = () => {
         if (this.disabled) {
             return
         }

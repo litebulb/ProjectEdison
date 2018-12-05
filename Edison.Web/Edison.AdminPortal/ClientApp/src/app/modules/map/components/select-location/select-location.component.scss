@@ -1,6 +1,5 @@
 @import 'buttons';
 @import 'icons';
-
 :host {
     position: absolute;
     top: 70px;
@@ -9,44 +8,41 @@
     display: flex;
     justify-content: center;
     width: 100%;
-
+    button:focus {
+        outline: 2px solid $blue;
+        outline-offset: 2px;
+        outline-style: inset;
+    }
     .modal {
         min-height: 138px;
         width: 490px;
         border-radius: 4px;
         background-color: #FFFFFF;
-        box-shadow: 0 9px 27px 0 rgba(0,0,0,0.5), 0 2px 4px 0 rgba(0,0,0,0.5);    
+        box-shadow: 0 9px 27px 0 rgba(0, 0, 0, 0.5), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         padding: 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
         .header {
             font-size: 20px;
             display: flex;
             align-items: center;
-
             .app-icon {
                 margin-left: 15px;
             }
         }
-
         .content {
             font-size: 14px;
             line-height: 24px;
         }
-
         .footer {
             display: flex;
             justify-content: space-evenly;
-
             button {
                 width: 45%;
-
                 &.default {
                     color: #3E3D4A;
                 }
-
                 &.secondary {
                     display: flex;
                     align-items: center;

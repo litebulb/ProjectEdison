@@ -23,6 +23,11 @@
         height: 30px;
         width: 30px;
         cursor: pointer;
+        &:focus {
+            outline: 2px solid $blue;
+            outline-offset: 2px;
+            outline-style: inset;
+        }
     }
     .header {
         display: flex;
@@ -75,10 +80,20 @@
             }
             .map-link {
                 min-height: 20px;
+                &:focus {
+                    outline: 2px solid $blue;
+                    outline-offset: 4px;
+                    outline-style: inset;
+                }
             }
         }
         button {
             width: 100%;
+            &:focus {
+                outline: 2px solid $blue;
+                outline-offset: 4px;
+                outline-style: inset;
+            }
         }
     }
     .body {
@@ -98,5 +113,9 @@
         outline: none;
         resize: none;
         padding: 10px;
+        &:focus {
+            outline: 2px solid $blue;
+            outline-style: inset;
+        }
     }
 }

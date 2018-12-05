@@ -1,5 +1,8 @@
 <mat-icon class="closeBtn"
-          (click)="close()">close</mat-icon>
+          (click)="close()"
+          (keyup.space)="close()"
+          (keyup.tab)="close()"
+          tabindex="420">close</mat-icon>
 <div class="header">
     <div class="text">All Active Users</div>
 </div>
@@ -14,7 +17,12 @@
         <div class="map-link">MAP</div>
     </div>
     <div>
-        <button class="app-button secondary">ACTIVATE RESPONSE</button>
+        <button #activateResponseButton
+                class="app-button secondary"
+                (click)="showActivateResponse()"
+                (keyup.space)="showActivateResponse()"
+                (keyup.tab)="showActivateResponse()"
+                tabindex="400">ACTIVATE RESPONSE</button>
     </div>
 </div>
 <div class="body">
@@ -24,4 +32,5 @@
 <textarea rows="8"
           placeholder="Send a message"
           [(ngModel)]="message"
-          (keydown)="onEnter($event)"></textarea>
+          (keydown)="onEnter($event)"
+          tabindex="410"></textarea>

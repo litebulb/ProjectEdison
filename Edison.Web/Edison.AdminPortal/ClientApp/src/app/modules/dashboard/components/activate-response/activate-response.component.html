@@ -28,12 +28,14 @@
                           *ngIf="selectedActionPlan && showActionPlan && selectedActionPlan.openActions && selectedActionPlan.openActions.length > 0">
                 <div *ngIf="activeResponse"
                      class="subheader success">Response activated. Updates successfully sent.</div>
-                <button class="app-button primary"
+                <button class="app-button primary return-to-map-button"
+                        tabindex="370"
                         *ngIf="activeResponse"
                         (click)="onReturnToMapClick()">{{ activeEvent ? 'Return To Map' : 'Set Response Location'}}</button>
                 <div class="content-container">
                     <app-action-list [actions]="selectedActionPlan.openActions"
                                      [canEdit]="true"
+                                     tabindex="200"
                                      (onchange)="onActionPlanChange()"></app-action-list>
                     <app-delay-button (clickCompleted)="activateActionPlan()"
                                       [subheaderText]="'Press and Hold to activate'"
@@ -52,7 +54,8 @@
         (mouseover)="hover = true"
         (mouseout)="hover = false"
         [ngClass]="{'hover': hover, 'active': active}"
-        [style.z-index]="active ? 5 : 3">
+        [style.z-index]="active ? 5 : 3"
+        [tabindex]="activated || active ? 400 : 7">
     <span class="app-icon horn teal medium"
           [ngClass]="{'hover': hover && !disabled, 'active close': active, 'horn': !active}"></span>
     <span class="text noselect">{{ activated ? 'Close' : active ? 'Cancel' : 'Activate Response' }}</span>

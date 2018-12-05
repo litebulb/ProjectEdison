@@ -1,5 +1,6 @@
 @import 'sizes';
 @import 'icons';
+@import 'colorScheme';
 :host {
     max-width: 330px;
     z-index: 2;
@@ -15,6 +16,13 @@
         margin-top: 60px;
         color: #3e3d4a;
         cursor: pointer;
+        &:focus {
+            text-transform: underline;
+            color: #3322ff;
+            outline: 2px solid $blue;
+            outline-offset: 2px;
+            outline-style: inset;
+        }
         &:hover {
             text-transform: underline;
             color: #3322ff;
@@ -38,6 +46,13 @@
             display: flex;
             align-items: center;
             position: relative;
+            &:focus {
+                text-transform: underline;
+                color: #3322ff;
+                outline: 2px solid $blue;
+                outline-offset: 2px;
+                outline-style: inset;
+            }
             &:hover {
                 text-transform: underline;
                 color: #3322ff;

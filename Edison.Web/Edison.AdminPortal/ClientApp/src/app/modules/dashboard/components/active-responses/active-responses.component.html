@@ -38,23 +38,24 @@
     </div>
 </div>
 
-<div class="container app-button map secondary"
+<div class="container app-button map secondary manage-resp-button"
      (click)="toggleResponses()"
+     (keyup.space)="toggleResponses()"
+     (keyup.enter)="toggleResponses()"
      [@fadeInOut]
      [style.z-index]="active ? 5 : 3"
-     *ngIf="responses.length > 0">
-    <perfect-scrollbar [config]="scrollConfig">
-        <div class="scroll-container">
-            <span class="app-icon static-size"
-                  [ngClass]="{'active medium close teal': active, 'expand small': !active}"></span>
-            <span class="text noselect manage-text">{{ active ? 'Close' : 'Manage Responses' }}</span>
-            <div class="icon-container"
-                 *ngIf="!active">
-                <app-active-response-icon *ngFor="let response of responses"
-                                          [response]="response"
-                                          (click)="openResponse(response)"></app-active-response-icon>
-            </div>
-        </div>
-    </perfect-scrollbar>
+     *ngIf="responses.length > 0"
+     [tabindex]="active ? 400 : 6">
+    <div class="scroll-container">
+        <span class="app-icon static-size"
+              [ngClass]="{'active medium close teal': active, 'expand small': !active}"></span>
+        <span class="text noselect manage-text">{{ active ? 'Close' : 'Responses' }}</span>
+        <ng-container class="icon-container"
+                      *ngIf="!active">
+            <app-active-response-icon *ngFor="let response of responses"
+                                      [response]="response"
+                                      (click)="openResponse(response)"></app-active-response-icon>
+        </ng-container>
+    </div>
 
 </div>

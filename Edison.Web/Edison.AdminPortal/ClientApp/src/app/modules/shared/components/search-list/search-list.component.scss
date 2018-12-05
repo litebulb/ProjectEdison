@@ -1,7 +1,16 @@
 @import 'icons';
+@import 'colorScheme';
 :host {
     display: flex;
     flex-direction: column;
+    app-search-list-item {
+        border: 2px solid transparent;
+        &:focus {
+            outline: none;
+            border-top-color: $blue;
+            border-bottom-color: $blue;
+        }
+    }
     .action-plan-search-header {
         background-color: #ededf0;
         position: relative;

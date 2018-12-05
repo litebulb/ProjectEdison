@@ -8,11 +8,17 @@
     <img src="assets/images/logo.svg" />
 </div>
 <div class="logout"
-     (click)="logout()">
+     (click)="logout()"
+     (keyup.space)="logout()"
+     (keyup.enter)="logout()"
+     tabindex="11">
     Logout
 </div>
 <div class="map-controls"
      *ngIf="sidebar$ | async">
     <div class="app-icon reload"
-         (click)="reload()"></div>
+         (click)="reload()"
+         (keyup.space)="reload()"
+         (keyup.enter)="reload()"
+         tabindex="10"></div>
 </div>

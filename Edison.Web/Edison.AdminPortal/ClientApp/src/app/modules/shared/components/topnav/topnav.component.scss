@@ -34,6 +34,9 @@
             padding: 10px;
             &.reload {
                 transform: rotateY(180deg);
+                &:focus {
+                    outline: 2px solid white;
+                }
             }
         }
     }
@@ -85,6 +88,9 @@
         cursor: pointer;
         &:hover {
             text-decoration: underline;
+        }
+        &:focus {
+            outline: 2px solid white;
         }
     }
 }

@@ -1,2 +1,10 @@
-<div class="app-icon zoomIn" (click)="onZoomIn()"></div>
-<div class="app-icon zoomOut" (click)="onZoomOut()"></div>
+<div class="app-icon zoomIn"
+     (click)="onZoomIn()"
+     (keyup.space)="onZoomIn()"
+     (keyup.enter)="onZoomIn()"
+     tabindex="4"></div>
+<div class="app-icon zoomOut"
+     (click)="onZoomOut()"
+     (keyup.space)="onZoomOut()"
+     (keyup.enter)="onZoomOut()"
+     tabindex="5"></div>

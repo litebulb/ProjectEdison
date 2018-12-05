@@ -1,24 +1,25 @@
 @import 'buttons';
-
 :host {
-  max-height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  .container {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 2;
-
-    .app-button.secondary {
-      margin-right: 20px;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    button:focus {
+        outline: 2px solid $blue;
+        outline-offset: 4px;
+        outline-style: inset;
     }
-
-    .header {
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      font-size: 20px;
+    .container {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 2;
+        .app-button.secondary {
+            margin-right: 20px;
+        }
+        .header {
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
     }
-  }
 }

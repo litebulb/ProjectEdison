@@ -12,6 +12,7 @@
     <div *ngIf="canEdit"
          class="colors-container">
         <button class="colorBtn"
+                tabindex="340"
                 (click)="updateColor(color)"
                 *ngFor="let color of actionPlanColors; let i = index"
                 [ngClass]="{'active': color.toLowerCase() === _color.toLowerCase()}">{{color}}</button>

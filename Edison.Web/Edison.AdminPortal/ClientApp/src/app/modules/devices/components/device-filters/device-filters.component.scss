@@ -4,6 +4,9 @@
     margin-bottom: 15px;
     padding: 0px 25px;
     min-height: 50px;
+    &:focus {
+        outline: none;
+    }
     .filter-group {
         margin-right: 40px;
         .group-title {
@@ -24,6 +27,11 @@
         }
         .checkbox {
             margin-right: 30px;
+        }
+        .mat-checkbox.cdk-focused {
+            outline: 2px solid $blue;
+            outline-offset: 4px;
+            outline-style: inset;
         }
     }
 }

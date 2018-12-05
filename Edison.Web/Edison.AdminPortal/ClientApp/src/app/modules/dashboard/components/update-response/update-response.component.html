@@ -5,16 +5,20 @@
          *ngIf="updateSucceeded">Updates successfullly sent</div>
     <div>
         <button class="app-button secondary"
-                (click)="onCancel()">GO BACK</button>
+                (click)="onCancel()"
+                tabindex="380">GO BACK</button>
         <button class="app-button primary"
-                (click)="addNotification()">ADD NOTIFICATION</button>
+                (click)="addNotification()"
+                tabindex="380">ADD NOTIFICATION</button>
         <button class="app-button primary"
                 (click)="onUpdate()"
                 [disabled]="!modified"
-                [ngClass]="{'disabled': !modified}">SEND
+                [ngClass]="{'disabled': !modified}"
+                tabindex="380">SEND
             UPDATES</button>
     </div>
-    <app-action-list [actions]="_openActions"
+    <app-action-list tabindex="200"
+                     [actions]="_openActions"
                      [canEdit]="true"
                      (onchange)="updated($event)"></app-action-list>
 </div>
