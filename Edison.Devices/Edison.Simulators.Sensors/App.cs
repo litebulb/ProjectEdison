@@ -223,7 +223,7 @@ namespace Edison.Simulators.Sensors
             while (!_InterruptSimulation);
         }
 
-        public async void MonitorLightBulbs()
+        public async void MonitorSmartBulbs()
         {
             _InterruptSimulation = false;
 

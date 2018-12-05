@@ -1,9 +1,12 @@
-﻿namespace Edison.Devices.SmartBulb
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Edison.Devices.SmartBulb
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum LightState
     {
-        Unknown = 0,
-        Constant = 1,
-        Flashing = 2
+        Continuous = 0,
+        Flashing = 1
     }
 }

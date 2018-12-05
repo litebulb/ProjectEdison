@@ -1,6 +1,6 @@
 export enum DeviceType {
     ButtonSensor = 'ButtonSensor',
     SoundSensor = 'SoundSensor',
-    LightBulb = 'Lightbulb',
+    SmartBulb = 'SmartBulb',
     Mobile = 'Mobile'
 }

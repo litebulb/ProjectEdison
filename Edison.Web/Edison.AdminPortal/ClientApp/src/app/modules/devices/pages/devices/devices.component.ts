@@ -30,7 +30,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private showButtons: boolean = true;
     private showSoundSensors: boolean = true;
-    private showLightBulbs: boolean = true;
+    private showSmartBulbs: boolean = true;
     private showOnline: boolean = true;
     private showOffline: boolean = true;
 
@@ -52,7 +52,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onRowClick(device: ExpandedDevice) {
-        if (device.deviceType === DeviceType.LightBulb) {
+        if (device.deviceType === DeviceType.SmartBulb) {
             this.store.dispatch(new TestDevice(device));
         }
     }
@@ -101,7 +101,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.filteredDevices = this.devices.filter(device => {
             return (device.deviceType !== DeviceType.ButtonSensor || this.showButtons) &&
                 (device.deviceType !== DeviceType.SoundSensor || this.showSoundSensors) &&
-                (device.deviceType !== DeviceType.LightBulb || this.showLightBulbs) &&
+                (device.deviceType !== DeviceType.SmartBulb || this.showSmartBulbs) &&
                 (this.showOnline && device.online || this.showOffline && !device.online)
         });
     }
@@ -123,7 +123,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
                     checked: true,
                 },
                 {
-                    title: 'LightBulbs',
+                    title: 'SmartBulbs',
                     onClick: (checked: boolean) => { this.showSoundSensors = checked; this.filterDevices() },
                     iconClasses: 'app-icon medium-small grey light',
                     checked: true,

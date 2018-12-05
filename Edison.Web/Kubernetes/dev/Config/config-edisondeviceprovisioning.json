@@ -40,7 +40,7 @@
       },
       {
         "DeviceType": "Edison.Devices.SmartBulb",
-        "CertificateIdentifier": "edison-intermediate-lightbulb"
+        "CertificateIdentifier": "edison-intermediate-smartbulb"
       }
     ]
   },

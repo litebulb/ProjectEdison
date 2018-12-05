@@ -19,8 +19,8 @@ $intermediate1CAPemFileName = "./Edison/Intermediate_ButtonSensor.pem"
 $intermediate1CAPfxFileName = "./Edison/Intermediate_ButtonSensor.pfx"
 $intermediate2CAPemFileName = "./Edison/Intermediate_SoundSensor.pem"
 $intermediate2CAPfxFileName = "./Edison/Intermediate_SoundSensor.pfx"
-$intermediate3CAPemFileName = "./Edison/Intermediate_LightBulb.pem"
-$intermediate3CAPfxFileName = "./Edison/Intermediate_LightBulb.pfx"
+$intermediate3CAPemFileName = "./Edison/Intermediate_SmartBulb.pem"
+$intermediate3CAPfxFileName = "./Edison/Intermediate_SmartBulb.pfx"
 
 
 # The script puts certs into the global certificate store.  If there is already a cert of the
@@ -147,7 +147,7 @@ function New-CACertsCertChain()
 	Export-PFXCertificate -cert $intermediateCert1 -filePath $intermediate1CAPfxFileName  -password $certSecureStringPwd
     $intermediateCert2 = New-CACertsIntermediateCert ($_intermediateCertCommonName -f "SoundSensor") $rootCACert $intermediate2CAPemFileName
 	Export-PFXCertificate -cert $intermediateCert2 -filePath $intermediate2CAPfxFileName  -password $certSecureStringPwd
-    $intermediateCert3 = New-CACertsIntermediateCert ($_intermediateCertCommonName -f "LightBulb") $rootCACert $intermediate3CAPemFileName
+    $intermediateCert3 = New-CACertsIntermediateCert ($_intermediateCertCommonName -f "SmartBulb") $rootCACert $intermediate3CAPemFileName
 	Export-PFXCertificate -cert $intermediateCert3 -filePath $intermediate3CAPfxFileName  -password $certSecureStringPwd
     Write-Host "Success"
 }

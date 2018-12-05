@@ -1,9 +1,9 @@
 DeviceId,DeviceType,Name,Location1,Location2,Location3,Longitude,Latitude,Sensor,Demo,Enabled
-5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,Lightbulb,Stadium East,Camp Nou,"41.381168, 2.123552","Barcelona, Spain",2.123552,41.381168,FALSE,FALSE,TRUE
-148180db-6e30-4848-a719-07cc95f6c07c,Lightbulb,Stadium North,Camp Nou,"41.381755, 2.122508","Barcelona, Spain",2.122508,41.381755,FALSE,FALSE,TRUE
-5a675564-29ee-43eb-8d01-702b38e9ae0d,Lightbulb,Stadium South,Camp Nou,"41.380128, 2.123276","Barcelona, Spain",2.123276,41.380128,FALSE,FALSE,TRUE
-5e3cab8c-1a90-4139-bcc4-3c79e4fc10fb,Lightbulb,Parking Lot,Camp Nou,"41.380221, 2.120680","Barcelona, Spain",2.12068,41.380221,FALSE,FALSE,TRUE
-f7bb44d2-dfb9-431d-a0d6-33b8a76b10f0,Lightbulb,Mini Estadi,Mini Estadi,"41.379794, 2.118196","Barcelona, Spain",2.118196,41.379794,FALSE,FALSE,TRUE
+5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,SmartBulb,Stadium East,Camp Nou,"41.381168, 2.123552","Barcelona, Spain",2.123552,41.381168,FALSE,FALSE,TRUE
+148180db-6e30-4848-a719-07cc95f6c07c,SmartBulb,Stadium North,Camp Nou,"41.381755, 2.122508","Barcelona, Spain",2.122508,41.381755,FALSE,FALSE,TRUE
+5a675564-29ee-43eb-8d01-702b38e9ae0d,SmartBulb,Stadium South,Camp Nou,"41.380128, 2.123276","Barcelona, Spain",2.123276,41.380128,FALSE,FALSE,TRUE
+5e3cab8c-1a90-4139-bcc4-3c79e4fc10fb,SmartBulb,Parking Lot,Camp Nou,"41.380221, 2.120680","Barcelona, Spain",2.12068,41.380221,FALSE,FALSE,TRUE
+f7bb44d2-dfb9-431d-a0d6-33b8a76b10f0,SmartBulb,Mini Estadi,Mini Estadi,"41.379794, 2.118196","Barcelona, Spain",2.118196,41.379794,FALSE,FALSE,TRUE
 ff65d547-d343-42cd-a68a-841b68ea03d4,SoundSensor,Stadium East,Camp Nou,"41.381565, 2.123426","Barcelona, Spain",2.123426,41.381565,TRUE,FALSE,TRUE
 010fe9e8-95fb-4bb8-bb93-053f319ca93d,SoundSensor,Stadium North,Camp Nou,"41.381569, 2.122058","Barcelona, Spain",2.122058,41.381569,TRUE,FALSE,TRUE
 e7c68839-2eff-496c-a574-3e969f580344,SoundSensor,Stadium South,Camp Nou,"41.380084, 2.122901","Barcelona, Spain",2.122901,41.380084,TRUE,FALSE,TRUE

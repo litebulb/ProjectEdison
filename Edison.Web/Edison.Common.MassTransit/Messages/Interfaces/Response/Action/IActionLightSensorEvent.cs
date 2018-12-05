@@ -11,5 +11,6 @@ namespace Edison.Common.Messages.Interfaces
         int FlashFrequency { get; set; }
         string Color { get; set; }
         string State { get; set; }
+        string LightState { get; set; }
     }
 }

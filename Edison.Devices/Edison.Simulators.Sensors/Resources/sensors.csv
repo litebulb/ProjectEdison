@@ -25,11 +25,11 @@ e3da4643-3f82-46ec-a24c-ce71fb1334fe,SoundSensor,Chase Plaza,"47 S Clark St, Chi
 a8a73d63-e68d-4df3-be83-b11c6f1bd9d1,ButtonSensor,Chase Plaza,"47 S Clark St, Chicago, IL 60603",Floor 1,Room 12,-87.63048,41.88095,TRUE,TRUE,TRUE
 8e3216d3-4c47-4e4b-b306-4a00d190bafe,SoundSensor,BlueMetal Architects,"180 N Michigan Ave, Chicago, IL 60601",Floor 11,Room 1,-87.62471,41.88515,TRUE,TRUE,TRUE
 b91beba4-ef06-4545-b99e-55099fcd3fd8,ButtonSensor,BlueMetal Architects,"180 N Michigan Ave, Chicago, IL 60601",Floor 11,Room 1,-87.62461,41.88505,TRUE,TRUE,TRUE
-5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,Lightbulb,The Purple Pig,"500 N Michigan Ave, Chicago, IL 60611",Floor 1,Room 10,-87.62435,41.89094,FALSE,FALSE,TRUE
-148180db-6e30-4848-a719-07cc95f6c07c,Lightbulb,McDonald's,"600 N Clark St, Chicago, IL 60610",Floor 1,Room 12,-87.63128,41.8925,FALSE,FALSE,TRUE
-5a675564-29ee-43eb-8d01-702b38e9ae0d,Lightbulb,Chicago Cultural Center,"78 E Washington St, Chicago, IL 60602",Floor 3,Room 32,-87.62498,41.88435,FALSE,FALSE,TRUE
-5e3cab8c-1a90-4139-bcc4-3c79e4fc10fb,Lightbulb,The Art Institute of Chicago,"111 S Michigan Ave, Chicago, IL 60603",Floor 1,Room 11,-87.624039,41.879539,FALSE,FALSE,TRUE
-f7bb44d2-dfb9-431d-a0d6-33b8a76b10f0,Lightbulb,Deloitte,"111 S Wacker Dr, Chicago, IL 60606",Floor 1,Room 10,-87.636452,41.880287,FALSE,FALSE,TRUE
+5cef88a0-0ffd-4279-b8f3-af4b8774d2e3,SmartBulb,The Purple Pig,"500 N Michigan Ave, Chicago, IL 60611",Floor 1,Room 10,-87.62435,41.89094,FALSE,FALSE,TRUE
+148180db-6e30-4848-a719-07cc95f6c07c,SmartBulb,McDonald's,"600 N Clark St, Chicago, IL 60610",Floor 1,Room 12,-87.63128,41.8925,FALSE,FALSE,TRUE
+5a675564-29ee-43eb-8d01-702b38e9ae0d,SmartBulb,Chicago Cultural Center,"78 E Washington St, Chicago, IL 60602",Floor 3,Room 32,-87.62498,41.88435,FALSE,FALSE,TRUE
+5e3cab8c-1a90-4139-bcc4-3c79e4fc10fb,SmartBulb,The Art Institute of Chicago,"111 S Michigan Ave, Chicago, IL 60603",Floor 1,Room 11,-87.624039,41.879539,FALSE,FALSE,TRUE
+f7bb44d2-dfb9-431d-a0d6-33b8a76b10f0,SmartBulb,Deloitte,"111 S Wacker Dr, Chicago, IL 60606",Floor 1,Room 10,-87.636452,41.880287,FALSE,FALSE,TRUE
 ff65d547-d343-42cd-a68a-841b68ea03d4,SoundSensor,The Purple Pig,"500 N Michigan Ave, Chicago, IL 60611",Floor 1,Room 10,-87.62435,41.89094,TRUE,FALSE,TRUE
 010fe9e8-95fb-4bb8-bb93-053f319ca93d,SoundSensor,McDonald's,"600 N Clark St, Chicago, IL 60610",Floor 1,Room 12,-87.63128,41.8925,TRUE,FALSE,TRUE
 e7c68839-2eff-496c-a574-3e969f580344,SoundSensor,Chicago Cultural Center,"78 E Washington St, Chicago, IL 60602",Floor 3,Room 32,-87.62498,41.88435,TRUE,FALSE,TRUE

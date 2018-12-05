@@ -91,7 +91,7 @@ namespace Edison.Simulators.Sensors
             ConsoleHelper.WriteInfo("5. Start test simulation on one sensor");
             ConsoleHelper.WriteInfo("6. Start test simulation on all sensors");
             ConsoleHelper.WriteInfo("7. Start orchestrated simulation");
-            //ConsoleHelper.WriteInfo("8. Monitor lightbulbs"); //Removed because cause issues with running physical devices.
+            //ConsoleHelper.WriteInfo("8. Monitor SmartBulbs"); //Removed because cause issues with running physical devices.
             ConsoleHelper.WriteInfo("A. Initialize Database");
             ConsoleHelper.WriteInfo("9. Exit");
 
@@ -248,7 +248,7 @@ namespace Edison.Simulators.Sensors
             ConsoleHelper.ClearConsole();
             ConsoleHelper.WriteInfo("Press Escape when you want to end the monitoring.");
 
-            _App.MonitorLightBulbs();
+            _App.MonitorSmartBulbs();
 
             ConsoleKeyInfo key;
             do

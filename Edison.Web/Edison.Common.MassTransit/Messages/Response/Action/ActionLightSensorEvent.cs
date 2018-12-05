@@ -12,5 +12,6 @@ namespace Edison.Common.Messages.Interfaces
         public int FlashFrequency { get { return GetProperty<int>("flashfrequency"); } set { SetProperty("flashfrequency", value.ToString()); } }
         public string Color { get { return GetProperty<string>("color"); } set { SetProperty("color", value); } }
         public string State { get { return GetProperty<string>("state"); } set { SetProperty("state", value); } }
+        public string LightState { get { return GetProperty<string>("lightstate"); } set { SetProperty("lightstate", value); } }
     }
 }

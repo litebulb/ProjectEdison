@@ -242,7 +242,8 @@ namespace Edison.Simulators.Sensors.Helpers
                      { "radius", "primary" },
                      { "flashfrequency", "0" },
                      { "color", color },
-                     { "state", "on" }
+                     { "state", "on" },
+                     { "lightstate", "continuous" }
                  }
             };
         }
@@ -259,7 +260,8 @@ namespace Edison.Simulators.Sensors.Helpers
                      { "radius", "secondary" },
                      { "flashfrequency", "0" },
                      { "color", color },
-                     { "state", "on" }
+                     { "state", "on" },
+                     { "lightstate", "continuous" }
                  }
             };
         }

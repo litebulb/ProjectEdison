@@ -195,7 +195,7 @@ namespace Edison.Devices.SmartBulb
                 await Task.Delay(_config.FlashFrequency);
             }
             //Continous light behavior
-            else if(_config.LightState == LightState.Constant)
+            else if(_config.LightState == LightState.Continuous)
             {
                 if (_config.Color != _previousColor)
                 {

@@ -16,7 +16,7 @@ namespace Edison.Simulators.CSVGenerator
             double periodLon = (longMax - longMin) / (double)nbrLon;
             double periodLat = (latMax - latMin) / (double)nbrLat;
             List<string> lines = new List<string>();
-            lines.Add("DeviceId,DeviceType,LocationName,LocationLevel1,LocationLevel2,LocationLevel3,Longitude,Latitude,Sensor,Demo");
+            lines.Add("DeviceId,DeviceType,Name,Location1,Location2,Location3,Longitude,Latitude,Sensor,Demo");
 
             for(int i = 0; i <= nbrLon; i++)
             {
@@ -25,7 +25,7 @@ namespace Edison.Simulators.CSVGenerator
                 {
                     var latitude = Math.Round(latMin + (j * periodLat), 6);
                     lines.Add($"{Guid.NewGuid()},ButtonSensor,[{i}][{j}],,,,{longitude},{latitude},TRUE,TRUE");
-                    lines.Add($"{Guid.NewGuid()},Lightbulb,[{i}][{j}],,,,{longitude},{latitude},FALSE,TRUE");
+                    lines.Add($"{Guid.NewGuid()},SmartBulb,[{i}][{j}],,,,{longitude},{latitude},FALSE,TRUE");
                 }
             }
             System.IO.File.WriteAllLines("sensors_test.csv", lines);

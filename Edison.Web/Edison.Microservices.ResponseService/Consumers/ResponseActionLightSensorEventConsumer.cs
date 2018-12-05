@@ -27,7 +27,11 @@ namespace Edison.ResponseService.Consumers
         };
         private List<string> _states = new List<string>()
         {
-            "off", "on", "flashing"
+            "off", "on"
+        };
+        private List<string> _lightStates = new List<string>()
+        {
+            "continuous", "flashing"
         };
 
         public ResponseActionLightSensorEventConsumer(IDeviceRestService deviceRestService,
@@ -62,7 +66,7 @@ namespace Edison.ResponseService.Consumers
                     //Get devices in radius
                     IEnumerable<Guid> devicesInRadius = await _deviceRestService.GetDevicesInRadius(new DeviceGeolocationModel()
                     {
-                        DeviceType = "Lightbulb",
+                        DeviceType = "SmartBulb",
                         Radius = action.PrimaryRadius,
                         ResponseGeolocationPointLocation = action.GeolocationPoint
                     });
@@ -71,7 +75,7 @@ namespace Edison.ResponseService.Consumers
                     {
                         IEnumerable<Guid> devicesInSecondaryRadius = await _deviceRestService.GetDevicesInRadius(new DeviceGeolocationModel()
                         {
-                            DeviceType = "Lightbulb",
+                            DeviceType = "SmartBulb",
                             Radius = action.SecondaryRadius,
                             ResponseGeolocationPointLocation = action.GeolocationPoint
                         });
@@ -89,15 +93,23 @@ namespace Edison.ResponseService.Consumers
                     string state = string.Empty;
                     action.State = action.State.ToLower();
                     if (!_states.Contains(action.State))
-                        state = "off";
+                        state = _states[0];
                     else
                         state = action.State;
+
+                    //LightState
+                    string lightState = string.Empty;
+                    action.LightState = action.LightState.ToLower();
+                    if (!_lightStates.Contains(action.LightState))
+                        lightState = _lightStates[0];
+                    else
+                        lightState = action.LightState;
 
                     //Color
                     string color = string.Empty;
                     action.Color = action.Color.ToLower();
                     if (!_colors.Contains(action.Color))
-                        color = "off";
+                        color = _colors[0];
                     else
                         color = action.Color;
 
@@ -115,6 +127,7 @@ namespace Edison.ResponseService.Consumers
                         JsonDesired = JsonConvert.SerializeObject(new Dictionary<string, object>()
                         {
                             { "State", state },
+                            { "LightState", lightState },
                             { "Color", color },
                             { "FlashFrequency", frequency }
                         }),

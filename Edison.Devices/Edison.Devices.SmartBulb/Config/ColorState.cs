@@ -1,5 +1,9 @@
-﻿namespace Edison.Devices.SmartBulb
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Edison.Devices.SmartBulb
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ColorState
     {
         Unknown = 0,
