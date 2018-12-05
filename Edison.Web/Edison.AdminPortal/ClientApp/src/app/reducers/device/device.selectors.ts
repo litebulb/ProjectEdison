@@ -7,4 +7,4 @@ export const deviceStateSelector = createFeatureSelector<AppState, State>('devic
 export const devicesSelector = createSelector(deviceStateSelector, selectAll);
 
 export const devicesFilteredSelector = createSelector(devicesSelector,
-    devices => devices.filter(device => device.deviceType && !device.deviceType.toLowerCase().includes('light')))
+    devices => devices.filter(device => device.deviceType && !device.deviceType.toLowerCase().includes('bulb')))
