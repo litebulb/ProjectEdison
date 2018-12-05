@@ -1,10 +1,7 @@
-﻿using Edison.Common.DAO;
-using Edison.Common.Interfaces;
+﻿using Edison.Common.Interfaces;
 using Edison.Core.Common;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Edison.Simulators.Sensors.Models
 {

@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.WiFi;
-using Windows.Security.Credentials;
 
 namespace Edison.Devices.Onboarding.Services
 {

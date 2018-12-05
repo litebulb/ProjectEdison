@@ -14,73 +14,39 @@ namespace Edison.Tests
 
         public static void Init()
         {
-            DBDevices = new List<DeviceDAO>()
-            {
-                new DeviceDAO()
-                {
-                    Id = "fbc64b5c-ff21-4ade-9440-85f7b16ef01e",
-                    CreationDate = DateTime.UtcNow.AddMinutes(-100),
-                    DeviceType = "button",
-                    ETag = Guid.NewGuid().ToString(),
-                    Geolocation = new GeolocationDAOObject()
-                    {
-                        Latitude = 41.8855050,
-                        Longitude = -87.6248890
-                    },
-                    UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    Location1 = "BlueMetal Office",
-                    Location2 = "Floor 11",
-                    Location3 = "Room A"
-                },
-                new DeviceDAO()
-                {
-                    Id = "7776a948-90f8-4ffd-9578-f8078b07d96f",
-                    CreationDate = DateTime.UtcNow.AddMinutes(-100),
-                    DeviceType = "button",
-                    ETag = Guid.NewGuid().ToString(),
-                    Geolocation = new GeolocationDAOObject()
-                    {
-                        Latitude = 41.8855190,
-                        Longitude = -87.6265480
-                    },
-                    UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    Location1 = "Office Space",
-                    Location2 = "Floor 10",
-                    Location3 = "Room C"
-                },new DeviceDAO()
-                {
-                    Id = "c337f50b-134a-4d83-8f40-18f6691e4dbb",
-                    CreationDate = DateTime.UtcNow.AddMinutes(-100),
-                    DeviceType = "button",
-                    ETag = Guid.NewGuid().ToString(),
-                    Geolocation = new GeolocationDAOObject()
-                    {
-                        Latitude = 41.8855190,
-                        Longitude = -87.6265480
-                    },
-                    UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    Location1 = "Office Space",
-                    Location2 = "Floor 10",
-                    Location3 = "Room C"
-                },
-                new DeviceDAO()
-                {
-                    Id = "f771c2e7-96c2-450b-912e-262588bdeeaa",
-                    CreationDate = DateTime.UtcNow.AddMinutes(-100),
-                    DeviceType = "soundsensor",
-                    ETag = Guid.NewGuid().ToString(),
-                    Geolocation = new GeolocationDAOObject()
-                    {
-                        Latitude = 41.8855050,
-                        Longitude = -87.6248890
-                    },
-                    UpdateDate = DateTime.UtcNow.AddMinutes(-100),
-                    Location1 = "BlueMetal Office",
-                    Location2 = "Floor 11",
-                    Location3 = "Room A"
-                }
-            };
+            CreateDeviceDAO("fbc64b5c-ff21-4ade-9440-85f7b16ef01e", "ButtonSensor", 41.8855050, -87.6248890);
+            CreateDeviceDAO("7776a948-90f8-4ffd-9578-f8078b07d96f", "ButtonSensor", 41.8855190, -87.6265480);
+            CreateDeviceDAO("c337f50b-134a-4d83-8f40-18f6691e4dbb", "ButtonSensor", 41.8855120, -87.6265430);
+            CreateDeviceDAO("f771c2e7-96c2-450b-912e-262588bdeeaa", "SoundSensor", 41.8855050, -87.6248890);
+            CreateDeviceDAO("d9ae43c1-aaa7-401c-98c7-efbc5e58aa1c", "Lightbulb", 41.8855150, -87.6248790);
+        }
 
+        private static void CreateDeviceDAO(string id, string type, double latitude, double longitude, bool enabled = true)
+        {
+            if (DBDevices == null)
+                DBDevices = new List<DeviceDAO>();
+
+            int index = DBDevices.Count + 1;
+            DBDevices.Add(new DeviceDAO()
+            {
+                Id = id,
+                CreationDate = DateTime.UtcNow.AddMinutes(-100),
+                DeviceType = type,
+                ETag = Guid.NewGuid().ToString(),
+                Geolocation = new GeolocationDAOObject()
+                {
+                    Latitude = latitude,
+                    Longitude = longitude
+                },
+                UpdateDate = DateTime.UtcNow.AddMinutes(-100),
+                IoTDevice = true,
+                Sensor = true,
+                Enabled = enabled,
+                Name = type + index,
+                Location1 = $"{type}{index} Location1",
+                Location2 = $"{type}{index} Location2",
+                Location3 = $"{type}{index} Location3"
+            });
         }
     }
 }

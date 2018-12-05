@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Edison.Simulators.Sensors.Models
+﻿namespace Edison.Simulators.Sensors.Models
 {
     public class Metadata
     {

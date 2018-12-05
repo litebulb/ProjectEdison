@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Edison.Common.Config;
-using Newtonsoft.Json;
 using Edison.Common.DAO;
 using Edison.Common.Interfaces;
 using Edison.Common;

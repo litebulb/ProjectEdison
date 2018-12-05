@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +9,7 @@ using Microsoft.Azure.Devices.Client.Exceptions;
 using Microsoft.Azure.Devices.Shared;
 using Microsoft.Devices.Tpm;
 using Newtonsoft.Json;
-using Windows.Foundation;
 using Windows.Foundation.Diagnostics;
-using Windows.Security.Cryptography.Certificates;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Edison.Devices.Common
 {
@@ -231,6 +227,37 @@ namespace Edison.Devices.Common
             catch (Exception e)
             {
                 _logging.LogMessage($"SendIoTMessage: {e.Message}", LoggingLevel.Critical);
+                Connected = false;
+                throw e;
+            }
+        }
+
+        public async Task UpdateReportedProperties(TwinCollection twin)
+        {
+            _logging.LogMessage("Update Reported Properties", LoggingLevel.Verbose);
+
+            try
+            {
+                if (_deviceClient != null)
+                {
+                    await _deviceClient.UpdateReportedPropertiesAsync(twin);
+                }
+                else
+                {
+                    _logging.LogMessage($"UpdateReportedProperties: DeviceClient was empty.", LoggingLevel.Error);
+                }
+            }
+            catch (Exception he) when (
+            he is IotHubCommunicationException ||
+            he is UnauthorizedException ||
+            he is TimeoutException)
+            {
+                _logging.LogMessage($"UpdateReportedProperties Handled Exception: {he.Message}", LoggingLevel.Error);
+                Connected = false;
+            }
+            catch (Exception e)
+            {
+                _logging.LogMessage($"UpdateReportedProperties: {e.Message}", LoggingLevel.Critical);
                 Connected = false;
                 throw e;
             }

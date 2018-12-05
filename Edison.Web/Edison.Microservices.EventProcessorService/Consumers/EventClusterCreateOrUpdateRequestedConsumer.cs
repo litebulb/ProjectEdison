@@ -17,16 +17,13 @@ namespace Edison.EventProcessorService.Consumers
     public class EventClusterCreateOrUpdateRequestedConsumer : IConsumer<IEventClusterCreateOrUpdateRequested>
     {
         private readonly IEventClusterRestService _eventClusterRestService;
-        private readonly IDeviceRestService _deviceRestService;
         private readonly ILogger<EventClusterCreateOrUpdateRequestedConsumer> _logger;
 
         public EventClusterCreateOrUpdateRequestedConsumer(IEventClusterRestService eventClusterRestService,
-            IDeviceRestService deviceRestService,
             ILogger<EventClusterCreateOrUpdateRequestedConsumer> logger)
         {
             _logger = logger;
             _eventClusterRestService = eventClusterRestService;
-            _deviceRestService = deviceRestService;
         }
 
         public async Task Consume(ConsumeContext<IEventClusterCreateOrUpdateRequested> context)

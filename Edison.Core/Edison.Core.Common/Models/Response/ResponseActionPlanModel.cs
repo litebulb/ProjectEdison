@@ -11,7 +11,7 @@ namespace Edison.Core.Common.Models
         public double PrimaryRadius { get; set; }
         public double SecondaryRadius { get; set; }
         public bool AcceptSafeStatus { get; set; }
-        public virtual IEnumerable<ResponseActionModel> OpenActions { get; set; }
-        public virtual IEnumerable<ResponseActionModel> CloseActions { get; set; }
+        public IEnumerable<ResponseActionModel> OpenActions { get; set; }
+        public IEnumerable<ResponseActionModel> CloseActions { get; set; }
     }
 }

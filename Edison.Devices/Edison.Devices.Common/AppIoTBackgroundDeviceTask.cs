@@ -1,19 +1,16 @@
 ﻿using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
-using Microsoft.Devices.Tpm;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Background;
 using Windows.Foundation.Diagnostics;
-using Windows.Storage;
 
 namespace Edison.Devices.Common
 {
     #pragma warning disable 1998
-    public class AppIoTBackgroundDeviceTask
+    public class AppIoTBackgroundDeviceTask<D,R> 
+        where D : IDeviceState 
+        where R : IDeviceStateReported
     {
         /// <summary>
         /// Next time that the device need to ping IoT Hub
@@ -62,7 +59,7 @@ namespace Edison.Devices.Common
         /// <summary>
         /// Hook for Start Application 
         /// </summary>
-        public event Func<Task> StartApplication;
+        public event Func<D, Task<R>> StartApplication;
         /// <summary>
         /// Hook for Start Application 
         /// </summary>
@@ -86,7 +83,7 @@ namespace Edison.Devices.Common
         /// <summary>
         /// Hook for Change Configuration 
         /// </summary>
-        public event Func<TwinCollection, Task> ChangeConfiguration;
+        public event Func<D, Task<R>> ChangeConfiguration;
 
         /// <summary>
         /// Constructor
@@ -138,8 +135,7 @@ namespace Edison.Devices.Common
                     {
                         //Start application hook
                         _logging.LogMessage("Starting Application", LoggingLevel.Verbose);
-                        if (StartApplication != null)
-                            await StartApplication();
+                        await StartApplicationInternal();
 
                         //Main Loop
                         _logging.LogMessage("Entering Logic Loop", LoggingLevel.Verbose);
@@ -166,10 +162,7 @@ namespace Edison.Devices.Common
                     else
                     {
                         _logging.LogMessage("The connection to IoT Hub did not succeed. Please make sure that the TPM service is properly set up on Device 0 and that the connection string is properly set up.", LoggingLevel.Error);
-                        if (DisconnectedApplication != null)
-                            await DisconnectedApplication();
-                        else
-                            await Task.Delay(500);
+                        await DisconnectedApplicationInternal();
                     } 
                 }
                 _logging.LogMessage("Leaving Application Loop", LoggingLevel.Verbose);
@@ -178,17 +171,7 @@ namespace Edison.Devices.Common
             {
                 _logging.LogMessage($"General Running Error: '{e.Message}'", LoggingLevel.Critical);
                 _logging.LogMessage($"Stacktrace: '{e.StackTrace}'", LoggingLevel.Critical);
-                if (GeneralError != null)
-                {
-                    try
-                    {
-                        await GeneralError();
-                    }
-                    catch (Exception eg)
-                    {
-                        _logging.LogMessage($"Error in GeneralError hook: '{eg.Message}'", LoggingLevel.Error);
-                    }
-                }
+                await GeneralErrorInternal();
             }
 
             //End application phase
@@ -196,8 +179,7 @@ namespace Edison.Devices.Common
             try
             {
                 //End Application hook
-                if (EndApplication != null)
-                    await EndApplication();
+                await EndApplicationInternal();
 
                 //Program interrupted, dispose the services
                 if (_azureIoTHubService != null)
@@ -237,6 +219,57 @@ namespace Edison.Devices.Common
             return false;
         }
 
+        private async Task StartApplicationInternal()
+        {
+            if (StartApplication != null)
+            {
+                _logging.LogMessage("Retrieve desired properties", LoggingLevel.Verbose);
+                var desiredProperties = await _azureIoTHubService.GetDeviceTwinAsync();
+                if (string.IsNullOrEmpty(desiredProperties))
+                {
+                    _logging.LogMessage("Cannot retrieve desired properties", LoggingLevel.Error);
+                    return;
+                }
+
+                D desired = JsonConvert.DeserializeObject<D>(desiredProperties);
+                if (desired != null)
+                {
+                    R reported = await StartApplication(desired);
+                    if (reported != null)
+                        await _azureIoTHubService.UpdateReportedProperties(new TwinCollection(JsonConvert.SerializeObject(reported)));
+                }
+            }
+        }
+
+        private async Task EndApplicationInternal()
+        {
+            if (EndApplication != null)
+                await EndApplication();
+        }
+
+        private async Task DisconnectedApplicationInternal()
+        {
+            if (DisconnectedApplication != null)
+                await DisconnectedApplication();
+            else
+                await Task.Delay(500);
+        }
+
+        private async Task GeneralErrorInternal()
+        {
+            if (GeneralError != null)
+            {
+                try
+                {
+                    await GeneralError();
+                }
+                catch (Exception eg)
+                {
+                    _logging.LogMessage($"Error in GeneralError hook: '{eg.Message}'", LoggingLevel.Error);
+                }
+            }
+        }
+
         protected void RestartApplication()
         {
             _interruptApplication = true;
@@ -247,9 +280,16 @@ namespace Edison.Devices.Common
             _logging.LogMessage("ReceiveDesiredConfiguration", LoggingLevel.Verbose);
 
             if (ChangeConfiguration != null)
-                await ChangeConfiguration(desiredProperties);
-            else
-                RestartApplication();
+            {
+                D desired = JsonConvert.DeserializeObject<D>(desiredProperties.ToJson());
+                if (desired != null)
+                {
+                    R reported = await ChangeConfiguration(desired);
+                    if (reported != null)
+                        await _azureIoTHubService.UpdateReportedProperties(new TwinCollection(JsonConvert.SerializeObject(reported)));
+                }
+            }
+            RestartApplication();
         }
 
         private async Task<MethodResponse> DirectMethodTest(MethodRequest methodRequest, object userContext)

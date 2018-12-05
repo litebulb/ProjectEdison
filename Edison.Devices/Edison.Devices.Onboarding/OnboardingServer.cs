@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using Edison.Devices.Onboarding.Common.Helpers;
 using Edison.Devices.Onboarding.Models;
-using System.Net;
 using Edison.Devices.Onboarding.Interfaces;
 
 namespace Edison.Devices.Onboarding

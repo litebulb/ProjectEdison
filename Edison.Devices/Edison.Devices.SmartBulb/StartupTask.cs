@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Http;
 using Windows.ApplicationModel.Background;
-using Windows.Storage;
 using Windows.Foundation.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.Devices.Tpm;
-using Newtonsoft.Json;
-using Microsoft.Azure.Devices.Shared;
-using Microsoft.Azure.Devices.Client;
-using Windows.Devices.Gpio;
 using Edison.Devices.Common;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
@@ -34,9 +24,9 @@ namespace Edison.Devices.SmartBulb
 
 
         // Desired object
-        private SmartBulbConfig _config;
+        private SmartBulbState _config;
         // Keep previous color in check to avoid resetting the pins
-        private Color _previousColor;
+        private ColorState _previousColor;
         // Keep previous pin red
         private int _loadPinRed;
         // Keep previous pin green
@@ -52,7 +42,7 @@ namespace Edison.Devices.SmartBulb
             //Deferral task to allow for async
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
-            var app = new AppIoTBackgroundDeviceTask("Lightbulb", new Guid("26fcf049-de51-4fe4-9015-8a0245fa8aa8"));
+            var app = new AppIoTBackgroundDeviceTask<SmartBulbState,SmartBulbStateReported>("SmartBulb", new Guid("26fcf049-de51-4fe4-9015-8a0245fa8aa8"));
             app.InitApplication += InitApplication;
             app.StartApplication += StartApplication;
             app.RunApplication += RunApplication;
@@ -84,18 +74,11 @@ namespace Edison.Devices.SmartBulb
         /// Code running when the application starts or restarts
         /// </summary>
         /// <returns></returns>
-        private async Task StartApplication()
+        private async Task<SmartBulbStateReported> StartApplication(SmartBulbState desiredProperties)
         {
-            _logging.LogMessage("Retrieve desired properties", LoggingLevel.Verbose);
-            var desiredProperties = await _azureIoTHubService.GetDeviceTwinAsync();
-            if (string.IsNullOrEmpty(desiredProperties))
-            {
-                _logging.LogMessage("Cannot retrieve desired properties", LoggingLevel.Error);
-                return;
-            }
-
-            _config = JsonConvert.DeserializeObject<SmartBulbConfig>(desiredProperties);
+            _config = desiredProperties;
             await ConfigureApplicationConfig();
+            return new SmartBulbStateReported() { DeviceState = _config };
         }
 
         #pragma warning disable 1998
@@ -105,7 +88,7 @@ namespace Edison.Devices.SmartBulb
         /// <returns></returns>
         private async Task EndApplication()
         {
-            _previousColor = Color.Unknown;
+            _previousColor = ColorState.Unknown;
             _loadPinGreen = 0;
             _loadPinRed = 0;
             _loadPinBlue = 0;
@@ -113,10 +96,11 @@ namespace Edison.Devices.SmartBulb
         }
 
 
-        private async Task ReceiveDesiredConfiguration(TwinCollection desiredProperties)
+        private async Task<SmartBulbStateReported> ReceiveDesiredConfiguration(SmartBulbState desiredProperties)
         {
-            _config = JsonConvert.DeserializeObject<SmartBulbConfig>(desiredProperties.ToJson());
+            _config = desiredProperties;
             await ConfigureApplicationConfig();
+            return new SmartBulbStateReported() { DeviceState = _config };
         }
 
         private async Task ConfigureApplicationConfig()
@@ -135,7 +119,7 @@ namespace Edison.Devices.SmartBulb
 
                 _config.FlashFrequency = _config.FlashFrequency < MIN_FREQUENCY_MS ? MIN_FREQUENCY_MS : _config.FlashFrequency;
 
-                if (_config.State == State.Flashing || _config.State == State.On)
+                if (_config.State == DeviceState.On)
                 {
                     if (_config.GpioConfig.GpioColorRed != _loadPinRed)
                     {
@@ -152,13 +136,13 @@ namespace Edison.Devices.SmartBulb
                         _loadPinBlue = _config.GpioConfig.GpioColorBlue;
                         _gpioService.InitGPIOOutput(_loadPinBlue);
                     }
-                    _previousColor = Color.Unknown;
+                    _previousColor = ColorState.Unknown;
                 }
 
                 if (_disconnected && !_config.IgnoreFlashAlerts)
                 {
-                    await BlinkLED(Color.Green, 2, 200);
-                    if (_previousColor != Color.Unknown)
+                    await BlinkLED(ColorState.Green, 2, 200);
+                    if (_previousColor != ColorState.Unknown)
                         SetLED(_previousColor);
                     _disconnected = false;
                 }
@@ -169,7 +153,7 @@ namespace Edison.Devices.SmartBulb
         {
             if (_config == null || !_config.IgnoreFlashAlerts)
             {
-                await BlinkLED(Color.Red, 2, 200);
+                await BlinkLED(ColorState.Red, 2, 200);
                 SetLED(_previousColor);
                 _disconnected = true;
             }
@@ -179,13 +163,13 @@ namespace Edison.Devices.SmartBulb
         {
             if (_config == null || !_config.IgnoreFlashAlerts)
             {
-                await BlinkLED(Color.Purple, 2, 100);
+                await BlinkLED(ColorState.Purple, 2, 100);
                 SetLED(_previousColor);
                 _disconnected = true;
             }
         }
 
-        private async Task BlinkLED(Color color, int durationSeconds, int periodMs)
+        private async Task BlinkLED(ColorState color, int durationSeconds, int periodMs)
         {
             int loops = durationSeconds * (1000 / periodMs);
             int periodDivided = periodMs / 2;
@@ -193,7 +177,7 @@ namespace Edison.Devices.SmartBulb
             {
                 SetLED(color);
                 await Task.Delay(periodDivided);
-                SetLED(Color.Off);
+                SetLED(ColorState.Off);
                 await Task.Delay(periodDivided);
             }
         }
@@ -201,17 +185,17 @@ namespace Edison.Devices.SmartBulb
         private async Task RunApplication()
         {
             //Flashing behavior
-            if (_config.State == State.Flashing)
+            if (_config.LightState == LightState.Flashing)
             {
                 _flashingState = !_flashingState;
                 if (_flashingState)
                     SetLED(_config.Color);
                 else
-                    SetLED(Color.Off);
+                    SetLED(ColorState.Off);
                 await Task.Delay(_config.FlashFrequency);
             }
             //Continous light behavior
-            else if(_config.State == State.On)
+            else if(_config.LightState == LightState.Constant)
             {
                 if (_config.Color != _previousColor)
                 {
@@ -222,32 +206,32 @@ namespace Edison.Devices.SmartBulb
             }
         }
 
-        private void SetLED(Color color)
+        private void SetLED(ColorState color)
         {
             switch (color)
             {
-                case Color.White:
+                case ColorState.White:
                     SetLED(true, true, true);
                     break;
-                case Color.Red:
+                case ColorState.Red:
                     SetLED(true, false, false);
                     break;
-                case Color.Green:
+                case ColorState.Green:
                     SetLED(false, true, false);
                     break;
-                case Color.Blue:
+                case ColorState.Blue:
                     SetLED(false, false, true);
                     break;
-                case Color.Yellow:
+                case ColorState.Yellow:
                     SetLED(true, true, false);
                     break;
-                case Color.Purple:
+                case ColorState.Purple:
                     SetLED(true, false, true);
                     break;
-                case Color.Cyan:
+                case ColorState.Cyan:
                     SetLED(false, true, true);
                     break;
-                case Color.Off:
+                case ColorState.Off:
                     SetLED(false, false, false);
                     break;
             }
@@ -271,10 +255,9 @@ namespace Edison.Devices.SmartBulb
                 _gpioService.PinSetHigh(_config.GpioConfig.GpioColorBlue);
         }
 
-
         private async Task TestMethod()
         {
-            await BlinkLED(Color.White, 20, 500);
+            await BlinkLED(ColorState.White, 20, 500);
             SetLED(_previousColor);
         }
     }

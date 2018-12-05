@@ -104,7 +104,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config\SoundSensorConfig.cs" />
+    <Compile Include="Config\SoundSensorGpioConfig.cs" />
+    <Compile Include="Config\SoundSensorStateReported.cs" />
+    <Compile Include="Config\SoundSensorState.cs" />
     <Compile Include="Messages\SoundSensorMessage.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

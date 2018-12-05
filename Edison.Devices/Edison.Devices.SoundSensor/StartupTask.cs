@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Http;
 using Windows.ApplicationModel.Background;
-using Windows.Storage;
 using Windows.Foundation.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.Devices.Tpm;
-using Newtonsoft.Json;
-using Microsoft.Azure.Devices.Shared;
-using Microsoft.Azure.Devices.Client;
 using Windows.Devices.Gpio;
 using Edison.Devices.Common;
 using Edison.Devices.SoundSensor.Messages;
@@ -22,6 +13,7 @@ namespace Edison.Devices.SoundSensor
     public sealed class StartupTask : IBackgroundTask
     {
         private const int PIN_SOUND = 23;
+        private const int SOUND_TRIGGER_DELAY_MINIMUM = 2000;
 
         // Logging helper
         private LoggingChannel _logging;
@@ -29,12 +21,8 @@ namespace Edison.Devices.SoundSensor
         private AzureIoTHubService _azureIoTHubService;
         // GPIO helper
         private GPIOService _gpioService;
-
-
-        // If the sound sensor is triggered more than once at a time, this value ensure that no more than one message can be sent every 2 seconds.
-        private readonly int _soundTriggerDelay = 2000;
         // Desired object
-        private SoundSensorConfig _config;
+        private SoundSensorState _config;
         // Randomizer for decibels
         private Random _rand = new Random();
         // Value where next sound trigger can happen
@@ -48,12 +36,22 @@ namespace Edison.Devices.SoundSensor
             //Deferral task to allow for async
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
-            var app = new AppIoTBackgroundDeviceTask("SoundSensor", new Guid("8e2fb18a-e7ae-45f9-bf05-d42455ba6ce0"));
+            var app = new AppIoTBackgroundDeviceTask<SoundSensorState,SoundSensorStateReported>("SoundSensor", new Guid("8e2fb18a-e7ae-45f9-bf05-d42455ba6ce0"));
             app.InitApplication += InitApplication;
             app.StartApplication += StartApplication;
+            app.ChangeConfiguration += ReceiveDesiredConfiguration;
 
             await app.Run();
             deferral.Complete();
+        }
+
+        #pragma warning disable 1998
+        private async Task<SoundSensorStateReported> ReceiveDesiredConfiguration(SoundSensorState desiredProperties)
+        {
+            _config = desiredProperties;
+            //Here the behavior to handle decibel threshold would be added
+            //---
+            return new SoundSensorStateReported() { DeviceState = _config };
         }
 
         /// <summary>
@@ -70,22 +68,15 @@ namespace Edison.Devices.SoundSensor
             return true;
         }
 
+        #pragma warning disable 1998
         /// <summary>
         /// Code running when the application starts or restarts
         /// </summary>
         /// <returns></returns>
-        private async Task StartApplication()
+        private async Task<SoundSensorStateReported> StartApplication(SoundSensorState desiredProperties)
         {
-            _logging.LogMessage("Retrieve desired properties", LoggingLevel.Verbose);
-            var desiredProperties = await _azureIoTHubService.GetDeviceTwinAsync();
-            if (string.IsNullOrEmpty(desiredProperties))
-            {
-                _logging.LogMessage("Cannot retrieve desired properties", LoggingLevel.Error);
-                return;
-            }
-
-            _config = JsonConvert.DeserializeObject<SoundSensorConfig>(desiredProperties);
-
+            _config = desiredProperties;
+            
             if (_config != null)
             {
                 if (_config.GpioConfig == null)
@@ -93,9 +84,14 @@ namespace Edison.Devices.SoundSensor
                     _config.GpioConfig = new SoundSensorGpioConfig() { GpioSound = PIN_SOUND };
                 }
 
-                if(_config.State == State.On)
+                if (_config.SoundTriggerDelay < SOUND_TRIGGER_DELAY_MINIMUM)
+                    _config.SoundTriggerDelay = SOUND_TRIGGER_DELAY_MINIMUM;
+
+                if (_config.State == DeviceState.On)
                     _gpioService.InitGPIOInput(_config.GpioConfig.GpioSound, GpioSoundChanged);
             }
+
+            return new SoundSensorStateReported() { DeviceState = _config };
         }
 
 
@@ -108,7 +104,7 @@ namespace Edison.Devices.SoundSensor
                 {
                     Decibel = (_rand.NextDouble() * 20.00) + 120.00
                 }, _eventType);
-                _nextTrigger = DateTime.UtcNow.AddMilliseconds(_soundTriggerDelay);
+                _nextTrigger = DateTime.UtcNow.AddMilliseconds(_config.SoundTriggerDelay);
             }
         }
     }

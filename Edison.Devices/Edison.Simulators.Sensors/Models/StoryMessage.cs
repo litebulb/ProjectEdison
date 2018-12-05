@@ -1,8 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Edison.Simulators.Sensors.Models
+﻿namespace Edison.Simulators.Sensors.Models
 {
     public class StoryMessage
     {

@@ -109,6 +109,9 @@
     <Compile Include="AppIoTBackgroundDeviceTask.cs" />
     <Compile Include="Helpers\AzureIoTHubService.cs" />
     <Compile Include="Helpers\GPIOService.cs" />
+    <Compile Include="Interfaces\DeviceState.cs" />
+    <Compile Include="Interfaces\IDeviceStateReported.cs" />
+    <Compile Include="Interfaces\IDeviceState.cs" />
     <Compile Include="Utils\DirectMethodConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Edison.Common.Devices.rd.xml" />
@@ -124,6 +127,7 @@
       <Version>6.2.2</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

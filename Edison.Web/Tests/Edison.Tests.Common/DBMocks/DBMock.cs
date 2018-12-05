@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Edison.Common.DAO;
+using Edison.Common.Interfaces;
 using Edison.Core.Common.Models;
+using Edison.Tests.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,12 @@ namespace Edison.Tests
 {
     public static class DBMock
     {
-        private static List<DeviceDAO> _DBDevices;
-        private static List<EventClusterDAO> _DBEventClusters;
+        private static ICosmosDBRepository<DeviceDAO> _DBDevices;
+        //private static ICosmosDBRepository<ActionPlanDAO> _DBActionPlans;
+        private static ICosmosDBRepository<EventClusterDAO> _DBEventClusters;
+        //private static ICosmosDBRepository<ResponseDAO> _DBResponses;
+        //private static ICosmosDBRepository<NotificationDAO> _DBNotifications;
+        //private static ICosmosDBRepository<ChatReportDAO> _ChatReportDAO;
         private static bool MapperInitialized = false;
 
         public static void Init()
@@ -29,76 +35,8 @@ namespace Edison.Tests
 
             DBMockDevice.Init();
             DBMockEventCluster.Init();
-            _DBDevices = DBMockDevice.DBDevices;
-            _DBEventClusters = DBMockEventCluster.DBEventClusters;
-        }
-
-        public static EventClusterModel GetEventCluster(Guid eventClusterId)
-        {
-            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventClusterId.ToString());
-            return Mapper.Map<EventClusterModel>(eventCluster);
-        }
-
-        public static IEnumerable<EventClusterModel> GetEventClusters()
-        {
-            IEnumerable<EventClusterDAO> eventClusters = _DBEventClusters.FindAll(p => p.ClosureDate == DateTime.MinValue || p.EndDate > DateTime.UtcNow);
-
-            //Only keep the first eventCluster for each device + event type sorted by start date descending
-            var groupedEventClusters =
-                eventClusters
-                .OrderByDescending(p => p.StartDate)
-                .GroupBy(x => new { x.Device.DeviceId, x.EventType })
-                .Select(p => p.First());
-
-            return Mapper.Map<IEnumerable<EventClusterModel>>(groupedEventClusters);
-        }
-
-        public static EventClusterModel CreateOrUpdateEventCluster(EventClusterCreationModel eventObj)
-        {
-            //If device doesn't exist, throw exception
-            DeviceDAO deviceEntity = _DBDevices.Find(p => p.Id == eventObj.DeviceId.ToString());
-            if (deviceEntity == null)
-                throw new Exception($"No device found that matches DeviceId: {eventObj.DeviceId}");
-
-            EventClusterDAO eventCluster = new EventClusterDAO()
-            {
-                Id = eventObj.EventClusterId.ToString(),
-                Device = Mapper.Map<EventClusterDeviceDAOObject>(deviceEntity),
-                EventType = eventObj.EventType.ToLower(),
-                EventCount = 1,
-                Events = new EventDAOObject[] { Mapper.Map<EventDAOObject>(eventObj) },
-                StartDate = eventObj.Date
-            };
-            _DBEventClusters.Add(eventCluster);
-            if (string.IsNullOrEmpty(eventCluster.Id))
-                throw new Exception($"An error occured when creating a new cluster id for DeviceId: {eventObj.DeviceId}");
-
-            return Mapper.Map<EventClusterModel>(eventCluster);
-        }
-
-        public static EventClusterModel AddEventToCluster(EventClusterUpdateModel eventObj)
-        {
-            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventObj.EventClusterId.ToString());
-            if (eventCluster == null)
-                throw new Exception($"No eventCluster found that matches EventClusterId: {eventObj.EventClusterId}");
-
-            eventCluster.Events = eventCluster.Events.Prepend(Mapper.Map<EventDAOObject>(eventObj)).ToArray();
-            eventCluster.EventCount++;
-
-            var output = Mapper.Map<EventClusterModel>(eventCluster);
-            output.Events = output.Events.Take(3);
-            return output;
-        }
-
-        public static EventClusterModel CloseEventCluster(EventClusterCloseModel eventObj)
-        {
-            EventClusterDAO eventCluster = _DBEventClusters.Find(p => p.Id == eventObj.EventClusterId.ToString());
-            eventCluster.ClosureDate = eventObj.ClosureDate;
-            eventCluster.EndDate = eventObj.EndDate;
-
-            var output = Mapper.Map<EventClusterModel>(eventCluster);
-            output.Events = output.Events.Take(3);
-            return output;
+            _DBDevices = new InMemoryDBRepository<DeviceDAO>(DBMockDevice.DBDevices, LoggerHelper.CreateLogger< InMemoryDBRepository<DeviceDAO>>().Object);
+            _DBEventClusters = new InMemoryDBRepository<EventClusterDAO>(DBMockEventCluster.DBEventClusters, LoggerHelper.CreateLogger<InMemoryDBRepository<EventClusterDAO>>().Object);
         }
     }
 }

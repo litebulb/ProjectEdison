@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Edison.Devices.Onboarding.Models;
-using System.Net.NetworkInformation;
 using Edison.Devices.Onboarding.Interfaces;
 
 namespace Edison.Devices.Onboarding.Services

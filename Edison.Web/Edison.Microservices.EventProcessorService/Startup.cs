@@ -42,7 +42,6 @@ namespace Edison.EventProcessorService
             services.AddScoped<EventClusterCloseRequestedConsumer>();
 
             services.AddSingleton<IEventClusterRestService, EventClusterRestService>();
-            services.AddSingleton<IDeviceRestService, DeviceRestService>();
             services.AddSingleton<IMassTransitServiceBus, ServiceBusRabbitMQ>();
         }
 

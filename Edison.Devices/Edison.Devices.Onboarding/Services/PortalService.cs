@@ -1,5 +1,4 @@
-﻿using Edison.Devices.Onboarding.Common.Helpers;
-using Edison.Devices.Onboarding.Common.Models;
+﻿using Edison.Devices.Onboarding.Common.Models;
 using Edison.Devices.Onboarding.Helpers;
 using Edison.Devices.Onboarding.Models.PortalAPI;
 using System;

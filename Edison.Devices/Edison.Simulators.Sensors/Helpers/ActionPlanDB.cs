@@ -1,7 +1,5 @@
 ﻿using Edison.Common.DAO;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Edison.Simulators.Sensors.Helpers
 {
@@ -94,11 +92,11 @@ namespace Edison.Simulators.Sensors.Helpers
                 AcceptSafeStatus = true,
                 OpenActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("Warning. There might be a strong virus in your area.")
+                     GenerateNotificationMessage("Health Check Activated.")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The health check situation was resolved.")
+                     GenerateNotificationMessage("Health Check Deactivated.")
                 }
             };
             var actionPlanActiveProtest = new ActionPlanDAO()
@@ -138,13 +136,13 @@ namespace Edison.Simulators.Sensors.Helpers
                 AcceptSafeStatus = false,
                 OpenActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("A suspicious package has been detected near your location."),
+                     GenerateNotificationMessage("A suspicious package has been identified in the area. Authorities are on the way to assess it."),
                      GenerateActionPrimaryLightMessage("red"),
                      GenerateActionSecondaryLightMessage("yellow")
                 },
                 CloseActions = new List<ActionDAOObject>()
                 {
-                     GenerateNotificationMessage("The suspicious package situation has been resolved."),
+                     GenerateNotificationMessage("The suspicious package has been cleared, the scene is safe."),
                      GenerateActionPrimaryLightMessage("off"),
                      GenerateActionSecondaryLightMessage("off")
                 }

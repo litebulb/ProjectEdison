@@ -51,11 +51,11 @@ namespace Edison.Common
                 else
                 {
                     _logger.LogError("GetItemAsync: DocumentClientException: " + e.Error.Message);
-                    throw;
+                    return null;
                 }
             }
             catch (Exception e)
-           {
+            {
                 _logger.LogError("GetItemAsync: " + e.Message);
                 return null;
             }
@@ -448,7 +448,7 @@ namespace Edison.Common
             catch (Exception e)
             {
                 _logger.LogError($"UpdateItemAsync: {e.Message}");
-                throw e;
+                return false;
             }
         }
 
@@ -468,12 +468,12 @@ namespace Edison.Common
             catch (DocumentClientException e)
             {
                 _logger.LogError("DeleteItemAsync: DocumentClientException: " + e.Error.Message);
-                throw e;
+                return false;
             }
             catch (Exception e)
             {
                 _logger.LogError("DeleteItemAsync: " + e.Message);
-                throw e;
+                return false;
             }
         }
 
@@ -490,12 +490,12 @@ namespace Edison.Common
             catch (DocumentClientException e)
             {
                 _logger.LogError("DeleteItemAsync: DocumentClientException: " + e.Error.Message);
-                throw e;
+                return false;
             }
             catch (Exception e)
             {
                 _logger.LogError("DeleteItemAsync: " + e.Message);
-                throw e;
+                return false;
             }
         }
 

@@ -104,7 +104,11 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config\SmartBulbConfig.cs" />
+    <Compile Include="Config\ColorState.cs" />
+    <Compile Include="Config\LightState.cs" />
+    <Compile Include="Config\SmartBulbGpioConfig.cs" />
+    <Compile Include="Config\SmartBulbStateReported.cs" />
+    <Compile Include="Config\SmartBulbState.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
