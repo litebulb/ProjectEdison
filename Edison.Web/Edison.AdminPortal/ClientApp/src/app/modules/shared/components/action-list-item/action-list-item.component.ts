@@ -33,7 +33,7 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
 
     getComponentType(type: ActionPlanType): any {
         switch (type) {
-            case ActionPlanType.RapidSOS:
+            case ActionPlanType.EmergencyCall:
             case ActionPlanType.Email:
                 return TextTemplateComponent
             case ActionPlanType.Notification:

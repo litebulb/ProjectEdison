@@ -1,3 +1,5 @@
+<app-toast-container></app-toast-container>
+
 <div class="active-responses"
      *ngIf="active"
      [@fadeInOut]
@@ -44,6 +46,7 @@
      (keyup.enter)="toggleResponses()"
      [@fadeInOut]
      [style.z-index]="active ? 5 : 3"
+     [style.padding]="responses.length > 5 ? '6px' : ''"
      *ngIf="responses.length > 0"
      [tabindex]="active ? 400 : 6">
     <div class="scroll-container">
@@ -52,8 +55,9 @@
         <span class="text noselect manage-text">{{ active ? 'Close' : 'Responses' }}</span>
         <ng-container class="icon-container"
                       *ngIf="!active">
-            <app-active-response-icon *ngFor="let response of responses"
+            <app-active-response-icon *ngFor="let response of responses; let i = index"
                                       [response]="response"
+                                      [style]="getIconStyle(i)"
                                       (click)="openResponse(response)"></app-active-response-icon>
         </ng-container>
     </div>

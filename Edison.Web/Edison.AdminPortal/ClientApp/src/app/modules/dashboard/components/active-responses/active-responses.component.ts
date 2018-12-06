@@ -101,6 +101,17 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
 
     }
 
+    getIconStyle(index: number) {
+        if (index < 5) { return null; }
+
+        const style = {
+            'margin-right': '10px',
+            'margin-top': '6px',
+        };
+
+        return style;
+    }
+
     refreshResponses(responses: Response[]) {
         this.items = responses.map(r => ({
             id: r.responseId,

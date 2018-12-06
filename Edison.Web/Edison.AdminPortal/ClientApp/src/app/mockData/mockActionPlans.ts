@@ -16,7 +16,7 @@ export const mockActionPlans: ActionPlan[] = [
         openActions: [
             {
                 actionId: '1',
-                actionType: ActionPlanType.RapidSOS,
+                actionType: ActionPlanType.EmergencyCall,
                 isActive: true,
                 description: '911 will be called by RapidSOS',
                 status: ActionStatus.None,
@@ -56,7 +56,7 @@ export const mockActionPlans: ActionPlan[] = [
         closeActions: [
             {
                 actionId: '1',
-                actionType: ActionPlanType.RapidSOS,
+                actionType: ActionPlanType.EmergencyCall,
                 isActive: true,
                 description: '911 will be called by RapidSOS',
                 status: ActionStatus.None,

@@ -38,7 +38,7 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
             this.adding = false;
         }
 
-        if (this.canEdit && this.first) {
+        if (this.canEdit && this.first && this.editButton) {
             this.editButton.nativeElement.focus();
         }
     }

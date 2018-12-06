@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~ngx-toastr/toastr.css';
 @import 'colorScheme';
 html,
 body {
@@ -83,4 +84,19 @@ body {
     //     margin-left: -10px;
     //     z-index: 10;
     // }
+}
+
+.toast-container {
+    position: relative;
+    z-index: 3;
+}
+
+.toast-success {
+    background-color: #323232;
+    background-image: url('/assets/icons/baseline-check-24px.svg');
+}
+
+.toast-error {
+    background-color: #E62C1E;
+    background-image: url('/assets/icons/baseline-remove-24px.svg');
 }

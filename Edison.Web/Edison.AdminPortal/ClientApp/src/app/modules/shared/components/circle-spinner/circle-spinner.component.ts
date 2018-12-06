@@ -1,4 +1,7 @@
-import { Component, Input, OnInit, ElementRef, ViewChild, OnChanges, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output,
+    ViewChild
+} from '@angular/core';
 
 @Component({
     selector: 'app-circle-spinner',
@@ -9,24 +12,15 @@ import { Component, Input, OnInit, ElementRef, ViewChild, OnChanges, Output, Eve
 export class CircleSpinnerComponent implements OnInit, OnChanges {
     @ViewChild('spinner') elementRef: ElementRef;
 
-    @Input()
-    size: number;
-    @Input()
-    depth: number;
-    @Input()
-    spinnerColor: string;
-    @Input()
-    circleColor: string;
-    @Input()
-    fillColor: string;
-    @Input()
-    fontColor: string;
-    @Input()
-    animate = true;
-    @Input()
-    tooltip: boolean;
-    @Output()
-    click = new EventEmitter<void>();
+    @Input() size: number;
+    @Input() depth: number;
+    @Input() spinnerColor: string;
+    @Input() circleColor: string;
+    @Input() fillColor: string;
+    @Input() fontColor: string;
+    @Input() animate = true;
+    @Input() tooltip: boolean;
+    @Output() click = new EventEmitter<void>();
 
     circleSize: string;
     subCircleHeight: string;

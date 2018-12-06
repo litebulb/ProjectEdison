@@ -40,6 +40,7 @@
         "ngx-auto-scroll": "^1.1.0",
         "ngx-infinite-scroll": "^6.0.1",
         "ngx-perfect-scrollbar": "^7.0.0",
+        "ngx-toastr": "^9.1.1",
         "rxjs": "^6.3.3",
         "socket.io": "^2.1.1",
         "uuid": "^3.3.2",

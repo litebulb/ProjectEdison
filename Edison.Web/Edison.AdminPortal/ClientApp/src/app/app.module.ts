@@ -1,27 +1,30 @@
-import { BrowserModule, DomSanitizer } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
-import { StoreRouterConnectingModule } from '@ngrx/router-store'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { StoreModule } from '@ngrx/store'
-import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { EffectsModule } from '@ngrx/effects'
-import 'hammerjs'
-import { MsAdalAngular6Module, AuthenticationGuard } from 'microsoft-adal-angular6';
+import 'hammerjs';
 
-import { AppRoutingModule } from './app-routing.module'
-import { environment } from '../environments/environment'
-import { reducers, metaReducers } from './reducers'
-import { MaterialModule } from './modules/material/material.module'
-import { AppComponent } from './app.component'
-import { SharedModule } from './modules/shared/shared.module'
-import { MsalService } from './core/services/msal.service'
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { effects } from './effects'
-import { SignalRService } from './core/services/signal-r.service'
-import { DirectlineService } from './core/services/directline/directline.service';
-import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { AuthenticationGuard, MsAdalAngular6Module } from 'microsoft-adal-angular6';
+import { ToastrModule } from 'ngx-toastr';
+
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { AdalService } from './core/services/adal.service';
+import { DirectlineService } from './core/services/directline/directline.service';
+import { MsalService } from './core/services/msal.service';
+import { SignalRService } from './core/services/signal-r.service';
 import { TokenInterceptorService } from './core/services/token-interceptor.service';
+import { effects } from './effects';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { MaterialModule } from './modules/material/material.module';
+import { SharedModule } from './modules/shared/shared.module';
+import { metaReducers, reducers } from './reducers';
 
 @NgModule({
     declarations: [ AppComponent ],
@@ -45,7 +48,8 @@ import { TokenInterceptorService } from './core/services/token-interceptor.servi
             redirectUri: window.location.origin,
             navigateToLoginRequestUrl: false,
             cacheLocation: 'sessionStorage',
-        })
+        }),
+        ToastrModule.forRoot({ positionClass: 'inline', maxOpened: 5 }),
     ],
     providers: [
         AuthenticationGuard,

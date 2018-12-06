@@ -20,7 +20,7 @@ export enum ActionPlanType {
     None,
     Notification = 'notification',
     Email = 'email',
-    RapidSOS = 'rapidsos',
+    EmergencyCall = 'rapidsos',
     LightSensor = 'lightsensor',
 }
 

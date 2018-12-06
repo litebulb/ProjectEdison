@@ -19,7 +19,7 @@
         }
     }
     .container {
-        width: 300px;
+        width: 360px;
         padding: 0;
         box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
         .scroll-container {
@@ -58,7 +58,7 @@
         display: block !important;
         &.expand,
         &.close {
-            margin-right: 10px;
+            margin-right: 6px;
         }
     }
     .icon-container {
