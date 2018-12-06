@@ -23,6 +23,7 @@
                              [activeResponse]="activeResponse"
                              (deactivateClicked)="showDeactivateView()"
                              (updateClicked)="showUpdateView()"
+                             (setLocationClicked)="toggleResponses()"
                              *ngIf="activeResponse && activeView === 0"
                              [@fadeInOut]></app-active-response>
         <app-deactivate-response class="absolute-position"

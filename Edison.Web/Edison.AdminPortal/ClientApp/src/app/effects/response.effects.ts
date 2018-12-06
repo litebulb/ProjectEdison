@@ -29,7 +29,7 @@ import { selectAll } from '../reducers/response/response.reducer';
 const getSuccessMessage = (actionPlanAction: ActionPlanAction) => {
     switch (actionPlanAction.actionType) {
         case ActionPlanType.LightSensor:
-            return `${actionPlanAction.parameters.radius} radius lights activated.`;
+            return `${actionPlanAction.parameters.radius.replace(/^\w/, c => c.toUpperCase())} radius lights activated.`;
         case ActionPlanType.Notification:
             return 'Notification sent successfully.';
         case ActionPlanType.EmergencyCall:
@@ -42,7 +42,7 @@ const getSuccessMessage = (actionPlanAction: ActionPlanAction) => {
 const getFailureMessage = (actionPlanAction: ActionPlanAction) => {
     switch (actionPlanAction.actionType) {
         case ActionPlanType.LightSensor:
-            return `${actionPlanAction.parameters.radius} radius lights failed.`;
+            return `${actionPlanAction.parameters.radius.replace(/^\w/, c => c.toUpperCase())} radius lights failed.`;
         case ActionPlanType.Notification:
             return 'Notification failed to send.';
         case ActionPlanType.EmergencyCall:

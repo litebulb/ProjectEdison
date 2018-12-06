@@ -5,6 +5,10 @@
         <button class="app-button secondary"
                 (click)="update()"
                 tabindex="380">MAKE UPDATES</button>
+        <button class="app-button secondary"
+                (click)="setLocation()"
+                *ngIf="!responseHasLocation"
+                tabindex="380">SET RESPONSE LOCATION</button>
         <button class="app-button primary"
                 (click)="deactivate()"
                 *ngIf="activeResponse.responseState !== 0"
