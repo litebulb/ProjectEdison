@@ -13,18 +13,23 @@ namespace Edison.Workflows.Extensions
 {
     public static class ResponseSagaExtensions
     {
-        internal static EventActivityBinder<ResponseState, T> ThenPublishActions<T>(this EventActivityBinder<ResponseState, T> binder, ResponseUpdateType responseUpdateType, Func<ResponseActionModel, bool> actionsFilter = null) where T : class, IResponseMessage
+        internal static EventActivityBinder<ResponseState, T> ThenPublishActions<T>(this EventActivityBinder<ResponseState, T> binder, ResponseUpdateType responseUpdateType) where T : class, IResponseMessage
         {
             return binder.ThenAsync(async context =>
             {
                 //Retrieve the list of actions
                 IEnumerable<ResponseActionModel> actions = responseUpdateType == ResponseUpdateType.CloseResponse
                 ? context.Data.Response.ActionPlan.CloseActions : context.Data.Response.ActionPlan.OpenActions;
-                if (actionsFilter != null)
-                    actions = actions.Where(actionsFilter);
+                var actionStatus = context.Data.ActionStatus;
+                actions = actions.Where(p => 
+                    (actionStatus.HasFlag(ActionStatus.Error) && p.Status == ActionStatus.Error) ||
+                    (actionStatus.HasFlag(ActionStatus.NotStarted) && p.Status == ActionStatus.NotStarted) ||
+                    (actionStatus.HasFlag(ActionStatus.Skipped) && p.Status == ActionStatus.Skipped) ||
+                    (actionStatus.HasFlag(ActionStatus.Success) && p.Status == ActionStatus.Success)
+                );
 
                 //If the response is not of type CloseResponse, we trigger the event cluster associated
-                if(responseUpdateType != ResponseUpdateType.CloseResponse)
+                if (responseUpdateType != ResponseUpdateType.CloseResponse)
                 {
                     await context.Publish(new ResponseTagExistingEventClustersRequestedEvent()
                     {

@@ -8,5 +8,6 @@ namespace Edison.Common.Messages
     public class EventSagaReceiveResponseUpdated : IEventSagaReceiveResponseUpdated
     {
         public ResponseModel Response { get; set; }
+        public ActionStatus ActionStatus { get; set; }
     }
 }

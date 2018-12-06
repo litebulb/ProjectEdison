@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Common.MassTransit\Edison.Common.MassTransit.csproj" />
+    <ProjectReference Include="..\..\Edison.Microservices.DeviceSynchronizationService\Edison.DeviceSynchronizationService.csproj" />
     <ProjectReference Include="..\..\Edison.Microservices.EventProcessorService\Edison.EventProcessorService.csproj" />
     <ProjectReference Include="..\Edison.Tests.Common\Edison.Tests.Common.csproj" />
   </ItemGroup>

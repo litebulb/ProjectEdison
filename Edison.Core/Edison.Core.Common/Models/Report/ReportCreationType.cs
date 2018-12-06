@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Edison.Core.Common.Models
 {
+    [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ReportCreationType
     {

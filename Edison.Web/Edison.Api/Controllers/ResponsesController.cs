@@ -93,7 +93,8 @@ namespace Edison.Api.Controllers
             {
                 IEventSagaReceiveResponseCreated newMessage = new EventSagaReceiveResponseCreated()
                 {
-                    Response = result
+                    Response = result,
+                    ActionStatus = ActionStatus.NotStarted
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }
@@ -135,7 +136,8 @@ namespace Edison.Api.Controllers
             {
                 IEventSagaReceiveResponseUpdated newMessage = new EventSagaReceiveResponseUpdated()
                 {
-                    Response = result
+                    Response = result,
+                    ActionStatus = ActionStatus.NotStarted | ActionStatus.Skipped
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }
@@ -156,7 +158,8 @@ namespace Edison.Api.Controllers
             var result = await _responseDataManager.CloseResponse(responseObj);
             IEventSagaReceiveResponseClosed newMessage = new EventSagaReceiveResponseClosed()
             {
-                Response = result
+                Response = result,
+                ActionStatus = ActionStatus.NotStarted
             };
             await _serviceBus.BusAccess.Publish(newMessage);
             return Ok(result);
@@ -205,6 +208,31 @@ namespace Edison.Api.Controllers
         }
 
         /// <summary>
+        /// Retry failed actions
+        /// Trigger a MassTransit message if the call succeeded
+        /// </summary>
+        /// <param name="responseObj">ResponseChangeActionPlanModel</param>
+        /// <returns>ResponseModel</returns>
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
+        [HttpPut("RetryActions")]
+        [Produces(typeof(ResponseModel))]
+        public async Task<IActionResult> RetryFailedActions(ResponseRetryFailedActionsModel responseObj)
+        {
+            ResponseModel result = await _responseDataManager.GetResponse(responseObj.ResponseId);
+            if (result != null)
+            {
+                IEventSagaReceiveResponseUpdated newMessage = new EventSagaReceiveResponseUpdated()
+                {
+                    Response = result,
+                    ActionStatus = ActionStatus.Error
+                };
+                await _serviceBus.BusAccess.Publish(newMessage);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Add action to a response
         /// Trigger a MassTransit message if the call succeeded
         /// </summary>
@@ -220,7 +248,8 @@ namespace Edison.Api.Controllers
             {
                 IEventSagaReceiveResponseUpdated newMessage = new EventSagaReceiveResponseUpdated()
                 {
-                    Response = result
+                    Response = result,
+                    ActionStatus = ActionStatus.NotStarted
                 };
                 await _serviceBus.BusAccess.Publish(newMessage);
             }

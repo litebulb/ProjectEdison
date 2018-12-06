@@ -66,7 +66,7 @@ namespace Edison.Workflows
                 //Triggers when the was updated with new actions
                 When(ResponseUpdated)
                 .Then(context => Console.Out.WriteLine($"Response--{context.Instance.CorrelationId}: ResponseActionsUpdated."))
-                .ThenPublishActions(ResponseUpdateType.UpdateResponseActions, p => p.Status == ActionStatus.NotStarted || p.Status == ActionStatus.Skipped), //Run update action,
+                .ThenPublishActions(ResponseUpdateType.UpdateResponseActions), //Run update action,
 
                 //Triggers call back on actions, ends the saga if all close actions are performed successfully
                 When(ResponseActionCallback)

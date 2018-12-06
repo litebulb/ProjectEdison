@@ -6,5 +6,6 @@ namespace Edison.Common.Messages
     public class EventSagaReceiveResponseClosed : IEventSagaReceiveResponseClosed
     {
         public ResponseModel Response { get; set; }
+        public ActionStatus ActionStatus { get; set; }
     }
 }

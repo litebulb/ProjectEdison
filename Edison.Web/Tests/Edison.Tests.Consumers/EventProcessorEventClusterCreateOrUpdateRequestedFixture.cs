@@ -77,6 +77,8 @@ namespace Edison.Tests.Consumers
             {
                 EventClusterId = Guid.NewGuid(),
                 DeviceId = new Guid("c337f50b-134a-4d83-8f40-18f6691e4dbb"),
+                EventType = "sound",
+                Date = DateTime.UtcNow,
                 Data = CreateDeviceTriggerIoTMessage(null)
             });
         }
@@ -103,7 +105,9 @@ namespace Edison.Tests.Consumers
             await InputQueueSendEndpoint.Send(new EventClusterCreateOrUpdateRequestedEvent()
             {
                 EventClusterId = Guid.Empty,
+                EventType = "sound",
                 DeviceId = Guid.Empty,
+                Date = DateTime.UtcNow,
                 Data = CreateDeviceTriggerIoTMessage(null)
             });
         }

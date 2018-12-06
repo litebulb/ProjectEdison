@@ -6,5 +6,6 @@ namespace Edison.Common.Messages
     public class EventSagaReceiveResponseCreated : IEventSagaReceiveResponseCreated
     {
         public ResponseModel Response { get; set; }
+        public ActionStatus ActionStatus { get; set; }
     }
 }
