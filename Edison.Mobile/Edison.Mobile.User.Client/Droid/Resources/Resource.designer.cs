@@ -1698,22 +1698,6 @@ namespace Edison.Mobile.User.Client.Droid
 			}
 		}
 		
-		public partial class Array
-		{
-			
-			// aapt resource value: 0x7f0e0000
-			public const int colors_hex_code = 2131623936;
-			
-			static Array()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Array()
-			{
-			}
-		}
-		
 		public partial class Attribute
 		{
 			
@@ -2877,50 +2861,44 @@ namespace Edison.Mobile.User.Client.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f09005a
-			public const int ColorPrimary = 2131296346;
+			// aapt resource value: 0x7f090084
+			public const int abc_background_cache_hint_selector_material_dark = 2131296388;
 			
-			// aapt resource value: 0x7f09005b
-			public const int ColorPrimaryDark = 2131296347;
+			// aapt resource value: 0x7f090085
+			public const int abc_background_cache_hint_selector_material_light = 2131296389;
 			
-			// aapt resource value: 0x7f09005d
-			public const int abc_background_cache_hint_selector_material_dark = 2131296349;
+			// aapt resource value: 0x7f090086
+			public const int abc_btn_colored_borderless_text_material = 2131296390;
 			
-			// aapt resource value: 0x7f09005e
-			public const int abc_background_cache_hint_selector_material_light = 2131296350;
+			// aapt resource value: 0x7f090087
+			public const int abc_btn_colored_text_material = 2131296391;
 			
-			// aapt resource value: 0x7f09005f
-			public const int abc_btn_colored_borderless_text_material = 2131296351;
+			// aapt resource value: 0x7f090088
+			public const int abc_color_highlight_material = 2131296392;
 			
-			// aapt resource value: 0x7f090060
-			public const int abc_btn_colored_text_material = 2131296352;
+			// aapt resource value: 0x7f090089
+			public const int abc_hint_foreground_material_dark = 2131296393;
 			
-			// aapt resource value: 0x7f090061
-			public const int abc_color_highlight_material = 2131296353;
-			
-			// aapt resource value: 0x7f090062
-			public const int abc_hint_foreground_material_dark = 2131296354;
-			
-			// aapt resource value: 0x7f090063
-			public const int abc_hint_foreground_material_light = 2131296355;
+			// aapt resource value: 0x7f09008a
+			public const int abc_hint_foreground_material_light = 2131296394;
 			
 			// aapt resource value: 0x7f09000c
 			public const int abc_input_method_navigation_guard = 2131296268;
 			
-			// aapt resource value: 0x7f090064
-			public const int abc_primary_text_disable_only_material_dark = 2131296356;
+			// aapt resource value: 0x7f09008b
+			public const int abc_primary_text_disable_only_material_dark = 2131296395;
 			
-			// aapt resource value: 0x7f090065
-			public const int abc_primary_text_disable_only_material_light = 2131296357;
+			// aapt resource value: 0x7f09008c
+			public const int abc_primary_text_disable_only_material_light = 2131296396;
 			
-			// aapt resource value: 0x7f090066
-			public const int abc_primary_text_material_dark = 2131296358;
+			// aapt resource value: 0x7f09008d
+			public const int abc_primary_text_material_dark = 2131296397;
 			
-			// aapt resource value: 0x7f090067
-			public const int abc_primary_text_material_light = 2131296359;
+			// aapt resource value: 0x7f09008e
+			public const int abc_primary_text_material_light = 2131296398;
 			
-			// aapt resource value: 0x7f090068
-			public const int abc_search_url_text = 2131296360;
+			// aapt resource value: 0x7f09008f
+			public const int abc_search_url_text = 2131296399;
 			
 			// aapt resource value: 0x7f09000d
 			public const int abc_search_url_text_normal = 2131296269;
@@ -2931,32 +2909,29 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09000f
 			public const int abc_search_url_text_selected = 2131296271;
 			
-			// aapt resource value: 0x7f090069
-			public const int abc_secondary_text_material_dark = 2131296361;
+			// aapt resource value: 0x7f090090
+			public const int abc_secondary_text_material_dark = 2131296400;
 			
-			// aapt resource value: 0x7f09006a
-			public const int abc_secondary_text_material_light = 2131296362;
+			// aapt resource value: 0x7f090091
+			public const int abc_secondary_text_material_light = 2131296401;
 			
-			// aapt resource value: 0x7f09006b
-			public const int abc_tint_btn_checkable = 2131296363;
+			// aapt resource value: 0x7f090092
+			public const int abc_tint_btn_checkable = 2131296402;
 			
-			// aapt resource value: 0x7f09006c
-			public const int abc_tint_default = 2131296364;
+			// aapt resource value: 0x7f090093
+			public const int abc_tint_default = 2131296403;
 			
-			// aapt resource value: 0x7f09006d
-			public const int abc_tint_edittext = 2131296365;
+			// aapt resource value: 0x7f090094
+			public const int abc_tint_edittext = 2131296404;
 			
-			// aapt resource value: 0x7f09006e
-			public const int abc_tint_seek_thumb = 2131296366;
+			// aapt resource value: 0x7f090095
+			public const int abc_tint_seek_thumb = 2131296405;
 			
-			// aapt resource value: 0x7f09006f
-			public const int abc_tint_spinner = 2131296367;
+			// aapt resource value: 0x7f090096
+			public const int abc_tint_spinner = 2131296406;
 			
-			// aapt resource value: 0x7f090070
-			public const int abc_tint_switch_track = 2131296368;
-			
-			// aapt resource value: 0x7f09005c
-			public const int accent = 2131296348;
+			// aapt resource value: 0x7f090097
+			public const int abc_tint_switch_track = 2131296407;
 			
 			// aapt resource value: 0x7f090010
 			public const int accent_material_dark = 2131296272;
@@ -2964,14 +2939,41 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090011
 			public const int accent_material_light = 2131296273;
 			
-			// aapt resource value: 0x7f090057
-			public const int action_bar_color = 2131296343;
+			// aapt resource value: 0x7f090080
+			public const int action_bar_color = 2131296384;
 			
-			// aapt resource value: 0x7f090059
-			public const int alert_blue = 2131296345;
+			// aapt resource value: 0x7f09007c
+			public const int alert_blue = 2131296380;
 			
-			// aapt resource value: 0x7f090058
-			public const int app_blue = 2131296344;
+			// aapt resource value: 0x7f09007f
+			public const int app_background = 2131296383;
+			
+			// aapt resource value: 0x7f090083
+			public const int app_background_darkgrey = 2131296387;
+			
+			// aapt resource value: 0x7f090082
+			public const int app_background_grey = 2131296386;
+			
+			// aapt resource value: 0x7f09007b
+			public const int app_blue = 2131296379;
+			
+			// aapt resource value: 0x7f09007a
+			public const int app_deep_purple = 2131296378;
+			
+			// aapt resource value: 0x7f09007d
+			public const int app_green = 2131296381;
+			
+			// aapt resource value: 0x7f090078
+			public const int app_pink = 2131296376;
+			
+			// aapt resource value: 0x7f090079
+			public const int app_purple = 2131296377;
+			
+			// aapt resource value: 0x7f090077
+			public const int app_red = 2131296375;
+			
+			// aapt resource value: 0x7f09007e
+			public const int app_yellow = 2131296382;
 			
 			// aapt resource value: 0x7f090012
 			public const int background_floating_material_dark = 2131296274;
@@ -2984,6 +2986,18 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f090015
 			public const int background_material_light = 2131296277;
+			
+			// aapt resource value: 0x7f090063
+			public const int black = 2131296355;
+			
+			// aapt resource value: 0x7f090069
+			public const int blue = 2131296361;
+			
+			// aapt resource value: 0x7f090059
+			public const int blue1 = 2131296345;
+			
+			// aapt resource value: 0x7f09005a
+			public const int blue2 = 2131296346;
 			
 			// aapt resource value: 0x7f090016
 			public const int bright_foreground_disabled_material_dark = 2131296278;
@@ -3021,8 +3035,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09000b
 			public const int cardview_shadow_start_color = 2131296267;
 			
-			// aapt resource value: 0x7f090071
-			public const int common_google_signin_btn_text_dark = 2131296369;
+			// aapt resource value: 0x7f090076
+			public const int colorAccent = 2131296374;
+			
+			// aapt resource value: 0x7f090074
+			public const int colorPrimary = 2131296372;
+			
+			// aapt resource value: 0x7f090075
+			public const int colorPrimaryDark = 2131296373;
+			
+			// aapt resource value: 0x7f090098
+			public const int common_google_signin_btn_text_dark = 2131296408;
 			
 			// aapt resource value: 0x7f090000
 			public const int common_google_signin_btn_text_dark_default = 2131296256;
@@ -3036,8 +3059,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090003
 			public const int common_google_signin_btn_text_dark_pressed = 2131296259;
 			
-			// aapt resource value: 0x7f090072
-			public const int common_google_signin_btn_text_light = 2131296370;
+			// aapt resource value: 0x7f090099
+			public const int common_google_signin_btn_text_light = 2131296409;
 			
 			// aapt resource value: 0x7f090004
 			public const int common_google_signin_btn_text_light_default = 2131296260;
@@ -3051,17 +3074,26 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090007
 			public const int common_google_signin_btn_text_light_pressed = 2131296263;
 			
-			// aapt resource value: 0x7f090073
-			public const int common_google_signin_btn_tint = 2131296371;
+			// aapt resource value: 0x7f09009a
+			public const int common_google_signin_btn_tint = 2131296410;
 			
-			// aapt resource value: 0x7f090056
-			public const int deep_purple = 2131296342;
+			// aapt resource value: 0x7f09006c
+			public const int cyan = 2131296364;
+			
+			// aapt resource value: 0x7f090058
+			public const int dark_blue = 2131296344;
+			
+			// aapt resource value: 0x7f090060
+			public const int dark_grey = 2131296352;
+			
+			// aapt resource value: 0x7f090057
+			public const int deep_purple = 2131296343;
 			
 			// aapt resource value: 0x7f090048
 			public const int design_bottom_navigation_shadow_color = 2131296328;
 			
-			// aapt resource value: 0x7f090074
-			public const int design_error = 2131296372;
+			// aapt resource value: 0x7f09009b
+			public const int design_error = 2131296411;
 			
 			// aapt resource value: 0x7f090049
 			public const int design_fab_shadow_end_color = 2131296329;
@@ -3087,8 +3119,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090050
 			public const int design_snackbar_background_color = 2131296336;
 			
-			// aapt resource value: 0x7f090075
-			public const int design_tint_password_toggle = 2131296373;
+			// aapt resource value: 0x7f09009c
+			public const int design_tint_password_toggle = 2131296412;
 			
 			// aapt resource value: 0x7f09001e
 			public const int dim_foreground_disabled_material_dark = 2131296286;
@@ -3111,11 +3143,32 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090024
 			public const int foreground_material_light = 2131296292;
 			
+			// aapt resource value: 0x7f09006e
+			public const int gold = 2131296366;
+			
+			// aapt resource value: 0x7f090068
+			public const int green = 2131296360;
+			
+			// aapt resource value: 0x7f09005b
+			public const int green1 = 2131296347;
+			
+			// aapt resource value: 0x7f090065
+			public const int grey = 2131296357;
+			
 			// aapt resource value: 0x7f090025
 			public const int highlighted_text_material_dark = 2131296293;
 			
 			// aapt resource value: 0x7f090026
 			public const int highlighted_text_material_light = 2131296294;
+			
+			// aapt resource value: 0x7f09005e
+			public const int light_grey = 2131296350;
+			
+			// aapt resource value: 0x7f09006b
+			public const int magenta = 2131296363;
+			
+			// aapt resource value: 0x7f090072
+			public const int maroon = 2131296370;
 			
 			// aapt resource value: 0x7f090027
 			public const int material_blue_grey_800 = 2131296295;
@@ -3153,6 +3206,12 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090032
 			public const int material_grey_900 = 2131296306;
 			
+			// aapt resource value: 0x7f09005f
+			public const int mid_grey = 2131296351;
+			
+			// aapt resource value: 0x7f090081
+			public const int navdrawer_background = 2131296385;
+			
 			// aapt resource value: 0x7f090051
 			public const int notification_action_color_filter = 2131296337;
 			
@@ -3162,8 +3221,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090047
 			public const int notification_material_background_media_default_color = 2131296327;
 			
-			// aapt resource value: 0x7f090054
-			public const int pink = 2131296340;
+			// aapt resource value: 0x7f090073
+			public const int olive = 2131296371;
+			
+			// aapt resource value: 0x7f09006d
+			public const int orange = 2131296365;
+			
+			// aapt resource value: 0x7f090071
+			public const int pink = 2131296369;
+			
+			// aapt resource value: 0x7f090055
+			public const int pink1 = 2131296341;
 			
 			// aapt resource value: 0x7f090033
 			public const int primary_dark_material_dark = 2131296307;
@@ -3189,11 +3257,20 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09003a
 			public const int primary_text_disabled_material_light = 2131296314;
 			
-			// aapt resource value: 0x7f090055
-			public const int purple = 2131296341;
+			// aapt resource value: 0x7f09006f
+			public const int purple = 2131296367;
+			
+			// aapt resource value: 0x7f090056
+			public const int purple1 = 2131296342;
+			
+			// aapt resource value: 0x7f090067
+			public const int red = 2131296359;
 			
 			// aapt resource value: 0x7f090053
-			public const int red = 2131296339;
+			public const int red1 = 2131296339;
+			
+			// aapt resource value: 0x7f090054
+			public const int red2 = 2131296340;
 			
 			// aapt resource value: 0x7f09003b
 			public const int ripple_material_dark = 2131296315;
@@ -3213,17 +3290,20 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090040
 			public const int secondary_text_disabled_material_light = 2131296320;
 			
+			// aapt resource value: 0x7f090066
+			public const int silver = 2131296358;
+			
 			// aapt resource value: 0x7f090041
 			public const int switch_thumb_disabled_material_dark = 2131296321;
 			
 			// aapt resource value: 0x7f090042
 			public const int switch_thumb_disabled_material_light = 2131296322;
 			
-			// aapt resource value: 0x7f090076
-			public const int switch_thumb_material_dark = 2131296374;
+			// aapt resource value: 0x7f09009d
+			public const int switch_thumb_material_dark = 2131296413;
 			
-			// aapt resource value: 0x7f090077
-			public const int switch_thumb_material_light = 2131296375;
+			// aapt resource value: 0x7f09009e
+			public const int switch_thumb_material_light = 2131296414;
 			
 			// aapt resource value: 0x7f090043
 			public const int switch_thumb_normal_material_dark = 2131296323;
@@ -3231,11 +3311,32 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090044
 			public const int switch_thumb_normal_material_light = 2131296324;
 			
+			// aapt resource value: 0x7f090070
+			public const int teal = 2131296368;
+			
 			// aapt resource value: 0x7f090045
 			public const int tooltip_background_dark = 2131296325;
 			
 			// aapt resource value: 0x7f090046
 			public const int tooltip_background_light = 2131296326;
+			
+			// aapt resource value: 0x7f090062
+			public const int transparent = 2131296354;
+			
+			// aapt resource value: 0x7f090061
+			public const int very_dark_grey = 2131296353;
+			
+			// aapt resource value: 0x7f09005d
+			public const int very_light_grey = 2131296349;
+			
+			// aapt resource value: 0x7f090064
+			public const int white = 2131296356;
+			
+			// aapt resource value: 0x7f09006a
+			public const int yellow = 2131296362;
+			
+			// aapt resource value: 0x7f09005c
+			public const int yellow1 = 2131296348;
 			
 			static Color()
 			{
@@ -3478,6 +3579,12 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a00a2
 			public const int activity_vertical_margin = 2131361954;
 			
+			// aapt resource value: 0x7f0a00a7
+			public const int app_bar_elevation = 2131361959;
+			
+			// aapt resource value: 0x7f0a00a8
+			public const int bottom_sheet_elevation = 2131361960;
+			
 			// aapt resource value: 0x7f0a0006
 			public const int cardview_compat_inset_shadow = 2131361798;
 			
@@ -3501,6 +3608,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0a0092
 			public const int compat_control_corner_material = 2131361938;
+			
+			// aapt resource value: 0x7f0a00a6
+			public const int content_elevation = 2131361958;
 			
 			// aapt resource value: 0x7f0a006c
 			public const int design_appbar_elevation = 2131361900;
@@ -3622,6 +3732,9 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0054
 			public const int disabled_alpha_material_light = 2131361876;
 			
+			// aapt resource value: 0x7f0a00a9
+			public const int fab_elevation = 2131361961;
+			
 			// aapt resource value: 0x7f0a00a3
 			public const int fab_margin = 2131361955;
 			
@@ -3666,6 +3779,15 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0a0005
 			public const int item_touch_helper_swipe_escape_velocity = 2131361797;
+			
+			// aapt resource value: 0x7f0a00ad
+			public const int nav_drawer_bottom_margin = 2131361965;
+			
+			// aapt resource value: 0x7f0a00ab
+			public const int nav_drawer_elevation = 2131361963;
+			
+			// aapt resource value: 0x7f0a00ac
+			public const int nav_drawer_top_margin = 2131361964;
 			
 			// aapt resource value: 0x7f0a00a0
 			public const int nav_header_height = 2131361952;
@@ -3723,6 +3845,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0a00a4
 			public const int profile_width = 2131361956;
+			
+			// aapt resource value: 0x7f0a00aa
+			public const int snack_bar_elevation = 2131361962;
 			
 			// aapt resource value: 0x7f0a005c
 			public const int tooltip_corner_radius = 2131361884;
@@ -4011,172 +4136,190 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int abc_vector_test = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int activity_main_drawer = 2130837587;
+			public const int avd_hide_password = 2130837587;
+			
+			// aapt resource value: 0x7f02008b
+			public const int avd_hide_password_1 = 2130837643;
+			
+			// aapt resource value: 0x7f02008c
+			public const int avd_hide_password_2 = 2130837644;
+			
+			// aapt resource value: 0x7f02008d
+			public const int avd_hide_password_3 = 2130837645;
 			
 			// aapt resource value: 0x7f020054
-			public const int avd_hide_password = 2130837588;
+			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020085
-			public const int avd_hide_password_1 = 2130837637;
+			// aapt resource value: 0x7f02008e
+			public const int avd_show_password_1 = 2130837646;
 			
-			// aapt resource value: 0x7f020086
-			public const int avd_hide_password_2 = 2130837638;
+			// aapt resource value: 0x7f02008f
+			public const int avd_show_password_2 = 2130837647;
 			
-			// aapt resource value: 0x7f020087
-			public const int avd_hide_password_3 = 2130837639;
+			// aapt resource value: 0x7f020090
+			public const int avd_show_password_3 = 2130837648;
 			
 			// aapt resource value: 0x7f020055
-			public const int avd_show_password = 2130837589;
-			
-			// aapt resource value: 0x7f020088
-			public const int avd_show_password_1 = 2130837640;
-			
-			// aapt resource value: 0x7f020089
-			public const int avd_show_password_2 = 2130837641;
-			
-			// aapt resource value: 0x7f02008a
-			public const int avd_show_password_3 = 2130837642;
+			public const int baseline_chevron_right_white = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int common_full_open_on_phone = 2130837590;
+			public const int baseline_expand_more_white = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int common_google_signin_btn_icon_dark = 2130837591;
+			public const int brightness_24 = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int common_google_signin_btn_icon_dark_focused = 2130837592;
+			public const int chat = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int common_google_signin_btn_icon_dark_normal = 2130837593;
+			public const int common_full_open_on_phone = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int common_google_signin_btn_icon_dark_normal_background = 2130837594;
+			public const int common_google_signin_btn_icon_dark = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int common_google_signin_btn_icon_disabled = 2130837595;
+			public const int common_google_signin_btn_icon_dark_focused = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int common_google_signin_btn_icon_light = 2130837596;
+			public const int common_google_signin_btn_icon_dark_normal = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int common_google_signin_btn_icon_light_focused = 2130837597;
+			public const int common_google_signin_btn_icon_dark_normal_background = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int common_google_signin_btn_icon_light_normal = 2130837598;
+			public const int common_google_signin_btn_icon_disabled = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int common_google_signin_btn_icon_light_normal_background = 2130837599;
+			public const int common_google_signin_btn_icon_light = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int common_google_signin_btn_text_dark = 2130837600;
+			public const int common_google_signin_btn_icon_light_focused = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int common_google_signin_btn_text_dark_focused = 2130837601;
+			public const int common_google_signin_btn_icon_light_normal = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int common_google_signin_btn_text_dark_normal = 2130837602;
+			public const int common_google_signin_btn_icon_light_normal_background = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int common_google_signin_btn_text_dark_normal_background = 2130837603;
+			public const int common_google_signin_btn_text_dark = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int common_google_signin_btn_text_disabled = 2130837604;
+			public const int common_google_signin_btn_text_dark_focused = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int common_google_signin_btn_text_light = 2130837605;
+			public const int common_google_signin_btn_text_dark_normal = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int common_google_signin_btn_text_light_focused = 2130837606;
+			public const int common_google_signin_btn_text_dark_normal_background = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int common_google_signin_btn_text_light_normal = 2130837607;
+			public const int common_google_signin_btn_text_disabled = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int common_google_signin_btn_text_light_normal_background = 2130837608;
+			public const int common_google_signin_btn_text_light = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int design_bottom_navigation_item_background = 2130837609;
+			public const int common_google_signin_btn_text_light_focused = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int design_fab_background = 2130837610;
+			public const int common_google_signin_btn_text_light_normal = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int design_ic_visibility = 2130837611;
+			public const int common_google_signin_btn_text_light_normal_background = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int design_ic_visibility_off = 2130837612;
+			public const int design_bottom_navigation_item_background = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int design_password_eye = 2130837613;
+			public const int design_fab_background = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int design_snackbar_background = 2130837614;
+			public const int design_ic_visibility = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int drawer_shape = 2130837615;
+			public const int design_ic_visibility_off = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int googleg_disabled_color_18 = 2130837616;
+			public const int design_password_eye = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int googleg_standard_color_18 = 2130837617;
+			public const int design_snackbar_background = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int ic_launcher = 2130837618;
+			public const int drawer_shape = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int menu = 2130837619;
+			public const int drw_header_circle = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int menu_layout = 2130837620;
+			public const int emergency = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int navigation_empty_icon = 2130837621;
+			public const int expanded_list_group_indicator_selector = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int notification_action_background = 2130837622;
+			public const int googleg_disabled_color_18 = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int notification_bg = 2130837623;
+			public const int googleg_standard_color_18 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int notification_bg_low = 2130837624;
+			public const int ic_launcher = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int notification_bg_low_normal = 2130837625;
+			public const int moon_24 = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int notification_bg_low_pressed = 2130837626;
+			public const int navigation_empty_icon = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int notification_bg_normal = 2130837627;
+			public const int notification_action_background = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int notification_bg_normal_pressed = 2130837628;
+			public const int notification_bg = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int notification_icon_background = 2130837629;
-			
-			// aapt resource value: 0x7f020083
-			public const int notification_template_icon_bg = 2130837635;
-			
-			// aapt resource value: 0x7f020084
-			public const int notification_template_icon_low_bg = 2130837636;
+			public const int notification_bg_low = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int notification_tile_bg = 2130837630;
+			public const int notification_bg_low_normal = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int notify_panel_notification_icon_bg = 2130837631;
+			public const int notification_bg_low_pressed = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int thumb_shape = 2130837632;
+			public const int notification_bg_normal = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int tooltip_frame_dark = 2130837633;
+			public const int notification_bg_normal_pressed = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int tooltip_frame_light = 2130837634;
+			public const int notification_icon_background = 2130837634;
+			
+			// aapt resource value: 0x7f020089
+			public const int notification_template_icon_bg = 2130837641;
+			
+			// aapt resource value: 0x7f02008a
+			public const int notification_template_icon_low_bg = 2130837642;
+			
+			// aapt resource value: 0x7f020083
+			public const int notification_tile_bg = 2130837635;
+			
+			// aapt resource value: 0x7f020084
+			public const int notify_panel_notification_icon_bg = 2130837636;
+			
+			// aapt resource value: 0x7f020085
+			public const int person = 2130837637;
+			
+			// aapt resource value: 0x7f020086
+			public const int thumb_shape = 2130837638;
+			
+			// aapt resource value: 0x7f020087
+			public const int tooltip_frame_dark = 2130837639;
+			
+			// aapt resource value: 0x7f020088
+			public const int tooltip_frame_light = 2130837640;
 			
 			static Drawable()
 			{
@@ -4209,8 +4352,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b003f
 			public const int SYM = 2131427391;
 			
-			// aapt resource value: 0x7f0b00ad
-			public const int action0 = 2131427501;
+			// aapt resource value: 0x7f0b00ba
+			public const int action0 = 2131427514;
 			
 			// aapt resource value: 0x7f0b0083
 			public const int action_bar = 2131427459;
@@ -4233,17 +4376,20 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0061
 			public const int action_bar_title = 2131427425;
 			
-			// aapt resource value: 0x7f0b00aa
-			public const int action_container = 2131427498;
+			// aapt resource value: 0x7f0b00d4
+			public const int action_brightness = 2131427540;
+			
+			// aapt resource value: 0x7f0b00b7
+			public const int action_container = 2131427511;
 			
 			// aapt resource value: 0x7f0b0084
 			public const int action_context_bar = 2131427460;
 			
-			// aapt resource value: 0x7f0b00b1
-			public const int action_divider = 2131427505;
+			// aapt resource value: 0x7f0b00be
+			public const int action_divider = 2131427518;
 			
-			// aapt resource value: 0x7f0b00ab
-			public const int action_image = 2131427499;
+			// aapt resource value: 0x7f0b00b8
+			public const int action_image = 2131427512;
 			
 			// aapt resource value: 0x7f0b0003
 			public const int action_menu_divider = 2131427331;
@@ -4260,11 +4406,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0063
 			public const int action_mode_close_button = 2131427427;
 			
-			// aapt resource value: 0x7f0b00ac
-			public const int action_text = 2131427500;
+			// aapt resource value: 0x7f0b00b9
+			public const int action_text = 2131427513;
 			
-			// aapt resource value: 0x7f0b00ba
-			public const int actions = 2131427514;
+			// aapt resource value: 0x7f0b00c7
+			public const int actions = 2131427527;
 			
 			// aapt resource value: 0x7f0b0064
 			public const int activity_chooser_view_content = 2131427428;
@@ -4280,9 +4426,6 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0b0077
 			public const int alertTitle = 2131427447;
-			
-			// aapt resource value: 0x7f0b00a4
-			public const int alert_button = 2131427492;
 			
 			// aapt resource value: 0x7f0b0059
 			public const int all = 2131427417;
@@ -4305,23 +4448,26 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0045
 			public const int bottom = 2131427397;
 			
+			// aapt resource value: 0x7f0b00a8
+			public const int bottom_sheet = 2131427496;
+			
 			// aapt resource value: 0x7f0b006a
 			public const int buttonPanel = 2131427434;
 			
-			// aapt resource value: 0x7f0b00ae
-			public const int cancel_action = 2131427502;
+			// aapt resource value: 0x7f0b00bb
+			public const int cancel_action = 2131427515;
 			
-			// aapt resource value: 0x7f0b00be
-			public const int card_alert = 2131427518;
+			// aapt resource value: 0x7f0b00cb
+			public const int card_alert = 2131427531;
 			
-			// aapt resource value: 0x7f0b00c0
-			public const int card_alert_description = 2131427520;
+			// aapt resource value: 0x7f0b00cd
+			public const int card_alert_description = 2131427533;
 			
-			// aapt resource value: 0x7f0b00bf
-			public const int card_alert_time = 2131427519;
+			// aapt resource value: 0x7f0b00cc
+			public const int card_alert_time = 2131427532;
 			
-			// aapt resource value: 0x7f0b00bd
-			public const int card_icon = 2131427517;
+			// aapt resource value: 0x7f0b00ca
+			public const int card_icon = 2131427530;
 			
 			// aapt resource value: 0x7f0b004c
 			public const int center = 2131427404;
@@ -4332,14 +4478,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b004e
 			public const int center_vertical = 2131427406;
 			
-			// aapt resource value: 0x7f0b00a5
-			public const int chat_button = 2131427493;
-			
 			// aapt resource value: 0x7f0b007a
 			public const int checkbox = 2131427450;
 			
-			// aapt resource value: 0x7f0b00b6
-			public const int chronometer = 2131427510;
+			// aapt resource value: 0x7f0b00c3
+			public const int chronometer = 2131427523;
 			
 			// aapt resource value: 0x7f0b0055
 			public const int clip_horizontal = 2131427413;
@@ -4355,6 +4498,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0b006d
 			public const int contentPanel = 2131427437;
+			
+			// aapt resource value: 0x7f0b00a7
+			public const int content_container = 2131427495;
 			
 			// aapt resource value: 0x7f0b0095
 			public const int coordinator = 2131427477;
@@ -4392,14 +4538,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0029
 			public const int disableHome = 2131427369;
 			
+			// aapt resource value: 0x7f0b00a0
+			public const int drawer_layout = 2131427488;
+			
 			// aapt resource value: 0x7f0b0085
 			public const int edit_query = 2131427461;
 			
 			// aapt resource value: 0x7f0b0038
 			public const int end = 2131427384;
 			
-			// aapt resource value: 0x7f0b00bc
-			public const int end_padder = 2131427516;
+			// aapt resource value: 0x7f0b00c9
+			public const int end_padder = 2131427529;
 			
 			// aapt resource value: 0x7f0b0047
 			public const int enterAlways = 2131427399;
@@ -4443,8 +4592,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0069
 			public const int icon = 2131427433;
 			
-			// aapt resource value: 0x7f0b00bb
-			public const int icon_group = 2131427515;
+			// aapt resource value: 0x7f0b00c8
+			public const int icon_group = 2131427528;
 			
 			// aapt resource value: 0x7f0b0020
 			public const int icon_only = 2131427360;
@@ -4455,11 +4604,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0066
 			public const int image = 2131427430;
 			
-			// aapt resource value: 0x7f0b00a8
-			public const int img_profile = 2131427496;
+			// aapt resource value: 0x7f0b00ac
+			public const int img_profile = 2131427500;
 			
-			// aapt resource value: 0x7f0b00b7
-			public const int info = 2131427511;
+			// aapt resource value: 0x7f0b00c4
+			public const int info = 2131427524;
 			
 			// aapt resource value: 0x7f0b0060
 			public const int italic = 2131427424;
@@ -4488,17 +4637,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0068
 			public const int list_item = 2131427432;
 			
-			// aapt resource value: 0x7f0b00c8
-			public const int masked = 2131427528;
+			// aapt resource value: 0x7f0b00d1
+			public const int masked = 2131427537;
 			
-			// aapt resource value: 0x7f0b00b0
-			public const int media_actions = 2131427504;
+			// aapt resource value: 0x7f0b00bd
+			public const int media_actions = 2131427517;
 			
-			// aapt resource value: 0x7f0b00c2
-			public const int menu_btn = 2131427522;
-			
-			// aapt resource value: 0x7f0b00c4
-			public const int message = 2131427524;
+			// aapt resource value: 0x7f0b00cf
+			public const int message = 2131427535;
 			
 			// aapt resource value: 0x7f0b0039
 			public const int middle = 2131427385;
@@ -4506,29 +4652,56 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b005a
 			public const int mini = 2131427418;
 			
-			// aapt resource value: 0x7f0b00c1
-			public const int more_info_btn = 2131427521;
+			// aapt resource value: 0x7f0b00ce
+			public const int more_info_btn = 2131427534;
 			
 			// aapt resource value: 0x7f0b0030
 			public const int multiply = 2131427376;
 			
+			// aapt resource value: 0x7f0b00b0
+			public const int name = 2131427504;
+			
+			// aapt resource value: 0x7f0b00a2
+			public const int nav_appbar = 2131427490;
+			
+			// aapt resource value: 0x7f0b00a1
+			public const int nav_coordinator_content = 2131427489;
+			
+			// aapt resource value: 0x7f0b00ab
+			public const int nav_header = 2131427499;
+			
+			// aapt resource value: 0x7f0b00ae
+			public const int nav_list = 2131427502;
+			
+			// aapt resource value: 0x7f0b00b1
+			public const int nav_menu = 2131427505;
+			
+			// aapt resource value: 0x7f0b00a3
+			public const int nav_toolbar = 2131427491;
+			
 			// aapt resource value: 0x7f0b00a9
-			public const int name = 2131427497;
+			public const int nav_view = 2131427497;
 			
-			// aapt resource value: 0x7f0b00ca
-			public const int nav_info = 2131427530;
-			
-			// aapt resource value: 0x7f0b00c5
-			public const int nav_info_item = 2131427525;
-			
-			// aapt resource value: 0x7f0b00c6
-			public const int nav_notification_item = 2131427526;
-			
-			// aapt resource value: 0x7f0b00cb
-			public const int nav_notifications = 2131427531;
+			// aapt resource value: 0x7f0b00aa
+			public const int nav_wrapper = 2131427498;
 			
 			// aapt resource value: 0x7f0b009a
 			public const int navigation_header_container = 2131427482;
+			
+			// aapt resource value: 0x7f0b00b2
+			public const int navlistgroup_image = 2131427506;
+			
+			// aapt resource value: 0x7f0b00b4
+			public const int navlistgroup_indicator = 2131427508;
+			
+			// aapt resource value: 0x7f0b00b3
+			public const int navlistgroup_text = 2131427507;
+			
+			// aapt resource value: 0x7f0b00b5
+			public const int navlistitem_image = 2131427509;
+			
+			// aapt resource value: 0x7f0b00b6
+			public const int navlistitem_text = 2131427510;
 			
 			// aapt resource value: 0x7f0b0043
 			public const int never = 2131427395;
@@ -4539,14 +4712,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0027
 			public const int normal = 2131427367;
 			
-			// aapt resource value: 0x7f0b00b9
-			public const int notification_background = 2131427513;
+			// aapt resource value: 0x7f0b00c6
+			public const int notification_background = 2131427526;
 			
-			// aapt resource value: 0x7f0b00b3
-			public const int notification_main_column = 2131427507;
+			// aapt resource value: 0x7f0b00c0
+			public const int notification_main_column = 2131427520;
 			
-			// aapt resource value: 0x7f0b00b2
-			public const int notification_main_column_container = 2131427506;
+			// aapt resource value: 0x7f0b00bf
+			public const int notification_main_column_container = 2131427519;
 			
 			// aapt resource value: 0x7f0b0053
 			public const int parallax = 2131427411;
@@ -4560,38 +4733,29 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0054
 			public const int pin = 2131427412;
 			
+			// aapt resource value: 0x7f0b00ad
+			public const int profile_name = 2131427501;
+			
 			// aapt resource value: 0x7f0b0006
 			public const int progress_circular = 2131427334;
 			
 			// aapt resource value: 0x7f0b0007
 			public const int progress_horizontal = 2131427335;
 			
-			// aapt resource value: 0x7f0b00c9
-			public const int pulloutShape = 2131427529;
-			
-			// aapt resource value: 0x7f0b00a3
-			public const int pulloutView = 2131427491;
+			// aapt resource value: 0x7f0b00d2
+			public const int pulloutShape = 2131427538;
 			
 			// aapt resource value: 0x7f0b007c
 			public const int radio = 2131427452;
 			
-			// aapt resource value: 0x7f0b00a2
-			public const int recyclerView = 2131427490;
-			
-			// aapt resource value: 0x7f0b00a0
-			public const int relativeLayout = 2131427488;
-			
 			// aapt resource value: 0x7f0b0051
 			public const int right = 2131427409;
 			
-			// aapt resource value: 0x7f0b00b8
-			public const int right_icon = 2131427512;
+			// aapt resource value: 0x7f0b00c5
+			public const int right_icon = 2131427525;
 			
-			// aapt resource value: 0x7f0b00b4
-			public const int right_side = 2131427508;
-			
-			// aapt resource value: 0x7f0b00a6
-			public const int safe_button = 2131427494;
+			// aapt resource value: 0x7f0b00c1
+			public const int right_side = 2131427521;
 			
 			// aapt resource value: 0x7f0b000c
 			public const int save_image_matrix = 2131427340;
@@ -4698,8 +4862,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0052
 			public const int start = 2131427410;
 			
-			// aapt resource value: 0x7f0b00af
-			public const int status_bar_latest_event_content = 2131427503;
+			// aapt resource value: 0x7f0b00bc
+			public const int status_bar_latest_event_content = 2131427516;
 			
 			// aapt resource value: 0x7f0b007d
 			public const int submenuarrow = 2131427453;
@@ -4734,11 +4898,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0015
 			public const int textinput_error = 2131427349;
 			
-			// aapt resource value: 0x7f0b00cc
-			public const int thumbShape = 2131427532;
+			// aapt resource value: 0x7f0b00d3
+			public const int thumbShape = 2131427539;
 			
-			// aapt resource value: 0x7f0b00b5
-			public const int time = 2131427509;
+			// aapt resource value: 0x7f0b00c2
+			public const int time = 2131427522;
 			
 			// aapt resource value: 0x7f0b001c
 			public const int title = 2131427356;
@@ -4749,11 +4913,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0076
 			public const int title_template = 2131427446;
 			
-			// aapt resource value: 0x7f0b00a1
-			public const int toolbar = 2131427489;
+			// aapt resource value: 0x7f0b00a6
+			public const int toolbar_subtitle = 2131427494;
 			
-			// aapt resource value: 0x7f0b00c3
-			public const int toolbar_title = 2131427523;
+			// aapt resource value: 0x7f0b00a5
+			public const int toolbar_title = 2131427493;
+			
+			// aapt resource value: 0x7f0b00a4
+			public const int toolbar_title_wrapper = 2131427492;
 			
 			// aapt resource value: 0x7f0b0046
 			public const int top = 2131427398;
@@ -4788,14 +4955,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b002e
 			public const int useLogo = 2131427374;
 			
-			// aapt resource value: 0x7f0b00a7
-			public const int view_container = 2131427495;
+			// aapt resource value: 0x7f0b00af
+			public const int view_container = 2131427503;
 			
 			// aapt resource value: 0x7f0b0016
 			public const int view_offset_helper = 2131427350;
 			
-			// aapt resource value: 0x7f0b00c7
-			public const int visible = 2131427527;
+			// aapt resource value: 0x7f0b00d0
+			public const int visible = 2131427536;
 			
 			// aapt resource value: 0x7f0b0022
 			public const int wide = 2131427362;
@@ -4992,70 +5159,88 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int main_drawer_header = 2130968617;
 			
 			// aapt resource value: 0x7f04002a
-			public const int notification_action = 2130968618;
+			public const int nav_list = 2130968618;
 			
 			// aapt resource value: 0x7f04002b
-			public const int notification_action_tombstone = 2130968619;
+			public const int nav_list_group = 2130968619;
 			
 			// aapt resource value: 0x7f04002c
-			public const int notification_media_action = 2130968620;
+			public const int nav_list_item = 2130968620;
 			
 			// aapt resource value: 0x7f04002d
-			public const int notification_media_cancel_action = 2130968621;
+			public const int notification_action = 2130968621;
 			
 			// aapt resource value: 0x7f04002e
-			public const int notification_template_big_media = 2130968622;
+			public const int notification_action_tombstone = 2130968622;
 			
 			// aapt resource value: 0x7f04002f
-			public const int notification_template_big_media_custom = 2130968623;
+			public const int notification_media_action = 2130968623;
 			
 			// aapt resource value: 0x7f040030
-			public const int notification_template_big_media_narrow = 2130968624;
+			public const int notification_media_cancel_action = 2130968624;
 			
 			// aapt resource value: 0x7f040031
-			public const int notification_template_big_media_narrow_custom = 2130968625;
+			public const int notification_template_big_media = 2130968625;
 			
 			// aapt resource value: 0x7f040032
-			public const int notification_template_custom_big = 2130968626;
+			public const int notification_template_big_media_custom = 2130968626;
 			
 			// aapt resource value: 0x7f040033
-			public const int notification_template_icon_group = 2130968627;
+			public const int notification_template_big_media_narrow = 2130968627;
 			
 			// aapt resource value: 0x7f040034
-			public const int notification_template_lines_media = 2130968628;
+			public const int notification_template_big_media_narrow_custom = 2130968628;
 			
 			// aapt resource value: 0x7f040035
-			public const int notification_template_media = 2130968629;
+			public const int notification_template_custom_big = 2130968629;
 			
 			// aapt resource value: 0x7f040036
-			public const int notification_template_media_custom = 2130968630;
+			public const int notification_template_icon_group = 2130968630;
 			
 			// aapt resource value: 0x7f040037
-			public const int notification_template_part_chronometer = 2130968631;
+			public const int notification_template_lines_media = 2130968631;
 			
 			// aapt resource value: 0x7f040038
-			public const int notification_template_part_time = 2130968632;
+			public const int notification_template_media = 2130968632;
 			
 			// aapt resource value: 0x7f040039
-			public const int response_card = 2130968633;
+			public const int notification_template_media_custom = 2130968633;
 			
 			// aapt resource value: 0x7f04003a
-			public const int select_dialog_item_material = 2130968634;
+			public const int notification_template_part_chronometer = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int select_dialog_multichoice_material = 2130968635;
+			public const int notification_template_part_time = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int select_dialog_singlechoice_material = 2130968636;
+			public const int page_home = 2130968636;
 			
 			// aapt resource value: 0x7f04003d
-			public const int support_simple_spinner_dropdown_item = 2130968637;
+			public const int page_notifications = 2130968637;
 			
 			// aapt resource value: 0x7f04003e
-			public const int toolbar = 2130968638;
+			public const int page_profile = 2130968638;
 			
 			// aapt resource value: 0x7f04003f
-			public const int tooltip = 2130968639;
+			public const int page_settings = 2130968639;
+			
+			// aapt resource value: 0x7f040040
+			public const int response_card = 2130968640;
+			
+			// aapt resource value: 0x7f040041
+			public const int select_dialog_item_material = 2130968641;
+			
+			// aapt resource value: 0x7f040042
+			public const int select_dialog_multichoice_material = 2130968642;
+			
+			// aapt resource value: 0x7f040043
+			public const int select_dialog_singlechoice_material = 2130968643;
+			
+			// aapt resource value: 0x7f040044
+			public const int support_simple_spinner_dropdown_item = 2130968644;
+			
+			// aapt resource value: 0x7f040045
+			public const int tooltip = 2130968645;
 			
 			static Layout()
 			{
@@ -5067,23 +5252,27 @@ namespace Edison.Mobile.User.Client.Droid
 			}
 		}
 		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f0e0000
+			public const int actionBarMenu = 2131623936;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
+			{
+			}
+		}
+		
 		public partial class Mipmap
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int chat = 2130903040;
-			
-			// aapt resource value: 0x7f030001
-			public const int emergency = 2130903041;
-			
-			// aapt resource value: 0x7f030002
-			public const int Icon = 2130903042;
-			
-			// aapt resource value: 0x7f030003
-			public const int menu = 2130903043;
-			
-			// aapt resource value: 0x7f030004
-			public const int person = 2130903044;
+			public const int Icon = 2130903040;
 			
 			static Mipmap()
 			{
@@ -5254,20 +5443,23 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f08003b
 			public const int hello = 2131230779;
 			
+			// aapt resource value: 0x7f08003e
+			public const int home = 2131230782;
+			
 			// aapt resource value: 0x7f08003a
 			public const int library_name = 2131230778;
 			
-			// aapt resource value: 0x7f08003e
-			public const int nav_info = 2131230782;
-			
 			// aapt resource value: 0x7f08003f
-			public const int nav_notifications = 2131230783;
+			public const int my_info = 2131230783;
 			
 			// aapt resource value: 0x7f08003d
 			public const int navigation_drawer_close = 2131230781;
 			
 			// aapt resource value: 0x7f08003c
 			public const int navigation_drawer_open = 2131230780;
+			
+			// aapt resource value: 0x7f080040
+			public const int notifications = 2131230784;
 			
 			// aapt resource value: 0x7f080034
 			public const int password_toggle_content_description = 2131230772;
@@ -5286,6 +5478,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f080024
 			public const int search_menu_title = 2131230756;
+			
+			// aapt resource value: 0x7f080041
+			public const int settings = 2131230785;
 			
 			// aapt resource value: 0x7f080039
 			public const int status_bar_notification_info_overflow = 2131230777;
@@ -5320,6 +5515,18 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0c0163
 			public const int Animation_Design_BottomSheetDialog = 2131493219;
+			
+			// aapt resource value: 0x7f0c0184
+			public const int AppTheme = 2131493252;
+			
+			// aapt resource value: 0x7f0c0186
+			public const int AppTheme_AppBarOverlay = 2131493254;
+			
+			// aapt resource value: 0x7f0c0185
+			public const int AppTheme_NoActionBar = 2131493253;
+			
+			// aapt resource value: 0x7f0c0187
+			public const int AppTheme_PopupOverlay = 2131493255;
 			
 			// aapt resource value: 0x7f0c009e
 			public const int Base_AlertDialog_AppCompat = 2131493022;
@@ -5530,9 +5737,6 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0c0006
 			public const int Base_Theme_AppCompat_Light_DialogWhenLarge = 2131492870;
-			
-			// aapt resource value: 0x7f0c0187
-			public const int Base_Theme_DesignDemo = 2131493255;
 			
 			// aapt resource value: 0x7f0c00ad
 			public const int Base_ThemeOverlay_AppCompat = 2131493037;
@@ -5825,8 +6029,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0003
 			public const int CardView_Light = 2131492867;
 			
-			// aapt resource value: 0x7f0c0184
-			public const int EdisonLight = 2131493252;
+			// aapt resource value: 0x7f0c0188
+			public const int EdisonLight = 2131493256;
 			
 			// aapt resource value: 0x7f0c0022
 			public const int Platform_AppCompat = 2131492898;
@@ -6197,9 +6401,6 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0172
 			public const int Theme_Design_NoActionBar = 2131493234;
 			
-			// aapt resource value: 0x7f0c0186
-			public const int Theme_DesignDemo = 2131493254;
-			
 			// aapt resource value: 0x7f0c010b
 			public const int ThemeOverlay_AppCompat = 2131493131;
 			
@@ -6220,9 +6421,6 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0c0111
 			public const int ThemeOverlay_AppCompat_Light = 2131493137;
-			
-			// aapt resource value: 0x7f0c0185
-			public const int ToolBarStyle = 2131493253;
 			
 			// aapt resource value: 0x7f0c0112
 			public const int Widget_AppCompat_ActionBar = 2131493138;

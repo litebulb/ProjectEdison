@@ -15,8 +15,7 @@ namespace Edison.Mobile.User.Client.Droid.Ioc
                 RedirectUri = AuthConfig.UserRedirectUri,
             };
 
-            builder.RegisterInstance(publicClientApplication)
-                   .As<IPublicClientApplication>();
+            builder.RegisterInstance(publicClientApplication).As<IPublicClientApplication>();
         }
     }
 }

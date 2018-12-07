@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+
+  <color name="red1">#e51c23</color>
+  <color name="red2">#ff3122</color>
+  <color name="pink1">#e91e63</color>
+  <color name="purple1">#9c27b0</color>
+  <color name="deep_purple">#673ab7</color>
+  <color name="dark_blue">#3322ff</color>
+  <color name="blue1">#2b85fb</color>
+  <color name="blue2">#2282ff</color>
+  <color name="green1">#28cb4e</color>
+  <color name="yellow1">#ff9f22</color>
+  <color name="very_light_grey">#f2f2f4</color>
+  <color name="light_grey">#ededf0</color>
+  <color name="mid_grey">#8886a0</color>
+  <color name="dark_grey">#3e3d4a</color>
+  <color name="very_dark_grey">#222227</color>
+
+  <!-- Basic Colors -->
+  <color name="transparent">#00ffffff</color>
+  <color name="black">#000000</color>
+  <color name="white">#ffffff</color>
+  <color name="grey">#808080</color>
+  <color name="silver">#c0c0c0</color>
+  <color name="red">#ff0000</color>
+  <color name="green">#00ff00</color>
+  <color name="blue">#0000ff</color>
+  <color name="yellow">#ffff00</color>
+  <color name="magenta">#ff00ff</color>
+  <color name="cyan">#00ffff</color>
+  <color name="orange">#ffa500</color>
+  <color name="gold">#ffd700</color>
+  <color name="purple">#800080</color>
+  <color name="teal">#008080</color>
+  <color name="pink">#ffc0cb</color>
+  <color name="maroon">#800000</color>
+  <color name="olive">#808000</color>
+  
+  
+</resources>
+

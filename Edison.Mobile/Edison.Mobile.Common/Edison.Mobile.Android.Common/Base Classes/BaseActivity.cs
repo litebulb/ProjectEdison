@@ -14,6 +14,7 @@ namespace Edison.Mobile.Android.Common
 
     public class BaseActivity<T> : AppCompatActivity, ViewTreeObserver.IOnGlobalLayoutListener where T : BaseViewModel
     {
+        public static event EventHandler GlobalLayout;
         public delegate void OrientationChangedEventHandler(object sender, OrientationChangedEventArgs e);
         public static event OrientationChangedEventHandler OrientationChanged;
         public static event EventHandler BackPressed;
@@ -90,6 +91,8 @@ namespace Edison.Mobile.Android.Common
             var displayRect = new Rect();
             Window.DecorView.GetWindowVisibleDisplayFrame(displayRect);
             VisibleDisplayRect = displayRect;
+            var handler = GlobalLayout;
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

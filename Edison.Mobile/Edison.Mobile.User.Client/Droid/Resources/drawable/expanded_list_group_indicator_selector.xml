@@ -1,0 +1,6 @@
+﻿<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:drawable="@drawable/baseline_chevron_right_white"
+        android:state_expanded="true" />
+   <item android:drawable="@drawable/baseline_expand_more_white"
+        android:state_expanded="false" />
+</selector>

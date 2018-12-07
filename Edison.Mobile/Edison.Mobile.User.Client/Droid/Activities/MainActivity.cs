@@ -1,155 +1,483 @@
-﻿using Android.App;
-using Android.Graphics;
+﻿using System;
+using System.Collections.Generic;
+
+using Android.App;
 using Android.OS;
-using Android.Util;
+using Android.Content;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
+using Android.Support.V4.View;
+
+using Java.Lang;
+
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.User.Client.Core.ViewModels;
-using Edison.Mobile.User.Client.Droid.Views;
-using Edison.Mobile.User.Client.Droid.Shared;
-using Android.Support.Animation;
-using System;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
-using Android.Support.V7.Widget;
 using Edison.Mobile.User.Client.Droid.Adapters;
-using System.Collections.Generic;
+using Edison.Mobile.User.Client.Droid.Fragments;
+using Edison.Mobile.User.Client.Droid.Ioc;
+using Edison.Mobile.User.Client.Core.Ioc;
+using Edison.Mobile.Android.Common.Ioc;
+using Edison.Mobile.Common.Ioc;
+
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Fragment = Android.Support.V4.App.Fragment;
+using Android.Graphics;
+using Android.Support.V7.Widget;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity]
-    public class MainActivity : BaseActivity<MainViewModel>, View.IOnTouchListener
+    [Activity(MainLauncher = true, Icon = "@mipmap/icon", Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
+    //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
+    public class MainActivity : BaseActivity<MainViewModel>
     {
-        bool isFirstLayout = true;
-        RelativeLayout relativeLayout;
-        RelativeLayout pulloutView;
-        float? pulloutLastPosY;
 
-        VelocityTracker pulloutVelocityTracker;
-        float pulloutBottomMarginDp;
-        float pulloutTopMarginDp;
-        bool isMenuOpen;
+        private const string StateKey_ActionbarTitle = "actionBarTitle";
+        private const int TransitionDelayMs = 80;
 
-        RecyclerView recyclerView;
-        RecyclerView.LayoutManager layoutManager;
-        ResponsesAdapter adapter;
+        private Context _context;
+        private Toolbar _toolbar;
+        private AppCompatTextView _customToolbarTitle;
+        private AppCompatTextView _customToolbarSubtitle;
+        private LinearLayout _customToolbarTitleWrapper;
+        private DrawerLayout _drawer;
+        private Fragment _fragment;
+        private NavMenuExpandableListAdapter _navDrawerListAdapter;
+        private ExpandableListView _navDrawerListview;
+        private List<TextImageResourcePair> _listDataGroups;
+        private Dictionary<string, List<TextImageResourcePair>> _listDataItems;
+        private int _previousGroup = -1;
 
-        public override void OnGlobalLayout()
+
+
+        // Navigation Drawer Group Data
+        private static readonly List<ResourcePair> NAV_DRAWER_GROUP_RESOURCES = new List<ResourcePair>
         {
-            base.OnGlobalLayout();
+            new ResourcePair(Resource.String.home, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+            new ResourcePair(Resource.String.my_info, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+            new ResourcePair(Resource.String.notifications, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+            new ResourcePair(Resource.String.settings, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+        };
 
-            if (VisibleDisplayRect.Top > 0 && isFirstLayout)
-            {
-                pulloutView.TranslationY = VisibleDisplayRect.Bottom - Constants.PulloutBottomMargin * Resources.DisplayMetrics.Density;
 
-                isFirstLayout = false;
-            }
-        }
+        // Navigation Drawer Item Data
+        private static readonly Dictionary<int, List<ResourcePair>> NAV_DRAWER_ITEM_RESOURCES = new Dictionary<int, List<ResourcePair>>
+        {
+
+            {Resource.String.home, null },
+            {Resource.String.my_info, null },
+            {Resource.String.notifications, null },
+            {Resource.String.settings, null },
+            /*
+            {Resource.String.nav_info, new List<ResourcePair>
+                {
+                    new ResourcePair(Resource.String.actionbar, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+                    new ResourcePair(Resource.String.navigation_drawer, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+                }
+            },
+            {Resource.String.nav_notifications, new List<ResourcePair>
+                {
+                    new ResourcePair(Resource.String.label, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+                    new ResourcePair(Resource.String.activity_indicator, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+                    new ResourcePair(Resource.String.progress_bar, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha)
+                }
+            },
+            */
+        };
 
 
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
+
             base.OnCreate(savedInstanceState);
-
-            adapter = new ResponsesAdapter(this);
-
             SetContentView(Resource.Layout.main_activity);
-
-            // Get our RecyclerView layout:
-            recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
-
-            // Plug the adapter into the RecyclerView:
-            recyclerView.SetAdapter(adapter);
-
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.Horizontal, false);
-
-            recyclerView.SetLayoutManager(layoutManager);
-
-            pulloutBottomMarginDp = Constants.PulloutBottomMargin * Resources.DisplayMetrics.Density;
-            pulloutTopMarginDp = Constants.PulloutTopMargin * Resources.DisplayMetrics.Density;
-
-            // menuLeftMarginDp = Constants.MenuLeftMargin * Resources.DisplayMetrics.Density;
-            // menuRightMarginDp = Constants.MenuRightMargin * Resources.DisplayMetrics.Density;
-
-            relativeLayout = FindViewById<RelativeLayout>(Resource.Id.relativeLayout);
-            pulloutView = FindViewById<RelativeLayout>(Resource.Id.pulloutView);
-            var pulloutViewLayoutParms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-            pulloutViewLayoutParms.AddRule(LayoutRules.AlignEnd, relativeLayout.Id);
-            pulloutView.LayoutParameters = pulloutViewLayoutParms;
-
-            pulloutView.SetOnTouchListener(this);
-            pulloutView.BringToFront();
-
-            /* menuView = FindViewById<RelativeLayout>(Resource.Id.menuView);
-              var menuViewLayoutParms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-              menuViewLayoutParms.AddRule(LayoutRules.AlignStart, relativeLayout.Id);
-              menuView.LayoutParameters = menuViewLayoutParms;
-              menuView.SetOnTouchListener(this);
-              relativeLayout.SetOnTouchListener(this);*/
-
-            var menuButton = FindViewById<ImageButton>(Resource.Id.menu_btn);
-            menuButton.Click += OpenMenu;
+            Initialize(savedInstanceState);
+            Window.SetStatusBarColor(Resources.GetColor(Resource.Color.app_background));   //ContextCompat.GetColor(this, Resource.Color.app_background)
         }
 
-        private void OpenMenu(object sender, EventArgs eventArgs)  { }
 
-        public bool OnTouch(View v, MotionEvent e)
+
+        private void Initialize(Bundle savedInstanceState)
         {
-            //Menu
-            //var deltaX = (menuLastPosX ?? e.GetX() - e.GetX());
-            //var transX = menuView.TranslationX - deltaX;
-            //var transRightLimit = Constants.MenuRightMargin * Resources.DisplayMetrics.Density;
-            //var transLeftLimit = VisibleDisplayRect.Left - pulloutBottomMarginDp;
+            BindResources();
+            SetUpToolbar();
+            SetUpDrawer();
+            RestoreState(savedInstanceState);
+            Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
+            Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+        }
 
-            //Pullout
-            var deltaY = (pulloutLastPosY ?? e.GetY()) - e.GetY();
-            var transY = pulloutView.TranslationY - deltaY;
-            var transTopLimit = Constants.PulloutTopMargin * Resources.DisplayMetrics.Density;
-            var transBottomLimit = VisibleDisplayRect.Bottom - pulloutBottomMarginDp;
 
-            switch (e.Action)
+        private void BindResources()
+        {
+            _context = this;
+            _drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            _toolbar = FindViewById<Toolbar>(Resource.Id.nav_toolbar);
+            _customToolbarTitleWrapper = FindViewById<LinearLayout>(Resource.Id.toolbar_title_wrapper);
+            _customToolbarTitle = FindViewById<AppCompatTextView>(Resource.Id.toolbar_title);
+            _customToolbarSubtitle = FindViewById<AppCompatTextView>(Resource.Id.toolbar_subtitle);
+        }
+
+
+        private void SetUpToolbar()
+        {
+            // Not having reaised AppBar area, so dont set SupportActionBar
+            //SetSupportActionBar(_toolbar);
+
+            // Set the page Title - Required because of the way that Android sets up app asset names
+            _toolbar.Title = null;  // using the custom title so it can be centered
+            SetToolbarCustomTitle(Resources.GetString(Resource.String.app_name));
+            // Set the subtitle
+//            SetToolbarCustomSubtitle("Subtitle");
+//            _toolbar.Subtitle = "Subtitle";
+
+            //Set tolbar title colors
+            Color col = Resources.GetColor(Resource.Color.app_blue);  //ContextCompat.GetColor(this, Resource.Color.app_blue)
+            _toolbar.SetTitleTextColor(col);
+            _toolbar.SetSubtitleTextColor(col);
+
+            // Manually add the menu to the toolbar and set the menu item click event(not done automatically because not setting SupportActionBar)
+            OnCreateOptionsMenu(_toolbar.Menu);
+            _toolbar.MenuItemClick += OnMenuItemClicked;
+
+            _toolbar.ViewTreeObserver.GlobalLayout += OnToolbarLayout;
+        }
+
+        private void SetUpDrawer()
+        {
+            // Set up navigation drawer
+
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+            _drawer.AddDrawerListener(toggle);
+            toggle.SyncState();
+            toggle.DrawerArrowDrawable.Color = Resources.GetColor(Resource.Color.app_blue);
+
+            _navDrawerListview = FindViewById<global::Android.Widget.ExpandableListView>(Resource.Id.nav_list);
+            var navMenuData = GetNavDrawerContents();
+            _listDataGroups = navMenuData.Item1;
+            _listDataItems = navMenuData.Item2;
+            _navDrawerListAdapter = new NavMenuExpandableListAdapter(this, _listDataGroups, _listDataItems);
+            _navDrawerListview.SetAdapter(_navDrawerListAdapter);
+            _navDrawerListview.GroupExpand += OnGroupExpand;
+            _navDrawerListview.GroupCollapse += OnGroupCollapse;
+            _navDrawerListview.ChildClick += OnChildClicked;
+            _navDrawerListview.GroupClick += OnGroupClicked;
+        }
+
+
+
+        private void ShowDefaultFragment()
+        {
+            // Assign initial Fragment
+            _fragment = new HomePageFragment();
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, _fragment, null).Commit();
+//            ReplaceFragmentWithDelay(_fragment);
+        }
+
+        // Handle any title changes that come with Fragments, if OnCreate has been called due to a change in screen orientation
+        private void RestoreState(Bundle savedInstanceState)
+        {
+            // This allow us to know if the activity was recreated after orientation change and restore the Toolbar title
+            if (savedInstanceState == null)
+                ShowDefaultFragment();
+            else
+                SupportActionBar.Title = savedInstanceState.GetCharSequence(StateKey_ActionbarTitle);
+        }
+
+
+
+        public override void OnBackPressed()
+        {
+            if (_drawer == null)
+                _drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            if (_drawer.IsDrawerOpen(GravityCompat.Start))
+                _drawer.CloseDrawer(GravityCompat.Start);
+            else
+                base.OnBackPressed();
+        }
+
+
+        public void OnGroupExpand(object sender, global::Android.Widget.ExpandableListView.GroupExpandEventArgs e)
+        {
+            if (e.GroupPosition != _previousGroup)
+                _navDrawerListview.CollapseGroup(_previousGroup);
+            _previousGroup = e.GroupPosition;
+        }
+        public void OnGroupCollapse(object sender, global::Android.Widget.ExpandableListView.GroupCollapseEventArgs e)
+        {
+#if DEBUG
+            bool test = true;
+#endif
+        }
+        public void OnGroupClicked(object sender, global::Android.Widget.ExpandableListView.GroupClickEventArgs e)
+        {
+            if (e.GroupPosition == _previousGroup)
             {
-                case MotionEventActions.Down:
-                    pulloutLastPosY = e.GetY();
-                    pulloutVelocityTracker?.Clear();
-                    pulloutVelocityTracker = pulloutVelocityTracker ?? VelocityTracker.Obtain();
-                    pulloutVelocityTracker.AddMovement(e);
-                    return true;
-                case MotionEventActions.Move:
-                    pulloutVelocityTracker.AddMovement(e);
-                    if (transY < transTopLimit)
-                    {
-                        transY = transTopLimit;
-                    }
-                    else if (transY > transBottomLimit)
-                    {
-                        transY = transBottomLimit;
-                    }
+                _navDrawerListview.CollapseGroup(e.GroupPosition);
+                _previousGroup = -1;
+            }
+            else
+                _navDrawerListview.ExpandGroup(e.GroupPosition);
 
-                    pulloutView.TranslationY = transY;
-                    return true;
-                case MotionEventActions.Cancel:
-                case MotionEventActions.Up:
-                    pulloutVelocityTracker.ComputeCurrentVelocity(1000);
-                    var index = e.ActionIndex;
-                    var totalTransDelta = VisibleDisplayRect.Bottom - pulloutBottomMarginDp - pulloutTopMarginDp;
-                    var currentTransYDelta = pulloutView.TranslationY - pulloutTopMarginDp;
-                    var shouldMaximizeByLocation = currentTransYDelta < (totalTransDelta / 2);
-                    var velocityY = pulloutVelocityTracker.GetYVelocity(e.GetPointerId(index));
-                    var shouldMaximizeByVelocity = -velocityY > Constants.PulloutVelocityThreshold;
-                    var shouldMinimizeByVelocity = velocityY > Constants.PulloutVelocityThreshold;
-                    var shouldMaximize = !shouldMinimizeByVelocity && (shouldMaximizeByLocation || shouldMaximizeByVelocity);
+            OnNavigationItemSelected(NAV_DRAWER_GROUP_RESOURCES[e.GroupPosition].Resource1, -1, _drawer);
+        }
+        public void OnChildClicked(object sender, global::Android.Widget.ExpandableListView.ChildClickEventArgs e)
+        {
+            OnNavigationItemSelected(NAV_DRAWER_GROUP_RESOURCES[e.GroupPosition].Resource1,
+                                    NAV_DRAWER_ITEM_RESOURCES[NAV_DRAWER_GROUP_RESOURCES[e.GroupPosition].Resource1][e.ChildPosition].Resource1,
+                                    _drawer);
+        }
 
-                    var springAnimation = new SpringAnimation(pulloutView, DynamicAnimation.TranslationY, shouldMaximize ? pulloutTopMarginDp : VisibleDisplayRect.Bottom - pulloutBottomMarginDp);
-                    springAnimation.SetStartVelocity(Math.Abs(shouldMaximizeByVelocity || shouldMinimizeByVelocity ? velocityY : 0));
-                    springAnimation.Start();
-                    return true;
-                default:
-                    return true;
+
+
+
+
+        private Tuple<List<TextImageResourcePair>, Dictionary<string, List<TextImageResourcePair>>> GetNavDrawerContents()
+        {
+
+            List<TextImageResourcePair> groups = new List<TextImageResourcePair>();
+            Dictionary<string, List<TextImageResourcePair>> items = new Dictionary<string, List<TextImageResourcePair>>();
+
+
+
+            foreach (var group in NAV_DRAWER_GROUP_RESOURCES)
+            {
+                string groupText = this.GetString(group.Resource1);
+                var groupIconResource = group.Resource2;
+                groups.Add(new TextImageResourcePair(groupText, groupIconResource));
+
+                var itemsResourceList = NAV_DRAWER_ITEM_RESOURCES[group.Resource1];
+                if (itemsResourceList == null)
+                    items.Add(groupText, null);
+                else
+                {
+                    List<TextImageResourcePair> itemsList = new List<TextImageResourcePair>();
+                    foreach (var item in itemsResourceList)
+                    {
+                        string itemText = this.GetString(item.Resource1);
+                        var itemIconResource = item.Resource2;
+                        itemsList.Add(new TextImageResourcePair(itemText, itemIconResource));
+                    }
+                    items.Add(groupText, itemsList);
+                }
 
             }
+
+            return new Tuple<List<TextImageResourcePair>, Dictionary<string, List<TextImageResourcePair>>>(groups, items);
         }
+
+
+        // This needs to be moved to NavigationManager
+        public void OnNavigationItemSelected(int groupResource, int itemResource, DrawerLayout drawer)
+        {
+
+            if (itemResource == -1)
+            {
+                // group clicked
+                // process groups that have no children - navigate to fragment
+                switch (groupResource)
+                {
+                    case Resource.String.home:
+                        if (!(_fragment is HomePageFragment))
+                        {
+                            _fragment = new HomePageFragment();
+                            ReplaceFragmentWithDelay(_fragment);
+                        }
+                        // Close the drawer
+                        drawer.CloseDrawer(GravityCompat.Start);
+                        break;
+
+                    case Resource.String.my_info:
+                        if (!(_fragment is ProfilePageFragment))
+                        {
+                            _fragment = new ProfilePageFragment();
+                            ReplaceFragmentWithDelay(_fragment);
+                        }
+                        // Close the drawer
+                        drawer.CloseDrawer(GravityCompat.Start);
+                        break;
+
+                    case Resource.String.notifications:
+                        if (!(_fragment is NotificationsPageFragment))
+                        {
+                            _fragment = new NotificationsPageFragment();
+                            ReplaceFragmentWithDelay(_fragment);
+                        }
+                        // Close the drawer
+                        drawer.CloseDrawer(GravityCompat.Start);
+                        break;
+
+                    case Resource.String.settings:
+                        if (!(_fragment is SettingsPageFragment))
+                        {
+                            _fragment = new SettingsPageFragment();
+                            ReplaceFragmentWithDelay(_fragment);
+                        }
+                        // Close the drawer
+                        drawer.CloseDrawer(GravityCompat.Start);
+                        break;
+
+                    default:
+                        // Do nothing as a group that expands and/or doesn't navigate was clicked
+                        break;
+                }
+            }
+            else
+            {
+                // child clicked
+                // navigate to fragment
+                switch (itemResource)
+                {
+
+
+                }
+
+                // Close the drawer
+                drawer.CloseDrawer(GravityCompat.Start);
+            }
+
+        }
+
+
+
+        // Start Fragment transaction with delay to avoid any graphics issues while closing the drawer
+        private void ReplaceFragmentWithDelay(Fragment fragment, string tag = null)
+        {
+            new Handler().PostDelayed(() =>
+            {
+                SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, fragment, tag).Commit();
+            }, TransitionDelayMs);
+        }
+
+
+        // Start this activity with delay to avoid any graphics issues while closing the drawer
+        private void StartActivityWithDelay(Class activity)
+        {
+            new Handler().PostDelayed(() =>
+            {
+                StartActivity(new Intent(_context, activity));
+
+            }, TransitionDelayMs);
+        }
+
+
+
+        private void OnMenuItemClicked(object sender, Toolbar.MenuItemClickEventArgs e)
+        {
+            OnOptionsItemSelected(e.Item);
+        }
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case global::Android.Resource.Id.Home:
+                    _drawer.OpenDrawer(GravityCompat.Start);
+                    return true;
+
+
+                case Resource.Id.action_brightness:
+                    Toast.MakeText(this, "Brightness clicked", ToastLength.Short).Show();
+                    return true;
+
+
+
+
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.actionBarMenu, menu);
+            _toolbar.UpdateMenuItemTint(Resources.GetColor(Resource.Color.app_blue));
+
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+
+        public bool SetToolbarCustomTitle(string title)
+        {
+            if (_customToolbarTitle == null)
+                return false;
+            _customToolbarTitle.Text = title;
+            if (title == null)
+                _customToolbarTitle.Visibility = ViewStates.Gone;
+            else
+                _customToolbarTitle.Visibility = ViewStates.Visible;
+            return true;
+        }
+        public bool SetToolbarCustomSubtitle(string subtitle)
+        {
+            if (_customToolbarSubtitle == null)
+                return false;
+            _customToolbarSubtitle.Text = subtitle;
+            if (subtitle == null)
+                _customToolbarSubtitle.Visibility = ViewStates.Gone;
+            else
+                _customToolbarSubtitle.Visibility = ViewStates.Visible;
+            return true;
+        }
+
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutCharSequence(StateKey_ActionbarTitle, SupportActionBar.Title);
+            base.OnSaveInstanceState(outState);
+        }
+
+        public override void OnAttachedToWindow()
+        {
+
+            base.OnAttachedToWindow();
+        }
+
+        public override void OnDetachedFromWindow()
+        {
+
+            base.OnDetachedFromWindow();
+        }
+
+        protected override void OnDestroy()
+        {
+            _toolbar.MenuItemClick -= OnMenuItemClicked;
+            _navDrawerListview.GroupExpand -= OnGroupExpand;
+            _navDrawerListview.GroupCollapse -= OnGroupCollapse;
+            _navDrawerListview.ChildClick -= OnChildClicked;
+            _navDrawerListview.GroupClick -= OnGroupClicked;
+
+            _toolbar.ViewTreeObserver.GlobalLayout -= OnToolbarLayout;
+
+            base.OnDestroy();
+        }
+
+        private bool toolbarMeasured = false;
+        public void OnToolbarLayout(object sender, EventArgs e)
+        {
+            if (!toolbarMeasured)
+            {
+                var w = _toolbar.Width;
+                if (w > 0)
+                {
+                    var inset_start = _toolbar.ContentInsetStart;
+                    var inset_start_nav = _toolbar.ContentInsetStartWithNavigation;
+                    var diff = inset_start_nav - inset_start;
+                    var numItems = _toolbar.Menu.Size();
+                    var rightPaddng = numItems * diff + inset_start;
+                    var margin = System.Math.Max(inset_start_nav, rightPaddng);
+                    var lp = _customToolbarTitleWrapper.LayoutParameters;
+                    lp.Width = w - (2 * margin);
+                    _customToolbarTitleWrapper.LayoutParameters = lp;  
+                    toolbarMeasured = true;
+                }
+            }
+
+        }
+
+
     }
 }
 

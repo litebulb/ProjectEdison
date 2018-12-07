@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, Click Me!</string>
-    <string name="app_name">Edison.Mobile.User.Client.Droid</string>
+    <string name="app_name">Edison</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_info">My Info</string>
-    <string name="nav_notifications">Notification</string>
+    <string name="home">Home</string>
+    <string name="my_info">My Info</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
 </resources>

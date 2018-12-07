@@ -28,7 +28,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         public override async void ViewAppearing()
         {
-            base.ViewAppearing();
+               base.ViewAppearing();
 
             //await locationService.RequestLocationPrivileges();
             //await notificationService.RequestNotificationPrivileges();

@@ -15,11 +15,12 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
-using Android.Views.Animations;
+
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity(MainLauncher = true, Icon = "@mipmap/icon", Theme = "@android:style/Theme.NoTitleBar.Fullscreen")]
+    [Activity(Theme = "@android:style/Theme.NoTitleBar.Fullscreen")]
+ //   [Activity(MainLauncher = true, Icon = "@mipmap/icon", Theme = "@android:style/Theme.NoTitleBar.Fullscreen")]
     public class LoginActivity : BaseActivity<LoginViewModel>
     {
         Button signInButton;

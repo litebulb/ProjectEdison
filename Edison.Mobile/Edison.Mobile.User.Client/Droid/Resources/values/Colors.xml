@@ -1,20 +1,24 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-<color name="red">#e51c23</color>
-<color name="pink">#e91e63</color>
-<color name="purple">#9c27b0</color>
-<color name="deep_purple">#673ab7</color>
-<color name="action_bar_color">#ffffff</color>
-<color name="app_blue">#3322FF</color>
-<color name="alert_blue">#2B85FB</color>
-    <color name="ColorPrimary">#2196F3</color>  
-    <color name="ColorPrimaryDark">#1976D2</color>  
-    <color name="accent">#E040FB</color>  
-    
-<integer-array name="colors_hex_code">
-    <item>@color/red</item>
-    <item>@color/pink</item>
-    <item>@color/purple</item>
-    <item>@color/deep_purple</item>
-</integer-array>
+  <color name="colorPrimary">@color/app_background</color>
+  <color name="colorPrimaryDark">@color/dark_grey</color>
+  <color name="colorAccent">@color/green</color>
+
+
+  <color name="app_red">@color/red1</color>
+  <color name="app_pink">@color/pink1</color>
+  <color name="app_purple">@color/purple1</color>
+  <color name="app_deep_purple">@color/deep_purple</color>
+  <color name="app_blue">@color/dark_blue</color>
+  <color name="alert_blue">@color/blue1</color>
+  <color name="app_green">@color/green1</color>
+  <color name="app_yellow">@color/yellow1</color>
+  
+  <color name="app_background">@color/very_light_grey</color>
+  <color name="action_bar_color">@color/white</color>
+  <color name="navdrawer_background">#7f000000</color>
+  <color name="app_background_grey">@color/very_light_grey</color>
+  <color name="app_background_darkgrey">@color/very_dark_grey</color>
+  
+  
 </resources>

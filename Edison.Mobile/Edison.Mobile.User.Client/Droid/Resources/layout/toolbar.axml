@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Toolbar xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="?android:attr/actionBarSize" app:theme="@style/ToolBarStyle" android:background="@android:color/white">
-    <ImageButton android:id="@+id/menu_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:background="@android:color/transparent" android:src="@mipmap/menu" android:tint="#3322FF" />
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Right Now" android:layout_gravity="center" android:id="@+id/toolbar_title" android:textColor="#3322FF" />
-</Toolbar>
