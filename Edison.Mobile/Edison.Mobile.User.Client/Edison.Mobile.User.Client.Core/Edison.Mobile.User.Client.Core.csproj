@@ -55,6 +55,7 @@
     <Folder Include="CollectionItemViewModels\" />
     <Folder Include="Shared\" />
     <Folder Include="Network\" />
+    <Folder Include="Auth\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ViewModels\Task.cs" />

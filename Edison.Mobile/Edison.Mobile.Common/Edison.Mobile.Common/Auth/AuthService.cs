@@ -10,6 +10,7 @@ namespace Edison.Mobile.Common.Auth
     public class AuthService
     {
         readonly IPlatformAuthService platformAuthService;
+        readonly IAppAuthService appAuthService;
         readonly IPublicClientApplication publicClientApplication;
         readonly ILogger logger;
 
@@ -17,15 +18,14 @@ namespace Edison.Mobile.Common.Auth
 
         public AuthenticationResult AuthenticationResult { get; set; }
 
-        public string Email { get; set; }
-        public string GivenName { get; set; }
-        public string FamilyName { get; set; }
+        public UserInfo UserInfo { get; private set; }
 
-        public string Initials => $"{GivenName?.Substring(0, 1) ?? ""}{FamilyName?.Substring(0, 1) ?? ""}";
+        public string Initials => $"{UserInfo?.GivenName?.Substring(0, 1) ?? ""}{UserInfo?.FamilyName?.Substring(0, 1) ?? ""}";
 
-        public AuthService(IPlatformAuthService platformAuthService, IPublicClientApplication publicClientApplication, ILogger logger)
+        public AuthService(IPlatformAuthService platformAuthService, IAppAuthService appAuthService, IPublicClientApplication publicClientApplication, ILogger logger)
         {
             this.platformAuthService = platformAuthService;
+            this.appAuthService = appAuthService;
             this.publicClientApplication = publicClientApplication;
             this.logger = logger;
         }
@@ -82,27 +82,10 @@ namespace Edison.Mobile.Common.Auth
 
         void HandleTokenAcquisition(bool wasAcquiredSilently)
         {
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(AuthenticationResult.IdToken);
-            foreach (var claim in token.Claims)
-            {
-                switch (claim.Type)
-                {
-                    case "given_name":
-                        GivenName = claim.Value;
-                        break;
-                    case "family_name":
-                        FamilyName = claim.Value;
-                        break;
-                    case "emails":
-                        Email = claim.Value;
-                        break;
-                }
-            }
-
+            UserInfo = appAuthService.GetUserInfo(AuthenticationResult.IdToken);
             OnAuthChanged?.Invoke(this, new AuthChangedEventArgs
             {
-                IsLoggedIn = AuthenticationResult != null && Email != null,
+                IsLoggedIn = AuthenticationResult != null,
                 WasTokenAcquiredSilently = wasAcquiredSilently,
             });
         }

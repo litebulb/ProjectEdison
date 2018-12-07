@@ -39,5 +39,16 @@
 	<string>We need your location to help you set up IoT devices.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to help you set up IoT devices.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.bluemetal.edisonadmin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.onmicrosoft.edisonadmin</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

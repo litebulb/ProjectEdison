@@ -5,18 +5,18 @@ namespace Edison.Mobile.Common.Auth
 {
     public static class AuthConfig
     {
-        public static string UserRedirectUri { get; } = "com.onmicrosoft.edisondevb2c.user://redirect/";
-        public static string AdminRedirectUri { get; } = "com.onmicrosoft.edisondevb2c.admin://redirect/";
+        static readonly string adminTenant = "edisonbluemetal.onmicrosoft.com";
 
-        //public static string ReadScope { get; } = "https://edisondevb2c.onmicrosoft.com/web/write";
-        //public static string WriteScope { get; } = "https://edisondevb2c.onmicrosoft.com/web/read";
+        static readonly string userTenant = "edisondevb2c.onmicrosoft.com";
+        static readonly string userPolicy = "b2c_1_edision_signinandsignup";
+        static readonly string userBaseAuthority = $"https://login.microsoftonline.com/tfp/{userTenant}/";
+
+        public static string UserRedirectUri { get; } = "com.onmicrosoft.edisondevb2c.user://redirect/";
+        public static string AdminRedirectUri { get; } = "com.onmicrosoft.edisonadmin://redirect/";
 
         public static IEnumerable<string> Scopes { get; } = new string[] { "email" };
 
-        public static string Tenant { get; } = "edisondevb2c.onmicrosoft.com";
-        public static string Policy { get; } = "b2c_1_edision_signinandsignup";
-        public static string BaseAuthority { get; } = $"https://login.microsoftonline.com/tfp/{Tenant}/";
-
-        public static string Authority { get; } = $"{BaseAuthority}{Policy}";
+        public static string UserAuthority { get; } = $"{userBaseAuthority}{userPolicy}";
+        public static string AdminAuthority = $"https://login.microsoftonline.com/{adminTenant}";
     }
 }

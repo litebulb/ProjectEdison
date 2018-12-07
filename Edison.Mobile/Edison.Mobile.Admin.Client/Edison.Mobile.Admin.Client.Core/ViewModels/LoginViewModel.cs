@@ -28,7 +28,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         {
             base.ViewAppearing();
 
-            await locationService.RequestLocationPrivileges();
+            //await locationService.RequestLocationPrivileges();
         }
 
         public override async void ViewAppeared()
@@ -45,7 +45,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 }
                 else
                 {
-                    authService.OnAuthChanged += AuthServiceOnAuthChanged;
+                    authService.OnAuthChanged += HandleOnAuthChanged;
                     OnDisplayLogin?.Invoke();
                 }
             }
@@ -54,7 +54,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public override void ViewDestroyed()
         {
             base.ViewDestroyed();
-            authService.OnAuthChanged -= AuthServiceOnAuthChanged;
+            authService.OnAuthChanged -= HandleOnAuthChanged;
         }
 
         public async Task SignIn()
@@ -62,7 +62,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             await authService.AcquireToken();
         }
 
-        async void AuthServiceOnAuthChanged(object sender, AuthChangedEventArgs e)
+        async void HandleOnAuthChanged(object sender, AuthChangedEventArgs e)
         {
             if (e.IsLoggedIn)
             {

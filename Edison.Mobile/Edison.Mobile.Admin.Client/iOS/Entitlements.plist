@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-	<dict>
+<dict>
 	<key>get-task-allow</key>
 	<true/>
 	<key>application-identifier</key>
@@ -13,7 +13,7 @@
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)com.bluemetal.edisonadmin</string>
-		<string>$(AppIdentifierPrefix)5CTM56XQ82.com.microsoft.adalcache</string>
+		<string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
 	</array>
 </dict>
 </plist>

@@ -5,7 +5,7 @@ namespace Edison.Mobile.Admin.Client.iOS.Shared
 {
     public static class Constants
     {
-        public static readonly string ClientId = "19cb746c-3066-4cd8-8cd2-e0ce1176ae33";
+        public static readonly string ClientId = "0b4a1cf5-7071-4255-9b5c-9f12c8f846bd";
 
         public static nfloat Padding = 8;
 
@@ -38,8 +38,12 @@ namespace Edison.Mobile.Admin.Client.iOS.Shared
 
         public static class Assets
         {
-            public static UIImage Sensors => UIImage.FromBundle("Sensors");
+            public static UIImage SensorsGray => UIImage.FromBundle("SensorsGray");
+            public static UIImage SensorsBlue => UIImage.FromBundle("SensorsBlue");
             public static UIImage LoginLogo => UIImage.FromBundle("LoginLogo");
+            public static UIImage Menu => UIImage.FromBundle("Menu");
+            public static UIImage Plus => UIImage.FromBundle("Plus");
+            public static UIImage Gear => UIImage.FromBundle("Gear");
         }
     }
 }

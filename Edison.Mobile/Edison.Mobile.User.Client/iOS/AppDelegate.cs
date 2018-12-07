@@ -73,7 +73,7 @@ namespace Edison.Mobile.User.Client.iOS
                 var notificationService = Container.Instance.Resolve<INotificationService>();
                 var authService = Container.Instance.Resolve<AuthService>();
                 var deviceTokenHexString = string.Concat(deviceToken.ToArray().Select(b => b.ToString("X2")));
-                await notificationService.RegisterForNotifications(new DeviceRegistrationModel(deviceTokenHexString, NotificationPlatform.APNS, authService.Email));
+                await notificationService.RegisterForNotifications(new DeviceRegistrationModel(deviceTokenHexString, NotificationPlatform.APNS, authService.UserInfo?.Email));
             });
         }
 

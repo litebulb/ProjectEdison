@@ -59,5 +59,7 @@
   <ItemGroup>
     <Folder Include="Ioc\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Auth\" />
+    <Folder Include="Network\" />
   </ItemGroup>
 </Project>

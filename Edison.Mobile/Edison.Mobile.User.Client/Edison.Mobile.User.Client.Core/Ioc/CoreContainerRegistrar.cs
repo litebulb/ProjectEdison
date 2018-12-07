@@ -4,6 +4,7 @@ using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Shared;
+using Edison.Mobile.User.Client.Core.Auth;
 using Edison.Mobile.User.Client.Core.Chat;
 using Edison.Mobile.User.Client.Core.Network;
 using Edison.Mobile.User.Client.Core.ViewModels;
@@ -29,6 +30,9 @@ namespace Edison.Mobile.User.Client.Core.Ioc
             builder.Register((c, p) => new ActionPlanRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
 
             builder.Register((c, p) => new ChatRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.ChatBaseUrl));
+
+            builder.RegisterType<AppAuthService>()
+                   .As<IAppAuthService>();
         }
     }
 }

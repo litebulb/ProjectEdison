@@ -47,7 +47,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.yourcompany.UserDetailsClient</string>
+			<string>com.bluemetal.edisonuser</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.onmicrosoft.edisondevb2c.user</string>

@@ -8,9 +8,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
     {
         readonly AuthService authService;
 
-        public string ProfileName => !(string.IsNullOrEmpty(authService.GivenName) || string.IsNullOrEmpty(authService.FamilyName))
-            ? $"{authService.GivenName} {authService.FamilyName}"
-            : authService.Email;
+        public string ProfileName => !(string.IsNullOrEmpty(authService.UserInfo?.GivenName) || string.IsNullOrEmpty(authService.UserInfo?.FamilyName))
+            ? $"{authService.UserInfo?.GivenName} {authService.UserInfo?.FamilyName}"
+            : authService.UserInfo?.Email;
 
         public string Initials => authService.Initials;
 

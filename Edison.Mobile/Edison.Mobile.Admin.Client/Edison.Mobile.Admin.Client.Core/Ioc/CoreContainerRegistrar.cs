@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using Edison.Mobile.Admin.Client.Core.Auth;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
+using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Ioc;
 
 namespace Edison.Mobile.Admin.Client.Core.Ioc
@@ -10,6 +12,9 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
         {
             builder.RegisterType<MainViewModel>();
             builder.RegisterType<LoginViewModel>();
+
+            builder.RegisterType<AppAuthService>()
+                   .As<IAppAuthService>();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             sensorsImageView = new UIImageView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                Image = Constants.Assets.Sensors,
+                Image = Constants.Assets.SensorsGray,
             };
             containerView.AddSubview(sensorsImageView);
 
@@ -125,6 +125,6 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
         void OnDisplayLogin() => UIView.Animate(PlatformConstants.AnimationDuration, () => containerView.Alpha = 1);
 
-        void OnNavigateToMainViewModel() => UIApplication.SharedApplication.KeyWindow.RootViewController = new MainViewController();
+        void OnNavigateToMainViewModel() => UIApplication.SharedApplication.KeyWindow.RootViewController = new UINavigationController(new MainViewController());
     }
 }

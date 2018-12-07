@@ -11,7 +11,7 @@ namespace Edison.Mobile.Admin.Client.iOS.Ioc
     {
         public void Register(ContainerBuilder builder)
         {
-            var publicClientApplication = new PublicClientApplication(Constants.ClientId, AuthConfig.Authority)
+            var publicClientApplication = new PublicClientApplication(Constants.ClientId, AuthConfig.AdminAuthority)
             {
                 RedirectUri = AuthConfig.AdminRedirectUri,
             };

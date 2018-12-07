@@ -315,7 +315,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             }
         }
 
-        bool IsMyChatId(string chatId) => chatId.Contains(authService.Email);
+        bool IsMyChatId(string chatId) => chatId.Contains(authService.UserInfo?.Email);
 
         ActionPlanListModel GetEmergencyActionPlan() => ActionPlans.First(a => a.Name == "Emergency"); // TODO: no magic strings
     }

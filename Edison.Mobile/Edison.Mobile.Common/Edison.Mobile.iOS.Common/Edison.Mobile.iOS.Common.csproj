@@ -138,7 +138,6 @@
     <Folder Include="Geolocation\" />
     <Folder Include="Logging\" />
     <Folder Include="Ioc\" />
-    <Folder Include="Auth\" />
     <Folder Include="Shared\" />
     <Folder Include="Views\" />
     <Folder Include="Extensions\" />
@@ -149,13 +148,13 @@
     <Compile Include="Geolocation\LocationService.cs" />
     <Compile Include="Logging\PlatformLogger.cs" />
     <Compile Include="Ioc\PlatformCommonContainerRegistrar.cs" />
-    <Compile Include="Auth\PlatformAuthService.cs" />
     <Compile Include="Shared\PlatformConstants.cs" />
     <Compile Include="Views\BaseCollectionViewCell.cs" />
     <Compile Include="Views\BaseViewController.cs" />
     <Compile Include="Views\BaseTableViewCell.cs" />
     <Compile Include="Extensions\CLLocationCoordinate2D+Extensions.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
+    <Compile Include="Auth\PlatformAuthService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

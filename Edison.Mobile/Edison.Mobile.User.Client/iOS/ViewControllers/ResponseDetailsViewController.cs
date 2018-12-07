@@ -82,7 +82,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             navBarBackgroundView = new UIView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                BackgroundColor = Constants.Color.MapFromActionPlanColor(ViewModel.Response.ActionPlan.Color),
+                BackgroundColor = Constants.Color.MapFromActionPlanColor(ViewModel.Response?.ActionPlan.Color),
             };
 
             View.AddSubview(navBarBackgroundView);

@@ -210,18 +210,6 @@
     <ImageAsset Include="Assets.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Sensors.imageset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Sensors.imageset\sensors.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Sensors.imageset\sensors%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Sensors.imageset\sensors%403x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -234,14 +222,48 @@
     <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\loginLogo%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu.png" />
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%402x.png" />
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%403x.png" />
+    <ImageAsset Include="Assets.xcassets\SensorsGray.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsGray.imageset\sensors.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsGray.imageset\sensors%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsGray.imageset\sensors%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue.png" />
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue%402x.png" />
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue%403x.png" />
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus.png" />
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus%402x.png" />
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus%403x.png" />
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear.png" />
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear%402x.png" />
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Ioc\" />
     <Folder Include="ViewControllers\" />
     <Folder Include="Shared\" />
-    <Folder Include="Assets.xcassets\Sensors.imageset\" />
     <Folder Include="Assets.xcassets\LoginLogo.imageset\" />
+    <Folder Include="Assets.xcassets\Menu.imageset\" />
+    <Folder Include="Assets.xcassets\SensorsGray.imageset\" />
+    <Folder Include="Assets.xcassets\SensorsBlue.imageset\" />
+    <Folder Include="Assets.xcassets\Plus.imageset\" />
+    <Folder Include="Views\" />
+    <Folder Include="Assets.xcassets\Gear.imageset\" />
+    <Folder Include="Cells\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -258,6 +280,8 @@
     <Compile Include="ViewControllers\MainViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.cs" />
     <Compile Include="Shared\Constants.cs" />
+    <Compile Include="Views\SetupButtonView.cs" />
+    <Compile Include="Cells\NearDeviceTableViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">
