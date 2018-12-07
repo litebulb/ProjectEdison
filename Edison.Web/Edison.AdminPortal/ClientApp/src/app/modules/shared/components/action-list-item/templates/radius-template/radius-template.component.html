@@ -2,6 +2,10 @@
      *ngIf="context.status === actionStatus.Success">
     <mat-icon>check</mat-icon>
 </div>
+<div class="status-icon red"
+     *ngIf="context.status === actionStatus.Error || context.status === actionStatus.Skipped || context.status === actionStatus.Unknown">
+    <mat-icon>remove</mat-icon>
+</div>
 <div class="app-icon light round"
      [ngClass]="getBgColor()"></div>
 <div class="content-container">
@@ -12,11 +16,15 @@
     <div *ngIf="canEdit"
          class="colors-container">
         <button class="colorBtn"
-                tabindex="340"
+                tabindex="540"
                 (click)="updateColor(color)"
                 *ngFor="let color of actionPlanColors; let i = index"
                 [ngClass]="{'active': color.toLowerCase() === _color.toLowerCase()}">{{color}}</button>
     </div>
+    <div class="error"
+         *ngIf="context.status === actionStatus.Skipped">Set response location to turn on lights.</div>
+    <div class="error"
+         *ngIf="context.status === actionStatus.Error">{{context.errorMessage}}</div>
 </div>
 <div class="line-hider"
      *ngIf="last"></div>

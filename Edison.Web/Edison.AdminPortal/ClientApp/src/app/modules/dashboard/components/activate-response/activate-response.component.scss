@@ -51,6 +51,15 @@
                 &.success {
                     color: #208738;
                 }
+                &.info {
+                    color: #3322FF;
+                    font-family: 'Rubik';
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+                &.error {
+                    color: $red;
+                }
             }
             .response-action {
                 height: 100%;

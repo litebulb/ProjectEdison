@@ -20,6 +20,7 @@ import {
     AddLocationToActiveResponseSuccess, AddResponse, CloseResponse, CloseResponseError, GetResponse,
     GetResponseError, GetResponsesError, LoadResponses, PostNewResponse, PostNewResponseError,
     PostNewResponseSuccess, PutResponse, PutResponseError, ResponseActionTypes,
+    RetryResponseActions, RetryResponseActionsError, RetryResponseActionsSuccess,
     SelectActiveResponse, ShowActivateResponse, ShowSelectingLocation, SignalRUpdateResponseAction,
     UpdateResponse, UpdateResponseActions, UpdateResponseActionsError, UpdateResponseActionsSuccess
 } from '../reducers/response/response.actions';
@@ -338,6 +339,16 @@ export class ResponseEffects {
                 changes: action.payload.response,
             }
         }))
+    )
+
+    @Effect()
+    retryResponseActions$: Observable<Action> = this.actions$.pipe(
+        ofType(ResponseActionTypes.RetryResponseActions),
+        mergeMap((action: RetryResponseActions) =>
+            this.http.put(`${environment.baseUrl}${environment.apiUrl}responses/retryactions`, action.payload)
+                .pipe(map(() => new RetryResponseActionsSuccess()),
+                    catchError(() => of(new RetryResponseActionsError()))
+                ))
     )
 
     constructor (

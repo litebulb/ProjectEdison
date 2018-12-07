@@ -42,9 +42,7 @@ export class EventBarComponent implements OnInit, OnDestroy {
     spinnerColor: string
     animate = true
     tabindex = 0;
-    scrollConfig: PerfectScrollbarConfigInterface = {
-
-    }
+    scrollConfig: PerfectScrollbarConfigInterface = {}
 
     private eventsSub$: Subscription
     private responsesSub$: Subscription
@@ -95,19 +93,20 @@ export class EventBarComponent implements OnInit, OnDestroy {
     }
 
     onEventsUpdate = (events: Event[]) => {
-        this.events = events
-        this.recentEventsLazy = events.filter((v, i) => i < this.lazyCount)
+        if (events) {
+            this.events = events
+            this.recentEventsLazy = events.filter((v, i) => i < this.lazyCount)
 
-        this.eventCount = this.getEventCount()
-        this.animate = this.eventCount > 0
-
+            this.eventCount = this.getEventCount()
+            this.animate = this.eventCount > 0
+        }
         this.updateSpinner()
     }
 
     getEventCount() {
-        return this.events
+        return this.events ? this.events
             .filter(e => e.closureDate === null)
-            .reduce((a, v) => (a += v.eventCount), 0)
+            .reduce((a, v) => (a += v.eventCount), 0) : 0;
     }
 
     updateSpinner = () => {
@@ -199,18 +198,20 @@ export class EventBarComponent implements OnInit, OnDestroy {
     }
 
     tabNext = () => {
-        if (this.activeCard.focused) {
-            if (this.events[ this.tabindex ]) {
-                const activeEvent = this.events[ this.tabindex ];
-                this.activeCard.blur();
-                this.activeCard = this.eventCards.find(eventCard => eventCard.event.eventClusterId === activeEvent.eventClusterId);
-                if (this.activeCard) {
-                    this.store.dispatch(new ShowEventInEventBar({ event: this.events[ this.tabindex ] }));
-                    this.tabindex += 1;
+        if (this.activeCard) {
+            if (!this.activeCard.canFocus() || this.activeCard.focused) {
+                if (this.events[ this.tabindex ]) {
+                    const activeEvent = this.events[ this.tabindex ];
+                    this.activeCard.blur();
+                    this.activeCard = this.eventCards.find(eventCard => eventCard.event.eventClusterId === activeEvent.eventClusterId);
+                    if (this.activeCard) {
+                        this.store.dispatch(new ShowEventInEventBar({ event: this.events[ this.tabindex ] }));
+                        this.tabindex += 1;
+                    }
                 }
+            } else {
+                this.activeCard.focus();
             }
-        } else {
-            this.activeCard.focus();
         }
     }
 

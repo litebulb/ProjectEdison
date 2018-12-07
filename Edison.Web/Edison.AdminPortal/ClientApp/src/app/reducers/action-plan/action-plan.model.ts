@@ -42,6 +42,7 @@ export interface ActionPlanAction {
     endDate?: Date;
     startDate?: Date;
     status?: ActionStatus;
+    errorMessage?: string;
 }
 
 export enum ActionChangeType {

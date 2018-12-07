@@ -44,6 +44,23 @@ export enum ResponseActionTypes {
     ShowActivateResponse = '[Response] Show Activate Response',
     SignalRUpdateResponseAction = '[Response] SignalR Update Response Action',
     ActivateResponseActionPlan = '[Response] Activate Response Action Plan',
+    RetryResponseActions = '[Response] Retry Response Actions',
+    RetryResponseActionsSuccess = '[Response] Retry Response Actions Success',
+    RetryResponseActionsError = '[Response] Retry Response Actions Error',
+}
+
+export class RetryResponseActions implements Action {
+    readonly type = ResponseActionTypes.RetryResponseActions;
+
+    constructor (public payload: { responseId: string }) { }
+}
+
+export class RetryResponseActionsSuccess implements Action {
+    readonly type = ResponseActionTypes.RetryResponseActionsSuccess;
+}
+
+export class RetryResponseActionsError implements Action {
+    readonly type = ResponseActionTypes.RetryResponseActionsError;
 }
 
 export class ActivateResponseActionPlan implements Action {

@@ -4,7 +4,7 @@
      (click)="selectAllChat()"
      (keyup.space)="selectAllChat()"
      (keyup.enter)="selectAllChat()"
-     tabindex="300">All Messages</div>
+     tabindex="2">All Messages</div>
 <div class="sub-header">RECENTLY ACTIVE PEOPLE</div>
 <div class="people-container">
     <div class="person"
@@ -13,7 +13,7 @@
          (click)="selectActiveUser(user)"
          (keyup.space)="selectActiveUser(user)"
          (keyup.enter)="selectActiveUser(user)"
-         tabindex="350">
+         tabindex="2">
         <div class="icon-container">
             <div class="action-plan-icon"
                  [ngClass]="getActionPlanIcon(user.id)"></div>

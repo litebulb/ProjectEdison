@@ -9,6 +9,9 @@
         left: -35px;
         top: 4px;
         color: $green;
+        &.red {
+            color: $red;
+        }
     }
     .app-icon {
         margin-right: 15px;
@@ -24,5 +27,11 @@
         position: absolute;
         background-color: white;
         bottom: 0;
+    }
+    .error {
+        background-color: #FFDBD9;
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        margin-top: 10px;
     }
 }

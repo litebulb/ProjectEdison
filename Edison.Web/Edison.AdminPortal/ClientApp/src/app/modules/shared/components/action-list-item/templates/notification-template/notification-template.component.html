@@ -2,6 +2,10 @@
      *ngIf="context.status === actionStatus.Success">
     <mat-icon>check</mat-icon>
 </div>
+<div class="status-icon red"
+     *ngIf="context.status === actionStatus.Error || context.status === actionStatus.Skipped || context.status === actionStatus.Unknown">
+    <mat-icon>remove</mat-icon>
+</div>
 <div class="app-icon notification red round"></div>
 <div class="content-container">
     <div>
@@ -16,20 +20,20 @@
                  (keyup.space)="!editing && edit()"
                  (keyup.enter)="!editing && edit()"
                  #editButton
-                 tabindex="300"></div>
+                 tabindex="500"></div>
             <span class="edit-done"
                   *ngIf="editing && !adding"
                   (click)="editComplete()"
                   (keyup.space)="editComplete()"
                   (keyup.enter)="editComplete()"
-                  tabindex="300">Done</span>
+                  tabindex="500">Done</span>
         </div>
     </div>
     <div class="content-text">
         <ng-container *ngIf="!editing">{{notificationText}}</ng-container>
         <textarea #textarea
                   class="text-area"
-                  tabindex="310"
+                  tabindex="510"
                   [(ngModel)]="notificationText"
                   placeholder="Enter text here"
                   rows="8"
@@ -38,11 +42,13 @@
         </textarea>
         <span class="removeBtn"
               *ngIf="editing && adding"
-              tabindex="320"
+              tabindex="520"
               (click)="remove()"
               (keyup.space)="remove()"
               (keyup.enter)="remove()">Remove</span>
     </div>
+    <div class="error"
+         *ngIf="context.status === actionStatus.Error">{{context.errorMessage}}</div>
 </div>
 <div class="line-hider"
      *ngIf="last"></div>

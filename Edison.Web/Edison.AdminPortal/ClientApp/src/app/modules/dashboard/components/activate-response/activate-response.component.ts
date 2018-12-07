@@ -40,6 +40,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
     actionPlans: ActionPlan[];
     activated = false;
     loadingFullActionPlan = false;
+    responseNeedsLocation: boolean;
 
     private actionPlansSub$: Subscription;
     private activeEventSub$: Subscription;
@@ -81,6 +82,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
                         actionPlan.openActions.length > 0) {
                         this.loadingFullActionPlan = false;
                     }
+                    this.responseNeedsLocation = !this.activeEvent;
                 } else {
                     this.showActionPlan = false;
                 }
@@ -125,6 +127,8 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
         if (!actionPlan.openActions) {
             this.loadingFullActionPlan = true;
             this.store.dispatch(new GetActionPlan({ actionPlanId: actionPlan.actionPlanId }));
+        } else if (!this.activeEvent) {
+            this.responseNeedsLocation = true;
         }
         this.showActionPlan = true
 

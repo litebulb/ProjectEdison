@@ -106,6 +106,11 @@ export class EventCardComponent implements OnInit, OnDestroy {
             })
     }
 
+    canFocus() {
+        return this.event && !this.event.closureDate && !this.response ||
+            this.response && this.response.responseState === 1;
+    }
+
     focus() {
         this.focused = true;
         if (this.event && !this.event.closureDate && !this.response) {

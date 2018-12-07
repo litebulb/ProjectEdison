@@ -28,6 +28,13 @@
                           *ngIf="selectedActionPlan && showActionPlan && selectedActionPlan.openActions && selectedActionPlan.openActions.length > 0">
                 <div *ngIf="activeResponse"
                      class="subheader success">Response activated. Updates successfully sent.</div>
+                <div class="subheader error"
+                     *ngIf="activeResponse && responseNeedsLocation">
+                    Set Response Location to complete unsuccessful action items.
+                </div>
+                <div *ngIf="responseNeedsLocation && !activeResponse"
+                     class="subheader info">Activate the response, then set response location on the map to turn on
+                    lights.</div>
                 <button class="app-button primary return-to-map-button"
                         tabindex="370"
                         *ngIf="activeResponse"
@@ -55,7 +62,7 @@
         (mouseout)="hover = false"
         [ngClass]="{'hover': hover, 'active': active}"
         [style.z-index]="active ? 5 : 3"
-        [tabindex]="activated || active ? 400 : 7">
+        [tabindex]="activated || active ? 600 : 7">
     <span class="app-icon horn teal medium"
           [ngClass]="{'hover': hover && !disabled, 'active close': active, 'horn': !active}"></span>
     <span class="text noselect">{{ activated ? 'Close' : active ? 'Cancel' : 'Activate Response' }}</span>

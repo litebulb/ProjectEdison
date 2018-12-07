@@ -22,8 +22,8 @@ export const mockEvents: Event[] = [
         eventCount: 1,
         events: [ { date: new Date() } ],
         startDate: new Date(),
-        closureDate: null,
-        endDate: null,
+        closureDate: oldDate,
+        endDate: new Date(),
     },
     {
         eventClusterId: 'blah11',
@@ -32,8 +32,8 @@ export const mockEvents: Event[] = [
         eventCount: 1,
         events: [ { date: new Date() } ],
         startDate: new Date(),
-        closureDate: null,
-        endDate: null,
+        closureDate: oldDate,
+        endDate: new Date(),
     },
     {
         eventClusterId: 'blah111',
@@ -42,8 +42,8 @@ export const mockEvents: Event[] = [
         eventCount: 1,
         events: [ { date: new Date() } ],
         startDate: new Date(),
-        closureDate: null,
-        endDate: null,
+        closureDate: new Date(),
+        endDate: new Date(),
     },
     {
         eventClusterId: 'blah2',
@@ -53,7 +53,7 @@ export const mockEvents: Event[] = [
         events: [ { date: oldDate } ],
         startDate: oldDate,
         closureDate: new Date(),
-        endDate: null,
+        endDate: new Date(),
     },
     {
         eventClusterId: 'blah3',
@@ -62,8 +62,8 @@ export const mockEvents: Event[] = [
         eventCount: 2,
         events: [ { date: new Date() }, { date: new Date() } ],
         startDate: new Date(),
-        closureDate: null,
-        endDate: null,
+        closureDate: new Date(),
+        endDate: new Date(),
     },
     {
         eventClusterId: 'blah4',
@@ -92,8 +92,8 @@ export const mockEvents: Event[] = [
             }
         } ],
         startDate: new Date(),
-        closureDate: null,
-        endDate: null,
+        closureDate: new Date(),
+        endDate: new Date(),
     },
     {
         eventClusterId: 'e01965a5-124d-4490-8c44-3be892705124',
@@ -241,8 +241,8 @@ export const mockEvents: Event[] = [
             }
         ],
         startDate: new Date(1542292696),
-        closureDate: null,
-        endDate: null,
+        closureDate: new Date(),
+        endDate: new Date(),
         updateDate: new Date(1542292672),
     }
 ]
