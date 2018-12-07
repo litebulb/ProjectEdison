@@ -12,6 +12,10 @@ using Edison.Core.Common;
 using Edison.Core.Common.Models;
 using Edison.Api.Config;
 using Edison.Api.Helpers;
+using Twilio.TwiML;
+using Twilio.TwiML.Voice;
+using Twilio;
+using System.Text;
 
 namespace Edison.Api.Controllers
 {
@@ -20,33 +24,58 @@ namespace Edison.Api.Controllers
     public class TwilioController : Controller
     {
         private static IConfiguration _configuration;
-        private static TwilioRestClient _restClient;
+        //private static TwilioRestClient _restClient;
         private static IOptions<TwilioOptions> _twilioOptions;
 
         public TwilioController(IConfiguration configuration, IOptions<TwilioOptions> twilioOptions)
         {
             _configuration = configuration;
             _twilioOptions = twilioOptions;
-            var twilioCreator = new ProxiedTwilioClientCreator(_twilioOptions);
-            _restClient = twilioCreator.GetClient();
+            TwilioClient.Init(_twilioOptions.Value.AccountSID, _twilioOptions.Value.AuthToken);
+            //var twilioCreator = new ProxiedTwilioClientCreator(_twilioOptions);
+            //_restClient = twilioCreator.GetClient();
         }
 
-        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
+        //[Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [Route("Emergency")]
-        [Produces(typeof(DeviceMobileModel))]
-        [HttpGet]
-        public async Task<IActionResult> EmergencyCall()
+        [Produces(typeof(TwilioModel))]
+        [HttpPost]
+        public async Task<IActionResult> EmergencyCall(TwilioModel obj)
         {
             try
             {
                 var to = new PhoneNumber(string.Concat("+",_twilioOptions.Value.EmergencyPhoneNumber));
                 var from = new PhoneNumber(string.Concat("+", _twilioOptions.Value.PhoneNumber));
-                var call = CallResource.Create(to, from,
-                    url: new Uri("http://demo.twilio.com/docs/voice.xml"));
+                var call = await CallResource.CreateAsync(to, from, url: new Uri(_twilioOptions.Value.ProxyServerUrl));
 
-                Console.WriteLine(call.Sid);
-                await new Task(() => { ; });
-                return Ok();
+                var result = new TwilioModel()
+                {
+                    CallSID = call.Sid,
+                    Message = obj.Message
+                };
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status502BadGateway, e.Message);
+            }
+        }
+
+        [HttpPost]
+        [ServiceFilter(typeof(ValidateTwilioRequestAttribute))]
+        [Route("Interconnect")]
+        [Produces("text/xml")]
+        public IActionResult Interconnect()
+        {
+            try
+            {
+                var response = new VoiceResponse();
+                var dial = new Dial();
+                dial.Number(string.Concat("+", _twilioOptions.Value.CallForwardingPhoneNumber), sendDigits: "wwww1928");
+                response.Append(dial);
+
+                return Content(response.ToString(), "text/xml", Encoding.UTF8);
             }
             catch (Exception e)
             {

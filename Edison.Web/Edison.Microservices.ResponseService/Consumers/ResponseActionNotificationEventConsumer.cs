@@ -54,7 +54,7 @@ namespace Edison.ResponseService.Consumers
                     }
 
                     //Error
-                    await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, "Action '{action.ActionId}': The notification could not be sent.");
+                    await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, "The notification could not be sent.");
                     _logger.LogError("ResponseActionNotificationEventConsumer: The notification could not be sent.");
                 }
                 _logger.LogError("ResponseActionNotificationEventConsumer: Invalid Null or Empty Action Notification");
@@ -62,7 +62,7 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
-                await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Action '{context?.Message?.ActionId}': {e.Message}.");
+                await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"The notification could not be sent: {e.Message}.");
                 _logger.LogError($"ResponseActionNotificationEventConsumer: {e.Message}");
                 throw e;
             }

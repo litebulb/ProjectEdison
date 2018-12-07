@@ -48,8 +48,17 @@ namespace Edison.ResponseService.Consumers
                                 SecondaryRadius = context.Message.SecondaryRadius
                             });
                             break;
+                        case "twilio":
+                            _logger.LogDebug($"ResponseActionEventConsumer: Publish ActionTwilioEvent.");
+                            await context.Publish(new ActionTwilioEvent(action)
+                            {
+                                ResponseId = context.Message.ResponseId,
+                                Message = context.Message.Action.Parameters["message"],
+                                ActionCorrelationId = context.Message.ActionCorrelationId
+                            });
+                            break;
                         default:
-                            await GenerateActionCallback(context, ActionStatus.Skipped, DateTime.UtcNow, $"Action '{action.ActionId}': The action type '{action.ActionType}' cannot be handled.");
+                            await GenerateActionCallback(context, ActionStatus.Skipped, DateTime.UtcNow, $"The action type '{action.ActionType}' cannot be handled.");
                             break;
                     }
                     return;
@@ -60,7 +69,7 @@ namespace Edison.ResponseService.Consumers
             }
             catch (Exception e)
             {
-                await GenerateActionCallback(context, ActionStatus.Error, DateTime.UtcNow, $"Action '{context?.Message?.ActionId}': {e.Message}.");
+                await GenerateActionCallback(context, ActionStatus.Error, DateTime.UtcNow, $"There was an issue handling the action: {e.Message}.");
                 _logger.LogError($"ResponseActionEventConsumer: {e.Message}");
                 throw e;
             }

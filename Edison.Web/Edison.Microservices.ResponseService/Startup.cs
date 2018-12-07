@@ -13,6 +13,7 @@ using Edison.Common;
 using Edison.Common.Interfaces;
 using Edison.Common.Config;
 using Edison.ResponseService.Consumers;
+using Edison.Api.Config;
 
 namespace Edison.ResponseService
 {
@@ -40,6 +41,7 @@ namespace Edison.ResponseService
                 c.AddConsumer<ResponseTagNewEventClusterRequestedConsumer>();
                 c.AddConsumer<ResponseActionLightSensorEventConsumer>();
                 c.AddConsumer<ResponseActionNotificationEventConsumer>();
+                c.AddConsumer<ResponseActionTwilioEventConsumer>();
                 c.AddConsumer<ResponseActionEventConsumer>();
             });
             services.AddScoped<ResponseTagExistingEventClustersRequestedConsumer>();
@@ -47,8 +49,10 @@ namespace Edison.ResponseService
             services.AddScoped<ResponseActionLightSensorEventConsumer>();
             services.AddScoped<ResponseActionNotificationEventConsumer>();
             services.AddScoped<ResponseActionEventConsumer>();
+            services.AddScoped<ResponseActionTwilioEventConsumer>();
             services.AddSingleton<IEventClusterRestService, EventClusterRestService>();
             services.AddSingleton<INotificationRestService, NotificationRestService>();
+            services.AddSingleton<ITwilioRestService, TwilioRestService>();
             services.AddSingleton<IDeviceRestService, DeviceRestService>();
             services.AddSingleton<IIoTHubControllerRestService, IoTHubControllerRestService>();
             services.AddSingleton<IResponseRestService, ResponseRestService>();

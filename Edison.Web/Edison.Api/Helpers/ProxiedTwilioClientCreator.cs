@@ -23,7 +23,7 @@ namespace Edison.Api.Helpers
 
         private void CreateHttpClient()
         {
-            var proxyUrl = _twilioOptions.Value.HttpClient;
+            var proxyUrl = _twilioOptions.Value.ProxyServerUrl;
             var handler = new HttpClientHandler()
             {
                 Proxy = new WebProxy(proxyUrl),
@@ -54,6 +54,7 @@ namespace Edison.Api.Helpers
             var twilioRestClient = new TwilioRestClient(
                 accountSid,
                 authToken,
+                region: _twilioOptions.Value.Region,
                 httpClient: new Twilio.Http.SystemNetHttpClient(_httpClient)
             );
 

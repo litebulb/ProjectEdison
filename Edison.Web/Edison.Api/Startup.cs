@@ -14,6 +14,7 @@ using Edison.Common.Config;
 using Edison.Common.DAO;
 using Edison.Api.Config;
 using Edison.Api.Helpers;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Edison.Api
 {
@@ -54,6 +55,7 @@ namespace Edison.Api
             services.AddApplicationInsightsTelemetry(Configuration);
             services.Configure<WebApiOptions>(Configuration.GetSection("WebApiConfiguration"));
             services.Configure<NotificationsOptions>(Configuration.GetSection("NotificationHub"));
+            services.Configure<TwilioOptions>(Configuration.GetSection("Twilio"));
             services.Configure<CosmosDBOptions>(typeof(EventClusterDAO).FullName, Configuration.GetSection("CosmosDb"));
             services.Configure<CosmosDBOptions>(typeof(EventClusterDAO).FullName, opt => opt.Collection = opt.Collections.EventClusters);
             services.Configure<CosmosDBOptions>(typeof(DeviceDAO).FullName, Configuration.GetSection("CosmosDb"));
@@ -82,6 +84,7 @@ namespace Edison.Api
             services.AddScoped<IoTHubControllerDataManager>();
             services.AddScoped<NotificationHubDataManager>();
             services.AddScoped<ReportDataManager>();
+            services.AddScoped<ValidateTwilioRequestAttribute>();
             services.AddSignalR().AddRedis(Configuration.GetValue<string>("SignalR:ConnectionString"));
 
             //Cors

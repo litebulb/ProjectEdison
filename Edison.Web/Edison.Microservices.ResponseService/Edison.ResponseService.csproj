@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Edison.Api\Edison.Api.csproj" />
     <ProjectReference Include="..\Edison.Common.MassTransit\Edison.Common.MassTransit.csproj" />
     <ProjectReference Include="..\..\Edison.Core\Edison.Core.ApiRestClient\Edison.Core.ApiRestClient.csproj" />
   </ItemGroup>

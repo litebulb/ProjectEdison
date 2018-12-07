@@ -7,10 +7,11 @@
         public string AccountSID { get; set; }
         public string AuthToken { get; set; }
         public string Region { get; set; }
-        public string HttpClient { get; set; }
+        public string ProxyServerUrl { get; set; }
         public string PhoneNumber { get; set; }
         //For Emergency Number Setup
         public string EmergencyPhoneNumber { get; set; }
+        public string CallForwardingPhoneNumber { get; set; }
         //public string EmergencyStreet { get; set; }
         //public string EmergencyZipCode { get; set; }
         //public string EmergencyRegionStateCode { get; set; }

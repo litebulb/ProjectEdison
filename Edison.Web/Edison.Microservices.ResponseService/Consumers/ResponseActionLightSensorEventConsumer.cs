@@ -157,13 +157,13 @@ namespace Edison.ResponseService.Consumers
                     }
 
                     //Error
-                    await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Action '{action.ActionId}': Desired properties not applied properly.");
+                    await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Lighting changes were not executed properly");
                     _logger.LogError("ResponseActionLightSensorEventConsumer: Desired properties not applied properly.");
                 }
             }
             catch (Exception e)
             {
-                await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"Action '{context?.Message?.ActionId}': {e.Message}.");
+                await GenerateActionCallback(context, ActionStatus.Error, actionStartDate, $"There was an issue applying the lighting changes: {e.Message}.");
                 _logger.LogError($"ResponseActionLightSensorEventConsumer: {e.Message}");
                 throw e;
             }
