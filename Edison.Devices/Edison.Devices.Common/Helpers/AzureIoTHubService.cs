@@ -99,14 +99,26 @@ namespace Edison.Devices.Common
             try
             {
                 X509Certificate2 deviceCertificate = GetDeviceCertificate(deviceId);
-                if (deviceCertificate == null)
+                //Connection through certificate
+                if (deviceCertificate != null)
                 {
-                    _logging.LogMessage($"The certificate for device {deviceId} was not found.", LoggingLevel.Error);
-                    return false;
+                    IAuthenticationMethod authentication = new DeviceAuthenticationWithX509Certificate(deviceId, deviceCertificate);
+                    _deviceClient = DeviceClient.Create(hostname, authentication, TransportType.Mqtt);
                 }
-
-                IAuthenticationMethod authentication = new DeviceAuthenticationWithX509Certificate(deviceId, deviceCertificate);
-                _deviceClient = DeviceClient.Create(hostname, authentication, TransportType.Mqtt);
+                //Connection through TPM (fallback)
+                else
+                {
+                    _logging.LogMessage($"The certificate for device {deviceId} was not found. Trying to connect with TPM Connection string", LoggingLevel.Warning);
+                    try
+                    {
+                        _deviceClient = DeviceClient.CreateFromConnectionString(tpmDevice.GetConnectionString(), TransportType.Mqtt);
+                    }
+                    catch
+                    {
+                        _logging.LogMessage($"The connection could be established through TPM. The device cannot start. Make sure that the device was properly provisioned.", LoggingLevel.Error);
+                        return false;
+                    }
+                }
                 _deviceClient.SetRetryPolicy(new NoRetry());
                 _deviceClient.SetConnectionStatusChangesHandler(HandleConnectionStatusChange);
                 _deviceClient.OperationTimeoutInMilliseconds = DEVICE_OPERATION_TEST_TIMEOUT;
