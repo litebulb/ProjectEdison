@@ -26,18 +26,22 @@
                 ACTION'}}</div>
             <ng-container [@fadeInOut]
                           *ngIf="selectedActionPlan && showActionPlan && selectedActionPlan.openActions && selectedActionPlan.openActions.length > 0">
-                <div *ngIf="activeResponse"
+                <div *ngIf="activeResponse && actionPlanSuccessful"
                      class="subheader success">Response activated. Updates successfully sent.</div>
                 <div class="subheader error"
-                     *ngIf="activeResponse && responseNeedsLocation">
+                     *ngIf="activeResponse && actionPlanNeedsLocation && !actionPlanHasErrors">
                     Set Response Location to complete unsuccessful action items.
+                </div>
+                <div class="subheader error"
+                     *ngIf="activeResponse && actionPlanHasErrors && actionPlanPartialSuccess">
+                    Response activated, but some actions were not successful.
                 </div>
                 <div *ngIf="responseNeedsLocation && !activeResponse"
                      class="subheader info">Activate the response, then set response location on the map to turn on
                     lights.</div>
                 <button class="app-button primary return-to-map-button"
                         tabindex="370"
-                        *ngIf="activeResponse"
+                        *ngIf="activeResponse && actionPlanNeedsLocation"
                         (click)="onReturnToMapClick()">{{ activeEvent ? 'Return To Map' : 'Set Response Location'}}</button>
                 <div class="content-container">
                     <app-action-list [actions]="selectedActionPlan.openActions"

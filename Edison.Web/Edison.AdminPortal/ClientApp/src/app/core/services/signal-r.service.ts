@@ -143,7 +143,7 @@ export class SignalRService implements OnDestroy {
                         this.store.dispatch(new SignalRNewResponse({ response }))
                         break
                     case SignalRTypes.Response.UpdateResponseActions:
-                        console.log(message);
+                        // console.log(message);
                         break;
                     case SignalRTypes.Response.Update:
                         this.store.dispatch(

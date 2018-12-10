@@ -13,6 +13,10 @@
         Connected Lights {{context.parameters.radius}} Radius: <span class="color-text"
               *ngIf="!canEdit">{{_color}}</span>
     </div>
+    <div class="error"
+         *ngIf="context.status === actionStatus.Skipped">Set response location to turn on lights.</div>
+    <div class="error"
+         *ngIf="context.status === actionStatus.Error">{{context.errorMessage}}</div>
     <div *ngIf="canEdit"
          class="colors-container">
         <button class="colorBtn"
@@ -21,10 +25,6 @@
                 *ngFor="let color of actionPlanColors; let i = index"
                 [ngClass]="{'active': color.toLowerCase() === _color.toLowerCase()}">{{color}}</button>
     </div>
-    <div class="error"
-         *ngIf="context.status === actionStatus.Skipped">Set response location to turn on lights.</div>
-    <div class="error"
-         *ngIf="context.status === actionStatus.Error">{{context.errorMessage}}</div>
 </div>
 <div class="line-hider"
      *ngIf="last"></div>

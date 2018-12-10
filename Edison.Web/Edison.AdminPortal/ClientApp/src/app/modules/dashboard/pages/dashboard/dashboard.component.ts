@@ -175,6 +175,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     updatePins(devices: Device[], events: Event[], responses: Response[]) {
+        // Device pins
         const devicePins: MapPin[] = devices.map(device => {
             const pin: MapPin = { ...device }
             const recentEvent = this.getRecentEvent(events, device.deviceId)
@@ -192,6 +193,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             return pin
         })
 
+        // Mobile device pins
         const eventPins: MapPin[] = events
             .filter(e => e.eventType === EventType.Message &&
                 e.device.geolocation)
@@ -213,6 +215,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 });
             })
 
+        // Responses without an event
         const actionPlanPins: MapPin[] = responses
             .filter(resp => resp.primaryEventClusterId === null &&
                 resp.geolocation)
@@ -225,6 +228,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 location1: '',
                 location2: '',
                 location3: '',
+                icon: resp.icon,
+                color: resp.color,
             }))
 
         this.pins = [ ...devicePins, ...eventPins, ...actionPlanPins ];

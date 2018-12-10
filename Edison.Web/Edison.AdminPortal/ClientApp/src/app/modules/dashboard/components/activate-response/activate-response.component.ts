@@ -10,7 +10,7 @@ import { AppState } from '../../../../reducers';
 import {
     GetActionPlan, GetActionPlans, PutActionPlan, SelectActionPlan, SetSelectingActionPlan
 } from '../../../../reducers/action-plan/action-plan.actions';
-import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
+import { ActionPlan, ActionStatus } from '../../../../reducers/action-plan/action-plan.model';
 import {
     actionPlansSelector, selectedActionPlanSelector
 } from '../../../../reducers/action-plan/action-plan.selectors';
@@ -42,6 +42,11 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
     loadingFullActionPlan = false;
     responseNeedsLocation: boolean;
 
+    actionPlanPartialSuccess: boolean;
+    actionPlanSuccessful: boolean;
+    actionPlanHasErrors: boolean;
+    actionPlanNeedsLocation: boolean;
+
     private actionPlansSub$: Subscription;
     private activeEventSub$: Subscription;
     private responsesSub$: Subscription;
@@ -50,6 +55,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.initSubscriptions();
+        this.updateResponseStatus()
         this.store.dispatch(new GetActionPlans())
     }
 
@@ -107,7 +113,22 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
                 if (activeResponse) {
                     this.selectedActionPlan = this.activeResponse.actionPlan;
                 }
+                this.updateResponseStatus();
             })
+    }
+
+    updateResponseStatus() {
+        if (this.selectedActionPlan && this.selectedActionPlan.openActions) {
+            this.actionPlanSuccessful = !this.selectedActionPlan.openActions.some(action => action.status !== ActionStatus.Success);
+            this.actionPlanNeedsLocation = this.responseNeedsLocation && this.selectedActionPlan.openActions.some(action => action.status === ActionStatus.Skipped);
+            this.actionPlanHasErrors = this.selectedActionPlan.openActions.some(action => action.status === ActionStatus.Error || action.status === ActionStatus.Unknown);
+            this.actionPlanPartialSuccess = this.selectedActionPlan.openActions.some(action => action.status === ActionStatus.Success);
+        } else {
+            this.actionPlanSuccessful = false;
+            this.actionPlanNeedsLocation = false;
+            this.actionPlanHasErrors = false;
+            this.actionPlanPartialSuccess = false;
+        }
     }
 
     onActionPlanChange() {

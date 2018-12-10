@@ -277,22 +277,22 @@ export class ResponseEffects {
             const respToUpdate = responses.find(r => r.responseId === responseId);
             if (respToUpdate) {
                 const { openActions, closeActions } = respToUpdate.actionPlan;
-                let foundAction: ActionPlanAction = null;
+                let foundAction = null;
                 if (openActions) {
-                    foundAction = openActions.find(oa => oa.actionId === actionId);
+                    foundAction = openActions.findIndex(oa => oa.actionId === actionId);
                     if (foundAction) {
-                        foundAction = {
-                            ...foundAction,
+                        openActions[ foundAction ] = {
+                            ...openActions[ foundAction ],
                             ...action.payload.message,
                         }
                     }
                 }
 
                 if (closeActions) {
-                    foundAction = openActions.find(oa => oa.actionId === actionId);
+                    foundAction = openActions.findIndex(oa => oa.actionId === actionId);
                     if (foundAction) {
-                        foundAction = {
-                            ...foundAction,
+                        openActions[ foundAction ] = {
+                            ...openActions[ foundAction ],
                             ...action.payload.message,
                         }
                     }
@@ -316,8 +316,15 @@ export class ResponseEffects {
                             break;
                     }
                 }
-
-                return new ActivateResponseActionPlan({ response: respToUpdate });
+                return new ActivateResponseActionPlan({
+                    response: {
+                        ...respToUpdate,
+                        actionPlan: {
+                            ...respToUpdate.actionPlan,
+                            openActions,
+                        }
+                    }
+                });
             }
         })
     )

@@ -235,7 +235,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
                     const tooltip = pin.event ? pin.event.eventType === EventType.Message ? pin.event.events[ 0 ].metadata.username : null : null;
                     currentPin.metadata = pin
                     currentPin.setOptions({
-                        htmlContent: this.getHtmlElement(occurences, 1, pin.color, tooltip),
+                        htmlContent: this.getHtmlElement(occurences, 1, pin.color, tooltip, pin.icon),
                         location: this.getPinLocation(pin),
                     })
                 })
@@ -479,7 +479,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     private createHtmlPin(pin: MapPin) {
         const tooltip = pin.event ? pin.event.eventType === EventType.Message ? pin.event.events[ 0 ].metadata.username : null : null;
         const occurences = pin.event ? pin.event.eventCount : 0;
-        const html = this.getHtmlElement(occurences, 1, pin.color, tooltip)
+        const html = this.getHtmlElement(occurences, 1, pin.color, tooltip, pin.icon)
 
         const anchor = new Microsoft.Maps.Point(30, 30)
 
@@ -536,7 +536,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         return pin
     }
 
-    private getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string) {
+    private getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string, icon?: string) {
         const occurencesString = `${occurences}x`;
         const tooltip = specialTooltip ? specialTooltip : devices > 1 ? `${devices} Devices` : '';
         if (occurences > 0) {
@@ -560,12 +560,52 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
                 <div style="display: flex; justify-content: center; align-items: center; background-color: black; border-radius: 4px; font-size: 14px; color: white; padding: 5px 20px; white-space: nowrap;">${tooltip}</div>
                 <div style="width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid black; position: absolute; bottom: -6px;"></div>
             </div>`
-            return `
-            <div>
-                ${displayedTooltip}
-                <img src="assets/icons/pin.svg" style="cursor: pointer" />
-            </div>
-            `
+
+            const imageStyle = `
+                width: 24px;
+                height: 24px;
+            `;
+
+            if (icon) {
+                let bgColor = '';
+                switch (color.toLowerCase()) {
+                    case 'blue':
+                        bgColor = '#3A82FE'
+                        break;
+                    case 'green':
+                        bgColor = '#00E536'
+                        break;
+                    case 'red':
+                        bgColor = '#FA4035'
+                        break;
+                    case 'yellow':
+                        bgColor = '#FABF0D'
+                        break;
+                }
+
+                const bgStyle = icon ? `
+                    cursor: pointer;
+                    background-color: ${bgColor};
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ` : 'cursor: pointer';
+
+                const bgIcon = icon === 'vip' ? 'vip_white' : icon;
+
+                return `<div style="${bgStyle}">
+                    ${displayedTooltip}
+                    <img src="assets/icons/${bgIcon}.svg" style="${imageStyle}" />
+                </div>`;
+            } else {
+                return `<div>
+                    ${displayedTooltip}
+                    <img src="assets/icons/pin.svg" style="cursor: pointer" />
+                </div>`;
+            }
 
         }
     }
