@@ -1,8 +1,90 @@
-<div class="title">{{filteredDevices.length}} {{filteredDevices.length === 1 ? 'Device' : 'Devices'}}</div>
+<div class="title">{{deviceCount}} {{deviceCount === 1 ? 'Device' : 'Devices'}}</div>
+<app-device-filters [filterGroups]="filters"></app-device-filters>
 <div class="container"
      #container
      tabindex="200">
-    <app-device-filters [filterGroups]="filters"></app-device-filters>
-    <app-device-list [devices]="filteredDevices"
-                     (onrowclick)="onRowClick($event)"></app-device-list>
+    <perfect-scrollbar>
+        <table mat-table
+               matSort
+               matSortActive="lastAccessTime"
+               matSortDirection="desc"
+               [dataSource]="dataSource"
+               class="mat-elevation-z8">
+            <ng-container matColumnDef="lastAccessTime">
+                <th mat-header-cell
+                    mat-sort-header
+                    start="desc"
+                    *matHeaderCellDef> CONNECTION </th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    <div class="connection">
+                        <div class="app-icon dot"
+                             [ngClass]="{'active': element.online}"></div>
+                        <div>{{ getLastAccessTime(element.lastAccessTime) }}</div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="deviceType">
+                <th mat-header-cell
+                    mat-sort-header
+                    *matHeaderCellDef> TYPE </th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    <div class="app-icon grey medium-small"
+                         [ngClass]="getDeviceIcon(element.deviceType)"></div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fullLocationName">
+                <th mat-header-cell
+                    mat-sort-header
+                    *matHeaderCellDef> LOCATION </th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    {{element.fullLocationName}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="currentResponse">
+                <th mat-header-cell
+                    *matHeaderCellDef> CURRENT RESPONSE </th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    <div class="app-icon round"
+                         *ngIf="element.response && element.response.responseState === 1"
+                         [ngClass]="getResponseIcon()"></div>
+                    <div class="center-dash"
+                         *ngIf="!element.response || element.response.responseState === 0">-</div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="recentEvents">
+                <th mat-header-cell
+                    *matHeaderCellDef> RECENT EVENTS </th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    <div *ngIf="element.event"
+                         class="device-event-container">
+                        <ng-container *ngFor="let event of element.event.events.slice(0, 3); let first = first; let last = last">
+                            <div [ngClass]="{'first': first, 'last': last}">{{ event.date | date : 'shortTime'}}</div>
+                            <div *ngIf="!last"
+                                 class="comma">,</div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="!element.event"
+                         class="center-dash">-</div>
+                </td>
+            </ng-container>
+
+
+
+
+
+            <tr mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </perfect-scrollbar>
 </div>

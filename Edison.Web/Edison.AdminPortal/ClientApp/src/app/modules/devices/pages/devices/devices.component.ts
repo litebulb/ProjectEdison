@@ -1,6 +1,7 @@
 import { combineLatest, Subscription } from 'rxjs';
 
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatSort, MatTableDataSource } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
 import { DeviceType } from '../../../../core/models/deviceType';
@@ -10,7 +11,7 @@ import { TestDevice } from '../../../../reducers/device/device.actions';
 import { devicesSelector } from '../../../../reducers/device/device.selectors';
 import { Event } from '../../../../reducers/event/event.model';
 import { eventsSelector } from '../../../../reducers/event/event.selectors';
-import { Response } from '../../../../reducers/response/response.model';
+import { Response, ResponseState } from '../../../../reducers/response/response.model';
 import { responsesSelector } from '../../../../reducers/response/response.selectors';
 import { ExpandedDevice } from '../../models/expanded-device.model';
 import { FilterGroupModel } from '../../models/filter-group.model';
@@ -23,10 +24,14 @@ import { FilterGroupModel } from '../../models/filter-group.model';
 export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('container') container: ElementRef;
 
+    @ViewChild(MatSort) sort: MatSort;
+
+    displayedColumns: string[] = [ 'lastAccessTime', 'deviceType', 'fullLocationName', 'currentResponse', 'recentEvents' ];
     filters: FilterGroupModel[];
     devices: ExpandedDevice[];
-    filteredDevices: ExpandedDevice[];
+    dataSource: MatTableDataSource<ExpandedDevice>;
     combinedStream$: Subscription;
+    deviceCount: number = 0;
 
     private showButtons: boolean = true;
     private showSoundSensors: boolean = true;
@@ -57,6 +62,32 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    getLastAccessTime(lastAccessTime) {
+        if (lastAccessTime) {
+            const date = new Date(lastAccessTime);
+            const currDate = new Date();
+
+            const diffMs = Math.round((currDate.getTime() / 60000) - (date.getTime() / 60000)); // minutes
+
+            return diffMs === 1 ? '1 minute ago' : `${diffMs} minutes ago`;
+        }
+
+        return '';
+    }
+
+    getDeviceIcon(deviceType) {
+        if (deviceType.toLowerCase().includes('button')) { return 'button' }
+        if (deviceType.toLowerCase().includes('sound')) { return 'sound' }
+        if (deviceType.toLowerCase().includes('mobile')) { return 'chat' }
+        if (deviceType.toLowerCase().includes('bulb')) { return 'light' }
+    }
+
+    getResponseIcon(response) {
+        if (!response || response.responseState === ResponseState.Inactive) { return; }
+
+        return `${response.icon.toLowerCase()}-static ${response.color.toLowerCase()}`
+    }
+
     private setupSubscriptions() {
         const devicesObs = this.store.pipe(select(devicesSelector));
         const responsesObs = this.store.pipe(select(responsesSelector));
@@ -65,13 +96,14 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.combinedStream$ = combineLatest(devicesObs, responsesObs, eventsObs)
             .subscribe(([ devices, responses, events ]) => {
                 this.devices = devices;
+                this.deviceCount = devices.length;
                 this.expandDevices(responses, events);
                 this.filterDevices();
             })
     }
 
     private expandDevices(responses: Response[], events: Event[]) {
-        this.devices = this.devices.map(device => {
+        const updatedDevices = this.devices.map(device => {
             const result = { ...device };
 
             const recentEvent = events
@@ -92,18 +124,62 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             }
 
+            result.fullLocationName = `${device.location1} - ${device.location2}, ${device.location3}`;
+
 
             return result;
         });
+        this.dataSource = new MatTableDataSource(updatedDevices);
+        this.dataSource.sort = this.sort;
+        this.dataSource.sortingDataAccessor = (item, property) => {
+            switch (property) {
+                case 'lastAccessTime': return new Date(item[ property ])
+                default: return item[ property ];
+            }
+        }
+        this.dataSource.filterPredicate = (data, filter) => {
+            return filter.indexOf(data.deviceType) !== -1 &&
+                (filter.indexOf('Online') !== -1 && data.online || !data.online) &&
+                (filter.indexOf('Offline') === -1 && !data.online || data.online);
+        }
     }
 
     private filterDevices() {
-        this.filteredDevices = this.devices.filter(device => {
-            return (device.deviceType !== DeviceType.ButtonSensor || this.showButtons) &&
-                (device.deviceType !== DeviceType.SoundSensor || this.showSoundSensors) &&
-                (device.deviceType !== DeviceType.SmartBulb || this.showSmartBulbs) &&
-                (this.showOnline && device.online || this.showOffline && !device.online)
-        });
+        let filterString: string = Object.values(DeviceType).reduce((arr, value) => arr += `${value} `, '');
+
+        filterString += 'Online Offline ';
+
+        if (!this.showButtons && filterString.indexOf(DeviceType.ButtonSensor) !== -1) {
+            filterString = filterString.replace(`${DeviceType.ButtonSensor} `, '');
+        } else {
+            filterString += `${DeviceType.ButtonSensor} `;
+        }
+
+        if (!this.showSmartBulbs && filterString.indexOf(DeviceType.SmartBulb) !== -1) {
+            filterString = filterString.replace(`${DeviceType.SmartBulb} `, '');
+        } else {
+            filterString += `${DeviceType.SmartBulb} `;
+        }
+
+        if (!this.showSoundSensors && filterString.indexOf(DeviceType.SoundSensor) !== -1) {
+            filterString = filterString.replace(`${DeviceType.SoundSensor} `, '');
+        } else {
+            filterString += `${DeviceType.SoundSensor} `;
+        }
+
+        if (!this.showOnline && filterString.indexOf('Online') !== -1) {
+            filterString = filterString.replace('Online ', '');
+        } else {
+            filterString += 'Online '
+        }
+
+        if (this.showOffline && filterString.indexOf('Offline') !== -1) {
+            filterString = filterString.replace('Offline ', '');
+        } else {
+            filterString += 'Offline '
+        }
+
+        this.dataSource.filter = filterString;
     }
 
     private setupFilters() {

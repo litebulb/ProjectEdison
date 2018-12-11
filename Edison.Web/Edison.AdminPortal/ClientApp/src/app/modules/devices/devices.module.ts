@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DevicesComponent } from './pages/devices/devices.component';
-import { DeviceListComponent } from './components/device-list/device-list.component';
-import { DeviceRowComponent } from './components/device-row/device-row.component';
-import { DeviceFiltersComponent } from './components/device-filters/device-filters.component';
-import { SharedModule } from '../shared/shared.module';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { SharedModule } from '../shared/shared.module';
+import { DeviceFiltersComponent } from './components/device-filters/device-filters.component';
+import { DevicesComponent } from './pages/devices/devices.component';
 
 @NgModule({
     imports: [
@@ -15,8 +14,6 @@ import { FormsModule } from '@angular/forms';
     ],
     declarations: [
         DevicesComponent,
-        DeviceListComponent,
-        DeviceRowComponent,
         DeviceFiltersComponent
     ],
     exports: [
