@@ -5,7 +5,7 @@ namespace Edison.Mobile.Common.Auth
 {
     public static class AuthConfig
     {
-        static readonly string adminTenant = "edisonbluemetal.onmicrosoft.com";
+        static readonly string adminTenant = "1114b48d-24b1-4492-970a-d07d610a741c";
 
         static readonly string userTenant = "edisondevb2c.onmicrosoft.com";
         static readonly string userPolicy = "b2c_1_edision_signinandsignup";

@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGraphics;
 using Edison.Mobile.Admin.Client.iOS.Shared;
+using Foundation;
 using UIKit;
 
 namespace Edison.Mobile.Admin.Client.iOS.Views
@@ -8,10 +9,13 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
     public class SetupButtonView : UIView
     {
         readonly nfloat padding = 16;
+        readonly UITapGestureRecognizer tapGestureRecognizer;
 
         UILabel label;
         UIImageView largeIconImageView;
         UIImageView smallIconImageView;
+
+        public event EventHandler OnTap;
 
         public UIImage LargeIconImage
         {
@@ -63,6 +67,26 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
             label.CenterYAnchor.ConstraintEqualTo(CenterYAnchor).Active = true;
             label.LeftAnchor.ConstraintEqualTo(LeftAnchor, constant: padding).Active = true;
             label.RightAnchor.ConstraintEqualTo(largeIconImageView.LeftAnchor, constant: padding / 2).Active = true;
+
+            tapGestureRecognizer = new UITapGestureRecognizer();
+            tapGestureRecognizer.AddTarget(HandleTap);
+        }
+
+        public override void WillMoveToWindow(UIWindow window)
+        {
+            if (window == null)
+            {
+                RemoveGestureRecognizer(tapGestureRecognizer);
+            }
+            else
+            {
+                AddGestureRecognizer(tapGestureRecognizer);
+            }
+        }
+
+        void HandleTap()
+        {
+            OnTap?.Invoke(this, new EventArgs());
         }
     }
 }

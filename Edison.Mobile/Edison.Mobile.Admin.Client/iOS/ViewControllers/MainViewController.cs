@@ -1,6 +1,11 @@
-﻿using Edison.Mobile.Admin.Client.Core.ViewModels;
+﻿using System;
+using System.Collections.Specialized;
+using CoreGraphics;
+using Edison.Mobile.Admin.Client.Core.ViewModels;
+using Edison.Mobile.Admin.Client.iOS.Cells;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Views;
+using Edison.Mobile.Admin.Client.iOS.ViewSources;
 using Edison.Mobile.iOS.Common.Views;
 using UIKit;
 
@@ -11,6 +16,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         SetupButtonView newDeviceView;
         SetupButtonView manageDeviceView;
         UILabel nearYouLabel;
+        UITableView devicesTableView;
 
         public override void ViewDidLoad()
         {
@@ -19,14 +25,6 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             View.BackgroundColor = Constants.Color.BackgroundLightGray;
 
             Title = "Edison Device Setup";
-
-            NavigationController.NavigationBar.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
-            NavigationController.NavigationBar.ShadowImage = new UIImage();
-            NavigationController.NavigationBar.Translucent = true;
-            NavigationController.NavigationBar.BackgroundColor = UIColor.Clear;
-
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.Menu, UIBarButtonItemStyle.Plain, null);
-            NavigationController.NavigationBar.TintColor = Constants.Color.DarkBlue;
 
             var sidePadding = 32f;
             var buttonHeight = 100f;
@@ -72,6 +70,95 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             View.AddSubview(nearYouLabel);
             nearYouLabel.TopAnchor.ConstraintEqualTo(manageDeviceView.BottomAnchor, constant: verticalPadding).Active = true;
             nearYouLabel.LeftAnchor.ConstraintEqualTo(manageDeviceView.LeftAnchor).Active = true;
+
+            devicesTableView = new UITableView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                AlwaysBounceVertical = true,
+                BackgroundColor = Constants.Color.White ,
+                TableHeaderView = new UIView(),
+                TableFooterView = new UIView(),
+                Source = new NearDevicesTableViewSource(ViewModel),
+                SeparatorStyle = UITableViewCellSeparatorStyle.None,
+            };
+
+            var type = typeof(NearDeviceTableViewCell);
+            devicesTableView.RegisterClassForCellReuse(type, type.Name);
+
+            View.AddSubview(devicesTableView);
+            devicesTableView.TopAnchor.ConstraintEqualTo(nearYouLabel.BottomAnchor, constant: Constants.Padding).Active = true;
+            devicesTableView.LeftAnchor.ConstraintEqualTo(View.LeftAnchor).Active = true;
+            devicesTableView.RightAnchor.ConstraintEqualTo(View.RightAnchor).Active = true;
+            devicesTableView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
+
+            var tableViewBackgroundShadowView = new UIView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                BackgroundColor = Constants.Color.White,
+            };
+
+            tableViewBackgroundShadowView.Layer.ShadowColor = Constants.Color.DarkGray.CGColor;
+            tableViewBackgroundShadowView.Layer.ShadowRadius = 3;
+            tableViewBackgroundShadowView.Layer.ShadowOffset = new CGSize(1, 1);
+            tableViewBackgroundShadowView.Layer.ShadowOpacity = 0.4f;
+            tableViewBackgroundShadowView.Layer.MasksToBounds = false;
+
+            View.InsertSubviewBelow(tableViewBackgroundShadowView, devicesTableView);
+
+            tableViewBackgroundShadowView.LeftAnchor.ConstraintEqualTo(devicesTableView.LeftAnchor).Active = true;
+            tableViewBackgroundShadowView.RightAnchor.ConstraintEqualTo(devicesTableView.RightAnchor).Active = true;
+            tableViewBackgroundShadowView.TopAnchor.ConstraintEqualTo(devicesTableView.TopAnchor).Active = true;
+            tableViewBackgroundShadowView.BottomAnchor.ConstraintEqualTo(devicesTableView.BottomAnchor).Active = true;
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            NavigationController.NavigationBar.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
+            NavigationController.NavigationBar.ShadowImage = new UIImage();
+            NavigationController.NavigationBar.Translucent = true;
+            NavigationController.NavigationBar.BackgroundColor = UIColor.Clear;
+
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.Menu, UIBarButtonItemStyle.Plain, null);
+            NavigationController.NavigationBar.TintColor = Constants.Color.DarkBlue;
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes
+            {
+                ForegroundColor = Constants.Color.DarkBlue,
+                Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
+            };
+        }
+
+        protected override void BindEventHandlers()
+        {
+            base.BindEventHandlers();
+            ViewModel.NearDevices.CollectionChanged += HandleNearDevicesCollectionChanged;
+            newDeviceView.OnTap += HandleNewDeviceViewOnTap;
+            manageDeviceView.OnTap += HandleManageDeviceViewOnTap;
+        }
+
+        protected override void UnBindEventHandlers()
+        {
+            base.UnBindEventHandlers();
+            ViewModel.NearDevices.CollectionChanged -= HandleNearDevicesCollectionChanged;
+            newDeviceView.OnTap -= HandleNewDeviceViewOnTap;
+            manageDeviceView.OnTap -= HandleManageDeviceViewOnTap;
+        }
+
+        void HandleNearDevicesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            devicesTableView.ReloadData();
+        }
+
+        void HandleNewDeviceViewOnTap(object sender, EventArgs e)
+        {
+            var chooseDeviceTypeViewController = new ChooseDeviceTypeViewController();
+            NavigationController.PushViewController(chooseDeviceTypeViewController, true);
+        }
+
+        void HandleManageDeviceViewOnTap(object sender, EventArgs e)
+        {
+
         }
     }
 }

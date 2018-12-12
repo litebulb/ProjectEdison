@@ -66,7 +66,7 @@ namespace Edison.Mobile.Common.Auth
             catch (Exception ex)
             {
                 logger.Log(ex, "Error acquiring B2C token silently");
-            }
+            }   
 
             return false;
         }

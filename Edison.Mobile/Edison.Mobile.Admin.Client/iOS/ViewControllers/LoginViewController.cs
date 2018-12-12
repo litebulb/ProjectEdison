@@ -22,7 +22,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             View.BackgroundColor = Constants.Color.White;
 
-            containerView = new UIView { TranslatesAutoresizingMaskIntoConstraints = false, Alpha = 1 };
+            containerView = new UIView { TranslatesAutoresizingMaskIntoConstraints = false, Alpha = 0 };
             View.AddSubview(containerView);
             containerView.TopAnchor.ConstraintEqualTo(View.LayoutMarginsGuide.TopAnchor).Active = true;
             containerView.BottomAnchor.ConstraintEqualTo(View.LayoutMarginsGuide.BottomAnchor).Active = true;

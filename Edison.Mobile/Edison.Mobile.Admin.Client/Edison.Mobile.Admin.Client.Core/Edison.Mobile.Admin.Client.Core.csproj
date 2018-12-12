@@ -61,5 +61,6 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Auth\" />
     <Folder Include="Network\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>
