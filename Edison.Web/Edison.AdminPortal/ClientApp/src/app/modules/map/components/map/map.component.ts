@@ -17,6 +17,7 @@ import { AppState } from '../../../../reducers';
 import {
     selectingActionPlanSelector
 } from '../../../../reducers/action-plan/action-plan.selectors';
+import { Device } from '../../../../reducers/device/device.model';
 import { ShowEventInEventBar } from '../../../../reducers/event/event.actions';
 import { Event, EventType } from '../../../../reducers/event/event.model';
 import {
@@ -108,6 +109,14 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
 
     ngOnChanges() {
         this.updateMap()
+    }
+
+    focusDevices = (devices: Device[]) => {
+        const pinsToFocus = this.pins.filter(
+            pin => devices.some(event => event.deviceId === pin.deviceId)
+        )
+
+        this.focusPins(pinsToFocus, this.defaultOptions.zoom)
     }
 
     focusEvents = (events: Event[]) => {

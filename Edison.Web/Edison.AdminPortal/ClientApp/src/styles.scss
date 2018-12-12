@@ -100,3 +100,25 @@ body {
     background-color: #E62C1E;
     background-image: url('/assets/icons/baseline-remove-24px.svg');
 }
+
+.mat-table {
+    width: 100%;
+    box-shadow: none;
+    thead {
+        th {
+            border-top: 1px solid rgba(151, 151, 151, 0.33);
+            border-bottom: 1px solid rgba(151, 151, 151, 0.33);
+        }
+    }
+    tbody {
+        tr {
+            &:hover {
+                background-color: #F5F5F6;
+                cursor: pointer;
+            }
+            td {
+                border: none;
+            }
+        }
+    }
+}

@@ -6,8 +6,8 @@ import { select, Store } from '@ngrx/store';
 
 import { DeviceType } from '../../../../core/models/deviceType';
 import { AppState } from '../../../../reducers';
-import { SetPageData } from '../../../../reducers/app/app.actions';
-import { TestDevice } from '../../../../reducers/device/device.actions';
+import { AppPage, SetPageData } from '../../../../reducers/app/app.actions';
+import { FocusDevices, TestDevice } from '../../../../reducers/device/device.actions';
 import { devicesSelector } from '../../../../reducers/device/device.selectors';
 import { Event } from '../../../../reducers/event/event.model';
 import { eventsSelector } from '../../../../reducers/event/event.selectors';
@@ -45,7 +45,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.setupSubscriptions();
         this.setupFilters();
 
-        this.store.dispatch(new SetPageData({ title: 'DEVICES', sidebar: false }))
+        this.store.dispatch(new SetPageData({ page: AppPage.Devices, sidebar: false }))
     }
 
     ngAfterViewInit() {
@@ -57,9 +57,11 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onRowClick(device: ExpandedDevice) {
-        if (device.deviceType === DeviceType.SmartBulb) {
-            this.store.dispatch(new TestDevice(device));
-        }
+        this.store.dispatch(new FocusDevices({ devices: [ device ] }));
+    }
+
+    testDevice(device: ExpandedDevice) {
+        this.store.dispatch(new TestDevice({ deviceId: device.deviceId }));
     }
 
     getLastAccessTime(lastAccessTime) {

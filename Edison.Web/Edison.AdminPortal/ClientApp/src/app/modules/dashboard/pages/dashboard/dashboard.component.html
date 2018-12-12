@@ -1,10 +1,13 @@
-<router-outlet></router-outlet>
-<div class="map-container">
-    <app-activate-response></app-activate-response>
-    <app-all-users-chat *ngIf="showAllUserChat"></app-all-users-chat>
-    <app-user-chat *ngIf="showUserChat"></app-user-chat>
-    <app-active-responses *ngIf="showResponses$ | async"></app-active-responses>
-    <app-map [pins]="pins"
-             [defaultOptions]="defaultOptions"
-             [showActivateResponse]="true"></app-map>
+<div class="dashboard-container"
+     [class.column-layout]="useColumnLayout">
+    <router-outlet></router-outlet>
+    <div class="map-container">
+        <app-activate-response></app-activate-response>
+        <app-all-users-chat *ngIf="showAllUserChat"></app-all-users-chat>
+        <app-user-chat *ngIf="showUserChat"></app-user-chat>
+        <app-active-responses *ngIf="showResponses$ | async"></app-active-responses>
+        <app-map [pins]="pins"
+                 [defaultOptions]="defaultOptions"
+                 [showActivateResponse]="true"></app-map>
+    </div>
 </div>

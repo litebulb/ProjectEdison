@@ -84,6 +84,7 @@
             <tr mat-header-row
                 *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row
+                (click)="onRowClick(row)"
                 *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </perfect-scrollbar>

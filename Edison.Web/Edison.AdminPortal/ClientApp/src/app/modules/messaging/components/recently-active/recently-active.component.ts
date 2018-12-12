@@ -7,7 +7,7 @@ import { MessageModel } from '../../../../core/services/directline/models/activi
 import { AppState } from '../../../../reducers';
 import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
 import { actionPlansSelector } from '../../../../reducers/action-plan/action-plan.selectors';
-import { SetPageData } from '../../../../reducers/app/app.actions';
+import { AppPage, SetPageData } from '../../../../reducers/app/app.actions';
 import {
     SelectActiveConversation, ToggleAllUsersChatWindow, ToggleUserChatWindow
 } from '../../../../reducers/chat/chat.actions';
@@ -38,7 +38,7 @@ export class RecentlyActiveComponent implements OnInit, OnDestroy {
     constructor (private store: Store<AppState>) { }
 
     ngOnInit() {
-        this.store.dispatch(new SetPageData({ title: 'Messaging', sidebar: true }));
+        this.store.dispatch(new SetPageData({ page: AppPage.Messaging, sidebar: true }));
         this.activeUsers$ = this.store.pipe(select(chatActiveUsersSelector));
         this.actionPlansSub$ = this.store.pipe(select(actionPlansSelector)).subscribe(actionPlans => this.actionPlans = actionPlans);
         this.messagesSub$ = this.store.pipe(select(chatMessagesSelector)).subscribe((messages: MessageModel[]) => this.messages = messages);

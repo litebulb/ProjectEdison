@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
+import { Action } from '@ngrx/store';
+
 import { Device } from './device.model';
 
 export enum DeviceActionTypes {
@@ -20,7 +21,14 @@ export enum DeviceActionTypes {
     SignalRDeleteDevice = '[Device] SignalR Delete Device',
     TestDevice = '[Device] Test Device',
     TestDeviceSuccess = '[Device] Test Device Success',
-    TestDeviceError = '[Device] Test Device Error'
+    TestDeviceError = '[Device] Test Device Error',
+    FocusDevices = '[Device] Focus Devices'
+}
+
+export class FocusDevices implements Action {
+    readonly type = DeviceActionTypes.FocusDevices;
+
+    constructor (public payload: { devices: Device[] }) { }
 }
 
 export class TestDeviceSuccess implements Action {

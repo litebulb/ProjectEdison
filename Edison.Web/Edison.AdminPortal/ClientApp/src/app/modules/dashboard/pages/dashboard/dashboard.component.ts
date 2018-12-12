@@ -11,13 +11,15 @@ import {
 } from '../../../../core/services/directline/directline.service';
 import { MessageModel } from '../../../../core/services/directline/models/activity-model';
 import { AppState } from '../../../../reducers';
-import { AppActionTypes, SetPageData } from '../../../../reducers/app/app.actions';
+import { AppActionTypes, AppPage, SetPageData } from '../../../../reducers/app/app.actions';
 import {
     AddChat, ChatActionTypes, GetChatAuthToken, ToggleAllUsersChatWindow, ToggleUserChatWindow,
     UpdateUserReadReceipt
 } from '../../../../reducers/chat/chat.actions';
 import { chatAuthSelector } from '../../../../reducers/chat/chat.selectors';
-import { GetDevices } from '../../../../reducers/device/device.actions';
+import {
+    DeviceActionTypes, FocusDevices, GetDevices
+} from '../../../../reducers/device/device.actions';
 import { Device } from '../../../../reducers/device/device.model';
 import { devicesFilteredSelector } from '../../../../reducers/device/device.selectors';
 import {
@@ -48,6 +50,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     showEventsSub$: Subscription
     showUserChat: boolean;
     showAllUserChat: boolean;
+    focusDevicesSub$: Subscription;
+    setPageDataSub$: Subscription;
+    useColumnLayout: boolean = false;
 
     defaultOptions: MapDefaults = {
         mapId: 'defaultMap',
@@ -130,12 +135,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.mapComponent.focusAllPins()
             })
 
+        this.focusDevicesSub$ = this.actions$
+            .ofType(DeviceActionTypes.FocusDevices)
+            .subscribe(({ payload: { devices } }: FocusDevices) => {
+                this.mapComponent.focusDevices(devices);
+            })
+
+        this.setPageDataSub$ = this.actions$
+            .ofType(AppActionTypes.UpdatePageData)
+            .subscribe(({ payload: { page } }: SetPageData) => {
+                this.useColumnLayout = page === AppPage.Devices;
+            })
+
         this.showResponses$ = this.store.pipe(select(responsesExist))
 
         this.store.dispatch(new GetDevices())
         this.store.dispatch(new GetEvents())
         this.store.dispatch(new GetResponses())
-        this.store.dispatch(new SetPageData({ title: 'Right Now' }))
+        this.store.dispatch(new SetPageData({ page: AppPage.RightNow }))
         if (environment.authorize) {
             this.store.dispatch(new GetChatAuthToken())
         }
@@ -145,6 +162,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.combinedStream$.unsubscribe()
         this.focusAllPinsSub$.unsubscribe()
         this.showEventsSub$.unsubscribe()
+        this.focusDevicesSub$.unsubscribe();
+        this.setPageDataSub$.unsubscribe();
     }
 
     updateEventAddresses(events: Event[]) {
