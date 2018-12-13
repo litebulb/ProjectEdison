@@ -17,12 +17,13 @@ import {
 import { SelectActiveEvent } from '../reducers/event/event.actions';
 import {
     ActivateResponseActionPlan, AddLocationToActiveResponse, AddLocationToActiveResponseError,
-    AddLocationToActiveResponseSuccess, AddResponse, CloseResponse, CloseResponseError, GetResponse,
-    GetResponseError, GetResponsesError, LoadResponses, PostNewResponse, PostNewResponseError,
-    PostNewResponseSuccess, PutResponse, PutResponseError, ResponseActionTypes,
-    RetryResponseActions, RetryResponseActionsError, RetryResponseActionsSuccess,
-    SelectActiveResponse, ShowActivateResponse, ShowSelectingLocation, SignalRUpdateResponseAction,
-    UpdateResponse, UpdateResponseActions, UpdateResponseActionsError, UpdateResponseActionsSuccess
+    AddLocationToActiveResponseSuccess, AddResponse, CloseResponse, CloseResponseError,
+    DontShowSelectingLocation, GetResponse, GetResponseError, GetResponsesError, LoadResponses,
+    PostNewResponse, PostNewResponseError, PostNewResponseSuccess, PutResponse, PutResponseError,
+    ResponseActionTypes, RetryResponseActions, RetryResponseActionsError,
+    RetryResponseActionsSuccess, SelectActiveResponse, ShowActivateResponse, ShowSelectingLocation,
+    SignalRUpdateResponseAction, UpdateResponse, UpdateResponseActions, UpdateResponseActionsError,
+    UpdateResponseActionsSuccess
 } from '../reducers/response/response.actions';
 import { Response } from '../reducers/response/response.model';
 import { selectAll } from '../reducers/response/response.reducer';
@@ -34,9 +35,12 @@ const getSuccessMessage = (actionPlanAction: ActionPlanAction) => {
         case ActionPlanType.Notification:
             return 'Notification sent successfully.';
         case ActionPlanType.EmergencyCall:
+        case ActionPlanType.Twilio:
             return '911 Call initiated successfully.';
         case ActionPlanType.Email:
             return 'Email sent successfully.';
+        default:
+            return null;
     }
 }
 
@@ -47,14 +51,40 @@ const getFailureMessage = (actionPlanAction: ActionPlanAction) => {
         case ActionPlanType.Notification:
             return 'Notification failed to send.';
         case ActionPlanType.EmergencyCall:
+        case ActionPlanType.Twilio:
             return '911 Call failed.';
         case ActionPlanType.Email:
             return 'Email failed to send.';
+        default:
+            return null;
     }
 }
 
 @Injectable()
 export class ResponseEffects {
+    private _toastAction(foundAction, respToUpdate) {
+        if (foundAction) {
+            const toastrOptions = {
+                progressBar: true,
+                closeButton: true,
+            }
+            switch (foundAction.status) {
+                case ActionStatus.Error:
+                case ActionStatus.Unknown:
+                    const failMsg = getFailureMessage(foundAction);
+                    if (failMsg) { this.toastr.error(failMsg, respToUpdate.actionPlan.name, toastrOptions); }
+                    break;
+                case ActionStatus.NotStarted:
+                case ActionStatus.Skipped:
+                    break;
+                case ActionStatus.Success:
+                    const successMsg = getSuccessMessage(foundAction);
+                    if (successMsg) { this.toastr.success(successMsg, respToUpdate.actionPlan.name, toastrOptions); }
+                    break;
+            }
+        }
+    }
+
     @Effect()
     getResponses$: Observable<Action> = this.actions$.pipe(
         ofType(ResponseActionTypes.GetResponses),
@@ -128,12 +158,17 @@ export class ResponseEffects {
     @Effect()
     showSelectingLocation$: Observable<Action> = this.actions$.pipe(
         ofType(ResponseActionTypes.AddResponse, ResponseActionTypes.SignalRNewResponse),
-        map((action: AddResponse) =>
-            new ShowSelectingLocation({
-                showSelectingLocation: action.payload.response.primaryEventClusterId ? false : true,
-                response: action.payload.response
-            }))
-    )
+        map((action: AddResponse) => {
+            if (!action.payload.response.geolocation) {
+                return new ShowSelectingLocation({
+                    showSelectingLocation: action.payload.response.primaryEventClusterId ? false : true,
+                    response: action.payload.response
+                });
+            }
+
+            return new DontShowSelectingLocation();
+        }
+        ))
 
     @Effect()
     setActiveResponseOnShow$: Observable<Action> = this.actions$.pipe(
@@ -277,51 +312,36 @@ export class ResponseEffects {
             const respToUpdate = responses.find(r => r.responseId === responseId);
             if (respToUpdate) {
                 const { openActions, closeActions } = respToUpdate.actionPlan;
-                let foundAction = null;
+                let foundActionIndex = null;
                 if (openActions) {
-                    foundAction = openActions.findIndex(oa => oa.actionId === actionId);
-                    if (foundAction) {
-                        openActions[ foundAction ] = {
-                            ...openActions[ foundAction ],
+                    foundActionIndex = openActions.findIndex(oa => oa.actionId === actionId);
+                    if (foundActionIndex) {
+                        openActions[ foundActionIndex ] = {
+                            ...openActions[ foundActionIndex ],
                             ...action.payload.message,
                         }
+                        this._toastAction(openActions[ foundActionIndex ], respToUpdate);
                     }
                 }
 
                 if (closeActions) {
-                    foundAction = openActions.findIndex(oa => oa.actionId === actionId);
-                    if (foundAction) {
-                        openActions[ foundAction ] = {
-                            ...openActions[ foundAction ],
+                    foundActionIndex = closeActions.findIndex(oa => oa.actionId === actionId);
+                    if (foundActionIndex) {
+                        closeActions[ foundActionIndex ] = {
+                            ...closeActions[ foundActionIndex ],
                             ...action.payload.message,
                         }
+                        this._toastAction(closeActions[ foundActionIndex ], respToUpdate);
                     }
                 }
 
-                if (foundAction) {
-                    const toastrOptions = {
-                        progressBar: true,
-                        closeButton: true,
-                    }
-                    switch (foundAction.status) {
-                        case ActionStatus.Error:
-                        case ActionStatus.Unknown:
-                            this.toastr.error(getFailureMessage(foundAction), respToUpdate.actionPlan.name, toastrOptions);
-                            break;
-                        case ActionStatus.NotStarted:
-                        case ActionStatus.Skipped:
-                            break;
-                        case ActionStatus.Success:
-                            this.toastr.success(getSuccessMessage(foundAction), respToUpdate.actionPlan.name, toastrOptions);
-                            break;
-                    }
-                }
                 return new ActivateResponseActionPlan({
                     response: {
                         ...respToUpdate,
                         actionPlan: {
                             ...respToUpdate.actionPlan,
                             openActions,
+                            closeActions,
                         }
                     }
                 });

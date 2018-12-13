@@ -35,6 +35,7 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
         switch (type) {
             case ActionPlanType.EmergencyCall:
             case ActionPlanType.Email:
+            case ActionPlanType.Twilio:
                 return TextTemplateComponent
             case ActionPlanType.Notification:
                 return NotificationTemplateComponent

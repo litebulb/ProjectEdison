@@ -143,7 +143,7 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
     }
 
     getFullResponse() {
-        if (!this.activeResponse.actionPlan) {
+        if (!this.activeResponse.actionPlan && !this.loadingFullResponse) {
             this.loadingFullResponse = true;
             this.store.dispatch(new GetResponse({ responseId: this.activeResponse.responseId }));
         } else {

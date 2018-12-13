@@ -22,6 +22,7 @@ export enum ActionPlanType {
     Email = 'email',
     EmergencyCall = 'twilio',
     LightSensor = 'lightsensor',
+    Twilio = 'twilio',
 }
 
 export enum ActionStatus {

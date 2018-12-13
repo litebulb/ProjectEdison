@@ -86,8 +86,13 @@ export class EventCardComponent implements OnInit, OnDestroy {
                         break;
                 }
                 if (this.response.responseState === ResponseState.Inactive) {
-                    this.spinnerColor = spinnerColors.greenSpinnerColor;
-                    this.circleColor = spinnerColors.greenCircleColor;
+                    if (this._isExpired()) {
+                        this.spinnerColor = spinnerColors.greySpinnerColor;
+                        this.circleColor = spinnerColors.greyCircleColor;
+                    } else {
+                        this.spinnerColor = spinnerColors.greenSpinnerColor;
+                        this.circleColor = spinnerColors.greenCircleColor;
+                    }
                 }
             }
         })
@@ -125,7 +130,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
     }
 
     getResponseColor() {
-        return this.response ? this.response.responseState === ResponseState.Inactive ? 'green' : this.response.color.toLowerCase() : ''
+        return this.response ? this.response.responseState === ResponseState.Inactive ? this._isExpired() ? 'grey' : 'green' : this.response.color.toLowerCase() : ''
     }
 
     ngOnDestroy() {
@@ -173,5 +178,9 @@ export class EventCardComponent implements OnInit, OnDestroy {
 
     toggleMapVisibility = () => {
         this.mapVisible = !this.mapVisible
+    }
+
+    private _isExpired = () => {
+        return new Date().getTime() > new Date(this.event.closureDate).getTime();
     }
 }

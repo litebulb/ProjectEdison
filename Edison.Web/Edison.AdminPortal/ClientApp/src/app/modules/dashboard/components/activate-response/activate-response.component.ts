@@ -82,7 +82,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
             .pipe(select(selectedActionPlanSelector))
             .subscribe(actionPlan => {
                 if (actionPlan) {
-                    this.selectedActionPlan = actionPlan
+                    this._updateActionPlan(actionPlan);
                     if (this.loadingFullActionPlan &&
                         actionPlan.openActions &&
                         actionPlan.openActions.length > 0) {
@@ -111,7 +111,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
             .subscribe(({ activeResponse }) => {
                 this.activeResponse = activeResponse;
                 if (activeResponse) {
-                    this.selectedActionPlan = this.activeResponse.actionPlan;
+                    this._updateActionPlan(this.activeResponse.actionPlan);
                 }
                 this.updateResponseStatus();
             })
@@ -140,6 +140,20 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
             this._selectActionPlan(item.id);
         } else {
             this.store.dispatch(new SelectActionPlan({ actionPlan: null }))
+        }
+    }
+
+    private _updateActionPlan(actionPlan: ActionPlan) {
+        if (this.selectedActionPlan && this.selectedActionPlan.openActions && actionPlan.openActions) {
+            this.selectedActionPlan = {
+                ...actionPlan,
+                openActions: actionPlan.openActions.map(action => ({
+                    ...action,
+                    loading: this.selectedActionPlan.openActions.some(oa => oa.actionId === action.actionId && oa.loading),
+                }))
+            }
+        } else {
+            this.selectedActionPlan = actionPlan;
         }
     }
 

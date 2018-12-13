@@ -12,8 +12,5 @@ export const eventsSelector = createSelector(eventStateSelector,
 
 export const activeEventSelector = createSelector(eventStateSelector, state => state.activeEvent);
 
-export const activeEventsSelector = createSelector(eventsSelector,
-    state => state.filter(event => event.closureDate === null));
-
-export const activeMobileEventsSelector = createSelector(activeEventsSelector,
+export const activeMobileEventsSelector = createSelector(eventsSelector,
     state => state.filter(event => event.eventType === EventType.Message))

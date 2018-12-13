@@ -34,6 +34,7 @@ export enum ResponseActionTypes {
     CloseResponse = '[Response] Close Response',
     CloseResponseError = '[Response] Close Response Error',
     ShowSelectingLocation = '[Response] Show Selecting Location',
+    DontShowSelectingLocation = '[Response] Dont Show Selecting Location',
     AddLocationToActiveResponse = '[Response] Add Location To Response',
     AddLocationToActiveResponseError = '[Response] Add Location To Response Error',
     AddLocationToActiveResponseSuccess = '[Response] Add Location To Response Success',
@@ -121,6 +122,10 @@ export class ShowSelectingLocation implements Action {
     readonly type = ResponseActionTypes.ShowSelectingLocation;
 
     constructor (public payload: { showSelectingLocation: boolean, response?: Response }) { }
+}
+
+export class DontShowSelectingLocation implements Action {
+    readonly type = ResponseActionTypes.DontShowSelectingLocation;
 }
 
 export class CloseResponse implements Action {

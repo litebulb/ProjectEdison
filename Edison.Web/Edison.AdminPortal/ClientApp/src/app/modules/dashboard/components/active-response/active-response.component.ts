@@ -24,8 +24,7 @@ export class ActiveResponseComponent implements OnInit {
     responseHasLocation: boolean = false;
 
     ngOnInit() {
-        if (this.activeResponse.primaryEventClusterId === null &&
-            this.activeResponse.geolocation) {
+        if (this.activeResponse.geolocation) {
             this.responseHasLocation = true;
         } else {
             this.responseHasLocation = false;
