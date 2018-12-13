@@ -43,6 +43,10 @@
                         tabindex="370"
                         *ngIf="activeResponse && actionPlanNeedsLocation"
                         (click)="onReturnToMapClick()">{{ activeEvent ? 'Return To Map' : 'Set Response Location'}}</button>
+                <button class="app-button primary"
+                        *ngIf="activeResponse && (actionPlanHasErrors || actionPlanNeedsLocation)"
+                        (click)="retry()"
+                        tabindex="380">Retry</button>
                 <div class="content-container">
                     <app-action-list [actions]="selectedActionPlan.openActions"
                                      [canEdit]="true"

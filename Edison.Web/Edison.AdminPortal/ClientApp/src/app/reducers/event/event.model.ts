@@ -2,7 +2,7 @@ import { GeoLocation } from '../../core/models/geoLocation';
 import { Device } from '../device/device.model';
 
 export interface EventInstance {
-    date: Date;
+    date: string;
     metadata?: any;
 }
 
@@ -18,9 +18,9 @@ export interface Event {
     device: Device;
     eventCount: number;
     events: EventInstance[];
-    startDate: Date;
-    closureDate: Date;
-    endDate: Date;
-    updateDate?: Date;
+    startDate: string;
+    closureDate: string;
+    endDate: string;
+    updateDate?: string;
     geolocation?: GeoLocation;
 }

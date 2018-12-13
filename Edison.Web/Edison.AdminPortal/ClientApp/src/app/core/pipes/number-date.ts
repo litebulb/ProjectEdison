@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'numberdate'})
+@Pipe({ name: 'numberdate' })
 export class NumberDatePipe implements PipeTransform {
-    constructor() {}
+    constructor () { }
 
     transform(
         value: number
-      ): Date {
+    ): Date {
         return new Date(value * 1000);
-      }
+    }
 }

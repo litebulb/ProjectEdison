@@ -1,0 +1,12 @@
+<div class="status-icon"
+     *ngIf="status === actionStatus.Success">
+    <mat-icon>check</mat-icon>
+</div>
+<div class="status-icon red"
+     *ngIf="status === actionStatus.Error || status === actionStatus.Skipped || status === actionStatus.Unknown">
+    <mat-icon>remove</mat-icon>
+</div>
+<div class="status-icon"
+     *ngIf="loading && status !== actionStatus.Error && status !== actionStatus.Skipped && status !== actionStatus.Unknown && status !== actionStatus.Success">
+    <mat-spinner [diameter]="24"></mat-spinner>
+</div>

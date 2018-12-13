@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     focusDevicesSub$: Subscription;
     setPageDataSub$: Subscription;
     useColumnLayout: boolean = false;
+    showResponseButtons: boolean = true;
 
     defaultOptions: MapDefaults = {
         mapId: 'defaultMap',
@@ -145,6 +146,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .ofType(AppActionTypes.UpdatePageData)
             .subscribe(({ payload: { page } }: SetPageData) => {
                 this.useColumnLayout = page === AppPage.Devices;
+                this.showResponseButtons = page !== AppPage.Devices
             })
 
         this.showResponses$ = this.store.pipe(select(responsesExist))
@@ -215,7 +217,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // Mobile device pins
         const eventPins: MapPin[] = events
             .filter(e => e.eventType === EventType.Message &&
-                e.device.geolocation)
+                e.device.geolocation && responses.some(r => r.primaryEventClusterId === e.eventClusterId && r.responseState === ResponseState.Active))
             .reduce((acc, event) => {
                 const existingEvent = acc.find(e => e.device.deviceId === event.device.deviceId);
                 if (!existingEvent) { acc.push(event); }
@@ -285,7 +287,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         return events
             .filter(event => event.device.deviceId === deviceId)
-            .sort((a, b) => b.startDate.getTime() - a.startDate.getTime())
+            .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
             .slice(0, 1)[ 0 ]
     }
 }

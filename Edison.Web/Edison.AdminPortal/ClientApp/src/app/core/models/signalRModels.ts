@@ -8,10 +8,10 @@ export namespace SignalRModels {
 
     export interface ActionMessage {
         actionId: string;
-        endDate: Date;
+        endDate: string;
         errorMessage: string;
         responseId: string;
-        startDate: Date;
+        startDate: string;
         status: ActionStatus;
         updateType: SignalRTypes.Action
     }

@@ -17,7 +17,7 @@ import {
 import { SelectActiveEvent } from '../../../../reducers/event/event.actions';
 import { Event } from '../../../../reducers/event/event.model';
 import {
-    PostNewResponse, ResponseActionTypes, ShowActivateResponse
+    PostNewResponse, ResponseActionTypes, RetryResponseActions, ShowActivateResponse
 } from '../../../../reducers/response/response.actions';
 import { Response } from '../../../../reducers/response/response.model';
 import { activeResponseSelector } from '../../../../reducers/response/response.selectors';
@@ -157,6 +157,7 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
     }
 
     activateActionPlan = () => {
+        this.setActionsLoading();
         this.store.dispatch(
             new PostNewResponse({
                 event: this.activeEvent,
@@ -165,6 +166,21 @@ export class ActivateResponseComponent implements OnInit, OnDestroy {
         )
         this.store.dispatch(new PutActionPlan({ actionPlan: this.selectedActionPlan }));
         this.activated = true;
+    }
+
+    retry() {
+        if (this.activeResponse) {
+            this.store.dispatch(new RetryResponseActions({ responseId: this.activeResponse.responseId }));
+            this.setActionsLoading();
+        }
+    }
+
+    setActionsLoading() {
+        if (this.selectedActionPlan && this.selectedActionPlan.openActions) {
+            this.selectedActionPlan.openActions
+                .filter(action => action.status !== ActionStatus.Success)
+                .forEach(action => action.loading = true);
+        }
     }
 
     onReturnToMapClick() {

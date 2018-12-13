@@ -9,5 +9,5 @@ export interface Device {
     location2: string;
     location3: string;
     geolocation: GeoLocation;
-    lastAccessTime?: number;
+    lastAccessTime?: string;
 }

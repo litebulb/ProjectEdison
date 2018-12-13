@@ -1,0 +1,14 @@
+@import 'colorScheme';
+:host {
+    .status-icon {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        left: -35px;
+        top: 4px;
+        color: $green;
+        &.red {
+            color: $red;
+        }
+    }
+}

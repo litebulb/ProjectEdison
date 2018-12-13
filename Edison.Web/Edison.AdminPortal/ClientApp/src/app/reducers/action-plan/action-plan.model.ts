@@ -30,7 +30,8 @@ export enum ActionStatus {
     Success = 'Success',
     Skipped = 'Skipped',
     NotStarted = 'NotStarted',
-    Error = 'Error'
+    Error = 'Error',
+    Loading = 'Loading'
 }
 
 export interface ActionPlanAction {
@@ -39,10 +40,11 @@ export interface ActionPlanAction {
     isActive: true;
     description?: string;
     parameters?: any;
-    endDate?: Date;
-    startDate?: Date;
+    endDate?: string;
+    startDate?: string;
     status?: ActionStatus;
     errorMessage?: string;
+    loading?: boolean;
 }
 
 export enum ActionChangeType {
@@ -59,20 +61,20 @@ export interface AddEditAction {
 }
 
 export interface ActionPlanTextAction extends ActionPlanAction {
-    parameters: {
+    parameters?: {
         content: string
     }
 }
 
 export interface ActionPlanNotificationAction extends ActionPlanAction {
-    parameters: {
+    parameters?: {
         message: string,
         editing?: boolean
     }
 }
 
 export interface ActionPlanRadiusAction extends ActionPlanAction {
-    parameters: {
+    parameters?: {
         radius: string
         color: string
     }

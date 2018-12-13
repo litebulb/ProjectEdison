@@ -110,7 +110,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
 
             const recentEvent = events
                 .filter(event => event.device.deviceId === device.deviceId)
-                .sort((a, b) => b.startDate.getTime() - a.startDate.getTime())
+                .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
                 .slice(0, 1)[ 0 ];
 
             if (recentEvent) {

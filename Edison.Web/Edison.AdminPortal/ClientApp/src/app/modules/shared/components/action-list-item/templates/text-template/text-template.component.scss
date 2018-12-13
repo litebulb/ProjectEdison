@@ -4,15 +4,6 @@
     align-items: flex-start;
     position: relative;
     min-height: 32px;
-    .status-icon {
-        position: absolute;
-        left: -35px;
-        top: 4px;
-        color: $green;
-        &.red {
-            color: $red;
-        }
-    }
     .app-icon {
         margin-right: 15px;
         z-index: 3;

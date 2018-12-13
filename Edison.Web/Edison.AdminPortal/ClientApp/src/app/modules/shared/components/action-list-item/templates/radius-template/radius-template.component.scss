@@ -6,15 +6,6 @@
     display: flex;
     min-height: 32px;
     flex-grow: 2;
-    .status-icon {
-        position: absolute;
-        left: -35px;
-        top: 4px;
-        color: $green;
-        &.red {
-            color: $red;
-        }
-    }
     .error {
         background-color: #FFDBD9;
         box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.5);

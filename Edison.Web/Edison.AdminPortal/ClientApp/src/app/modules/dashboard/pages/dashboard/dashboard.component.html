@@ -2,10 +2,10 @@
      [class.column-layout]="useColumnLayout">
     <router-outlet></router-outlet>
     <div class="map-container">
-        <app-activate-response></app-activate-response>
+        <app-activate-response *ngIf="showResponseButtons"></app-activate-response>
         <app-all-users-chat *ngIf="showAllUserChat"></app-all-users-chat>
         <app-user-chat *ngIf="showUserChat"></app-user-chat>
-        <app-active-responses *ngIf="showResponses$ | async"></app-active-responses>
+        <app-active-responses *ngIf="(showResponses$ | async) && showResponseButtons"></app-active-responses>
         <app-map [pins]="pins"
                  [defaultOptions]="defaultOptions"
                  [showActivateResponse]="true"></app-map>

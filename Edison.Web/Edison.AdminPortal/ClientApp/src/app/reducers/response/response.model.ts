@@ -11,8 +11,8 @@ export class Response {
     responseId: string;
     responderUserId: string;
     responseState: ResponseState;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     actionPlan: ActionPlan;
     actionPlanId: string;
     primaryEventClusterId?: string;

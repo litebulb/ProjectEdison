@@ -20,50 +20,50 @@ export const mockEvents: Event[] = [
         eventType: EventType.SoundSensor,
         device: mockDevices[ 0 ],
         eventCount: 1,
-        events: [ { date: new Date() } ],
-        startDate: new Date(),
-        closureDate: oldDate,
-        endDate: new Date(),
+        events: [ { date: new Date().toUTCString() } ],
+        startDate: new Date().toUTCString(),
+        closureDate: oldDate.toUTCString(),
+        endDate: new Date().toUTCString(),
     },
     {
         eventClusterId: 'blah11',
         eventType: EventType.SoundSensor,
         device: mockDevices[ 0 ],
         eventCount: 1,
-        events: [ { date: new Date() } ],
-        startDate: new Date(),
-        closureDate: oldDate,
-        endDate: new Date(),
+        events: [ { date: new Date().toUTCString() } ],
+        startDate: new Date().toUTCString(),
+        closureDate: oldDate.toUTCString(),
+        endDate: new Date().toUTCString(),
     },
     {
         eventClusterId: 'blah111',
         eventType: EventType.SoundSensor,
         device: mockDevices[ 0 ],
         eventCount: 1,
-        events: [ { date: new Date() } ],
-        startDate: new Date(),
-        closureDate: new Date(),
-        endDate: new Date(),
+        events: [ { date: new Date().toUTCString() } ],
+        startDate: new Date().toUTCString(),
+        closureDate: new Date().toUTCString(),
+        endDate: new Date().toUTCString(),
     },
     {
         eventClusterId: 'blah2',
         eventType: EventType.SoundSensor,
         device: mockDevices[ 0 ],
         eventCount: 1,
-        events: [ { date: oldDate } ],
-        startDate: oldDate,
-        closureDate: new Date(),
-        endDate: new Date(),
+        events: [ { date: oldDate.toUTCString() } ],
+        startDate: oldDate.toUTCString(),
+        closureDate: new Date().toUTCString(),
+        endDate: new Date().toUTCString(),
     },
     {
         eventClusterId: 'blah3',
         eventType: EventType.SoundSensor,
         device: mockDevices[ 1 ],
         eventCount: 2,
-        events: [ { date: new Date() }, { date: new Date() } ],
-        startDate: new Date(),
-        closureDate: new Date(),
-        endDate: new Date(),
+        events: [ { date: new Date().toUTCString() }, { date: new Date().toUTCString() } ],
+        startDate: new Date().toUTCString(),
+        closureDate: new Date().toUTCString(),
+        endDate: new Date().toUTCString(),
     },
     {
         eventClusterId: 'blah4',
@@ -83,7 +83,7 @@ export const mockEvents: Event[] = [
         },
         eventCount: 1,
         events: [ {
-            date: new Date(),
+            date: new Date().toUTCString(),
             metadata: {
                 userId: 'blah',
                 username: 'Jarrod Mayer',
@@ -91,9 +91,9 @@ export const mockEvents: Event[] = [
                 message: 'Oh no something happened!'
             }
         } ],
-        startDate: new Date(),
-        closureDate: new Date(),
-        endDate: new Date(),
+        startDate: new Date().toUTCString(),
+        closureDate: new Date().toUTCString(),
+        endDate: new Date().toUTCString(),
     },
     {
         eventClusterId: 'e01965a5-124d-4490-8c44-3be892705124',
@@ -113,7 +113,7 @@ export const mockEvents: Event[] = [
         eventCount: 3,
         events: [
             {
-                date: new Date(1542292672),
+                date: new Date(1542292672).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -122,7 +122,7 @@ export const mockEvents: Event[] = [
                 }
             },
             {
-                date: new Date(1542292667),
+                date: new Date(1542292667).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -131,7 +131,7 @@ export const mockEvents: Event[] = [
                 }
             },
             {
-                date: new Date(1542292666),
+                date: new Date(1542292666).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -140,10 +140,10 @@ export const mockEvents: Event[] = [
                 }
             }
         ],
-        startDate: new Date(1542292676),
-        closureDate: new Date(1542292672),
+        startDate: new Date(1542292676).toUTCString(),
+        closureDate: new Date(1542292672).toUTCString(),
         endDate: null,
-        updateDate: new Date(1542292672),
+        updateDate: new Date(1542292672).toUTCString(),
     },
     {
         eventClusterId: 'e01965a5-124d-4490-8c44-3be892705125',
@@ -163,7 +163,7 @@ export const mockEvents: Event[] = [
         eventCount: 3,
         events: [
             {
-                date: new Date(1542292672),
+                date: new Date(1542292672).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -172,7 +172,7 @@ export const mockEvents: Event[] = [
                 }
             },
             {
-                date: new Date(1542292667),
+                date: new Date(1542292667).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -181,7 +181,7 @@ export const mockEvents: Event[] = [
                 }
             },
             {
-                date: new Date(1542292666),
+                date: new Date(1542292666).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -190,10 +190,10 @@ export const mockEvents: Event[] = [
                 }
             }
         ],
-        startDate: new Date(1542292686),
-        closureDate: new Date(1542292672),
+        startDate: new Date(1542292686).toUTCString(),
+        closureDate: new Date(1542292672).toUTCString(),
         endDate: null,
-        updateDate: new Date(1542292672),
+        updateDate: new Date(1542292672).toUTCString(),
     },
     {
         eventClusterId: 'e01965a5-124d-4490-8c44-3be892705126',
@@ -213,7 +213,7 @@ export const mockEvents: Event[] = [
         eventCount: 3,
         events: [
             {
-                date: new Date(1542292672),
+                date: new Date(1542292672).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -222,7 +222,7 @@ export const mockEvents: Event[] = [
                 }
             },
             {
-                date: new Date(1542292667),
+                date: new Date(1542292667).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -231,7 +231,7 @@ export const mockEvents: Event[] = [
                 }
             },
             {
-                date: new Date(1542292666),
+                date: new Date(1542292666).toUTCString(),
                 metadata: {
                     userId: 'dl_alexanderikatz@gmail.com',
                     username: 'Alex Katz',
@@ -240,9 +240,9 @@ export const mockEvents: Event[] = [
                 }
             }
         ],
-        startDate: new Date(1542292696),
-        closureDate: new Date(),
-        endDate: new Date(),
-        updateDate: new Date(1542292672),
+        startDate: new Date(1542292696).toUTCString(),
+        closureDate: new Date().toUTCString(),
+        endDate: new Date().toUTCString(),
+        updateDate: new Date(1542292672).toUTCString(),
     }
 ]

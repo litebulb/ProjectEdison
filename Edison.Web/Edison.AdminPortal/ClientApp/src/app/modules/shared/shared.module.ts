@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { NumberDatePipe } from '../../core/pipes/number-date';
 import { SafePipe } from '../../core/pipes/safe';
 import { MaterialModule } from '../material/material.module';
+import {
+    ActionListItemStateComponent
+} from './components/action-list-item-state/action-list-item-state.component';
 import { ActionListItemComponent } from './components/action-list-item/action-list-item.component';
 import {
     NotificationTemplateComponent
@@ -40,6 +43,7 @@ const sharedComponents = [
     DelayButtonComponent,
     NumberDatePipe,
     ConfirmDialogComponent,
+    ActionListItemStateComponent
 ]
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

@@ -1,11 +1,5 @@
-<div class="status-icon"
-     *ngIf="context.status === actionStatus.Success">
-    <mat-icon>check</mat-icon>
-</div>
-<div class="status-icon red"
-     *ngIf="context.status === actionStatus.Error || context.status === actionStatus.Skipped || context.status === actionStatus.Unknown">
-    <mat-icon>remove</mat-icon>
-</div>
+<app-action-list-item-state [status]="context.status"
+                            [loading]="context.loading"></app-action-list-item-state>
 <div class="app-icon shield-plain red round"></div>
 <div class="content-container">
     <div>{{context.description}}</div>
