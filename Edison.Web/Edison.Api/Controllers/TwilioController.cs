@@ -36,7 +36,7 @@ namespace Edison.Api.Controllers
             //_restClient = twilioCreator.GetClient();
         }
 
-        //[Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [Route("Emergency")]
         [Produces(typeof(TwilioModel))]
         [HttpPost]
@@ -75,7 +75,7 @@ namespace Edison.Api.Controllers
                 dial.Number(string.Concat("+", _twilioOptions.Value.CallForwardingPhoneNumber), sendDigits: "wwww1928");
                 response.Append(dial);
 
-                return Content(response.ToString(), "text/xml", Encoding.UTF8);
+                return Content(response.ToString(), "text/xml");
             }
             catch (Exception e)
             {

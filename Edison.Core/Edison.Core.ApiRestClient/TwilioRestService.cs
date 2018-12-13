@@ -25,7 +25,7 @@ namespace Edison.Core
         }
         public async Task<TwilioModel> EmergencyCall(TwilioModel twilioReq)
         {
-            RestRequest request = await PrepareQuery("Twilio/Emergency", Method.GET);
+            RestRequest request = await PrepareQuery("Twilio/Emergency", Method.POST);
             request.AddParameter("application/json", JsonConvert.SerializeObject(twilioReq), ParameterType.RequestBody);
             var queryResult = await _client.ExecuteTaskAsync<TwilioModel>(request);
             if (queryResult.IsSuccessful)

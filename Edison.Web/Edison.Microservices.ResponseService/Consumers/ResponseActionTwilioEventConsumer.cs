@@ -28,7 +28,7 @@ namespace Edison.ResponseService.Consumers
             DateTime actionStartDate = DateTime.UtcNow;
             try
             {
-                if (context.Message != null && context.Message as IActionNotificationEvent != null)
+                if (context.Message != null && context.Message as IActionTwilioEvent != null)
                 {
                     IActionTwilioEvent action = context.Message;
                     _logger.LogDebug($"ResponseActionTwilioEventConsumer: ActionId: '{action.ActionId}'.");
