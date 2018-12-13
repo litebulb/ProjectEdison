@@ -26,7 +26,7 @@
   },
   "WorkflowsConfig": {
     "EventProcessingWorkflow": {
-      "EventClusterLifespan": 10,
+      "EventClusterLifespan": 2,
       "EventClusterCooldown": 720
     }
   },

@@ -18,7 +18,7 @@ export const mockActionPlans: ActionPlan[] = [
                 actionId: '1',
                 actionType: ActionPlanType.EmergencyCall,
                 isActive: true,
-                description: '911 will be called by RapidSOS',
+                description: '911 will be called by Twilio',
                 status: ActionStatus.None,
             },
             {
@@ -58,7 +58,7 @@ export const mockActionPlans: ActionPlan[] = [
                 actionId: '1',
                 actionType: ActionPlanType.EmergencyCall,
                 isActive: true,
-                description: '911 will be called by RapidSOS',
+                description: '911 will be called by Twilio',
                 status: ActionStatus.None,
             },
             {

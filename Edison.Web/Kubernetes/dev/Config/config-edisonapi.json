@@ -333,5 +333,13 @@
   "NotificationHub": {
     "PathName": "edisondevnotificationhub"
   },
+  "Twilio": {
+    "AccountSID": "AC01fa060abedfbd338f93018f72650360",
+    "Region": "NA",
+    "ProxyServerUrl": "http://29280579.ngrok.io/api/Twilio/Interconnect",
+    "PhoneNumber": "12242879623",
+    "EmergencyPhoneNumber": "12223334444",
+    "CallForwardingPhoneNumber": "43332221111"
+  },
   "AllowedHosts": "*"
 }
