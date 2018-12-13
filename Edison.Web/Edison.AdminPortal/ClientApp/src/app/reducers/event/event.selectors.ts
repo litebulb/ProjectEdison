@@ -7,8 +7,8 @@ import { selectAll, State } from './event.reducer';
 export const eventStateSelector = createFeatureSelector<AppState, State>('event');
 
 export const eventsSelector = createSelector(eventStateSelector,
-    state => selectAll(state).filter(event => !event.endDate ||
-        (Math.abs(new Date().getTime() - event.endDate.getTime()) / 36e5) <= 12));
+  state => selectAll(state).filter(event => !event.endDate)); //||
+     // (Math.abs(new Date().getTime() - event.endDate.getTime()) / 36e5) <= 12)); Crash event.endDate.getTime is not a function
 
 export const activeEventSelector = createSelector(eventStateSelector, state => state.activeEvent);
 
