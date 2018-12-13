@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" 
        android:id="@+id/thumbShape">
-<solid android:color="@color/notification_icon_bg_color"/>
+<solid android:color="@color/icon_background_grey"/>
 <corners android:topRightRadius="2dp"
     android:bottomRightRadius="2dp"
     android:topLeftRadius="2dp"

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+
+	<item android:drawable="@color/app_blue"/>
+
+  <item>
+    <bitmap 
+      android:src="@drawable/edison_logo_100"
+      android:width="100dp"
+		  android:height="100dp"
+		  android:gravity="center"
+      />
+  </item>
+</layer-list>
+<!--    
+	<item
+		android:left="50dip"
+		android:top="70dip"
+		android:right="50dip"
+		android:bottom="50dip">
+		<bitmap android:gravity="center|clip_horizontal|clip_vertical" android:src="@drawable/tree1" />  
+	</item>
+ --> 
+<!--  
+	<item
+		android:left="0dip"
+		android:top="0dip"
+		android:right="0dip"
+		android:bottom="0dip">
+		<bitmap android:gravity="center|fill_horizontal|fill_vertical" android:src="@drawable/splashscreen" />  
+	</item>  
+ --> 
+<!--  
+	<item
+		android:left="0dip"
+		android:top="0dip"
+		android:right="0dip"
+		android:bottom="0dip">
+		<bitmap android:gravity="center" android:src="@drawable/splashscreen" />  
+	</item>  
+-->

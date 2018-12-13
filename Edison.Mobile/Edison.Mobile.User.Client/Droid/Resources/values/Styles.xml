@@ -44,4 +44,18 @@
 
 
 
+  <style name="AppTheme.NoActionBar.Splash">
+    <item name="android:windowBackground">@drawable/responsive_splashscreen</item>
+  </style>
+  
+  
+  <style name="WhiteAccent" parent="ThemeOverlay.AppCompat.Light">
+    <item name="colorAccent">@color/white</item>
+  </style>
+  
+  
+  
+  
+  
+
 </resources>

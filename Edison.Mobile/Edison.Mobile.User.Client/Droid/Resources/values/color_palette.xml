@@ -2,6 +2,35 @@
 <resources>
 
 
+  <color name="primary_blue">#3322ff</color>
+  <color name="primary_blue_dark">#1f16a5</color>
+  <color name="primary_blue_light">#a39dff</color>
+  <color name="primary_grey">#3e3d4a</color>
+  
+  <color name="activity_blue">#2282ff</color>
+  <color name="activity_blue_40">#5ea4ff</color>
+  <color name="activity_blue_30">#add0ff</color>
+  <color name="activity_blue_20">#cbe2ff</color>
+  <color name="activity_blue_10">#e6f1ff</color>
+  
+  <color name="activity_red">#ff3122</color>
+  <color name="activity_red_60">#e62c1e</color>
+  
+  <color name="activity_yellow">#ffbd00</color>
+  <color name="activity_yellow_60">#ff9f22</color>
+  
+  <color name="activity_green">#00e536</color>
+  <color name="activity_green_60">#28cb4e</color>
+  
+  <color name="accent_blue">#22f0ff</color>
+  <color name="accent_green">#22ff9f</color>
+  
+  <color name="neutral_lighgrey">#f9f9fa</color>
+  <color name="neutral_grey">#e0e0e6</color>
+  <color name="neutral_darkgrey">#3e3d4a</color>
+  
+  
+  
   <color name="red1">#e51c23</color>
   <color name="red2">#ff3122</color>
   <color name="pink1">#e91e63</color>
