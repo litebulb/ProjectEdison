@@ -1,5 +1,4 @@
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -49,7 +48,10 @@ export class UserChatComponent implements OnInit, OnDestroy {
         this.messagesSub$ = this.store
             .pipe(select(chatActiveMessagesSelector))
             .subscribe(messages => {
-                if (!this.messages || this.messages.length < messages.length) {
+                const userChanged = this.messages && this.messages
+                    .filter(msg => msg.role !== 'admin')
+                    .some(msg => msg.name !== this.userName);
+                if (!this.messages || this.messages.length < messages.length || userChanged) {
                     this.messages = messages;
                     if (this.userId) {
                         this.store.dispatch(new SendUserReadReceipt({ userId: this.userId, date: new Date() }))

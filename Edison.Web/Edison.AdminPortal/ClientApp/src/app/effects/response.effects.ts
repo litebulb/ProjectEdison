@@ -20,7 +20,7 @@ import {
     AddLocationToActiveResponseSuccess, AddResponse, CloseResponse, CloseResponseError,
     DontShowSelectingLocation, GetResponse, GetResponseError, GetResponsesError, LoadResponses,
     PostNewResponse, PostNewResponseError, PostNewResponseSuccess, PutResponse, PutResponseError,
-    ResponseActionTypes, RetryResponseActions, RetryResponseActionsError,
+    ResponseActionTypes, ResponseNonAction, RetryResponseActions, RetryResponseActionsError,
     RetryResponseActionsSuccess, SelectActiveResponse, ShowActivateResponse, ShowSelectingLocation,
     SignalRUpdateResponseAction, UpdateResponse, UpdateResponseActions, UpdateResponseActionsError,
     UpdateResponseActionsSuccess
@@ -310,7 +310,7 @@ export class ResponseEffects {
         map(({ action, responses }: { action: SignalRUpdateResponseAction, responses: Response[] }) => {
             const { responseId, actionId } = action.payload.message;
             const respToUpdate = responses.find(r => r.responseId === responseId);
-            if (respToUpdate) {
+            if (respToUpdate && respToUpdate.actionPlan) {
                 const { openActions, closeActions } = respToUpdate.actionPlan;
                 let foundActionIndex = null;
                 if (openActions) {
@@ -345,6 +345,10 @@ export class ResponseEffects {
                         }
                     }
                 });
+            } else {
+                return new ActivateResponseActionPlan({
+                    response: respToUpdate
+                });
             }
         })
     )
@@ -376,6 +380,52 @@ export class ResponseEffects {
                 .pipe(map(() => new RetryResponseActionsSuccess()),
                     catchError(() => of(new RetryResponseActionsError()))
                 ))
+    )
+
+    @Effect()
+    setResponseActionsLoading$: Observable<Action> = this.actions$.pipe(
+        ofType(ResponseActionTypes.RetryResponseActions),
+        withLatestFrom(this.store$),
+        map(([ action, { response } ]) => ({
+            action,
+            responses: selectAll(response)
+        })),
+        map(({ action, responses }: { action: RetryResponseActions, responses: Response[] }) => {
+            const response = responses.find(resp => resp.responseId === action.payload.responseId);
+            if (response && response.actionPlan) {
+                const openActions = response.actionPlan.openActions.map((action => {
+                    if (action.status === ActionStatus.Success) { return action; }
+                    return {
+                        ...action,
+                        loading: true,
+                    }
+                }))
+
+                const closeActions = response.actionPlan.closeActions.map((action => {
+                    if (action.status === ActionStatus.Success) { return action; }
+                    return {
+                        ...action,
+                        loading: true,
+                    }
+                }))
+
+                return new UpdateResponse({
+                    response: {
+                        id: response.responseId,
+                        changes: {
+                            ...response,
+                            actionPlan: {
+                                ...response.actionPlan,
+                                openActions,
+                                closeActions
+                            }
+                        }
+                    }
+                })
+            }
+
+            return new ResponseNonAction();
+        })
     )
 
     constructor (

@@ -14,7 +14,8 @@
             tabindex="380">Return To Map</button>
     <app-action-list tabindex="200"
                      [actions]="activeResponse.actionPlan.closeActions"
-                     [canEdit]="true"></app-action-list>
+                     [canEdit]="true"
+                     [isCloseActionList]="true"></app-action-list>
     <app-delay-button (clickCompleted)="onDeactivateClick()"
                       [subheaderText]="deactivated ? 'Response Deactivated' : 'Press and Hold to deactivate'"
                       [buttonText]="deactivated ? 'Complete' : 'Deactivate'"

@@ -184,13 +184,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
             if (response.responseState === ResponseState.Active) {
                 return response.color // response is active
             } else {
-                const expired = new Date().getTime() > new Date(event.closureDate).getTime();
+                const expired = new Date().getTime() > new Date(event.endDate).getTime();
                 if (expired) { return 'grey' };
 
                 return 'green'; // response has been resolved
             }
         } else {
-            if (event.closureDate === null) { return 'blue' }
+            if (event.endDate === null) { return 'blue' }
             else { return 'grey' }
         }
     }

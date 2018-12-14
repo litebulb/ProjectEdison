@@ -181,6 +181,6 @@ export class EventCardComponent implements OnInit, OnDestroy {
     }
 
     private _isExpired = () => {
-        return new Date().getTime() > new Date(this.event.closureDate).getTime();
+        return new Date().getTime() > new Date(this.event.endDate).getTime();
     }
 }

@@ -14,6 +14,7 @@ export class RadiusTemplateComponent implements OnInit, OnChanges {
     @Input() last: boolean;
     @Input() canEdit: boolean;
     @Input() onchange: EventEmitter<{ actionId: string, addEditAction: AddEditAction }>;
+    @Input() isCloseAction: boolean;
 
     _color: string;
     actionPlanColors = Object.keys(ActionPlanColor).map(key => (ActionPlanColor[ key ]).toLowerCase());
@@ -44,7 +45,7 @@ export class RadiusTemplateComponent implements OnInit, OnChanges {
 
         const addEditAction: AddEditAction = {
             actionChangedString: ActionChangeType.Edit,
-            isCloseAction: true,
+            isCloseAction: this.isCloseAction,
             action: {
                 ...this.context,
                 parameters: {

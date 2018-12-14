@@ -17,6 +17,7 @@ export class ActionListComponent implements AfterViewInit {
 
     @Input() actions: ActionPlanAction[];
     @Input() canEdit: boolean = false;
+    @Input() isCloseActionList: boolean;
     @Output() onchange = new EventEmitter<AddEditAction>();
 
     ngAfterViewInit() {

@@ -86,7 +86,7 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
                         // a pre-existing notification was blanked out (aka removed)
                         this.addEditActions.set(actionToRemove.actionId, {
                             actionChangedString: ActionChangeType.Delete,
-                            isCloseAction: true,
+                            isCloseAction: false,
                             action: actionToRemove
                         })
                         break;
@@ -149,7 +149,7 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
         this._openActions.push(notification);
         this.updateAddEditActions({
             actionChangedString: ActionChangeType.Add,
-            isCloseAction: true,
+            isCloseAction: false,
             action: notification
         }, tempActionId);
     }

@@ -1,10 +1,13 @@
 import {
-    ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
+    ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../../reducers';
-import { ShowSelectingLocation } from '../../../../reducers/response/response.actions';
+import { ActionStatus } from '../../../../reducers/action-plan/action-plan.model';
+import {
+    RetryResponseActions, ShowSelectingLocation
+} from '../../../../reducers/response/response.actions';
 import { Response } from '../../../../reducers/response/response.model';
 
 @Component({
@@ -13,7 +16,7 @@ import { Response } from '../../../../reducers/response/response.model';
     styleUrls: [ './active-response.component.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActiveResponseComponent implements OnInit {
+export class ActiveResponseComponent implements OnInit, OnChanges {
     @Input() activeResponse: Response;
     @Output() deactivateClicked = new EventEmitter();
     @Output() updateClicked = new EventEmitter();
@@ -22,6 +25,11 @@ export class ActiveResponseComponent implements OnInit {
     constructor (private store: Store<AppState>) { }
 
     responseHasLocation: boolean = false;
+    actionPlanSuccessful: boolean;
+    actionPlanNeedsLocation: boolean;
+    responseNeedsLocation: boolean;
+    actionPlanHasErrors: boolean;
+    actionPlanPartialSuccess: boolean;
 
     ngOnInit() {
         if (this.activeResponse.geolocation) {
@@ -29,6 +37,11 @@ export class ActiveResponseComponent implements OnInit {
         } else {
             this.responseHasLocation = false;
         }
+        this.updateResponseStatus();
+    }
+
+    ngOnChanges() {
+        this.updateResponseStatus();
     }
 
     deactivate() {
@@ -37,6 +50,26 @@ export class ActiveResponseComponent implements OnInit {
 
     update() {
         this.updateClicked.emit();
+    }
+
+    updateResponseStatus() {
+        if (this.activeResponse && this.activeResponse.actionPlan && this.activeResponse.actionPlan.openActions) {
+            this.actionPlanSuccessful = !this.activeResponse.actionPlan.openActions.some(action => action.status !== ActionStatus.Success);
+            this.actionPlanNeedsLocation = this.responseNeedsLocation && this.activeResponse.actionPlan.openActions.some(action => action.status === ActionStatus.Skipped);
+            this.actionPlanHasErrors = this.activeResponse.actionPlan.openActions.some(action => action.status === ActionStatus.Error || action.status === ActionStatus.Unknown);
+            this.actionPlanPartialSuccess = this.activeResponse.actionPlan.openActions.some(action => action.status === ActionStatus.Success);
+        } else {
+            this.actionPlanSuccessful = false;
+            this.actionPlanNeedsLocation = false;
+            this.actionPlanHasErrors = false;
+            this.actionPlanPartialSuccess = false;
+        }
+    }
+
+    retry() {
+        if (this.activeResponse) {
+            this.store.dispatch(new RetryResponseActions({ responseId: this.activeResponse.responseId }));
+        }
     }
 
     setLocation() {

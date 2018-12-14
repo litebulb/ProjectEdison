@@ -10,4 +10,5 @@ export interface Message {
     role: string;
     self: boolean;
     read?: boolean;
+    id?: string;
 }

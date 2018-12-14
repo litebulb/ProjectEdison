@@ -22,6 +22,7 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
     @Input() first: boolean;
     @Input() canEdit: boolean;
     @Input() onchange: EventEmitter<{ actionId: string, addEditAction: AddEditAction }>;
+    @Input() isCloseAction: boolean;
 
     notificationText: string;
     editing = false;
@@ -86,7 +87,7 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
 
         const addEditAction: AddEditAction = {
             actionChangedString: actionChangeType,
-            isCloseAction: true,
+            isCloseAction: this.isCloseAction,
             action: {
                 actionId: actionChangeType === ActionChangeType.Delete || actionChangeType === ActionChangeType.Edit ? this.context.actionId : null,
                 actionType: this.context.actionType,

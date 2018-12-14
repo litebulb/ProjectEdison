@@ -7,6 +7,7 @@ import { fadeInOut } from '../../../../core/animations/fadeInOut';
 import { SearchListItem } from '../../../../core/models/searchListItem';
 import { AppState } from '../../../../reducers';
 import { SetSelectingActionPlan } from '../../../../reducers/action-plan/action-plan.actions';
+import { ActionStatus } from '../../../../reducers/action-plan/action-plan.model';
 import { GetResponse, SelectActiveResponse } from '../../../../reducers/response/response.actions';
 import { Response, ResponseState } from '../../../../reducers/response/response.model';
 import {
@@ -35,7 +36,7 @@ export class ActiveResponsesComponent implements OnInit, OnDestroy {
     activeId = null;
     activeView = ActiveView.Default;
     scrollConfig = { suppressScrollX: true, suppressScrollY: false, useBothWheelAxes: true, scrollIndicators: true };
-    loadingFullResponse = false;;
+    loadingFullResponse = false;
 
     private activeResponsesSub$: Subscription;
     private activeResponseSub$: Subscription;

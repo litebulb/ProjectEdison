@@ -48,6 +48,11 @@ export enum ResponseActionTypes {
     RetryResponseActions = '[Response] Retry Response Actions',
     RetryResponseActionsSuccess = '[Response] Retry Response Actions Success',
     RetryResponseActionsError = '[Response] Retry Response Actions Error',
+    ResponseNonAction = '[Response] Response Non Action',
+}
+
+export class ResponseNonAction implements Action {
+    readonly type = ResponseActionTypes.ResponseNonAction;
 }
 
 export class RetryResponseActions implements Action {

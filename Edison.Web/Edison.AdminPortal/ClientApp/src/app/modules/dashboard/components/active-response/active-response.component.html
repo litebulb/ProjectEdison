@@ -5,6 +5,10 @@
         <button class="app-button secondary"
                 (click)="update()"
                 tabindex="380">MAKE UPDATES</button>
+        <button class="app-button primary"
+                *ngIf="activeResponse && (actionPlanHasErrors || actionPlanNeedsLocation)"
+                (click)="retry()"
+                tabindex="380">Retry</button>
         <button class="app-button secondary"
                 (click)="setLocation()"
                 *ngIf="!responseHasLocation"
