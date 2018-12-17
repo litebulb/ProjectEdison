@@ -69,8 +69,8 @@ namespace Edison.Api.Helpers
                 }
 
                 //Handle Responses
-                if ((reportRequest.Type & ReportCreationType.Responses) != 0)
-                    await GenerateResponsesReport(workbook, reportRequest.MinimumDate, reportRequest.MaximumDate);
+                //if ((reportRequest.Type & ReportCreationType.Responses) != 0)
+                //    await GenerateResponsesReport(workbook, reportRequest.MinimumDate, reportRequest.MaximumDate);
 
                 workbook.Write(stream);
                 export = stream.ToArray();
