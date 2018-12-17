@@ -7,7 +7,8 @@ namespace Edison.Mobile.Admin.Client.iOS.Shared
     {
         public static readonly string ClientId = "2373be1e-6d0b-4e38-9115-e0bd01dadd61";
 
-        public static nfloat Padding = 8;
+        public static nfloat Padding = 16;
+        public static nfloat CircleNumberSize = 32;
 
         public static class Color
         {
@@ -46,9 +47,11 @@ namespace Edison.Mobile.Admin.Client.iOS.Shared
             public static UIImage Plus => UIImage.FromBundle("Plus");
             public static UIImage Gear => UIImage.FromBundle("Gear");
             public static UIImage ArrowRight => UIImage.FromBundle("ArrowRight");
+            public static UIImage ArrowLeft => UIImage.FromBundle("ArrowLeft");
             public static UIImage Power => UIImage.FromBundle("Power");
             public static UIImage Lines => UIImage.FromBundle("Lines");
             public static UIImage Check => UIImage.FromBundle("Check");
+            public static UIImage CloseX => UIImage.FromBundle("CloseX");
         }
     }
 }

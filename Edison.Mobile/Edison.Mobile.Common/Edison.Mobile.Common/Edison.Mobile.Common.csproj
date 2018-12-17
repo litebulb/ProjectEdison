@@ -67,6 +67,7 @@
     <Folder Include="Shared\" />
     <Folder Include="Notifications\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="WiFi\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj" />

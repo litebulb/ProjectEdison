@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Edison.Mobile.Admin.Client.Core.Auth;
 using Edison.Mobile.Admin.Client.Core.Network;
+using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Ioc;
@@ -16,11 +17,16 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
             builder.RegisterType<MainViewModel>();
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ChooseDeviceTypeViewModel>();
+            builder.RegisterType<RegisterDeviceViewModel>();
+            builder.RegisterType<ManualConnectViewModel>();
 
             builder.RegisterType<AppAuthService>()
                    .As<IAppAuthService>();
 
             builder.Register((c, p) => new DeviceRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
+
+            builder.RegisterType<DeviceSetupService>()
+                   .SingleInstance();
         }
     }
 }

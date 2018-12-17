@@ -86,7 +86,7 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
             };
 
             AddSubview(label);
-            label.LeftAnchor.ConstraintEqualTo(checkboxView.RightAnchor, constant: Constants.Padding).Active = true;
+            label.LeftAnchor.ConstraintEqualTo(checkboxView.RightAnchor, constant: Constants.Padding * 2).Active = true;
             label.CenterYAnchor.ConstraintEqualTo(checkboxView.CenterYAnchor).Active = true;
             label.RightAnchor.ConstraintEqualTo(RightAnchor, constant: -Constants.Padding).Active = true;
 

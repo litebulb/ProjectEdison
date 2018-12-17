@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="Shared\WifiNetworkModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
@@ -62,5 +63,6 @@
     <Folder Include="Auth\" />
     <Folder Include="Network\" />
     <Folder Include="Services\" />
+    <Folder Include="Shared\" />
   </ItemGroup>
 </Project>

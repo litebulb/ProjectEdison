@@ -4,11 +4,13 @@ using Edison.Mobile.Android.Common.Auth;
 using Edison.Mobile.Android.Common.Geolocation;
 using Edison.Mobile.Android.Common.Logging;
 using Edison.Mobile.Android.Common.Notifications;
+using Edison.Mobile.Android.Common.WiFi;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Notifications;
+using Edison.Mobile.Common.WiFi;
 
 namespace Edison.Mobile.Android.Common.Ioc
 {
@@ -40,6 +42,8 @@ namespace Edison.Mobile.Android.Common.Ioc
                    .As<INotificationService>()
                    .SingleInstance();
 
+            builder.RegisterType<PlatformWifiService>()
+                   .As<IWifiService>();
         }
     }
 }

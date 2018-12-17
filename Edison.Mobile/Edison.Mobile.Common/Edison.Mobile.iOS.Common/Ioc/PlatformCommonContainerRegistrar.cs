@@ -5,10 +5,12 @@ using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Notifications;
+using Edison.Mobile.Common.WiFi;
 using Edison.Mobile.iOS.Common.Auth;
 using Edison.Mobile.iOS.Common.LocationServices;
 using Edison.Mobile.iOS.Common.Logging;
 using Edison.Mobile.iOS.Common.Notifications;
+using Edison.Mobile.iOS.Common.WiFi;
 
 namespace Edison.Mobile.iOS.Common.Ioc
 {
@@ -29,7 +31,10 @@ namespace Edison.Mobile.iOS.Common.Ioc
                    .SingleInstance();
 
             builder.RegisterType<PlatformAuthService>()
-                    .As<IPlatformAuthService>();
+                   .As<IPlatformAuthService>();
+
+            builder.RegisterType<PlatformWifiService>()
+                   .As<IWifiService>();
         }
     }
 }

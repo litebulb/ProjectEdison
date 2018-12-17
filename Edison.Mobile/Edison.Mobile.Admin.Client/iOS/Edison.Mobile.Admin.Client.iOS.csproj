@@ -155,7 +155,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>EdisonAdmin</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -273,6 +273,14 @@
     <ImageAsset Include="Assets.xcassets\Check.imageset\check.png" />
     <ImageAsset Include="Assets.xcassets\Check.imageset\check%402x.png" />
     <ImageAsset Include="Assets.xcassets\Check.imageset\check%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft.png" />
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft%403x.png" />
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX.png" />
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%402x.png" />
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -293,6 +301,8 @@
     <Folder Include="Assets.xcassets\ArrowRight.imageset\" />
     <Folder Include="Assets.xcassets\ArrowRight.imageset\" />
     <Folder Include="Assets.xcassets\Check.imageset\" />
+    <Folder Include="Assets.xcassets\ArrowLeft.imageset\" />
+    <Folder Include="Assets.xcassets\CloseX.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -317,6 +327,11 @@
     <Compile Include="Views\CircleNumberView.cs" />
     <Compile Include="Views\CheckBoxView.cs" />
     <Compile Include="Views\CheckBoxItemView.cs" />
+    <Compile Include="ViewControllers\RegisterDeviceViewController.cs" />
+    <Compile Include="Views\CameraView.cs" />
+    <Compile Include="ViewControllers\ManualConnectViewController.cs" />
+    <Compile Include="ViewSources\NetworksTableViewSource.cs" />
+    <Compile Include="Cells\WifiNetworkTableViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

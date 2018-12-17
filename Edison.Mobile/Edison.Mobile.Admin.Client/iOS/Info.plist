@@ -2,14 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleName</key>
-	<string>Edison.Mobile.Admin.Client</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.bluemetal.edisonadmin</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -50,5 +48,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your camera to help you scan QR codes of devices you&apos;d like to set up.</string>
+	<key>CFBundleName</key>
+	<string>edisonadmin</string>
 </dict>
 </plist>

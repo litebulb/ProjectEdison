@@ -1,8 +1,11 @@
 ﻿using System;
+using CoreGraphics;
+using Edison.Mobile.Admin.Client.Core.Shared;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Views;
 using Edison.Mobile.iOS.Common.Views;
+using Foundation;
 using UIKit;
 
 namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
@@ -13,6 +16,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         CheckBoxItemView soundSensorCheckboxView;
         CheckBoxItemView lightCheckboxView;
 
+        UIButton nextButton;
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -20,6 +25,13 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             View.BackgroundColor = Constants.Color.BackgroundLightGray;
 
             Title = "Set Up New Device";
+
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.ArrowLeft, UIBarButtonItemStyle.Plain, (sender, e) =>
+            {
+                NavigationController.PopViewController(true);
+            });
+
+            NavigationController.InteractivePopGestureRecognizer.Delegate = null;
 
             var topHalfLayoutGuide = new UILayoutGuide();
             View.AddLayoutGuide(topHalfLayoutGuide);
@@ -35,8 +47,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             bottomHalfLayoutGuide.RightAnchor.ConstraintEqualTo(View.RightAnchor).Active = true;
             bottomHalfLayoutGuide.BottomAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.BottomAnchor).Active = true;
 
-            var padding = 16f;
-            var circleSize = 32f;
+            var padding = Constants.Padding;
+            var circleSize = Constants.CircleNumberSize;
 
             var oneCircleNumberView = new CircleNumberView
             {
@@ -75,6 +87,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 Text = "Button",
             };
 
+            buttonCheckboxView.OnTap += HandleCheckboxTap;
+
             View.AddSubview(buttonCheckboxView);
 
             buttonCheckboxView.LeftAnchor.ConstraintEqualTo(deviceTypeLabel.LeftAnchor, constant: -Constants.Padding).Active = true;
@@ -89,6 +103,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 SelectedTextColor = Constants.Color.DarkBlue,
                 Text = "Sound Sensor",
             };
+
+            soundSensorCheckboxView.OnTap += HandleCheckboxTap;
 
             View.AddSubview(soundSensorCheckboxView);
 
@@ -105,6 +121,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 Text = "Light",
             };
 
+            lightCheckboxView.OnTap += HandleCheckboxTap;
+
             View.AddSubview(lightCheckboxView);
 
             lightCheckboxView.LeftAnchor.ConstraintEqualTo(deviceTypeLabel.LeftAnchor, constant: -Constants.Padding).Active = true;
@@ -112,6 +130,65 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             lightCheckboxView.RightAnchor.ConstraintEqualTo(topHalfLayoutGuide.RightAnchor, constant: -padding).Active = true;
             lightCheckboxView.HeightAnchor.ConstraintEqualTo(topHalfLayoutGuide.HeightAnchor, multiplier: 0.25f).Active = true;
 
+            var twoCircleNumberView = new CircleNumberView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                Number = 2,
+            };
+
+            View.AddSubview(twoCircleNumberView);
+            twoCircleNumberView.TopAnchor.ConstraintEqualTo(bottomHalfLayoutGuide.TopAnchor, constant: padding).Active = true;
+            twoCircleNumberView.LeftAnchor.ConstraintEqualTo(bottomHalfLayoutGuide.LeftAnchor, constant: padding).Active = true;
+            twoCircleNumberView.WidthAnchor.ConstraintEqualTo(circleSize).Active = true;
+            twoCircleNumberView.HeightAnchor.ConstraintEqualTo(twoCircleNumberView.WidthAnchor).Active = true;
+
+            var powerLabel = new UILabel
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                TextColor = Constants.Color.MidGray,
+                Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
+                AdjustsFontSizeToFitWidth = true,
+                MinimumScaleFactor = 0.1f,
+                LineBreakMode = UILineBreakMode.Clip,
+                Lines = 0,
+                Text = "Turn on the device power.",
+            };
+
+            View.AddSubview(powerLabel);
+            powerLabel.LeftAnchor.ConstraintEqualTo(twoCircleNumberView.RightAnchor, constant: padding).Active = true;
+            powerLabel.CenterYAnchor.ConstraintEqualTo(twoCircleNumberView.CenterYAnchor).Active = true;
+            powerLabel.RightAnchor.ConstraintEqualTo(bottomHalfLayoutGuide.RightAnchor).Active = true;
+
+            nextButton = new UIButton
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                BackgroundColor = Constants.Color.DarkBlue,
+                Enabled = false,
+                Alpha = 0.4f,
+            };
+
+            nextButton.SetAttributedTitle(new NSAttributedString("NEXT", new UIStringAttributes
+            {
+                Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
+                ForegroundColor = Constants.Color.White,
+            }), UIControlState.Normal);
+
+            var buttonCenterLayoutGuide = new UILayoutGuide();
+            View.AddLayoutGuide(buttonCenterLayoutGuide);
+            buttonCenterLayoutGuide.TopAnchor.ConstraintEqualTo(powerLabel.BottomAnchor).Active = true;
+            buttonCenterLayoutGuide.BottomAnchor.ConstraintEqualTo(bottomHalfLayoutGuide.BottomAnchor).Active = true;
+
+            View.AddSubview(nextButton);
+            nextButton.WidthAnchor.ConstraintEqualTo(bottomHalfLayoutGuide.WidthAnchor, multiplier: 0.5f).Active = true;
+            nextButton.HeightAnchor.ConstraintEqualTo(44).Active = true;
+            nextButton.CenterYAnchor.ConstraintEqualTo(buttonCenterLayoutGuide.CenterYAnchor).Active = true;
+            nextButton.CenterXAnchor.ConstraintEqualTo(bottomHalfLayoutGuide.CenterXAnchor).Active = true;
+
+            nextButton.Layer.ShadowColor = Constants.Color.DarkGray.CGColor;
+            nextButton.Layer.ShadowRadius = 3;
+            nextButton.Layer.ShadowOffset = new CGSize(1, 1);
+            nextButton.Layer.ShadowOpacity = 0.4f;
+            nextButton.Layer.MasksToBounds = false;
         }
 
         public override void ViewWillAppear(bool animated)
@@ -130,6 +207,50 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 ForegroundColor = Constants.Color.White,
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
             };
+        }
+
+        protected override void BindEventHandlers()
+        {
+            base.BindEventHandlers();
+            nextButton.TouchUpInside += HandleNextButtonTouchUpInside;
+        }
+
+        protected override void UnBindEventHandlers()
+        {
+            base.UnBindEventHandlers();
+            nextButton.TouchUpInside -= HandleNextButtonTouchUpInside;
+        }
+
+        void HandleCheckboxTap(object sender, EventArgs e)
+        {
+            var checkboxes = new CheckBoxItemView[]
+            {
+                buttonCheckboxView,
+                lightCheckboxView,
+                soundSensorCheckboxView,
+            };
+
+            foreach (var checkbox in checkboxes)
+            {
+                var match = checkbox == sender;
+                checkbox.Selected = match;
+
+                if (match)
+                {
+                    if (sender == buttonCheckboxView) ViewModel.SetDeviceType(DeviceType.Button);
+                    if (sender == lightCheckboxView) ViewModel.SetDeviceType(DeviceType.Light);
+                    if (sender == soundSensorCheckboxView) ViewModel.SetDeviceType(DeviceType.SoundSensor);
+                }
+            }
+
+            nextButton.Enabled = true;
+            nextButton.Alpha = 1;
+        }
+
+        void HandleNextButtonTouchUpInside(object sender, EventArgs e)
+        {
+            var registerDeviceViewController = new RegisterDeviceViewController();
+            NavigationController.PushViewController(registerDeviceViewController, true);
         }
     }
 }

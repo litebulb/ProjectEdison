@@ -13,5 +13,9 @@
 		<string>$(AppIdentifierPrefix)com.bluemetal.edisonadmin</string>
 		<string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
 	</array>
+	<key>com.apple.developer.networking.HotspotConfiguration</key>
+	<true/>
+	<key>com.apple.developer.networking.networkextension</key>
+	<array/>
 </dict>
 </plist>

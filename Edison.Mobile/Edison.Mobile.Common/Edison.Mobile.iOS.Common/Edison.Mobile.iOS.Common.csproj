@@ -142,6 +142,7 @@
     <Folder Include="Views\" />
     <Folder Include="Extensions\" />
     <Folder Include="Notifications\" />
+    <Folder Include="WiFi\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Extensions\CLLocationCoordinate2D+Extensions.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Auth\PlatformAuthService.cs" />
+    <Compile Include="WiFi\PlatformWifiService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

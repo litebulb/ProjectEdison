@@ -856,7 +856,6 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.String.common_open_on_phone = global::Edison.Mobile.User.Client.Droid.Resource.String.common_open_on_phone;
 			global::Edison.Mobile.Android.Common.Resource.String.common_signin_button_text = global::Edison.Mobile.User.Client.Droid.Resource.String.common_signin_button_text;
 			global::Edison.Mobile.Android.Common.Resource.String.common_signin_button_text_long = global::Edison.Mobile.User.Client.Droid.Resource.String.common_signin_button_text_long;
-			global::Edison.Mobile.Android.Common.Resource.String.fcm_fallback_notification_channel_label = global::Edison.Mobile.User.Client.Droid.Resource.String.fcm_fallback_notification_channel_label;
 			global::Edison.Mobile.Android.Common.Resource.String.library_name = global::Edison.Mobile.User.Client.Droid.Resource.String.library_name;
 			global::Edison.Mobile.Android.Common.Resource.String.search_menu_title = global::Edison.Mobile.User.Client.Droid.Resource.String.search_menu_title;
 			global::Edison.Mobile.Android.Common.Resource.String.status_bar_notification_info_overflow = global::Edison.Mobile.User.Client.Droid.Resource.String.status_bar_notification_info_overflow;
