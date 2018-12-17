@@ -46,13 +46,22 @@ namespace Edison.Api.Controllers
             {
                 var to = new PhoneNumber(string.Concat("+",_twilioOptions.Value.EmergencyPhoneNumber));
                 var from = new PhoneNumber(string.Concat("+", _twilioOptions.Value.PhoneNumber));
-                var call = await CallResource.CreateAsync(to, from, url: new Uri(_twilioOptions.Value.ProxyServerUrl));
-
-                var result = new TwilioModel()
+                var result = new TwilioModel();
+                if (_twilioOptions.Value.BypassCalling == "1" || _twilioOptions.Value.BypassCalling.ToLower() == "true")
                 {
-                    CallSID = call.Sid,
-                    Message = obj.Message
-                };
+                    result.CallSID = Guid.Empty.ToString();
+                    result.Message = "Call Bypassed";
+                }
+                else
+                {
+                    var call = await CallResource.CreateAsync(to, from, url: new Uri(_twilioOptions.Value.ProxyServerUrl));
+
+                    result = new TwilioModel()
+                    {
+                        CallSID = call.Sid,
+                        Message = obj.Message
+                    };
+                }
 
                 return Ok(result);
             }

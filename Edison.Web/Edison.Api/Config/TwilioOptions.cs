@@ -12,6 +12,7 @@
         //For Emergency Number Setup
         public string EmergencyPhoneNumber { get; set; }
         public string CallForwardingPhoneNumber { get; set; }
+        public string BypassCalling { get; set; }
         //public string EmergencyStreet { get; set; }
         //public string EmergencyZipCode { get; set; }
         //public string EmergencyRegionStateCode { get; set; }
