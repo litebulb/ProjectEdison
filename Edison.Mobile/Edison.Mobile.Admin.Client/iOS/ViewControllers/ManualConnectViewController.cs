@@ -6,6 +6,7 @@ using Edison.Mobile.Admin.Client.iOS.Cells;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Views;
 using Edison.Mobile.Admin.Client.iOS.ViewSources;
+using Edison.Mobile.Common.WiFi;
 using Edison.Mobile.iOS.Common.Views;
 using UIKit;
 
@@ -134,10 +135,20 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             networksTableView.ReloadData();
         }
 
-        async void HandleOnWifiNetworkSelected(object sender, Common.WiFi.WifiNetwork e)
+        async void HandleOnWifiNetworkSelected(object sender, WifiNetwork wifiNetwork)
         {
-            var success = await ViewModel.ConnectToDeviceHotspot(e);
-            Console.WriteLine(success);
+            var success = await ViewModel.ConnectToDeviceHotspot(wifiNetwork);
+            if (success)
+            {
+                DismissViewController(true, null);
+            }
+            else
+            {
+                var alertController = UIAlertController.Create(null, $"Could not join {wifiNetwork.SSID}", UIAlertControllerStyle.Alert);
+                var action = UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null);
+                alertController.AddAction(action);
+                PresentViewController(alertController, true, null);
+            }
         }
     }
 }

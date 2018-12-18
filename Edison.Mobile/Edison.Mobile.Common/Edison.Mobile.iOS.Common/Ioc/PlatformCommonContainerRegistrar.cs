@@ -31,10 +31,12 @@ namespace Edison.Mobile.iOS.Common.Ioc
                    .SingleInstance();
 
             builder.RegisterType<PlatformAuthService>()
-                   .As<IPlatformAuthService>();
+                   .As<IPlatformAuthService>()
+                   .SingleInstance();
 
             builder.RegisterType<PlatformWifiService>()
-                   .As<IWifiService>();
+                   .As<IWifiService>()
+                   .SingleInstance();
         }
     }
 }

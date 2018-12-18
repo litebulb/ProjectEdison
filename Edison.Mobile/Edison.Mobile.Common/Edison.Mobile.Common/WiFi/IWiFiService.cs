@@ -6,7 +6,9 @@ namespace Edison.Mobile.Common.WiFi
 {
     public interface IWifiService
     {
-        Task<IEnumerable<WifiNetwork>> GetWifiNetworks();
-        Task<bool> ConnectToSecuredNetwork(string ssid, string passphrase);
+        Task<IEnumerable<WifiNetwork>> GetPreviouslyConfiguredWifiNetworks();
+        Task<WifiNetwork> GetCurrentlyConnectedWifiNetwork();
+        Task<bool> ConnectToSecuredWifiNetwork(string ssid, string passphrase);
+        Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks();
     }
 }

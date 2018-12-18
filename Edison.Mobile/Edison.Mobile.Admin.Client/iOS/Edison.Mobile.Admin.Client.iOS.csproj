@@ -332,6 +332,7 @@
     <Compile Include="ViewControllers\ManualConnectViewController.cs" />
     <Compile Include="ViewSources\NetworksTableViewSource.cs" />
     <Compile Include="Cells\WifiNetworkTableViewCell.cs" />
+    <Compile Include="ViewControllers\SelectWifiViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

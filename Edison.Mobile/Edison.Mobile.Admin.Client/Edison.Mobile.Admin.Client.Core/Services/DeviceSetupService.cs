@@ -23,7 +23,8 @@ namespace Edison.Mobile.Admin.Client.Core.Services
             set => deviceTwinModel = value;
         }
 
-        public WifiNetwork DeviceHotspotNetwork { get; set; }
+        public WifiNetwork CurrentWifiNetwork { get; set; }
+        public WifiNetwork CurrentDeviceHotspotNetwork { get; set; }
 
         public DeviceSetupService(IWifiService wifiService)
         {
@@ -35,7 +36,7 @@ namespace Edison.Mobile.Admin.Client.Core.Services
         public void ClearDevice()
         {
             DeviceTwinModel = null;
-            DeviceHotspotNetwork = null;
+            CurrentDeviceHotspotNetwork = null;
         }
 
         public void SetDeviceType(DeviceType deviceType)
@@ -57,19 +58,6 @@ namespace Edison.Mobile.Admin.Client.Core.Services
         public void SetDeviceGuid(Guid guid)
         {
             DeviceTwinModel.DeviceId = guid;
-        }
-
-        public async Task<List<WifiNetwork>> GetAvailableWifiNetworks()
-        {
-            var wifiNetworks = await wifiService.GetWifiNetworks();
-            return wifiNetworks?.ToList() ?? new List<WifiNetwork>();
-        }
-
-        public async Task<bool> ConnectToDeviceHotspot(WifiNetwork wifiNetwork)
-        {
-            var success = await wifiService.ConnectToSecuredNetwork(wifiNetwork.SSID, "Edison1234");
-            DeviceHotspotNetwork = success ? wifiNetwork : DeviceHotspotNetwork;
-            return success;
         }
     }
 }

@@ -52,5 +52,9 @@
 	<string>We need your camera to help you scan QR codes of devices you&apos;d like to set up.</string>
 	<key>CFBundleName</key>
 	<string>edisonadmin</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>network-authentication</string>
+	</array>
 </dict>
 </plist>
