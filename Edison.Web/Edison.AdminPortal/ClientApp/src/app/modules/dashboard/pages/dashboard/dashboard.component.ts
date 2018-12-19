@@ -144,9 +144,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.setPageDataSub$ = this.actions$
             .ofType(AppActionTypes.UpdatePageData)
-            .subscribe(({ payload: { page } }: SetPageData) => {
-                this.useColumnLayout = page === AppPage.Devices;
-                this.showResponseButtons = page !== AppPage.Devices
+            .subscribe(({ payload: { title } }: SetPageData) => {
+                this.useColumnLayout = title === AppPage.Devices;
+                this.showResponseButtons = title !== AppPage.Devices
             })
 
         this.showResponses$ = this.store.pipe(select(responsesExist))
@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetDevices())
         this.store.dispatch(new GetEvents())
         this.store.dispatch(new GetResponses())
-        this.store.dispatch(new SetPageData({ page: AppPage.RightNow }))
+        this.store.dispatch(new SetPageData({ title: AppPage.RightNow }))
         if (environment.authorize) {
             this.store.dispatch(new GetChatAuthToken())
         }

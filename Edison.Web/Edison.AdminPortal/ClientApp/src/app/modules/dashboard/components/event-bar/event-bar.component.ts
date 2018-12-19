@@ -52,7 +52,7 @@ export class EventBarComponent implements OnInit, OnDestroy {
     constructor (private store: Store<AppState>, private actions$: Actions, private _element: ElementRef, private renderer: Renderer2) { }
 
     ngOnInit() {
-        this.store.dispatch(new SetPageData({ page: AppPage.RightNow, sidebar: true }));
+        this.store.dispatch(new SetPageData({ title: AppPage.RightNow, sidebar: true }));
 
         this.eventsSub$ = this.store
             .pipe(select(eventsSelector))

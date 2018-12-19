@@ -1,22 +1,18 @@
-import { Injectable } from '@angular/core'
-import { Actions, Effect, ofType } from '@ngrx/effects'
-import { Observable, of, Subscriber } from 'rxjs'
-import { Action } from '@ngrx/store'
-import { mergeMap, catchError, map } from 'rxjs/operators'
-import { HttpClient } from '@angular/common/http'
-import { environment } from '../../environments/environment'
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+
+import { environment } from '../../environments/environment';
+import { mockActionPlans } from '../mockData/mockActionPlans';
 import {
-    ActionPlanActionTypes,
-    LoadActionPlans,
-    GetActionPlansError,
-    GetActionPlanError,
-    UpdateActionPlan,
-    GetActionPlan,
-    PutActionPlan,
-    PutActionPlanError,
-} from '../reducers/action-plan/action-plan.actions'
-import { mockActionPlans } from '../mockData/mockActionPlans'
-import { ActionPlan } from '../reducers/action-plan/action-plan.model'
+    ActionPlanActionTypes, GetActionPlan, GetActionPlanError, GetActionPlansError, LoadActionPlans,
+    PutActionPlan, PutActionPlanError, UpdateActionPlan
+} from '../reducers/action-plan/action-plan.actions';
+import { ActionPlan } from '../reducers/action-plan/action-plan.model';
 
 @Injectable()
 export class ActionPlanEffects {

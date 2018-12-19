@@ -1,0 +1,28 @@
+<mat-form-field>
+    <input matInput
+           [(ngModel)]="startDate"
+           [matDatepicker]="startDatePicker"
+           placeholder="Start Date"
+           (dateInput)="validateStartDate()"
+           (dateChange)="validateStartDate()"
+           tabindex="200"
+           #startDateInput>
+    <mat-datepicker-toggle matSuffix
+                           [for]="startDatePicker"
+                           tabindex="210"></mat-datepicker-toggle>
+    <mat-datepicker #startDatePicker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput
+           [(ngModel)]="endDate"
+           [matDatepicker]="endDatePicker"
+           placeholder="End Date"
+           (dateInput)="validateEndDate()"
+           (dateChange)="validateEndDate()"
+           tabindex="220">
+    <mat-datepicker-toggle matSuffix
+                           [for]="endDatePicker"
+                           tabindex="230"></mat-datepicker-toggle>
+    <mat-datepicker #endDatePicker></mat-datepicker>
+</mat-form-field>

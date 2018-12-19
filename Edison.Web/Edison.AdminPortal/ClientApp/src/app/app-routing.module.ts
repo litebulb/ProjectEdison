@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
@@ -10,6 +11,15 @@ const routes: Routes = [
         canLoad: [ AuthenticationGuard ],
         data: {
             title: 'CONFIGURATION',
+        },
+    },
+    {
+        path: 'history',
+        loadChildren:
+            './modules/history/history.module#HistoryModule',
+        canLoad: [ AuthenticationGuard ],
+        data: {
+            title: 'HISTORY',
         },
     }
 ]

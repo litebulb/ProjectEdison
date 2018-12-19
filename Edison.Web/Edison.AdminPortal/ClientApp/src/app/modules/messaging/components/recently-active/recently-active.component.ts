@@ -38,7 +38,7 @@ export class RecentlyActiveComponent implements OnInit, OnDestroy {
     constructor (private store: Store<AppState>) { }
 
     ngOnInit() {
-        this.store.dispatch(new SetPageData({ page: AppPage.Messaging, sidebar: true }));
+        this.store.dispatch(new SetPageData({ title: AppPage.Messaging, sidebar: true }));
         this.activeUsers$ = this.store.pipe(select(chatActiveUsersSelector));
         this.actionPlansSub$ = this.store.pipe(select(actionPlansSelector)).subscribe(actionPlans => this.actionPlans = actionPlans);
         this.messagesSub$ = this.store.pipe(select(chatMessagesSelector)).subscribe((messages: MessageModel[]) => this.messages = messages);

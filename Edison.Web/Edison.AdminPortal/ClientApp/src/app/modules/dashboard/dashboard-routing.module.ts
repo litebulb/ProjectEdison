@@ -1,11 +1,15 @@
-import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
 import { AuthenticationGuard } from 'microsoft-adal-angular6';
 
-import { DashboardComponent } from './pages/dashboard/dashboard.component'
-import { EventBarComponent } from './components/event-bar/event-bar.component'
-import { RecentlyActiveComponent } from '../messaging/components/recently-active/recently-active.component'
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
 import { DevicesComponent } from '../devices/pages/devices/devices.component';
+import { HistoryComponent } from '../history/pages/history/history.component';
+import {
+    RecentlyActiveComponent
+} from '../messaging/components/recently-active/recently-active.component';
+import { EventBarComponent } from './components/event-bar/event-bar.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
     {
@@ -40,6 +44,14 @@ const routes: Routes = [
                 data: {
                     title: 'DEVICES',
                     sidebar: false,
+                }
+            },
+            {
+                path: 'history',
+                component: HistoryComponent,
+                data: {
+                    title: 'HISTORY',
+                    sidebar: true,
                 }
             }
         ],

@@ -14,6 +14,7 @@ export enum ResponseActionTypes {
     AddResponses = '[Response] Add Responses',
     UpsertResponses = '[Response] Upsert Responses',
     UpdateResponse = '[Response] Update Response',
+    UpdateResponseAsync = '[Response] Update Response Async',
     UpdateResponses = '[Response] Update Responses',
     DeleteResponse = '[Response] Delete Response',
     DeleteResponses = '[Response] Delete Responses',
@@ -49,6 +50,12 @@ export enum ResponseActionTypes {
     RetryResponseActionsSuccess = '[Response] Retry Response Actions Success',
     RetryResponseActionsError = '[Response] Retry Response Actions Error',
     ResponseNonAction = '[Response] Response Non Action',
+}
+
+export enum LoadingType {
+    All,
+    Closed,
+    Open,
 }
 
 export class ResponseNonAction implements Action {
@@ -245,6 +252,12 @@ export class UpdateResponse implements Action {
     readonly type = ResponseActionTypes.UpdateResponse;
 
     constructor (public payload: { response: Update<Response> }) { }
+}
+
+export class UpdateResponseAsync implements Action {
+    readonly type = ResponseActionTypes.UpdateResponseAsync;
+
+    constructor (public payload: { response: Response, loading: LoadingType, activateResponse?: boolean }) { }
 }
 
 export class UpdateResponses implements Action {

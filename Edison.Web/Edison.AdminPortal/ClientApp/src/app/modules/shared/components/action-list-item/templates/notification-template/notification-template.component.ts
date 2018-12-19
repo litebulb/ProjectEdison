@@ -31,6 +31,10 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.notificationText = this.context.parameters.message;
+
+        // notification already sent, un-editable
+        if (this.context.status === ActionStatus.Success) { this.canEdit = false; return; }
+
         if (this.context.parameters.editing) {
             this.editing = true;
             this.adding = true;

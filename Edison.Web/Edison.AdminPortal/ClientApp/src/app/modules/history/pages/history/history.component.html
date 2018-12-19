@@ -1,0 +1,12 @@
+<div class="info">
+    Select a date range below to download an Excel file that will contain all available Event & Response data recorded
+    during the chosen timeframe.
+</div>
+<app-date-range (validRangeSelected)="validRangeSelected($event)"
+                (rangeSelected)="rangeSelected($event)"></app-date-range>
+<div class="download">
+    <a class="app-button primary"
+       [href]="downloadLink"
+       [ngClass]="{'disabled': downloadDisabled}"
+       (click)="checkLinkValid()">DOWNLOAD</a>
+</div>

@@ -67,8 +67,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
             },
             {
                 title: 'History',
-                route: '/actions',
-                sidebar: false,
+                route: '/dashboard/history',
+                sidebar: true,
                 icon: 'app-icon history',
                 onClick: this.activateNavLink,
             },
@@ -83,15 +83,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     private activateNavLink = activeNavLink => {
-        this.navLinks = this.navLinks.map(nl => ({
-            ...nl,
-            active: nl.title === activeNavLink.title,
-        }))
-        if (activeNavLink.rootRoute) {
-            this.router.navigate([ activeNavLink.rootRoute, activeNavLink.route ]);
-        } else {
-            this.router.navigate([ activeNavLink.route ]);
-        }
+        this.router.navigate([ activeNavLink.route ]);
+
+        // disable popups and overlays if navigating to another link
         if (activeNavLink.route !== '/dashboard/messaging') {
             this.store.dispatch(new ToggleAllUsersChatWindow({ open: false }));
             this.store.dispatch(new ToggleUserChatWindow({ open: false }));

@@ -45,7 +45,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.setupSubscriptions();
         this.setupFilters();
 
-        this.store.dispatch(new SetPageData({ page: AppPage.Devices, sidebar: false }))
+        this.store.dispatch(new SetPageData({ title: AppPage.Devices, sidebar: false }))
     }
 
     ngAfterViewInit() {

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { DevicesModule } from '../devices/devices.module';
+import { HistoryModule } from '../history/history.module';
 import { MapModule } from '../map/map.module';
 import { MaterialModule } from '../material/material.module';
 import { MessagingModule } from '../messaging/messaging.module';
@@ -39,7 +40,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
         FormsModule,
         MessagingModule,
         DevicesModule,
-        ToastContainerModule
+        ToastContainerModule,
+        HistoryModule
         // SmartMapModule
     ],
     declarations: [
