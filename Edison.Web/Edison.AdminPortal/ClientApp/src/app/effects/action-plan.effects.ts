@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 import { mockActionPlans } from '../mockData/mockActionPlans';
 import {
     ActionPlanActionTypes, GetActionPlan, GetActionPlanError, GetActionPlansError, LoadActionPlans,
-    PutActionPlan, PutActionPlanError, UpdateActionPlan
+    PutActionPlan, PutActionPlanError, PutActionPlanSuccess, UpdateActionPlan
 } from '../reducers/action-plan/action-plan.actions';
 import { ActionPlan } from '../reducers/action-plan/action-plan.model';
 
@@ -78,20 +78,24 @@ export class ActionPlanEffects {
         mergeMap((action: PutActionPlan) =>
             this.http.put(`${environment.baseUrl}${environment.apiUrl}actionplans`, action.payload.actionPlan)
                 .pipe(
-                    map(
-                        (actionPlan: ActionPlan) =>
-                            actionPlan
-                                ? new UpdateActionPlan({
-                                    actionPlan: {
-                                        id: actionPlan.actionPlanId,
-                                        changes: actionPlan,
-                                    },
-                                })
-                                : new PutActionPlanError()
-                    ),
-                    catchError(() => of(new PutActionPlanError()))
+                    map((actionPlan: ActionPlan) =>
+                        actionPlan ?
+                            new PutActionPlanSuccess({ actionPlan }) :
+                            new PutActionPlanError({ actionPlan: action.payload.actionPlan })),
+                    catchError(() => of(new PutActionPlanError({ actionPlan: action.payload.actionPlan })))
                 )
         )
+    )
+
+    @Effect()
+    updateActionPlanSuccess$: Observable<Action> = this.actions$.pipe(
+        ofType(ActionPlanActionTypes.PutActionPlanSuccess),
+        map((action: PutActionPlanSuccess) => new UpdateActionPlan({
+            actionPlan: {
+                id: action.payload.actionPlan.actionPlanId,
+                changes: action.payload.actionPlan,
+            },
+        }))
     )
 
     constructor (private actions$: Actions, private http: HttpClient) { }

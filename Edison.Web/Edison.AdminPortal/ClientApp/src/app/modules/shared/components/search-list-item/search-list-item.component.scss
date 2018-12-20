@@ -1,67 +1,56 @@
 @import 'icons';
 @import 'colorScheme';
-
 :host {
     display: flex;
 }
+
 .container {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  padding-left: 20px;
-  min-height: 44px;
-  max-height: 44px;
-  width: 100%;
-
-  &.active {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+    min-height: 44px;
+    max-height: 44px;
+    width: 100%;
+    &.active {
+        .text {
+            color: white;
+        }
+        &.red {
+            background-color: $red;
+        }
+        &.blue {
+            background-color: $blue;
+        }
+        &.yellow {
+            background-color: $yellow;
+            .text {
+                color: black;
+            }
+        }
+    }
     .text {
-      color: white;
-    }
-
-    &.red {
-      background-color: $red;
-    }
-
-    &.blue {
-      background-color: $blue;
-    }
-
-    &.yellow {
-      background-color: $yellow;
-      
-      .text {
+        font-size: 18px;
+        flex-grow: 2;
         color: black;
-      }
     }
-  }
-
-  .text {
-    font-size: 18px;
-    flex-grow: 2;
-    color: black;
-  }
-
-  .app-icon:not(.dismiss) {
-    margin-right: 18px;
-
-    &.close {
-      cursor: pointer;
+    .app-icon:not(.dismiss) {
+        margin-right: 18px;
+        &.close {
+            cursor: pointer;
+        }
     }
-  }
-
-  .dismiss {
-    padding: 10px;
-  }
-
-  .active-arrow {
-    height: 0;
-    width: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-
-    border-left: 10px solid #f9f9fa;
-    position: absolute;
-    right: -10px;
-  }
+    .dismiss {
+        padding: 10px;
+    }
+    .active-arrow {
+        height: 0;
+        width: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid #f9f9fa;
+        position: absolute;
+        right: -10px;
+    }
 }

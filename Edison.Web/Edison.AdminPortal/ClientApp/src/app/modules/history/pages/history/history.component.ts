@@ -23,7 +23,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     constructor (private store: Store<AppState>) { }
 
     ngOnInit() {
-        this.store.dispatch(new SetPageData({ title: AppPage.History, sidebar: true }));
+        this.store.dispatch(new SetPageData({ title: AppPage.History, showDownArrow: true, showReloadButton: true }));
         this.tokenSub = this.store.pipe(select(authTokenSelector)).subscribe(token => this.token = token);
     }
 

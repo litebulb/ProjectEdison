@@ -1,10 +1,13 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core'
-import { Store, select } from '@ngrx/store'
-import { AppState } from '../../../../reducers'
-import { FocusAllPins } from '../../../../reducers/app/app.actions'
-import { Observable } from 'rxjs'
-import { pageTitleSelector, pageSidebarSelector } from '../../../../reducers/app/app.selectors'
+import { Observable } from 'rxjs';
+
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
 import { AdalService } from '../../../../core/services/adal.service';
+import { AppState } from '../../../../reducers';
+import { FocusAllPins } from '../../../../reducers/app/app.actions';
+import { State } from '../../../../reducers/app/app.reducer';
+import { appStateSelector, pageTitleSelector } from '../../../../reducers/app/app.selectors';
 
 @Component({
     selector: 'app-topnav',
@@ -14,7 +17,7 @@ import { AdalService } from '../../../../core/services/adal.service';
 })
 export class TopnavComponent implements OnInit {
     pageTitle$: Observable<string>;
-    sidebar$: Observable<boolean>;
+    appState$: Observable<State>;
 
     constructor (
         private authService: AdalService,
@@ -23,7 +26,7 @@ export class TopnavComponent implements OnInit {
 
     ngOnInit() {
         this.pageTitle$ = this.store.pipe(select(pageTitleSelector));
-        this.sidebar$ = this.store.pipe(select(pageSidebarSelector));
+        this.appState$ = this.store.pipe(select(appStateSelector));
     }
 
     reload() {

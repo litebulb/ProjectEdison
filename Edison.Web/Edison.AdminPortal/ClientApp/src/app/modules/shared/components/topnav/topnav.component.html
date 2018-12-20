@@ -2,7 +2,7 @@
 <div class="title">
     <span>{{ pageTitle$ | async }}</span>
     <span class="down-arrow"
-          *ngIf="sidebar$ | async"></span>
+          *ngIf="(appState$ | async).showDownArrow"></span>
 </div>
 <div class="logo">
     <img src="assets/images/logo.svg" />
@@ -15,7 +15,7 @@
     Logout
 </div>
 <div class="map-controls"
-     *ngIf="sidebar$ | async">
+     *ngIf="(appState$ | async).showReloadButton">
     <div class="app-icon reload"
          (click)="reload()"
          (keyup.space)="reload()"

@@ -1,0 +1,5 @@
+<div class="title">{{title}}</div>
+<button class="app-button primary"
+        *ngIf="showSaveButton"
+        [ngClass]="{'disabled': saveButtonDisabled}"
+        (click)="onSaveClick()">SAVE CHANGES</button>

@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetDevices())
         this.store.dispatch(new GetEvents())
         this.store.dispatch(new GetResponses())
-        this.store.dispatch(new SetPageData({ title: AppPage.RightNow }))
+        this.store.dispatch(new SetPageData({ title: AppPage.RightNow, showDownArrow: true, showReloadButton: true }))
         if (environment.authorize) {
             this.store.dispatch(new GetChatAuthToken())
         }

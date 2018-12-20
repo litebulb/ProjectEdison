@@ -99,4 +99,5 @@ export interface ActionPlan {
     primaryRadius: number;
     secondaryRadius: number;
     acceptSafeStatus: boolean;
+    loading?: boolean;
 }

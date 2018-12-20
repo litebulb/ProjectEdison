@@ -1,0 +1,6 @@
+<app-header [title]="'Responses'"
+            (saveButtonClick)="saveChanges()"
+            [showSaveButton]="true"
+            [saveButtonDisabled]="saveDisabled"></app-header>
+<app-action-plan-list [actionPlans]="actionPlans$ | async"
+                      (actionPlanChanged)="actionPlanChanged($event)"></app-action-plan-list>

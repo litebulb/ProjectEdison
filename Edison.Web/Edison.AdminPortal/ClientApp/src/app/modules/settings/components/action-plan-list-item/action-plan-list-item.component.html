@@ -1,0 +1,61 @@
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span class="app-icon round static"
+                      [ngClass]="iconClass"></span>
+                <span class="action-plan-name">{{actionPlan.name}}</span>
+                <span *ngIf="actionPlan.loading"
+                      class="loading-spinner">
+                    <mat-spinner [diameter]="40"
+                                 [strokeWidth]="2"></mat-spinner>
+                </span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="form-container"
+             [formGroup]="itemForm">
+            <div>
+                <div class="subtitle">Mobile Notifications</div>
+                <div class="textbox-container">
+                    <div>
+                        <label>ACTIVATION MESSAGE</label>
+                        <textarea formControlName="activationMessage"
+                                  [ngClass]="{'disabled': actionPlan.loading}"></textarea>
+                    </div>
+                    <div>
+                        <label>DEACTIVATION MESSAGE</label>
+                        <textarea formControlName="deactivationMessage"
+                                  [ngClass]="{'disabled': actionPlan.loading}"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="subtitle no-bottom-margin">Radius <mat-icon [matTooltipPosition]="'above'"
+                              matTooltip="Each response can have two radiuses, which is a square km distance in all directions from the response’s center point. The center point is either the location of the device used to activate a response, or where a response location is manually set.">help</mat-icon>
+                </div>
+                <div class="radius-container">
+                    <div>
+                        <div class="subtitle">Primary Radius</div>
+                        <mat-form-field>
+                            <input matInput
+                                   type="number"
+                                   formControlName="primaryRadius">
+                            <span matSuffix>sq. km</span>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <div class="subtitle">Secondary Radius</div>
+                        <mat-form-field>
+                            <input matInput
+                                   type="number"
+                                   formControlName="secondaryRadius">
+                            <span matSuffix>sq. km</span>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>

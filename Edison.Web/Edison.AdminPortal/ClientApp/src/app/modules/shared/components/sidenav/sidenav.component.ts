@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../../reducers';
@@ -30,11 +30,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.setupNavLinks()
         this.pathSub$ = this.router.events
             .pipe(
-                filter(event => event instanceof NavigationStart),
-                map((event: NavigationStart) => event.url)
+                filter(event => event instanceof NavigationEnd),
+                map((event: NavigationEnd) => event.url)
             )
             .subscribe(path => {
-                this.activeRoute = path
+                this.activeRoute = path;
             })
     }
 
@@ -74,7 +74,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             },
             {
                 title: 'Settings',
-                route: '/configuration',
+                route: '/settings',
                 sidebar: false,
                 icon: 'app-icon gear',
                 onClick: this.activateNavLink,

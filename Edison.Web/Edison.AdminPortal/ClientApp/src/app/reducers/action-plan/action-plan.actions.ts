@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
+import { Action } from '@ngrx/store';
+
 import { ActionPlan } from './action-plan.model';
 
 export enum ActionPlanActionTypes {
@@ -32,10 +33,14 @@ export class PutActionPlan implements Action {
 
 export class PutActionPlanSuccess implements Action {
     readonly type = ActionPlanActionTypes.PutActionPlanSuccess;
+
+    constructor (public payload: { actionPlan: ActionPlan }) { }
 }
 
 export class PutActionPlanError implements Action {
     readonly type = ActionPlanActionTypes.PutActionPlanError;
+
+    constructor (public payload: { actionPlan: ActionPlan }) { }
 }
 
 export class SetSelectingActionPlan implements Action {
@@ -138,4 +143,7 @@ export type ActionPlanActions =
     | DeleteActionPlans
     | ClearActionPlans
     | SelectActionPlan
-    | SetSelectingActionPlan;
+    | SetSelectingActionPlan
+    | PutActionPlan
+    | PutActionPlanSuccess
+    | PutActionPlanError;

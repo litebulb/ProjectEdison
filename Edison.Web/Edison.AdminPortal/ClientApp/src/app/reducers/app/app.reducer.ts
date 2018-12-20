@@ -1,13 +1,15 @@
-import { AppActionTypes, AppActions } from './app.actions'
+import { AppActions, AppActionTypes } from './app.actions';
 
 export interface State {
     title: string;
-    sidebar: boolean;
+    showDownArrow: boolean;
+    showReloadButton: boolean;
 }
 
 export const initialState: State = {
     title: null,
-    sidebar: null,
+    showDownArrow: null,
+    showReloadButton: null,
 }
 
 export function reducer(state = initialState, action: AppActions): State {

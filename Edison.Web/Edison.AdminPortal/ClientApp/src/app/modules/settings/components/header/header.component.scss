@@ -1,0 +1,28 @@
+@import 'sizes';
+@import 'buttons';
+:host {
+    height: 72px;
+    min-height: 72px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    .title {
+        margin-top: 5px;
+        min-width: $eventbar-width;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Rubik';
+        font-size: 20px;
+        line-height: 25px;
+    }
+    button {
+        position: absolute;
+        margin-left: 640px;
+        margin-top: 5px;
+    }
+}

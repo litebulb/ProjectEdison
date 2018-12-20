@@ -14,12 +14,12 @@ const routes: Routes = [
         },
     },
     {
-        path: 'history',
+        path: 'settings',
         loadChildren:
-            './modules/history/history.module#HistoryModule',
+            './modules/settings/settings.module#SettingsModule',
         canLoad: [ AuthenticationGuard ],
         data: {
-            title: 'HISTORY',
+            title: 'SETTINGS',
         },
     }
 ]

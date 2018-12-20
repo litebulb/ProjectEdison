@@ -23,6 +23,7 @@ import { TokenInterceptorService } from './core/services/token-interceptor.servi
 import { effects } from './effects';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { MaterialModule } from './modules/material/material.module';
+import { SettingsModule } from './modules/settings/settings.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { metaReducers, reducers } from './reducers';
 
@@ -32,6 +33,7 @@ import { metaReducers, reducers } from './reducers';
         BrowserModule,
         HttpClientModule,
         DashboardModule,
+        SettingsModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         StoreModule.forRoot(reducers, { metaReducers }),

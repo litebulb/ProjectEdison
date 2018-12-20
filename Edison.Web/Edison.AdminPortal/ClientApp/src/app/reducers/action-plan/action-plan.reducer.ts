@@ -1,6 +1,7 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { ActionPlan } from './action-plan.model';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
 import { ActionPlanActions, ActionPlanActionTypes } from './action-plan.actions';
+import { ActionPlan } from './action-plan.model';
 
 export interface State extends EntityState<ActionPlan> {
     // additional entities state properties
@@ -86,6 +87,27 @@ export function reducer(
                 ...state,
                 selectingActionPlan: action.payload.isSelecting,
             }
+        }
+
+        case ActionPlanActionTypes.PutActionPlan: {
+            return adapter.updateOne({
+                id: action.payload.actionPlan.actionPlanId,
+                changes: {
+                    ...action.payload.actionPlan,
+                    loading: true,
+                }
+            }, state);
+        }
+
+        case ActionPlanActionTypes.PutActionPlanError:
+        case ActionPlanActionTypes.PutActionPlanSuccess: {
+            return adapter.updateOne({
+                id: action.payload.actionPlan.actionPlanId,
+                changes: {
+                    ...action.payload.actionPlan,
+                    loading: false,
+                }
+            }, state);
         }
 
         default: {
