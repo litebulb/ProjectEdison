@@ -31,7 +31,7 @@ using Android.Support.V4.Content;
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
-//    [Activity(Label = "@string/app_name", MainLauncher = true, NoHistory = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
+ //   [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
     public class MainActivity : BaseActivity<MainViewModel>
     {
 
@@ -47,6 +47,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private LinearLayout _bottomSheet;
         private BottomSheetBehavior _bottomSheetBehaviour;
 //        private BottomSheet4StateBehaviour _bottomSheetBehaviour;
+        private LinearLayout _quick_chat_holder;
         private Fragment _fragment;
         private NavMenuExpandableListAdapter _navDrawerListAdapter;
         private ExpandableListView _navDrawerListview;
@@ -97,13 +98,12 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
- //           Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
+            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.main_activity);
             Initialize(savedInstanceState);
-  //          Window.SetStatusBarColor(Resources.GetColor(Resource.Color.app_background));
-            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.app_blue)));
+            Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.app_background)));
         }
 
 
@@ -131,6 +131,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _bottomSheet = FindViewById<LinearLayout>(Resource.Id.bottom_sheet);
             _bottomSheetBehaviour = BottomSheetBehavior.From(_bottomSheet);
             //            _bottomSheetBehaviour = BottomSheet4StateBehaviour.From(_bottomSheet);
+            _quick_chat_holder = FindViewById<LinearLayout>(Resource.Id.quick_chat_holder);
 
 
             _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_emergency));
@@ -141,6 +142,11 @@ namespace Edison.Mobile.User.Client.Droid.Activities
                 button.Click += OnButtonClick;
             }
 
+            // Set the Bottom Sheet parameters - dependant on screen dimensions
+            if (Constants.BottomSheetPeekHeightPx > -1)
+                _bottomSheetBehaviour.PeekHeight = Constants.BottomSheetPeekHeightPx;
+            if (Constants.BottomSheetHeightPx > -1)
+                _bottomSheet.LayoutParameters.Height = Constants.BottomSheetHeightPx;
 
         }
 
@@ -323,7 +329,10 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             if (savedInstanceState == null)
                 ShowDefaultFragment();
             else
-                SupportActionBar.Title = savedInstanceState.GetCharSequence(StateKey_ActionbarTitle);
+            {
+                _customToolbarTitle.Text = savedInstanceState.GetCharSequence(StateKey_ActionbarTitle);
+                //                _customToolbarSubtitle.Text = savedInstanceState.GetCharSequence(StateKey_ActionbarSubtitle);
+            }
         }
 
 
@@ -564,7 +573,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         protected override void OnSaveInstanceState(Bundle outState)
         {
-            outState.PutCharSequence(StateKey_ActionbarTitle, SupportActionBar.Title);
+            outState.PutCharSequence(StateKey_ActionbarTitle, _customToolbarTitle.Text);
+            //            outState.PutCharSequence(StateKey_ActionbarSubtitle, _customToolbarSubtitle.Text);
             base.OnSaveInstanceState(outState);
         }
 

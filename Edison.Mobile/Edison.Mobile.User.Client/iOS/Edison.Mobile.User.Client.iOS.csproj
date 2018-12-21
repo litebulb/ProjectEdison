@@ -18,7 +18,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
@@ -28,7 +28,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>
+    </CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -651,48 +652,40 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="ViewControllers\" />
-    <Folder Include="Ioc\" />
-    <Folder Include="Shared\" />
-    <Folder Include="Views\" />
-    <Folder Include="DataSources\" />
-    <Folder Include="Assets.xcassets\Menu.imageset\" />
     <Folder Include="Assets.xcassets\Brightness.imageset\" />
-    <Folder Include="Assets.xcassets\Logo.imageset\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Assets.xcassets\Menu.imageset\" />
-    <Folder Include="Assets.xcassets\Location.imageset\" />
-    <Folder Include="Assets.xcassets\ChatWhite.imageset\" />
-    <Folder Include="Assets.xcassets\EmergencyWhite.imageset\" />
-    <Folder Include="Assets.xcassets\EmergencyRed.imageset\" />
+    <Folder Include="Assets.xcassets\BrightnessMoon.imageset\" />
     <Folder Include="Assets.xcassets\ChatBlue.imageset\" />
-    <Folder Include="Assets.xcassets\PersonWhite.imageset\" />
-    <Folder Include="Assets.xcassets\PersonBlue.imageset\" />
+    <Folder Include="Assets.xcassets\ChatWhite.imageset\" />
     <Folder Include="Assets.xcassets\CloseX.imageset\" />
-    <Folder Include="Assets.xcassets\NotificationBell.imageset\" />
-    <Folder Include="Navigation\" />
-    <Folder Include="Assets.xcassets\GunWhite.imageset\" />
-    <Folder Include="Assets.xcassets\GunRed.imageset\" />
-    <Folder Include="Assets.xcassets\FireWhite.imageset\" />
+    <Folder Include="Assets.xcassets\EmergencyRed.imageset\" />
+    <Folder Include="Assets.xcassets\EmergencyWhite.imageset\" />
     <Folder Include="Assets.xcassets\FireRed.imageset\" />
-    <Folder Include="Assets.xcassets\SpamWhite.imageset\" />
-    <Folder Include="Assets.xcassets\SpamYellow.imageset\" />
-    <Folder Include="Assets.xcassets\SafetyCheckWhite.imageset\" />
-    <Folder Include="Assets.xcassets\SafetyCheckBlue.imageset\" />
+    <Folder Include="Assets.xcassets\FireWhite.imageset\" />
+    <Folder Include="Assets.xcassets\GunRed.imageset\" />
+    <Folder Include="Assets.xcassets\GunWhite.imageset\" />
     <Folder Include="Assets.xcassets\HealthBlue.imageset\" />
     <Folder Include="Assets.xcassets\HealthWhite.imageset\" />
+    <Folder Include="Assets.xcassets\Location.imageset\" />
     <Folder Include="Assets.xcassets\LocationSent.imageset\" />
-    <Folder Include="Assets.xcassets\ProtestWhite.imageset\" />
-    <Folder Include="Assets.xcassets\ProtestBlue.imageset\" />
-    <Folder Include="Assets.xcassets\BrightnessMoon.imageset\" />
-    <Folder Include="Assets.xcassets\TornadoYellow.imageset\" />
-    <Folder Include="Assets.xcassets\TornadoWhite.imageset\" />
-    <Folder Include="Assets.xcassets\PackageWhite.imageset\" />
+    <Folder Include="Assets.xcassets\Logo.imageset\" />
+    <Folder Include="Assets.xcassets\Menu.imageset\" />
+    <Folder Include="Assets.xcassets\NotificationBell.imageset\" />
     <Folder Include="Assets.xcassets\PackageRed.imageset\" />
+    <Folder Include="Assets.xcassets\PackageWhite.imageset\" />
+    <Folder Include="Assets.xcassets\PersonBlue.imageset\" />
+    <Folder Include="Assets.xcassets\PersonCheck.imageset\" />
+    <Folder Include="Assets.xcassets\PersonWhite.imageset\" />
+    <Folder Include="Assets.xcassets\ProtestBlue.imageset\" />
+    <Folder Include="Assets.xcassets\ProtestWhite.imageset\" />
+    <Folder Include="Assets.xcassets\SafetyCheckBlue.imageset\" />
+    <Folder Include="Assets.xcassets\SafetyCheckWhite.imageset\" />
+    <Folder Include="Assets.xcassets\SpamWhite.imageset\" />
+    <Folder Include="Assets.xcassets\SpamYellow.imageset\" />
+    <Folder Include="Assets.xcassets\TornadoWhite.imageset\" />
+    <Folder Include="Assets.xcassets\TornadoYellow.imageset\" />
     <Folder Include="Assets.xcassets\VIPBlue.imageset\" />
     <Folder Include="Assets.xcassets\VIPWhite.imageset\" />
-    <Folder Include="Assets.xcassets\PersonCheck.imageset\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

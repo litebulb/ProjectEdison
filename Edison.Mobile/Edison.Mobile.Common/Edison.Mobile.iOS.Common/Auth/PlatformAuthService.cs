@@ -9,6 +9,8 @@ namespace Edison.Mobile.iOS.Common.Auth
     {
         readonly IPublicClientApplication publicClientApplication;
 
+        public UIParent UiParent { get; set; } = null;  // Needed by Android, not used in iOS
+
         public PlatformAuthService(IPublicClientApplication publicClientApplication)
         {
             this.publicClientApplication = publicClientApplication;

@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <dimen name="item_decoration">5dp</dimen>
-  <!-- Default screen margins, per the Android Design guidelines. -->
+  
+  <!-- Login/Splash screen -->
+  <dimen name="login_screen_bottom_margin">20dp</dimen>
+  <dimen name="login_screen_padding">20dp</dimen>
+  <dimen name="login_button_padding">20dp</dimen>
+  <dimen name="login_msg_text_size">16sp</dimen>
+  <dimen name="login_msg_toppadding">20dp</dimen>
+  
+  <dimen name="item_decoration">5dp</dimen>
+  
   <dimen name="nav_header_vertical_spacing">16dp</dimen>
   <dimen name="nav_header_height">200dp</dimen>
 
@@ -27,7 +35,9 @@
   <dimen name="bottom_sheet_thumb_width">100dp</dimen>
   <dimen name="bottom_sheet_thumb_height">4dp</dimen>
   
+  <dimen name="bottom_sheet_thumb_padding">12sp</dimen>
   <dimen name="bottom_sheet_button_text_size">12sp</dimen>
   <dimen name="bottom_sheet_button_icon_padding">20dp</dimen>
+  <dimen name="bottom_sheet_button_icon_toppadding">10dp</dimen>
   
 </resources>

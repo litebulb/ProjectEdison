@@ -7,15 +7,15 @@
 
   <color name="app_blue">@color/primary_blue</color>
   <color name="alert_blue">@color/blue1</color>
-  
+
   <color name="app_red">@color/red1</color>
   <color name="app_pink">@color/pink1</color>
   <color name="app_purple">@color/purple1</color>
   <color name="app_deep_purple">@color/deep_purple</color>
   <color name="app_green">@color/green1</color>
   <color name="app_yellow">@color/yellow1</color>
-  
-  
+
+
   <color name="app_background">@color/neutral_grey</color>
   <color name="action_bar_color">@color/white</color>
   <color name="navdrawer_background">#7f000000</color>
@@ -25,5 +25,6 @@
   <color name="icon_red">@color/activity_red_60</color>
   <color name="icon_blue">@color/activity_blue</color>
   <color name="bottom_sheet_button_text_color">@color/black</color>
-  
+
 </resources>
+

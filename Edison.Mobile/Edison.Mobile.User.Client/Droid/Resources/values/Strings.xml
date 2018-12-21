@@ -7,7 +7,11 @@
   
   
     <!-- UI strings-->
-    <string name="splashscreen_msg">Attempting to sign-in</string>
+    <string name="login_initial_msg">Attempting to sign-in</string>
+    <string name="sign_in_error">Sign-in error - please try again</string>
+    <string name="app_permissions_error">This app requires location permissions - please try again</string>
+    <string name="app_permissions_error1">This app requires location permissions to function</string>
+    <string name="sign_in">Sign In</string>
   
     <string name="home">Home</string>
     <string name="my_info">My Info</string>

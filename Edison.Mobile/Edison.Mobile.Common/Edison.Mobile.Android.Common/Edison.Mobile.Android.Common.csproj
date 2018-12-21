@@ -164,9 +164,11 @@
     <Compile Include="Services\Logging\PlatformLogger.cs" />
     <Compile Include="Services\Ioc\PlatformCommonContainerRegistrar.cs" />
     <Compile Include="Services\Auth\PlatformAuthService.cs" />
+    <Compile Include="Services\Permissions\PermissionsService.cs" />
     <Compile Include="Shared\CurrentActivityHelper.cs" />
     <Compile Include="Services\Notifications\NotificationService.cs" />
     <Compile Include="Extensions\ToolbarExtensions.cs" />
+    <Compile Include="Utilities\DisplayDetails.cs" />
     <Compile Include="Utilities\FloatingActionButtonSize.cs" />
     <Compile Include="Utilities\Padding.cs" />
     <Compile Include="Utilities\PixelSizeConverter.cs" />

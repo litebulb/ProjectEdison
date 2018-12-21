@@ -19,6 +19,8 @@ namespace Edison.Mobile.Android.Common.Geolocation
         readonly EdisonLocationCallback locationCallback;
         readonly Activity mainActivity;
 
+        private const int RequestLocationPermissionId = 1;
+
         Location lastLocation;
 
         public EdisonLocation LastKnownLocation => EdisonLocationFromLocation(lastLocation);
@@ -47,9 +49,9 @@ namespace Edison.Mobile.Android.Common.Geolocation
                 return true;
             }
                         
-            ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, 0);
+            ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, RequestLocationPermissionId);
 
-            return await Task.FromResult(ContextCompat.CheckSelfPermission(locationProvider.ApplicationContext, permission) == Permission.Granted);            
+            return await Task.FromResult(ContextCompat.CheckSelfPermission(locationProvider.ApplicationContext, permission) == Permission.Granted);
         }
 
 

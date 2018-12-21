@@ -1,98 +1,218 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using Android.App;
-using Android.Views;
-using Android.Content;
-using Android.Graphics;
 using Android.OS;
+using Android.Content;
+using Android.Views;
 using Android.Widget;
+using Android.Graphics;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
+using Android.Support.V4.View;
+using Android.Support.V7.Widget;
+using Android.Support.Design.Widget;
+using Android.Support.V4.Content;
+
+using Java.Lang;
+
 using Edison.Mobile.Android.Common;
+using Edison.Mobile.User.Client.Core.ViewModels;
+using Edison.Mobile.User.Client.Droid.Adapters;
+using Edison.Mobile.User.Client.Droid.Fragments;
+using Edison.Mobile.User.Client.Droid.Ioc;
+using Edison.Mobile.User.Client.Core.Ioc;
 using Edison.Mobile.Android.Common.Ioc;
 using Edison.Mobile.Common.Ioc;
-using Edison.Mobile.User.Client.Core.Ioc;
-using Edison.Mobile.User.Client.Core.ViewModels;
-using Edison.Mobile.User.Client.Droid.Ioc;
+using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
+using Android.Support.Constraints;
+using Android.Content.PM;
 
+
+#if DEBUG
+using Android.Util;
+#endif
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity(Theme = "@android:style/Theme.NoTitleBar.Fullscreen")]
- //   [Activity(MainLauncher = true, Icon = "@mipmap/icon", Theme = "@android:style/Theme.NoTitleBar.Fullscreen")]
+    [Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@mipmap/ic_edison_launcher", Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait)]
     public class LoginActivity : BaseActivity<LoginViewModel>
     {
-        Button signInButton;
-        
+        private ConstraintLayout _loginScreen;
+        private AppCompatButton _signInButton;
+        private ProgressBar _activityIndicator;
+        private AppCompatTextView _splachscreenMessage;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        private const int RequestNotificationPermissionId = 0;
+        private const int RequestLocationPermissionId = 1;
+
+        protected override void OnCreate(Bundle bundle)
         {
             Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
-            base.OnCreate(savedInstanceState);
+            if (ViewModel != null)
+                ((LoginViewModel)ViewModel).AuthService.UiParent = new UIParent(this);
+
+            base.OnCreate(bundle);
 
             AppCenter.Start("959d5bd2-9e29-4f17-aed6-68885af8c63d", typeof(Analytics), typeof(Crashes));
 
-            var relativeLayout = new RelativeLayout(this);
-            var relativeLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-            relativeLayout.LayoutParameters = relativeLayoutParams;
-            relativeLayout.SetBackgroundColor(Color.White);
-            signInButton = new Button(this)
-            {
-                Id = 1,
-                Alpha = 0,
-                Text = "Sign In",
-            };
+            SetContentView(Resource.Layout.screen_login);
+            BindResources();
+            BindVMEvents();
 
-            var signInParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
-            signInParams.AddRule(LayoutRules.CenterInParent);
-            signInButton.LayoutParameters = signInParams;
 
-            relativeLayout.AddView(signInButton);
+#if DEBUG
+            Log.Debug("ACTIVITY", "**************************************");
+            Log.Debug("ACTIVITY", "**************************************");
+            Log.Debug("ACTIVITY", "**********  LOGIN ACTIVITY  **********");
+            Log.Debug("ACTIVITY", "**************************************");
+            Log.Debug("ACTIVITY", "**************************************");
+#endif
 
-            SetContentView(relativeLayout);
+
+
+
+            Task.Run(async () => {
+                await Constants.CalculateUIDimensionsAsync(this);
+            });
+
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            UnBindVMEvents();
+        }
+
+        private void BindResources()
+        {
+            _loginScreen = FindViewById<ConstraintLayout>(Resource.Id.login_screen);
+            _signInButton = FindViewById<AppCompatButton>(Resource.Id.signin_button);
+            _activityIndicator = FindViewById<ProgressBar>(Resource.Id.login_activity);
+            _splachscreenMessage = FindViewById<AppCompatTextView>(Resource.Id.login_msg);
+        }
+
+        private void NavigateToMainViewModel()
+        {
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.NoAnimation);
+            StartActivity(intent);
+            Finish();
+        }
+
+        protected void BindVMEvents()
+        {
+            ViewModel.OnDisplayLogin += SignIn;
+            ViewModel.ClearLoginMessages += ClearMessages;
+            ViewModel.OnLoginFailed += OnLoginFailed;
+            ViewModel.OnNavigateToMainViewModel += NavigateToMainViewModel;
+            _signInButton.Click += OnButtonClick;
+        }
+
+        protected void UnBindVMEvents()
+        {
+            ViewModel.OnDisplayLogin -= SignIn;
+            ViewModel.ClearLoginMessages -= ClearMessages;
+            ViewModel.OnLoginFailed -= OnLoginFailed;
+            ViewModel.OnNavigateToMainViewModel -= NavigateToMainViewModel;
+            _signInButton.Click -= OnButtonClick;
+        }
+
+        private async void SignIn()
+        {
+            await ViewModel.Login();
+        }
+
+        // Clears progress bar and messages from the login screen
+        private void ClearMessages()
+        {
+            _activityIndicator.Visibility = ViewStates.Invisible;
+            _splachscreenMessage.Visibility = ViewStates.Invisible;
+            _signInButton.Visibility = ViewStates.Invisible;
+            _loginScreen.Invalidate();
+        }
+
+        // Clears progress bar, sets a login failed message, and shows login button
+        private void OnLoginFailed()
+        {
+            _activityIndicator.Visibility = ViewStates.Invisible;
+            _splachscreenMessage.Text = Resources.GetString(Resource.String.sign_in_error);
+            _splachscreenMessage.Visibility = ViewStates.Visible;
+            _signInButton.Alpha = 0f;
+            _signInButton.Visibility = ViewStates.Visible;
+            _signInButton.Animate().Alpha(1).SetDuration(1000).Start();
+            _loginScreen.Invalidate();
+        }
+
+        // Clears progress bar, sets a permissions denied message, and shows login button
+        private void OnAppPermissionsFailed()
+        {
+            OnLoginFailed();
+            _splachscreenMessage.Text = Resources.GetString(Resource.String.app_permissions_error);
+            _loginScreen.Invalidate();
+        }
+
+        private async void OnButtonClick(object sender, EventArgs e)
+        {
+            ClearMessages();
+            await ViewModel.Login();
+        }
+
+        // Called when returns from MSAL authentication
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
         }
 
-        protected override void BindEventHandlers()
+        // Called when user responds to in app permissions request
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            base.BindEventHandlers();
-
-            ViewModel.OnDisplayLogin += OnDisplayLogin;
-            ViewModel.OnNavigateToMainViewModel += OnNavigateToMainViewModel;
-            signInButton.Click += OnSignInButtonClick;
+            switch (requestCode)
+            {
+                case RequestLocationPermissionId:
+                    {
+                        var len = grantResults.Length;
+                        if (len > 0 && grantResults[0] == Permission.Granted)
+                        {
+                            //Permission granted
+                            ClearMessages();
+                            NavigateToMainViewModel();
+                        }
+                        else
+                        {
+                            //Permission Denied
+                            var snack = Snackbar.Make(_loginScreen, Resources.GetString(Resource.String.app_permissions_error1), Snackbar.LengthShort);
+                            snack.Show();
+                            OnAppPermissionsFailed();
+                        }
+                    }
+                    break;
+            }
         }
 
-        protected override void UnBindEventHandlers()
-        {
-            base.UnBindEventHandlers();
 
-            ViewModel.OnDisplayLogin -= OnDisplayLogin;
-            ViewModel.OnNavigateToMainViewModel -= OnNavigateToMainViewModel;
-            signInButton.Click -= OnSignInButtonClick;
-        }
 
-        void OnDisplayLogin()
-        {
-            signInButton.Animate().Alpha(1).SetDuration(1000).Start();
-        }
+        /*
+                protected override void OnNewIntent(Intent intent)
+                {
+                    base.OnNewIntent(intent);
 
-        void OnNavigateToMainViewModel()
-        {
-            var intent = new Intent(this, typeof(MainActivity));
-            StartActivity(intent);
-            Finish();
-        }
+                    // uncomment  when start notification added
+                    //var myextravalue = intent.GetStringExtra("somevalue");
+                }
 
-        async void OnSignInButtonClick(object sender, EventArgs e)
-        {
-            await ViewModel.SignIn();
-        }
+                public override void OnRequestPermissionsResult(int requestCode, string[] permissions, global::Android.Content.PM.Permission[] grantResults)
+                {
+                    PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+                    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+        */
+
     }
 }

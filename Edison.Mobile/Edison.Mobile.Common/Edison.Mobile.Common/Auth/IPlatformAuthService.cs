@@ -5,6 +5,8 @@ namespace Edison.Mobile.Common.Auth
 {
     public interface IPlatformAuthService
     {
+        UIParent UiParent { get; set; }
+
         Task<AuthenticationResult> AcquireTokenAsync();
     }
 }

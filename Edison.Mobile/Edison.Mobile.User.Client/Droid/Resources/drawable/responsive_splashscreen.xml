@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
 
-	<item android:drawable="@color/app_blue"/>
+	<item android:drawable="@color/white"/>
 
-  <item>
-    <bitmap 
-      android:src="@drawable/edison_logo_100"
-      android:width="100dp"
-		  android:height="100dp"
+  <item
+    android:bottom="24dp">
+    <bitmap
+      android:src="@drawable/edison_fox2_96"
 		  android:gravity="center"
       />
   </item>

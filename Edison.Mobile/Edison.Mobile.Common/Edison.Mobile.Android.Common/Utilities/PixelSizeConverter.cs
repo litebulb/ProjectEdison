@@ -10,7 +10,7 @@ namespace Edison.Mobile.Android.Common
         {
             get
             {
-                if (Density == -1)
+                if (_density == -1)
                     _density = Resources.System.DisplayMetrics.Density;
                 return _density;
             }

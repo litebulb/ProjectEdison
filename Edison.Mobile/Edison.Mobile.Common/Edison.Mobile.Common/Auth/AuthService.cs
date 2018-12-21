@@ -9,12 +9,24 @@ namespace Edison.Mobile.Common.Auth
 {
     public class AuthService
     {
+
+        public event EventHandler<AuthChangedEventArgs> OnAuthChanged;
+
         readonly IPlatformAuthService platformAuthService;
         readonly IAppAuthService appAuthService;
         readonly IPublicClientApplication publicClientApplication;
         readonly ILogger logger;
 
-        public event EventHandler<AuthChangedEventArgs> OnAuthChanged;
+
+        public UIParent UiParent
+        {
+            get { return platformAuthService?.UiParent; }
+            set
+            {
+                if (platformAuthService != null)
+                    platformAuthService.UiParent = value;
+            }
+        }
 
         public AuthenticationResult AuthenticationResult { get; set; }
 

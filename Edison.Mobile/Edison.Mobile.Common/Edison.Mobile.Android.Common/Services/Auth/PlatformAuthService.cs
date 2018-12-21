@@ -13,6 +13,9 @@ namespace Edison.Mobile.Android.Common.Auth
         readonly IPublicClientApplication publicClientApplication;
         readonly ILogger logger;
 
+        public UIParent UiParent { get; set; } = null;
+
+
         public PlatformAuthService(IPublicClientApplication publicClientApplication, ILogger logger)
         {
             this.publicClientApplication = publicClientApplication;
@@ -21,19 +24,30 @@ namespace Edison.Mobile.Android.Common.Auth
 
         public async Task<AuthenticationResult> AcquireTokenAsync()
         {
-            Activity currentActivity = null;
+            if (UiParent == null)
+            {
+                Activity currentActivity = null;
 
+                try
+                {
+                    currentActivity = CurrentActivityHelper.GetCurrentActivity();
+                    UiParent = new UIParent(currentActivity);
+                }
+                catch (Exception ex)
+                {
+                    logger.Log(ex, "Error getting current activity");
+                }
+            }
+            AuthenticationResult res = null;
             try
             {
-                currentActivity = CurrentActivityHelper.GetCurrentActivity();
-
+                res = await publicClientApplication.AcquireTokenAsync(AuthConfig.Scopes, UiParent);
             }
-            catch (Exception ex)
+            catch (Exception ex1)
             {
-                logger.Log(ex, "Error getting current activity");
+                logger.Log(ex1, "Error aquiring token");
             }
-
-            return await publicClientApplication.AcquireTokenAsync(AuthConfig.Scopes, new UIParent(currentActivity));
+            return res;
         }
     }
 }
