@@ -306,9 +306,12 @@ namespace Edison.Api.Helpers
 
             if (deviceDAO != null)
             {
-                if (geolocation.Latitude == deviceDAO.Geolocation.Latitude &&
-                    geolocation.Longitude == deviceDAO.Geolocation.Longitude)
-                    return new DeviceGeolocationUpdateResultModel() { Success = false };
+                if (deviceDAO.Geolocation != null)
+                {
+                    if (geolocation.Latitude == deviceDAO.Geolocation.Latitude &&
+                        geolocation.Longitude == deviceDAO.Geolocation.Longitude)
+                        return new DeviceGeolocationUpdateResultModel() { Success = false };
+                }
 
                 string etag = deviceDAO.ETag;
                 deviceDAO.LastAccessTime = DateTime.UtcNow;
