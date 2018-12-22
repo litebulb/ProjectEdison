@@ -310,7 +310,7 @@ namespace Edison.Api.Helpers
                 {
                     if (geolocation.Latitude == deviceDAO.Geolocation.Latitude &&
                         geolocation.Longitude == deviceDAO.Geolocation.Longitude)
-                        return new DeviceGeolocationUpdateResultModel() { Success = false };
+                        return new DeviceGeolocationUpdateResultModel() { Success = true };
                 }
 
                 string etag = deviceDAO.ETag;

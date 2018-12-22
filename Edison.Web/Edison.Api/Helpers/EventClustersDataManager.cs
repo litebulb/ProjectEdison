@@ -209,7 +209,7 @@ namespace Edison.Api.Helpers
                     throw e;
                 }
             }
-            return new EventClusterGeolocationUpdateResultModel() { Success = false };
+            return new EventClusterGeolocationUpdateResultModel() { Success = true };
         }
 
         /// <summary>
