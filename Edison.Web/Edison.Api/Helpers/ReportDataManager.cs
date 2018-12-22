@@ -56,6 +56,10 @@ namespace Edison.Api.Helpers
         {
             byte[] export = null;
 
+            //If type not given, we add all types
+            if (reportRequest.Type == 0)
+                reportRequest.Type = ReportCreationType.Events | ReportCreationType.Responses | ReportCreationType.Conversations;
+
             using (MemoryStream stream = new MemoryStream())
             {
                 IWorkbook workbook = new XSSFWorkbook();
@@ -69,8 +73,8 @@ namespace Edison.Api.Helpers
                 }
 
                 //Handle Responses
-                //if ((reportRequest.Type & ReportCreationType.Responses) != 0)
-                //    await GenerateResponsesReport(workbook, reportRequest.MinimumDate, reportRequest.MaximumDate);
+                if ((reportRequest.Type & ReportCreationType.Responses) != 0)
+                    await GenerateResponsesReport(workbook, reportRequest.MinimumDate, reportRequest.MaximumDate);
 
                 workbook.Write(stream);
                 export = stream.ToArray();
@@ -125,17 +129,19 @@ namespace Edison.Api.Helpers
                 {
                     ISheet responseEventSheet = workbook.CreateSheet($"{response.ActionPlan.Name} - Events - {response.Id}");
                     responseEventSheet.DefaultColumnWidth = GetColumnWidth(_config.ReportConfiguration.DefaultWidth);
-                    IEnumerable<EventClusterDAO> responseEventClusters = eventClusters.Where(e => response.EventClusterIds.Any(r => r.ToString() == e.Id));
+                    IEnumerable<EventClusterDAO> responseEventClusters = eventClusters.Where(e => response.EventClusterIds != null && response.EventClusterIds.Any(r => r.ToString() == e.Id));
                     GenerateResponseHeaderReport(workbook, responseEventSheet, 0, response);
-                    GenerateEventsReport(responseEventSheet, responseEventSheet.LastRowNum + 1, responseEventClusters);
+                    if(responseEventClusters != null)
+                        GenerateEventsReport(responseEventSheet, responseEventSheet.LastRowNum + 1, responseEventClusters);
 
-                    if (response.ActionPlan.AcceptSafeStatus && response.SafeUsers != null && response.SafeUsers.Count > 0)
+                    //TODO: Generate proper headers for user safe list
+                    /*if (response.ActionPlan.AcceptSafeStatus && response.SafeUsers != null && response.SafeUsers.Count > 0)
                     {
                         ISheet userSafeListEventSheet = workbook.CreateSheet($"{response.ActionPlan.Name} - User SafeList - {response.Id}");
                         userSafeListEventSheet.DefaultColumnWidth = GetColumnWidth(_config.ReportConfiguration.DefaultWidth);
                         GenerateResponseHeaderReport(workbook, userSafeListEventSheet, 0, response);
                         GenerateUserSafeListReport(userSafeListEventSheet, userSafeListEventSheet.LastRowNum + 1, response.SafeUsers);
-                    }
+                    }*/
                 }
 
             }
@@ -242,6 +248,9 @@ namespace Edison.Api.Helpers
         /// <param name="dataType">DataType</param>
         private void SetCellValue(IRow row, int cellIndex, object value, XSSFCellStyle cellStyle, ReportDataType dataType = ReportDataType.Text)
         {
+            if (value == null)
+                return;
+
             ICell cell = row.CreateCell(cellIndex);
 
             switch (dataType)
@@ -401,10 +410,13 @@ namespace Edison.Api.Helpers
         /// <returns>List of repository objects</returns>
         private async Task<IEnumerable<T>> GetListBetweenDates<T>(ICosmosDBRepository<T> repository, DateTime? minDate, DateTime? maxDate) where T : IEntityDAO
         {
-            var results = await repository.GetItemsAsync(p =>
-            (minDate == null || p.CreationDate >= minDate.Value) &&
-            (maxDate == null || p.CreationDate <= maxDate.Value));
-            return results;
+            if(minDate != null && maxDate != null)
+                return await repository.GetItemsAsync(p => p.CreationDate >= minDate.Value && p.CreationDate <= maxDate.Value);
+            if(minDate == null && maxDate != null)
+                return await repository.GetItemsAsync(p => p.CreationDate <= maxDate.Value);
+            if(minDate != null && maxDate == null)
+                return await repository.GetItemsAsync(p => p.CreationDate >= minDate.Value);
+            return await repository.GetItemsAsync();
         }
 
         /// <summary>
