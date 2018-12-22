@@ -192,6 +192,8 @@ namespace Edison.Api.Controllers
                 .UpdateGeolocation(updateGeolocationObj.Geolocation, resultDevice.Device.DeviceId);
             if (resultEventCluster == null || !resultEventCluster.Success) //Error
                 return StatusCode(StatusCodes.Status500InternalServerError);
+            if (resultEventCluster.EventCluster == null)
+                return Ok();
 
             //Send event cluster update
             if (_serviceBus != null && _serviceBus.BusAccess != null)
