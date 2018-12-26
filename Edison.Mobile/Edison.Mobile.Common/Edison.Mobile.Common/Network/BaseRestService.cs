@@ -22,14 +22,13 @@ namespace Edison.Mobile.Common.Network
             client.AddHandler("application/json", new NewtonsoftDeserializer());
         }
 
-        protected RestRequest PrepareRequest(string endpoint, Method method, object requestBody = null)
+        protected virtual RestRequest PrepareRequest(string endpoint, Method method, object requestBody = null)
         {
             try
             {
-                var token = authService.AuthenticationResult.IdToken;
                 var request = new RestRequest(endpoint, method) { RequestFormat = DataFormat.Json };
 
-                request.AddHeader("Authorization", $"Bearer {token}");
+                AddAuthHeader(request);
 
                 if ((method == Method.POST || method == Method.PUT) && requestBody != null)
                 {
@@ -43,6 +42,12 @@ namespace Edison.Mobile.Common.Network
                 logger.Log(ex, "Error preparing REST request");
                 return new RestRequest();
             }
+        }
+
+        protected virtual void AddAuthHeader(RestRequest request)
+        {
+            var token = authService.AuthenticationResult.IdToken;
+            request.AddHeader("Authorization", $"Bearer {token}");
         }
     }
 

@@ -21,13 +21,17 @@ namespace Edison.Mobile.User.Client.iOS.Views
         NSLayoutConstraint locationImageViewCenterYAnchorConstraint;
         NSLayoutConstraint alertCountLabelCenterYAnchorConstraint;
 
-        public UIColor InnerCircleBackgroundColor
+        public UIColor Color
         {
             get => innerCircleView.BackgroundColor;
             set
             {
-                innerCircleView.BackgroundColor = value;
-                ringView.RingColor = value;
+                InvokeOnMainThread(() =>
+                {
+                    innerCircleView.BackgroundColor = value;
+                    ringView.RingColor = value;
+                    SetNeedsDisplay();
+                });
             }
         }
 
@@ -38,7 +42,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             {
                 alertCount = value;
                 alertCountLabel.Text = alertCount.ToString();
-                eventsLabel.Text = alertCount == 1 ? "EVENT" : "EVENTS";
+                eventsLabel.Text = alertCount == 1 ? "ALERT" : "ALERTS";
             }
         }
 
@@ -68,7 +72,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 TextColor = Constants.Color.White,
-                Text = "EVENTS",
+                Text = "ALERTS",
                 TextAlignment = UITextAlignment.Center,
             };
 
@@ -101,7 +105,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
             ringView = new AlertRingView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                RingColor = InnerCircleBackgroundColor,
+                RingColor = Color,
                 RingThickness = innerCircleMargin / 2,
             };
 

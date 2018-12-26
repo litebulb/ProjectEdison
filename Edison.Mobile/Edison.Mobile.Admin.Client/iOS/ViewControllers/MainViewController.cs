@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Specialized;
 using CoreGraphics;
+using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Admin.Client.iOS.Cells;
+using Edison.Mobile.Admin.Client.iOS.Extensions;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Views;
 using Edison.Mobile.Admin.Client.iOS.ViewSources;
@@ -17,6 +19,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         SetupButtonView manageDeviceView;
         UILabel nearYouLabel;
         UITableView devicesTableView;
+        NearDevicesTableViewSource nearDevicesTableViewSource;
 
         public override void ViewDidLoad()
         {
@@ -71,6 +74,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             nearYouLabel.TopAnchor.ConstraintEqualTo(manageDeviceView.BottomAnchor, constant: verticalPadding).Active = true;
             nearYouLabel.LeftAnchor.ConstraintEqualTo(manageDeviceView.LeftAnchor).Active = true;
 
+            nearDevicesTableViewSource = new NearDevicesTableViewSource(ViewModel);
+
             devicesTableView = new UITableView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
@@ -78,7 +83,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 BackgroundColor = Constants.Color.White ,
                 TableHeaderView = new UIView(),
                 TableFooterView = new UIView(),
-                Source = new NearDevicesTableViewSource(ViewModel),
+                Source = nearDevicesTableViewSource,
                 SeparatorStyle = UITableViewCellSeparatorStyle.None,
             };
 
@@ -97,11 +102,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 BackgroundColor = Constants.Color.White,
             };
 
-            tableViewBackgroundShadowView.Layer.ShadowColor = Constants.Color.DarkGray.CGColor;
-            tableViewBackgroundShadowView.Layer.ShadowRadius = 3;
-            tableViewBackgroundShadowView.Layer.ShadowOffset = new CGSize(1, 1);
-            tableViewBackgroundShadowView.Layer.ShadowOpacity = 0.4f;
-            tableViewBackgroundShadowView.Layer.MasksToBounds = false;
+            tableViewBackgroundShadowView.AddStandardShadow();
 
             View.InsertSubviewBelow(tableViewBackgroundShadowView, devicesTableView);
 
@@ -129,12 +130,26 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             };
         }
 
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+
+            UIView.Animate(0.35, () =>
+            {
+                foreach (var cell in devicesTableView.VisibleCells)
+                {
+                    cell.Selected = false;
+                }
+            });
+        }
+
         protected override void BindEventHandlers()
         {
             base.BindEventHandlers();
             ViewModel.NearDevices.CollectionChanged += HandleNearDevicesCollectionChanged;
             newDeviceView.OnTap += HandleNewDeviceViewOnTap;
             manageDeviceView.OnTap += HandleManageDeviceViewOnTap;
+            nearDevicesTableViewSource.OnDeviceSelected += HandleNearDevicesTableViewSourceOnDeviceSelected;
         }
 
         protected override void UnBindEventHandlers()
@@ -143,6 +158,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             ViewModel.NearDevices.CollectionChanged -= HandleNearDevicesCollectionChanged;
             newDeviceView.OnTap -= HandleNewDeviceViewOnTap;
             manageDeviceView.OnTap -= HandleManageDeviceViewOnTap;
+            nearDevicesTableViewSource.OnDeviceSelected -= HandleNearDevicesTableViewSourceOnDeviceSelected;
         }
 
         void HandleNearDevicesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -159,6 +175,12 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         void HandleManageDeviceViewOnTap(object sender, EventArgs e)
         {
 
+        }
+
+        void HandleNearDevicesTableViewSourceOnDeviceSelected(object sender, DeviceModel deviceModel)
+        {
+            var manageDeviceViewController = new ManageDeviceViewController(deviceModel);
+            NavigationController.PushViewController(manageDeviceViewController, true);
         }
     }
 }

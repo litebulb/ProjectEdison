@@ -77,6 +77,7 @@ namespace Edison.Mobile.iOS.Common.WiFi
             }
         }
 
+        // handler for hotspot scan. won't work without proper entitlement, permission must be granted from apple
         void HandleNEHotspotHelperHandler(NEHotspotHelperCommand cmd)
         {
             switch (cmd.CommandType)

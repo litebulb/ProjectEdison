@@ -139,6 +139,8 @@ namespace Edison.Mobile.User.Client.iOS.Views
             set
             {
                 ringColor = value;
+                ringView?.RemoveFromSuperview();
+                ringView = null;
                 SetNeedsLayout();
             }
         }
@@ -188,6 +190,10 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 AddSubview(ringView);
                 ringLayer = new RingLayer(Bounds, Center, ringColor, ringColor.ColorWithAlpha(0.5f), ringThickness, 1.1f);
                 ringView.Layer.AddSublayer(ringLayer);
+                if (isAnimating)
+                {
+                    AnimateRing();
+                }
             }
         }
     }

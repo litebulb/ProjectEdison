@@ -3,6 +3,7 @@ using CoreGraphics;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Admin.Client.Core.Shared;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
+using Edison.Mobile.Admin.Client.iOS.Extensions;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Views;
 using Edison.Mobile.iOS.Common.Views;
@@ -99,12 +100,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 ForegroundColor = Constants.Color.White,
             }), UIControlState.Normal);
 
-
-            noQRCodeButton.Layer.ShadowColor = Constants.Color.DarkGray.CGColor;
-            noQRCodeButton.Layer.ShadowRadius = 3;
-            noQRCodeButton.Layer.ShadowOffset = new CGSize(1, 1);
-            noQRCodeButton.Layer.ShadowOpacity = 0.4f;
-            noQRCodeButton.Layer.MasksToBounds = false;
+            noQRCodeButton.AddStandardShadow();
 
             View.AddSubview(noQRCodeButton);
 

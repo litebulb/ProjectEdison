@@ -7,6 +7,7 @@ using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Shared;
 using Edison.Mobile.Common.ViewModels;
 using Edison.Mobile.User.Client.Core.Network;
+using Edison.Mobile.User.Client.Core.ViewModels;
 
 namespace Edison.Mobile.User.Client.Core.CollectionItemViewModels
 {
@@ -32,9 +33,11 @@ namespace Edison.Mobile.User.Client.Core.CollectionItemViewModels
         public async Task GetResponse() 
         {
             var responseRestService = Container.Instance.Resolve<ResponseRestService>();
+            var responsesViewModel = Container.Instance.Resolve<ResponsesViewModel>();
             var response = await responseRestService.GetResponse(ResponseId);
             Response = response;
             OnResponseReceived?.Invoke();
+            responsesViewModel.HandleResponseModelReceived(response);
         }
 
         public override void BindEventHandlers()

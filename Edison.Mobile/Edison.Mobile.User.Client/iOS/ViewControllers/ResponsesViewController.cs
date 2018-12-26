@@ -55,7 +55,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             alertsCircleView = new AlertsCircleView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                InnerCircleBackgroundColor = Constants.Color.Blue,
+                Color = Constants.Color.Blue,
                 Alpha = alertCircleDisabledAlpha,
             };
 
@@ -141,6 +141,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             base.BindEventHandlers();
 
             ViewModel.Responses.CollectionChanged += HandleOnResponsesCollectionChanged;
+            ViewModel.OnCurrentAlertCircleColorChanged += HandleOnCurrentAlertCircleColorChanged;
             alertsCircleView.AddGestureRecognizer(alertsTapGestureRecognizer);
         }
 
@@ -149,6 +150,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             base.UnBindEventHandlers();
 
             ViewModel.Responses.CollectionChanged -= HandleOnResponsesCollectionChanged;
+            ViewModel.OnCurrentAlertCircleColorChanged -= HandleOnCurrentAlertCircleColorChanged;
             alertsCircleView.RemoveGestureRecognizer(alertsTapGestureRecognizer);
         }
 
@@ -251,26 +253,17 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             if (alertsCircleView.AlertCount > 0) alertsCircleView.StartAnimating();
 
             collectionView.ReloadData();
-
-            // TODO: more detailed insertion/deletion of cells, rather than a blanket rerender
-            //collectionView.PerformBatchUpdates(() =>
-            //{
-            //    if (e.OldItems.Count > 0) 
-            //    {
-
-            //    }
-
-            //    if (e.NewItems.Count > 0)
-            //    {
-
-            //    }
-
-            //}, null);
         }
 
         void HandleAlertViewTapped(UITapGestureRecognizer gestureRecognizer)
         {
             Console.WriteLine(gestureRecognizer);
+        }
+
+        void HandleOnCurrentAlertCircleColorChanged(object sender, string newColor)
+        {
+            var newAlertColor = Constants.Color.MapFromActionPlanColor(newColor);
+            alertsCircleView.Color = newAlertColor;
         }
 
         void HandleOnResponseSelected(object sender, int index)

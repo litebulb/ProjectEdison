@@ -303,6 +303,7 @@
     <Folder Include="Assets.xcassets\Check.imageset\" />
     <Folder Include="Assets.xcassets\ArrowLeft.imageset\" />
     <Folder Include="Assets.xcassets\CloseX.imageset\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -333,6 +334,9 @@
     <Compile Include="ViewSources\NetworksTableViewSource.cs" />
     <Compile Include="Cells\WifiNetworkTableViewCell.cs" />
     <Compile Include="ViewControllers\SelectWifiViewController.cs" />
+    <Compile Include="ViewControllers\ManageDeviceViewController.cs" />
+    <Compile Include="Views\TextFieldView.cs" />
+    <Compile Include="Extensions\UIViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

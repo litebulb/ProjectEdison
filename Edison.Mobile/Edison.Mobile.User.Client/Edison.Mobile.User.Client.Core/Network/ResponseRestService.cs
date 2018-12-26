@@ -66,7 +66,7 @@ namespace Edison.Mobile.User.Client.Core.Network
             {
                 IsSafe = isSafe,
             });
-
+                
             var queryResult = await client.ExecuteTaskAsync(request);
             if (!queryResult.IsSuccessful) 
             {

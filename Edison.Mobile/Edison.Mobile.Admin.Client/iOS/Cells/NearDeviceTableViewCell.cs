@@ -59,8 +59,6 @@ namespace Edison.Mobile.Admin.Client.iOS.Cells
                 arrowImageView.HeightAnchor.ConstraintEqualTo(arrowImageView.WidthAnchor).Active = true;
 
                 titleLabel.RightAnchor.ConstraintEqualTo(arrowImageView.LeftAnchor, constant: -Constants.Padding).Active = true;
-
-                SelectionStyle = UITableViewCellSelectionStyle.None;
             }
 
             onlineIndicatorView.IsOnline = deviceModel.Online;

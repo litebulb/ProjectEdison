@@ -1,4 +1,5 @@
 ﻿using System;
+using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Admin.Client.iOS.Cells;
 using Foundation;
@@ -17,6 +18,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewSources
                 return viewModel;
             }
         }
+
+        public event EventHandler<DeviceModel> OnDeviceSelected;
 
         public NearDevicesTableViewSource(MainViewModel viewModel)
         {
@@ -39,6 +42,12 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewSources
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             return 44;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var deviceModel = ViewModel.NearDevices[indexPath.Row];
+            OnDeviceSelected?.Invoke(this, deviceModel);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Edison.Mobile.User.Client.Core.Ioc
             builder.RegisterType<MainViewModel>();
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<LoginViewModel>();
-            builder.RegisterType<ResponsesViewModel>();
+            builder.RegisterType<ResponsesViewModel>().SingleInstance();
             builder.RegisterType<MenuViewModel>();
             builder.RegisterType<ResponseDetailsViewModel>();
             builder.RegisterType<ChatViewModel>().SingleInstance();
