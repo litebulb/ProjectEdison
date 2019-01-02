@@ -247,6 +247,15 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f010086
 			public static int borderlessButtonStyle = 2130772102;
 			
+			// aapt resource value: 0x7f01011c
+			public static int buttonBackground = 2130772252;
+			
+			// aapt resource value: 0x7f01011d
+			public static int buttonBackgroundTint = 2130772253;
+			
+			// aapt resource value: 0x7f01011e
+			public static int buttonBackgroundTintMode = 2130772254;
+			
 			// aapt resource value: 0x7f010083
 			public static int buttonBarButtonStyle = 2130772099;
 			
@@ -267,6 +276,9 @@ namespace Edison.Mobile.Android.Common
 			
 			// aapt resource value: 0x7f01003e
 			public static int buttonPanelSideLayout = 2130772030;
+			
+			// aapt resource value: 0x7f010120
+			public static int buttonRippleColor = 2130772256;
 			
 			// aapt resource value: 0x7f01001a
 			public static int buttonSize = 2130771994;
@@ -492,6 +504,24 @@ namespace Edison.Mobile.Android.Common
 			
 			// aapt resource value: 0x7f010026
 			public static int icon = 2130772006;
+			
+			// aapt resource value: 0x7f010125
+			public static int iconPadding = 2130772261;
+			
+			// aapt resource value: 0x7f010124
+			public static int iconPaddingBottom = 2130772260;
+			
+			// aapt resource value: 0x7f010121
+			public static int iconPaddingLeft = 2130772257;
+			
+			// aapt resource value: 0x7f010123
+			public static int iconPaddingRight = 2130772259;
+			
+			// aapt resource value: 0x7f010122
+			public static int iconPaddingTop = 2130772258;
+			
+			// aapt resource value: 0x7f01011f
+			public static int iconSrc = 2130772255;
 			
 			// aapt resource value: 0x7f0100dd
 			public static int iconTint = 2130772189;
@@ -1863,109 +1893,115 @@ namespace Edison.Mobile.Android.Common
 			public static int abc_vector_test = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public static int common_full_open_on_phone = 2130837587;
+			public static int circular_image_button_background = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public static int common_google_signin_btn_icon_dark = 2130837588;
+			public static int circular_image_button_ripple = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public static int common_google_signin_btn_icon_dark_focused = 2130837589;
+			public static int common_full_open_on_phone = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public static int common_google_signin_btn_icon_dark_normal = 2130837590;
+			public static int common_google_signin_btn_icon_dark = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public static int common_google_signin_btn_icon_dark_normal_background = 2130837591;
+			public static int common_google_signin_btn_icon_dark_focused = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public static int common_google_signin_btn_icon_disabled = 2130837592;
+			public static int common_google_signin_btn_icon_dark_normal = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public static int common_google_signin_btn_icon_light = 2130837593;
+			public static int common_google_signin_btn_icon_dark_normal_background = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public static int common_google_signin_btn_icon_light_focused = 2130837594;
+			public static int common_google_signin_btn_icon_disabled = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public static int common_google_signin_btn_icon_light_normal = 2130837595;
+			public static int common_google_signin_btn_icon_light = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public static int common_google_signin_btn_icon_light_normal_background = 2130837596;
+			public static int common_google_signin_btn_icon_light_focused = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public static int common_google_signin_btn_text_dark = 2130837597;
+			public static int common_google_signin_btn_icon_light_normal = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public static int common_google_signin_btn_text_dark_focused = 2130837598;
+			public static int common_google_signin_btn_icon_light_normal_background = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public static int common_google_signin_btn_text_dark_normal = 2130837599;
+			public static int common_google_signin_btn_text_dark = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public static int common_google_signin_btn_text_dark_normal_background = 2130837600;
+			public static int common_google_signin_btn_text_dark_focused = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public static int common_google_signin_btn_text_disabled = 2130837601;
+			public static int common_google_signin_btn_text_dark_normal = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public static int common_google_signin_btn_text_light = 2130837602;
+			public static int common_google_signin_btn_text_dark_normal_background = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public static int common_google_signin_btn_text_light_focused = 2130837603;
+			public static int common_google_signin_btn_text_disabled = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public static int common_google_signin_btn_text_light_normal = 2130837604;
+			public static int common_google_signin_btn_text_light = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public static int common_google_signin_btn_text_light_normal_background = 2130837605;
+			public static int common_google_signin_btn_text_light_focused = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public static int googleg_disabled_color_18 = 2130837606;
+			public static int common_google_signin_btn_text_light_normal = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public static int googleg_standard_color_18 = 2130837607;
+			public static int common_google_signin_btn_text_light_normal_background = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public static int notification_action_background = 2130837608;
+			public static int googleg_disabled_color_18 = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public static int notification_bg = 2130837609;
+			public static int googleg_standard_color_18 = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public static int notification_bg_low = 2130837610;
+			public static int notification_action_background = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public static int notification_bg_low_normal = 2130837611;
+			public static int notification_bg = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public static int notification_bg_low_pressed = 2130837612;
+			public static int notification_bg_low = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public static int notification_bg_normal = 2130837613;
+			public static int notification_bg_low_normal = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public static int notification_bg_normal_pressed = 2130837614;
+			public static int notification_bg_low_pressed = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public static int notification_icon_background = 2130837615;
-			
-			// aapt resource value: 0x7f020074
-			public static int notification_template_icon_bg = 2130837620;
-			
-			// aapt resource value: 0x7f020075
-			public static int notification_template_icon_low_bg = 2130837621;
+			public static int notification_bg_normal = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public static int notification_tile_bg = 2130837616;
+			public static int notification_bg_normal_pressed = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public static int notify_panel_notification_icon_bg = 2130837617;
+			public static int notification_icon_background = 2130837617;
+			
+			// aapt resource value: 0x7f020076
+			public static int notification_template_icon_bg = 2130837622;
+			
+			// aapt resource value: 0x7f020077
+			public static int notification_template_icon_low_bg = 2130837623;
 			
 			// aapt resource value: 0x7f020072
-			public static int tooltip_frame_dark = 2130837618;
+			public static int notification_tile_bg = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public static int tooltip_frame_light = 2130837619;
+			public static int notify_panel_notification_icon_bg = 2130837619;
+			
+			// aapt resource value: 0x7f020074
+			public static int tooltip_frame_dark = 2130837620;
+			
+			// aapt resource value: 0x7f020075
+			public static int tooltip_frame_light = 2130837621;
 			
 			static Drawable()
 			{
@@ -1998,8 +2034,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0034
 			public static int SYM = 2131427380;
 			
-			// aapt resource value: 0x7f0b0074
-			public static int action0 = 2131427444;
+			// aapt resource value: 0x7f0b0076
+			public static int action0 = 2131427446;
 			
 			// aapt resource value: 0x7f0b0062
 			public static int action_bar = 2131427426;
@@ -2022,17 +2058,17 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0040
 			public static int action_bar_title = 2131427392;
 			
-			// aapt resource value: 0x7f0b0071
-			public static int action_container = 2131427441;
+			// aapt resource value: 0x7f0b0073
+			public static int action_container = 2131427443;
 			
 			// aapt resource value: 0x7f0b0063
 			public static int action_context_bar = 2131427427;
 			
-			// aapt resource value: 0x7f0b0078
-			public static int action_divider = 2131427448;
+			// aapt resource value: 0x7f0b007a
+			public static int action_divider = 2131427450;
 			
-			// aapt resource value: 0x7f0b0072
-			public static int action_image = 2131427442;
+			// aapt resource value: 0x7f0b0074
+			public static int action_image = 2131427444;
 			
 			// aapt resource value: 0x7f0b0002
 			public static int action_menu_divider = 2131427330;
@@ -2049,11 +2085,11 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0042
 			public static int action_mode_close_button = 2131427394;
 			
-			// aapt resource value: 0x7f0b0073
-			public static int action_text = 2131427443;
+			// aapt resource value: 0x7f0b0075
+			public static int action_text = 2131427445;
 			
-			// aapt resource value: 0x7f0b0081
-			public static int actions = 2131427457;
+			// aapt resource value: 0x7f0b0083
+			public static int actions = 2131427459;
 			
 			// aapt resource value: 0x7f0b0043
 			public static int activity_chooser_view_content = 2131427395;
@@ -2088,17 +2124,26 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b003a
 			public static int bottom = 2131427386;
 			
+			// aapt resource value: 0x7f0b0072
+			public static int button = 2131427442;
+			
 			// aapt resource value: 0x7f0b0049
 			public static int buttonPanel = 2131427401;
 			
-			// aapt resource value: 0x7f0b0075
-			public static int cancel_action = 2131427445;
+			// aapt resource value: 0x7f0b0071
+			public static int button_background = 2131427441;
+			
+			// aapt resource value: 0x7f0b0087
+			public static int button_ripple = 2131427463;
+			
+			// aapt resource value: 0x7f0b0077
+			public static int cancel_action = 2131427447;
 			
 			// aapt resource value: 0x7f0b0059
 			public static int checkbox = 2131427417;
 			
-			// aapt resource value: 0x7f0b007d
-			public static int chronometer = 2131427453;
+			// aapt resource value: 0x7f0b007f
+			public static int chronometer = 2131427455;
 			
 			// aapt resource value: 0x7f0b0036
 			public static int collapseActionView = 2131427382;
@@ -2130,8 +2175,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b002d
 			public static int end = 2131427373;
 			
-			// aapt resource value: 0x7f0b0083
-			public static int end_padder = 2131427459;
+			// aapt resource value: 0x7f0b0085
+			public static int end_padder = 2131427461;
 			
 			// aapt resource value: 0x7f0b0044
 			public static int expand_activities_button = 2131427396;
@@ -2154,8 +2199,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0048
 			public static int icon = 2131427400;
 			
-			// aapt resource value: 0x7f0b0082
-			public static int icon_group = 2131427458;
+			// aapt resource value: 0x7f0b0084
+			public static int icon_group = 2131427460;
 			
 			// aapt resource value: 0x7f0b0016
 			public static int icon_only = 2131427350;
@@ -2166,8 +2211,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0045
 			public static int image = 2131427397;
 			
-			// aapt resource value: 0x7f0b007e
-			public static int info = 2131427454;
+			// aapt resource value: 0x7f0b0080
+			public static int info = 2131427456;
 			
 			// aapt resource value: 0x7f0b003f
 			public static int italic = 2131427391;
@@ -2187,11 +2232,11 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0047
 			public static int list_item = 2131427399;
 			
-			// aapt resource value: 0x7f0b0077
-			public static int media_actions = 2131427447;
+			// aapt resource value: 0x7f0b0079
+			public static int media_actions = 2131427449;
 			
-			// aapt resource value: 0x7f0b0084
-			public static int message = 2131427460;
+			// aapt resource value: 0x7f0b0086
+			public static int message = 2131427462;
 			
 			// aapt resource value: 0x7f0b002e
 			public static int middle = 2131427374;
@@ -2208,14 +2253,14 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0011
 			public static int normal = 2131427345;
 			
-			// aapt resource value: 0x7f0b0080
-			public static int notification_background = 2131427456;
+			// aapt resource value: 0x7f0b0082
+			public static int notification_background = 2131427458;
 			
-			// aapt resource value: 0x7f0b007a
-			public static int notification_main_column = 2131427450;
+			// aapt resource value: 0x7f0b007c
+			public static int notification_main_column = 2131427452;
 			
-			// aapt resource value: 0x7f0b0079
-			public static int notification_main_column_container = 2131427449;
+			// aapt resource value: 0x7f0b007b
+			public static int notification_main_column_container = 2131427451;
 			
 			// aapt resource value: 0x7f0b004b
 			public static int parentPanel = 2131427403;
@@ -2229,11 +2274,11 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b005b
 			public static int radio = 2131427419;
 			
-			// aapt resource value: 0x7f0b007f
-			public static int right_icon = 2131427455;
+			// aapt resource value: 0x7f0b0081
+			public static int right_icon = 2131427457;
 			
-			// aapt resource value: 0x7f0b007b
-			public static int right_side = 2131427451;
+			// aapt resource value: 0x7f0b007d
+			public static int right_side = 2131427453;
 			
 			// aapt resource value: 0x7f0b0012
 			public static int satellite = 2131427346;
@@ -2313,8 +2358,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b0017
 			public static int standard = 2131427351;
 			
-			// aapt resource value: 0x7f0b0076
-			public static int status_bar_latest_event_content = 2131427446;
+			// aapt resource value: 0x7f0b0078
+			public static int status_bar_latest_event_content = 2131427448;
 			
 			// aapt resource value: 0x7f0b005c
 			public static int submenuarrow = 2131427420;
@@ -2343,8 +2388,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0b004f
 			public static int textSpacerNoTitle = 2131427407;
 			
-			// aapt resource value: 0x7f0b007c
-			public static int time = 2131427452;
+			// aapt resource value: 0x7f0b007e
+			public static int time = 2131427454;
 			
 			// aapt resource value: 0x7f0b000e
 			public static int title = 2131427342;
@@ -2502,64 +2547,67 @@ namespace Edison.Mobile.Android.Common
 			public static int abc_select_dialog_material = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public static int notification_action = 2130903066;
+			public static int circular_image_button = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public static int notification_action_tombstone = 2130903067;
+			public static int notification_action = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public static int notification_media_action = 2130903068;
+			public static int notification_action_tombstone = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public static int notification_media_cancel_action = 2130903069;
+			public static int notification_media_action = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public static int notification_template_big_media = 2130903070;
+			public static int notification_media_cancel_action = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public static int notification_template_big_media_custom = 2130903071;
+			public static int notification_template_big_media = 2130903071;
 			
 			// aapt resource value: 0x7f030020
-			public static int notification_template_big_media_narrow = 2130903072;
+			public static int notification_template_big_media_custom = 2130903072;
 			
 			// aapt resource value: 0x7f030021
-			public static int notification_template_big_media_narrow_custom = 2130903073;
+			public static int notification_template_big_media_narrow = 2130903073;
 			
 			// aapt resource value: 0x7f030022
-			public static int notification_template_custom_big = 2130903074;
+			public static int notification_template_big_media_narrow_custom = 2130903074;
 			
 			// aapt resource value: 0x7f030023
-			public static int notification_template_icon_group = 2130903075;
+			public static int notification_template_custom_big = 2130903075;
 			
 			// aapt resource value: 0x7f030024
-			public static int notification_template_lines_media = 2130903076;
+			public static int notification_template_icon_group = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public static int notification_template_media = 2130903077;
+			public static int notification_template_lines_media = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public static int notification_template_media_custom = 2130903078;
+			public static int notification_template_media = 2130903078;
 			
 			// aapt resource value: 0x7f030027
-			public static int notification_template_part_chronometer = 2130903079;
+			public static int notification_template_media_custom = 2130903079;
 			
 			// aapt resource value: 0x7f030028
-			public static int notification_template_part_time = 2130903080;
+			public static int notification_template_part_chronometer = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public static int select_dialog_item_material = 2130903081;
+			public static int notification_template_part_time = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
-			public static int select_dialog_multichoice_material = 2130903082;
+			public static int select_dialog_item_material = 2130903082;
 			
 			// aapt resource value: 0x7f03002b
-			public static int select_dialog_singlechoice_material = 2130903083;
+			public static int select_dialog_multichoice_material = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public static int support_simple_spinner_dropdown_item = 2130903084;
+			public static int select_dialog_singlechoice_material = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public static int tooltip = 2130903085;
+			public static int support_simple_spinner_dropdown_item = 2130903085;
+			
+			// aapt resource value: 0x7f03002e
+			public static int tooltip = 2130903086;
 			
 			static Layout()
 			{
@@ -4590,6 +4638,60 @@ namespace Edison.Mobile.Android.Common
 			
 			// aapt resource value: 0
 			public static int ButtonBarLayout_allowStacking = 0;
+			
+			public static int[] CircularImageButton = new int[] {
+					16842961,
+					2130772189,
+					2130772190,
+					2130772252,
+					2130772253,
+					2130772254,
+					2130772255,
+					2130772256,
+					2130772257,
+					2130772258,
+					2130772259,
+					2130772260,
+					2130772261};
+			
+			// aapt resource value: 0
+			public static int CircularImageButton_android_tag = 0;
+			
+			// aapt resource value: 3
+			public static int CircularImageButton_buttonBackground = 3;
+			
+			// aapt resource value: 4
+			public static int CircularImageButton_buttonBackgroundTint = 4;
+			
+			// aapt resource value: 5
+			public static int CircularImageButton_buttonBackgroundTintMode = 5;
+			
+			// aapt resource value: 7
+			public static int CircularImageButton_buttonRippleColor = 7;
+			
+			// aapt resource value: 12
+			public static int CircularImageButton_iconPadding = 12;
+			
+			// aapt resource value: 11
+			public static int CircularImageButton_iconPaddingBottom = 11;
+			
+			// aapt resource value: 8
+			public static int CircularImageButton_iconPaddingLeft = 8;
+			
+			// aapt resource value: 10
+			public static int CircularImageButton_iconPaddingRight = 10;
+			
+			// aapt resource value: 9
+			public static int CircularImageButton_iconPaddingTop = 9;
+			
+			// aapt resource value: 6
+			public static int CircularImageButton_iconSrc = 6;
+			
+			// aapt resource value: 1
+			public static int CircularImageButton_iconTint = 1;
+			
+			// aapt resource value: 2
+			public static int CircularImageButton_iconTintMode = 2;
 			
 			public static int[] ColorStateListItem = new int[] {
 					16843173,

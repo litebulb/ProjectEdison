@@ -1,36 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.Identity.Client;
 
 using Android.App;
 using Android.OS;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics;
-using Android.Support.V4.Widget;
-using Android.Support.V7.App;
-using Android.Support.V4.View;
+using Android.Content.PM;
+using Android.Support.Constraints;
 using Android.Support.V7.Widget;
 using Android.Support.Design.Widget;
-using Android.Support.V4.Content;
-
-using Java.Lang;
 
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.User.Client.Core.ViewModels;
-using Edison.Mobile.User.Client.Droid.Adapters;
-using Edison.Mobile.User.Client.Droid.Fragments;
 using Edison.Mobile.User.Client.Droid.Ioc;
 using Edison.Mobile.User.Client.Core.Ioc;
 using Edison.Mobile.Android.Common.Ioc;
 using Edison.Mobile.Common.Ioc;
-using System.Threading.Tasks;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
-using Microsoft.Identity.Client;
-using Android.Support.Constraints;
-using Android.Content.PM;
+
+
+
 
 
 #if DEBUG

@@ -6,9 +6,13 @@ using Android.OS;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
+using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
-using Android.Support.V7.App;
 using Android.Support.V4.View;
+using Android.Support.V4.Content;
+using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 
 using Java.Lang;
 
@@ -23,16 +27,15 @@ using Edison.Mobile.Common.Ioc;
 
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Fragment = Android.Support.V4.App.Fragment;
-using Android.Graphics;
-using Android.Support.V7.Widget;
-using Android.Support.Design.Widget;
-using Android.Support.V4.Content;
+
+
+
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
  //   [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
-    public class MainActivity : BaseActivity<MainViewModel>
+    public class MainActivity : BaseActivity<MenuViewModel>
     {
 
         private const string StateKey_ActionbarTitle = "actionBarTitle";
@@ -47,8 +50,14 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private LinearLayout _bottomSheet;
         private BottomSheetBehavior _bottomSheetBehaviour;
 //        private BottomSheet4StateBehaviour _bottomSheetBehaviour;
-        private LinearLayout _quick_chat_holder;
-        private Fragment _fragment;
+
+//        private LinearLayout _quick_chat_holder;
+//        private List<AppCompatImageButton> _imageButtons = new List<AppCompatImageButton>();
+
+
+        private Fragment _pageFragment;
+        private Fragment _chatFragment;
+
         private NavMenuExpandableListAdapter _navDrawerListAdapter;
         private ExpandableListView _navDrawerListview;
         private List<TextImageResourcePair> _listDataGroups;
@@ -56,7 +65,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private int _previousGroup = -1;
 
 
-        private List<AppCompatImageButton> _imageButtons = new List<AppCompatImageButton>();
+
 
 
         // Navigation Drawer Group Data
@@ -131,9 +140,10 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _bottomSheet = FindViewById<LinearLayout>(Resource.Id.bottom_sheet);
             _bottomSheetBehaviour = BottomSheetBehavior.From(_bottomSheet);
             //            _bottomSheetBehaviour = BottomSheet4StateBehaviour.From(_bottomSheet);
+
+
+/*
             _quick_chat_holder = FindViewById<LinearLayout>(Resource.Id.quick_chat_holder);
-
-
             _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_emergency));
             _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_activity));
             _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_safe));
@@ -141,6 +151,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             {
                 button.Click += OnButtonClick;
             }
+*/
 
             // Set the Bottom Sheet parameters - dependant on screen dimensions
             if (Constants.BottomSheetPeekHeightPx > -1)
@@ -150,12 +161,15 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         }
 
+/*
         private void OnButtonClick(object sender, EventArgs e)
         {
             if (sender is AppCompatImageButton imgButton)
                 Toast.MakeText(this, (string)imgButton.Tag, ToastLength.Short).Show();
 
         }
+*/
+
 
         private void SetUpToolbar()
         {
@@ -170,7 +184,6 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 //            _toolbar.Subtitle = "Subtitle";
 
             //Set tolbar title colors
-//            Color col = Resources.GetColor(Resource.Color.app_blue);
             Color col = new Color(ContextCompat.GetColor(this, Resource.Color.app_blue));
             _toolbar.SetTitleTextColor(col);
             _toolbar.SetSubtitleTextColor(col);
@@ -206,7 +219,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         private void SetUpBottomSheet()
         {
-//            _bottomSheetBehaviour.SetBottomSheetCallback(new IntelligentBottomSheetCallback());
+            //            _bottomSheetBehaviour.SetBottomSheetCallback(new IntelligentBottomSheetCallback());
+            LoadChatFragment();
         }
 
 
@@ -317,10 +331,18 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private void ShowDefaultFragment()
         {
             // Assign initial Fragment
-            _fragment = new HomePageFragment();
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, _fragment, null).Commit();
+            _pageFragment = new HomePageFragment();
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, _pageFragment, null).Commit();
 //            ReplaceFragmentWithDelay(_fragment);
         }
+
+        private void LoadChatFragment()
+        {
+            _chatFragment = new ChatFragment();
+            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.bottom_sheet_fragment_container, _chatFragment, null).Commit();
+        }
+
+
 
         // Handle any title changes that come with Fragments, if OnCreate has been called due to a change in screen orientation
         private void RestoreState(Bundle savedInstanceState)
@@ -429,40 +451,40 @@ namespace Edison.Mobile.User.Client.Droid.Activities
                 switch (groupResource)
                 {
                     case Resource.String.home:
-                        if (!(_fragment is HomePageFragment))
+                        if (!(_pageFragment is HomePageFragment))
                         {
-                            _fragment = new HomePageFragment();
-                            ReplaceFragmentWithDelay(_fragment);
+                            _pageFragment = new HomePageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment);
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
                         break;
 
                     case Resource.String.my_info:
-                        if (!(_fragment is ProfilePageFragment))
+                        if (!(_pageFragment is ProfilePageFragment))
                         {
-                            _fragment = new ProfilePageFragment();
-                            ReplaceFragmentWithDelay(_fragment);
+                            _pageFragment = new ProfilePageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment);
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
                         break;
 
                     case Resource.String.notifications:
-                        if (!(_fragment is NotificationsPageFragment))
+                        if (!(_pageFragment is NotificationsPageFragment))
                         {
-                            _fragment = new NotificationsPageFragment();
-                            ReplaceFragmentWithDelay(_fragment);
+                            _pageFragment = new NotificationsPageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment);
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
                         break;
 
                     case Resource.String.settings:
-                        if (!(_fragment is SettingsPageFragment))
+                        if (!(_pageFragment is SettingsPageFragment))
                         {
-                            _fragment = new SettingsPageFragment();
-                            ReplaceFragmentWithDelay(_fragment);
+                            _pageFragment = new SettingsPageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment);
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
@@ -598,10 +620,13 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _navDrawerListview.ChildClick -= OnChildClicked;
             _navDrawerListview.GroupClick -= OnGroupClicked;
 
+/*
             foreach (var button in _imageButtons)
             {
                 button.Click -= OnButtonClick;
             }
+*/
+
 
             _toolbar.ViewTreeObserver.GlobalLayout -= OnToolbarLayout;
 

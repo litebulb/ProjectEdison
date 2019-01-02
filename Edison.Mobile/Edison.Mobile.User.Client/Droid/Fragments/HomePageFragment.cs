@@ -1,11 +1,12 @@
 ﻿using Android.OS;
 using Android.Views;
+using Edison.Mobile.Android.Common;
+using Edison.Mobile.User.Client.Core.ViewModels;
 
-using Fragment = global::Android.Support.V4.App.Fragment;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
-    public class HomePageFragment : Fragment
+    public class HomePageFragment : BaseFragment<MainViewModel>  // use MainViewModel as a dummy ViewMiodel
     {
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -19,5 +20,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             var root = inflater.Inflate(Resource.Layout.page_home, container, false);
             return root;
         }
+
+
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Android.OS;
 using Android.Views;
+using Edison.Mobile.Android.Common;
+using Edison.Mobile.User.Client.Core.ViewModels;
 
-using Fragment = global::Android.Support.V4.App.Fragment;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
-    public class NotificationsPageFragment : Fragment
+    public class NotificationsPageFragment :  BaseFragment<MainViewModel>  // use MainViewModel as a dummy ViewMiodel
     {
         public override void OnCreate(Bundle savedInstanceState)
         {

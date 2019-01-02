@@ -24,9 +24,9 @@ namespace Edison.Mobile.Android.Common
         private KeyboardStatusService KeyboardStatus { get; } = new KeyboardStatusService();
 
 
-        T viewModel;
+        private T _viewModel;
 
-        protected T ViewModel => viewModel ?? (viewModel = Container.Instance.Resolve<T>());
+        protected T ViewModel => _viewModel ?? (_viewModel = Container.Instance.Resolve<T>());
         protected Rect VisibleDisplayRect { get; private set; } = new Rect();
 
         protected override void OnCreate(Bundle savedInstanceState)

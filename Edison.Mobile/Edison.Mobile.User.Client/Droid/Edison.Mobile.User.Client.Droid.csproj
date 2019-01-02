@@ -70,6 +70,9 @@
     <AndroidSupportedAbis>arm64-v8a;armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Refractored.Controls.CircleImageView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Edison.Mobile.Common\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -217,6 +220,7 @@
     <Compile Include="Adapters\NavMenuExpandableListAdapter.cs" />
     <Compile Include="Adapters\ResponsesAdapter.cs" />
     <Compile Include="Behaviors\BottomSheet4StateBehaviour.cs" />
+    <Compile Include="Fragments\ChatFragment.cs" />
     <Compile Include="Fragments\HomePageFragment.cs" />
     <Compile Include="Fragments\NotificationsPageFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragment.cs" />
@@ -230,7 +234,6 @@
     <Compile Include="Services\Firebase\EdisonFirebaseMessagingService.cs" />
     <Compile Include="Services\Firebase\FirebaseRegistrationService.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
-    <Compile Include="Views\PulloutView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -240,6 +243,16 @@
     </None>
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
+    <AndroidResource Include="Resources\font\rubik_black.ttf" />
+    <AndroidResource Include="Resources\font\rubik_black_italic.ttf" />
+    <AndroidResource Include="Resources\font\rubik_bold.ttf" />
+    <AndroidResource Include="Resources\font\rubik_bold_italic.ttf" />
+    <AndroidResource Include="Resources\font\rubik_italic.ttf" />
+    <AndroidResource Include="Resources\font\rubik_light.ttf" />
+    <AndroidResource Include="Resources\font\rubik_light_italic.ttf" />
+    <AndroidResource Include="Resources\font\rubik_medium.ttf" />
+    <AndroidResource Include="Resources\font\rubik_medium_italic.ttf" />
+    <AndroidResource Include="Resources\font\rubik_regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
@@ -287,9 +300,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="Resources\color-v21\" />
     <Folder Include="Resources\color\" />
-    <Folder Include="Resources\font\" />
     <Folder Include="Resources\values-v21\" />
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +830,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\edison_fox2_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\chat_fragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

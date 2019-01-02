@@ -1,11 +1,11 @@
 ﻿using Android.OS;
 using Android.Views;
-
-using Fragment = global::Android.Support.V4.App.Fragment;
+using Edison.Mobile.Android.Common;
+using Edison.Mobile.User.Client.Core.ViewModels;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
-    public class ProfilePageFragment : Fragment
+    public class ProfilePageFragment : BaseFragment<MainViewModel>  // use MainViewModel as a dummy ViewMiodel
     {
         public override void OnCreate(Bundle savedInstanceState)
         {

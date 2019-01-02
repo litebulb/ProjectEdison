@@ -16,5 +16,25 @@ namespace Edison.Mobile.Android.Common.WiFi
         {
             throw new NotImplementedException();
         }
+
+        Task<bool> IWifiService.ConnectToSecuredWifiNetwork(string ssid, string passphrase)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<WifiNetwork>> IWifiService.GetAvailableWifiNetworks()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<WifiNetwork> IWifiService.GetCurrentlyConnectedWifiNetwork()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<WifiNetwork>> IWifiService.GetPreviouslyConfiguredWifiNetworks()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

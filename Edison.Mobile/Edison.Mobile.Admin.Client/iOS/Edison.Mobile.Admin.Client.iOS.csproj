@@ -229,10 +229,18 @@
     <ImageAsset Include="Assets.xcassets\LoginLogo.imageset\loginLogo%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu.png" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%403x.png" />
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Menu.imageset\menu%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\SensorsGray.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -245,42 +253,114 @@
     <ImageAsset Include="Assets.xcassets\SensorsGray.imageset\sensors%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue.png" />
-    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue%402x.png" />
-    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Plus.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus.png" />
-    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Gear.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear.png" />
-    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Power.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Power.imageset\power.png" />
-    <ImageAsset Include="Assets.xcassets\Power.imageset\power%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Power.imageset\power%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Lines.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Lines.imageset\lines.png" />
-    <ImageAsset Include="Assets.xcassets\Lines.imageset\lines%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Lines.imageset\lines%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\arrowRight.png" />
-    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\arrowRight%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\arrowRight%403x.png" />
-    <ImageAsset Include="Assets.xcassets\Check.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Check.imageset\check.png" />
-    <ImageAsset Include="Assets.xcassets\Check.imageset\check%402x.png" />
-    <ImageAsset Include="Assets.xcassets\Check.imageset\check%403x.png" />
-    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft.png" />
-    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft%402x.png" />
-    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft%403x.png" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX.png" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%402x.png" />
-    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%403x.png" />
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\SensorsBlue.imageset\sensorsBlue%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Plus.imageset\plus%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Gear.imageset\gear%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Power.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Power.imageset\power.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Power.imageset\power%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Power.imageset\power%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Lines.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Lines.imageset\lines.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Lines.imageset\lines%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Lines.imageset\lines%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\arrowRight.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\arrowRight%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowRight.imageset\arrowRight%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Check.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Check.imageset\check.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Check.imageset\check%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Check.imageset\check%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\ArrowLeft.imageset\arrowLeft%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\CloseX.imageset\closeX%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

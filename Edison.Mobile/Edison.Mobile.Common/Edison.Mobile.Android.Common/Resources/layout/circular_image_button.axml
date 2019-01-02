@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	>
+  <android.support.v7.widget.AppCompatImageView
+		android:id="@+id/button_background"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:scaleType="fitCenter"
+		android:adjustViewBounds="true"
+		app:srcCompat="@drawable/circular_image_button_background"
+		/>
+  <android.support.v7.widget.AppCompatImageButton
+		android:id="@+id/button"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="20dp"
+		android:tag="circularImageButton"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		/>
+</merge>
+<!--android:background="@drawable/circular_image_button_ripple"-->
