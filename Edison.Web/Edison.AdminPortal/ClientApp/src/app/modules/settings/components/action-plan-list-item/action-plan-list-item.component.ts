@@ -22,8 +22,6 @@ export class ActionPlanListItemComponent implements OnInit, OnDestroy, OnChanges
 
     itemForm: FormGroup;
     itemFormSub$: Subscription;
-
-    iconClass: string;
     activationMessage: string;
     deactivationMessage: string;
 
@@ -53,8 +51,6 @@ export class ActionPlanListItemComponent implements OnInit, OnDestroy, OnChanges
         })
 
         this.itemFormSub$ = this.itemForm.valueChanges.subscribe(() => this.valueChanges());
-
-        this.iconClass = `${this.actionPlan.icon} ${this.actionPlan.color} active`;
     }
 
     ngOnDestroy() {

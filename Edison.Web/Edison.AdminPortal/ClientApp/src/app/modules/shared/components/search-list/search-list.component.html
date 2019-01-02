@@ -4,9 +4,13 @@
 </div>
 <div class="container">
     <div class="action-plan-search">
-        <div class="app-icon small static-size"
-             [ngClass]="{'search': currentFilter === '', 'close grey': currentFilter !== ''}"
-             (click)="clearFilter()"></div>
+        <app-icon size="medium-small"
+                  staticSize="true"
+                  [icon]="currentFilter === '' ? 'search' : 'close'"
+                  [color]="currentFilter === '' ? '' : 'grey'"
+                  (click)="clearFilter()"
+                  [style]="{ 'padding': '7px' }"
+                  [ngClass]="{'close': currentFilter !== ''}"></app-icon>
         <input type="text"
                tabindex="100"
                #searchInput

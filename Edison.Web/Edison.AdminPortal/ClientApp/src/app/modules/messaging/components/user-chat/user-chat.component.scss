@@ -72,14 +72,18 @@
             padding: 10px 0;
             min-height: 20px;
             display: flex;
-            .app-icon {
+            app-icon {
                 margin-right: 10px;
             }
             .location {
                 flex-grow: 2;
+                display: flex;
+                align-items: center;
             }
             .map-link {
                 min-height: 20px;
+                display: flex;
+                align-items: center;
                 &:focus {
                     outline: 2px solid $blue;
                     outline-offset: 4px;

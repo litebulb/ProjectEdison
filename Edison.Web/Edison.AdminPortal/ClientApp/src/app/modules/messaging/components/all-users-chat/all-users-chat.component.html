@@ -8,11 +8,17 @@
 </div>
 <div class="response-container">
     <div class="info-row">
-        <div class="app-icon static-size vip-static grey small"></div>
+        <app-icon icon="vip"
+                  static="true"
+                  color="grey"
+                  size="small"
+                  staticSize="true"></app-icon>
         <div class="user-count">{{userCount$ | async}} People</div>
     </div>
     <div class="info-row">
-        <div class="app-icon static-size building small"></div>
+        <app-icon staticSize="true"
+                  icon="building"
+                  size="small"></app-icon>
         <div class="location">Multiple Locations</div>
         <div class="map-link">MAP</div>
     </div>

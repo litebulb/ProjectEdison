@@ -68,9 +68,6 @@ mat-card {
         align-items: center;
         text-transform: uppercase;
         cursor: pointer;
-        .app-icon {
-            margin-right: 10px;
-        }
     }
     .card-footer {
         width: 100%;
@@ -79,10 +76,6 @@ mat-card {
         justify-content: center;
         padding: 10px 0;
         margin-top: 5px;
-        .app-icon {
-            margin-right: 20px;
-            margin-left: -20px;
-        }
     }
     app-circle-spinner {
         margin-right: 5px;
@@ -111,9 +104,6 @@ mat-card {
             }
             &.last {
                 margin-bottom: 0;
-            }
-            .app-icon {
-                margin-right: 10px;
             }
             .access-times {
                 display: flex;

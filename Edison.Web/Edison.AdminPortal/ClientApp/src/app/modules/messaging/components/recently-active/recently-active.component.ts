@@ -64,13 +64,10 @@ export class RecentlyActiveComponent implements OnInit, OnDestroy {
         return this.messages.filter(m => m.channelData.data.userId === userId && !m.read).length;
     }
 
-    getActionPlanIcon(userId: string) {
+    getActionPlan(userId: string) {
         const actionPlanId = this.getLatestActionPlanId(userId);
         if (actionPlanId) {
-            const actionPlan = this.actionPlans.find(ap => ap.actionPlanId === actionPlanId);
-            if (actionPlan) {
-                return `${actionPlan.color} ${actionPlan.icon}-static round large-medium app-icon`;
-            }
+            return this.actionPlans.find(ap => ap.actionPlanId === actionPlanId);
         }
 
         return null;

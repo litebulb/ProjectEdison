@@ -54,12 +54,10 @@
             }
         }
     }
-    .app-icon {
+    app-icon {
         display: block !important;
-        &.expand,
-        &.close {
-            margin-right: 6px;
-        }
+        margin-right: 6px;
+        margin-left: 6px;
     }
     .icon-container {
         display: flex;

@@ -2,8 +2,11 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <span class="app-icon round static"
-                      [ngClass]="iconClass"></span>
+                <app-icon [icon]="actionPlan.icon"
+                          [color]="actionPlan.color"
+                          active="true"
+                          round="true"
+                          static="true"></app-icon>
                 <span class="action-plan-name">{{actionPlan.name}}</span>
                 <span *ngIf="actionPlan.loading"
                       class="loading-spinner">

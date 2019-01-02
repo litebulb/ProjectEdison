@@ -1,8 +1,9 @@
 <mat-card [ngStyle]="getBorderStyle()">
     <div class="card-header"
          (click)="showEvent()">
-        <div class="app-icon medium"
-             [ngClass]="event.eventType.toLowerCase()"></div>
+        <app-icon size="medium"
+                  [icon]="event.eventType.toLowerCase()"
+                  [style]="{ 'margin-right': '10px' }"></app-icon>
         <div class="card-title">{{event.eventType}}</div>
     </div>
     <div class="map-container"
@@ -18,7 +19,9 @@
          (click)="toggleMapVisibility()"
          [ngClass]="getResponseColor()">
         <div>{{ mapVisible ? 'HIDE MAP' : 'SHOW MAP'}}</div>
-        <div [ngClass]="{'arrow-up': mapVisible, 'arrow-down': !mapVisible, 'tiny': true, 'app-icon icon': true}"></div>
+        <app-icon [icon]="mapVisible ? 'arrow-up' : 'arrow-down'"
+                  size="tiny"
+                  [style]="{ 'margin': '0 10px' }"></app-icon>
     </div>
     <div class="card-details"
          (click)="showEvent()">
@@ -26,7 +29,10 @@
             "{{latestEventInstance.metadata.message}}"
         </div>
         <div>
-            <div class="app-icon time small wide"></div>
+            <app-icon icon="time"
+                      size="small"
+                      wide="true"
+                      [style]="{ 'margin-right': '10px' }"></app-icon>
             <app-circle-spinner size="20"
                                 depth="2"
                                 [circleColor]="circleColor"
@@ -46,22 +52,34 @@
             </div>
         </div>
         <div *ngIf="event.eventType !== 'message'">
-            <div class="app-icon building small wide"></div>
+            <app-icon size="small"
+                      icon="building"
+                      wide="true"
+                      [style]="{ 'margin-right': '10px' }"></app-icon>
             <div class="text">{{event.device.name}}</div>
         </div>
         <div *ngIf="event.eventType === 'message'">
-            <div class="app-icon person small wide"></div>
+            <app-icon icon="person"
+                      size="small"
+                      wide="true"
+                      [style]="{ 'margin-right': '10px' }"></app-icon>
             <div class="text">{{latestEventInstance.metadata.username}}</div>
         </div>
         <div class="last"
              *ngIf="event.eventType !== 'message'">
-            <div class="app-icon stairs small wide"></div>
+            <app-icon icon="stairs"
+                      size="small"
+                      wide="true"
+                      [style]="{ 'margin-right': '10px' }"></app-icon>
             <div class="text">{{event.device.location1}}, {{event.device.location2}},
                 {{event.device.location3}}</div>
         </div>
         <div class="last"
              *ngIf="event.eventType === 'message'">
-            <div class="app-icon building small wide"></div>
+            <app-icon icon="building"
+                      size="small"
+                      wide="true"
+                      [style]="{ 'margin-right': '10px' }"></app-icon>
             <div class="text">{{event.device.location1}}</div>
         </div>
     </div>
@@ -76,8 +94,12 @@
                 #manageButton
                 *ngIf="response && response.responseState === 1"
                 (click)="manageResponse()"
-                tabindex="-1"><span class="app-icon small static"
-                  [ngClass]="response.icon.toLowerCase()"></span>Manage
-            Response</button>
+                tabindex="-1">
+            <app-icon [icon]="response.icon"
+                      size="medium"
+                      static="true"
+                      [style]="{ 'margin-right': '20px', 'margin-left': '-20px' }"></app-icon>
+            Manage Response
+        </button>
     </div>
 </mat-card>

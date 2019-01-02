@@ -1,6 +1,9 @@
 <app-action-list-item-state [status]="context.status"
                             [loading]="context.loading"></app-action-list-item-state>
-<div class="app-icon shield-plain red round"></div>
+<app-icon icon="shield-plain"
+          color="red"
+          round="true"
+          size="large"></app-icon>
 <div class="content-container">
     <div>{{context.description}}</div>
     <div class="error"

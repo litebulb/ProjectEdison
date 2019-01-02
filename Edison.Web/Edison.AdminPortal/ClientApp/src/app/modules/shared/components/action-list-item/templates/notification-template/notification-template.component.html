@@ -1,6 +1,8 @@
 <app-action-list-item-state [status]="context.status"
                             [loading]="context.loading"></app-action-list-item-state>
-<div class="app-icon notification red round"></div>
+<app-icon icon="notification"
+          color="red"
+          round="true"></app-icon>
 <div class="content-container">
     <div>
         {{context.description}}
@@ -9,12 +11,15 @@
         <div>NOTIFICATION CONTENT</div>
         <div class="edit-notification-container"
              *ngIf="canEdit">
-            <div class="edit-icon app-icon edit small"
-                 (click)="!editing && edit()"
-                 (keyup.space)="!editing && edit()"
-                 (keyup.enter)="!editing && edit()"
-                 #editButton
-                 tabindex="500"></div>
+            <app-icon icon="edit"
+                      size="large"
+                      (click)="!editing && edit()"
+                      (keyup.space)="!editing && edit()"
+                      (keyup.enter)="!editing && edit()"
+                      #editButton
+                      tabindex="500"
+                      class="edit-icon">
+            </app-icon>
             <span class="edit-done"
                   *ngIf="editing && !adding"
                   (click)="editComplete()"

@@ -71,7 +71,9 @@
         [ngClass]="{'hover': hover, 'active': active}"
         [style.z-index]="active ? 5 : 3"
         [tabindex]="activated || active ? 600 : 7">
-    <span class="app-icon horn teal medium"
-          [ngClass]="{'hover': hover && !disabled, 'active close': active, 'horn': !active}"></span>
+    <app-icon [icon]="active ? 'close' : 'horn'"
+              [color]="'teal'"
+              [size]="'medium'"
+              [hover]="hover && !disabled"></app-icon>
     <span class="text noselect">{{ activated ? 'Close' : active ? 'Cancel' : 'Activate Response' }}</span>
 </button>

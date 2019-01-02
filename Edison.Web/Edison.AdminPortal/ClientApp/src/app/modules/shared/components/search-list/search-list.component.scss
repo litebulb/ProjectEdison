@@ -49,7 +49,9 @@
             width: calc(90% - 20px);
             margin-left: 20px;
             margin-right: 20px;
-            .app-icon {
+            display: flex;
+            align-items: center;
+            app-icon {
                 position: absolute;
                 right: 0;
                 &.close {

@@ -1,6 +1,9 @@
 <div class="container"
      [ngStyle]="style">
-    <div class="app-icon small round"
-         [ngClass]="iconClass"
-         (click)="onClick($event)"></div>
+    <app-icon size="large"
+              round="true"
+              [icon]="response.icon"
+              [color]="response.color"
+              [static]="'true'"
+              (click)="onClick($event)"></app-icon>
 </div>

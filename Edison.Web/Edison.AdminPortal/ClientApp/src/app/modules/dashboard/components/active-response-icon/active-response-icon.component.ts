@@ -16,7 +16,7 @@ export class ActiveResponseIconComponent implements OnInit {
     constructor () { }
 
     ngOnInit() {
-        this.iconClass = this.response ? `${this.response.icon.toLowerCase()}-static ${this.response.color.toLowerCase()}` : '';
+        this.iconClass = this.response ? `${this.response.icon.toLowerCase()} static ${this.response.color.toLowerCase()}` : '';
     }
 
     onClick(event: Event) {

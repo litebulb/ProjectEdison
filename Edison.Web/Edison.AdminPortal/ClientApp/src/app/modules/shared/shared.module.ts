@@ -27,6 +27,7 @@ import { ActionListComponent } from './components/action-list/action-list.compon
 import { CircleSpinnerComponent } from './components/circle-spinner/circle-spinner.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DelayButtonComponent } from './components/delay-button/delay-button.component';
+import { IconComponent } from './components/icon/icon.component';
 import { SearchListItemComponent } from './components/search-list-item/search-list-item.component';
 import { SearchListComponent } from './components/search-list/search-list.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -43,7 +44,8 @@ const sharedComponents = [
     DelayButtonComponent,
     NumberDatePipe,
     ConfirmDialogComponent,
-    ActionListItemStateComponent
+    ActionListItemStateComponent,
+    IconComponent,
 ]
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

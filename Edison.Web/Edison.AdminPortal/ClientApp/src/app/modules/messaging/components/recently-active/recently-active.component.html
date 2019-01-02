@@ -15,8 +15,12 @@
          (keyup.enter)="selectActiveUser(user)"
          tabindex="2">
         <div class="icon-container">
-            <div class="action-plan-icon"
-                 [ngClass]="getActionPlanIcon(user.id)"></div>
+            <app-icon *ngIf="getActionPlan(user.id)"
+                      static="true"
+                      size="large-medium"
+                      round="true"
+                      [color]="getActionPlan(user.id).color"
+                      [icon]="getActionPlan(user.id).icon"></app-icon>
         </div>
         <div class="username">{{user.name}}</div>
         <div class="unread"

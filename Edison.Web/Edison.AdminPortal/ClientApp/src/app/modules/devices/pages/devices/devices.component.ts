@@ -84,12 +84,6 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         if (deviceType.toLowerCase().includes('bulb')) { return 'light' }
     }
 
-    getResponseIcon(response) {
-        if (!response || response.responseState === ResponseState.Inactive) { return; }
-
-        return `${response.icon.toLowerCase()}-static ${response.color.toLowerCase()}`
-    }
-
     private setupSubscriptions() {
         const devicesObs = this.store.pipe(select(devicesSelector));
         const responsesObs = this.store.pipe(select(responsesSelector));

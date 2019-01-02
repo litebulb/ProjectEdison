@@ -1,7 +1,6 @@
 import { Subscription } from 'rxjs';
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatCard } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
 import { spinnerColors } from '../../../../core/spinnerColors';

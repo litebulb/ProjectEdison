@@ -14,8 +14,10 @@
              [style.cursor]="disabled ? 'default' : 'pointer'">
             <div class="progress-circle"
                  [ngClass]="getCircleClass()">
-                <div class="app-icon horn large"
-                     [ngClass]="{'hover': hover, 'active': active}"></div>
+                <app-icon icon="horn"
+                          size="large"
+                          [hover]="hover"
+                          [active]="active"></app-icon>
                 <div class="text"
                      *ngIf="buttonText">{{buttonText}}</div>
             </div>

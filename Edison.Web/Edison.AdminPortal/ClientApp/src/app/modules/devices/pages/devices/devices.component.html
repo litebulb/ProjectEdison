@@ -18,8 +18,9 @@
                 <td mat-cell
                     *matCellDef="let element">
                     <div class="connection">
-                        <div class="app-icon dot"
-                             [ngClass]="{'active': element.online}"></div>
+                        <app-icon icon="dot"
+                                  [active]="element.online"
+                                  [style]="{ 'margin-right': '10px' }"></app-icon>
                         <div>{{ getLastAccessTime(element.lastAccessTime) }}</div>
                     </div>
                 </td>
@@ -31,8 +32,9 @@
                     *matHeaderCellDef> TYPE </th>
                 <td mat-cell
                     *matCellDef="let element">
-                    <div class="app-icon grey medium-small"
-                         [ngClass]="getDeviceIcon(element.deviceType)"></div>
+                    <app-icon [icon]="getDeviceIcon(element.deviceType)"
+                              size="medium-small"
+                              color="grey"></app-icon>
                 </td>
             </ng-container>
 
@@ -51,9 +53,11 @@
                     *matHeaderCellDef> CURRENT RESPONSE </th>
                 <td mat-cell
                     *matCellDef="let element">
-                    <div class="app-icon round"
-                         *ngIf="element.response && element.response.responseState === 1"
-                         [ngClass]="getResponseIcon()"></div>
+                    <app-icon static="true"
+                              round="true"
+                              [icon]="element.response.icon"
+                              [color]="element.response.color"
+                              *ngIf="element.response && element.response.responseState === 1"></app-icon>
                     <div class="center-dash"
                          *ngIf="!element.response || element.response.responseState === 0">-</div>
                 </td>

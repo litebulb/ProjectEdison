@@ -1,9 +1,11 @@
 @import 'colorScheme';
 $icon-size: 36px;
-@mixin iconSize($size) {
-    height: $size;
-    width: $size;
-    background-size: $size;
+@mixin iconSize($size, $bgSize) {
+    min-height: $size !important;
+    min-width: $size !important;
+    height: $size !important;
+    width: $size !important;
+    background-size: $bgSize !important;
 }
 
 %icon-defaults {
@@ -12,32 +14,37 @@ $icon-size: 36px;
     background-size: $icon-size;
     background-repeat: no-repeat;
     background-position: center;
-    display: inline-block;
     z-index: 2;
     &.static-size {
         min-width: $icon-size;
         min-height: $icon-size;
     }
     &.tiny {
-        @include iconSize(8px);
+        @include iconSize(8px, 6px);
     }
     &.small {
-        @include iconSize(16px);
+        @include iconSize(16px, 10px);
         &.wide {
             width: 22px !important;
         }
     }
     &.medium-small {
-        @include iconSize(20px);
+        @include iconSize(20px, 15px);
     }
     &.medium {
-        @include iconSize(24px);
+        @include iconSize(24px, 18px);
     }
     &.large-medium {
-        @include iconSize(26px);
+        @include iconSize(26px, 20px);
     }
     &.large {
-        @include iconSize(32px);
+        @include iconSize(32px, 28px);
+    }
+    &.extra-large {
+        @include iconSize(48px, 38px);
+    }
+    &.huge {
+        @include iconSize(70px, 60px);
     }
     &.round {
         border-radius: 50%;
@@ -86,7 +93,8 @@ $icon-size: 36px;
     @extend %icon-defaults;
     background-image: url('/assets/icons/'+$asset+'_passive.svg');
     &:hover:not(.static),
-    &.active {
+    &.active,
+    &.static {
         background-image: url('/assets/icons/'+$asset+'_active.svg');
     }
 }
@@ -147,50 +155,26 @@ $icon-size: 36px;
     &.fire {
         @include hoverIcon('fire');
     }
-    &.fire-static {
-        @include icon('fire_active');
-    }
     &.gun {
         @include hoverIcon('gun');
-    }
-    &.gun-static {
-        @include icon('gun_active');
     }
     &.health {
         @include hoverIcon('health');
     }
-    &.health-static {
-        @include icon('health_active');
-    }
     &.package {
         @include hoverIcon('package');
-    }
-    &.package-static {
-        @include icon('package_active');
     }
     &.pollution {
         @include hoverIcon('pollution');
     }
-    &.pollution-static {
-        @include icon('pollution_active');
-    }
     &.protest {
         @include hoverIcon('protest');
-    }
-    &.protest-static {
-        @include icon('protest_active');
     }
     &.tornado {
         @include hoverIcon('tornado');
     }
-    &.tornado-static {
-        @include icon('tornado_active');
-    }
     &.vip {
         @include hoverIcon('vip');
-    }
-    &.vip-static {
-        @include icon('vip_active');
         &.grey {
             @include icon('vip_grey');
         }
@@ -240,10 +224,10 @@ $icon-size: 36px;
     &.message {
         @include icon('message_blue');
     }
-    &.zoomIn {
+    &.zoomin {
         @include icon('zoom_in');
     }
-    &.zoomOut {
+    &.zoomout {
         @include icon('zoom_out');
     }
     &.edit {

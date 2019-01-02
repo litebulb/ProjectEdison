@@ -1,7 +1,9 @@
 <app-action-list-item-state [status]="context.status"
                             [loading]="context.loading"></app-action-list-item-state>
-<div class="app-icon light round"
-     [ngClass]="getBgColor()"></div>
+<app-icon icon="light"
+          round="true"
+          [color]="context.parameters.color"
+          size="large"></app-icon>
 <div class="content-container">
     <div>
         Connected Lights {{context.parameters.radius}} Radius: <span class="color-text"

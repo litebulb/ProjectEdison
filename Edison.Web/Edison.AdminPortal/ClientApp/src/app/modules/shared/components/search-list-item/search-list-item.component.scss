@@ -35,7 +35,7 @@
         flex-grow: 2;
         color: black;
     }
-    .app-icon:not(.dismiss) {
+    app-icon:not(.dismiss) {
         margin-right: 18px;
         &.close {
             cursor: pointer;

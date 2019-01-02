@@ -16,9 +16,10 @@
 </div>
 <div class="map-controls"
      *ngIf="(appState$ | async).showReloadButton">
-    <div class="app-icon reload"
-         (click)="reload()"
-         (keyup.space)="reload()"
-         (keyup.enter)="reload()"
-         tabindex="10"></div>
+    <app-icon icon="reload"
+              size="large"
+              (click)="reload()"
+              (keyup.space)="reload()"
+              (keyup.enter)="reload()"
+              tabindex="10"></app-icon>
 </div>

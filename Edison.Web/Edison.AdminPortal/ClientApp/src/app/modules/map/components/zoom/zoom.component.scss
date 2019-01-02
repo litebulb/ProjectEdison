@@ -1,30 +1,28 @@
 @import 'icons';
 @import 'colorScheme';
-
 :host {
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
-  padding-right: 10px;
-
-  .app-icon {
-    height: 48px;
-    width: 48px;
-    cursor: pointer;
-    outline: none;
-
-    &::selection {
-      outline: none;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-right: 10px;
+    app-icon {
+        height: 48px;
+        width: 48px;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::selection {
+            outline: none;
+        }
+        &:focus {
+            outline: 2px solid $blue;
+            outline-style: inset;
+        }
+        &.first {
+            margin-bottom: 5px;
+        }
     }
-
-    &:focus {
-        outline: 2px solid $blue;
-        outline-style: inset;
-    }
-
-    &.first {
-      margin-bottom: 5px;
-    }
-  }
 }

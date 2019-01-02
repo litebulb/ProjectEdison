@@ -1,7 +1,12 @@
 <div class="modal">
     <div class="header">
         <div>RESPONSE LOCATION</div>
-        <div class="app-icon vip-static round medium blue"></div>
+        <app-icon icon="vip"
+                  static="true"
+                  round="true"
+                  size="medium"
+                  color="blue"
+                  [style]="{ 'margin-left': '15px' }"></app-icon>
     </div>
     <div class="content">
         {{selectionState}}
@@ -13,7 +18,8 @@
         <button class="app-button secondary"
                 *ngIf="selectionState === selectionStates.Default"
                 (click)="setLocation()">
-            <span class="app-icon location-blue medium"></span>
+            <app-icon icon="location-blue"
+                      size="medium"></app-icon>
             <span>YES, SET LOCATION</span>
         </button>
 

@@ -1,11 +1,13 @@
-<div *ngFor="let navLink of navLinks;"
-     class="navlink"
-     [ngClass]="[activeRoute === navLink.route ? navLink.icon + ' active' : navLink.icon]"
-     (click)="navLink.onClick(navLink)"
-     (keyup.space)="navLink.onClick(navLink)"
-     (keyup.enter)="navLink.onClick(navLink)"
-     [matTooltip]="navLink.title"
-     matTooltipPosition="after"
-     matTooltipClass="navlink-tooltip"
-     tabindex="1">
-</div>
+<app-icon *ngFor="let navLink of navLinks;"
+          class="navlink"
+          [icon]="navLink.icon"
+          size="extra-large"
+          [active]="activeRoute === navLink.route"
+          (click)="navLink.onClick(navLink)"
+          (keyup.space)="navLink.onClick(navLink)"
+          (keyup.enter)="navLink.onClick(navLink)"
+          [matTooltip]="navLink.title"
+          matTooltipPosition="after"
+          matTooltipClass="navlink-tooltip"
+          tabindex="1">
+</app-icon>

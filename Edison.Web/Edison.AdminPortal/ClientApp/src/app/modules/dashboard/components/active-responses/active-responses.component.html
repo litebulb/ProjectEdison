@@ -51,8 +51,10 @@
      *ngIf="responses.length > 0"
      [tabindex]="active ? 600 : 6">
     <div class="scroll-container">
-        <span class="app-icon static-size"
-              [ngClass]="{'active medium close teal': active, 'expand small': !active}"></span>
+        <app-icon [size]="'medium'"
+                  [icon]="active ? 'close' : 'expand'"
+                  color="teal"
+                  static="true"></app-icon>
         <span class="text noselect manage-text">{{ active ? 'Close' : 'Responses' }}</span>
         <ng-container class="icon-container"
                       *ngIf="!active">
