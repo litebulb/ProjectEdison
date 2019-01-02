@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Autofac;
 using Edison.Core.Common.Models;
 using Edison.Mobile.Common.Auth;
@@ -7,6 +8,7 @@ using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.Shared;
 using Edison.Mobile.iOS.Common.Ioc;
 using Edison.Mobile.User.Client.Core.Ioc;
+using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.iOS.Ioc;
 using Edison.Mobile.User.Client.iOS.ViewControllers;
 using Foundation;
@@ -14,6 +16,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
+using ObjCRuntime;
 using UIKit;
 using WindowsAzure.Messaging;
 
@@ -75,6 +78,15 @@ namespace Edison.Mobile.User.Client.iOS
                 var deviceTokenHexString = string.Concat(deviceToken.ToArray().Select(b => b.ToString("X2")));
                 await notificationService.RegisterForNotifications(new DeviceRegistrationModel(deviceTokenHexString, NotificationPlatform.APNS, authService.UserInfo?.Email));
             });
+        }
+
+        public override async void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+            if (null != userInfo && userInfo.ContainsKey(new NSString("aps")))
+            {
+                var responsesViewModel = Container.Instance.Resolve<ResponsesViewModel>();
+                await responsesViewModel.GetResponses();
+            }
         }
 
         void ProcessNotification(NSDictionary options, bool fromFinishedLaunching)

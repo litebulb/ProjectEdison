@@ -64,12 +64,14 @@ const _getFailureMessage = (actionPlanAction: ActionPlanAction) => {
 const _setActionsLoading = (actions: ActionPlanAction[], locationActionsOnly?: boolean) => {
     if (actions) {
         return actions
-            .filter(action => action.status !== ActionStatus.Success &&
-                (!locationActionsOnly || action.actionType === ActionPlanType.LightSensor))
-            .map(action => ({
-                ...action,
-                loading: true
-            }));
+            .map(action => {
+                if (action.status !== ActionStatus.Success &&
+                    (!locationActionsOnly || action.actionType === ActionPlanType.LightSensor)) {
+                    return { ...action, loading: true }
+                }
+
+                return action;
+            });
     }
     return actions;
 }

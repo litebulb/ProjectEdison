@@ -58,13 +58,13 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             var responses = await responseRestService.GetResponses();
             if (responses != null)
             {
-                Responses.AddRange(responses.Select(r => new ResponseCollectionItemViewModel(r)));
+                Responses.ReplaceRange(0, Responses.Count, responses.Select(r => new ResponseCollectionItemViewModel(r)));
 
                 var isSafetyCheckRequired = responses.Any(r => r.AcceptSafeStatus);
                 if (isSafetyCheckRequired)
                 {
                     var chatViewModel = Container.Instance.Resolve<ChatViewModel>();
-                    chatViewModel.ChatPromptTypes.Add(Shared.ChatPromptType.SafetyCheck);
+                    chatViewModel.ChatPromptTypes.Add(ChatPromptType.SafetyCheck);
                 }
             }
         }

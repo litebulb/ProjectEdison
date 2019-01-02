@@ -19,7 +19,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
 
         bool isPulloutInMinMode = false;
 
-        MainPulloutView pulloutView;
+        MainPulloutView mainPulloutView;
         UIViewPropertyAnimator pulloutAnimator;
         UIPanGestureRecognizer pulloutPanGestureRecognizer;
         UITapGestureRecognizer dismissMenuTapGestureRecognizer;
@@ -80,7 +80,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
 
             chatViewController = new ChatViewController();
             AddChildViewController(chatViewController);
-            pulloutView = new MainPulloutView(chatViewController)
+            mainPulloutView = new MainPulloutView(chatViewController)
             {
                 BackgroundColor = Constants.Color.White,
                 Frame = new CGRect
@@ -98,7 +98,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
                 },
             };
 
-            View.AddSubview(pulloutView);
+            View.AddSubview(mainPulloutView);
             chatViewController.DidMoveToParentViewController(this);
 
             menuBackgroundView = new UIView
@@ -149,7 +149,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             base.ViewWillAppear(animated);
 
-            pulloutView.AddGestureRecognizer(pulloutPanGestureRecognizer);
+            mainPulloutView.AddGestureRecognizer(pulloutPanGestureRecognizer);
             menuBackgroundView.AddGestureRecognizer(dismissMenuTapGestureRecognizer);
 
             View.AddGestureRecognizer(menuPanGestureRecognizer);
@@ -159,7 +159,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             base.ViewWillDisappear(animated);
 
-            pulloutView.RemoveGestureRecognizer(pulloutPanGestureRecognizer);
+            mainPulloutView.RemoveGestureRecognizer(pulloutPanGestureRecognizer);
             menuBackgroundView.RemoveGestureRecognizer(dismissMenuTapGestureRecognizer);
 
             View.RemoveGestureRecognizer(menuPanGestureRecognizer);
@@ -173,7 +173,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             responsesViewController.OnViewResponseDetails += HandleOnViewResponseDetails;
             responsesViewController.OnDismissResponseDetails += HandleOnDismissResponseDetails;
 
-            pulloutView.OnChatPromptActivated += HandleOnChatPromptActivated;
+            mainPulloutView.OnChatPromptActivated += HandleOnChatPromptActivated;
         }
 
         protected override void UnBindEventHandlers()
@@ -184,7 +184,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             responsesViewController.OnViewResponseDetails -= HandleOnViewResponseDetails;
             responsesViewController.OnDismissResponseDetails -= HandleOnDismissResponseDetails;
 
-            pulloutView.OnChatPromptActivated -= HandleOnChatPromptActivated;
+            mainPulloutView.OnChatPromptActivated -= HandleOnChatPromptActivated;
         }
 
         void HandleDimViewTap(UITapGestureRecognizer tapGestureRecognizer)
@@ -207,28 +207,28 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
                 case UIGestureRecognizerState.Began:
                     {
                         pulloutAnimator?.StopAnimation(true);
-                        pulloutView.PulloutBeganDragging(pulloutState);
+                        mainPulloutView.PulloutBeganDragging(pulloutState);
                     }
                     break;
                 case UIGestureRecognizerState.Changed:
                     {
-                        var potentialNewY = pulloutView.Frame.Y + translationY;
+                        var potentialNewY = mainPulloutView.Frame.Y + translationY;
                         var translationFactor = GetTranslationFactor(potentialNewY);
-                        var newY = pulloutView.Frame.Y + (translationY * translationFactor);
+                        var newY = mainPulloutView.Frame.Y + (translationY * translationFactor);
                         var totalYDistance = (UIScreen.MainScreen.Bounds.Height - Constants.PulloutBottomMargin) - Constants.PulloutTopMargin;
                         var percentMaximized = 1 - ((newY - Constants.PulloutTopMargin) / totalYDistance);
 
-                        pulloutView.Frame = new CGRect
+                        mainPulloutView.Frame = new CGRect
                         {
                             Location = new CGPoint
                             {
-                                X = pulloutView.Frame.X,
+                                X = mainPulloutView.Frame.X,
                                 Y = newY,
                             },
-                            Size = pulloutView.Frame.Size,
+                            Size = mainPulloutView.Frame.Size,
                         };
 
-                        pulloutView.SetPercentMaximized(percentMaximized);
+                        mainPulloutView.SetPercentMaximized(percentMaximized);
                         pulloutBackgroundView.Alpha = percentMaximized;
 
 
@@ -237,14 +237,14 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
                         minimizedDeltaProgress = minimizedDeltaProgress < 0 ? 0 : minimizedDeltaProgress;
                         var percentMinimized = minimizedDeltaProgress / minimizedTotalDistance;
                         percentMinimized = percentMinimized > 1 ? 1 : (percentMinimized < 0 ? 0 : percentMinimized);
-                        pulloutView.SetPercentMinimized(percentMinimized);
+                        mainPulloutView.SetPercentMinimized(percentMinimized);
 
                         panGestureRecognizer.SetTranslation(CGPoint.Empty, View);
                     }
                     break;
                 case UIGestureRecognizerState.Ended:
                     {
-                        var y = pulloutView.Frame.Y;
+                        var y = mainPulloutView.Frame.Y;
                         var velocityY = panGestureRecognizer.VelocityInView(View).Y;
                         var shouldMaximizeByLocation = y <= pulloutMaxDestY || Math.Abs(y - pulloutMaxDestY) < (pulloutNeutralDestY - pulloutMaxDestY) / 2;
                         var shouldMaximizeByVelocity = -velocityY > Constants.PulloutVelocityThreshold;
@@ -254,7 +254,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
                         var DEST_Y = PulloutDestinationYFromState(newPulloutState);
                         var remainingDistance = Math.Abs(y - DEST_Y);
 
-                        AnimatePullout(newPulloutState, (float)(PulloutIsExceedingBoundaries(pulloutView.Frame) ? 0f : (nfloat)Math.Abs(velocityY / remainingDistance)));
+                        AnimatePullout(newPulloutState, (float)(PulloutIsExceedingBoundaries(mainPulloutView.Frame) ? 0f : (nfloat)Math.Abs(velocityY / remainingDistance)));
                     }
                     break;
             }
@@ -350,7 +350,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
             return 1;
         }
 
-        void AnimatePullout(PulloutState newPulloutState, float initialVelocity = 0.7f)
+        void AnimatePullout(PulloutState newPulloutState, float initialVelocity = 0.7f, bool launchKeyboard = false)
         {
             var initialVelocityVector = new CGVector(0f, initialVelocity);
 
@@ -364,26 +364,31 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
 
             pulloutAnimator.AddAnimations(() =>
             {
-                pulloutView.Frame = new CGRect
+                mainPulloutView.Frame = new CGRect
                 {
                     Location = new CGPoint
                     {
-                        X = pulloutView.Frame.X,
+                        X = mainPulloutView.Frame.X,
                         Y = destinationY,
                     },
-                    Size = pulloutView.Frame.Size,
+                    Size = mainPulloutView.Frame.Size,
                 };
 
-                pulloutView.SetPercentMaximized(newPulloutState == PulloutState.Maximized ? 1 : 0);
-                pulloutView.SetPercentMinimized(newPulloutState == PulloutState.Neutral || newPulloutState == PulloutState.Maximized ? 0 : 1);
+                mainPulloutView.SetPercentMaximized(newPulloutState == PulloutState.Maximized ? 1 : 0);
+                mainPulloutView.SetPercentMinimized(newPulloutState == PulloutState.Neutral || newPulloutState == PulloutState.Maximized ? 0 : 1);
 
                 pulloutBackgroundView.Alpha = newPulloutState == PulloutState.Maximized ? 1 : 0;
             });
 
+            if (launchKeyboard)
+            {
+                mainPulloutView.LaunchKeyboard();
+            }
+
             pulloutAnimator.AddCompletion(pos =>
             {
                 pulloutState = newPulloutState;
-                pulloutView.PulloutDidFinishAnimating(newPulloutState);
+                mainPulloutView.PulloutDidFinishAnimating(newPulloutState);
             });
 
             pulloutAnimator.StartAnimation();
@@ -456,7 +461,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             if (e == Core.Shared.ChatPromptType.Emergency || e == Core.Shared.ChatPromptType.ReportActivity) 
             {
-                AnimatePullout(PulloutState.Maximized);
+                AnimatePullout(PulloutState.Maximized, 0.7f, true);
             }
         }
 

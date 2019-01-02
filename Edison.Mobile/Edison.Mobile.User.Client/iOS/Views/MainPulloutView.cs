@@ -82,6 +82,11 @@ namespace Edison.Mobile.User.Client.iOS.Views
             pulloutNeutralView.SetPercentMinimized(minimizedPercent);
         }
 
+        public void LaunchKeyboard()
+        {
+            chatViewController.LaunchKeyboard();
+        }
+
         public void PulloutDidFinishAnimating(PulloutState newPulloutState) 
         {
             if (prevPulloutState == PulloutState.Maximized && newPulloutState != PulloutState.Maximized) 

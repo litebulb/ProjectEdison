@@ -50,7 +50,6 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
 
             NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.Menu, UIBarButtonItemStyle.Plain, HandleInternalOnMenuTapped);
             NavigationItem.RightBarButtonItem = new UIBarButtonItem(Constants.Assets.Brightness, UIBarButtonItemStyle.Plain, HandleOnBrightnessTapped);
-            NavigationController.NavigationBar.TintColor = Constants.Color.Blue;
 
             alertsCircleView = new AlertsCircleView
             {
@@ -114,8 +113,8 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         {
             base.ViewWillAppear(animated);
 
-            NavigationController.NavigationBar.TintColor = Constants.Color.Blue;
-            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = Constants.Color.Blue };
+            NavigationController.NavigationBar.TintColor = Constants.Color.DarkBlue;
+            NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = Constants.Color.DarkBlue };
 
             if (!isInitialAppearance)
             {

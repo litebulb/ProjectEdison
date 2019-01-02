@@ -39,8 +39,8 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
                 default:
                     {
                         cell = tableView.DequeueReusableCell(typeof(MenuItemTableViewCell).Name, indexPath) as MenuItemTableViewCell;
-                        var title = indexPath.Row == 1 ? "My Info" : "Notifications";
-                        var image = indexPath.Row == 1 ? Constants.Assets.PersonWhite : Constants.Assets.NotificationBell;
+                        var title = "Notifications";
+                        var image = Constants.Assets.NotificationBell;
                         (cell as MenuItemTableViewCell).Initialize(title, image);
                     }
                     break;
@@ -55,7 +55,7 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return 3;
+            return 2;
         }
 
         public override nint NumberOfSections(UITableView tableView)
@@ -71,14 +71,28 @@ namespace Edison.Mobile.User.Client.iOS.DataSources
 
         public override void RowHighlighted(UITableView tableView, NSIndexPath rowIndexPath)
         {
-            var cell = tableView.CellAt(rowIndexPath);
-            cell.Alpha = 0.6f;
+            if (rowIndexPath.Row > 0)
+            {
+                var cell = tableView.CellAt(rowIndexPath);
+                cell.Alpha = 0.6f;
+            }
         }
 
         public override void RowUnhighlighted(UITableView tableView, NSIndexPath rowIndexPath)
         {
-            var cell = tableView.CellAt(rowIndexPath);
-            UIView.Animate(PlatformConstants.AnimationDuration, () => cell.Alpha = 1);
+            if (rowIndexPath.Row > 0)
+            {
+                var cell = tableView.CellAt(rowIndexPath);
+                UIView.Animate(PlatformConstants.AnimationDuration, () => cell.Alpha = 1);
+            }
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (indexPath.Row == 1)
+            {
+                UIApplication.SharedApplication.OpenUrl(new NSUrl("App-prefs:root=NOTIFICATIONS_ID"), new NSDictionary(), null);
+            }
         }
     }
 }

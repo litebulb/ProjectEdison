@@ -180,9 +180,18 @@ namespace Edison.Mobile.User.Client.iOS.Views
             sendButton.TouchUpInside -= HandleSendButtonTouchUpInside;
         }
 
-        public void ChatSummoned()
+        public void LaunchKeyboard()
         {
             inputTextView.BecomeFirstResponder();
+        }
+
+        public void ChatSummoned(bool launchKeyboard = false)
+        {
+            if (launchKeyboard)
+            {
+                inputTextView.BecomeFirstResponder();
+            }
+
             ViewModel.ChatSummoned();
         }
 

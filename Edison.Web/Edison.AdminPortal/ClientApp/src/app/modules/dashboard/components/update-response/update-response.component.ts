@@ -96,7 +96,7 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
         })
     }
 
-    onUpdate() {
+    sendUpdates() {
         if (!this.modified) {
             return
         }
