@@ -9,12 +9,15 @@
 		android:paddingLeft="8dp"
 		android:paddingRight="8dp"
 		>
-		<ImageView
+		<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/navlistgroup_image"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:paddingRight="16dp" 
-				android:tint="@color/app_blue"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:layout_marginRight="16dp"
+        android:padding="4dp"
+        android:background="@drawable/circular_image_background"
+				android:backgroundTint="@color/app_blue"
+				android:tint="@color/white"
 		/>
 		<TextView
 				android:id="@+id/navlistgroup_text"

@@ -29,6 +29,10 @@
   <attr name="iconPaddingBottom" format="dimension" />
   <attr name="iconPadding" format="dimension" />
   
+  <!-- Circular Profile View Attributes -->
+  <attr name="borderWidth" format="dimension" />
+  <attr name="borderColor" format="reference|color" />
+  <attr name="textPadding" format="dimension" />
   
   
 
@@ -51,5 +55,21 @@
     <attr name="android:tag" />
   </declare-styleable>
 
+  <!-- Circular Profile View Attributes -->
+  <declare-styleable name="CircularProfileView">
+    <attr name="android:background" />
+    <attr name="android:backgroundTint" />
+    <attr name="android:backgroundTintMode" />
+    <attr name="android:src" />
+    <attr name="borderWidth" />
+    <attr name="borderColor" />
+    <attr name="android:fontFamily" />
+    <attr name="android:textAllCaps" />
+    <attr name="android:textColor" />
+    <attr name="android:textStyle" />
+    <attr name="android:text" />
+    <attr name="android:typeface" />
+    <attr name="textPadding" />
+  </declare-styleable>
 
 </resources>

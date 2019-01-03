@@ -17,6 +17,7 @@ using Android.Support.V4.Graphics.Drawable;
 using Android.Support.V4.Content;
 
 using Edison.Mobile.Android.Common;
+using Android.Support.V7.Widget;
 
 namespace Edison.Mobile.User.Client.Droid.Adapters
 {
@@ -114,7 +115,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             if (groupIconResource != 0)
             {
                 // get the ImageView for the icon and assign the image resource
-                ImageView listGroupImageView = convertView.FindViewById<ImageView>(Resource.Id.navlistgroup_image);
+                AppCompatImageView listGroupImageView = convertView.FindViewById<AppCompatImageView>(Resource.Id.navlistgroup_image);
                 listGroupImageView.SetImageResource(groupIconResource);
 //                var d = _context.Resources.GetDrawable(groupIconResource, null);
 //                DrawableCompat.SetTint(d, Color.White);

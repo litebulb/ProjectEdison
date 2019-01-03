@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-    android:paddingRight="8dp">
-    <ImageView
-        android:id="@+id/navlistitem_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"
-		    android:tint="@color/black"
-	/>
-    <TextView
-        android:id="@+id/navlistitem_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="17dp"
-        android:text="Item"
-        android:textColor="@color/black"
-        android:textStyle="normal" />
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="8dp"
+		android:paddingBottom="8dp"
+		android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+		android:paddingRight="8dp">
+		<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/navlistitem_image"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="16dp"
+				android:paddingLeft="16dp"
+				android:tint="@color/black"
+		/>
+		<TextView
+				android:id="@+id/navlistitem_text"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textSize="17dp"
+				android:text="Item"
+				android:textColor="@color/black"
+				android:textStyle="normal" />
 </LinearLayout>

@@ -243,16 +243,6 @@
     </None>
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <AndroidResource Include="Resources\font\rubik_black.ttf" />
-    <AndroidResource Include="Resources\font\rubik_black_italic.ttf" />
-    <AndroidResource Include="Resources\font\rubik_bold.ttf" />
-    <AndroidResource Include="Resources\font\rubik_bold_italic.ttf" />
-    <AndroidResource Include="Resources\font\rubik_italic.ttf" />
-    <AndroidResource Include="Resources\font\rubik_light.ttf" />
-    <AndroidResource Include="Resources\font\rubik_light_italic.ttf" />
-    <AndroidResource Include="Resources\font\rubik_medium.ttf" />
-    <AndroidResource Include="Resources\font\rubik_medium_italic.ttf" />
-    <AndroidResource Include="Resources\font\rubik_regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
@@ -303,10 +293,8 @@
     <Folder Include="Controls\" />
     <Folder Include="Resources\color-v21\" />
     <Folder Include="Resources\color\" />
+    <Folder Include="Resources\font\" />
     <Folder Include="Resources\values-v21\" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\color_palette.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\nav_list.axml" />
@@ -835,6 +823,27 @@
     <AndroidResource Include="Resources\layout\chat_fragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\ic_home_24.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\kimmie.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

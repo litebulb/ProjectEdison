@@ -18,7 +18,8 @@
 
   <color name="app_background">@color/neutral_grey</color>
   <color name="action_bar_color">@color/white</color>
-  <color name="navdrawer_background">#7f000000</color>
+  <color name="navdrawer_background">#cfffffff</color>
+  <color name="profile_background">@color/neutral_darkgrey</color>
   <color name="app_background_grey">@color/neutral_grey</color>
   <color name="app_background_darkgrey">@color/very_dark_grey</color>
   <color name="icon_background_grey">@color/neutral_grey</color>

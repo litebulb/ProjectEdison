@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	>
+	<android.support.v7.widget.AppCompatImageView
+		android:id="@+id/profile_background"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:scaleType="fitCenter"
+		android:adjustViewBounds="true"
+		app:srcCompat="@drawable/circular_image_background"
+		/>
+	<refractored.controls.CircleImageView
+		android:id="@+id/profile_image"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		/>
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/profile_initials"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="10dp"
+		android:gravity="center"
+		android:textAlignment="center"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		android:textAllCaps="true"
+		android:maxLines="1"
+		app:autoSizeTextType="uniform"
+		app:autoSizeMinTextSize="8sp"
+		app:autoSizeMaxTextSize="100sp"
+		app:autoSizeStepGranularity="1sp"
+		/>
+</merge>

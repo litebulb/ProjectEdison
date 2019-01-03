@@ -12,7 +12,7 @@
 		android:layout_height="wrap_content"
 		android:scaleType="fitCenter"
 		android:adjustViewBounds="true"
-		app:srcCompat="@drawable/circular_image_button_background"
+		app:srcCompat="@drawable/circular_image_background"
 		/>
   <android.support.v7.widget.AppCompatImageButton
 		android:id="@+id/button"

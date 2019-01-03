@@ -27,9 +27,8 @@ using Edison.Mobile.Common.Ioc;
 
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Fragment = Android.Support.V4.App.Fragment;
-
-
-
+using Edison.Mobile.Android.Common.Controls;
+using Android.Support.V4.Content.Res;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
@@ -71,10 +70,10 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         // Navigation Drawer Group Data
         private static readonly List<ResourcePair> NAV_DRAWER_GROUP_RESOURCES = new List<ResourcePair>
         {
-            new ResourcePair(Resource.String.home, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
-            new ResourcePair(Resource.String.my_info, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
-            new ResourcePair(Resource.String.notifications, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
-            new ResourcePair(Resource.String.settings, Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha),
+            new ResourcePair(Resource.String.home, Resource.Drawable.ic_home_24),
+            new ResourcePair(Resource.String.my_info, Resource.Drawable.user),
+            new ResourcePair(Resource.String.notifications, Resource.Drawable.notification),
+            new ResourcePair(Resource.String.settings, Resource.Drawable.settings),
         };
 
 
@@ -142,16 +141,6 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             //            _bottomSheetBehaviour = BottomSheet4StateBehaviour.From(_bottomSheet);
 
 
-/*
-            _quick_chat_holder = FindViewById<LinearLayout>(Resource.Id.quick_chat_holder);
-            _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_emergency));
-            _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_activity));
-            _imageButtons.Add(FindViewById<AppCompatImageButton>(Resource.Id.qc_safe));
-            foreach (var button in _imageButtons)
-            {
-                button.Click += OnButtonClick;
-            }
-*/
 
             // Set the Bottom Sheet parameters - dependant on screen dimensions
             if (Constants.BottomSheetPeekHeightPx > -1)
@@ -159,6 +148,11 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             if (Constants.BottomSheetHeightPx > -1)
                 _bottomSheet.LayoutParameters.Height = Constants.BottomSheetHeightPx;
 
+// TODO REMOVE AND USE REAL DATA
+            var profileImage = FindViewById<CircularProfileView>(Resource.Id.img_profile);
+            //            profileImage.ProfileInitials.SetTypeface(ResourcesCompat.GetFont(this, Resource.Font.rubik_blackitalic), TypefaceStyle.BoldItalic);
+            profileImage.SetProfileResource(Resource.Drawable.kimmie);
+            profileImage.SetInitials("ALISON SUMMERFIELD");
         }
 
 /*

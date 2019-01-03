@@ -120,7 +120,7 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 				/>
 			
 			<FrameLayout
-        android:id="@+id/bottom_sheet_fragment_container"
+				android:id="@+id/bottom_sheet_fragment_container"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				>
@@ -146,7 +146,7 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 		android:layout_height="match_parent"
 		android:layout_gravity="top|start"
 		app:elevation="@dimen/nav_drawer_elevation"
-		android:background="@color/white"
+		android:background="@color/navdrawer_background"
 		>
 		<LinearLayout
 			android:id="@+id/nav_wrapper"
@@ -162,16 +162,18 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 				android:orientation="vertical"
 				android:padding="@dimen/activity_horizontal_margin"
 				>
-				<android.support.v7.widget.AppCompatImageView
+				<edison.mobile.android.common.controls.CircularProfileView
 					android:id="@+id/img_profile"
 					android:layout_width="@dimen/profile_width"
 					android:layout_height="@dimen/profile_height"
 					android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-					android:scaleType="fitCenter"
-					android:adjustViewBounds="true"
 					android:layout_gravity="center_horizontal"
 					android:gravity="center_horizontal"
-					app:srcCompat="@drawable/drw_header_circle"
+					android:backgroundTint="@color/profile_background"
+					android:textColor="@color/white"
+					android:fontFamily="@font/rubikblack"
+					app:borderWidth="2dp"
+					app:borderColor="@color/app_blue"
 					/>
 				<android.support.v7.widget.AppCompatTextView
 					android:id="@+id/profile_name"
