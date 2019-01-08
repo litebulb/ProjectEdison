@@ -157,6 +157,7 @@
   <ItemGroup>
     <Compile Include="Base Classes\BaseApplication.cs" />
     <Compile Include="Base Classes\BaseFragment.cs" />
+    <Compile Include="Controls\CircularEventGauge.cs" />
     <Compile Include="Controls\CircularImageButton.cs" />
     <Compile Include="Controls\CircularProfileView.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
@@ -285,6 +286,17 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\circular_event_gauge.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\circular_event_gauge.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\circular_event_gauge_ring.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

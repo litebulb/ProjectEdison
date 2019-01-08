@@ -888,8 +888,8 @@ namespace Edison.Mobile.User.Client.Droid
 
         public class SettleRunnable : Java.Lang.Object, IRunnable, IJavaObject, IDisposable
         {
-            private View _view;
-            private int _targetState;
+            private readonly View _view;
+            private readonly int _targetState;
             private BottomSheet4StateBehaviour _behavior;
             
             public SettleRunnable(BottomSheet4StateBehaviour behavior, View view, int targetState)
@@ -934,11 +934,8 @@ namespace Edison.Mobile.User.Client.Droid
                 base.WriteToParcel(dest, flags);
                 dest.WriteInt(State);
 
-                
+
             }
-
-            public readonly IParcelableCreator Creator = new SavedStateParcableCreator();
-
 
 
             public class SavedStateParcableCreator : Java.Lang.Object, IParcelableCreator

@@ -4,7 +4,7 @@
   
 <!-- Attribute Declarations -->
   
-  <!-- Circular Image Button Attributes -->
+  <!-- CircularImageButton Attributes -->
   <attr name="buttonBackground" format="reference|color" />
   <attr name="buttonBackgroundTint" format="reference|color" />
   <attr name="buttonBackgroundTintMode">
@@ -29,16 +29,63 @@
   <attr name="iconPaddingBottom" format="dimension" />
   <attr name="iconPadding" format="dimension" />
   
-  <!-- Circular Profile View Attributes -->
+  <!-- CircularProfileView Attributes -->
   <attr name="borderWidth" format="dimension" />
   <attr name="borderColor" format="reference|color" />
   <attr name="textPadding" format="dimension" />
   
-  
+  <!-- CircularEventGauge Attributes -->
+  <attr name="ringStartColor" format="reference|color" />
+  <attr name="ringEndColor" format="reference|color" />
+  <attr name="centerTint" format="reference|color" />
+  <attr name="centerSrc" format="reference" />
+  <attr name="ringGap" format="dimension" />
+  <attr name="countTypeface">
+    <enum name="normal" value="0" />
+    <enum name="sans" value="1" />
+    <enum name="serif" value="2" />
+    <enum name="monospace" value="3" />
+  </attr>
+  <attr name="countTextStyle">
+    <flag name="normal" value="0" />
+    <flag name="bold" value="1" />
+    <flag name="italic" value="2" />
+  </attr>
+  <attr name="countFontFamily" format="string" />
+  <attr name="countColor" format="reference|color" />
+  <attr name="countAutosize" format="boolean" />
+  <attr name="countTextSize" format="dimension" />
+  <attr name="countAllCaps" format="boolean" />
+  <attr name="countText" format="string" />
+  <attr name="labelTypeface">
+    <enum name="normal" value="0" />
+    <enum name="sans" value="1" />
+    <enum name="serif" value="2" />
+    <enum name="monospace" value="3" />
+  </attr>
+  <attr name="labelTextStyle">
+    <flag name="normal" value="0" />
+    <flag name="bold" value="1" />
+    <flag name="italic" value="2" />
+  </attr>
+  <attr name="labelFontFamily" format="string" />
+  <attr name="labelColor" format="reference|color" />
+  <attr name="labelTextSize" format="dimension" />
+  <attr name="labelAllCaps" format="boolean" />
+  <attr name="labelText" format="string" />
+  <attr name="iconSize" format="dimension" />
+  <attr name="count" format="integer" />
+  <attr name="active" format="boolean" />
+
+
+
+
+
+
 
 <!-- Stylable Declarations -->
   
-  <!-- Circular Image Button Stylable -->
+  <!-- CircularImageButton Stylable -->
   <declare-styleable name="CircularImageButton">
     <attr name="buttonBackground" />
     <attr name="buttonBackgroundTint" />
@@ -55,7 +102,7 @@
     <attr name="android:tag" />
   </declare-styleable>
 
-  <!-- Circular Profile View Attributes -->
+  <!-- CircularProfileView Stylable -->
   <declare-styleable name="CircularProfileView">
     <attr name="android:background" />
     <attr name="android:backgroundTint" />
@@ -72,4 +119,36 @@
     <attr name="textPadding" />
   </declare-styleable>
 
+
+  <!-- CircularEventGauge Stylable -->
+  <declare-styleable name="CircularEventGauge">
+    <attr name="ringStartColor" />
+    <attr name="ringEndColor" />
+    <attr name="centerTint" />
+    <attr name="centerSrc" />
+    <attr name="ringGap" />
+    <attr name="countTypeface" />
+    <attr name="countTextStyle" />
+    <attr name="countFontFamily" />
+    <attr name="countColor" />
+    <attr name="countAutosize" />
+    <attr name="countTextSize" />
+    <attr name="countAllCaps" />
+    <attr name="countText" />
+    <attr name="labelTypeface" />
+    <attr name="labelTextStyle" />
+    <attr name="labelFontFamily" />
+    <attr name="labelColor" />
+    <attr name="labelTextSize" />
+    <attr name="labelAllCaps" />
+    <attr name="labelText" />
+    <attr name="iconSrc" />
+    <attr name="iconSize" />
+    <attr name="iconTint" />
+    <attr name="iconTintMode" />
+    <attr name="count" />
+    <attr name="active" />
+  </declare-styleable>
+  
+  
 </resources>

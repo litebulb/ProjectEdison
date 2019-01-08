@@ -425,29 +425,7 @@ namespace Edison.Mobile.Android.Common.Controls
 
                 if (a.HasValue(Resource.Styleable.CircularProfileView_android_typeface))
                 {
-                    var typefaceName = a.GetString(Resource.Styleable.CircularProfileView_android_typeface);
-                    switch (typefaceName)
-                    {
-                        case "Sans":
-                            typeface = Typeface.SansSerif;
-                            break;
-
-                        case "SansSerif":
-                            typeface = Typeface.SansSerif;
-                            break;
-
-                        case "Serif":
-                            typeface = Typeface.Serif;
-                            break;
-
-                        case "Monospace":
-                            typeface = Typeface.Monospace;
-                            break;
-
-                        default:
-                            typeface = Typeface.Default;
-                            break;
-                    }
+                    typeface = (Typeface)a.GetInt(Resource.Styleable.CircularProfileView_android_typeface, 0);
                     fontPropertiesSet = true;
                 }
 

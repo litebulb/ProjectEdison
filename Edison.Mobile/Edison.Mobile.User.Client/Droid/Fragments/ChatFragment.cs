@@ -51,6 +51,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             _selectedSafeButtonColor = new Color(ContextCompat.GetColor(Context, Resource.Color.app_green));
             _origSafeIconColor = new Color(ContextCompat.GetColor(Context, Resource.Color.icon_blue));
             _selectedSafeIconColor = new Color(ContextCompat.GetColor(Context, Resource.Color.white));
+
             return root;
         }
 

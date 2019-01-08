@@ -44,9 +44,17 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private const int RequestNotificationPermissionId = 0;
         private const int RequestLocationPermissionId = 1;
 
+#if DEBUG
+        public static bool UsingLogon = false;
+#endif
+
         protected override void OnCreate(Bundle bundle)
         {
-            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
+#if DEBUG
+            UsingLogon = true;
+# endif
+
+        Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
             if (ViewModel != null)
                 ((LoginViewModel)ViewModel).AuthService.UiParent = new UIParent(this);

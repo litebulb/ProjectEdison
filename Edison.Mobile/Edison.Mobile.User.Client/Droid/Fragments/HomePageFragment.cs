@@ -6,7 +6,7 @@ using Edison.Mobile.User.Client.Core.ViewModels;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
-    public class HomePageFragment : BaseFragment<MainViewModel>  // use MainViewModel as a dummy ViewMiodel
+    public class HomePageFragment : BaseFragment<ResponsesViewModel>
     {
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -18,6 +18,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var root = inflater.Inflate(Resource.Layout.page_home, container, false);
+   //         root.SetPadding(0, 0, 0, Constants.BottomSheetPeekHeightPx);
             return root;
         }
 

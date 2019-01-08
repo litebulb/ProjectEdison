@@ -16,6 +16,17 @@ namespace Edison.Mobile.Android.Common
             }
         }
 
+        private static float _scaledDensity = -1f;
+        public static float ScaledDensity
+        {
+            get
+            {
+                if (_scaledDensity == -1)
+                    _scaledDensity = Resources.System.DisplayMetrics.ScaledDensity;
+                return _scaledDensity;
+            }
+        }
+
         public static int DpToPx(float dp)
         {
             return (int) (dp * Density);
@@ -24,9 +35,15 @@ namespace Edison.Mobile.Android.Common
         {
             return px / Density;
         }
+        public static int SpToPx(float sp)
+        {
+            return (int) (sp * ScaledDensity);
+        }
 
-
-
+        public static float PxToSp(float px)
+        {
+            return px / ScaledDensity;
+        }
 
     }
 }

@@ -1,20 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_gravity="center"
-		android:gravity="center"
+		android:orientation="vertical"
 		android:background="@color/app_background"
 		>
-		<android.support.v7.widget.AppCompatTextView
+		<FrameLayout
+			android:id="@+id/event_guage_container"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:textColor="@color/black"
-			android:textSize="27sp"
-			android:text="Home Page"
-			android:layout_gravity="center"
-			android:gravity="center"
-			/>
-</FrameLayout>
+			android:layout_height="match_parent"
+			android:layout_weight="3"
+			android:padding="10dp"
+			>
+			<edison.mobile.android.common.controls.CircularEventGauge
+				android:id="@+id/event_gauge"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_gravity="center"
+				android:gravity="center"
+				app:ringStartColor="@color/white"
+				app:ringEndColor="@color/icon_blue"
+				app:centerTint="@color/icon_blue"
+				app:iconSrc="@drawable/location"
+        app:iconTint="@color/white"
+        app:countColor="@color/white"
+        app:labelColor="@color/white"
+				app:count="0"
+				/>
+	</FrameLayout>
+	<FrameLayout
+		android:id="@+id/event_carousel_container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="2"
+		/>
+</LinearLayout>

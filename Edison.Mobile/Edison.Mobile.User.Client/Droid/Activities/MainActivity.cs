@@ -29,6 +29,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Fragment = Android.Support.V4.App.Fragment;
 using Edison.Mobile.Android.Common.Controls;
 using Android.Support.V4.Content.Res;
+using System.Threading.Tasks;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
@@ -109,6 +110,18 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
             base.OnCreate(savedInstanceState);
+
+
+#if DEBUG
+            // Used when testing UI without having to login each time
+            if (!LoginActivity.UsingLogon)
+            {
+                Task.Run(async () => {
+                    await Constants.CalculateUIDimensionsAsync(this);
+                });
+            }
+# endif
+
             SetContentView(Resource.Layout.main_activity);
             Initialize(savedInstanceState);
             Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.app_background)));
@@ -153,8 +166,11 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             //            profileImage.ProfileInitials.SetTypeface(ResourcesCompat.GetFont(this, Resource.Font.rubik_blackitalic), TypefaceStyle.BoldItalic);
             profileImage.SetProfileResource(Resource.Drawable.kimmie);
             profileImage.SetInitials("ALISON SUMMERFIELD");
-        }
 
+            var pageContainer = FindViewById<FrameLayout>(Resource.Id.page_container);
+            pageContainer.SetPadding(0, 0, 0, Constants.BottomSheetPeekHeightPx);
+        }
+        
 /*
         private void OnButtonClick(object sender, EventArgs e)
         {
@@ -196,7 +212,6 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             _drawer.AddDrawerListener(toggle);
             toggle.SyncState();
-          //  toggle.DrawerArrowDrawable.Color = Resources.GetColor(Resource.Color.app_blue);
             toggle.DrawerArrowDrawable.Color = new Color(ContextCompat.GetColor(this, Resource.Color.app_blue));
 
             _navDrawerListview = FindViewById<global::Android.Widget.ExpandableListView>(Resource.Id.nav_list);
@@ -557,7 +572,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.actionBarMenu, menu);
-            _toolbar.UpdateMenuItemTint(Resources.GetColor(Resource.Color.app_blue));
+            _toolbar.UpdateMenuItemTint(new Color(ContextCompat.GetColor(this, Resource.Color.app_blue)));
 
             return base.OnCreateOptionsMenu(menu);
         }
