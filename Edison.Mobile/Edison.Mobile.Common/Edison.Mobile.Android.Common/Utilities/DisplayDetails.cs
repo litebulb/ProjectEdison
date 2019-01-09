@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.Drawing;
 using Android.Content.Res;
-
+using Android.App;
+using System.Collections.Generic;
+using Android.Graphics;
+using Android.Views;
 
 namespace Edison.Mobile.Android.Common
 {
@@ -247,7 +249,35 @@ namespace Edison.Mobile.Android.Common
             return (float)(GetDisplayWidthPx() / GetDisplayHeightPx());
         }
 
+
+
+        public static Dictionary<BarType, int> GetBarHeightsPx(Activity act)
+        {
+            var result = new Dictionary<BarType, int>();
+            Rect displayFrame = new Rect();
+            act.Window.DecorView.GetWindowVisibleDisplayFrame(displayFrame);
+            var statusBarHeight = displayFrame.Top;
+            if (statusBarHeight <= 0)
+                statusBarHeight = PixelSizeConverter.DpToPx(24);
+
+            int contentViewTop = act.Window.FindViewById(Window.IdAndroidContent).Top;
+            int titleBarHeight = contentViewTop - statusBarHeight;
+            //           var toolbarHeight = (int)act.Resources.GetDimension(Resource.Dimension.abc_action_bar_default_height_material);
+            result.Add(BarType.StatusBar, statusBarHeight);
+            result.Add(BarType.Toolbar, titleBarHeight);
+            return result;
+        }
+
+
+
     }
+
+    public enum BarType
+    {
+        StatusBar,
+        Toolbar
+    }
+
 
     public enum ScreenDensityCatagory
     {

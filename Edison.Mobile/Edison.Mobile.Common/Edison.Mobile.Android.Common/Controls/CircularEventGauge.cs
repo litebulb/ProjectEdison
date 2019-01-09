@@ -964,6 +964,7 @@ namespace Edison.Mobile.Android.Common.Controls
                 var s = Math.Min(w, h);
                 LayoutParameters.Width = s;
                 LayoutParameters.Height = s;
+                Invalidate();
             }
         }
 

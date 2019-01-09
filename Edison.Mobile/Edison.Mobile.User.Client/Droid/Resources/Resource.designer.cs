@@ -4311,6 +4311,9 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0054
 			public const int disabled_alpha_material_light = 2131427412;
 			
+			// aapt resource value: 0x7f0b00b9
+			public const int event_guage_area_padding = 2131427513;
+			
 			// aapt resource value: 0x7f0b00ae
 			public const int fab_elevation = 2131427502;
 			
@@ -4904,19 +4907,19 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int googleg_standard_color_18 = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int gun = 2130837639;
+			public const int greyhound_kimmie = 2130837639;
 			
 			// aapt resource value: 0x7f020088
-			public const int health_check = 2130837640;
+			public const int gun = 2130837640;
 			
 			// aapt resource value: 0x7f020089
-			public const int ic_home_24 = 2130837641;
+			public const int health_check = 2130837641;
 			
 			// aapt resource value: 0x7f02008a
-			public const int ic_launcher = 2130837642;
+			public const int ic_home_24 = 2130837642;
 			
 			// aapt resource value: 0x7f02008b
-			public const int kimmie = 2130837643;
+			public const int ic_launcher = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
 			public const int lclose = 2130837644;

@@ -843,7 +843,7 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_home_24.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\kimmie.jpg" />
+    <AndroidResource Include="Resources\drawable\greyhound_kimmie.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\event_drawable.xml" />

@@ -502,6 +502,30 @@ namespace Edison.Mobile.Android.Common.Controls
             SetVisibilties();
         }
 
+        public void SetProfileUri(Uri uri)
+        {
+            _profileImageView.SetImageURI(global::Android.Net.Uri.Parse(uri.OriginalString));  // needs testing
+            SetVisibilties();
+        }
+
+        public void SetProfileUri(global::Android.Net.Uri uri)
+        {
+            _profileImageView.SetImageURI(uri);
+            SetVisibilties();
+        }
+
+        public void SetProfileBitmap(Bitmap bitmap)
+        {
+            _profileImageView.SetImageBitmap(bitmap);
+            SetVisibilties();
+        }
+
+        public void SetProfileIcon(Icon icon)
+        {
+            _profileImageView.SetImageIcon(icon);
+            SetVisibilties();
+        }
+
 
         public void SetTextColor(Color color)
         {

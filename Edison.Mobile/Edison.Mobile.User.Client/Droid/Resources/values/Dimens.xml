@@ -39,5 +39,8 @@
   <dimen name="bottom_sheet_button_text_size">12sp</dimen>
   <dimen name="bottom_sheet_button_icon_padding">20dp</dimen>
   <dimen name="bottom_sheet_button_icon_toppadding">10dp</dimen>
+
+  <dimen name="event_guage_area_padding">10dp</dimen>
+  
   
 </resources>

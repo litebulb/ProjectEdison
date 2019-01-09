@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.ViewModels;
 
@@ -13,6 +14,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             : authService.UserInfo?.Email;
 
         public string Initials => authService.Initials;
+
+        //TODO  Currently not supported, so just returning null
+        public Uri ProfileImageUri => null;  // authService.ProfileImageUri - needs to be added
 
         public MenuViewModel(AuthService authService)
         {

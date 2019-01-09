@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
- //   [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
+  //  [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
     public class MainActivity : BaseActivity<MenuViewModel>
     {
 
@@ -47,6 +47,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private AppCompatTextView _customToolbarSubtitle;
         private LinearLayout _customToolbarTitleWrapper;
         private DrawerLayout _drawer;
+        private CircularProfileView _profileView;
+        private AppCompatTextView _profileNameView;
         private LinearLayout _bottomSheet;
         private BottomSheetBehavior _bottomSheetBehaviour;
 //        private BottomSheet4StateBehaviour _bottomSheetBehaviour;
@@ -64,7 +66,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private Dictionary<string, List<TextImageResourcePair>> _listDataItems;
         private int _previousGroup = -1;
 
-
+        public static string Name { get; private set; }
 
 
 
@@ -123,6 +125,12 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 # endif
 
             SetContentView(Resource.Layout.main_activity);
+
+            /*            Task.Run(async () => {
+                            await Constants.UpdateBarDimensionsAsync(this);
+                        }); */
+            Constants.UpdateBarDimensions(this);
+
             Initialize(savedInstanceState);
             Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.app_background)));
         }
@@ -134,6 +142,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             BindResources();
             SetUpToolbar();
             SetUpDrawer();
+            BindProfileData();
             SetUpBottomSheet();
             RestoreState(savedInstanceState);
             Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
@@ -149,6 +158,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _customToolbarTitleWrapper = FindViewById<LinearLayout>(Resource.Id.toolbar_title_wrapper);
             _customToolbarTitle = FindViewById<AppCompatTextView>(Resource.Id.toolbar_title);
             _customToolbarSubtitle = FindViewById<AppCompatTextView>(Resource.Id.toolbar_subtitle);
+            _profileView = FindViewById<CircularProfileView>(Resource.Id.img_profile);
+            _profileNameView = FindViewById<AppCompatTextView>(Resource.Id.profile_name);
             _bottomSheet = FindViewById<LinearLayout>(Resource.Id.bottom_sheet);
             _bottomSheetBehaviour = BottomSheetBehavior.From(_bottomSheet);
             //            _bottomSheetBehaviour = BottomSheet4StateBehaviour.From(_bottomSheet);
@@ -161,24 +172,54 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             if (Constants.BottomSheetHeightPx > -1)
                 _bottomSheet.LayoutParameters.Height = Constants.BottomSheetHeightPx;
 
-// TODO REMOVE AND USE REAL DATA
-            var profileImage = FindViewById<CircularProfileView>(Resource.Id.img_profile);
-            //            profileImage.ProfileInitials.SetTypeface(ResourcesCompat.GetFont(this, Resource.Font.rubik_blackitalic), TypefaceStyle.BoldItalic);
-            profileImage.SetProfileResource(Resource.Drawable.kimmie);
-            profileImage.SetInitials("ALISON SUMMERFIELD");
-
             var pageContainer = FindViewById<FrameLayout>(Resource.Id.page_container);
             pageContainer.SetPadding(0, 0, 0, Constants.BottomSheetPeekHeightPx);
         }
-        
-/*
-        private void OnButtonClick(object sender, EventArgs e)
+
+
+        private void BindProfileData()
         {
-            if (sender is AppCompatImageButton imgButton)
-                Toast.MakeText(this, (string)imgButton.Tag, ToastLength.Short).Show();
+            //Get data from MenuViewModel
+            Name = ViewModel.ProfileName;
+            var initials = ViewModel.Initials;
+            var profileImageUri = ViewModel.ProfileImageUri;
+
+            // Allocate Data to views
+            _profileNameView.Text = Name;
+#if DEBUG
+            if (string.IsNullOrWhiteSpace(Name))
+                _profileNameView.Text = "ALISON SUMMERFIELD";
+#endif
+            // for Testing
+            //profileView.ProfileInitials.SetTypeface(ResourcesCompat.GetFont(this, Resource.Font.rubik_blackitalic), TypefaceStyle.BoldItalic);
+            //profileView.SetProfileResource(Resource.Drawable.greyhound_kimmie);
+            //profileView.SetInitials("ALISON SUMMERFIELD");
+
+            if (profileImageUri == null)  // Currently will always be null
+            {
+                _profileView.SetText(initials);
+#if DEBUG
+                if (string.IsNullOrWhiteSpace(initials))
+                    _profileView.SetInitials("ALISON SUMMERFIELD");
+#endif
+            }
+            else
+            {
+                // TODO - Fetch Image -  actually probably pre-fetch as aprt of login and store as local file - or allocate fiel name if selcted form file system
+                // Will require Data service to be added to MenuViewModel - prob to retunr an object which we can cast to a Drawable/Bitmap. etc
+                _profileView.SetProfileUri(profileImageUri);
+            }
 
         }
-*/
+
+        /*
+                private void OnButtonClick(object sender, EventArgs e)
+                {
+                    if (sender is AppCompatImageButton imgButton)
+                        Toast.MakeText(this, (string)imgButton.Tag, ToastLength.Short).Show();
+
+                }
+        */
 
 
         private void SetUpToolbar()
