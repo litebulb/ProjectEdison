@@ -17,7 +17,7 @@
                             (closeClick)="closeAllUserChat()"
                             *ngIf="showAllUserChat"></app-all-users-chat>
         <app-user-chat [messages]="activeMessages"
-                       [actionPlans]="actionPlans$ | async"
+                       [actionPlans]="actionPlans"
                        [activeEvent]="activeEvent"
                        [activeEventInstance]="activeEventInstance"
                        [userName]="userName"
