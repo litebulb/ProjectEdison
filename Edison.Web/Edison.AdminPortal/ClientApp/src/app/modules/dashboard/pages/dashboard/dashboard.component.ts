@@ -43,7 +43,7 @@ import {
 } from '../../../../reducers/event/event.selectors';
 import {
     CloseResponse, GetResponse, GetResponses, PostNewResponse, ResponseActionTypes,
-    RetryResponseActions, ShowActivateResponse, UpdateResponseActions, AddLocationToActiveResponse, UpdateResponse
+    RetryResponseActions, ShowActivateResponse, UpdateResponseActions, AddLocationToActiveResponse, UpdateResponse, ShowManageResponse, SelectActiveResponse
 } from '../../../../reducers/response/response.actions';
 import { Response, ResponseState } from '../../../../reducers/response/response.model';
 import {
@@ -56,6 +56,7 @@ import {
     ActivateResponseComponent
 } from '../../components/activate-response/activate-response.component';
 import { GeoLocation } from 'src/app/core/models/geoLocation';
+import { ActiveResponsesComponent } from '../../components/active-responses/active-responses.component';
 
 @Component({
     selector: 'app-dashboard',
@@ -65,6 +66,7 @@ import { GeoLocation } from 'src/app/core/models/geoLocation';
 export class DashboardComponent implements OnInit, OnDestroy {
     @ViewChild(MapComponent) private _mapComponent: MapComponent;
     @ViewChild(ActivateResponseComponent) private _activateResponseComponent: ActivateResponseComponent;
+    @ViewChild(ActiveResponsesComponent) private _activeResponsesComponent: ActiveResponsesComponent;
 
     private combinedStream$: Subscription;
     private focusAllPinsSub$: Subscription;
@@ -161,6 +163,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 }
             }
         }));
+    }
+
+    selectActiveResponse(response: Response) {
+        this.store.dispatch(new SelectActiveResponse({ response }));
     }
 
     handleEventClick(event: Event) {
@@ -467,6 +473,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.actions$
             .pipe(ofType(AppActionTypes.ToggleOverlay))
             .subscribe(({ payload: { state }}: ToggleOverlay) => this.toggleOverlay(state))
+
+        this.actions$
+            .pipe(ofType(ResponseActionTypes.ShowManageResponse))
+            .subscribe(({ payload: { showManageResponse } }: ShowManageResponse) => this._activeResponsesComponent.toggle(showManageResponse));
     }
 
     private _initMapData() {

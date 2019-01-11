@@ -48,7 +48,16 @@ export function reducer(
         case ResponseActionTypes.UpdateResponse:
         case ResponseActionTypes.SignalRUpdateResponse:
         case ResponseActionTypes.SignalRCloseResponse: {
-            return adapter.updateOne(action.payload.response, state);
+            const newState = adapter.updateOne(action.payload.response, state);
+
+            if (state.activeResponse && state.activeResponse.responseId === action.payload.response.id) {
+                return {
+                    ...newState,
+                    activeResponse: selectAll(newState).find(response => response.responseId === action.payload.response.id),
+                }
+            }
+
+            return newState;
         }
 
         case ResponseActionTypes.UpdateResponses: {

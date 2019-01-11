@@ -29,8 +29,10 @@
                        (activateResponseClick)="activateResponse()"
                        *ngIf="showUserChat"></app-user-chat>
         <app-active-responses *ngIf="(showResponses$ | async) && showResponseButtons"
+                              [activeResponse]="activeResponse$ | async"
                               [activeResponses]="activeResponses$ | async"
                               [responses]="responses$ | async"
+                              (onSelectActiveResponse)="selectActiveResponse($event)"
                               (onDeactivateResponse)="deactivateResponse($event)"
                               (onGetFullResponse)="getFullResponse($event)"
                               (onToggleOverlay)="toggleOverlay($event)"

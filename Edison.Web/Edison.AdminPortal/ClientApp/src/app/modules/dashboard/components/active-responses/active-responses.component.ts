@@ -18,30 +18,27 @@ enum ActiveView {
     styleUrls: [ './active-responses.component.scss' ],
     animations: [ fadeInOut ],
 })
-export class ActiveResponsesComponent implements OnInit, OnChanges {
+export class ActiveResponsesComponent implements OnChanges {
+    @Input() activeResponse: Response;
     @Input() activeResponses: Response[] = [];
     @Input() responses: Response[] = [];
 
+    @Output() onSelectActiveResponse = new EventEmitter<Response>();
     @Output() onGetFullResponse = new EventEmitter<string>();
     @Output() onToggleOverlay = new EventEmitter<boolean>();
     @Output() onDeactivateResponse = new EventEmitter<string>();
     @Output() onRetryResponseActions = new EventEmitter<string>();
     @Output() onResponseActionsUpdated = new EventEmitter<{ response: Response, actions: AddEditAction[], isCloseAction: boolean }>();
-
-    activeResponse: Response;
+    
     items: SearchListItem[];
     active = false;
     activeView = ActiveView.Default;
     loadingFullResponse = false;
     scrollConfig = { suppressScrollX: true, suppressScrollY: false, useBothWheelAxes: true, scrollIndicators: true };
 
-    ngOnInit() {
-        this._updateActiveResponse();
-    }
-
     ngOnChanges() {
-        this._updateActiveResponse();
         this._updateActiveResponses();
+        this._getFullResponse();
     }
 
     deactivateResponse(responseId: string) { this.onDeactivateResponse.emit(responseId); }
@@ -67,17 +64,18 @@ export class ActiveResponsesComponent implements OnInit, OnChanges {
 
     selectActiveResponse(item: SearchListItem) {
         if (item) {
-            this.activeResponse = { ...this.activeResponses.find(r => r.responseId === item.id) };
+            const activeResponse = this.activeResponses.find(r => r.responseId === item.id);
+            this.onSelectActiveResponse.emit(activeResponse);
             this._getFullResponse();
         } else {
-            this.activeResponse = null;
+            this.onSelectActiveResponse.emit(null);
         }
         this._showView(ActiveView.Default);
     }
 
     openResponse(response: Response) {
         this.active = true;
-        this.activeResponse = { ...response };
+        this.onSelectActiveResponse.emit(response);
         this._showView(ActiveView.Default);
 
         this._getFullResponse()
@@ -90,10 +88,20 @@ export class ActiveResponsesComponent implements OnInit, OnChanges {
 
     backClicked() { this._showView(ActiveView.Default); }
 
-    toggleResponses() {
-        if (this.active) { this.activeResponse = null }
+    toggle(active: boolean) {
+        this.active = active;
+        this.onToggleOverlay.emit(this.active);
 
+        if (active) {
+            this._showView(ActiveView.Default);
+            this._getFullResponse();
+        }
+    }
+
+    toggleResponses() {
         this.active = !this.active
+
+        if (!this.active) { this.onSelectActiveResponse.emit(null); }
 
         if (!this.active) {
             this._refreshResponses(this.activeResponses) // clear out any resolved responses on close
@@ -125,12 +133,6 @@ export class ActiveResponsesComponent implements OnInit, OnChanges {
         this._refreshResponses(responsesToShow)
     }
 
-    private _updateActiveResponse() {
-        if (this.activeResponse) {
-            this.activeResponse = this.responses.find(resp => resp.responseId === this.activeResponse.responseId);
-        }
-    }
-
     private _refreshResponses(responses: Response[]) {
         this.items = responses.map(r => ({
             id: r.responseId,
@@ -143,10 +145,10 @@ export class ActiveResponsesComponent implements OnInit, OnChanges {
     private _showView(activeView: ActiveView) { this.activeView = activeView; }
 
     private _getFullResponse() {
-        if (!this.activeResponse.actionPlan && !this.loadingFullResponse) {
+        if (this.activeResponse && !this.loadingFullResponse && !this.activeResponse.actionPlan) {
             this.loadingFullResponse = true;
             this.onGetFullResponse.emit(this.activeResponse.responseId);
-        } else {
+        } else if (this.activeResponse && this.activeResponse.actionPlan) {
             this.loadingFullResponse = false;
         }
     }

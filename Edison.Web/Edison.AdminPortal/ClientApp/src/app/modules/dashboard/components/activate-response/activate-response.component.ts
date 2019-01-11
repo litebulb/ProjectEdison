@@ -18,7 +18,7 @@ export class ActivateResponseComponent implements OnInit, OnChanges {
     @Input() actionPlans: ActionPlan[];
     @Input() actionPlan: ActionPlan;
     @Input() event: Event;
-    @Input() response: Response;
+    @Input() activeResponse: Response;
 
     @Output() onSelectActionPlan = new EventEmitter<ActionPlan>();
     @Output() onGetFullActionPlan = new EventEmitter<string>();
@@ -29,7 +29,6 @@ export class ActivateResponseComponent implements OnInit, OnChanges {
     activated = false;
     active = false;
     activeEvent: Event;
-    activeResponse: Response;
     disabled = false;
     hover: boolean;
     listItems: SearchListItem[];
@@ -79,8 +78,8 @@ export class ActivateResponseComponent implements OnInit, OnChanges {
     }
 
     private _initActionPlanFromResponse() {
-        if (this.response) {
-            this.actionPlan = this.response.actionPlan;
+        if (this.activeResponse) {
+            this.actionPlan = this.activeResponse.actionPlan;
             this._updateResponseStatus();
         }
     }
