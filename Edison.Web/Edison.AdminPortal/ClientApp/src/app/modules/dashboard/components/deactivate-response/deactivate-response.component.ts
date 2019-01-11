@@ -1,9 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { AppState } from '../../../../reducers';
-import { SetSelectingActionPlan } from '../../../../reducers/action-plan/action-plan.actions';
-import { CloseResponse } from '../../../../reducers/response/response.actions';
 import { Response, ResponseState } from '../../../../reducers/response/response.model';
 
 @Component({
@@ -20,26 +16,19 @@ export class DeactivateResponseComponent implements OnChanges {
     deactivated: boolean;
     disabled: boolean;
 
-    constructor (private store: Store<AppState>) { }
+    constructor () { }
 
     ngOnChanges() {
-        if (this.activeResponse) {
-            this.deactivated = this.activeResponse.responseState === ResponseState.Inactive;
-        }
+        if (this.activeResponse) { this.deactivated = this.activeResponse.responseState === ResponseState.Inactive; }
     }
 
-    onBackClick() {
-        this.backClick.emit();
-    }
+    onBackClick() { this.backClick.emit(); }
 
-    onReturnToMapClick() {
-        this.returnToMapClick.emit();
-        this.store.dispatch(new SetSelectingActionPlan({ isSelecting: false }));
-    }
+    onReturnToMapClick() { this.returnToMapClick.emit(); }
 
     onDeactivateClick() {
         this.disabled = true;
-        this.store.dispatch(new CloseResponse({ responseId: this.activeResponse.responseId, state: ResponseState.Inactive }));
+        this.deactivateClick.emit(this.activeResponse.responseId);
     }
 
 }

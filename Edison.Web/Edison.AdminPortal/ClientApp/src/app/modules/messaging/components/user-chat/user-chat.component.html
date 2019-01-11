@@ -1,18 +1,20 @@
-<mat-icon class="closeBtn"
-          (click)="close()"
-          (keyup.space)="close()"
-          (keyup.enter)="close()"
-          tabindex="440">close</mat-icon>
-<div class="header">
-    <div class="name">{{userName}}</div>
+<div class="chat-header">
+    <div>
+        <div class="name">{{userName}}</div>
+    </div>
+    <mat-icon class="closeBtn"
+              (click)="close()"
+              (keyup.space)="close()"
+              (keyup.enter)="close()"
+              tabindex="440">close</mat-icon>
 </div>
 <div class="response-container">
-    <div *ngIf="latestEventInstance && latestEventInstance.metadata">
+    <div *ngIf="activeEventInstance && activeEventInstance.metadata">
         <div class="activity-reported">
             <mat-form-field>
-                <mat-select [(ngModel)]="latestEventInstance.metadata.reportType"
+                <mat-select [(ngModel)]="activeEventInstance.metadata.reportType"
                             [placeholder]="'Activity Reported'">
-                    <mat-option *ngFor="let actionPlan of actionPlans$ | async"
+                    <mat-option *ngFor="let actionPlan of actionPlans"
                                 [value]="actionPlan.actionPlanId">{{actionPlan.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -21,8 +23,9 @@
     <div class="info-row">
         <app-icon icon="building"
                   size="medium"></app-icon>
-        <div class="location">{{this.event ? this.event.device.location1 : 'Unknown'}}</div>
+        <div class="location">{{this.activeEvent ? this.activeEvent.device.location1 : 'Unknown'}}</div>
         <div class="map-link app-button primary"
+             *ngIf="activeEvent"
              (click)="showOnMap()"
              (keyup.space)="showOnMap()"
              (keyup.enter)="showOnMap()"
@@ -31,7 +34,7 @@
     <div class="info-row">
         <app-icon icon="time"
                   size="medium"></app-icon>
-        <div class="location">{{latestEventInstance ? (latestEventInstance.date | date : 'shortTime') : 'Unknown'}}</div>
+        <div class="location">{{activeEventInstance ? (activeEventInstance.date | date : 'shortTime') : 'Unknown'}}</div>
     </div>
     <button class="app-button primary"
             (click)="activateResponse()"

@@ -5,9 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DevicesComponent } from '../devices/pages/devices/devices.component';
 import { HistoryComponent } from '../history/pages/history/history.component';
-import {
-    RecentlyActiveComponent
-} from '../messaging/components/recently-active/recently-active.component';
+import { MessagingComponent } from '../messaging/pages/messaging/messaging.component';
 import { EventBarComponent } from './components/event-bar/event-bar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
@@ -32,7 +30,7 @@ const routes: Routes = [
             },
             {
                 path: 'messaging',
-                component: RecentlyActiveComponent,
+                component: MessagingComponent,
                 data: {
                     title: 'MESSAGING',
                     sidebar: true,

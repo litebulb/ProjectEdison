@@ -1,3 +1,4 @@
 <app-action-plan-list-item *ngFor="let actionPlan of actionPlans"
                            [actionPlan]="actionPlan"
-                           (actionPlanChanged)="onActionPlanChanged($event)"></app-action-plan-list-item>
+                           (actionPlanChanged)="onActionPlanChanged($event)"
+                           (getActionPlanDetails)="getActionPlan($event)"></app-action-plan-list-item>

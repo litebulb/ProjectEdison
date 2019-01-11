@@ -46,4 +46,5 @@ export type IconSize =
     | 'medium-small'
     | 'medium'
     | 'large-medium'
-    | 'large';
+    | 'large'
+    | 'extra-large';

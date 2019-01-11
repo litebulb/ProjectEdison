@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../../../../reducers';
 import {
-    GetActionPlans, PutActionPlan
+    GetActionPlan, GetActionPlans, PutActionPlan
 } from '../../../../reducers/action-plan/action-plan.actions';
 import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
 import { actionPlansSelector } from '../../../../reducers/action-plan/action-plan.selectors';
@@ -58,6 +58,10 @@ export class ResponsesComponent implements OnInit {
             this.actionPlansToUpdate = {}; // reset action plans to update
             this.saveDisabled = true; // disable save button
         }
+    }
+
+    getActionPlanDetails(actionPlanId: string) {
+        this.store.dispatch(new GetActionPlan({ actionPlanId }));
     }
 
 }

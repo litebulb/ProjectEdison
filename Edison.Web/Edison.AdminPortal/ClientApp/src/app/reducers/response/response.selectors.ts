@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AppState } from '..';
-import { State, selectAll } from './response.reducer';
+
+import { AppState } from '../';
 import { ResponseState } from './response.model';
+import { selectAll, State } from './response.reducer';
 
 export const responseStateSelector = createFeatureSelector<AppState, State>(
     'response'
@@ -20,10 +21,11 @@ export const responsesSelector = createSelector(
 
 export const activeResponsesSelector = createSelector(
     responsesSelector,
-    responses =>
-        responses.filter(
-            response => response.responseState === ResponseState.Active
-        )
+    responses => {
+        const result = responses.filter(response => response.responseState === ResponseState.Active);
+        if (result) { return result; }
+        return [];
+    }
 );
 
 export const responsesExist = createSelector(
@@ -33,8 +35,5 @@ export const responsesExist = createSelector(
 
 export const activeResponseSelector = createSelector(
     responseStateSelector,
-    state => ({
-        openManageResponse: state.showManageResponse,
-        activeResponse: state.activeResponse
-    })
+    state => state.activeResponse
 );

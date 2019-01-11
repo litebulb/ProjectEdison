@@ -1,11 +1,11 @@
 <div class="container"
-     *ngIf="activeResponse && activeResponse.actionPlan && _openActions.length > 0">
+     *ngIf="activeResponse && activeResponse.actionPlan && actionPlanActions.length > 0">
     <div class="header">UPDATE {{activeResponse.actionPlan.name}} RESPONSE</div>
     <div class="subheader success"
-         *ngIf="updateSucceeded">Updates successfullly sent.</div>
+         *ngIf="showSuccessMessage">Updates successfullly sent.</div>
     <div>
         <button class="app-button secondary"
-                (click)="onCancel()"
+                (click)="onCancelClick()"
                 tabindex="380">GO BACK</button>
         <button class="app-button primary"
                 (click)="addNotification()"
@@ -18,7 +18,9 @@
             UPDATES</button>
     </div>
     <app-action-list tabindex="200"
-                     [actions]="_openActions"
+                     [actions]="actionPlanActions"
                      [canEdit]="true"
-                     (onchange)="updated($event)"></app-action-list>
+                     (onEditAction)="addEditAction($event)"
+                     (onAddAction)="addEditAction($event)"
+                     (onRemoveAction)="removeAction($event)"></app-action-list>
 </div>

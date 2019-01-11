@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+
 import { Component, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
 
 import {
@@ -13,34 +15,26 @@ export class RadiusTemplateComponent implements OnInit, OnChanges {
     @Input() context: ActionPlanRadiusAction;
     @Input() last: boolean;
     @Input() canEdit: boolean;
-    @Input() onchange: EventEmitter<{ actionId: string, addEditAction: AddEditAction }>;
+    @Input() actionChangeSubject: Subject<{ addEditAction: AddEditAction, actionChangeType: ActionChangeType }>;
     @Input() isCloseAction: boolean;
 
-    _color: string;
+    activeColor: string;
     actionPlanColors = Object.keys(ActionPlanColor).map(key => (ActionPlanColor[ key ]).toLowerCase());
     actionStatus = ActionStatus;
 
-    ngOnInit(): void {
-        this.updateLocalColor();
-    }
+    ngOnInit() { this.updateLocalColor(); }
 
-    ngOnChanges(): void {
-        this.updateLocalColor();
-    }
+    ngOnChanges() { this.updateLocalColor(); }
 
-    updateLocalColor() {
-        this._color = this.context.parameters.color;
-    }
+    updateLocalColor() { this.activeColor = this.context.parameters.color; }
 
-    getBgColor() {
-        return this._color.toLowerCase();
-    }
+    getBgColor() { return this.activeColor.toLowerCase(); }
 
     updateColor(color: string) {
-        if (this._color === color) {
-            this._color = 'off';
+        if (this.activeColor === color) {
+            this.activeColor = 'off';
         } else {
-            this._color = color;
+            this.activeColor = color;
         }
 
         const addEditAction: AddEditAction = {
@@ -50,14 +44,11 @@ export class RadiusTemplateComponent implements OnInit, OnChanges {
                 ...this.context,
                 parameters: {
                     ...this.context.parameters,
-                    color: this._color,
+                    color: this.activeColor,
                 }
             }
         };
 
-        this.onchange.emit({
-            actionId: this.context.actionId,
-            addEditAction,
-        });
+        this.actionChangeSubject.next({ addEditAction, actionChangeType: ActionChangeType.Edit });
     }
 }

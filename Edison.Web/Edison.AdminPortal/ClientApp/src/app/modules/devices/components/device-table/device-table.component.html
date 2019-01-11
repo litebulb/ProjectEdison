@@ -1,0 +1,88 @@
+<table mat-table
+       matSort
+       matSortActive="lastAccessTime"
+       matSortDirection="desc"
+       [dataSource]="dataSource"
+       class="mat-elevation-z8">
+    <ng-container matColumnDef="lastAccessTime">
+        <th mat-header-cell
+            mat-sort-header
+            start="desc"
+            *matHeaderCellDef> CONNECTION </th>
+        <td mat-cell
+            *matCellDef="let element">
+            <div class="connection">
+                <app-icon icon="dot"
+                          [active]="element.online"
+                          [style]="{ 'margin-right': '10px' }"></app-icon>
+                <div>{{ element.lastAccessTime | xminutesago }}</div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deviceType">
+        <th mat-header-cell
+            mat-sort-header
+            *matHeaderCellDef> TYPE </th>
+        <td mat-cell
+            *matCellDef="let element">
+            <app-icon [icon]="element.deviceType | deviceicon"
+                      size="medium-small"
+                      color="grey"></app-icon>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fullLocationName">
+        <th mat-header-cell
+            mat-sort-header
+            *matHeaderCellDef> LOCATION </th>
+        <td mat-cell
+            *matCellDef="let element">
+            {{element.fullLocationName}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="currentResponse">
+        <th mat-header-cell
+            *matHeaderCellDef> CURRENT RESPONSE </th>
+        <td mat-cell
+            *matCellDef="let element">
+            <app-icon static="true"
+                      round="true"
+                      [icon]="element.response.icon"
+                      [color]="element.response.color"
+                      *ngIf="element.response && element.response.responseState === 1"></app-icon>
+            <div class="center-dash"
+                 *ngIf="!element.response || element.response.responseState === 0">-</div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="recentEvents">
+        <th mat-header-cell
+            *matHeaderCellDef> RECENT EVENTS </th>
+        <td mat-cell
+            *matCellDef="let element">
+            <div *ngIf="element.event"
+                 class="device-event-container">
+                <ng-container *ngFor="let event of element.event.events.slice(0, 3); let first = first; let last = last">
+                    <div [ngClass]="{'first': first, 'last': last}">{{ event.date | date : 'shortTime'}}</div>
+                    <div *ngIf="!last"
+                         class="comma">,</div>
+                </ng-container>
+            </div>
+            <div *ngIf="!element.event"
+                 class="center-dash">-</div>
+        </td>
+    </ng-container>
+
+
+
+
+
+    <tr mat-header-row
+        *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row
+        (click)="onRowClick(row)"
+        class="table-row"
+        *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

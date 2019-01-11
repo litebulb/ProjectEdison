@@ -13,7 +13,7 @@
                   color="grey"
                   size="small"
                   staticSize="true"></app-icon>
-        <div class="user-count">{{userCount$ | async}} People</div>
+        <div class="user-count">{{userCount}} People</div>
     </div>
     <div class="info-row">
         <app-icon staticSize="true"
@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="body">
-    <div class="subheader">Message {{userCount$ | async}} People</div>
+    <div class="subheader">Message {{userCount}} People</div>
     <app-message-list [messages]="messages"></app-message-list>
 </div>
 <textarea rows="8"

@@ -1,7 +1,7 @@
 <div class="container"
      [style.opacity]="mapLoaded ? 1 : 0"
      [style.maxHeight]="defaultOptions.height">
-    <app-select-location *ngIf="showSelectingLocation$ | async"
+    <app-select-location *ngIf="showSelectingLocation"
                          (onSetLocation)="setLocation()"
                          (onCancel)="hideSelectLocation()"
                          (onConfirmLocation)="confirmLocation()"
@@ -27,57 +27,5 @@
 </div>
 <div class="overlay-container"
      [@fadeInOutHalfOpacity]
-     *ngIf="(showOverlay$ | async) && showActivateResponse"
+     *ngIf="showOverlay && showActivateResponse"
      [style.height]="defaultOptions.height"></div>
-<div class="map-pin-container">
-    <app-circle-spinner size="54"
-                        depth="6"
-                        [circleColor]="spinnerColors.blueCircleColor"
-                        fillColor="white"
-                        [spinnerColor]="spinnerColors.blueSpinnerColor"
-                        fontColor="white"
-                        #bluePinSpinner
-                        class="ms-pin">
-    </app-circle-spinner>
-
-    <app-circle-spinner size="54"
-                        depth="6"
-                        [circleColor]="spinnerColors.redCircleColor"
-                        fillColor="white"
-                        [spinnerColor]="spinnerColors.redSpinnerColor"
-                        fontColor="white"
-                        #redPinSpinner
-                        class="ms-pin">
-    </app-circle-spinner>
-
-    <app-circle-spinner size="54"
-                        depth="6"
-                        [circleColor]="spinnerColors.greenCircleColor"
-                        fillColor="white"
-                        [spinnerColor]="spinnerColors.greenSpinnerColor"
-                        fontColor="white"
-                        #greenPinSpinner
-                        class="ms-pin">
-    </app-circle-spinner>
-
-    <app-circle-spinner size="54"
-                        depth="6"
-                        [circleColor]="spinnerColors.yellowCircleColor"
-                        fillColor="white"
-                        [spinnerColor]="spinnerColors.yellowSpinnerColor"
-                        fontColor="white"
-                        #yellowPinSpinner
-                        class="ms-pin">
-    </app-circle-spinner>
-
-    <app-circle-spinner size="54"
-                        depth="6"
-                        [circleColor]="spinnerColors.greyCircleColor"
-                        fillColor="white"
-                        [spinnerColor]="spinnerColors.greySpinnerColor"
-                        [animate]="false"
-                        fontColor="white"
-                        #greyPinSpinner
-                        class="ms-pin">
-    </app-circle-spinner>
-</div>

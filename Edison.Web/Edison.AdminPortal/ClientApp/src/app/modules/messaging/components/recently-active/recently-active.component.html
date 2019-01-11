@@ -1,6 +1,6 @@
 <div class="header"
      #header
-     [ngClass]="{'active': activeUserId === '*'}"
+     [ngClass]="{'active': activeUser.userId === '*'}"
      (click)="selectAllChat()"
      (keyup.space)="selectAllChat()"
      (keyup.enter)="selectAllChat()"
@@ -9,7 +9,7 @@
 <div class="people-container">
     <div class="person"
          [ngClass]="{'active': user.id === activeUserId}"
-         *ngFor="let user of activeUsers$ | async"
+         *ngFor="let user of activeUsers"
          (click)="selectActiveUser(user)"
          (keyup.space)="selectActiveUser(user)"
          (keyup.enter)="selectActiveUser(user)"

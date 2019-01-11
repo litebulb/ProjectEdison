@@ -1,11 +1,7 @@
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
 import {
-    AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
-    Output, ViewChild
+    AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit,
+    Output
 } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 
 import { environment } from '../../../../../environments/environment';
 import { fadeInOut } from '../../../../core/animations/fadeInOut';
@@ -13,27 +9,16 @@ import { fadeInOutHalfOpacity } from '../../../../core/animations/fadeInOutHalfO
 import { getRankingColor } from '../../../../core/colorRank';
 import { GeoLocation } from '../../../../core/models/geoLocation';
 import { spinnerColors } from '../../../../core/spinnerColors';
-import { AppState } from '../../../../reducers';
-import {
-    selectingActionPlanSelector
-} from '../../../../reducers/action-plan/action-plan.selectors';
 import { Device } from '../../../../reducers/device/device.model';
-import { ShowEventInEventBar } from '../../../../reducers/event/event.actions';
 import { Event, EventType } from '../../../../reducers/event/event.model';
-import {
-    AddLocationToActiveResponse, ShowSelectingLocation, UpdateResponse
-} from '../../../../reducers/response/response.actions';
 import { Response } from '../../../../reducers/response/response.model';
-import {
-    activeResponseSelector, showSelectingLocationSelector
-} from '../../../../reducers/response/response.selectors';
-import {
-    CircleSpinnerComponent
-} from '../../../shared/components/circle-spinner/circle-spinner.component';
 import { MapClick } from '../../models/mapClick';
 import { MapDefaults } from '../../models/mapDefaults';
 import { MapPin } from '../../models/mapPin';
 import { MapPosition } from '../../models/mapPosition';
+import { Subscription, interval } from 'rxjs';
+import { ISpinnerIcon, SpinnerIcon } from '../../helpers/spinner-icon-builder';
+import { ImageIcon } from '../../helpers/image-icon-builder';
 
 @Component({
     selector: 'app-map',
@@ -41,74 +26,56 @@ import { MapPosition } from '../../models/mapPosition';
     styleUrls: [ './map.component.scss' ],
     animations: [ fadeInOut, fadeInOutHalfOpacity ]
 })
-export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
-    private map: Microsoft.Maps.Map
-    private htmlLayer: HtmlPushpinLayer
-    private htmlClusterLayer: HtmlPushpinLayer
-    private clusterLayer: Microsoft.Maps.ClusterLayer
-    private clusteringStarted = false
-    private addedPins: HtmlPushpin[] = []
-    private addedClusterPins: HtmlPushpin[] = []
-    private searchManager: Microsoft.Maps.Search.SearchManager;
-    spinnerColors = spinnerColors
-    mapLoaded = false
-    pinsFocused = false
+export class MapComponent implements OnInit, OnChanges, AfterViewInit {
+    private _map: Microsoft.Maps.Map;
+    private _htmlLayer: HtmlPushpinLayer;
+    private _htmlClusterLayer: HtmlPushpinLayer;
+    private _clusterLayer: Microsoft.Maps.ClusterLayer;
+    private _clusteringStarted = false;
+    private _addedPins: HtmlPushpin[] = [];
+    private _addedClusterPins: HtmlPushpin[] = [];
+    private _searchManager: Microsoft.Maps.Search.SearchManager;
+    private _mapLoaded$: Subscription;
+    private _pinsFocused = false;
+
+    mapLoaded = false;    
     selectedLocation: MapPosition;
-    activeResponse: Response;
-
     selectingLocation = false;
-    showOverlay$: Observable<boolean>
-    showSelectingLocation$: Observable<boolean>;
-    activeResponseSub$: Subscription;
+    showOverlay: boolean;
+    showSelectingLocation: boolean;
 
-    @Input()
-    defaultOptions: MapDefaults
-
-    @Input()
-    showActivateResponse?: boolean
-
-    @Input()
-    pins: MapPin[] = []
+    @Input() activeResponse: Response;
+    @Input() defaultOptions: MapDefaults;
+    @Input() showActivateResponse?: boolean;
+    @Input() pins: MapPin[] = [];
 
     @Output() onLoad = new EventEmitter();
+    @Output() onAddLocationToResponse = new EventEmitter();
+    @Output() onUpdateResponseLocation = new EventEmitter();
+    @Output() onEventClick = new EventEmitter();
 
-    @ViewChild('redPinSpinner')
-    redPinSpinner: CircleSpinnerComponent
-
-    @ViewChild('bluePinSpinner')
-    bluePinSpinner: CircleSpinnerComponent
-
-    @ViewChild('greenPinSpinner')
-    greenPinSpinner: CircleSpinnerComponent
-
-    @ViewChild('yellowPinSpinner')
-    yellowPinSpinner: CircleSpinnerComponent
-
-    @ViewChild('greyPinSpinner')
-    greyPinSpinner: CircleSpinnerComponent
-
-    constructor (private cdr: ChangeDetectorRef, private store: Store<AppState>) { }
+    constructor (private cdr: ChangeDetectorRef) { }
 
     ngOnInit() {
-        this.updateMap()
-        this.showOverlay$ = this.store.pipe(select(selectingActionPlanSelector))
-        this.showSelectingLocation$ = this.store.pipe(select(showSelectingLocationSelector));
-        this.activeResponseSub$ = this.store.pipe(
-            select(activeResponseSelector),
-            filter(({ activeResponse }) => activeResponse !== null))
-            .subscribe(({ activeResponse }) => this.activeResponse = activeResponse);
-    }
-
-    ngOnDestroy() {
-        this.activeResponseSub$.unsubscribe();
+        this._updateMap();
     }
 
     ngAfterViewInit() {
-        this.initMapAfterLoad()
+        this._initMapAfterLoad()
     }
 
     ngOnChanges() {
-        this.updateMap()
+        this._updateMap()
+    }
+
+    toggleOverlay(state?: boolean) {
+        if (state !== undefined) { this.showOverlay = state; }
+        else { this.showOverlay = !this.showOverlay; }
+    }
+
+    toggleSelectResponseLocation(state?: boolean) {
+        if (state !== undefined) { this.showSelectingLocation = state; }
+        else { this.showSelectingLocation = !this.showSelectingLocation; }
     }
 
     focusDevices = (devices: Device[]) => {
@@ -131,52 +98,18 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
     }
 
     focusPins = (pins: MapPin[], zoom?: number) => {
-        const locations = pins.map(pin => this.getPinLocation(pin))
+        const locations = pins.map(pin => this._getPinLocation(pin))
 
         if (locations.length > 0) {
             const bounds = Microsoft.Maps.LocationRect.fromLocations(locations)
 
-            this.setMapBounds(bounds, zoom)
-            this.pinsFocused = true
+            this._setMapBounds(bounds, zoom)
+            this._pinsFocused = true
         }
     }
 
     focusAllPins() {
         this.focusPins(this.pins)
-    }
-
-    onZoomIn() {
-        const zoom = this.map.getZoom() + 1
-        this.map.setView({ zoom })
-    }
-
-    onZoomOut() {
-        const zoom = this.map.getZoom() - 1
-        this.map.setView({ zoom })
-    }
-
-    setLocation() {
-        this.selectedLocation = null;
-        this.selectingLocation = true;
-    }
-
-    restartSetLocation() {
-        this.selectedLocation = null;
-        this.selectingLocation = false;
-        this.updateResponseLocation();
-    }
-
-    hideSelectLocation() {
-        this.hideShowSelectingLocation();
-        this.selectedLocation = null;
-        this.selectingLocation = false;
-    }
-
-    confirmLocation() {
-        this.store.dispatch(new AddLocationToActiveResponse({ location: this.selectedLocation, responseId: this.activeResponse.responseId }));
-        this.hideShowSelectingLocation();
-        this.selectedLocation = null;
-        this.selectingLocation = false;
     }
 
     getAddressByLocation(longitude: number, latitude: number, callback: any) {
@@ -196,7 +129,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             };
 
             //Make the reverse geocode request.
-            this.searchManager.reverseGeocode(searchRequest);
+            this._searchManager.reverseGeocode(searchRequest);
         } else {
             setTimeout(() => {
                 this.getAddressByLocation(longitude, latitude, callback);
@@ -204,120 +137,156 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         }
     }
 
-    private hideShowSelectingLocation() {
-        this.store.dispatch(new ShowSelectingLocation({ showSelectingLocation: false }))
+    protected onZoomIn() {
+        const zoom = this._map.getZoom() + 1;
+        this._map.setView({ zoom });
     }
 
-    private updateResponseLocation(geolocation: GeoLocation = null) {
+    protected onZoomOut() {
+        const zoom = this._map.getZoom() - 1
+        this._map.setView({ zoom })
+    }
+
+    protected setLocation() {
+        this.selectedLocation = null;
+        this.selectingLocation = true;
+    }
+
+    protected restartSetLocation() {
+        this.selectedLocation = null;
+        this.selectingLocation = false;
+        this._updateResponseLocation();
+    }
+
+    protected hideSelectLocation() {
+        this._hideSelectResponseLocation();
+        this.selectedLocation = null;
+        this.selectingLocation = false;
+    }
+
+    protected confirmLocation() {
+        this.onAddLocationToResponse.emit({ location: this.selectedLocation, responseId: this.activeResponse.responseId });
+        this._hideSelectResponseLocation();
+        this.selectedLocation = null;
+        this.selectingLocation = false;
+    }
+
+    private _hideSelectResponseLocation() {
+        this.toggleSelectResponseLocation(false);
+    }
+
+    private _updateResponseLocation(geolocation: GeoLocation = null) {
         if (this.activeResponse) {
-            this.store.dispatch(new UpdateResponse({
-                response: {
-                    id: this.activeResponse.responseId,
-                    changes: {
-                        geolocation,
-                    }
-                }
-            }));
+            this.onUpdateResponseLocation.emit({ geolocation, responseId: this.activeResponse.responseId });
         }
     }
 
-    private initMapAfterLoad = () => {
+    private _initMapAfterLoad = () => {
         const mapLoaded = localStorage.getItem('mapLoaded') === 'true'
         if (mapLoaded) {
-            this.initMap()
+            this._initMap()
         } else {
-            setTimeout(this.initMapAfterLoad, 1000)
+            setTimeout(this._initMapAfterLoad, 1000)
         }
     }
 
-    private updateMap = () => {
+    private _updateMap = () => {
         if (this.mapLoaded) {
+            if (this._mapLoaded$) { this._mapLoaded$.unsubscribe(); }
             if (this.defaultOptions.useHtmlLayer) {
                 const updatedPins = this.pins.filter(pin =>
-                    this.addedPins.some(ap => ap.metadata.deviceId === pin.deviceId)
+                    this._addedPins.some(ap => ap.metadata.deviceId === pin.deviceId)
                 )
                 updatedPins.forEach(pin => {
-                    const currentPin = this.addedPins.find(
+                    const currentPin = this._addedPins.find(
                         ap => ap.metadata.deviceId === pin.deviceId
                     )
                     const occurences = pin.event ? pin.event.eventCount : 0
                     const tooltip = pin.event ? pin.event.eventType === EventType.Message ? pin.event.events[ 0 ].metadata.username : null : null;
                     currentPin.metadata = pin
                     currentPin.setOptions({
-                        htmlContent: this.getHtmlElement(occurences, 1, pin.color, tooltip, pin.icon),
-                        location: this.getPinLocation(pin),
+                        htmlContent: this._getHtmlElement(occurences, 1, pin.color, tooltip, pin.icon),
+                        location: this._getPinLocation(pin),
                     })
                 })
 
-                const removedPins = this.addedPins.filter(
+                const removedPins = this._addedPins.filter(
                     ap => !this.pins.some(p => p.deviceId === ap.metadata.deviceId)
                 )
 
                 const newPins = this.pins.filter(
                     pin =>
-                        !this.addedPins.some(ap => ap.metadata.deviceId === pin.deviceId)
+                        !this._addedPins.some(ap => ap.metadata.deviceId === pin.deviceId)
                 )
-                this.addPinsToMap(newPins)
-                this.addedPins = this.addedPins.filter(
+                this._addPinsToMap(newPins)
+                this._addedPins = this._addedPins.filter(
                     ap =>
                         !removedPins.some(
                             rp => rp.metadata.deviceId === ap.metadata.deviceId
                         )
                 )
                 removedPins.forEach(pin => {
-                    this.htmlLayer.remove(pin)
+                    this._htmlLayer.remove(pin)
                 })
 
-                const clusterPins = this.addedPins.map(pin =>
-                    this.createClusterPin(pin.metadata)
+                const clusterPins = this._addedPins.map(pin =>
+                    this._createClusterPin(pin.metadata)
                 )
-                this.clusterLayer.clear()
-                this.clusterLayer.setPushpins(clusterPins)
+                this._clusterLayer.clear()
+                this._clusterLayer.setPushpins(clusterPins)
             } else {
-                const clusterPins = this.pins.map(pin => this.createClusterPin(pin))
-                this.clusterLayer.clear()
-                this.clusterLayer.setPushpins(clusterPins)
+                const clusterPins = this.pins.map(pin => this._createClusterPin(pin))
+                this._clusterLayer.clear()
+                this._clusterLayer.setPushpins(clusterPins)
             }
 
-            if (!this.pinsFocused && this.pins.length > 0) {
-                this.focusPins(this.pins)
+            if (!this._pinsFocused && this.pins.length > 0) {
+                this.focusPins(this.pins);
             }
+        } else if (this._mapLoaded$ === undefined || this._mapLoaded$.closed) {
+            // make sure the map gets updated on load
+            // the onload function that gets fired from ms maps is not reliable
+            this._mapLoaded$ = interval(1000).subscribe(() => {
+                if (this.mapLoaded) {
+                    this._updateMap();
+                }
+            });
         }
     }
 
-    private addPinsToMap = (mapPins: MapPin[]) => {
-        if (this.htmlLayer) {
-            const pins = mapPins.map(pin => this.createHtmlPin(pin))
-            this.addedPins.push(...pins)
-            this.htmlLayer.add(pins)
+    private _addPinsToMap = (mapPins: MapPin[]) => {
+        if (this._htmlLayer) {
+            const pins = mapPins.map(pin => this._createHtmlPin(pin));
+            this._addedPins.push(...pins);
+            this._htmlLayer.add(pins);
         }
     }
 
-    private initMap = () => {
-        this.map = new Microsoft.Maps.Map(
+    private _initMap = () => {
+        this._map = new Microsoft.Maps.Map(
             `#${this.defaultOptions.mapId || 'map'}`,
             {
                 credentials: environment.bingMapsKey,
                 center:
-                    this.pins.length === 1 ? this.getPinLocation(this.pins[ 0 ]) : null,
+                    this.pins.length === 1 ? this._getPinLocation(this.pins[ 0 ]) : null,
                 customMapStyle: environment.mapDefaults.style,
             }
         )
 
         // Create an infobox at the center of the map but don't show it.
-        const infobox = new Microsoft.Maps.Infobox(this.map.getCenter(), {
+        const infobox = new Microsoft.Maps.Infobox(this._map.getCenter(), {
             offset: new Microsoft.Maps.Point(0, 0),
             showCloseButton: false,
             visible: false,
         })
-        infobox.setMap(this.map)
+        infobox.setMap(this._map)
 
         Microsoft.Maps.registerModule(
             'HtmlPushpinLayerModule',
             '/assets/map.html-pin-layer.module.js'
         )
 
-        this.map.setOptions({
+        this._map.setOptions({
             showLocateMeButton: false,
             showZoomButtons: false,
             showLogo: false,
@@ -332,67 +301,67 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             [ 'HtmlPushpinLayerModule', 'Microsoft.Maps.Clustering', 'Microsoft.Maps.Search' ],
             () => {
                 if (this.defaultOptions.useHtmlLayer) {
-                    this.createHtmlPushpinLayer()
-                    this.createHtmlClusterLayer()
+                    this._createHtmlPushpinLayer()
+                    this._createHtmlClusterLayer()
                 }
-                this.createClusterLayer()
+                this._createClusterLayer()
 
-                this.searchManager = new Microsoft.Maps.Search.SearchManager(this.map);
+                this._searchManager = new Microsoft.Maps.Search.SearchManager(this._map);
 
                 this.mapLoaded = true
                 this.onLoad.emit(true);
-                this.updateMap()
-                this.initMapEvents();
+                this._updateMap()
+                this._initMapEvents();
                 this.cdr.markForCheck()
             }
         )
     }
 
-    private initMapEvents = () => {
-        Microsoft.Maps.Events.addHandler(this.map, 'click', this.onMapClick);
+    private _initMapEvents = () => {
+        Microsoft.Maps.Events.addHandler(this._map, 'click', this._onMapClick);
     }
 
-    private onMapClick = (event: MapClick) => {
+    private _onMapClick = (event: MapClick) => {
         if (this.selectingLocation) {
             this.selectedLocation = event.location;
             this.selectingLocation = false;
-            this.updateResponseLocation(event.location);
+            this._updateResponseLocation(event.location);
             this.cdr.markForCheck(); // all events output from bing maps do not fire angular checks
         }
     }
 
-    private createHtmlClusterLayer = () => {
-        this.htmlClusterLayer = new HtmlPushpinLayer()
+    private _createHtmlClusterLayer = () => {
+        this._htmlClusterLayer = new HtmlPushpinLayer()
 
-        this.map.layers.insert(this.htmlClusterLayer)
+        this._map.layers.insert(this._htmlClusterLayer)
     }
 
-    private createClusterLayer = () => {
-        this.clusterLayer = new Microsoft.Maps.ClusterLayer([], {
+    private _createClusterLayer = () => {
+        this._clusterLayer = new Microsoft.Maps.ClusterLayer([], {
             visible: !this.defaultOptions.useHtmlLayer,
-            clusteredPinCallback: this.clusteredPinCallback,
-            callback: this.clusteringCompletedCallback,
+            clusteredPinCallback: this._clusteredPinCallback,
+            callback: this._clusteringCompletedCallback,
             gridSize: 120,
         })
 
-        this.map.layers.insert(this.clusterLayer)
+        this._map.layers.insert(this._clusterLayer)
     }
 
-    private createHtmlPushpinLayer = () => {
+    private _createHtmlPushpinLayer = () => {
         // Create an Html Pushpin Layer
-        this.htmlLayer = new HtmlPushpinLayer()
+        this._htmlLayer = new HtmlPushpinLayer()
         // Add the HTML pushpin to the map.
-        this.map.layers.insert(this.htmlLayer)
+        this._map.layers.insert(this._htmlLayer)
     }
 
-    private clusteringCompletedCallback = () => {
+    private _clusteringCompletedCallback = () => {
         if (!this.defaultOptions.useHtmlLayer) {
             return
         }
 
-        this.clusteringStarted = false
-        const displayedClusterPins = this.clusterLayer.getDisplayedPushpins()
-        const pinsToShow = this.addedPins.filter(ap =>
+        this._clusteringStarted = false
+        const displayedClusterPins = this._clusterLayer.getDisplayedPushpins()
+        const pinsToShow = this._addedPins.filter(ap =>
             displayedClusterPins.some(
                 p => p.metadata.deviceId === ap.metadata.deviceId
             )
@@ -402,10 +371,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         })
 
         const pinsToRemove = []
-        this.addedClusterPins
+        this._addedClusterPins
             .filter(ap => ap.metadata !== undefined && ap.metadata !== null)
             .forEach(cp => {
-                const pin = this.clusterLayer.getClusterPushpinByGridKey(
+                const pin = this._clusterLayer.getClusterPushpinByGridKey(
                     cp.metadata.gridKey
                 )
                 if (!pin) {
@@ -420,25 +389,25 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
                 }
             })
 
-        pinsToRemove.forEach(pin => this.htmlClusterLayer.remove(pin))
-        this.addedClusterPins = this.addedClusterPins.filter(
+        pinsToRemove.forEach(pin => this._htmlClusterLayer.remove(pin))
+        this._addedClusterPins = this._addedClusterPins.filter(
             ap => ap.metadata !== undefined && ap.metadata !== null
         )
 
         this.cdr.markForCheck()
     }
 
-    private clusteredPinCallback = (cluster: Microsoft.Maps.ClusterPushpin) => {
+    private _clusteredPinCallback = (cluster: Microsoft.Maps.ClusterPushpin) => {
         if (!this.defaultOptions.useHtmlLayer) {
             return
         }
 
         const clusterPins = cluster.containedPushpins
-        const htmlPins = this.htmlLayer.getPushpins()
+        const htmlPins = this._htmlLayer.getPushpins()
 
-        if (!this.clusteringStarted) {
-            this.clusteringStarted = true
-            this.htmlClusterLayer.clear()
+        if (!this._clusteringStarted) {
+            this._clusteringStarted = true
+            this._htmlClusterLayer.clear()
             this.cdr.markForCheck()
         }
 
@@ -457,62 +426,62 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
                 (a += v.metadata.event ? (v.metadata as MapPin).event.eventCount : 0),
             0
         )
-        const htmlClusterPin = this.createHtmlClusterPin(
+        const htmlClusterPin = this._createHtmlClusterPin(
             cluster.getLocation(),
             occurences,
             pinsToHide,
             cluster.gridKey
         )
 
-        this.addedClusterPins.push(htmlClusterPin)
-        this.htmlClusterLayer.add(htmlClusterPin)
+        this._addedClusterPins.push(htmlClusterPin)
+        this._htmlClusterLayer.add(htmlClusterPin)
     }
 
-    private setMapBounds = (bounds: Microsoft.Maps.LocationRect, zoom?: number) => {
-        this.map.setView({
+    private _setMapBounds = (bounds: Microsoft.Maps.LocationRect, zoom?: number) => {
+        this._map.setView({
             bounds: bounds,
             padding: this.defaultOptions.padding || 100,
         })
         if (zoom) {
-            this.map.setView({ zoom: zoom || this.defaultOptions.zoom })
+            this._map.setView({ zoom: zoom || this.defaultOptions.zoom })
         }
     }
 
-    private getPinLocation = (pin: MapPin) => {
+    private _getPinLocation = (pin: MapPin) => {
         return new Microsoft.Maps.Location(
             pin.geolocation.latitude,
             pin.geolocation.longitude
         )
     }
 
-    private createHtmlPin(pin: MapPin) {
+    private _createHtmlPin(pin: MapPin) {
         const tooltip = pin.event ? pin.event.eventType === EventType.Message ? pin.event.events[ 0 ].metadata.username : null : null;
         const occurences = pin.event ? pin.event.eventCount : 0;
-        const html = this.getHtmlElement(occurences, 1, pin.color, tooltip, pin.icon)
+        const html = this._getHtmlElement(occurences, 1, pin.color, tooltip, pin.icon)
 
         const anchor = new Microsoft.Maps.Point(30, 30)
 
-        const htmlPin = new HtmlPushpin(this.getPinLocation(pin), html, { anchor })
-        Microsoft.Maps.Events.addHandler(htmlPin, 'click', () => { this.handlePinClick(pin.event); })
-        Microsoft.Maps.Events.addHandler(htmlPin, 'dblclick', () => { this.handlePinDblClick(this.getPinLocation(pin)); })
+        const htmlPin = new HtmlPushpin(this._getPinLocation(pin), html, { anchor })
+        Microsoft.Maps.Events.addHandler(htmlPin, 'click', () => { this._handlePinClick(pin.event); })
+        Microsoft.Maps.Events.addHandler(htmlPin, 'dblclick', () => { this._handlePinDblClick(this._getPinLocation(pin)); })
         htmlPin.metadata = pin
 
         return htmlPin
     }
 
-    private handlePinClick(event: Event) {
+    private _handlePinClick(event: Event) {
         if (!event) { return; }
-        this.store.dispatch(new ShowEventInEventBar({ event }))
+        this.onEventClick.emit(event);
     }
 
-    private handlePinDblClick(location: Microsoft.Maps.Location) {
+    private _handlePinDblClick(location: Microsoft.Maps.Location) {
         const bounds = Microsoft.Maps.LocationRect.fromLocations([ location ]);
 
-        this.setMapBounds(bounds, this.map.getZoom() + 2);
+        this._setMapBounds(bounds, this._map.getZoom() + 2);
     }
 
-    private createClusterPin(pin: MapPin) {
-        const newPin = new Microsoft.Maps.Pushpin(this.getPinLocation(pin), {
+    private _createClusterPin(pin: MapPin) {
+        const newPin = new Microsoft.Maps.Pushpin(this._getPinLocation(pin), {
             icon: 'assets/icons/pin.svg',
             anchor: new Microsoft.Maps.Point(30, 30),
         })
@@ -520,7 +489,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
         return newPin
     }
 
-    private createHtmlClusterPin(
+    private _createHtmlClusterPin(
         location: Microsoft.Maps.Location,
         occurences: number,
         containedPins: HtmlPushpin[],
@@ -531,7 +500,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             .map(cp => cp.metadata.color)
         const color = getRankingColor(colors)
 
-        const html = this.getHtmlElement(occurences, containedPins.length, color)
+        const html = this._getHtmlElement(occurences, containedPins.length, color)
         const anchor = new Microsoft.Maps.Point(30, 30)
 
         const pin = new HtmlPushpin(location, html, { anchor })
@@ -540,82 +509,48 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit
             gridKey,
         }
 
-        Microsoft.Maps.Events.addHandler(pin, 'dblclick', () => { this.handlePinDblClick(location); })
+        Microsoft.Maps.Events.addHandler(pin, 'dblclick', () => { this._handlePinDblClick(location); })
 
         return pin
     }
 
-    private getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string, icon?: string) {
+    private _getHtmlElement(occurences: number, devices: number, color?: string, specialTooltip?: string, icon?: string) {
         const occurencesString = `${occurences}x`;
         const tooltip = specialTooltip ? specialTooltip : devices > 1 ? `${devices} Devices` : '';
         if (occurences > 0) {
-            if (color) {
+            // default to blue spinner icon
+            const options: ISpinnerIcon = {
+                size: 54,
+                depth: 6,
+                circleContent: occurencesString,
+                tooltip,
+                spinnerColorRgb: { red: 0, green: 80, blue: 179 },
+                circleColor: spinnerColors.blueCircleColor,
+                spinnerStyle: 'cursor: pointer;'
+            }
+            if (color) {                
                 switch (color.toLowerCase()) {
                     case 'red':
-                        return this.redPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
+                        options.circleColor = spinnerColors.redCircleColor;
+                        options.spinnerColorRgb = { red: 230, green: 44, blue: 30 };
+                        break;
                     case 'yellow':
-                        return this.yellowPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
-                    case 'blue':
-                        return this.bluePinSpinner.getSpinnerElement(occurencesString, tooltip, true)
+                        options.circleColor = spinnerColors.yellowCircleColor;
+                        options.spinnerColorRgb = { red: 255, green: 159, blue: 33 };
+                        break;
                     case 'green':
-                        return this.greenPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
+                        options.circleColor = spinnerColors.greenCircleColor;
+                        options.spinnerColorRgb = { red: 0, green: 229, blue: 54 };
+                        break;
                     case 'grey':
-                        return this.greyPinSpinner.getSpinnerElement(occurencesString, tooltip, true)
-                }
+                        options.circleColor = spinnerColors.greyCircleColor;
+                        options.spinnerColorRgb = { red: 128, green: 128, blue: 128 };
+                        break;
+                }                
             }
-            return this.bluePinSpinner.getSpinnerElement(occurencesString, tooltip)
+            return SpinnerIcon(options);
         } else {
-            const displayedTooltip = tooltip.length === 0 ? '' : `<div style="height: 30px; display: flex; justify-content: center; align-items: center; position: absolute; top: -40px; width: 100%; opacity: 0.6; z-index: 3;">
-                <div style="display: flex; justify-content: center; align-items: center; background-color: black; border-radius: 4px; font-size: 14px; color: white; padding: 5px 20px; white-space: nowrap;">${tooltip}</div>
-                <div style="width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid black; position: absolute; bottom: -6px;"></div>
-            </div>`
-
-            const imageStyle = `
-                width: 24px;
-                height: 24px;
-            `;
-
-            if (icon) {
-                let bgColor = '';
-                switch (color.toLowerCase()) {
-                    case 'blue':
-                        bgColor = '#3A82FE'
-                        break;
-                    case 'green':
-                        bgColor = '#00E536'
-                        break;
-                    case 'red':
-                        bgColor = '#FA4035'
-                        break;
-                    case 'yellow':
-                        bgColor = '#FABF0D'
-                        break;
-                }
-
-                const bgStyle = icon ? `
-                    cursor: pointer;
-                    background-color: ${bgColor};
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                ` : 'cursor: pointer';
-
-                const bgIcon = icon === 'vip' ? 'vip_white' : icon;
-
-                return `<div style="${bgStyle}">
-                    ${displayedTooltip}
-                    <img src="assets/icons/${bgIcon}.svg" style="${imageStyle}" />
-                </div>`;
-            } else {
-                return `<div>
-                    ${displayedTooltip}
-                    <img src="assets/icons/pin.svg" style="cursor: pointer" />
-                </div>`;
-            }
-
+            return ImageIcon({ icon, color, tooltip, });
         }
     }
 }

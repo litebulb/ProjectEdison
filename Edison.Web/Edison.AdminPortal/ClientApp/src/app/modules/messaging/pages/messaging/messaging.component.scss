@@ -1,0 +1,7 @@
+@import 'sizes';
+:host {
+    max-width: 330px;
+    min-width: 330px;
+    padding-left: 20px;
+    padding-top: $topnav-height;
+}

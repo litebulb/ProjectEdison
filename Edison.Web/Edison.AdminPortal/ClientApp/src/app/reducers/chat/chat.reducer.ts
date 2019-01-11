@@ -114,20 +114,12 @@ export function reducer(
         }
 
         case ChatActionTypes.UpdateUserReadReceipt: {
-            const updatedMessages: Update<Chat>[] = selectAll(state)
+            const updatedMessages: Chat[] = selectAll(state)
                 .filter(message => message.channelData.data.userId === action.payload.userId
                     && new Date(message.timestamp).getTime() < action.payload.date.getTime())
-                .map(message => {
-                    return {
-                        id: message.id,
-                        changes: {
-                            ...message,
-                            read: true
-                        }
-                    }
-                });
+                .map(message => ({ ...message, read: true }));
 
-            return adapter.updateMany(updatedMessages, state);
+            return adapter.upsertMany(updatedMessages, state);
         }
 
         default: {

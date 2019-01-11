@@ -7,7 +7,7 @@
 <div class="content-container">
     <div>
         Connected Lights {{context.parameters.radius}} Radius: <span class="color-text"
-              *ngIf="!canEdit">{{_color}}</span>
+              *ngIf="!canEdit">{{activeColor}}</span>
     </div>
     <div class="error"
          *ngIf="context.status === actionStatus.Skipped">Set response location to turn on lights.</div>
@@ -17,9 +17,9 @@
          class="colors-container">
         <button class="colorBtn"
                 tabindex="540"
-                (click)="updateColor(color)"
-                *ngFor="let color of actionPlanColors; let i = index"
-                [ngClass]="{'active': color.toLowerCase() === _color.toLowerCase()}">{{color}}</button>
+                (click)="updateColor(actionPlanColor)"
+                *ngFor="let actionPlanColor of actionPlanColors; let i = index"
+                [ngClass]="{'active': actionPlanColor.toLowerCase() === activeColor.toLowerCase()}">{{actionPlanColor}}</button>
     </div>
 </div>
 <div class="line-hider"

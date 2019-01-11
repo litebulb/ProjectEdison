@@ -38,10 +38,10 @@ $icon-size: 36px;
         @include iconSize(26px, 20px);
     }
     &.large {
-        @include iconSize(32px, 28px);
+        @include iconSize(32px, 20px);
     }
     &.extra-large {
-        @include iconSize(48px, 38px);
+        @include iconSize(32px, 30px);
     }
     &.huge {
         @include iconSize(70px, 60px);

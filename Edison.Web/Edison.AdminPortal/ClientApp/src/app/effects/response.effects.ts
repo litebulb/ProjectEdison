@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 import { AppState } from '../reducers';
 import { SelectActionPlan } from '../reducers/action-plan/action-plan.actions';
 import {
-    ActionPlanAction, ActionPlanType, ActionStatus
+    ActionChangeType, ActionPlanAction, ActionPlanType, ActionStatus
 } from '../reducers/action-plan/action-plan.model';
 import { SelectActiveEvent } from '../reducers/event/event.actions';
 import {
@@ -67,7 +67,7 @@ const _setActionsLoading = (actions: ActionPlanAction[], locationActionsOnly?: b
             .map(action => {
                 if (action.status !== ActionStatus.Success &&
                     (!locationActionsOnly || action.actionType === ActionPlanType.LightSensor)) {
-                    return { ...action, loading: true }
+                    return { ...action, loading: true, status: null }
                 }
 
                 return action;
@@ -225,29 +225,25 @@ export class ResponseEffects {
     @Effect()
     updateResponseActions$: Observable<Action> = this.actions$.pipe(
         ofType(ResponseActionTypes.UpdateResponseActions),
-        mergeMap(({ payload: { response, actions } }: UpdateResponseActions) => this.http
+        mergeMap(({ payload: { response, actions, isCloseAction } }: UpdateResponseActions) => this.http
             .put(`${environment.baseUrl}${environment.apiUrl}responses/changeaction`, {
-                ...response,
-                actions
+                responseId: response.responseId,
+                actions: actions.map(addEditAction => {
+                    const action = { ...addEditAction.action };
+                    delete action.loading; 
+                    return ({ ...addEditAction, isCloseAction, action });
+                }),
             })
             .pipe(
                 map(
-                    (response: Response) =>
-                        response
-                            ? new UpdateResponseActionsSuccess({ response })
+                    (response: Response) => {
+                        return response
+                            ? new UpdateResponse({ response: { id: response.responseId, changes: response } })
                             : new UpdateResponseActionsError()
+                    }
                 ),
                 catchError(() => of(new UpdateResponseActionsError()))
             ))
-    )
-
-    @Effect()
-    responseActionsUpdated$: Observable<Action> = this.actions$.pipe(
-        ofType(ResponseActionTypes.UpdateResponseActions),
-        map(({ payload: { response } }: UpdateResponseActions) => new UpdateResponseAsync({
-            response,
-            loading: LoadingType.All,
-        }))
     )
 
     @Effect()
@@ -283,21 +279,52 @@ export class ResponseEffects {
     updateResponseAsync$: Observable<Action> = this.actions$.pipe(
         ofType(ResponseActionTypes.UpdateResponseAsync),
         map((action: UpdateResponseAsync) => {
-            const { response, loading } = action.payload;
+            const { response, loading, actions, isCloseAction } = action.payload;
             if (response) {
                 let openActions = response.actionPlan.openActions;
                 let closeActions = response.actionPlan.closeActions;
-                switch (loading) {
-                    case LoadingType.All:
-                        closeActions = _setActionsLoading(closeActions);
-                        openActions = _setActionsLoading(openActions);
-                        break;
-                    case LoadingType.Closed:
-                        closeActions = _setActionsLoading(closeActions);
-                        break;
-                    case LoadingType.Open:
-                        openActions = _setActionsLoading(openActions);
-                        break;
+
+                if (actions) {
+                    if (isCloseAction) {
+                        closeActions = closeActions.map(action => {
+                            const foundAction = actions.find(addEditAction => addEditAction.action.actionId === action.actionId);
+                            if (foundAction) { return { ...foundAction.action, loading: true, status: null }; }
+                            return action;
+                        });
+
+                        actions.forEach(addEditAction => {
+                            const foundAction = closeActions.some(ca => ca.actionId === addEditAction.action.actionId);
+                            if (!foundAction) {
+                                closeActions.push({ ...addEditAction.action, loading: true, status: null });
+                            }
+                        });
+                    } else {
+                        openActions = openActions.map(action => {
+                            const foundAction = actions.find(addEditAction => addEditAction.action.actionId === action.actionId);
+                            if (foundAction) { return { ...foundAction.action, loading: true, status: null }; }
+                            return action;
+                        });
+
+                        actions.forEach(addEditAction => {
+                            const foundAction = openActions.some(ca => ca.actionId === addEditAction.action.actionId);
+                            if (!foundAction) {
+                                openActions.push({ ...addEditAction.action, loading: true, status: null });
+                            }
+                        });
+                    }
+                } else {
+                    switch (loading) {
+                        case LoadingType.All:
+                            closeActions = _setActionsLoading(closeActions);
+                            openActions = _setActionsLoading(openActions);
+                            break;
+                        case LoadingType.Closed:
+                            closeActions = _setActionsLoading(closeActions);
+                            break;
+                        case LoadingType.Open:
+                            openActions = _setActionsLoading(openActions);
+                            break;
+                    }
                 }
 
                 return new UpdateResponse({
@@ -449,9 +476,9 @@ export class ResponseEffects {
     @Effect()
     setResponseActionsLoadingOnUpdate$: Observable<Action> = this.actions$.pipe(
         ofType(ResponseActionTypes.UpdateResponseActions),
-        map(({ payload: { response, actions } }: UpdateResponseActions) => {
+        map(({ payload: { response, actions, isCloseAction } }: UpdateResponseActions) => {
             if (response && response.actionPlan) {
-                return new UpdateResponseAsync({ response, loading: LoadingType.Open });
+                return new UpdateResponseAsync({ response, loading: LoadingType.All, actions, isCloseAction });
             }
 
             return new ResponseNonAction();

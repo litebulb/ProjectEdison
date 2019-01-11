@@ -7,8 +7,9 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { NumberDatePipe } from '../../core/pipes/number-date';
-import { SafePipe } from '../../core/pipes/safe';
+import { NumberDatePipe, SafePipe } from '../../core/pipes';
+import { DeviceIconPipe } from '../../core/pipes/device-icon';
+import { XMinutesAgoPipe } from '../../core/pipes/x-minutes-ago';
 import { MaterialModule } from '../material/material.module';
 import {
     ActionListItemStateComponent
@@ -69,11 +70,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     declarations: [
         ...sharedComponents,
         SafePipe,
+        XMinutesAgoPipe,
+        DeviceIconPipe,
         NotificationTemplateComponent,
         RadiusTemplateComponent,
         TextTemplateComponent,
     ],
-    exports: [ ...sharedComponents, PerfectScrollbarModule, MaterialModule, SafePipe ],
+    exports: [
+        ...sharedComponents,
+        PerfectScrollbarModule,
+        MaterialModule,
+        SafePipe,
+        XMinutesAgoPipe,
+        DeviceIconPipe,
+    ],
     providers: [
         {
             provide: PERFECT_SCROLLBAR_CONFIG,

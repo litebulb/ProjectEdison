@@ -6,7 +6,7 @@
      [style.z-index]="active ? 5 : 3">
     <app-search-list [title]="'Active Responses'"
                      [items]="items"
-                     [activeId]="activeId"
+                     [activeId]="activeResponse ? activeResponse.responseId : null"
                      (itemSelected)="selectActiveResponse($event)"></app-search-list>
     <div class="responses-container">
         <div class="grey-subheader absolute-position"
@@ -20,24 +20,26 @@
             <div>Loading...</div>
         </div>
         <app-active-response class="absolute-position"
-                             [activeResponse]="activeResponse"
+                             *ngIf="activeResponse && activeView === 0"
                              (deactivateClicked)="showDeactivateView()"
                              (updateClicked)="showUpdateView()"
                              (setLocationClicked)="toggleResponses()"
-                             *ngIf="activeResponse && activeView === 0"
+                             (onRetry)="retryResponseActions($event)"
+                             [activeResponse]="activeResponse"
                              [@fadeInOut]></app-active-response>
         <app-deactivate-response class="absolute-position"
-                                 [activeResponse]="activeResponse"
                                  *ngIf="activeResponse && activeView === 1"
                                  (backClick)="backClicked();"
                                  (returnToMapClick)="toggleResponses()"
+                                 (deactivateClick)="deactivateResponse($event)"
+                                 [activeResponse]="activeResponse"
                                  [@fadeInOut]></app-deactivate-response>
         <app-update-response class="absolute-position"
-                             (change)="responseUpdated()"
-                             [activeResponse]="activeResponse"
                              *ngIf="activeResponse && activeView === 3"
-                             [@fadeInOut]
-                             (cancel)="backClicked()"></app-update-response>
+                             (onActionsUpdated)="onActionsUpdated($event, false)"
+                             (onCancel)="backClicked()"
+                             [activeResponse]="activeResponse"
+                             [@fadeInOut]></app-update-response>
     </div>
 </div>
 
@@ -47,8 +49,8 @@
      (keyup.enter)="toggleResponses()"
      [@fadeInOut]
      [style.z-index]="active ? 5 : 3"
-     [style.padding]="responses.length > 5 ? '6px' : ''"
-     *ngIf="responses.length > 0"
+     [style.padding]="activeResponses.length > 5 ? '6px' : ''"
+     *ngIf="activeResponses.length > 0"
      [tabindex]="active ? 600 : 6">
     <div class="scroll-container">
         <app-icon [size]="'medium'"
@@ -58,7 +60,7 @@
         <span class="text noselect manage-text">{{ active ? 'Close' : 'Responses' }}</span>
         <ng-container class="icon-container"
                       *ngIf="!active">
-            <app-active-response-icon *ngFor="let response of responses; let i = index"
+            <app-active-response-icon *ngFor="let response of activeResponses; let i = index"
                                       [response]="response"
                                       [style]="getIconStyle(i)"
                                       (click)="openResponse(response)"></app-active-response-icon>

@@ -1,15 +1,10 @@
 import { Observable, Subscription } from 'rxjs';
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-
-import { AppState } from '../../../../reducers';
-import { SendNewMessage, ToggleAllUsersChatWindow } from '../../../../reducers/chat/chat.actions';
-import { Message } from '../../../../reducers/chat/chat.model';
 import {
-    chatActiveUsersCountSelector, chatAllMessagesSelector
-} from '../../../../reducers/chat/chat.selectors';
-import { ShowActivateResponse } from '../../../../reducers/response/response.actions';
+    Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild
+} from '@angular/core';
+
+import { Message } from '../../../../reducers/chat/chat.model';
 
 @Component({
     selector: 'app-all-users-chat',
@@ -19,24 +14,23 @@ import { ShowActivateResponse } from '../../../../reducers/response/response.act
 export class AllUsersChatComponent implements OnInit {
     @ViewChild('activateResponseButton') activateResponseButton: ElementRef;
 
+    @Input() userCount: number;
+    @Input() messages: Message[];
+
+    @Output() activateResponseClick = new EventEmitter();
+    @Output() newMessage = new EventEmitter<{ message: string, userId: string }>();
+    @Output() closeClick = new EventEmitter();
+
     messagesSub$: Subscription;
-    messages: Message[];
     userCount$: Observable<number>;
     message: string;
 
-    constructor (private store: Store<AppState>) { }
-
     ngOnInit() {
-        this.messagesSub$ = this.store.pipe(select(chatAllMessagesSelector)).subscribe(messages => {
-            this.messages = messages;
-        });
-        this.userCount$ = this.store.pipe(select(chatActiveUsersCountSelector));
-
         this.activateResponseButton.nativeElement.focus();
     }
 
     showActivateResponse() {
-        this.store.dispatch(new ShowActivateResponse({ event: null }));
+        this.activateResponseClick.emit();
     }
 
     onEnter(event) {
@@ -44,7 +38,7 @@ export class AllUsersChatComponent implements OnInit {
             return;
         }
 
-        this.store.dispatch(new SendNewMessage({ message: this.message, userId: '*' }));
+        this.newMessage.emit({ message: this.message, userId: '*' })
         this.messages.push({
             name: 'YOU',
             text: this.message,
@@ -53,11 +47,12 @@ export class AllUsersChatComponent implements OnInit {
         });
         this.message = '';
 
+
         event.preventDefault();
         return false;
     }
 
     close() {
-        this.store.dispatch(new ToggleAllUsersChatWindow({ open: false }));
+        this.closeClick.emit();
     }
 }

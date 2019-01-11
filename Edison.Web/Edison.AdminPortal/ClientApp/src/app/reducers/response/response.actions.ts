@@ -97,7 +97,7 @@ export class ShowActivateResponse implements Action {
 export class UpdateResponseActions implements Action {
     readonly type = ResponseActionTypes.UpdateResponseActions;
 
-    constructor (public payload: { response: Response, actions: AddEditAction[] }) { }
+    constructor (public payload: { response: Response, actions: AddEditAction[], isCloseAction: boolean }) { }
 }
 
 export class UpdateResponseActionsSuccess implements Action {
@@ -257,7 +257,7 @@ export class UpdateResponse implements Action {
 export class UpdateResponseAsync implements Action {
     readonly type = ResponseActionTypes.UpdateResponseAsync;
 
-    constructor (public payload: { response: Response, loading: LoadingType, activateResponse?: boolean }) { }
+    constructor (public payload: { response: Response, loading: LoadingType, activateResponse?: boolean, actions?: AddEditAction[], isCloseAction?: boolean, }) { }
 }
 
 export class UpdateResponses implements Action {

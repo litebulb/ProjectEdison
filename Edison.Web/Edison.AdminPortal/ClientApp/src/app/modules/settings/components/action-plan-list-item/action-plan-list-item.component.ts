@@ -1,13 +1,10 @@
 import { Subscription } from 'rxjs';
 
 import {
-    Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild
+    Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 
-import { AppState } from '../../../../reducers';
-import { GetActionPlan } from '../../../../reducers/action-plan/action-plan.actions';
 import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
 
 @Component({
@@ -19,17 +16,18 @@ export class ActionPlanListItemComponent implements OnInit, OnDestroy, OnChanges
     @Input() actionPlan: ActionPlan;
 
     @Output() actionPlanChanged = new EventEmitter<ActionPlan>();
+    @Output() getActionPlanDetails = new EventEmitter<string>();
 
     itemForm: FormGroup;
     itemFormSub$: Subscription;
     activationMessage: string;
     deactivationMessage: string;
 
-    constructor (private store: Store<AppState>) { }
+    constructor () { }
 
     ngOnInit() {
         if (!this.actionPlan.openActions) {
-            this.store.dispatch(new GetActionPlan({ actionPlanId: this.actionPlan.actionPlanId }));
+            this.getActionPlanDetails.emit(this.actionPlan.actionPlanId);
         }
 
         this.activationMessage = this.actionPlan.openActions ? this.actionPlan.openActions[ 0 ].parameters.message : '';

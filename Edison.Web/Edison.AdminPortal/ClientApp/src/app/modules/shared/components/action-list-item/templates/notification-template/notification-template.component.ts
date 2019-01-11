@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+
 import {
     AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit,
     ViewChild
@@ -21,7 +23,7 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
     @Input() last: boolean;
     @Input() first: boolean;
     @Input() canEdit: boolean;
-    @Input() onchange: EventEmitter<{ actionId: string, addEditAction: AddEditAction }>;
+    @Input() actionChangeSubject: Subject<{ addEditAction: AddEditAction, actionChangeType: ActionChangeType }>;
     @Input() isCloseAction: boolean;
 
     notificationText: string;
@@ -29,7 +31,7 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
     adding = false;
     actionStatus = ActionStatus;
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.notificationText = this.context.parameters.message;
 
         // notification already sent, un-editable
@@ -63,11 +65,7 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
 
     remove() {
         const addEditAction: AddEditAction = { isRemoveAction: true };
-
-        this.onchange.emit({
-            actionId: this.context.actionId,
-            addEditAction,
-        });
+        this.actionChangeSubject.next({ addEditAction, actionChangeType: ActionChangeType.Delete });
     }
 
     edit() {
@@ -75,19 +73,13 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
         setTimeout(() => { this.textarea.nativeElement.focus(); }); // kick this event to the end of the line
     }
 
-    editComplete() {
-        this.editing = false;
-    }
+    editComplete() { this.editing = false; }
 
     notificationChanged() {
-        if (!this.canEdit) {
-            return;
-        }
+        if (!this.canEdit) { return; }
 
         let actionChangeType = this.adding ? ActionChangeType.Add : ActionChangeType.Edit;
-        if (this.notificationText.trim() === '') {
-            actionChangeType = ActionChangeType.Delete;
-        }
+        if (this.notificationText.trim() === '') { actionChangeType = ActionChangeType.Delete; }
 
         const addEditAction: AddEditAction = {
             actionChangedString: actionChangeType,
@@ -103,9 +95,6 @@ export class NotificationTemplateComponent implements OnInit, AfterViewInit {
             }
         };
 
-        this.onchange.emit({
-            actionId: this.context.actionId,
-            addEditAction,
-        });
+        this.actionChangeSubject.next({ addEditAction, actionChangeType });
     }
 }

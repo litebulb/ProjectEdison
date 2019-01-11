@@ -1,11 +1,13 @@
+import { Subject } from 'rxjs';
+
 import {
-    Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Input, OnDestroy, OnInit,
-    Output, ViewChild, ViewContainerRef
+    Component, ComponentFactoryResolver, ComponentRef, Input, OnDestroy, OnInit, ViewChild,
+    ViewContainerRef
 } from '@angular/core';
 
 import { fadeMSeconds } from '../../../../core/animations/fadeInOut';
 import {
-    ActionPlanActionTypes, ActionPlanType, AddEditAction
+    ActionChangeType, ActionPlanActionTypes, ActionPlanType, AddEditAction
 } from '../../../../reducers/action-plan/action-plan.model';
 import {
     NotificationTemplateComponent
@@ -26,7 +28,7 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
     @Input() first: boolean;
     @Input() canEdit: boolean;
     @Input() isCloseAction: boolean;
-    @Output() onchange = new EventEmitter<AddEditAction>();
+    @Input() actionChangeSubject: Subject<{ addEditAction: AddEditAction, actionChangeType: ActionChangeType }>;
 
     private componentRef: ComponentRef<{}>
 
@@ -37,31 +39,31 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
             case ActionPlanType.EmergencyCall:
             case ActionPlanType.Email:
             case ActionPlanType.Twilio:
-                return TextTemplateComponent
+                return TextTemplateComponent;
             case ActionPlanType.Notification:
-                return NotificationTemplateComponent
+                return NotificationTemplateComponent;
             case ActionPlanType.LightSensor:
-                return RadiusTemplateComponent
+                return RadiusTemplateComponent;
+            default:
+                return TextTemplateComponent;
         }
     }
 
     ngOnInit() {
         if (this.context.actionType) {
-            const componentType = this.getComponentType(this.context.actionType)
+            const componentType = this.getComponentType(this.context.actionType);
 
             // note: componentType must be declared within module.entryComponents
-            const factory = this.componentFactoryResolver.resolveComponentFactory(
-                componentType
-            )
-            this.componentRef = this.container.createComponent(factory)
+            const factory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+            this.componentRef = this.container.createComponent(factory);
 
             // set component context
-            const instance = <ActionListItemContext> this.componentRef.instance
-            instance.context = this.context
-            instance.last = this.last
+            const instance = <ActionListItemContext> this.componentRef.instance;
+            instance.context = this.context;
+            instance.last = this.last;
             instance.first = this.first;
-            instance.canEdit = this.canEdit
-            instance.onchange = this.onchange
+            instance.canEdit = this.canEdit;
+            instance.actionChangeSubject = this.actionChangeSubject;
             instance.isCloseAction = this.isCloseAction;
         }
     }
@@ -69,9 +71,9 @@ export class ActionListItemComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         if (this.componentRef) {
             setTimeout(() => {
-                this.componentRef.destroy()
-                this.componentRef = null
-            }, fadeMSeconds)
+                this.componentRef.destroy();
+                this.componentRef = null;
+            }, fadeMSeconds);
         }
     }
 }
@@ -81,6 +83,6 @@ export abstract class ActionListItemContext {
     last: boolean;
     first: boolean;
     canEdit: boolean;
-    onchange: EventEmitter<any>;
+    actionChangeSubject: Subject<{ addEditAction: AddEditAction, actionChangeType: ActionChangeType }>;
     isCloseAction: boolean;
 }

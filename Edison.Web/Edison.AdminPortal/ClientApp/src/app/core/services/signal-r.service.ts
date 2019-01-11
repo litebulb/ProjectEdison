@@ -28,22 +28,25 @@ export class SignalRService implements OnDestroy {
     private authTokenSub$: Subscription
 
     constructor (private store: Store<AppState>) {
-        if (!environment.mockData) {
-            this.authTokenSub$ = store
-                .pipe(select(authTokenSelector))
-                .subscribe(token => {
-                    if (token) {
-                        this.token = token
-                        if (!environment.mockData) {
-                            this.setupSignalR()
-                        }
-                    }
-                })
-        }
+        
     }
 
     ngOnDestroy() {
         this.authTokenSub$.unsubscribe()
+    }
+
+    init = () => {
+        if (environment.mockData) { return; }
+        this.authTokenSub$ = this.store
+            .pipe(select(authTokenSelector))
+            .subscribe(token => {
+                if (token) {
+                    this.token = token
+                    if (!environment.mockData) {
+                        this.setupSignalR()
+                    }
+                }
+            })
     }
 
     private setupSignalR() {

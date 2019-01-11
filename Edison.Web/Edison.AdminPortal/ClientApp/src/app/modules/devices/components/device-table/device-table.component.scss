@@ -1,0 +1,13 @@
+:host {
+    .connection {
+        display: flex;
+        justify-content: left;
+    }
+    .center-dash {
+        width: 100%;
+        text-align: center;
+    }
+    .table-row:hover {
+        background-color: #DCDCDC;
+    }
+}

@@ -11,6 +11,7 @@ export class ActionPlanListComponent implements OnInit {
     @Input() actionPlans: ActionPlan[];
 
     @Output() actionPlanChanged = new EventEmitter<ActionPlan>();
+    @Output() getActionPlanDetails = new EventEmitter<string>();
 
     constructor () { }
 
@@ -19,6 +20,10 @@ export class ActionPlanListComponent implements OnInit {
 
     onActionPlanChanged(actionPlan: ActionPlan) {
         this.actionPlanChanged.emit(actionPlan);
+    }
+
+    getActionPlan(actionPlanId: string) {
+        this.getActionPlanDetails.emit(actionPlanId);
     }
 
 }

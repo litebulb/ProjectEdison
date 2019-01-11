@@ -6,6 +6,6 @@
                           [ngClass]="{'last': last, 'action-plan-item': true}"
                           [canEdit]="canEdit"
                           [isCloseAction]="isCloseActionList"
-                          (onchange)="onItemChange($event)"></app-action-list-item>
+                          [actionChangeSubject]="actionChangeSubject"></app-action-list-item>
 </div>
 <div class="dotted-line"></div>

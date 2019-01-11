@@ -6,7 +6,6 @@ import { ActionPlan } from './action-plan.model';
 export interface State extends EntityState<ActionPlan> {
     // additional entities state properties
     selectedActionPlan: ActionPlan;
-    selectingActionPlan: boolean;
 }
 
 export const adapter: EntityAdapter<ActionPlan> = createEntityAdapter<ActionPlan>({
@@ -17,7 +16,6 @@ export const adapter: EntityAdapter<ActionPlan> = createEntityAdapter<ActionPlan
 export const initialState: State = adapter.getInitialState({
     // additional entity state properties
     selectedActionPlan: null,
-    selectingActionPlan: false,
 });
 
 export function reducer(
@@ -80,13 +78,6 @@ export function reducer(
                 ...state,
                 selectedActionPlan: action.payload.actionPlan,
             };
-        }
-
-        case ActionPlanActionTypes.SetSelectingActionPlan: {
-            return {
-                ...state,
-                selectingActionPlan: action.payload.isSelecting,
-            }
         }
 
         case ActionPlanActionTypes.PutActionPlan: {

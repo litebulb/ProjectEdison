@@ -1,6 +1,8 @@
-import { Component, ViewChild, Input, OnChanges, AfterViewInit, AfterViewChecked } from '@angular/core'
-import { Message } from '../../../../reducers/chat/chat.model';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+
+import { AfterViewChecked, Component, Input, OnChanges, ViewChild } from '@angular/core';
+
+import { Message } from '../../../../reducers/chat/chat.model';
 
 @Component({
     selector: 'app-message-list',
@@ -11,12 +13,9 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 export class MessageListComponent implements OnChanges, AfterViewChecked {
     @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
 
+    @Input() messages: Message[];
+
     contentChanged: boolean;
-
-    @Input()
-    messages: Message[];
-
-    constructor () { }
 
     ngOnChanges() {
         this.contentChanged = true;
@@ -24,13 +23,13 @@ export class MessageListComponent implements OnChanges, AfterViewChecked {
 
     ngAfterViewChecked(): void {
         if (this.contentChanged) {
-            this.scrollToBottom();
+            this._scrollToBottom();
             this.contentChanged = false;
         }
     }
 
 
-    private scrollToBottom() {
+    private _scrollToBottom() {
         this.componentRef.directiveRef.scrollToBottom();
     }
 }

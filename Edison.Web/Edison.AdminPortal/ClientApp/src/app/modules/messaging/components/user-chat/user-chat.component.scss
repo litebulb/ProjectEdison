@@ -5,6 +5,7 @@
     position: absolute;
     min-width: 350px;
     max-width: 350px;
+    width: 350px;
     left: 10px;
     top: 70px;
     background-color: white;
@@ -14,37 +15,31 @@
     display: flex;
     flex-direction: column;
     height: 90%;
-    .closeBtn {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: #87879f;
-        font-size: 30px;
-        height: 30px;
-        width: 30px;
-        cursor: pointer;
-        &:focus {
-            outline: 2px solid $blue;
-            outline-offset: 2px;
-            outline-style: inset;
-        }
-    }
-    .header {
+    .chat-header {
+        flex-grow: 2;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: space-around;
         padding: 10px 0;
         margin-top: 10px;
-        .portrait {
-            height: 88px;
-            width: 88px;
-            border-radius: 50%;
-            background-color: #eaeaea;
-            margin-bottom: 20px;
-        }
+        min-height: 30px;
         .name {
             font-size: 24px;
+        }
+        .closeBtn {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: #87879f;
+            font-size: 30px;
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+            &:focus {
+                outline: 2px solid $blue;
+                outline-offset: 2px;
+                outline-style: inset;
+            }
         }
     }
     .response-container {

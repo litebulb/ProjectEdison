@@ -4,7 +4,7 @@ import { AuthenticationGuard, MsAdalAngular6Module } from 'microsoft-adal-angula
 import { ToastrModule } from 'ngx-toastr';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
@@ -58,16 +58,19 @@ import { metaReducers, reducers } from './reducers';
         MsalService,
         AdalService,
         SignalRService,
+        {
+            provide: APP_INITIALIZER,
+            multi: true,
+            useFactory: (signalRService: SignalRService) => { return signalRService.init; },
+            deps: [SignalRService]
+        },
         DirectlineService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptorService,
             multi: true,
-        }
+        },        
     ],
     bootstrap: [ AppComponent ],
 })
-export class AppModule {
-    constructor (signalRService: SignalRService) {
-    }
-}
+export class AppModule {}

@@ -21,6 +21,7 @@ export class ActiveResponseComponent implements OnInit, OnChanges {
     @Output() deactivateClicked = new EventEmitter();
     @Output() updateClicked = new EventEmitter();
     @Output() setLocationClicked = new EventEmitter();
+    @Output() onRetry = new EventEmitter();
 
     constructor (private store: Store<AppState>) { }
 
@@ -67,9 +68,7 @@ export class ActiveResponseComponent implements OnInit, OnChanges {
     }
 
     retry() {
-        if (this.activeResponse) {
-            this.store.dispatch(new RetryResponseActions({ responseId: this.activeResponse.responseId }));
-        }
+        if (this.activeResponse) { this.onRetry.emit(this.activeResponse.responseId); }
     }
 
     setLocation() {

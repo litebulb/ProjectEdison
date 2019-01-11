@@ -19,7 +19,6 @@ export enum ActionPlanActionTypes {
     GetActionPlansError = '[ActionPlan] Get Action Plans Error',
     GetActionPlan = '[ActionPlan] Get Action Plan',
     GetActionPlanError = '[ActionPlan] Get Action Plan Error',
-    SetSelectingActionPlan = '[ActionPlan] Set Selecting Action Plan',
     PutActionPlan = '[ActionPlan] Put Action Plan',
     PutActionPlanSuccess = '[ActionPlan] Put Action Plan Success',
     PutActionPlanError = '[ActionPlan] Put Action Plan Error',
@@ -41,12 +40,6 @@ export class PutActionPlanError implements Action {
     readonly type = ActionPlanActionTypes.PutActionPlanError;
 
     constructor (public payload: { actionPlan: ActionPlan }) { }
-}
-
-export class SetSelectingActionPlan implements Action {
-    readonly type = ActionPlanActionTypes.SetSelectingActionPlan;
-
-    constructor (public payload: { isSelecting: boolean }) { }
 }
 
 export class GetActionPlan implements Action {
@@ -143,7 +136,6 @@ export type ActionPlanActions =
     | DeleteActionPlans
     | ClearActionPlans
     | SelectActionPlan
-    | SetSelectingActionPlan
     | PutActionPlan
     | PutActionPlanSuccess
     | PutActionPlanError;

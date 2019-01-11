@@ -10,8 +10,7 @@ import { environment } from '../../environments/environment';
 import { DirectlineService } from '../core/services/directline/directline.service';
 import {
     ChatActionTypes, EndConversation, GetChatAuthTokenError, GetChatAuthTokenSuccess,
-    SelectActiveUser, SendNewMessage, SendUserReadReceipt, ToggleAllUsersChatWindow,
-    ToggleUserChatWindow
+    SelectActiveUser, SendNewMessage, SendUserReadReceipt, ToggleUserChatWindow
 } from '../reducers/chat/chat.actions';
 
 @Injectable()

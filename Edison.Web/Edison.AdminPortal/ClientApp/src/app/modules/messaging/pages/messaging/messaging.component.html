@@ -1,0 +1,7 @@
+<app-recently-active [actionPlans]="actionPlans$ | async"
+                     [activeUser]="activeUser$ | async"
+                     [activeUsers]="activeUsers$ | async"
+                     [events]="activeMobileEvents$ | async"
+                     [messages]="messages$ | async"
+                     (activeUserSelected)="selectActiveUser($event)"
+                     (openAllChatClick)="openAllChat()"></app-recently-active>

@@ -1,7 +1,6 @@
 import { combineLatest, Subscription } from 'rxjs';
 
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatSort, MatTableDataSource } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
 import { DeviceType } from '../../../../core/models/deviceType';
@@ -11,7 +10,7 @@ import { FocusDevices, TestDevice } from '../../../../reducers/device/device.act
 import { devicesSelector } from '../../../../reducers/device/device.selectors';
 import { Event } from '../../../../reducers/event/event.model';
 import { eventsSelector } from '../../../../reducers/event/event.selectors';
-import { Response, ResponseState } from '../../../../reducers/response/response.model';
+import { Response } from '../../../../reducers/response/response.model';
 import { responsesSelector } from '../../../../reducers/response/response.selectors';
 import { ExpandedDevice } from '../../models/expanded-device.model';
 import { FilterGroupModel } from '../../models/filter-group.model';
@@ -24,12 +23,9 @@ import { FilterGroupModel } from '../../models/filter-group.model';
 export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('container') container: ElementRef;
 
-    @ViewChild(MatSort) sort: MatSort;
-
-    displayedColumns: string[] = [ 'lastAccessTime', 'deviceType', 'fullLocationName', 'currentResponse', 'recentEvents' ];
     filters: FilterGroupModel[];
+    filter: string = '';
     devices: ExpandedDevice[];
-    dataSource: MatTableDataSource<ExpandedDevice>;
     combinedStream$: Subscription;
     deviceCount: number = 0;
 
@@ -42,8 +38,8 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor (private store: Store<AppState>) { }
 
     ngOnInit() {
-        this.setupSubscriptions();
-        this.setupFilters();
+        this._setupSubscriptions();
+        this._setupFilters();
 
         this.store.dispatch(new SetPageData({ title: AppPage.Devices, showDownArrow: false, showReloadButton: true }))
     }
@@ -56,7 +52,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.combinedStream$.unsubscribe();
     }
 
-    onRowClick(device: ExpandedDevice) {
+    focusDevice(device: ExpandedDevice) {
         this.store.dispatch(new FocusDevices({ devices: [ device ] }));
     }
 
@@ -64,27 +60,7 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.store.dispatch(new TestDevice({ deviceId: device.deviceId }));
     }
 
-    getLastAccessTime(lastAccessTime) {
-        if (lastAccessTime) {
-            const date = new Date(lastAccessTime);
-            const currDate = new Date();
-
-            const diffMs = Math.round((currDate.getTime() / 60000) - (date.getTime() / 60000)); // minutes
-
-            return diffMs === 1 ? '1 minute ago' : `${diffMs} minutes ago`;
-        }
-
-        return '';
-    }
-
-    getDeviceIcon(deviceType) {
-        if (deviceType.toLowerCase().includes('button')) { return 'button' }
-        if (deviceType.toLowerCase().includes('sound')) { return 'sound' }
-        if (deviceType.toLowerCase().includes('mobile')) { return 'chat' }
-        if (deviceType.toLowerCase().includes('bulb')) { return 'light' }
-    }
-
-    private setupSubscriptions() {
+    private _setupSubscriptions() {
         const devicesObs = this.store.pipe(select(devicesSelector));
         const responsesObs = this.store.pipe(select(responsesSelector));
         const eventsObs = this.store.pipe(select(eventsSelector));
@@ -93,13 +69,13 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
             .subscribe(([ devices, responses, events ]) => {
                 this.devices = devices;
                 this.deviceCount = devices.length;
-                this.expandDevices(responses, events);
-                this.filterDevices();
+                this._expandDevices(responses, events);
+                this._filterDevices();
             })
     }
 
-    private expandDevices(responses: Response[], events: Event[]) {
-        const updatedDevices = this.devices.map(device => {
+    private _expandDevices(responses: Response[], events: Event[]) {
+        this.devices = this.devices.map(device => {
             const result = { ...device };
 
             const recentEvent = events
@@ -125,22 +101,9 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
 
             return result;
         });
-        this.dataSource = new MatTableDataSource(updatedDevices);
-        this.dataSource.sort = this.sort;
-        this.dataSource.sortingDataAccessor = (item, property) => {
-            switch (property) {
-                case 'lastAccessTime': return new Date(item[ property ])
-                default: return item[ property ];
-            }
-        }
-        this.dataSource.filterPredicate = (data, filter) => {
-            return filter.indexOf(data.deviceType) !== -1 &&
-                (filter.indexOf('Online') !== -1 && data.online || !data.online) &&
-                (filter.indexOf('Offline') === -1 && !data.online || data.online);
-        }
     }
 
-    private filterDevices() {
+    private _filterDevices() {
         let filterString: string = Object.values(DeviceType).reduce((arr, value) => arr += `${value} `, '');
 
         filterString += 'Online Offline ';
@@ -175,28 +138,28 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
             filterString += 'Offline '
         }
 
-        this.dataSource.filter = filterString;
+        this.filter = filterString;
     }
 
-    private setupFilters() {
+    private _setupFilters() {
         const typeFilters: FilterGroupModel = {
             title: 'TYPE',
             filters: [
                 {
                     title: 'Buttons',
-                    onClick: (checked: boolean) => { this.showButtons = checked; this.filterDevices() },
+                    onClick: (checked: boolean) => { this.showButtons = checked; this._filterDevices() },
                     iconClasses: 'app-icon medium-small grey button',
                     checked: true,
                 },
                 {
                     title: 'Sound Sensors',
-                    onClick: (checked: boolean) => { this.showSoundSensors = checked; this.filterDevices() },
+                    onClick: (checked: boolean) => { this.showSoundSensors = checked; this._filterDevices() },
                     iconClasses: 'app-icon medium-small grey sound',
                     checked: true,
                 },
                 {
                     title: 'SmartBulbs',
-                    onClick: (checked: boolean) => { this.showSmartBulbs = checked; this.filterDevices() },
+                    onClick: (checked: boolean) => { this.showSmartBulbs = checked; this._filterDevices() },
                     iconClasses: 'app-icon medium-small grey light',
                     checked: true,
                 }
@@ -208,13 +171,13 @@ export class DevicesComponent implements OnInit, OnDestroy, AfterViewInit {
             filters: [
                 {
                     title: 'Online',
-                    onClick: (checked: boolean) => { this.showOnline = checked; this.filterDevices() },
+                    onClick: (checked: boolean) => { this.showOnline = checked; this._filterDevices() },
                     checked: true,
                     iconClasses: 'app-icon dot active'
                 },
                 {
                     title: 'Offline',
-                    onClick: (checked: boolean) => { this.showOffline = checked; this.filterDevices() },
+                    onClick: (checked: boolean) => { this.showOffline = checked; this._filterDevices() },
                     checked: true,
                     iconClasses: 'app-icon dot'
                 }

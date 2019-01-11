@@ -1,19 +1,11 @@
-import { Subscription } from 'rxjs';
 import uuid from 'uuid/v4';
 
-import {
-    Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output
-} from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
-import { AppState } from '../../../../reducers';
 import {
-    ActionChangeType, ActionPlanAction, ActionPlanNotificationAction, ActionPlanType, AddEditAction
+    ActionChangeType, ActionPlanAction, ActionPlanNotificationAction, ActionPlanType, ActionStatus,
+    AddEditAction
 } from '../../../../reducers/action-plan/action-plan.model';
-import {
-    ResponseActionTypes, UpdateResponseActions
-} from '../../../../reducers/response/response.actions';
 import { Response } from '../../../../reducers/response/response.model';
 
 @Component({
@@ -21,116 +13,63 @@ import { Response } from '../../../../reducers/response/response.model';
     templateUrl: './update-response.component.html',
     styleUrls: [ './update-response.component.scss' ],
 })
-export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
-    @Input()
-    activeResponse: Response
+export class UpdateResponseComponent implements OnInit, OnChanges {
+    @Input() activeResponse: Response;
 
-    @Output()
-    cancel = new EventEmitter()
+    @Output() onCancel = new EventEmitter();
+    @Output() onActionsUpdated = new EventEmitter<{ response: Response, actions: AddEditAction[] }>();
 
-    @Output()
-    change = new EventEmitter<AddEditAction>();
-
-    successSub$: Subscription;
-
-    updateSucceeded = false
     modified = false
-    addEditActions = new Map<string, AddEditAction>();
-    _openActions: ActionPlanAction[];
+    showSuccessMessage = false;
+    updating = false;
+    actionPlanActions: ActionPlanAction[];
 
-    constructor (private store: Store<AppState>, private updates$: Actions) { }
+    private _addEditActions = new Map<string, AddEditAction>();
+    private _actionPlanActions: ActionPlanAction[];
 
-    ngOnInit(): void {
-        this.updateActions();
+    ngOnInit() { this._updateActions(false); }
 
-        this.successSub$ = this.updates$
-            .pipe(ofType(ResponseActionTypes.UpdateResponseActionsSuccess))
-            .subscribe(() => this.updateSucceeded = true)
+    ngOnChanges() { this._updateActions(true); }
+
+    onCancelClick() {
+        this.modified = false;
+        this.actionPlanActions = this._actionPlanActions; // revert to original array
+        this._addEditActions.clear(); // clear any modifications
+        this.onCancel.emit();
     }
 
-    ngOnDestroy(): void {
-        this.successSub$.unsubscribe();
+    addEditAction(action: AddEditAction) {
+        this._addEditActions.set(action.action.actionId, action);
+        this._updateActionItems();
     }
 
-    ngOnChanges() {
-        this.updateActions();
-    }
-
-    updateActions() {
-        if (this.activeResponse && this.activeResponse.actionPlan) {
-            this._openActions = [ ...this.activeResponse.actionPlan.openActions ];
-        }
-    }
-
-    onCancel() {
-        this.cancel.emit()
-        this.removeEmptyopenActions();
-    }
-
-    removeEmptyopenActions() {
-        const actionsToRemove = this._openActions.filter(ca => !ca.parameters.message || ca.parameters.message.trim() === '')
-
-        // remove from local arr
-        this._openActions = this._openActions.filter(ca => !actionsToRemove.some(atr => atr.actionId === ca.actionId));
-
-        actionsToRemove.forEach(actionToRemove => {
-            const addEditAction = this.addEditActions.get(actionToRemove.actionId);
-            if (addEditAction) {
-                switch (addEditAction.actionChangedString) {
-                    case ActionChangeType.Add: {
-                        // someone cancelled out of adding a new notification
-                        this.addEditActions.delete(actionToRemove.actionId);
-                        break;
-                    }
-                    case ActionChangeType.Edit: {
-                        // a pre-existing notification was blanked out (aka removed)
-                        this.addEditActions.set(actionToRemove.actionId, {
-                            actionChangedString: ActionChangeType.Delete,
-                            isCloseAction: false,
-                            action: actionToRemove
-                        })
-                        break;
-                    }
-                }
-            }
-        })
+    removeAction(action: AddEditAction) {
+        this._addEditActions.delete(action.action.actionId);
+        this._updateActionItems();
     }
 
     sendUpdates() {
-        if (!this.modified) {
-            return
-        }
+        if (!this.modified) { return; }
 
         this.modified = false
-        this.updateSucceeded = false;
+        this.updating = true;
 
-        if (this.addEditActions.size > 0) {
-            this.updateResponseActions(Array.from(this.addEditActions.values()));
-            this.addEditActions.clear();
-        } else {
-            this.updateSucceeded = true
+        if (this._addEditActions.size > 0) {
+            const actions = Array.from(this._addEditActions.values()).map(addEditAction => {
+                if (addEditAction.actionChangedString === ActionChangeType.Add) {
+                    return {
+                        ...addEditAction,
+                        action: {
+                            ...addEditAction.action,
+                            actionId: '00000000-0000-0000-0000-000000000000', // must be null to add a new action, but needs a local ID to use Map object
+                        }
+                    }
+                }
+                return addEditAction;
+            });
+            this.onActionsUpdated.emit({ actions, response: this.activeResponse });
+            this._addEditActions.clear();
         }
-    }
-
-    updated({ addEditAction, actionId }: { addEditAction: AddEditAction, actionId: string }) {
-        if (addEditAction && !addEditAction.isRemoveAction) {
-            this.updateAddEditActions(addEditAction, actionId);
-            this.modified = true
-        } else {
-            this.addEditActions.delete(actionId);
-            this._openActions = this._openActions.filter(oa => oa.actionId !== actionId);
-        }
-    }
-
-    updateAddEditActions(addEditAction: AddEditAction, actionId) {
-        this.addEditActions.set(actionId, addEditAction);
-    }
-
-    updateResponseActions(actions: AddEditAction[]) {
-        this.store.dispatch(new UpdateResponseActions({
-            response: this.activeResponse,
-            actions
-        }))
     }
 
     addNotification() {
@@ -146,11 +85,25 @@ export class UpdateResponseComponent implements OnInit, OnDestroy, OnChanges {
             }
         }
 
-        this._openActions.push(notification);
-        this.updateAddEditActions({
-            actionChangedString: ActionChangeType.Add,
-            isCloseAction: false,
-            action: notification
-        }, tempActionId);
+        this.actionPlanActions.push(notification);
+    }
+
+    private _updateActionItems() {
+        this.modified = true;
+        this.actionPlanActions = this.actionPlanActions.map(action => {
+            const modifiedAction = this._addEditActions.get(action.actionId);
+            if (modifiedAction) { return { ...modifiedAction.action, status: null, loading: false }; };
+            return action;
+        })
+    }
+
+    private _updateActions(updateStatus: boolean) {
+        if (this.activeResponse && this.activeResponse.actionPlan) {
+            this.actionPlanActions = [ ...this.activeResponse.actionPlan.openActions ];
+            this._actionPlanActions = [ ...this.activeResponse.actionPlan.openActions ];
+            if (updateStatus) {
+                this.showSuccessMessage = this.updating && !this.actionPlanActions.some(action => action.status !== ActionStatus.Success);
+            }
+        }
     }
 }
