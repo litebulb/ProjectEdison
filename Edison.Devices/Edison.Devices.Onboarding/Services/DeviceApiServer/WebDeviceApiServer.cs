@@ -25,6 +25,7 @@ namespace Edison.Devices.Onboarding.Services
             var network = await WaitForAPInterface();
 
             var listener = new StreamSocketListener();
+            listener.Control.QualityOfService = SocketQualityOfService.LowLatency;
             await listener.BindServiceNameAsync(SharedConstants.DEVICE_API_PORT.ToString());
             listener.ConnectionReceived += ConnectionReceived;
 

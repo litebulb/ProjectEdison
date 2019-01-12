@@ -140,7 +140,7 @@ namespace Edison.Devices.Onboarding.Client.Services
                     ErrorMessage = "ResultError"
                 };
 
-            T result = JsonConvert.DeserializeObject<T>(resultCommand.Data);
+            T result = JsonConvert.DeserializeObject<T>(resultCommand.Data.ToString()); //TODO broken after Data change from string to object 1/11/19
             if (!result.IsSuccess)
                 return new T
                 {
