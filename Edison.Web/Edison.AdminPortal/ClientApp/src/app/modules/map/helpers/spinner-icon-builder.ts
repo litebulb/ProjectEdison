@@ -1,4 +1,5 @@
 import { Tooltip } from './tooltip-builder';
+import { spinnerColors } from 'src/app/core/spinnerColors';
 
 export interface SpinnerColorRgb {
     red: number;
@@ -13,19 +14,28 @@ export interface ISpinnerIcon {
     size: number;
     depth: number;
     animate?: boolean;
-    spinnerColorRgb: SpinnerColorRgb;
+    spinnerColorRgb?: SpinnerColorRgb;
     spinnerStyle?: string;
-    circleColor: string;
+    circleColor?: string;
     circleStyle?: string;
     fillColor?: string;
     fillStyle?: string;
     fontColor?: string;
     fontStyle?: string;
+    color?: SpinnerColor | string;
+}
+
+export enum SpinnerColor {
+    Blue = 'blue',
+    Red = 'red',
+    Yellow = 'yellow',
+    Green = 'green',
+    Grey = 'grey'
 }
 
 export const SpinnerIcon = (options: ISpinnerIcon): HTMLElement => {
     return new SpinnerIconBuilder(options).getHtmlElement();
-}
+};
 
 class SpinnerIconBuilder {
     private _tooltipTemplate: HTMLElement;
@@ -67,9 +77,42 @@ class SpinnerIconBuilder {
     }
 
     private _setupDefaultOptions() {
-        if (this.options.animate === undefined) { this.options.animate = true };
-        if (this.options.fillColor === undefined) { this.options.fillColor = 'white' }
-        if (this.options.fontColor === undefined) { this.options.fontColor = 'white' }
+        const { animate, fillColor, fontColor, circleColor, spinnerColorRgb, color } = this.options;
+        if (animate === undefined) { this.options.animate = true; }
+        if (fillColor === undefined) { this.options.fillColor = 'white'; }
+        if (fontColor === undefined) { this.options.fontColor = 'white'; }
+        if (((!circleColor || !spinnerColorRgb) && !color) || !circleColor && !spinnerColorRgb && !color) {
+            this.options.color = SpinnerColor.Blue; // default color to blue if no parameters are supplied
+        }
+
+        this._setupSpinnerByColor();
+    }
+
+    private _setupSpinnerByColor() {
+        if (!this.options.color) { return; }
+
+        switch (this.options.color) {
+            case SpinnerColor.Red:
+                this.options.circleColor = spinnerColors.redCircleColor;
+                this.options.spinnerColorRgb = { red: 230, green: 44, blue: 30 };
+                break;
+            case SpinnerColor.Yellow:
+                this.options.circleColor = spinnerColors.yellowCircleColor;
+                this.options.spinnerColorRgb = { red: 255, green: 159, blue: 33 };
+                break;
+            case SpinnerColor.Green:
+                this.options.circleColor = spinnerColors.greenCircleColor;
+                this.options.spinnerColorRgb = { red: 0, green: 229, blue: 54 };
+                break;
+            case SpinnerColor.Grey:
+                this.options.circleColor = spinnerColors.greyCircleColor;
+                this.options.spinnerColorRgb = { red: 128, green: 128, blue: 128 };
+                break;
+            case SpinnerColor.Blue:
+                this.options.circleColor = spinnerColors.blueCircleColor;
+                this.options.spinnerColorRgb = { red: 0, green: 80, blue: 179 };
+                break;
+        }
     }
 
     private _buildStyles() {
@@ -139,7 +182,7 @@ class SpinnerIconBuilder {
             width: ${this._subCircleWidth};
             background: ${this._subCircleGradient2};
             transition: background-color 2s ease;
-        `;        
+        `;
 
         this._contentCircleStyle = `
             top: ${this._contentCircleOffset};
@@ -167,14 +210,14 @@ class SpinnerIconBuilder {
     }
 
     private _buildCircleTemplate() {
-        const spinner = document.createElement("DIV");
-        const container = document.createElement("DIV");
-        const outerCircle = document.createElement("DIV");
-        const circle = document.createElement("DIV");
-        const subCircle1 = document.createElement("DIV");
-        const subCircle2 = document.createElement("DIV");
-        const innerCircle = document.createElement("DIV");
-        const contentCircle = document.createElement("DIV");
+        const spinner = document.createElement('DIV');
+        const container = document.createElement('DIV');
+        const outerCircle = document.createElement('DIV');
+        const circle = document.createElement('DIV');
+        const subCircle1 = document.createElement('DIV');
+        const subCircle2 = document.createElement('DIV');
+        const innerCircle = document.createElement('DIV');
+        const contentCircle = document.createElement('DIV');
 
         spinner.setAttribute('style', this._spinnerStyle);
         container.setAttribute('style', this._containerStyle);
@@ -201,7 +244,7 @@ class SpinnerIconBuilder {
         this._circleTemplate = spinner;
     }
 
-    private _getSpinnerColorString() {
+    private _getSpinnerRgbColorString() {
         const { spinnerColorRgb: { red, green, blue} } = this.options;
         return `${red}, ${green}, ${blue}`;
     }
@@ -217,7 +260,7 @@ class SpinnerIconBuilder {
         this._contentCircleSize = `${size - (depth * 2)}px`;
         this._contentCircleOffset = `${(depth * 2) / 2}px`;
 
-        const spinnerRgb = this._getSpinnerColorString();
+        const spinnerRgb = this._getSpinnerRgbColorString();
         if (animate) {
             this._subCircleGradient1 = `linear-gradient(to right, rgba(${spinnerRgb}, .4) 0%, rgba(${spinnerRgb}, .7) 100%)`;
             this._subCircleGradient2 = `linear-gradient(to right, rgba(${spinnerRgb}, 1) 0%, rgba(${spinnerRgb}, .7) 100%)`;
@@ -226,5 +269,5 @@ class SpinnerIconBuilder {
             this._subCircleGradient2 = `rgba(${spinnerRgb}, 1)`;
         }
     }
-    
+
 }

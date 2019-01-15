@@ -16,7 +16,7 @@ import {
     templateUrl: './user-chat.component.html',
     styleUrls: [ './user-chat.component.scss' ],
 })
-export class UserChatComponent implements OnInit, OnChanges {
+export class UserChatComponent implements OnInit {
     @ViewChild('textarea') textareaRef: ElementRef;
 
     @Input() messages: Message[];
@@ -35,10 +35,6 @@ export class UserChatComponent implements OnInit, OnChanges {
     message: string
 
     constructor (public dialog: MatDialog) { }
-
-    ngOnChanges() {
-        console.log(this.userName);
-    }
 
     ngOnInit() {
         console.log(this.userName);

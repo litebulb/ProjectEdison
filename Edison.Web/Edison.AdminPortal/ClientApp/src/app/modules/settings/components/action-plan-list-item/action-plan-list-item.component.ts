@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ActionPlan } from '../../../../reducers/action-plan/action-plan.model';
+import { ActionPlan, ActionPlanType } from '../../../../reducers/action-plan/action-plan.model';
 
 @Component({
     selector: 'app-action-plan-list-item',
@@ -30,8 +30,10 @@ export class ActionPlanListItemComponent implements OnInit, OnDestroy, OnChanges
             this.getActionPlanDetails.emit(this.actionPlan.actionPlanId);
         }
 
-        this.activationMessage = this.actionPlan.openActions ? this.actionPlan.openActions[ 0 ].parameters.message : '';
-        this.deactivationMessage = this.actionPlan.closeActions ? this.actionPlan.closeActions[ 0 ].parameters.message : '';
+        this.activationMessage = this.actionPlan.openActions ?
+            this.actionPlan.openActions.find(oa => oa.actionType === ActionPlanType.Notification).parameters.message : '';
+        this.deactivationMessage = this.actionPlan.closeActions ?
+            this.actionPlan.closeActions.find(oa => oa.actionType === ActionPlanType.Notification).parameters.message : '';
 
         this.itemForm = new FormGroup({
             'activationMessage': new FormControl(this.activationMessage, [
@@ -71,12 +73,14 @@ export class ActionPlanListItemComponent implements OnInit, OnDestroy, OnChanges
 
     valueChanges() {
         if (this.itemForm.dirty) {
-            if (this.actionPlan.openActions && this.actionPlan.openActions[ 0 ]) {
-                this.actionPlan.openActions[ 0 ].parameters.message = this.itemForm.get('activationMessage').value;
+            const openNotification = this.actionPlan.openActions.find(oa => oa.actionType === ActionPlanType.Notification)
+            if (this.actionPlan.openActions && openNotification) {
+                openNotification.parameters.message = this.itemForm.get('activationMessage').value;
             }
 
-            if (this.actionPlan.closeActions && this.actionPlan.closeActions[ 0 ]) {
-                this.actionPlan.closeActions[ 0 ].parameters.message = this.itemForm.get('deactivationMessage').value;
+            const closeNotification = this.actionPlan.closeActions.find(ca => ca.actionType === ActionPlanType.Notification);
+            if (this.actionPlan.closeActions && closeNotification) {
+                closeNotification.parameters.message = this.itemForm.get('deactivationMessage').value;
             }
 
             this.actionPlan.primaryRadius = this.itemForm.get('primaryRadius').value;

@@ -550,7 +550,24 @@ export class MapComponent implements OnInit, OnChanges, AfterViewInit {
             }
             return SpinnerIcon(options);
         } else {
-            return ImageIcon({ icon, color, tooltip, });
+            let backgroundColor = '';
+            if (color) {
+                switch (color.toLowerCase()) {
+                    case 'blue':
+                        backgroundColor = '#3A82FE'
+                        break;
+                    case 'green':
+                        backgroundColor = '#00E536'
+                        break;
+                    case 'red':
+                        backgroundColor = '#FA4035'
+                        break;
+                    case 'yellow':
+                        backgroundColor = '#FABF0D'
+                        break;
+                }
+            }
+            return ImageIcon({ icon, backgroundColor, tooltip, });
         }
     }
 }
