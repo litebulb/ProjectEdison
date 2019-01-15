@@ -14,6 +14,7 @@ using Android.Runtime;
 using Android.Support.V4.Content;
 using Android.Support.V4.Content.Res;
 using Android.Support.V4.Graphics.Drawable;
+using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
@@ -32,7 +33,7 @@ namespace Edison.Mobile.Android.Common.Controls
         /// Event raised when profile is pressed.
         /// </summary>
         /// <value>Event</value>
- //       public new EventHandler Click;  // TODO
+        public new EventHandler Click;
 
         #endregion
 
@@ -65,6 +66,8 @@ namespace Edison.Mobile.Android.Common.Controls
         private static readonly int _countAutoTextSizeMax = PixelSizeConverter.DpToPx(100);
         private static readonly int _countAutoTextSizeGranularity = PixelSizeConverter.DpToPx(1);
 
+        private LinearLayout _button;
+
         #endregion
 
 
@@ -90,7 +93,7 @@ namespace Edison.Mobile.Android.Common.Controls
                     _ringColors = value;
                     if (_initialized)
                     {
-                        CreateGuage();
+                        CreateGauge();
                         Invalidate();
                     }
                 }
@@ -111,11 +114,15 @@ namespace Edison.Mobile.Android.Common.Controls
                     _centerTint = value;
                     if (_initialized)
                     {
-                        CreateGuage();
+                        CreateGauge();
                         Invalidate();
                     }
                 }
             }
+        }
+        public void SetCenterTint(Color color)
+        {
+            CenterTint = ColorStateList.ValueOf(color);
         }
 
 
@@ -125,13 +132,7 @@ namespace Edison.Mobile.Android.Common.Controls
             get
             {
                 if (_centerDrawable == null)
-                {
-                    ShapeDrawable drw = new ShapeDrawable(new OvalShape());
-                    drw.SetIntrinsicHeight(100);
-                    drw.SetIntrinsicWidth(100);
-                    drw.Paint.Color = Color.White;
-                    _centerDrawable = drw;
-                }
+                    _centerDrawable = CreateCircleDrawable(Color.White);
                 return _centerDrawable;
             }
             set
@@ -139,7 +140,7 @@ namespace Edison.Mobile.Android.Common.Controls
                 _centerDrawable = value;
                 if (_initialized)
                 {
-                    CreateGuage();
+                    CreateGauge();
                     Invalidate();
                 }
             }
@@ -157,7 +158,7 @@ namespace Edison.Mobile.Android.Common.Controls
                     _ringGapPx = value;
                     if (_initialized)
                     {
-                        CreateGuage();
+                        CreateGauge();
                         Invalidate();
                     }
                 }
@@ -165,12 +166,7 @@ namespace Edison.Mobile.Android.Common.Controls
         }
 
 
-        /*
-                // TODO
-                public ShadingColorPair InactiveGaugeRingColors { get; set; }
 
-                public ColorStateList InactiveGaugeCenterTint { get; set; }
-        */
         /*
                 // Cant change easily in shape drawable wirth shape= ring, would need top recreate with SkiaSharp
                 public int GaugeRingThicknessPx { get; set; }
@@ -545,12 +541,45 @@ namespace Edison.Mobile.Android.Common.Controls
 
 
 
+        private bool _rippleColorSet = false;
+        private Color _rippleColor;
+        public Color RippleColor
+        {
+            get
+            {
+                if (!_rippleColorSet)
+                    return new Color(ContextCompat.GetColor(Context, Resource.Color.ripple_material_light));
+                return _rippleColor;
+            }
+            set
+            {
+                _rippleColor = value;
+                _rippleColorSet = true;
+                if (_initialized)
+                {
+                    SetRippleColor(_rippleColor);
+                    Indicator.Invalidate();
+                }
+            }
+        }
+
+
+
+
         // Hide the Background property so it cant be called as is used for the inactive gauge drawable
         private new Drawable Background
         {
             get { return base.Background; }
             set { base.Background = value; }
         }
+
+        // Hide the Foreground property so it cant be called as is used for the inactive gauge drawable
+        private new Drawable Foreground
+        {
+            get { return base.Foreground; }
+            set { base.Foreground = value; }
+        }
+
 
         #endregion
 
@@ -560,7 +589,7 @@ namespace Edison.Mobile.Android.Common.Controls
         public CircularEventGauge(Context context) : base(context)
         {
             Initialize(context);
-            //SetRippleColor(RippleColor);
+            SetRippleColor(RippleColor);
             //SetVisibilties();
             _initialized = true;
         }
@@ -570,7 +599,7 @@ namespace Edison.Mobile.Android.Common.Controls
         {
             Initialize(context);
             ExtractAttributes(context, attrs, 0);
-            //SetRippleColor(RippleColor);
+            SetRippleColor(RippleColor);
             //SetVisibilties();
             _initialized = true;
         }
@@ -580,7 +609,7 @@ namespace Edison.Mobile.Android.Common.Controls
         {
             Initialize(context);
             ExtractAttributes(context, attrs, defStyleAttr);
-            //SetRippleColor(RippleColor);
+            SetRippleColor(RippleColor);
             //SetVisibilties();
             _initialized = true;
 
@@ -623,6 +652,7 @@ namespace Edison.Mobile.Android.Common.Controls
             Count = FindViewById<AppCompatTextView>(Resource.Id.event_count);
             Label = FindViewById<AppCompatTextView>(Resource.Id.event_label);
             Icon = FindViewById<AppCompatImageView>(Resource.Id.event_icon);
+            _button = FindViewById<LinearLayout>(Resource.Id.info_holder);
         }
 
 
@@ -850,12 +880,17 @@ namespace Edison.Mobile.Android.Common.Controls
                 if (a.HasValue(Resource.Styleable.CircularEventGauge_active))
                     Active = a.GetBoolean(Resource.Styleable.CircularEventGauge_active, true);
 
-                CreateGuage();
+
+                if (a.HasValue(Resource.Styleable.CircularEventGauge_controlRippleColor))
+                    RippleColor = a.GetColor(Resource.Styleable.CircularEventGauge_controlRippleColor, ContextCompat.GetColor(Context, Resource.Color.ripple_material_light));
+
+
+                CreateGauge();
             }
 
         }
 
-        private void CreateGuage()
+        private void CreateGauge()
         {
             RingDrawable?.SetColors(new int[] { RingColors.StartColor, RingColors.EndColor });
             DrawableCompat.SetTintList(CenterDrawable, CenterTint);
@@ -956,6 +991,56 @@ namespace Edison.Mobile.Android.Common.Controls
             return drw;
         }
 
+        private Drawable CreateCircleDrawable(Color color)
+        {
+            ShapeDrawable drw = new ShapeDrawable(new OvalShape());
+            drw.SetIntrinsicHeight(100);
+            drw.SetIntrinsicWidth(100);
+            drw.Paint.Color = color;
+            return drw;
+        }
+
+
+
+        private RippleDrawable GetRippleDrawable(Color rippleColor)
+        {
+            return new RippleDrawable(ColorStateList.ValueOf(rippleColor), null, CreateCircleDrawable(Color.White));
+        }
+
+
+        /// <summary>
+        /// Method to set the color ofthe material design ripple when the button is clicked.
+        /// If the Android version is less than Lollipop (5.0) then the ripple will be a solid color
+        /// Note: the default is the defaut for material design.
+        /// </summary>
+        /// <params> 
+        /// Color
+        /// </params>
+        public void SetRippleColor(Color rippleColor)
+        {
+            ViewCompat.SetBackground(_button, GetImageButtonBackground(rippleColor));
+        }
+        private Drawable GetImageButtonBackground(Color rippleColor)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+                return GetRippleDrawable(rippleColor);
+            return GetStateDrawable(rippleColor);
+        }
+
+        private Drawable GetStateDrawable(Color pressedColor)
+        {
+            var drw = CreateCircleDrawable(Color.White);
+            int[][] states = new int[][] {  new int[] { global::Android.Resource.Attribute.StatePressed },
+                                            new int[] { global::Android.Resource.Attribute.StateSelected },
+                                            new int[] { } };
+            int[] colors = new int[] { pressedColor, pressedColor, Color.Transparent };
+            ColorStateList csl = new ColorStateList(states, colors);
+            drw.SetDrawableTint(csl);
+            return drw;
+        }
+
+
+
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)
         {
             // Ensure the gauge is circular and not oval
@@ -969,7 +1054,22 @@ namespace Edison.Mobile.Android.Common.Controls
         }
 
 
+        protected override void OnAttachedToWindow()
+        {
+            base.OnAttachedToWindow();
+            _button.Click += OnClick;
+        }
 
+        protected override void OnDetachedFromWindow()
+        {
+            base.OnDetachedFromWindow();
+            _button.Click -= OnClick;
+        }
+
+        private void OnClick(object s, EventArgs e)
+        {
+            Click?.Invoke(this, e);
+        }
 
 
         #endregion

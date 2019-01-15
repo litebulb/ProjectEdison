@@ -11,6 +11,7 @@
     <string name="sign_in_error">Sign-in error - please try again</string>
     <string name="app_permissions_error">This app requires location permissions - please try again</string>
     <string name="app_permissions_error1">This app requires location permissions to function</string>
+    <string name="app_permissions_error2">Write_Settings permission required to change screen brightness</string>
     <string name="sign_in">Sign In</string>
   
     <string name="home">Home</string>
@@ -18,8 +19,14 @@
     <string name="notifications">Notifications</string>
     <string name="settings">Settings</string>
   
+    <string name="right_now">Right Now</string>
+
     <string name="emergency">Emergency</string>
     <string name="report_activity">Report Activity</string>
     <string name="im_safe">I\'m Safe</string>
   
+    <string name="permission_required">Permission Required</string>
+    <string name="screen_brightness_dialog_message">In order to modify the screen brightness, explicit permission is required to change device settings.\n\nMay we open your system permissions page?\n\n{Note: Press the Back button to return to Edison from the perissions screen)</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

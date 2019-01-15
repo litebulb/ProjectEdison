@@ -12,6 +12,7 @@ using Edison.Mobile.Android.Common.Controls;
 using Android.Graphics;
 using Android.Support.V4.Content;
 using Android.Content.Res;
+using Edison.Mobile.User.Client.Core.Shared;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
@@ -57,10 +58,12 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
 
 
-        private void OnButtonClick(object sender, EventArgs e)
+        private async void OnButtonClick(object sender, EventArgs e)
         {
             if (sender is CircularImageButton imgButton && Activity != null)
             {
+
+                ChatPromptType cpt = ChatPromptType.ReportActivity;
                 switch ((string)imgButton.Tag)
                 {
                     case "qc_safe":
@@ -70,6 +73,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                         imgButton.SetIconResource(_safeButtonSelected ? Resource.Drawable.personal_check : Resource.Drawable.user);
                         var iconCsl = ColorStateList.ValueOf(_safeButtonSelected ? _selectedSafeIconColor: _origSafeIconColor);
                         imgButton.IconTint = iconCsl;
+                        cpt = ChatPromptType.SafetyCheck;
                         break;
                 }
 
@@ -77,6 +81,8 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
 
                 Toast.MakeText(Activity, (string)imgButton.Tag, ToastLength.Short).Show();
+
+                await ViewModel.ActivateChatPrompt(cpt);
 
             }
 

@@ -13,11 +13,11 @@ using Android.Support.V4.App;
 
 namespace Edison.Mobile.Android.Common.Geolocation
 {
-    public class LocationService : Activity, ILocationService
+    public class LocationService : ILocationService
     {
         readonly FusedLocationProviderClient locationProvider;
         readonly EdisonLocationCallback locationCallback;
-        readonly Activity mainActivity;
+//        readonly Activity mainActivity;
 
         private const int RequestLocationPermissionId = 1;
 
@@ -25,9 +25,10 @@ namespace Edison.Mobile.Android.Common.Geolocation
 
         public EdisonLocation LastKnownLocation => EdisonLocationFromLocation(lastLocation);
 
-        public LocationService(Activity mainActivity)
+  //      public LocationService(Activity activity)
+        public LocationService()
         {
-            this.mainActivity = mainActivity;
+//            this.mainActivity = mainActivity;
             locationProvider = LocationServices.GetFusedLocationProviderClient(Application.Context);
             locationCallback = new EdisonLocationCallback();
             locationCallback.LocationUpdated += OnLocationUpdated;
@@ -48,9 +49,9 @@ namespace Edison.Mobile.Android.Common.Geolocation
             {
                 return true;
             }
-                        
-            ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, RequestLocationPermissionId);
-
+                     
+   //         ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, RequestLocationPermissionId);
+ActivityCompat.RequestPermissions(BaseApplication.CurrentActivity, new string[] { permission }, RequestLocationPermissionId);
             return await Task.FromResult(ContextCompat.CheckSelfPermission(locationProvider.ApplicationContext, permission) == Permission.Granted);
         }
 
@@ -90,7 +91,8 @@ namespace Edison.Mobile.Android.Common.Geolocation
 
         bool IsGooglePlayServicesInstalled()
         {
-            var queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+ //           var queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+            var queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(BaseApplication.CurrentActivity);
             if (queryResult == ConnectionResult.Success)
             {
                 return true;

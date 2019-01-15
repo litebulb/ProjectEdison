@@ -27,21 +27,35 @@ using Edison.Mobile.Common.Ioc;
 
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Fragment = Android.Support.V4.App.Fragment;
+
 using Edison.Mobile.Android.Common.Controls;
 using Android.Support.V4.Content.Res;
 using System.Threading.Tasks;
+using Android.Support.V7.View.Menu;
+using static Android.Widget.SeekBar;
+using Edison.Mobile.Android.Common.Utilities;
+using Android.Provider;
+using Math = System.Math;
+using Android;
+using Android.Content.PM;
+using Android.Runtime;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
-  //  [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
+ //   [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
     public class MainActivity : BaseActivity<MenuViewModel>
     {
 
         private const string StateKey_ActionbarTitle = "actionBarTitle";
         private const int TransitionDelayMs = 80;
 
+        private const int RequestNotificationPermissionId = 0;
+        private const int RequestLocationPermissionId = 1;
+        private const int RequestWriteSettingsPermissionId = 2;
+
         private Context _context;
+        private CoordinatorLayout _coordinatorLayout;
         private Toolbar _toolbar;
         private AppCompatTextView _customToolbarTitle;
         private AppCompatTextView _customToolbarSubtitle;
@@ -51,20 +65,22 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private AppCompatTextView _profileNameView;
         private LinearLayout _bottomSheet;
         private BottomSheetBehavior _bottomSheetBehaviour;
-//        private BottomSheet4StateBehaviour _bottomSheetBehaviour;
-
-//        private LinearLayout _quick_chat_holder;
-//        private List<AppCompatImageButton> _imageButtons = new List<AppCompatImageButton>();
+        //        private BottomSheet4StateBehaviour _bottomSheetBehaviour;
+        private LinearLayout _brightnessControlContainer;
+        private AppCompatSeekBar _brightnessControl;
 
 
         private Fragment _pageFragment;
         private Fragment _chatFragment;
+
+        private SimpleModalAlertDialogFragment _dialog;
 
         private NavMenuExpandableListAdapter _navDrawerListAdapter;
         private ExpandableListView _navDrawerListview;
         private List<TextImageResourcePair> _listDataGroups;
         private Dictionary<string, List<TextImageResourcePair>> _listDataItems;
         private int _previousGroup = -1;
+
 
         public static string Name { get; private set; }
 
@@ -109,10 +125,11 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
             base.OnCreate(savedInstanceState);
 
+            //Initializatio now done in MainApplication
+  //          Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
 #if DEBUG
             // Used when testing UI without having to login each time
@@ -126,9 +143,9 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
             SetContentView(Resource.Layout.main_activity);
 
-            /*            Task.Run(async () => {
-                            await Constants.UpdateBarDimensionsAsync(this);
-                        }); */
+/*            Task.Run(async () => {
+                await Constants.UpdateBarDimensionsAsync(this);
+            }); */
             Constants.UpdateBarDimensions(this);
 
             Initialize(savedInstanceState);
@@ -144,6 +161,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             SetUpDrawer();
             BindProfileData();
             SetUpBottomSheet();
+            BindEvents();
+            AdjustViewPositions();
             RestoreState(savedInstanceState);
             Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
             Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
@@ -153,6 +172,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private void BindResources()
         {
             _context = this;
+            _coordinatorLayout = FindViewById<CoordinatorLayout>(Resource.Id.nav_coordinator_content);
             _drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             _toolbar = FindViewById<Toolbar>(Resource.Id.nav_toolbar);
             _customToolbarTitleWrapper = FindViewById<LinearLayout>(Resource.Id.toolbar_title_wrapper);
@@ -164,8 +184,18 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _bottomSheetBehaviour = BottomSheetBehavior.From(_bottomSheet);
             //            _bottomSheetBehaviour = BottomSheet4StateBehaviour.From(_bottomSheet);
 
+            _brightnessControlContainer = FindViewById<LinearLayout>(Resource.Id.brightness_slider_container);
+            _brightnessControl = FindViewById<AppCompatSeekBar>(Resource.Id.brightness_slider);
 
 
+
+
+
+        }
+
+
+        private void AdjustViewPositions()
+        {
             // Set the Bottom Sheet parameters - dependant on screen dimensions
             if (Constants.BottomSheetPeekHeightPx > -1)
                 _bottomSheetBehaviour.PeekHeight = Constants.BottomSheetPeekHeightPx;
@@ -174,8 +204,14 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
             var pageContainer = FindViewById<FrameLayout>(Resource.Id.page_container);
             pageContainer.SetPadding(0, 0, 0, Constants.BottomSheetPeekHeightPx);
-        }
 
+            _brightnessControl.LayoutParameters.Width = Constants.EventGaugeAreaHeightPx;  // Transposed 90deg so Width actaully Height
+  //          var mode = ScreenUtilities.GetScreenBrightnessMode(this);
+  //          var brightness = ScreenUtilities.GetScreenBrightnessWithMode(this, mode);
+ //           // Get the Current Brightness level and adjust brighness slider if necessary
+ //           GetAndSetBrightnessBrightness();
+        }
+        
 
         private void BindProfileData()
         {
@@ -189,19 +225,23 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 #if DEBUG
             if (string.IsNullOrWhiteSpace(Name))
                 _profileNameView.Text = "ALISON SUMMERFIELD";
-#endif
-            // for Testing
-            //profileView.ProfileInitials.SetTypeface(ResourcesCompat.GetFont(this, Resource.Font.rubik_blackitalic), TypefaceStyle.BoldItalic);
-            //profileView.SetProfileResource(Resource.Drawable.greyhound_kimmie);
-            //profileView.SetInitials("ALISON SUMMERFIELD");
 
+            // for Testing
+//_profileView.ProfileInitials.SetTypeface(ResourcesCompat.GetFont(this, Resource.Font.rubik_blackitalic), TypefaceStyle.BoldItalic);
+if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
+            _profileView.SetProfileResource(Resource.Drawable.greyhound_kimmie);
+//            _profileView.SetInitials("ALISON SUMMERFIELD");
+
+#endif
             if (profileImageUri == null)  // Currently will always be null
             {
+                
                 _profileView.SetText(initials);
 #if DEBUG
                 if (string.IsNullOrWhiteSpace(initials))
                     _profileView.SetInitials("ALISON SUMMERFIELD");
 #endif
+
             }
             else
             {
@@ -212,14 +252,14 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         }
 
-        /*
-                private void OnButtonClick(object sender, EventArgs e)
-                {
-                    if (sender is AppCompatImageButton imgButton)
-                        Toast.MakeText(this, (string)imgButton.Tag, ToastLength.Short).Show();
+/*
+        private void OnButtonClick(object sender, EventArgs e)
+        {
+            if (sender is AppCompatImageButton imgButton)
+                Toast.MakeText(this, (string)imgButton.Tag, ToastLength.Short).Show();
 
-                }
-        */
+        }
+*/
 
 
         private void SetUpToolbar()
@@ -241,9 +281,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
             // Manually add the menu to the toolbar and set the menu item click event(not done automatically because not setting SupportActionBar)
             OnCreateOptionsMenu(_toolbar.Menu);
-            _toolbar.MenuItemClick += OnMenuItemClicked;
 
-            _toolbar.ViewTreeObserver.GlobalLayout += OnToolbarLayout;
         }
 
         private void SetUpDrawer()
@@ -261,10 +299,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _listDataItems = navMenuData.Item2;
             _navDrawerListAdapter = new NavMenuExpandableListAdapter(this, _listDataGroups, _listDataItems);
             _navDrawerListview.SetAdapter(_navDrawerListAdapter);
-            _navDrawerListview.GroupExpand += OnGroupExpand;
-            _navDrawerListview.GroupCollapse += OnGroupCollapse;
-            _navDrawerListview.ChildClick += OnChildClicked;
-            _navDrawerListview.GroupClick += OnGroupClicked;
+
         }
 
         private void SetUpBottomSheet()
@@ -272,6 +307,20 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             //            _bottomSheetBehaviour.SetBottomSheetCallback(new IntelligentBottomSheetCallback());
             LoadChatFragment();
         }
+
+        private void BindEvents()
+        {
+            _toolbar.MenuItemClick += OnMenuItemClicked;
+            _toolbar.ViewTreeObserver.GlobalLayout += OnToolbarLayout;
+
+            _navDrawerListview.GroupExpand += OnGroupExpand;
+            _navDrawerListview.GroupCollapse += OnGroupCollapse;
+            _navDrawerListview.ChildClick += OnChildClicked;
+            _navDrawerListview.GroupClick += OnGroupClicked;
+
+            _brightnessControl.ProgressChanged += OnBrightnessChanged;
+        }
+
 
 
 /*
@@ -589,8 +638,11 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         {
             OnOptionsItemSelected(e.Item);
         }
+
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
+
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
@@ -599,7 +651,16 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
 
                 case Resource.Id.action_brightness:
-                    Toast.MakeText(this, "Brightness clicked", ToastLength.Short).Show();
+                    // Need to adjust the Brightness control position here as can guarantee the toolbar has been laid out
+                    UpdateBightnessPosition();
+                    // Update the control visibility
+                    if (_brightnessControlContainer.Visibility == ViewStates.Visible)
+                        _brightnessControlContainer.Visibility = ViewStates.Invisible;
+                    else
+                    {
+                        if (EnsureWriteSettingsPrivilege())
+                            HandleBrightnessPermissionGranted();
+                    }
                     return true;
 
 
@@ -609,6 +670,26 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             return base.OnOptionsItemSelected(item);
         }
 
+        private void HandleBrightnessPermissionGranted()
+        {
+             GetAndSetBrightnessBrightness();
+            _brightnessControlContainer.Visibility = ViewStates.Visible;
+        }
+
+        private void GetAndSetBrightnessBrightness()
+        {
+            // get current brightness mode
+            var mode = ScreenUtilities.GetScreenBrightnessMode(this);
+            var brightness = ScreenUtilities.GetScreenBrightnessWithMode(this, mode);
+            var brightnessInt = (int)Math.Round(brightness * 100);
+            // set the level on the control if diferent from current position (user or system may have altered the brightness outside the app)
+            // <0 check done in case auto value returned
+            if (brightnessInt >= 0 && brightnessInt != _brightnessControl.Progress)
+                _brightnessControl.Progress = brightnessInt;
+            else if (brightnessInt < 0 && _brightnessControl.Progress != 100)  // Done for initialization purposed - especially on emulators
+                _brightnessControl.Progress = 100;
+        }
+
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -616,6 +697,31 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _toolbar.UpdateMenuItemTint(new Color(ContextCompat.GetColor(this, Resource.Color.app_blue)));
 
             return base.OnCreateOptionsMenu(menu);
+        }
+
+        private void UpdateBightnessPosition()
+        {
+            // Only update position if not previously updated
+            if (Constants.BrightnessContainerWidth == -1)
+
+            {
+                Constants.UpdateBrightnessControlDimensions(_toolbar, FindViewById<ActionMenuItemView>(Resource.Id.action_brightness));
+                // Set the brightness control container width
+                _brightnessControlContainer.LayoutParameters.Width = Constants.BrightnessContainerWidth;
+                // Set the layiout margin for the brightness control container to bring it just under the menu item icon
+                var lp = (ViewGroup.MarginLayoutParams)_brightnessControlContainer.LayoutParameters;
+                lp.SetMargins(0, -Constants.BrightnessToolbarItemIconBottomPadding, 0, 0);
+                _brightnessControlContainer.LayoutParameters = lp;
+                _brightnessControlContainer.Invalidate();
+            }
+        }
+
+        private void OnBrightnessChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var prog = e.Progress;
+            // change brightness
+            float brightness = (float)(e.Progress) / 100f;
+            ScreenUtilities.SetManualScreenBrightnessLevel(this, brightness);
         }
 
 
@@ -641,6 +747,104 @@ namespace Edison.Mobile.User.Client.Droid.Activities
                 _customToolbarSubtitle.Visibility = ViewStates.Visible;
             return true;
         }
+
+
+
+        public bool EnsureWriteSettingsPrivilege()
+        {
+            var permission = global::Android.Manifest.Permission.WriteSettings;
+            if (ContextCompat.CheckSelfPermission(this, permission) == Permission.Granted || Settings.System.CanWrite(this))
+                return true;
+            // Ask for permission - causes OnRequestPermissionsResult to be called wirth the result
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                // Need to open up the system permissions settigns page.to give permissions (Android requirement for 6.0 onwards)
+                // Display a dialog to warn the user otherwise the will be confused
+                var ft = SupportFragmentManager.BeginTransaction();
+                // Ensure fragment is not already on the back stack otherwise it will crash. Using "dialog' as the Tag
+                var prev = SupportFragmentManager.FindFragmentByTag("dialog");
+                if (prev != null)
+                    ft.Remove(prev);
+                ft.AddToBackStack(null);
+
+                _dialog = new SimpleModalAlertDialogFragment
+                {
+                    DialogTitle = Resources.GetString(Resource.String.permission_required),
+                    DialogMessage = Resources.GetString(Resource.String.screen_brightness_dialog_message),
+                    DialogPositiveText = Resources.GetString(Resource.String.yes),
+                    DialogNegitiveText = Resources.GetString(Resource.String.no)
+                };
+                _dialog.DialogResponse += OnPerimissionDialogResponse;
+                _dialog.Show(ft, "dialog");
+            }
+            else
+                global::Android.Support.V4.App.ActivityCompat.RequestPermissions(this, new string[] { permission }, RequestWriteSettingsPermissionId);
+            return false;
+        }
+
+
+        private void OnPerimissionDialogResponse(object sender, DialogClickEventArgs e)
+        {
+            if (e.Which == -1) // Yes
+            {
+                // Open up the system permissions settigns page.to give permission (Android requirement for 6.0 onwards)
+                Intent intent = new Intent(Settings.ActionManageWriteSettings);
+                intent.SetData(global::Android.Net.Uri.Parse("package:" + this.PackageName));
+                this.StartActivityForResult(intent, RequestWriteSettingsPermissionId);
+            }
+            // Dismiss & cleanup the DialogFragement
+            _dialog.DialogResponse -= OnPerimissionDialogResponse;
+            _dialog.Dismiss();
+            _dialog.Dispose();
+        }
+
+        // Called when user responds to in app permissions request
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            switch (requestCode)
+            {
+                case RequestWriteSettingsPermissionId:
+                    if (Settings.System.CanWrite(this))
+                        //Permission granted
+                        HandleBrightnessPermissionGranted();
+                    else
+                    {
+                        //Permission Denied
+                        var snack = Snackbar.Make(_coordinatorLayout, Resources.GetString(Resource.String.app_permissions_error2), Snackbar.LengthShort);
+                        snack.View.Elevation = Resources.GetDimensionPixelSize(Resource.Dimension.snack_bar_elevation);
+                        snack.Show();
+                    }
+                    break;
+
+            }
+        }
+        // Called when user responds to in app permissions request
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            switch (requestCode)
+            {
+                case RequestWriteSettingsPermissionId:
+                    {
+                        var len = grantResults.Length;
+                        if (len > 0 && grantResults[0] == Permission.Granted)
+                        {
+                            //Permission granted
+                            HandleBrightnessPermissionGranted();
+                        }
+                        else
+                        {
+                            //Permission Denied
+                            var snack = Snackbar.Make(_coordinatorLayout, Resources.GetString(Resource.String.app_permissions_error2), Snackbar.LengthShort);
+                            snack.View.Elevation = Resources.GetDimensionPixelSize(Resource.Dimension.snack_bar_elevation);
+                            snack.Show();
+                        }
+                    }
+                    break;
+            }
+        }
+
+
 
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -669,17 +873,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _navDrawerListview.GroupCollapse -= OnGroupCollapse;
             _navDrawerListview.ChildClick -= OnChildClicked;
             _navDrawerListview.GroupClick -= OnGroupClicked;
-
-/*
-            foreach (var button in _imageButtons)
-            {
-                button.Click -= OnButtonClick;
-            }
-*/
-
-
             _toolbar.ViewTreeObserver.GlobalLayout -= OnToolbarLayout;
-
             base.OnDestroy();
         }
 

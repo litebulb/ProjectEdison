@@ -33,6 +33,7 @@
   <attr name="borderWidth" format="dimension" />
   <attr name="borderColor" format="reference|color" />
   <attr name="textPadding" format="dimension" />
+  <attr name="controlRippleColor" format="reference|color" />
   
   <!-- CircularEventGauge Attributes -->
   <attr name="ringStartColor" format="reference|color" />
@@ -117,6 +118,7 @@
     <attr name="android:text" />
     <attr name="android:typeface" />
     <attr name="textPadding" />
+    <attr name="controlRippleColor" />
   </declare-styleable>
 
 
@@ -148,6 +150,7 @@
     <attr name="iconTintMode" />
     <attr name="count" />
     <attr name="active" />
+    <attr name="controlRippleColor" />
   </declare-styleable>
   
   

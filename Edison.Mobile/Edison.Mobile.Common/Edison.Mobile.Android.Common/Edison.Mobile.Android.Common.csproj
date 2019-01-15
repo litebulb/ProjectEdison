@@ -160,6 +160,9 @@
     <Compile Include="Controls\CircularEventGauge.cs" />
     <Compile Include="Controls\CircularImageButton.cs" />
     <Compile Include="Controls\CircularProfileView.cs" />
+    <Compile Include="Controls\RippleDrawables.cs" />
+    <Compile Include="Controls\SeekBarRotator.cs" />
+    <Compile Include="Controls\SimpleModalAlertDialogFragment.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Extensions\DrawableExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -181,6 +184,7 @@
     <Compile Include="Utilities\PixelSizeConverter.cs" />
     <Compile Include="Utilities\ResourcePair.cs" />
     <Compile Include="Utilities\ScreenOrientation.cs" />
+    <Compile Include="Utilities\ScreenUtilities.cs" />
     <Compile Include="Utilities\StateListUtilities.cs" />
     <Compile Include="Utilities\TextAppearance.cs" />
     <Compile Include="Utilities\TextImageResourcePair.cs" />
@@ -297,6 +301,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\circular_event_gauge_ring.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\circular_ripple_background.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

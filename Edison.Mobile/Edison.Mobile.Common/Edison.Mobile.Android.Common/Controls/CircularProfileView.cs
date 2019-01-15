@@ -266,31 +266,29 @@ namespace Edison.Mobile.Android.Common.Controls
         }
 
 
+        private bool _rippleColorSet = false;
+        private Color _rippleColor;
+        public Color RippleColor
+        {
+            get
+            {
+                if (!_rippleColorSet)
+                    return new Color(ContextCompat.GetColor(Context, Resource.Color.ripple_material_light));
+                return _rippleColor;
+            }
+            set
+            {
+                _rippleColor = value;
+                _rippleColorSet = true;
+                if (_initialized)
+                {
+                    SetRippleColor(_rippleColor);
+                    _profileImageView.Invalidate();
+                }
+            }
+        }
 
         /*
-                private bool _rippleColorSet = false;
-                private Color _rippleColor;
-                public Color RippleColor
-                {
-                    get
-                    {
-                        if (!_rippleColorSet)
-                            return new Color(ContextCompat.GetColor(Context, Resource.Color.ripple_material_light));
-                        return _rippleColor;
-                    }
-                    set
-                    {
-                        _rippleColor = value;
-                        _rippleColorSet = true;
-                        if (_initialized)
-                        {
-                            SetRippleColor(_rippleColor);
-                            _button.Invalidate();
-                        }
-                    }
-                }
-
-
                 public override Java.Lang.Object Tag
                 {
                     get => _button.Tag;
@@ -310,7 +308,7 @@ namespace Edison.Mobile.Android.Common.Controls
         public CircularProfileView(Context context) : base(context)
         {
             Initialize(context);
-            //            SetRippleColor(RippleColor);
+            SetRippleColor(RippleColor);
             SetVisibilties();
             _initialized = true;
         }
@@ -320,7 +318,7 @@ namespace Edison.Mobile.Android.Common.Controls
         {
             Initialize(context);
             ExtractAttributes(context, attrs, 0);
-            //          SetRippleColor(RippleColor);
+            SetRippleColor(RippleColor);
             SetVisibilties();
             _initialized = true;
         }
@@ -330,7 +328,7 @@ namespace Edison.Mobile.Android.Common.Controls
         {
             Initialize(context);
             ExtractAttributes(context, attrs, defStyleAttr);
-            //           SetRippleColor(RippleColor);
+            SetRippleColor(RippleColor);
             SetVisibilties();
             _initialized = true;
         }
@@ -484,7 +482,8 @@ namespace Edison.Mobile.Android.Common.Controls
                         ProfileInitials.SetPadding(padding, padding, padding, padding);
                 }
 
-
+                if (a.HasValue(Resource.Styleable.CircularProfileView_controlRippleColor))
+                    RippleColor = a.GetColor(Resource.Styleable.CircularProfileView_controlRippleColor, ContextCompat.GetColor(Context, Resource.Color.ripple_material_light));
             }
 
         }
@@ -753,14 +752,16 @@ namespace Edison.Mobile.Android.Common.Controls
         private void SetVisibilties()
         {
             if (_profileImageView.Drawable == null)
+            {
                 ProfileInitials.Visibility = ViewStates.Visible;
+            }
             else
+            {
                 ProfileInitials.Visibility = ViewStates.Gone;
+            }
         }
 
 
-
-/*
         /// <summary>
         /// Method to set the color ofthe material design ripple when the button is clicked.
         /// If the Android version is less than Lollipop (5.0) then the ripple will be a solid color
@@ -771,59 +772,27 @@ namespace Edison.Mobile.Android.Common.Controls
         /// </params>
         public void SetRippleColor(Color rippleColor)
         {
-            ViewCompat.SetBackground(_button, GetImageButtonBackground(rippleColor));
-        }
-        private Drawable GetImageButtonBackground(Color rippleColor)
-        {
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
-                return GetRippleDrawable(rippleColor);
-            return GetStateDrawable(rippleColor);
-        }
-
-        private RippleDrawable GetRippleDrawable(Color rippleColor)
-        {
-            return new RippleDrawable(ColorStateList.ValueOf(rippleColor), null, GetCircleDrawable(Color.White));
-        }
-
-        private ShapeDrawable GetStateDrawable(Color pressedColor)
-        {
-            var drw = GetCircleDrawable(Color.White);
-            int[][] states = new int[][] {  new int[] { global::Android.Resource.Attribute.StatePressed },
-                                            new int[] { global::Android.Resource.Attribute.StateSelected },
-                                            new int[] { } };
-            int[] colors = new int[] { pressedColor, pressedColor, Color.Transparent };
-            ColorStateList csl = new ColorStateList(states, colors);
-            drw.SetDrawableTint(csl);
-            return drw;
-        }
-
-        private ShapeDrawable GetCircleDrawable(Color color, int diameterPx = 10)
-        {
-            ShapeDrawable drw = new ShapeDrawable(new OvalShape());
-            drw.SetIntrinsicHeight(diameterPx);
-            drw.SetIntrinsicWidth(diameterPx);
-            drw.Paint.Color = color;
-            return drw;
+            ViewCompat.SetBackground(_profileImageView, RippleDrawables.CircularCompat(rippleColor));
         }
 
 
         protected override void OnAttachedToWindow()
         {
             base.OnAttachedToWindow();
-            _button.Click += OnClick;
+            _profileImageView.Click += OnClick;
         }
 
         protected override void OnDetachedFromWindow()
         {
             base.OnDetachedFromWindow();
-            _button.Click -= OnClick;
+            _profileImageView.Click -= OnClick;
         }
 
         private void OnClick(object s, EventArgs e)
         {
             Click?.Invoke(this, e);
         }
-*/
+
 
         #endregion
 

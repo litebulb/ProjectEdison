@@ -72,18 +72,70 @@
 			</android.support.v7.widget.Toolbar>
 		</android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-      android:id="@+id/page_container"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:elevation="@dimen/content_elevation"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior">
-      <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </FrameLayout>
+		<FrameLayout
+			android:id="@+id/page_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:elevation="@dimen/content_elevation"
+			android:clipChildren="false"
+			android:clipToPadding="false"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			>
+			<FrameLayout
+				android:id="@+id/content_container"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+		</FrameLayout>
+		
+		
+		<LinearLayout
+			android:id="@+id/brightness_slider_container"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginTop="0dp"
+			android:layout_marginBottom="0dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="0dp"
+			android:layout_gravity="top|right"
+			android:gravity="center"
+			android:visibility="invisible"
+			android:clipChildren="false"
+			android:clipToPadding="false"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			android:elevation="@dimen/content_elevation"
+			>
+			<edison.mobile.android.common.controls.SeekBarRotator
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:gravity="center"
+				>
+				<android.support.v7.widget.AppCompatSeekBar
+					android:id="@+id/brightness_slider"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:thumbTint="@color/app_blue"
+					android:progressTint="@color/app_blue"
+					android:progressBackgroundTint="@color/app_background_darkgrey"
+					/>
+			</edison.mobile.android.common.controls.SeekBarRotator>
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/moon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:layout_marginTop="5dp"
+				app:srcCompat="@drawable/moon"
+				android:tint="@color/app_blue"
+				/>
+		</LinearLayout>
+		
+		
+		
+		
 		<!---
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/content_floating_action_button"
@@ -127,20 +179,10 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 				android:id="@+id/bottom_sheet_fragment_container"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				>
-				
-
-		
-			</FrameLayout>
-		
+				/>
 		</LinearLayout>
 		
-	
-		
-		
-		
-		
-		
+
 	</android.support.design.widget.CoordinatorLayout>
 
 	<!-- Navigation Area Definition -->

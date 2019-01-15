@@ -11,39 +11,46 @@ using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.WiFi;
+using System;
 
 namespace Edison.Mobile.Android.Common.Ioc
 {
     public class PlatformCommonContainerRegistrar : IContainerRegistrar
     {
-        readonly Activity mainActivity;
-        public PlatformCommonContainerRegistrar(Activity mainActivity)
+        //       readonly Activity mainActivity;
+
+ //       public PlatformCommonContainerRegistrar(Activity mainActivity)
+
+        public PlatformCommonContainerRegistrar()
         {
-            this.mainActivity = mainActivity;
+ //           this.mainActivity = mainActivity;
         }
 
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterInstance<Activity>(this.mainActivity)
-                .SingleInstance();
+ //           builder.RegisterInstance<Activity>(this.mainActivity)
+ //               .SingleInstance();
 
             builder.RegisterType<LocationService>()
-                   .As<ILocationService>()
-                   .SingleInstance();
+                    .As<ILocationService>()
+                    .SingleInstance();
 
             builder.RegisterType<PlatformLogger>()
-                   .As<BasePlatformLogger>()
-                   .SingleInstance();
+                    .As<BasePlatformLogger>()
+                    .SingleInstance();
 
             builder.RegisterType<PlatformAuthService>()
-                   .As<IPlatformAuthService>();
+                    .As<IPlatformAuthService>()
+                    .SingleInstance();
 
             builder.RegisterType<NotificationService>()
-                   .As<INotificationService>()
-                   .SingleInstance();
+                    .As<INotificationService>()
+                    .SingleInstance();
 
             builder.RegisterType<PlatformWifiService>()
-                   .As<IWifiService>();
+                    .As<IWifiService>()
+                    .SingleInstance();
         }
+
     }
 }

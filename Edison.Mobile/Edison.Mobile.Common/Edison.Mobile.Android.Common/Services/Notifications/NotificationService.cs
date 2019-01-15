@@ -16,28 +16,30 @@ namespace Edison.Mobile.Android.Common.Notifications
     public class NotificationService : INotificationService
     {
         readonly NotificationRestService notificationRestService;
-        readonly Activity mainActivity;
+ //       readonly Activity mainActivity;
         readonly string permission = Manifest.Permission.AccessNotificationPolicy;
 
-        public NotificationService(NotificationRestService notificationRestService, Activity mainActivity)
+//        public NotificationService(NotificationRestService notificationRestService, Activity mainActivity)
+        public NotificationService(NotificationRestService notificationRestService)
         {
-            this.mainActivity = mainActivity;
+//            this.mainActivity = mainActivity;
             this.notificationRestService = notificationRestService;
         }
 
         public Task<bool> HasNotificationPrivileges()
         {
-            return Task.FromResult(ContextCompat.CheckSelfPermission(this.mainActivity.ApplicationContext, permission) == Permission.Granted);
+ //           return Task.FromResult(ContextCompat.CheckSelfPermission(this.mainActivity.ApplicationContext, permission) == Permission.Granted);
+            return Task.FromResult(ContextCompat.CheckSelfPermission(BaseApplication.CurrentActivity?.ApplicationContext, permission) == Permission.Granted);
         }
 
         public Task<bool> RequestNotificationPrivileges()
         {
-            if (ContextCompat.CheckSelfPermission(this.mainActivity.ApplicationContext, permission) == Permission.Granted)
+            if (ContextCompat.CheckSelfPermission(BaseApplication.CurrentActivity?.ApplicationContext, permission) == Permission.Granted)
             {
                 return Task.FromResult(true);
             }
 
-            ActivityCompat.RequestPermissions(this.mainActivity, new string[] { permission }, 0);
+            ActivityCompat.RequestPermissions(BaseApplication.CurrentActivity, new string[] { permission }, 0);
             return Task.FromResult(true);
         }
 

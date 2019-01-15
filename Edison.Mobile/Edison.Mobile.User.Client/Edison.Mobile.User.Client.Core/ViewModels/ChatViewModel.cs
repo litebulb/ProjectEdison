@@ -131,7 +131,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         public override void ViewDisappearing()
         {
             base.ViewDisappearing();
-            readMessagesCancellationTokenSource.Cancel();
+            readMessagesCancellationTokenSource?.Cancel();
         }
 
         public async Task<bool> SendMessage(string message, bool isPromptedFromActionPlanButton = false)

@@ -12,6 +12,9 @@ namespace Edison.Mobile.User.Client.Core.Network
     {
         public ChatRestService(AuthService authService, ILogger logger, string baseUrl) : base(authService, logger, baseUrl)
         {
+#if DEBUG
+            bool test = true;
+#endif
         }
 
         public async Task<ChatUserTokenContext> GetToken() 
@@ -20,9 +23,7 @@ namespace Edison.Mobile.User.Client.Core.Network
             var queryResult = await client.ExecuteGetTaskAsync<ChatUserTokenContext>(request);
 
             if (queryResult.IsSuccessful)
-            {
                 return queryResult.Data;
-            }
 
             logger.Log($"Error getting chat token. Response Status: {queryResult.ResponseStatus}, Error Message: {queryResult.ErrorMessage}");
 

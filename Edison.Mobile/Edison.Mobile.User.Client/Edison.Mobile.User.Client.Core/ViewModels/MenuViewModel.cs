@@ -15,6 +15,8 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         public string Initials => authService.Initials;
 
+        public string Email => authService.UserInfo?.Email;
+
         //TODO  Currently not supported, so just returning null
         public Uri ProfileImageUri => null;  // authService.ProfileImageUri - needs to be added
 

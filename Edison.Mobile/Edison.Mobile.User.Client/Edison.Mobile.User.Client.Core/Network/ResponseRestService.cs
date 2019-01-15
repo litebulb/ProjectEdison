@@ -11,7 +11,12 @@ namespace Edison.Mobile.User.Client.Core.Network
 {
     public class ResponseRestService : BaseRestService
     {
-        public ResponseRestService(AuthService authService, ILogger logger, string baseUrl) : base(authService, logger, baseUrl) { }
+        public ResponseRestService(AuthService authService, ILogger logger, string baseUrl) : base(authService, logger, baseUrl)
+        {
+#if DEBUG
+            bool test = true;  // for use as breakpoint durign testing
+#endif
+        }
 
         public async Task<IEnumerable<ResponseLightModel>> GetResponses()
         {

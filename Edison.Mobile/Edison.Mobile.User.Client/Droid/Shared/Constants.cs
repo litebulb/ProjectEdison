@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.App;
+using Android.Support.V4.Content.Res;
+using Android.Content.Res;
+using Android.Support.V7.Widget;
+using Android.Support.V7.View.Menu;
 
 namespace Edison.Mobile.User.Client.Droid
 {
@@ -31,6 +35,9 @@ namespace Edison.Mobile.User.Client.Droid
         public static int EventResponseAreaHeightPx { get; private set; } = -1;
         public static int EventGaugeSizePx { get; private set; } = -1;
 
+
+        public static int BrightnessContainerWidth  { get; private set; } = -1;
+        public static int BrightnessToolbarItemIconBottomPadding { get; private set; } = -1;
 
 
 
@@ -59,7 +66,7 @@ namespace Edison.Mobile.User.Client.Droid
             int quickChatIconDiameterPx = (int)(displayWidthPx / 3 - quickChatIconHorizontalMarginsPx);
             BottomSheetPeekHeightPx = quickChatIconDiameterPx + labelHeightPx + bottomSheetThumbHeightPx + quickChatIconVerticalMarginsPx;
             // BottomSheet Height
-            BottomSheetHeightPx = displayHeightPx - (int)act.Resources.GetDimension(Resource.Dimension.abc_action_bar_default_height_material);
+            BottomSheetHeightPx = displayHeightPx - (int)act.Resources.GetDimensionPixelSize(Resource.Dimension.abc_action_bar_default_height_material);
 
             PagePaddingPx = new Padding(0, 0, 0, BottomSheetPeekHeightPx);
 
@@ -95,6 +102,37 @@ namespace Edison.Mobile.User.Client.Droid
             ToolbarHeightPx = (int)act.Resources.GetDimension(Resource.Dimension.abc_action_bar_default_height_material);
             if (titleBarHeight > ToolbarHeightPx)
                 ToolbarHeightPx = titleBarHeight;
+        }
+
+
+        public static void UpdateBrightnessControlDimensions(Toolbar toolbar, ActionMenuItemView menuItem)
+        {
+            // Get the position of the menu item
+            int[] itemLocation = new int[2];
+            menuItem?.GetLocationInWindow(itemLocation);
+            // Get the position of the toolbar
+            int[] toolbarLocation = new int[2];
+            toolbar.GetLocationInWindow(toolbarLocation);
+            // Calculate the horixontal center postion of the menu item
+            var itemCenterX = itemLocation[0] - toolbarLocation[0] + menuItem.Width / 2;
+            // Get or calculate the distance between the bottom of the menu item icon and the bottom of the toolbar
+            // NOTE: TotalPaddingBottom is actually slightly less than toolbar height - icon height / 2, however it automatically handles if the icon gravity has been modified
+            BrightnessToolbarItemIconBottomPadding = menuItem.TotalPaddingBottom;
+            // int itemBottomPadding = (_toolbar.Height - menuItem.ItemData.Icon.Bounds.Height())/2;
+            // Calculate the width of the brightness control container required top center under the menu item
+            BrightnessContainerWidth = 2 * (toolbar.Width - itemCenterX);
+        }
+
+
+        public static Color GetEventTypeColor(Activity act, string colorName)
+        {
+            switch (colorName)
+            {
+                case Core.Shared.Constants.ColorName.Red: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_red, null));
+                case Core.Shared.Constants.ColorName.Yellow: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.app_yellow, null));
+                case Core.Shared.Constants.ColorName.Blue: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_blue, null));
+                default: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_blue, null));
+            }
         }
 
 

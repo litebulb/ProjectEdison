@@ -13,11 +13,13 @@
 		android:scaleType="fitCenter"
 		android:adjustViewBounds="true"
 		app:srcCompat="@drawable/circular_image_background"
+
 		/>
 	<refractored.controls.CircleImageView
 		android:id="@+id/profile_image"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+    android:clickable="true"
 		/>
 	<android.support.v7.widget.AppCompatTextView
 		android:id="@+id/profile_initials"

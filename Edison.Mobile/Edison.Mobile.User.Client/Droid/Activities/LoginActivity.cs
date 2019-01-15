@@ -54,12 +54,15 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             UsingLogon = true;
 # endif
 
-        Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
+            //Initializatio done in MainApplication
+//        Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
+
+            base.OnCreate(bundle);
 
             if (ViewModel != null)
                 ((LoginViewModel)ViewModel).AuthService.UiParent = new UIParent(this);
 
-            base.OnCreate(bundle);
+
 
             AppCenter.Start("959d5bd2-9e29-4f17-aed6-68885af8c63d", typeof(Analytics), typeof(Crashes));
 
