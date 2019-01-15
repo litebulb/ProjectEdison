@@ -64,5 +64,6 @@
     <Folder Include="Network\" />
     <Folder Include="Services\" />
     <Folder Include="Shared\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

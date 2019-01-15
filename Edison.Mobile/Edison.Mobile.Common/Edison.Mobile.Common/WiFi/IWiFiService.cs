@@ -8,7 +8,8 @@ namespace Edison.Mobile.Common.WiFi
     {
         Task<IEnumerable<WifiNetwork>> GetPreviouslyConfiguredWifiNetworks();
         Task<WifiNetwork> GetCurrentlyConnectedWifiNetwork();
-        Task<bool> ConnectToSecuredWifiNetwork(string ssid, string passphrase);
+        Task<bool> ConnectToWifiNetwork(string ssid, string passphrase = null);
         Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks();
+        Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork);
     }
 }

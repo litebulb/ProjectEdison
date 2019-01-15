@@ -7,6 +7,7 @@ using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.WiFi;
 using Foundation;
 using NetworkExtension;
+using SystemConfiguration;
 
 namespace Edison.Mobile.iOS.Common.WiFi
 {
@@ -25,16 +26,33 @@ namespace Edison.Mobile.iOS.Common.WiFi
             Console.WriteLine(result);
         }
 
-        public async Task<WifiNetwork> GetCurrentlyConnectedWifiNetwork()
+        Task<WifiNetwork> IWifiService.GetCurrentlyConnectedWifiNetwork()
         {
-            return await Task.FromResult(new WifiNetwork { SSID = "fakewifi" });
+            WifiNetwork wifiNetwork = null;
+
+            CaptiveNetwork.TryCopyCurrentNetworkInfo("en0", out var info);
+
+            foreach (var pair in info)
+            {
+                if (pair.Key.ToString() == "SSID")
+                {
+                    wifiNetwork = new WifiNetwork
+                    {
+                        SSID = pair.Value.ToString(),
+                    };
+                }
+            }
+
+            return Task.FromResult(wifiNetwork);
+
         }
 
-        public async Task<bool> ConnectToSecuredWifiNetwork(string ssid, string passphrase)
+        public async Task<bool> ConnectToWifiNetwork(string ssid, string passphrase = null)
         {
             try
             {
-                var hotspotConfig = new NEHotspotConfiguration(ssid, passphrase, false);
+                var hotspotConfig = string.IsNullOrEmpty(passphrase) ? new NEHotspotConfiguration(ssid) : new NEHotspotConfiguration(ssid, passphrase, false);
+                hotspotConfig.JoinOnce = true;
 
                 await NEHotspotConfigurationManager.SharedManager.ApplyConfigurationAsync(hotspotConfig);
 
@@ -48,6 +66,11 @@ namespace Edison.Mobile.iOS.Common.WiFi
             }
         }
 
+        public async Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)
+        {
+            await Task.Run(() => NEHotspotConfigurationManager.SharedManager.RemoveConfiguration(wifiNetwork.SSID));
+        }
+
         // iOS is unable to gather available wifi networks without apple's approval (https://developer.apple.com/documentation/networkextension/nehotspothelper).
         public async Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks() // mock
         {
@@ -57,7 +80,7 @@ namespace Edison.Mobile.iOS.Common.WiFi
             {
                 new WifiNetwork
                 {
-                    SSID = "EDISON_B827EB910E94",
+                    SSID = "EDISON_BA27EB910E94",
                 },
             };
         }

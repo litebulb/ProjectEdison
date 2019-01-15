@@ -27,6 +27,7 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
 
             builder.Register((c, p) => new DeviceRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
             builder.Register((c, p) => new OnboardingRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), DeviceConfig.BaseUrl));
+            builder.Register((c, p) => new DeviceProvisioningRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), DeviceConfig.ProvisioningBaseUrl));
 
             builder.RegisterType<DeviceSetupService>()
                    .SingleInstance();

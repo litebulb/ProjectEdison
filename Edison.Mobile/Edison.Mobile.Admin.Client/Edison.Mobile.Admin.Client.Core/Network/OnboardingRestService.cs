@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Network;
@@ -22,17 +23,63 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             // no-op
         }
 
-        public async Task GetDeviceId()
+        public async Task<ResultCommandGetDeviceId> GetDeviceId()
         {
             try
             {
                 var request = PrepareRequest("/GetDeviceId", Method.GET);
-                var result = await client.ExecuteTaskAsync<object>(request); // currently times out
-                Console.WriteLine(result);
+                var result = await client.ExecuteGetTaskAsync<ResultCommandGetDeviceId>(request);
+                if (result.IsSuccessful)
+                {
+                    return result.Data;
+                }
+
+                return null;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Log(e);
+                return null;
+            }
+        }
+
+        public async Task<ResultCommandGenerateCSR> GetGeneratedCSR()
+        {
+            try
+            {
+                var request = PrepareRequest("/GetGeneratedCSR", Method.GET);
+                var queryResult = await client.ExecuteGetTaskAsync<ResultCommandGenerateCSR>(request);
+                if (queryResult.IsSuccessful)
+                {
+                    return queryResult.Data;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+                return null;
+            }
+        }
+
+        public async Task<ResultCommand> SetDeviceType(RequestCommandSetDeviceType setDeviceTypeCommand)
+        {
+            try
+            {
+                var request = PrepareRequest("/SetDeviceType", Method.POST, setDeviceTypeCommand);
+                var queryResult = await client.ExecutePostTaskAsync<ResultCommand>(request);
+                if (queryResult.IsSuccessful)
+                {
+                    return queryResult.Data;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+                return null;
             }
         }
     }

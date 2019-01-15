@@ -7,7 +7,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.bluemetal.edisonuser</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.2</string>
+	<string>1.5.4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -60,8 +60,11 @@
 		<string>Rubik-Medium.ttf</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>0.4.5</string>
+	<string>0.4.7</string>
 	<key>NSAppTransportSecurity</key>
-	<string>NSAllowsArbitraryLoads</string>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

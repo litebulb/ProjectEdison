@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
+using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Network;

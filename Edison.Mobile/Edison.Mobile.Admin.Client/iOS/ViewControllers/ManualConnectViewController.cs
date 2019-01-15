@@ -137,7 +137,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
         async void HandleOnWifiNetworkSelected(object sender, WifiNetwork wifiNetwork)
         {
-            var success = await ViewModel.ConnectToDeviceHotspot(wifiNetwork);
+            var success = await ViewModel.ProvisionDevice(wifiNetwork);
             if (success)
             {
                 DismissViewController(true, null);

@@ -2,6 +2,7 @@
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Deserializers;
 
@@ -57,10 +58,13 @@ namespace Edison.Mobile.Common.Network
         public string Namespace { get; set; }
         public string DateFormat { get; set; }
         public string ContentType { get; set; }
-
+            
         public T Deserialize<T>(IRestResponse response)
         {
-            return JsonConvert.DeserializeObject<T>(response.Content);
+            ITraceWriter traceWriter = new MemoryTraceWriter();
+            var deserialized = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings { TraceWriter = traceWriter });
+            Console.WriteLine(traceWriter);
+            return deserialized;
         }
     }
 }

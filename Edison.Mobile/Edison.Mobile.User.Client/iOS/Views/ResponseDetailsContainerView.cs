@@ -43,7 +43,7 @@ namespace Edison.Mobile.User.Client.iOS.Views
                 }
             }
 
-            base.LayoutSubviews();
+            //base.LayoutSubviews();
         }
     }
 }

@@ -6,6 +6,7 @@ using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Admin.Client.iOS.Extensions;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Views;
+using Edison.Mobile.Common.WiFi;
 using Edison.Mobile.iOS.Common.Views;
 using Foundation;
 using UIKit;
@@ -116,7 +117,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             if (!cameraView.IsRunning)
             {
-                cameraView.Start();            
+                cameraView.Start();
             }
         }
 
@@ -124,19 +125,49 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         {
             base.BindEventHandlers();
             noQRCodeButton.TouchUpInside += HandleNoQRCodeButtonTouchUpInside;
+            ViewModel.OnBeginDevicePairing += HandleOnBeginDevicePairing;
+            ViewModel.OnFinishDevicePairing += HandleOnFinishDevicePairing;
         }
 
         protected override void UnBindEventHandlers()
         {
             base.UnBindEventHandlers();
             noQRCodeButton.TouchUpInside -= HandleNoQRCodeButtonTouchUpInside;
+            ViewModel.OnBeginDevicePairing -= HandleOnBeginDevicePairing;
+            ViewModel.OnFinishDevicePairing -= HandleOnFinishDevicePairing;
+        }
+
+        void HandleOnBeginDevicePairing()
+        {
+
+        }
+
+        void HandleOnFinishDevicePairing(object sender, RegisterDeviceViewModel.OnFinishDevicePairingEventArgs e)
+        {
+
         }
 
         void HandleNoQRCodeButtonTouchUpInside(object sender, EventArgs e)
         {
-            var manualConnectViewController = new ManualConnectViewController();
-            var navController = new UINavigationController(manualConnectViewController);
-            PresentViewController(navController, true, null);
+            var alertController = UIAlertController.Create(
+                $"Enter your {ViewModel.DeviceTypeAsString}'s wifi network manually below.", 
+                $"Your {ViewModel.DeviceTypeAsString} should be emitting a wifi network of the format EDISON_{{ID}}.",
+                UIAlertControllerStyle.Alert
+            );
+
+            alertController.AddTextField(textField =>
+            {
+                textField.Text = $"EDISON_{ViewModel.MockDeviceID}";
+            });
+
+            alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, async action =>
+                await ViewModel.ProvisionDevice(new WifiNetwork
+                {
+                    SSID = alertController.TextFields[0].Text,
+                })
+            ));
+
+            PresentViewController(alertController, true, null);
         }
     }
 }

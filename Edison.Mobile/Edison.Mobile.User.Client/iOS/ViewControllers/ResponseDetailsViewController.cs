@@ -235,7 +235,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            View.LayoutIfNeeded();
+            //View.LayoutIfNeeded();
             tableView.ContentInset = new UIEdgeInsets((View.Bounds.Height * mapViewHeightFactor) + headerHeight, 0, Constants.PulloutMinBottomMargin + Constants.Padding, 0);
             iconBackgroundView.Frame = new CGRect
             {
@@ -331,7 +331,7 @@ namespace Edison.Mobile.User.Client.iOS.ViewControllers
                 mapViewTopConstraint.Constant = constant - mapOverflowConstant;
             }
 
-            View.LayoutIfNeeded();
+            //View.LayoutIfNeeded();
         }
 
         void SetIconBackgroundViewFrame(nfloat yOffset) // TODO: this, and call it from viewdidappear or something
