@@ -45,7 +45,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
 
             // get event/reponse data
-            _eventGauge.EventCount = ViewModel.Responses.Count + 1;
+            _eventGauge.EventCount = ViewModel.Responses.Count;
 
 
 

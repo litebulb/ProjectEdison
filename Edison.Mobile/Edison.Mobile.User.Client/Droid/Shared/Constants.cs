@@ -14,7 +14,7 @@ namespace Edison.Mobile.User.Client.Droid
 {
     public static class Constants
     {
-        public static string ClientId = "64531b8c-3d22-4c2a-8d72-bf37c8609fbe";
+        public static string ClientId = "19cb746c-3066-4cd8-8cd2-e0ce1176ae33"; //"64531b8c-3d22-4c2a-8d72-bf37c8609fbe";
 
         internal static readonly string CHANNEL_ID = "my_notification_channel";
         internal static readonly int NOTIFICATION_ID = 100;
