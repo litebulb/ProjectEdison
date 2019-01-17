@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+  
+    <!--Test Google API Key-->
+    <string name="api_key">AIzaSyBlYMUA9IwZWrJt6GdQIJ2D6g4tKi2SyXU</string>
+  
     <!-- System strings -->
     <string name="app_name">Edison</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -1,21 +1,26 @@
 ﻿using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Controls;
 using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.Droid.Activities;
+using Edison.Mobile.User.Client.Droid.Adapters;
 using System;
 using System.Collections.Specialized;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
-    public class HomePageFragment : BaseFragment<ResponsesViewModel>
+    public class HomePageFragment : BaseFragment<ResponsesViewModel>  // use MainViewModel as a dummy ViewMiodel
     {
 
         private CircularEventGauge _eventGauge;
-
+        private View root;
+        private LinearLayoutManager layoutManager;
+        private RecyclerView recyclerView;
+        private ResponsesAdapter responsesAdapter;
 
         public event EventHandler OnViewResponseDetails;  // not sure if we need this
         public event EventHandler OnDismissResponseDetails;// not sure if we need this
@@ -88,6 +93,19 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
         }
 
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            if (root != null)
+            {
+                layoutManager = new LinearLayoutManager(root.Context, LinearLayoutManager.Horizontal, false);
+                recyclerView = root.FindViewById<RecyclerView>(Resource.Id.response_recycler_view);
+                recyclerView.SetLayoutManager(layoutManager);
+                responsesAdapter = new ResponsesAdapter(root.Context, ViewModel.Responses);
+                recyclerView.SetAdapter(responsesAdapter);
+            }
+        }
+
 
         private void AdjustSizes()
         {
@@ -138,7 +156,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
         private void OnCurrentEventCircleColorChanged(object sender, string newColor)
         {
-            var color = Constants.GetEventTypeColor(Activity, newColor);
+            var color = Constants.Colors.GetEventTypeColor(Activity, newColor);
             _eventGauge.RingColors = new ShadingColorPair(Color.White, color);
             _eventGauge.SetCenterTint(color);
         }

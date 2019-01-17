@@ -36,14 +36,15 @@ namespace Edison.Mobile.User.Client.Droid
         public static int EventGaugeSizePx { get; private set; } = -1;
 
 
-        public static int BrightnessContainerWidth  { get; private set; } = -1;
+        public static int BrightnessContainerWidth { get; private set; } = -1;
         public static int BrightnessToolbarItemIconBottomPadding { get; private set; } = -1;
 
 
 
         public static async Task CalculateUIDimensionsAsync(Activity act)
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 CalculateUIDimensions(act);
                 return;
             }).ConfigureAwait(false);
@@ -58,13 +59,19 @@ namespace Edison.Mobile.User.Client.Droid
             UpdateBarDimensions(act);
 
             // BottomSheet PeekHeight
-            int quickChatIconHorizontalMarginPx = (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_button_icon_padding);
-            int quickChatIconVerticalMarginsPx = quickChatIconHorizontalMarginPx + (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_button_icon_toppadding);
+            int quickChatIconHorizontalMarginPx =
+                (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_button_icon_padding);
+            int quickChatIconVerticalMarginsPx = quickChatIconHorizontalMarginPx +
+                                                 (int)act.Resources.GetDimension(Resource.Dimension
+                                                     .bottom_sheet_button_icon_toppadding);
             int labelHeightPx = act.Resources.GetDimensionPixelSize(Resource.Dimension.bottom_sheet_button_text_size);
-            int bottomSheetThumbHeightPx = 2 * (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_thumb_padding) + (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_thumb_height);
+            int bottomSheetThumbHeightPx =
+                2 * (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_thumb_padding) +
+                (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_thumb_height);
             int quickChatIconHorizontalMarginsPx = 2 * quickChatIconHorizontalMarginPx;
             int quickChatIconDiameterPx = (int)(displayWidthPx / 3 - quickChatIconHorizontalMarginsPx);
-            BottomSheetPeekHeightPx = quickChatIconDiameterPx + labelHeightPx + bottomSheetThumbHeightPx + quickChatIconVerticalMarginsPx;
+            BottomSheetPeekHeightPx = quickChatIconDiameterPx + labelHeightPx + bottomSheetThumbHeightPx +
+                                      quickChatIconVerticalMarginsPx;
             // BottomSheet Height
             BottomSheetHeightPx = displayHeightPx - (int)act.Resources.GetDimensionPixelSize(Resource.Dimension.abc_action_bar_default_height_material);
 
@@ -84,7 +91,8 @@ namespace Edison.Mobile.User.Client.Droid
 
         public static async Task UpdateBarDimensionsAsync(Activity act)
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 UpdateBarDimensions(act);
                 return;
             }).ConfigureAwait(false);
@@ -123,19 +131,66 @@ namespace Edison.Mobile.User.Client.Droid
             BrightnessContainerWidth = 2 * (toolbar.Width - itemCenterX);
         }
 
-
-        public static Color GetEventTypeColor(Activity act, string colorName)
+        public static class Assets
         {
-            switch (colorName)
+            public static int Fire => Resource.Drawable.fire;
+            public static int Gun => Resource.Drawable.gun;
+            public static int Protest => Resource.Drawable.protest;
+            public static int Health => Resource.Drawable.health_check;
+            public static int Tornado => Resource.Drawable.tornado;
+            public static int Package => Resource.Drawable.suspicious_package;
+            public static int Vip => Resource.Drawable.vip;
+            public static int Emergency => Resource.Drawable.emergency;
+
+            public static int MapFromActionPlanIcon(string str)
             {
-                case Core.Shared.Constants.ColorName.Red: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_red, null));
-                case Core.Shared.Constants.ColorName.Yellow: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.app_yellow, null));
-                case Core.Shared.Constants.ColorName.Blue: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_blue, null));
-                default: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_blue, null));
+                switch (str)
+                {
+                    case Core.Shared.Constants.IconName.Fire: return Fire;
+                    case Core.Shared.Constants.IconName.Gun: return Gun;
+                    case Core.Shared.Constants.IconName.Protest: return Protest;
+                    case Core.Shared.Constants.IconName.Pollution: return Health;
+                    case Core.Shared.Constants.IconName.Health: return Health;
+                    case Core.Shared.Constants.IconName.Tornado: return Tornado;
+                    case Core.Shared.Constants.IconName.Package: return Package;
+                    case Core.Shared.Constants.IconName.Vip: return Vip;
+                    case Core.Shared.Constants.IconName.Emergency: return Emergency;
+                    default: return 0;
+                }
             }
+
         }
 
+        public static class Colors
+        {
+            public static Color White = Color.White;
+            public static Color Black = Color.Black;
+            public static Color BackgroundGray = new Color(242 / 255, 242 / 255, 244 / 255, 1);
+            public static Color BackgroundDarkGray = new Color(34 / 255, 34 / 255, 39 / 255, 1);
+            public static Color DarkGray = new Color(62 / 255, 61 / 255, 74 / 255, 1);
+            public static Color MidGray = new Color(136 / 255, 134 / 255, 160 / 255, 1);
+            public static Color LightGray = new Color(237 / 255, 237 / 255, 240 / 255, 1);
+            public static Color Red = new Color(255 / 255, 49 / 255, 34 / 255, 1);
+            public static Color Blue = new Color(34 / 255, 130 / 255, 255 / 255, 1);
+            public static Color DarkBlue = new Color(51 / 255, 34 / 255, 255 / 255, 1);
+            public static Color Green = new Color(40 / 255, 203 / 255, 78 / 255, 1);
+            public static Color YellowWarning = new Color(255 / 255, 159 / 255, 34 / 255, 1);
 
+
+            public static Color GetEventTypeColor(Activity act, string colorName)
+            {
+                switch (colorName)
+                {
+                    case Core.Shared.Constants.ColorName.Red: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_red, null));
+                    case Core.Shared.Constants.ColorName.Yellow: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.app_yellow, null));
+                    case Core.Shared.Constants.ColorName.Blue: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_blue, null));
+                    default: return new Color(ResourcesCompat.GetColor(act.Resources, Resource.Color.icon_blue, null));
+                }
+            }
+
+
+        }
 
     }
 }
+

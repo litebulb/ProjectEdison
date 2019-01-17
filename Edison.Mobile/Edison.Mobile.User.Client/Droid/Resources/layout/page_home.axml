@@ -35,6 +35,10 @@
 		android:id="@+id/event_carousel_container"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_weight="2"
-		/>
+		android:layout_weight="2">
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/response_recycler_view"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+		</FrameLayout>
 </LinearLayout>

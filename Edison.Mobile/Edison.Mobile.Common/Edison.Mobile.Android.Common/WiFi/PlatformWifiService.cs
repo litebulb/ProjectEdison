@@ -12,12 +12,17 @@ namespace Edison.Mobile.Android.Common.WiFi
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<WifiNetwork>> GetWifiNetworks()
+        public Task<bool> ConnectToWifiNetwork(string ssid, string passphrase = null)
         {
             throw new NotImplementedException();
         }
 
-        Task<bool> IWifiService.ConnectToSecuredWifiNetwork(string ssid, string passphrase)
+        public Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<WifiNetwork>> GetWifiNetworks()
         {
             throw new NotImplementedException();
         }
