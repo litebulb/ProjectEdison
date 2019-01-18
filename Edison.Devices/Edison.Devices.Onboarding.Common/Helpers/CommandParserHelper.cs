@@ -7,7 +7,7 @@ namespace Edison.Devices.Onboarding.Common.Helpers
     {
         public static string SerializeAndEncryptCommand(Command command, string socketKey)
         {
-            string value = JsonConvert.SerializeObject(command);
+            string value = JsonConvert.SerializeObject(command.Data);
             if (!string.IsNullOrEmpty(value))
             {
                 return StringCipher.Encrypt(value, socketKey);
@@ -27,7 +27,7 @@ namespace Edison.Devices.Onboarding.Common.Helpers
 
         public static string SerializeCommand(Command command)
         {
-            return JsonConvert.SerializeObject(command);
+            return JsonConvert.SerializeObject(command.Data);
         }
 
         public static Command DeserializeCommand(string commandData)

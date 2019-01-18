@@ -40,7 +40,9 @@ namespace Edison.Devices.Onboarding
             //Start Stream Socker Service
             _DeviceApiServer = new WebDeviceApiServer();
             _DeviceApiServer.CommandReceived += CommandReceived;
-            await _DeviceApiServer.Start();
+            _DeviceApiServer.Start();
+
+            DebugHelper.LogInformation("Onboarding started");
 
             //Wait for AP Timeout
             _LastAccess = DateTime.UtcNow;

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" IgnorableNamespaces="uap mp iot">
-  <Identity Name="Edison.Devices.Onboarding-uwp" Publisher="CN=tbuquet" Version="1.0.1.0" />
+  <Identity Name="Edison.Devices.Onboarding-uwp" Publisher="CN=tbuquet" Version="1.0.4.0" />
   <mp:PhoneIdentity PhoneProductId="f26d6654-eae3-45c4-bf9a-4c53ed199c29" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Edison.Devices.Onboarding</DisplayName>

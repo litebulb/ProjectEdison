@@ -7,6 +7,6 @@ namespace Edison.Devices.Onboarding.Interfaces
     internal interface IDeviceApiServer
     {
         event Func<CommandEventArgs, Task> CommandReceived;
-        Task Start();
+        void Start();
     }
 }

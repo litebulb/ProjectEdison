@@ -4,11 +4,10 @@ using Edison.Devices.Onboarding.Helpers;
 using Edison.Devices.Onboarding.Interfaces;
 using Edison.Devices.Onboarding.Models;
 using System;
+using System.IO;
 using System.Net;
-using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
-using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
 
 namespace Edison.Devices.Onboarding.Services
 {
@@ -17,19 +16,69 @@ namespace Edison.Devices.Onboarding.Services
         public event Func<CommandEventArgs, Task> CommandReceived;
         private const uint BufferSize = 16384;
         private const string EdisonEncryptHeader = "edison-encrypted";
+        private HttpListener _listener = new HttpListener();
 
-        public async Task Start()
+        /// <summary>
+        /// Start the server
+        /// </summary>
+        /// <returns></returns>
+        public async void Start()
         {
             DebugHelper.LogInformation($"WebServer starting on port {SharedConstants.DEVICE_API_PORT}");
 
             var network = await WaitForAPInterface();
 
-            var listener = new StreamSocketListener();
-            listener.Control.QualityOfService = SocketQualityOfService.LowLatency;
-            await listener.BindServiceNameAsync(SharedConstants.DEVICE_API_PORT.ToString());
-            listener.ConnectionReceived += ConnectionReceived;
+            _listener = new HttpListener();
+            _listener.Prefixes.Add($"http://*:{SharedConstants.DEVICE_API_PORT}/");
+            _listener.Start();
 
-            DebugHelper.LogInformation($"Listening for WebServer connection on {SharedConstants.DEVICE_API_PORT}");
+            DebugHelper.LogInformation($"WebServer: Listening for connection on {SharedConstants.DEVICE_API_PORT}");
+            bool retry = false;
+            while (true)
+            {
+                // Enter the listening loop.
+                try
+                {
+                    if (_listener == null)
+                        break;
+
+                    HttpListenerContext context = await _listener.GetContextAsync();
+                    await ProcessConnectionReceived(context);
+                    retry = false;
+
+                    if (_listener == null)
+                        break;
+                }
+                catch (Exception e)
+                {
+                    DebugHelper.LogError($"WebServer: Error handling request: {e.Message}");
+                    if (retry) //Errors keep happening. Lets try to restart the server
+                        break;
+                    retry = true;
+                }
+            }
+            DebugHelper.LogInformation($"WebServer: Stopping...");
+            Stop();
+        }
+
+        /// <summary>
+        /// Stop the server
+        /// </summary>
+        public void Stop()
+        {
+            try
+            {
+                if(_listener != null)
+                {
+                    _listener.Stop();
+                    _listener.Close();
+                    _listener = null;
+                }
+            }
+            catch(Exception e)
+            {
+                DebugHelper.LogError($"WebServer Error during closing: {e.Message}.");
+            }
         }
 
         /// <summary>
@@ -37,55 +86,50 @@ namespace Edison.Devices.Onboarding.Services
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
+        private async Task ProcessConnectionReceived(HttpListenerContext context)
         {
-            DebugHelper.LogInformation($"Connection received from {args.Socket.Information.RemoteAddress.DisplayName}:{args.Socket.Information.RemotePort}");
+            DebugHelper.LogInformation($"WebServer: Connection received from {context.Request.RemoteEndPoint}");
 
             try
             {
-                using (var reader = new DataReader(args.Socket.InputStream))
+                if (context.Request.Url.AbsolutePath == "/")
                 {
-                    using (var writer = new DataWriter(args.Socket.OutputStream))
+                    SendResponse("Onboarding App is running", context.Response);
+                }
+                else
+                {
+
+                    Tuple<Command, HttpStatusCode> commandAndStatus = GetCommandFromRequest(context.Request);
+                    Command command = commandAndStatus.Item1;
+                    if (command == null)
                     {
-                        reader.InputStreamOptions = InputStreamOptions.Partial;
-                        try
-                        {
-                            Tuple<Command, HttpStatusCode> commandAndStatus = await ReceiveCommand(reader);
-                            Command command = commandAndStatus.Item1;
-                            if (command == null)
-                            {
-                                await SendResponse(Command.CreateErrorCommand($"The command was null."), writer, false, HttpStatusCode.BadRequest);
-                                return;
-                            }
-                            if (command.BaseCommand == CommandsEnum.ResultError)
-                            {
-                                await SendResponse(command, writer, false, commandAndStatus.Item2);
-                                return;
-                            }
-
-                            //Send command
-                            CommandEventArgs commandArgs = new CommandEventArgs() { InputCommand = command };
-                            await CommandReceived?.Invoke(commandArgs);
-
-                            //If output command retrieve, send it
-                            if (commandArgs.OutputCommand != null)
-                                await SendResponse(commandArgs.OutputCommand, writer, SecretManager.IsEncryptionEnabled);
-
-
-                        }
-                        catch (Exception loopException)
-                        {
-                            await SendResponse(Command.CreateErrorCommand($"Error handling request: {loopException.Message}"), writer, false, HttpStatusCode.InternalServerError);
-                        }
-
-                        DebugHelper.LogInformation($"Connection from {args.Socket.Information.RemoteAddress.DisplayName}:{args.Socket.Information.RemotePort} ended");
+                        SendResponse(Command.CreateErrorCommand($"The command was null."), context.Response, false, HttpStatusCode.BadRequest);
+                        return;
                     }
+                    if (command.BaseCommand == CommandsEnum.ResultError)
+                    {
+                        SendResponse(command, context.Response, false, commandAndStatus.Item2);
+                        return;
+                    }
+
+                    //Send command
+                    CommandEventArgs commandArgs = new CommandEventArgs() { InputCommand = command };
+                    await CommandReceived?.Invoke(commandArgs);
+
+                    //If output command retrieve, send it
+                    if (commandArgs.OutputCommand != null)
+                        SendResponse(commandArgs.OutputCommand, context.Response, SecretManager.IsEncryptionEnabled);
                 }
             }
-            catch (Exception e)
+            catch (Exception loopException)
             {
-                DebugHelper.LogError($"Error handling request: {e.Message}");
+                SendResponse(Command.CreateErrorCommand($"Error handling request: {loopException.Message}"), context.Response, false, HttpStatusCode.InternalServerError);
             }
+
+            DebugHelper.LogInformation($"WebServer: Connection from {context.Request.RemoteEndPoint} ended.");
+
+            context.Response.OutputStream.Flush();
+            context.Response.OutputStream.Close();
         }
 
         /// <summary>
@@ -96,56 +140,43 @@ namespace Edison.Devices.Onboarding.Services
         /// <param name="encrypt"></param>
         /// <param name="statusCode"></param>
         /// <returns></returns>
-        private async Task SendResponse(Command command, DataWriter writer, bool encrypt, HttpStatusCode statusCode = HttpStatusCode.OK)
+        private void SendResponse(Command command, HttpListenerResponse response, bool encrypt, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             var json = CommandParserHelper.SerializeCommand(command);
 
-            string encryptHeader = string.Empty;
+            //Encrypt
             if (encrypt)
             {
                 json = CommandParserHelper.EncryptMessage(json, SecretManager.EncryptionKey);
-                encryptHeader = $"{EdisonEncryptHeader}: true\r\n";
+                response.AddHeader(EdisonEncryptHeader, "true");
             }
 
-            var message = $"HTTP/1.1 {(int)statusCode} {statusCode}\r\nContent-Length: {json.Length}\r\ncontent-type: application/json\r\n{encryptHeader}Connection: close\r\n\r\n" + json;
+            //Headers
+            response.ContentLength64 = json.Length;
+            response.ContentType = "application/json";
+            response.StatusCode = (int)statusCode;
 
-            writer.WriteString(message);
-            await writer.StoreAsync();
+            response.OutputStream.Write(Encoding.UTF8.GetBytes(json));
             DebugHelper.LogInformation($"Sent: {command.BaseCommand}, {command.Data}");
-
         }
 
         /// <summary>
-        /// Receive command
+        /// Send Response
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="command"></param>
+        /// <param name="writer"></param>
+        /// <param name="encrypt"></param>
+        /// <param name="statusCode"></param>
         /// <returns></returns>
-        private async Task<Tuple<Command, HttpStatusCode>> ReceiveCommand(DataReader reader)
+        private void SendResponse(string message, HttpListenerResponse response, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            HttpRequest httpRequest = null;
-            await reader.LoadAsync(BufferSize);
-            string request = string.Empty;
-            while (reader.UnconsumedBufferLength > 0)
-            {
-                request += reader.ReadString(reader.UnconsumedBufferLength);
+            //Headers
+            response.ContentLength64 = message.Length;
+            response.ContentType = "application/json";
+            response.StatusCode = (int)statusCode;
 
-                //Test httpRequest, it can happen if the stream isn't fully loaded.
-                if (reader.UnconsumedBufferLength == 0)
-                {
-                    httpRequest = HttpRequest.FromString(request);
-                    if (!httpRequest.ValidateHttpRequest())
-                        await LoadAsyncWithTimeout(reader);
-                }
-            }
-
-            //Process request
-            httpRequest = HttpRequest.FromString(request);
-            if (!httpRequest.ValidateHttpRequest())
-                throw new Exception("HttpRequest: Content-Length does not match the size of body.");
-
-            Tuple<Command, HttpStatusCode> command = GetCommandFromRequest(httpRequest);
-            DebugHelper.LogInformation($"Incoming: {command.Item1.BaseCommand}, {command.Item1.Data}");
-            return command;
+            response.OutputStream.Write(Encoding.UTF8.GetBytes(message));
+            DebugHelper.LogInformation($"Sent message: '{message}'");
         }
 
         /// <summary>
@@ -153,61 +184,51 @@ namespace Edison.Devices.Onboarding.Services
         /// </summary>
         /// <param name="httpRequest"></param>
         /// <returns></returns>
-        private Tuple<Command, HttpStatusCode> GetCommandFromRequest(HttpRequest httpRequest)
+        private Tuple<Command, HttpStatusCode> GetCommandFromRequest(HttpListenerRequest httpRequest)
         {
             //Check the authentication
-            if (!httpRequest.Headers.ContainsKey("authorization") || httpRequest.Headers["authorization"] != SecretManager.PortalPasswordBase64)
+            if (httpRequest.Headers["authorization"] == null || httpRequest.Headers["authorization"] != SecretManager.PortalPasswordBase64)
                 return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand("Unauthorized."), HttpStatusCode.Unauthorized);
 
             //if Encryption is enabled, the device will expect a request with encrypted header
-            if (SecretManager.IsEncryptionEnabled && !httpRequest.Headers.ContainsKey(EdisonEncryptHeader))
+            if (SecretManager.IsEncryptionEnabled && httpRequest.Headers[EdisonEncryptHeader] == null)
                 return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand("Encryption is enabled on the device."), HttpStatusCode.Unauthorized);
 
             //Listen to /edison/ endpoints only
-            if (!httpRequest.Query.ToLower().StartsWith("/edison/"))
+            string apiPath = httpRequest.Url.AbsolutePath.ToLower();
+            if (!apiPath.StartsWith("/edison/"))
                 return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand("Not found."), HttpStatusCode.NotFound);
 
             //Retrieve the command from the endpoint
-            string commandString = httpRequest.Query.Replace("/edison/", "");
+            string commandString = apiPath.Replace("/edison/", "");
             if (!Enum.TryParse(typeof(CommandsEnum), commandString, true, out object commandResult))
                 return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand($"The command '{commandString}' was not found."), HttpStatusCode.NotFound);
 
+            //Body
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(httpRequest.InputStream))
+            {
+                body = reader.ReadToEnd();
+            }
+
             //Decrypt the message
-            if (httpRequest.Headers.ContainsKey(EdisonEncryptHeader))
-                httpRequest.Body = CommandParserHelper.DecryptMessage(httpRequest.Body, SecretManager.EncryptionKey);
+            if (httpRequest.Headers[EdisonEncryptHeader] != null)
+                body = CommandParserHelper.DecryptMessage(body, SecretManager.EncryptionKey);
 
             //Generate the command object
             CommandsEnum command = (CommandsEnum)commandResult;
-            if (httpRequest.Method == "GET" && commandString.StartsWith("get"))
+            if (httpRequest.HttpMethod == "GET" && commandString.StartsWith("get"))
                 return new Tuple<Command, HttpStatusCode>(new Command() { BaseCommand = command }, HttpStatusCode.OK);
-            else if (httpRequest.Method == "POST" && !commandString.StartsWith("get"))
+            else if (httpRequest.HttpMethod == "POST" && !commandString.StartsWith("get"))
             {
                 //If the request is POST, ensure that the content-type header is application/json
-                if (httpRequest.Headers.ContainsKey("content-type") && httpRequest.Headers["content-type"] == "application/json")
-                    return new Tuple<Command, HttpStatusCode>(new Command() { BaseCommand = command, Data = httpRequest.Body }, HttpStatusCode.OK);
+                if (httpRequest.Headers["content-type"] != null && httpRequest.Headers["content-type"] == "application/json")
+                    return new Tuple<Command, HttpStatusCode>(new Command() { BaseCommand = command, Data = body }, HttpStatusCode.OK);
                 return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand($"The body content must be a json string."), HttpStatusCode.BadRequest);
             }
 
             //Method is not GET or POST, return unsupported error
-            return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand($"Method {httpRequest.Method} {command} not supported."), HttpStatusCode.BadRequest);
-        }
-
-        /// <summary>
-        /// Perform an async load of the streamsocketlistener, with a timeout to avoid deadlock
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        private async Task LoadAsyncWithTimeout(DataReader reader)
-        {
-            try
-            {
-                var timeoutSource = new CancellationTokenSource(1000);
-                await reader.LoadAsync(BufferSize).AsTask(timeoutSource.Token);
-            }
-            catch (TaskCanceledException)
-            {
-                // Can potentially happen. It's here to avoid deadlocks.
-            }
+            return new Tuple<Command, HttpStatusCode>(Command.CreateErrorCommand($"Method {httpRequest.HttpMethod} {command} not supported."), HttpStatusCode.BadRequest);
         }
     }
 }

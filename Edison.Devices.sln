@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Simulators.CSVGenera
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edison.Common.DAO", "Edison.Web\Edison.Common.DAO\Edison.Common.DAO.csproj", "{4EE47824-891A-4174-A000-91E1A405BA0B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{A453E687-D9ED-4A64-82C4-1F679FC20E23}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DebugClient", "DebugClient", "{A453E687-D9ED-4A64-82C4-1F679FC20E23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edison.Devices.Onboarding", "Edison.Devices\Edison.Devices.Onboarding\Edison.Devices.Onboarding.csproj", "{0A2C8B59-CD06-493F-8CC5-6E8AAB1F5F9B}"
 EndProject
@@ -42,10 +42,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IoTOnboardingUtils", "Edison.Devices\IoTOnboardingUtils\IoTOnboardingUtils.vcxproj", "{CAF3EF02-B6AE-4DC9-B390-47C342DCA8EC}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Edison.Devices\Development\Edison.Devices.Onboarding.Client\Edison.Devices.Onboarding.Client.projitems*{84e206a4-d5f7-499e-ba79-1e4ea362c162}*SharedItemsImports = 13
-		Edison.Devices\Development\Edison.Devices.Onboarding.Client\Edison.Devices.Onboarding.Client.projitems*{e7b0d02c-5053-4b2e-9b94-3420d52a5745}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -280,7 +276,7 @@ Global
 		{0A2C8B59-CD06-493F-8CC5-6E8AAB1F5F9B} = {BFD6D481-F836-4CE6-8668-774BBDD1DC5A}
 		{E7B0D02C-5053-4B2E-9B94-3420D52A5745} = {A453E687-D9ED-4A64-82C4-1F679FC20E23}
 		{84E206A4-D5F7-499E-BA79-1E4EA362C162} = {A453E687-D9ED-4A64-82C4-1F679FC20E23}
-		{EF5EA191-30D7-4DFF-8CDF-FE4B3A0E340D} = {255D4337-6EFF-4558-8194-5CF90224FF29}
+		{EF5EA191-30D7-4DFF-8CDF-FE4B3A0E340D} = {BFD6D481-F836-4CE6-8668-774BBDD1DC5A}
 		{C2C4D080-1349-4460-8CB4-59512532C494} = {50446C0D-687D-4424-AA00-A3AA6EF8915B}
 		{BFD6D481-F836-4CE6-8668-774BBDD1DC5A} = {255D4337-6EFF-4558-8194-5CF90224FF29}
 		{CAF3EF02-B6AE-4DC9-B390-47C342DCA8EC} = {BFD6D481-F836-4CE6-8668-774BBDD1DC5A}

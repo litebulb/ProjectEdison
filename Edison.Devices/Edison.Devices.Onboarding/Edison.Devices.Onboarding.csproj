@@ -126,7 +126,6 @@
     <Compile Include="Services\DeviceApiServer\WebDeviceApiServer.cs" />
     <Compile Include="Services\WifiServiceApi.cs" />
     <Compile Include="Services\WifiService.cs" />
-    <Compile Include="Services\DeviceApiServer\SocketDeviceApiServer.cs" />
     <Compile Include="OnboardingServer.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

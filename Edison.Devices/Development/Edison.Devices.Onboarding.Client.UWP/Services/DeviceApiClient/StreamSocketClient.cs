@@ -65,7 +65,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
                             if (response.BaseCommand == requestCommand.BaseCommand + 100)
                             {
                                 Close();
-                                return JsonConvert.DeserializeObject<T>(response.Data);
+                                return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(response.Data)); //todo: probably broken after command data changed from string to object 1/11/18
                             }
                             else
                             {
