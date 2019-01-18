@@ -144,17 +144,17 @@ namespace Edison.Devices.Onboarding.Services
         {
             var json = CommandParserHelper.SerializeCommand(command);
 
+            //Headers
+            response.StatusCode = (int)statusCode;
+            response.ContentType = "application/json";
+            response.ContentLength64 = json.Length;
             //Encrypt
             if (encrypt)
             {
                 json = CommandParserHelper.EncryptMessage(json, SecretManager.EncryptionKey);
                 response.AddHeader(EdisonEncryptHeader, "true");
             }
-
-            //Headers
-            response.ContentLength64 = json.Length;
-            response.ContentType = "application/json";
-            response.StatusCode = (int)statusCode;
+            response.AddHeader("Connection", "close");
 
             response.OutputStream.Write(Encoding.UTF8.GetBytes(json));
             DebugHelper.LogInformation($"Sent: {command.BaseCommand}, {command.Data}");
