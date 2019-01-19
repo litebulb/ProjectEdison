@@ -70,6 +70,7 @@ namespace Edison.Mobile.Android.Common
             ViewModel?.ViewDisappearing();
         }
 
+        // Note: There is no equivilent to ViewDidAppear in Android
         public override void OnResume()
         {
             base.OnResume();

@@ -25,9 +25,9 @@
 				app:ringEndColor="@color/icon_blue"
 				app:centerTint="@color/icon_blue"
 				app:iconSrc="@drawable/location"
-        app:iconTint="@color/white"
-        app:countColor="@color/white"
-        app:labelColor="@color/white"
+				app:iconTint="@color/white"
+				app:countColor="@color/white"
+				app:labelColor="@color/white"
 				app:count="0"
 				/>
 	</FrameLayout>
@@ -35,10 +35,15 @@
 		android:id="@+id/event_carousel_container"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_weight="2">
+		android:layout_weight="2"
+		android:paddingTop="@dimen/response_carousel_area_padding_top"
+		android:paddingBottom="@dimen/response_carousel_area_padding_bottom"
+		>
 		<android.support.v7.widget.RecyclerView
-			android:id="@+id/response_recycler_view"
+			android:id="@+id/event_carousel"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent"
+			android:scrollbars="horizontal"
+			/>
 		</FrameLayout>
 </LinearLayout>

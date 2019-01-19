@@ -28,6 +28,7 @@
   <dimen name="fab_elevation">12dp</dimen>
   <dimen name="snack_bar_elevation">12dp</dimen>
   <dimen name="nav_drawer_elevation">21dp</dimen>
+  <dimen name="card_elevation">4dp</dimen>
   
   <dimen name="nav_drawer_top_margin">8dp</dimen>
   <dimen name="nav_drawer_bottom_margin">18dp</dimen>
@@ -41,6 +42,16 @@
   <dimen name="bottom_sheet_button_icon_toppadding">10dp</dimen>
 
   <dimen name="event_guage_area_padding">10dp</dimen>
-  
+  <dimen name="response_carousel_area_padding_top">10dp</dimen>
+  <dimen name="response_carousel_area_padding_bottom">10dp</dimen>
+
+  <dimen name="response_card_corner_radius">10dp</dimen>
+  <dimen name="response_card_seperator_height">4dp</dimen>
+  <dimen name="response_card_content_padding_left">13dp</dimen>
+  <dimen name="response_card_content_padding_right">13dp</dimen>
+  <dimen name="response_card_icon_size">30dp</dimen>
+  <dimen name="response_card_icon_padding">4dp</dimen>
+
+  <item name="reponse_card_map_height_percent" type="dimen" format="float">0.3</item>
   
 </resources>

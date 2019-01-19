@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Android.App;
 using Android.OS;
@@ -13,36 +14,38 @@ using Android.Support.V4.View;
 using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
+using Android.Provider;
+using Android.Content.PM;
+using Android.Runtime;
+using Android.Support.V7.View.Menu;
+using static Android.Widget.SeekBar;
 
 using Java.Lang;
 
 using Edison.Mobile.Android.Common;
+using Edison.Mobile.Android.Common.Controls;
+using Edison.Mobile.Android.Common.Utilities;
 using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.Droid.Adapters;
 using Edison.Mobile.User.Client.Droid.Fragments;
-using Edison.Mobile.User.Client.Droid.Ioc;
-using Edison.Mobile.User.Client.Core.Ioc;
-using Edison.Mobile.Android.Common.Ioc;
-using Edison.Mobile.Common.Ioc;
+
 
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Fragment = Android.Support.V4.App.Fragment;
-
-using Edison.Mobile.Android.Common.Controls;
-using Android.Support.V4.Content.Res;
-using System.Threading.Tasks;
-using Android.Support.V7.View.Menu;
-using static Android.Widget.SeekBar;
-using Edison.Mobile.Android.Common.Utilities;
-using Android.Provider;
 using Math = System.Math;
-using Android;
-using Android.Content.PM;
-using Android.Runtime;
+
+
+
+
+
+
+
+
+
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar")]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait)]
  //   [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
     public class MainActivity : BaseActivity<MenuViewModel>
     {

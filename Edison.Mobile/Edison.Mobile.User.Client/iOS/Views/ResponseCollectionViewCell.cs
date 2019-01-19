@@ -78,16 +78,16 @@ namespace Edison.Mobile.User.Client.iOS.Views
         {
             base.BindEventHandlers();
 
-            ViewModel.OnResponseReceived += HandleOnResponseReceived;
-            ViewModel.OnLocationChanged += HandleOnLocationChanged;
+            ViewModel.ResponseReceived += HandleOnResponseReceived;
+            ViewModel.LocationChanged += HandleOnLocationChanged;
         }
 
         public override void UnbindEventHandlers()
         {
             base.UnbindEventHandlers();
 
-            ViewModel.OnResponseReceived -= HandleOnResponseReceived;
-            ViewModel.OnLocationChanged -= HandleOnLocationChanged;
+            ViewModel.ResponseReceived -= HandleOnResponseReceived;
+            ViewModel.LocationChanged -= HandleOnLocationChanged;
         }
 
         void HandleOnResponseReceived()

@@ -1,29 +1,37 @@
-﻿using Android.Content.Res;
+﻿using System;
+using System.Collections.Specialized;
+
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
+
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Controls;
 using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.Droid.Activities;
 using Edison.Mobile.User.Client.Droid.Adapters;
-using System;
-using System.Collections.Specialized;
+
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
     public class HomePageFragment : BaseFragment<ResponsesViewModel>  // use MainViewModel as a dummy ViewMiodel
     {
 
-        private CircularEventGauge _eventGauge;
-        private View root;
-        private LinearLayoutManager layoutManager;
-        private RecyclerView recyclerView;
-        private ResponsesAdapter responsesAdapter;
-
         public event EventHandler OnViewResponseDetails;  // not sure if we need this
         public event EventHandler OnDismissResponseDetails;// not sure if we need this
+
+        private const string CurrentResponseColorKey = "CurrentColor";
+
+        private static bool _isInitialAppearance = true;  // Not sure we need this
+
+        private static Color _currentResponseColor = Constants.DefaultResponseColor;
+
+        private CircularEventGauge _eventGauge;
+
+        private RecyclerView _responsesCarousel;
+        private RecyclerView.LayoutManager _layoutManager;
+        private ResponsesAdapter _responsesAdapter;
 
 
         public bool IsShowingDetails { get; private set; }// not sure if we need this
@@ -33,34 +41,61 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            if (savedInstanceState != null)
+            {
+                int col = savedInstanceState.GetInt(CurrentResponseColorKey, -1);
+                if (col != -1)
+                    _currentResponseColor = new Color(col);
+            }
+        }
 
-            // Create your fragment here
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            // Save the current color
+            outState.PutInt(CurrentResponseColorKey, _currentResponseColor);
+            base.OnSaveInstanceState(outState);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var root = inflater.Inflate(Resource.Layout.page_home, container, false);
             BindViews(root);
+            SetupCarousel();
+            BindEvents();
             AdjustSizes();
-
 
             // Set the Title
             if (Activity is MainActivity act)
                 act.SetToolbarCustomTitle(act.Resources.GetString(Resource.String.right_now));
 
-
-            // get event/reponse data
+            // Set the inital event count and event gauge color
             _eventGauge.EventCount = ViewModel.Responses.Count;
-
-
-
-
-
-
-
-
+            if (ViewModel.Responses.Count > 0)
+                // restore the current event gauge color
+                SetEventGaugeColor(new ShadingColorPair(Color.White, _currentResponseColor));
 
             return root;
+        }
+
+
+        public override void OnStart()
+        {
+            base.OnStart();
+
+            // Not sure we need any of this
+            if (_isInitialAppearance)
+            {
+                IsShowingDetails = false;
+                OnDismissResponseDetails?.Invoke(this, new EventArgs());
+                _isInitialAppearance = false;
+            }
+
+        }
+
+        public override void OnDestroyView()
+        {
+            UnBindEvents();
+            base.OnDestroyView();
         }
 
 
@@ -69,41 +104,38 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             _eventGauge = root.FindViewById<CircularEventGauge>(Resource.Id.event_gauge);
             _eventGauge.Indicator.Clickable = true;
 
+            _responsesCarousel = root.FindViewById<RecyclerView>(Resource.Id.event_carousel);
         }
 
-        protected override void BindEventHandlers()
-        {
-            base.BindEventHandlers();
 
+        private void SetupCarousel()
+        {
+            _responsesCarousel.HasFixedSize = true;
+            _layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
+            _responsesCarousel.SetLayoutManager(_layoutManager);
+            _responsesAdapter = new ResponsesAdapter(Activity, ViewModel.Responses);
+            _responsesCarousel.SetAdapter(_responsesAdapter);
+        }
+
+
+        protected void BindEvents()
+        {
             ViewModel.Responses.CollectionChanged += OnResponsesChanged;
+            ViewModel.ResponseUpdated += OnResponseUpdated;
             ViewModel.OnCurrentAlertCircleColorChanged += OnCurrentEventCircleColorChanged;
            
             _eventGauge.Click += OnEventGaugeClicked;
-
+            _responsesAdapter.ItemClick += OnResponseSelected;
         }
 
-        protected override void UnBindEventHandlers()
+        protected void UnBindEvents()
         {
-            base.UnBindEventHandlers();
-
             ViewModel.Responses.CollectionChanged -= OnResponsesChanged;
+            ViewModel.ResponseUpdated -= OnResponseUpdated;
             ViewModel.OnCurrentAlertCircleColorChanged -= OnCurrentEventCircleColorChanged;
            
             _eventGauge.Click -= OnEventGaugeClicked;
-
-        }
-
-        public override void OnActivityCreated(Bundle savedInstanceState)
-        {
-            base.OnActivityCreated(savedInstanceState);
-            if (root != null)
-            {
-                layoutManager = new LinearLayoutManager(root.Context, LinearLayoutManager.Horizontal, false);
-                recyclerView = root.FindViewById<RecyclerView>(Resource.Id.response_recycler_view);
-                recyclerView.SetLayoutManager(layoutManager);
-                responsesAdapter = new ResponsesAdapter(root.Context, ViewModel.Responses);
-                recyclerView.SetAdapter(responsesAdapter);
-            }
+            _responsesAdapter.ItemClick -= OnResponseSelected;
         }
 
 
@@ -115,62 +147,88 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         }
 
 
-
-
-
-
-
-
-
-
-
-
-        private void OnBrightnessClicked(object sender, EventArgs e)
-        {
-
-        }
-
-        void OnBrightnessSliderValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         void OnEventsReceived()
         {
-            if (ViewModel.Responses == null) return;
+            if (ViewModel.Responses == null)
+                return;
 
             ViewModel.Responses.CollectionChanged -= OnResponsesChanged;  // Why???? - ask Alex
             ViewModel.Responses.CollectionChanged += OnResponsesChanged;
         }
 
 
-
         private void OnResponsesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var haveResponses = ViewModel.Responses.Count > 0;
+
+            // Do we want to change event gauge label if no events??
+            // Do we want to change event gauge alpha if no events??
             _eventGauge.EventCount = ViewModel.Responses.Count;
 
-  //         _eventsList.ReloadData();
- 
+/*          // TODO Change notification based on action - need to test
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewStartingIndex > 1)
+                        _responsesAdapter.NotifyItemRangeInserted(e.NewStartingIndex, e.NewItems.Count);
+                    else
+                        _responsesAdapter.NotifyDataSetChanged();
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    _responsesAdapter.NotifyItemMoved(e.OldStartingIndex, e.NewStartingIndex);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldStartingIndex > 1)
+                        _responsesAdapter.NotifyItemRangeRemoved(e.OldStartingIndex, e.OldItems.Count);
+                    else
+                        _responsesAdapter.NotifyDataSetChanged();
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.NewStartingIndex > 1)
+                        _responsesAdapter.NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
+                    else
+                        _responsesAdapter.NotifyDataSetChanged();
+                    break;
+                case NotifyCollectionChangedAction.Reset:// prob need to chage to range
+                    _responsesAdapter.NotifyDataSetChanged();
+                    break;
+                default:
+                    _responsesAdapter.NotifyDataSetChanged();
+                    break;
+            }  */
+            // inform adapter of change
+            _responsesAdapter.NotifyDataSetChanged();
         }
+
+
+        private void OnResponseUpdated(object s, int e)
+        {
+            // inform adapter of change
+            _responsesAdapter.NotifyItemChanged(e);
+        }
+
+
 
         private void OnCurrentEventCircleColorChanged(object sender, string newColor)
         {
-            var color = Constants.Colors.GetEventTypeColor(Activity, newColor);
-            _eventGauge.RingColors = new ShadingColorPair(Color.White, color);
-            _eventGauge.SetCenterTint(color);
+            var color = Constants.GetEventTypeColor(Activity, newColor);
+            SetEventGaugeColor(new ShadingColorPair(Color.White, color));
+        }
+        private void SetEventGaugeColor(ShadingColorPair colors)
+        {
+            _eventGauge.RingColors = colors;
+            _eventGauge.SetCenterTint(colors.EndColor);
+            _currentResponseColor = colors.EndColor;
         }
 
 
-        private void OnEventSelected(object sender, int index)
+        private void OnResponseSelected(object sender, int index)
         {
             IsShowingDetails = true;
-
             OnViewResponseDetails?.Invoke(this, new EventArgs());
-
             var response = ViewModel.Responses[index];
 
-            // Navigate to details
+            // TODO:  Navigate to details view - probably a new activity as wont show navigation drawer
 
         }
 
@@ -182,5 +240,5 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
 
 
-        }
+    }
 }

@@ -28,6 +28,8 @@
     <string name="emergency">Emergency</string>
     <string name="report_activity">Report Activity</string>
     <string name="im_safe">I\'m Safe</string>
+
+    <string name="_more_info">MORE INFO</string>
   
     <string name="permission_required">Permission Required</string>
     <string name="screen_brightness_dialog_message">In order to modify the screen brightness, explicit permission is required to change device settings.\n\nMay we open your system permissions page?\n\n{Note: Press the Back button to return to Edison from the perissions screen)</string>

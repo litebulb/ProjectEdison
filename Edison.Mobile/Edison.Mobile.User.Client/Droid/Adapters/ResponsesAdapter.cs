@@ -1,114 +1,118 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Android.Content;
-using Android.Graphics;
-using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
+using Android.Content.Res;
+using Android.Support.V7.Widget;
+
 using Edison.Mobile.User.Client.Droid.Holders;
 using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
-using Edison.Mobile.User.Client.Core.ViewModels;
-using Android.Runtime;
-using Android.Support.V7.CardView;
-using Edison.Core.Common.Models;
-using Android.Gms.Maps;
-using Android.App;
-using Edison.Mobile.Android.Common.Geolocation;
-using Android.Gms.Maps.Model;
+
 
 namespace Edison.Mobile.User.Client.Droid.Adapters
 {
-    public class ResponsesAdapter : RecyclerView.Adapter, IOnMapReadyCallback
+    public class ResponsesAdapter : RecyclerView.Adapter
     {
-        private Context context;
-        readonly ObservableRangeCollection<ResponseCollectionItemViewModel> _responses;
-        private GoogleMap map;
-        //public event EventHandler<int> OnResponseSelected;
 
-        public ResponsesAdapter(Context context, ObservableRangeCollection<ResponseCollectionItemViewModel> responses)
+        public event EventHandler<int> ItemClick;
+
+        private Context _context;
+
+
+
+        public ObservableRangeCollection<ResponseCollectionItemViewModel> Responses { get; private set; } = new ObservableRangeCollection<ResponseCollectionItemViewModel>();
+
+        public override int ItemCount => Responses.Count;
+
+
+        public ResponsesAdapter(Context ctx, ObservableRangeCollection<ResponseCollectionItemViewModel> responses)
         {
-            this.context = context;
-            this._responses = responses;
+            _context = ctx;
+            Responses = responses;
         }
 
-        public override int ItemCount => _responses.Count;
 
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
-        {
-            var response = _responses[position].Response;
-            ResponseViewHolder responseViewHolder = (ResponseViewHolder)holder;
-            responseViewHolder.Title.Text = response.ActionPlan.Name;
-            responseViewHolder.Description.Text = response.ActionPlan.Description;
-            responseViewHolder.Date.Text = response.StartDate.ToString();
-
-            responseViewHolder.ColorBar.SetBackgroundColor(Constants.Colors.GetEventTypeColor((Activity)context, response.ActionPlan.Color));
-            responseViewHolder.Image.SetImageResource(Constants.Assets.MapFromActionPlanIcon(response.ActionPlan.Icon));
-
-            if (map != null)
-            {
-                var responseGeo = _responses[position].Geolocation;
-                AddUserMarkerToMap(map, position);
-                AddResponseMarkerToMap(map, position);
-
-                var pos = new CameraPosition.Builder()
-                    .Target(new LatLng(responseGeo.Latitude, responseGeo.Longitude))
-                    .Zoom(16)
-                    .Build();
-
-                map.AnimateCamera(CameraUpdateFactory.NewCameraPosition(pos));
-            }
-        }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View responseCardView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.response_card, parent, false);
-            MapView mapView = (MapView)responseCardView.FindViewById(Resource.Id.response_mapview);
-           
-            if (mapView != null)
+            // Inflate the CardView
+            View responseCard = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.response_card, parent, false);
+            // Create a ViewHolder to find and hold these view references, and register OnClick with the view holder:
+            ResponseViewHolder vh = new ResponseViewHolder(responseCard, OnClick);
+            return vh;
+        }
+
+
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        {
+            ResponseViewHolder vh = holder as ResponseViewHolder;
+            // Add margin to act as seperaor betwen itmes. Double size for first item to center the first card
+            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)vh.Card.LayoutParameters;
+            lp.Width = Constants.EventResponseCardWidthPx;
+            if (position == 0)
+                lp.LeftMargin = Constants.EventResponseCardSeperatorWidthPx;
+            else
+                lp.LeftMargin = Constants.EventResponseCardSeperatorWidthPx / 2;
+            if (position == Responses.Count - 1)
+                lp.RightMargin = Constants.EventResponseCardSeperatorWidthPx;
+            vh.Card.LayoutParameters = lp;
+            // Try to get the actual response details
+            var response = Responses[position].Response;
+
+            // if the details have not been fetched (the inital API only fetches a summary), fetch it
+            if (response?.ActionPlan == null)
             {
-                mapView.OnCreate(null);
-                mapView.GetMapAsync(this);
+                vh.Loading.Visibility = ViewStates.Visible;
+                UpdateResponseDetails(position);
             }
-
-            return new ResponseViewHolder(responseCardView);
+            if (response != null)
+            {
+                vh.Loading.Visibility = ViewStates.Gone;
+                // Set the contents in this ViewHolder's CardView  from this position in the collection:
+                var color = Constants.GetEventTypeColor(_context, response.Color);
+                vh.Seperator.SetBackgroundColor(color);
+                vh.Icon.BackgroundTintList = ColorStateList.ValueOf(color);
+                vh.Icon.SetImageResource(GetIconResourceId(response.Icon));
+                vh.Alert.Text = response.Name;
+                vh.AlertTime.Text = response.StartDate.ToString();
+                vh.AlertDescription.Text = response.ActionPlan?.Description;
+                if (response.Geolocation != null)
+                    vh.SetMapLocation(response.Geolocation.Latitude, response.Geolocation.Longitude, color);
+            }
         }
 
-        public void OnMapReady(GoogleMap googleMap)
+
+        // Raise an event when the item-click takes place:
+        void OnClick(int position)
         {
-            map = googleMap;
-            map.UiSettings.MapToolbarEnabled = false;
-            map.UiSettings.ZoomControlsEnabled = false;
-            MapsInitializer.Initialize(context);
+            ItemClick?.Invoke(this, position);
         }
 
-        public void AddUserMarkerToMap(GoogleMap map, int position)
+
+        private void UpdateResponseDetails(int position)
         {
-            var locationService = new LocationService();
-            var userGeo = locationService.LastKnownLocation;
-            var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.user);
-            var pos = new LatLng(userGeo.Latitude, userGeo.Longitude);
-
-            var markerOptions = new MarkerOptions()
-                .SetPosition(pos)
-                .SetIcon(icon);
-
-            map.AddMarker(markerOptions);
+            Task.Run(async () =>
+            {
+                await GetResponseDetailsAsync(position);
+            });
         }
 
-        public void AddResponseMarkerToMap(GoogleMap map, int position)
+        private async Task GetResponseDetailsAsync(int position)
         {
-            var responseGeo = _responses[position].Geolocation;
-            var pos = new LatLng(responseGeo.Latitude, responseGeo.Longitude);
-            var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.pin);
-
-            var markerOptions = new MarkerOptions()
-                .SetPosition(pos)
-                .SetIcon(icon);
-
-            map.AddMarker(markerOptions);
+            await Responses[position].GetResponse();
+            NotifyItemChanged(position);
         }
+
+
+
+        private int GetIconResourceId(string iconName)
+        {
+            var id = _context.Resources.GetIdentifier(iconName, "drawable", _context.PackageName);
+            return id == 0 ? Resource.Drawable.emergency : id;
+        }
+
     }
 
 }

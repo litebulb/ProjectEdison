@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,7 +19,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
@@ -30,7 +30,8 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignProvision>
+    </CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -157,6 +158,9 @@
     <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RestSharp, Version=106.6.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\..\Edison.Mobile.Common\packages\RestSharp.106.6.7\lib\netstandard2.0\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -189,9 +193,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Edison.Mobile.Common\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\Edison.Mobile.Common\packages\RestSharp.106.5.4\lib\netstandard2.0\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging">
       <HintPath>..\..\Edison.Mobile.Common\packages\Microsoft.IdentityModel.Logging.5.3.0\lib\netstandard2.0\Microsoft.IdentityModel.Logging.dll</HintPath>
@@ -362,32 +363,24 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Ioc\" />
-    <Folder Include="ViewControllers\" />
-    <Folder Include="Shared\" />
-    <Folder Include="Assets.xcassets\LoginLogo.imageset\" />
-    <Folder Include="Assets.xcassets\Menu.imageset\" />
-    <Folder Include="Assets.xcassets\SensorsGray.imageset\" />
-    <Folder Include="Assets.xcassets\SensorsBlue.imageset\" />
-    <Folder Include="Assets.xcassets\Plus.imageset\" />
-    <Folder Include="Views\" />
-    <Folder Include="Assets.xcassets\Gear.imageset\" />
-    <Folder Include="Cells\" />
-    <Folder Include="ViewSources\" />
-    <Folder Include="Assets.xcassets\Power.imageset\" />
-    <Folder Include="Assets.xcassets\Lines.imageset\" />
-    <Folder Include="Assets.xcassets\ArrowRight.imageset\" />
+    <Folder Include="Assets.xcassets\ArrowLeft.imageset\" />
     <Folder Include="Assets.xcassets\ArrowRight.imageset\" />
     <Folder Include="Assets.xcassets\Check.imageset\" />
-    <Folder Include="Assets.xcassets\ArrowLeft.imageset\" />
     <Folder Include="Assets.xcassets\CloseX.imageset\" />
-    <Folder Include="Extensions\" />
+    <Folder Include="Assets.xcassets\Gear.imageset\" />
+    <Folder Include="Assets.xcassets\Lines.imageset\" />
+    <Folder Include="Assets.xcassets\LoginLogo.imageset\" />
+    <Folder Include="Assets.xcassets\Menu.imageset\" />
+    <Folder Include="Assets.xcassets\Plus.imageset\" />
+    <Folder Include="Assets.xcassets\Power.imageset\" />
+    <Folder Include="Assets.xcassets\SensorsBlue.imageset\" />
+    <Folder Include="Assets.xcassets\SensorsGray.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />

@@ -14,6 +14,10 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 {
     public class ResponsesViewModel : BaseViewModel
     {
+
+        public EventHandler<int> ResponseUpdated;
+        public event EventHandler<string> OnCurrentAlertCircleColorChanged;
+
         readonly ResponseRestService responseRestService;
         readonly string[] colorSeverity =
         {
@@ -36,7 +40,6 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             }
         }
 
-        public event EventHandler<string> OnCurrentAlertCircleColorChanged;
 
         public ResponsesViewModel(ResponseRestService responseRestService)
         {
@@ -48,9 +51,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             base.ViewAppeared();
 
             if (Responses.Count == 0)
-            {
                 await GetResponses();
-            }
         }
 
         public async Task GetResponses()
@@ -59,6 +60,8 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             if (responses != null)
             {
                 Responses.ReplaceRange(0, Responses.Count, responses.Select(r => new ResponseCollectionItemViewModel(r)));
+                // get the details for each response in the background
+                UpdateResponseDetails(0, Responses.Count);
 
                 var isSafetyCheckRequired = responses.Any(r => r.AcceptSafeStatus);
                 if (isSafetyCheckRequired)
@@ -78,5 +81,22 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         }
 
         public int GetColorSeverityIndex(string color) => string.IsNullOrEmpty(color) ? 0 : Array.IndexOf(colorSeverity, color);
+
+
+        private void UpdateResponseDetails(int startIndex, int count)
+        {
+            Task.Run(async () =>
+            {
+                await GetResponseDetailsAsync(startIndex, count);
+            });
+        }
+        private async Task GetResponseDetailsAsync(int startIndex, int count)
+        {
+            for (int i = startIndex; i < startIndex + count; i++)
+            {
+                await Responses[i].GetResponse();
+                ResponseUpdated?.Invoke(null, i);
+            }
+        }
     }
 }
