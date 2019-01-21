@@ -109,5 +109,13 @@ namespace Edison.Mobile.iOS.Common.LocationServices
         {
             return Task.FromResult(CLLocationManager.Status != CLAuthorizationStatus.NotDetermined && CLLocationManager.Status != CLAuthorizationStatus.Denied);
         }
+
+        public async Task<EdisonLocation> GetLastKnownLocationAsync()
+        {
+           return await Task.Run(() =>
+           {
+               return LastKnownLocation;
+           });
+        }
     }
 }

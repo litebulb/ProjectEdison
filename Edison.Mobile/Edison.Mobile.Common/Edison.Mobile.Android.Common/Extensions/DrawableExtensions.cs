@@ -1,4 +1,5 @@
 ﻿using Android.Content.Res;
+using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
@@ -84,5 +85,28 @@ namespace Edison.Mobile.Android.Common
         {
             return DrawableCompat.Wrap(drawable.Mutate());
         }
+
+
+        public static BitmapDescriptor ToBitmapDescriptor(this Drawable drawable)
+        {
+            if (drawable is BitmapDrawable bitmapDrawable) {
+                if (bitmapDrawable.Bitmap != null)
+                    return BitmapDescriptorFactory.FromBitmap(bitmapDrawable.Bitmap);
+            }
+
+            Bitmap bitmap = null;
+            if (drawable.IntrinsicWidth <= 0 || drawable.IntrinsicHeight <= 0)
+                bitmap = Bitmap.CreateBitmap(1, 1, Bitmap.Config.Argb8888); // Single color bitmap will be created of 1x1 pixel
+            else
+                bitmap = Bitmap.CreateBitmap(drawable.IntrinsicWidth, drawable.IntrinsicHeight, Bitmap.Config.Argb8888);
+
+            Canvas canvas = new Canvas(bitmap);
+            drawable.Bounds = new Rect(0, 0, canvas.Width, canvas.Height);
+            drawable.Draw(canvas);
+            return BitmapDescriptorFactory.FromBitmap(bitmap);
+        }
+
+
+
     }
 }

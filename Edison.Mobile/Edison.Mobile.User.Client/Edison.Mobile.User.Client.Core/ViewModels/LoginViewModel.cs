@@ -20,7 +20,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         public event ViewNotification OnDisplayLogin;
         public event ViewNotification OnLoginFailed;
-        public event ViewNotification OnLoginSucceed;
+        public event ViewNotification LoginSucceed;
         public event ViewNotification ClearLoginMessages;
         public event ViewNotification OnNavigateToMainViewModel;
         public event ViewNotification OnAppPermissionsFailed;
@@ -38,6 +38,11 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
             //await locationService.RequestLocationPrivileges();
             //await notificationService.RequestNotificationPrivileges();
+        }
+        public override void ViewCreated()
+        {
+            base.ViewCreated();
+            LoginSucceed += OnLoginSucceeded;
         }
 
         public override async void ViewAppeared()
@@ -65,9 +70,11 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         public override void ViewDestroyed()
         {
-            base.ViewDestroyed();
             // Unsubscribe from the Authentication OnAuthChanged event
             AuthService.OnAuthChanged -= HandleOnAuthChanged;
+            LoginSucceed += OnLoginSucceeded;
+            base.ViewDestroyed();
+
         }
 
         //iOS sign in
@@ -121,6 +128,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 OnAppPermissionsFailed?.Invoke();
         }
 
+        public 
+
+
         async Task<bool> GetAppPermissions()
         {
             var hasNotificationPrivileges = await notificationService.HasNotificationPrivileges();
@@ -135,6 +145,18 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 notificationSuccess = await notificationService.RequestNotificationPrivileges();
             
             return notificationSuccess && locationSuccess;
+        }
+
+
+        private async void OnLoginSucceeded()
+        {
+            // Start location service
+            await locationService.StartLocationUpdates();
+        }
+
+        public void InvokeLoginSucceed()
+        {
+            LoginSucceed?.Invoke();
         }
     }
 }

@@ -186,6 +186,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
                         if (len > 0 && grantResults[0] == Permission.Granted)
                         {
                             //Permission granted
+                            ViewModel.InvokeLoginSucceed();
                             ClearMessages();
                             NavigateToMainViewModel();
                         }

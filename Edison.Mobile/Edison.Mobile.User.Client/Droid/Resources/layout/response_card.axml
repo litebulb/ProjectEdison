@@ -29,7 +29,7 @@
 				android:id="@+id/card_map"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				app:cameraZoom="5"
+				app:cameraZoom="@dimen/reponse_card_map_default_zoom"
 				app:mapType="normal"
 				app:liteMode="true"/>
 		</FrameLayout>

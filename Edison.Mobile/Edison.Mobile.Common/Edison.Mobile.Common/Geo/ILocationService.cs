@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Edison.Mobile.Common.Geo
@@ -7,6 +8,14 @@ namespace Edison.Mobile.Common.Geo
     {
         public EdisonLocation CurrentLocation;
         public EdisonLocation LastLocation;
+
+        public LocationChangedEventArgs() { }
+
+        public LocationChangedEventArgs(EdisonLocation lastLocation, EdisonLocation currentLocation)
+        {
+            LastLocation = lastLocation;
+            CurrentLocation = currentLocation;
+        }
     }
 
     public interface ILocationService
@@ -18,5 +27,6 @@ namespace Edison.Mobile.Common.Geo
         Task<bool> RequestLocationPrivileges();
         event EventHandler<LocationChangedEventArgs> OnLocationChanged;
         EdisonLocation LastKnownLocation { get; }
+        Task<EdisonLocation> GetLastKnownLocationAsync();
     }
 }

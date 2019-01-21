@@ -9,6 +9,7 @@ using Edison.Mobile.Common.ViewModels;
 using Edison.Core.Common.Models;
 using System;
 using Edison.Mobile.User.Client.Core.Shared;
+using Edison.Mobile.Common.Geo;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {
@@ -17,8 +18,12 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         public EventHandler<int> ResponseUpdated;
         public event EventHandler<string> OnCurrentAlertCircleColorChanged;
+        public event EventHandler<LocationChangedEventArgs> LocationChanged;
+
+        private readonly ILocationService _locationService;
 
         readonly ResponseRestService responseRestService;
+
         readonly string[] colorSeverity =
         {
                Constants.ColorName.Blue,
@@ -40,11 +45,74 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             }
         }
 
+        public EdisonLocation UserLocation { get; private set; }
+
 
         public ResponsesViewModel(ResponseRestService responseRestService)
         {
             this.responseRestService = responseRestService;
+            _locationService = Container.Instance.Resolve<ILocationService>();
+
+            // Start location service in case it is not already started
+            Task.Run(async () =>
+            {
+                int timeoutMs = 1000;
+                var task = _locationService.StartLocationUpdates();
+                if (await Task.WhenAny(task, Task.Delay(timeoutMs)) == task)
+                {
+                    bool Test = true;
+                }
+                else
+                {
+                    bool Test = true;
+                }
+            });
+
+            // Attewmpt to get the current user location
+            UserLocation = _locationService.LastKnownLocation;
+            if (UserLocation == null)
+            {
+                Task.Run(async () =>
+                {
+                    int timeoutMs = 1000;
+                    var task = _locationService.GetLastKnownLocationAsync();
+                    if (await Task.WhenAny(task, Task.Delay(timeoutMs)) == task)
+                    {
+                        UserLocation = await task;
+                        bool Test = true;
+                    }
+                    else
+                    {
+                        bool Test = true;
+                    }
+ //                   UserLocation = await _locationService.GetLastKnownLocationAsync();
+                });
+            }
         }
+
+        public override void ViewCreated()
+        {
+            base.ViewCreated();
+            BindEvents();
+        }
+
+        public override void ViewDestroyed()
+        {
+            UnBindEvents();
+            base.ViewDestroyed();
+        }
+
+
+        public void BindEvents()
+        {
+            _locationService.OnLocationChanged += OnLocationChanged;
+        }
+
+        public void UnBindEvents()
+        {
+            _locationService.OnLocationChanged -= OnLocationChanged;
+        }
+
 
         public override async void ViewAppeared()
         {
@@ -98,5 +166,13 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 ResponseUpdated?.Invoke(null, i);
             }
         }
+
+
+        void OnLocationChanged(object sender, LocationChangedEventArgs e)
+        {
+            UserLocation = e.CurrentLocation;
+            LocationChanged?.Invoke(sender, e);
+        }
+
     }
 }

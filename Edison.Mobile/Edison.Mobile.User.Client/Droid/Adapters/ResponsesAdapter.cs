@@ -9,28 +9,44 @@ using Android.Support.V7.Widget;
 
 using Edison.Mobile.User.Client.Droid.Holders;
 using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
-
+using Android.Gms.Maps.Model;
+using Edison.Mobile.Common.Geo;
 
 namespace Edison.Mobile.User.Client.Droid.Adapters
 {
     public class ResponsesAdapter : RecyclerView.Adapter
     {
 
+        public event EventHandler<LocationChangedEventArgs> LocationChanged;
         public event EventHandler<int> ItemClick;
 
         private Context _context;
 
 
+        private EdisonLocation _oldUserLocation = null;
+        private LatLng _userLocation = null;
+        public LatLng UserLocation
+        {
+            get => _userLocation;
+            set
+            {
+                _userLocation = value;
+                LocationChanged?.Invoke(null, new LocationChangedEventArgs(_oldUserLocation, new EdisonLocation(_userLocation.Latitude, _userLocation.Longitude)));
+   //             UpdateMap();
+            }
+        }
 
         public ObservableRangeCollection<ResponseCollectionItemViewModel> Responses { get; private set; } = new ObservableRangeCollection<ResponseCollectionItemViewModel>();
 
         public override int ItemCount => Responses.Count;
 
 
-        public ResponsesAdapter(Context ctx, ObservableRangeCollection<ResponseCollectionItemViewModel> responses)
+        public ResponsesAdapter(Context ctx, ObservableRangeCollection<ResponseCollectionItemViewModel> responses, EdisonLocation userLocation)
         {
             _context = ctx;
             Responses = responses;
+            if (userLocation != null)
+                UserLocation = new LatLng(UserLocation.Latitude, userLocation.Longitude);
         }
 
 
@@ -78,10 +94,43 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
                 vh.Alert.Text = response.Name;
                 vh.AlertTime.Text = response.StartDate.ToString();
                 vh.AlertDescription.Text = response.ActionPlan?.Description;
+
+             //   double userLatitude = double.MinValue;
+             //   double userLongitude = double.MinValue;
+             //   double eventLatitude = double.MinValue;
+              //  double eventLongitude = double.MinValue;
+                LatLng eventLocation = null;
+                // get user position
+
+
+
+
+ //               userLatitude = 41.885796;  // For testing
+ //               userLongitude = -87.624911;  // For testing
+
                 if (response.Geolocation != null)
-                    vh.SetMapLocation(response.Geolocation.Latitude, response.Geolocation.Longitude, color);
+                {
+                    eventLocation = new LatLng(response.Geolocation.Latitude, response.Geolocation.Longitude);
+                    //eventLatitude = response.Geolocation.Latitude;
+                    //eventLongitude = response.Geolocation.Longitude;
+                } 
+
+ //                   eventLatitude = 41.883408;  // For testing
+ //                   eventLongitude = -87.621907;  // For testing
+ //               if (response.Geolocation != null || (userLatitude != double.MinValue && userLongitude != double.MinValue))
+ //                   vh.SetMapLocation(color, userLatitude, userLongitude, eventLatitude, eventLongitude);
+                if (eventLocation != null || UserLocation != null)
+                    vh.SetupMap(color, UserLocation, eventLocation);
+
+                LocationChanged -= vh.OnLocationChanged;
+                LocationChanged += vh.OnLocationChanged;
             }
         }
+
+
+
+
+
 
 
         // Raise an event when the item-click takes place:
@@ -112,6 +161,15 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             var id = _context.Resources.GetIdentifier(iconName, "drawable", _context.PackageName);
             return id == 0 ? Resource.Drawable.emergency : id;
         }
+
+
+
+        public void OnLocationChanged(object s, LocationChangedEventArgs e)
+        {
+            _oldUserLocation = e.LastLocation;
+            UserLocation = new LatLng(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
+        }
+
 
     }
 

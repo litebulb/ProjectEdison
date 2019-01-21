@@ -53,5 +53,6 @@
   <dimen name="response_card_icon_padding">4dp</dimen>
 
   <item name="reponse_card_map_height_percent" type="dimen" format="float">0.3</item>
+  <item name="reponse_card_map_default_zoom" type="dimen" format="float">5.0</item>
   
 </resources>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-
+using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.Widget;
@@ -8,6 +8,7 @@ using Android.Views;
 
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Controls;
+using Edison.Mobile.Common.Geo;
 using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.Droid.Activities;
 using Edison.Mobile.User.Client.Droid.Adapters;
@@ -113,7 +114,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             _responsesCarousel.HasFixedSize = true;
             _layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
             _responsesCarousel.SetLayoutManager(_layoutManager);
-            _responsesAdapter = new ResponsesAdapter(Activity, ViewModel.Responses);
+            _responsesAdapter = new ResponsesAdapter(Activity, ViewModel.Responses, ViewModel.UserLocation);
             _responsesCarousel.SetAdapter(_responsesAdapter);
         }
 
@@ -123,7 +124,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             ViewModel.Responses.CollectionChanged += OnResponsesChanged;
             ViewModel.ResponseUpdated += OnResponseUpdated;
             ViewModel.OnCurrentAlertCircleColorChanged += OnCurrentEventCircleColorChanged;
-           
+            ViewModel.LocationChanged += OnLocationChanged;
             _eventGauge.Click += OnEventGaugeClicked;
             _responsesAdapter.ItemClick += OnResponseSelected;
         }
@@ -133,7 +134,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             ViewModel.Responses.CollectionChanged -= OnResponsesChanged;
             ViewModel.ResponseUpdated -= OnResponseUpdated;
             ViewModel.OnCurrentAlertCircleColorChanged -= OnCurrentEventCircleColorChanged;
-           
+            ViewModel.LocationChanged -= OnLocationChanged;
             _eventGauge.Click -= OnEventGaugeClicked;
             _responsesAdapter.ItemClick -= OnResponseSelected;
         }
@@ -238,6 +239,11 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
         }
 
+
+        public void OnLocationChanged(object s, LocationChangedEventArgs e)
+        {
+            _responsesAdapter.UserLocation = new LatLng(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
+        }
 
 
     }

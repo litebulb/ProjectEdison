@@ -27,5 +27,9 @@
   <color name="icon_blue">@color/activity_blue</color>
   <color name="bottom_sheet_button_text_color">@color/black</color>
 
+  <color name="user_location">@color/yellow</color>
+  <color name="user_location_stroke">@color/black</color>
+  <color name="user_location_center">@color/black</color>
+  
 </resources>
 

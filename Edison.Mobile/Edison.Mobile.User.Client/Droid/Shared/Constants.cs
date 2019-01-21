@@ -10,7 +10,7 @@ using Android.Support.V7.Widget;
 using Android.Support.V7.View.Menu;
 
 using Edison.Mobile.Android.Common;
-
+using Android.Util;
 
 namespace Edison.Mobile.User.Client.Droid
 {
@@ -47,6 +47,8 @@ namespace Edison.Mobile.User.Client.Droid
 
 
         public readonly static Color DefaultResponseColor = Color.Argb(255, 34, 240, 255);
+
+        public const float DefaultResponseMapZoom = 5f;
 
 
         public static async Task CalculateUIDimensionsAsync(Activity act)
@@ -140,6 +142,17 @@ namespace Edison.Mobile.User.Client.Droid
             // Calculate the width of the brightness control container required top center under the menu item
             BrightnessContainerWidth = 2 * (toolbar.Width - itemCenterX);
         }
+
+/*
+        public static void CalculateDefaultZoms(Context ctx)
+        {
+            TypedValue typedValue = new TypedValue();
+
+            ctx.Resources.GetValue(Resource.Dimension.reponse_card_map_default_zoom, typedValue, true);
+            DefaultResponseMapZoom = typedValue.Float;
+
+        }
+*/
 
 
         public static Color GetEventTypeColor(Context ctx, string colorName)
