@@ -22,6 +22,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public event EventHandler OnViewResponseDetails;  // not sure if we need this
         public event EventHandler OnDismissResponseDetails;// not sure if we need this
 
+  //      public const Tag= 
         private const string CurrentResponseColorKey = "CurrentColor";
 
         private static bool _isInitialAppearance = true;  // Not sure we need this

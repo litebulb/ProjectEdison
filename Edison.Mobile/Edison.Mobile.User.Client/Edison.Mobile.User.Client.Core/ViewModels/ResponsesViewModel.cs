@@ -60,12 +60,16 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 var task = _locationService.StartLocationUpdates();
                 if (await Task.WhenAny(task, Task.Delay(timeoutMs)) == task)
                 {
+#if DEBUG
                     bool Test = true;
                 }
+#endif
                 else
                 {
+#if DEBUG
                     bool Test = true;
                 }
+#endif
             });
 
             // Attewmpt to get the current user location
@@ -79,11 +83,15 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     if (await Task.WhenAny(task, Task.Delay(timeoutMs)) == task)
                     {
                         UserLocation = await task;
+#if DEBUG
                         bool Test = true;
+#endif
                     }
                     else
                     {
+#if DEBUG
                         bool Test = true;
+#endif
                     }
  //                   UserLocation = await _locationService.GetLastKnownLocationAsync();
                 });

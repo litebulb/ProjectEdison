@@ -51,7 +51,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
     {
 
         private const string StateKey_ActionbarTitle = "actionBarTitle";
-        private const int TransitionDelayMs = 80;
+        private const int DeafultTransitionDelayMs = 80;
 
         private const int RequestNotificationPermissionId = 0;
         private const int RequestLocationPermissionId = 1;
@@ -174,7 +174,6 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         private void BindResources()
         {
-            _context = this;
             _coordinatorLayout = FindViewById<CoordinatorLayout>(Resource.Id.nav_coordinator_content);
             _drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             _toolbar = FindViewById<Toolbar>(Resource.Id.nav_toolbar);
@@ -322,126 +321,150 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             _navDrawerListview.GroupClick += OnGroupClicked;
 
             _brightnessControl.ProgressChanged += OnBrightnessChanged;
+
+            FragmentPoppedOnBack += OnFragmentPopped;
+        }
+
+        private void UnBindEvents()
+        {
+            _toolbar.MenuItemClick += OnMenuItemClicked;
+            _toolbar.ViewTreeObserver.GlobalLayout += OnToolbarLayout;
+
+            _navDrawerListview.GroupExpand += OnGroupExpand;
+            _navDrawerListview.GroupCollapse += OnGroupCollapse;
+            _navDrawerListview.ChildClick += OnChildClicked;
+            _navDrawerListview.GroupClick += OnGroupClicked;
+
+            _brightnessControl.ProgressChanged += OnBrightnessChanged;
+
+            FragmentPoppedOnBack -= OnFragmentPopped;
+        }
+
+        private void OnFragmentPopped(object s, Fragment fragment)
+        {
+            _pageFragment = fragment;
         }
 
 
 
-/*
-        private enum BottomSheetSettledState
-        {
-            Closed,
-            Intermediate,
-            Open
-        }
-        private static BottomSheetSettledState _currentBottomDrawerState = BottomSheetSettledState.Closed;
-        private class IntelligentBottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
-        {
-            private int _lastState;
+        /*
+                private enum BottomSheetSettledState
+                {
+                    Closed,
+                    Intermediate,
+                    Open
+                }
+                private static BottomSheetSettledState _currentBottomDrawerState = BottomSheetSettledState.Closed;
+                private class IntelligentBottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
+                {
+                    private int _lastState;
 
-            public override void OnStateChanged(View bottomSheet, int newState)
-            {
-                var behaviour = BottomSheetBehavior.From(bottomSheet);
-                if (behaviour != null)
-                { 
-                    //if hidden set to collapsed, peek height = 10dp
-                    if (newState == BottomSheetBehavior.StateCollapsed || newState == BottomSheetBehavior.StateExpanded || newState == BottomSheetBehavior.StateHidden)
-                        _lastState = newState;
-
-                    switch (_currentBottomDrawerState)
+                    public override void OnStateChanged(View bottomSheet, int newState)
                     {
+                        var behaviour = BottomSheetBehavior.From(bottomSheet);
+                        if (behaviour != null)
+                        { 
+                            //if hidden set to collapsed, peek height = 10dp
+                            if (newState == BottomSheetBehavior.StateCollapsed || newState == BottomSheetBehavior.StateExpanded || newState == BottomSheetBehavior.StateHidden)
+                                _lastState = newState;
 
-                        case BottomSheetSettledState.Closed:
-                            if (newState == BottomSheetBehavior.StateExpanded)
-                            {
-                                behaviour.PeekHeight = PixelSizeConverter.DpToPx(180);
-                                behaviour.Hideable = true;
-                                _currentBottomDrawerState = BottomSheetSettledState.Intermediate;
-                                bottomSheet.LayoutParameters.Height = ViewGroup.LayoutParams.MatchParent;
-                                bottomSheet.Invalidate();
-                                bool test = true;
-                            }
-                            break;
-
-                        case BottomSheetSettledState.Intermediate:
-                            if (newState == BottomSheetBehavior.StateExpanded)
-                            {
-//                                bottomSheet.LayoutParameters.Height = ViewGroup.LayoutParams.MatchParent;
-//                                behaviour.PeekHeight = PixelSizeConverter.DpToPx(180);
-                                behaviour.Hideable = true;
- //                               behaviour.State = BottomSheetBehavior.StateCollapsed;
-                                _currentBottomDrawerState = BottomSheetSettledState.Open;
-                                bool test = true;
-                            }
-                            else if (newState == BottomSheetBehavior.StateHidden)
-                            {
-                                behaviour.PeekHeight = PixelSizeConverter.DpToPx(20);
-                                behaviour.Hideable = false;
-                                behaviour.State = BottomSheetBehavior.StateCollapsed;
-                                _currentBottomDrawerState = BottomSheetSettledState.Closed;
-                                bottomSheet.LayoutParameters.Height = PixelSizeConverter.DpToPx(180);
-                                bottomSheet.Invalidate();
-                                bool test = true;
-
-                            }
-
-
-
-                            break;
-
-
-                        case BottomSheetSettledState.Open:
-                            if (newState == BottomSheetBehavior.StateCollapsed)
-                            {
- //                               bottomSheet.LayoutParameters.Height = ViewGroup.LayoutParams.MatchParent;
- //                               behaviour.PeekHeight = PixelSizeConverter.DpToPx(180);
-                                behaviour.Hideable = true;
-                                behaviour.State = BottomSheetBehavior.StateCollapsed;
-                                _currentBottomDrawerState = BottomSheetSettledState.Intermediate;
-                                bool test = true;
-                            }
-                            else if (newState == BottomSheetBehavior.StateHidden)
+                            switch (_currentBottomDrawerState)
                             {
 
-                                behaviour.PeekHeight = PixelSizeConverter.DpToPx(20);
-                                behaviour.Hideable = false;
-                                behaviour.State = BottomSheetBehavior.StateCollapsed;
-                                _currentBottomDrawerState = BottomSheetSettledState.Closed;
-                                bottomSheet.LayoutParameters.Height = PixelSizeConverter.DpToPx(180);
-                                bottomSheet.Invalidate();
-                                bool test = true;
+                                case BottomSheetSettledState.Closed:
+                                    if (newState == BottomSheetBehavior.StateExpanded)
+                                    {
+                                        behaviour.PeekHeight = PixelSizeConverter.DpToPx(180);
+                                        behaviour.Hideable = true;
+                                        _currentBottomDrawerState = BottomSheetSettledState.Intermediate;
+                                        bottomSheet.LayoutParameters.Height = ViewGroup.LayoutParams.MatchParent;
+                                        bottomSheet.Invalidate();
+                                        bool test = true;
+                                    }
+                                    break;
+
+                                case BottomSheetSettledState.Intermediate:
+                                    if (newState == BottomSheetBehavior.StateExpanded)
+                                    {
+        //                                bottomSheet.LayoutParameters.Height = ViewGroup.LayoutParams.MatchParent;
+        //                                behaviour.PeekHeight = PixelSizeConverter.DpToPx(180);
+                                        behaviour.Hideable = true;
+         //                               behaviour.State = BottomSheetBehavior.StateCollapsed;
+                                        _currentBottomDrawerState = BottomSheetSettledState.Open;
+                                        bool test = true;
+                                    }
+                                    else if (newState == BottomSheetBehavior.StateHidden)
+                                    {
+                                        behaviour.PeekHeight = PixelSizeConverter.DpToPx(20);
+                                        behaviour.Hideable = false;
+                                        behaviour.State = BottomSheetBehavior.StateCollapsed;
+                                        _currentBottomDrawerState = BottomSheetSettledState.Closed;
+                                        bottomSheet.LayoutParameters.Height = PixelSizeConverter.DpToPx(180);
+                                        bottomSheet.Invalidate();
+                                        bool test = true;
+
+                                    }
+
+
+
+                                    break;
+
+
+                                case BottomSheetSettledState.Open:
+                                    if (newState == BottomSheetBehavior.StateCollapsed)
+                                    {
+         //                               bottomSheet.LayoutParameters.Height = ViewGroup.LayoutParams.MatchParent;
+         //                               behaviour.PeekHeight = PixelSizeConverter.DpToPx(180);
+                                        behaviour.Hideable = true;
+                                        behaviour.State = BottomSheetBehavior.StateCollapsed;
+                                        _currentBottomDrawerState = BottomSheetSettledState.Intermediate;
+                                        bool test = true;
+                                    }
+                                    else if (newState == BottomSheetBehavior.StateHidden)
+                                    {
+
+                                        behaviour.PeekHeight = PixelSizeConverter.DpToPx(20);
+                                        behaviour.Hideable = false;
+                                        behaviour.State = BottomSheetBehavior.StateCollapsed;
+                                        _currentBottomDrawerState = BottomSheetSettledState.Closed;
+                                        bottomSheet.LayoutParameters.Height = PixelSizeConverter.DpToPx(180);
+                                        bottomSheet.Invalidate();
+                                        bool test = true;
+                                    }
+
+                                    break;
+
                             }
 
-                            break;
+
+                        }
 
                     }
 
+                    public override void OnSlide(View bottomSheet, float slideOffset)
+                    {
+                        var offset = slideOffset;
+                    }
+
+
 
                 }
-
-            }
-
-            public override void OnSlide(View bottomSheet, float slideOffset)
-            {
-                var offset = slideOffset;
-            }
-
-
-
-        }
-*/
+        */
 
         private void ShowDefaultFragment()
         {
             // Assign initial Fragment
             _pageFragment = new HomePageFragment();
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, _pageFragment, null).Commit();
+            ReplaceFragment(_pageFragment, Resource.Id.content_container, true, Resource.String.home.ToString());
+ //           SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, _pageFragment, null).Commit();
 //            ReplaceFragmentWithDelay(_fragment);
         }
 
         private void LoadChatFragment()
         {
             _chatFragment = new ChatFragment();
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.bottom_sheet_fragment_container, _chatFragment, null).Commit();
+            ReplaceFragment(_chatFragment, Resource.Id.bottom_sheet_fragment_container, false);
+ //           SupportFragmentManager.BeginTransaction().Replace(Resource.Id.bottom_sheet_fragment_container, _chatFragment, null).Commit();
         }
 
 
@@ -468,7 +491,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             if (_drawer.IsDrawerOpen(GravityCompat.Start))
                 _drawer.CloseDrawer(GravityCompat.Start);
             else
-                base.OnBackPressed();
+                base.OnBackPressWithFragmentManagement();
         }
 
 
@@ -555,8 +578,10 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
                     case Resource.String.home:
                         if (!(_pageFragment is HomePageFragment))
                         {
-                            _pageFragment = new HomePageFragment();
-                            ReplaceFragmentWithDelay(_pageFragment);
+                            _pageFragment = GetFragmentFromBackstack(Resource.String.home.ToString());
+                            if (_pageFragment ==  null)
+                                _pageFragment = new HomePageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment, Resource.Id.content_container, true, Resource.String.home.ToString());
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
@@ -565,8 +590,10 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
                     case Resource.String.my_info:
                         if (!(_pageFragment is ProfilePageFragment))
                         {
-                            _pageFragment = new ProfilePageFragment();
-                            ReplaceFragmentWithDelay(_pageFragment);
+                            _pageFragment = GetFragmentFromBackstack(Resource.String.my_info.ToString());
+                            if (_pageFragment == null)
+                                _pageFragment = new ProfilePageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment, Resource.Id.content_container, true, Resource.String.my_info.ToString());
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
@@ -575,8 +602,10 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
                     case Resource.String.notifications:
                         if (!(_pageFragment is NotificationsPageFragment))
                         {
-                            _pageFragment = new NotificationsPageFragment();
-                            ReplaceFragmentWithDelay(_pageFragment);
+                            _pageFragment = GetFragmentFromBackstack(Resource.String.notifications.ToString());
+                            if (_pageFragment == null)
+                                _pageFragment = new NotificationsPageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment, Resource.Id.content_container, true, Resource.String.notifications.ToString());
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
@@ -585,8 +614,10 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
                     case Resource.String.settings:
                         if (!(_pageFragment is SettingsPageFragment))
                         {
-                            _pageFragment = new SettingsPageFragment();
-                            ReplaceFragmentWithDelay(_pageFragment);
+                            _pageFragment = GetFragmentFromBackstack(Resource.String.settings.ToString());
+                            if (_pageFragment == null)
+                                _pageFragment = new SettingsPageFragment();
+                            ReplaceFragmentWithDelay(_pageFragment, Resource.Id.content_container, true, Resource.String.settings.ToString());
                         }
                         // Close the drawer
                         drawer.CloseDrawer(GravityCompat.Start);
@@ -612,30 +643,6 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             }
 
         }
-
-
-
-        // Start Fragment transaction with delay to avoid any graphics issues while closing the drawer
-        private void ReplaceFragmentWithDelay(Fragment fragment, string tag = null)
-        {
-            new Handler().PostDelayed(() =>
-            {
-                SupportFragmentManager.BeginTransaction().Replace(Resource.Id.content_container, fragment, tag).Commit();
-            }, TransitionDelayMs);
-        }
-
-
-        // Start this activity with delay to avoid any graphics issues while closing the drawer
-        private void StartActivityWithDelay(Class activity)
-        {
-            new Handler().PostDelayed(() =>
-            {
-                StartActivity(new Intent(_context, activity));
-
-            }, TransitionDelayMs);
-        }
-
-
 
         private void OnMenuItemClicked(object sender, Toolbar.MenuItemClickEventArgs e)
         {
@@ -763,13 +770,6 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             {
                 // Need to open up the system permissions settigns page.to give permissions (Android requirement for 6.0 onwards)
                 // Display a dialog to warn the user otherwise the will be confused
-                var ft = SupportFragmentManager.BeginTransaction();
-                // Ensure fragment is not already on the back stack otherwise it will crash. Using "dialog' as the Tag
-                var prev = SupportFragmentManager.FindFragmentByTag("dialog");
-                if (prev != null)
-                    ft.Remove(prev);
-                ft.AddToBackStack(null);
-
                 _dialog = new SimpleModalAlertDialogFragment
                 {
                     DialogTitle = Resources.GetString(Resource.String.permission_required),
@@ -778,7 +778,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
                     DialogNegitiveText = Resources.GetString(Resource.String.no)
                 };
                 _dialog.DialogResponse += OnPerimissionDialogResponse;
-                _dialog.Show(ft, "dialog");
+                DisplayDialogFragment(_dialog, "dialog");
             }
             else
                 global::Android.Support.V4.App.ActivityCompat.RequestPermissions(this, new string[] { permission }, RequestWriteSettingsPermissionId);
@@ -871,12 +871,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
         protected override void OnDestroy()
         {
-            _toolbar.MenuItemClick -= OnMenuItemClicked;
-            _navDrawerListview.GroupExpand -= OnGroupExpand;
-            _navDrawerListview.GroupCollapse -= OnGroupCollapse;
-            _navDrawerListview.ChildClick -= OnChildClicked;
-            _navDrawerListview.GroupClick -= OnGroupClicked;
-            _toolbar.ViewTreeObserver.GlobalLayout -= OnToolbarLayout;
+            UnBindEvents();
             base.OnDestroy();
         }
 
