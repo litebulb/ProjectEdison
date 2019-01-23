@@ -402,7 +402,6 @@
     <Compile Include="Views\CheckBoxItemView.cs" />
     <Compile Include="ViewControllers\RegisterDeviceViewController.cs" />
     <Compile Include="Views\CameraView.cs" />
-    <Compile Include="ViewControllers\ManualConnectViewController.cs" />
     <Compile Include="ViewSources\NetworksTableViewSource.cs" />
     <Compile Include="Cells\WifiNetworkTableViewCell.cs" />
     <Compile Include="ViewControllers\SelectWifiViewController.cs" />

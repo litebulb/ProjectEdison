@@ -68,7 +68,10 @@ namespace Edison.Mobile.iOS.Common.WiFi
 
         public async Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)
         {
-            await Task.Run(() => NEHotspotConfigurationManager.SharedManager.RemoveConfiguration(wifiNetwork.SSID));
+            if (wifiNetwork != null && wifiNetwork.SSID != null)
+            {
+                await Task.Run(() => NEHotspotConfigurationManager.SharedManager.RemoveConfiguration(wifiNetwork.SSID));
+            }
         }
 
         // iOS is unable to gather available wifi networks without apple's approval (https://developer.apple.com/documentation/networkextension/nehotspothelper).
@@ -80,7 +83,7 @@ namespace Edison.Mobile.iOS.Common.WiFi
             {
                 new WifiNetwork
                 {
-                    SSID = "EDISON_BA27EB910E94",
+
                 },
             };
         }

@@ -82,5 +82,25 @@ namespace Edison.Mobile.Admin.Client.Core.Network
                 return null;
             }
         }
+
+        public async Task<ResultCommand> ProvisionDevice(RequestCommandProvisionDevice provisionDeviceCommand)
+        {
+            try
+            {
+                var request = PrepareRequest("/ProvisionDevice", Method.POST, provisionDeviceCommand);
+                var queryResult = await client.ExecutePostTaskAsync<ResultCommand>(request);
+                if (queryResult.IsSuccessful)
+                {
+                    return queryResult.Data;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+                return null;
+            }
+        }
     }
 }

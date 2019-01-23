@@ -61,10 +61,18 @@ namespace Edison.Mobile.Common.Network
             
         public T Deserialize<T>(IRestResponse response)
         {
-            ITraceWriter traceWriter = new MemoryTraceWriter();
-            var deserialized = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings { TraceWriter = traceWriter });
-            Console.WriteLine(traceWriter);
-            return deserialized;
+            try
+            {
+                ITraceWriter traceWriter = new MemoryTraceWriter();
+                var deserialized = JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings { TraceWriter = traceWriter });
+                Console.WriteLine(traceWriter);
+                return deserialized;
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return default(T);
+            }
         }
     }
 }

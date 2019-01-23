@@ -17,6 +17,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
     {
         CameraView cameraView;
         UIButton noQRCodeButton;
+        UILabel pairingLabel;
 
         public override void ViewDidLoad()
         {
@@ -109,6 +110,20 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             noQRCodeButton.HeightAnchor.ConstraintEqualTo(44).Active = true;
             noQRCodeButton.CenterXAnchor.ConstraintEqualTo(View.CenterXAnchor).Active = true;
             noQRCodeButton.CenterYAnchor.ConstraintEqualTo(bottomLayoutGuide.CenterYAnchor).Active = true;
+
+            pairingLabel = new UILabel
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                TextColor = Constants.Color.DarkBlue,
+                Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
+                Text = "Pairing devices...",
+                Alpha = 0,
+            };
+
+            View.AddSubview(pairingLabel);
+
+            pairingLabel.CenterXAnchor.ConstraintEqualTo(noQRCodeButton.CenterXAnchor).Active = true;
+            pairingLabel.CenterYAnchor.ConstraintEqualTo(noQRCodeButton.CenterYAnchor).Active = true;
         }
 
         public override void ViewDidAppear(bool animated)
@@ -127,6 +142,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             noQRCodeButton.TouchUpInside += HandleNoQRCodeButtonTouchUpInside;
             ViewModel.OnBeginDevicePairing += HandleOnBeginDevicePairing;
             ViewModel.OnFinishDevicePairing += HandleOnFinishDevicePairing;
+            ViewModel.OnPairingStatusTextChanged += HandleOnPairingStatusTextChanged;
         }
 
         protected override void UnBindEventHandlers()
@@ -135,22 +151,32 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             noQRCodeButton.TouchUpInside -= HandleNoQRCodeButtonTouchUpInside;
             ViewModel.OnBeginDevicePairing -= HandleOnBeginDevicePairing;
             ViewModel.OnFinishDevicePairing -= HandleOnFinishDevicePairing;
+            ViewModel.OnPairingStatusTextChanged -= HandleOnPairingStatusTextChanged;
         }
 
         void HandleOnBeginDevicePairing()
         {
+            noQRCodeButton.Alpha = 0;
+            pairingLabel.Alpha = 1;
+        }
 
+        void HandleOnPairingStatusTextChanged(object sender, string text)
+        {
+            InvokeOnMainThread(() =>
+            {
+                pairingLabel.Text = text;
+            });
         }
 
         void HandleOnFinishDevicePairing(object sender, RegisterDeviceViewModel.OnFinishDevicePairingEventArgs e)
         {
-
+            pairingLabel.Text = e.IsSuccess ? "Pairing Successful!" : "Pairing Failed.";
         }
 
         void HandleNoQRCodeButtonTouchUpInside(object sender, EventArgs e)
         {
             var alertController = UIAlertController.Create(
-                $"Enter your {ViewModel.DeviceTypeAsString}'s wifi network manually below.", 
+                $"Enter your {ViewModel.DeviceTypeAsString}'s wifi network manually below.",
                 $"Your {ViewModel.DeviceTypeAsString} should be emitting a wifi network of the format EDISON_{{ID}}.",
                 UIAlertControllerStyle.Alert
             );
@@ -160,12 +186,18 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 textField.Text = $"EDISON_{ViewModel.MockDeviceID}";
             });
 
-            alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, async action =>
-                await ViewModel.ProvisionDevice(new WifiNetwork
+            alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, async action => {
+                var provisionSuccess = await ViewModel.ProvisionDevice(new WifiNetwork
                 {
-                    SSID = alertController.TextFields[0].Text,
-                })
-            ));
+                    SSID = alertController.TextFields[0]?.Text,
+                });
+
+                if (!provisionSuccess) return;
+
+                // TODO: GET provisioned device model via device ID (get access to device ID here somehow)
+                // TODO: go straight to manage device view model to edit device metadata!
+                
+            }));
 
             PresentViewController(alertController, true, null);
         }

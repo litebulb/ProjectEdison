@@ -19,7 +19,6 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ChooseDeviceTypeViewModel>();
             builder.RegisterType<RegisterDeviceViewModel>();
-            builder.RegisterType<ManualConnectViewModel>();
             builder.RegisterType<ManageDeviceViewModel>();
 
             builder.RegisterType<AppAuthService>()
