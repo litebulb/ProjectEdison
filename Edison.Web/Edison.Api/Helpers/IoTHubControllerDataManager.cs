@@ -60,14 +60,13 @@ namespace Edison.Api.Helpers
         {
             var tags = new
             {
-                device.DeviceType,
-                device.Sensor,
                 device.Geolocation,
                 device.Name,
                 device.Location1,
                 device.Location2,
                 device.Location3,
-                device.Custom
+                device.Custom,
+                device.Enabled
             };
 
             await _serviceBus.BusAccess.Publish(new IoTDevicesUpdateRequestedEvent()
@@ -88,14 +87,13 @@ namespace Edison.Api.Helpers
         {
             var tags = new
             {
-                devices.DeviceType,
-                devices.Sensor,
                 devices.Geolocation,
                 devices.Name,
                 devices.Location1,
                 devices.Location2,
                 devices.Location3,
-                devices.Custom
+                devices.Custom,
+                devices.Enabled
             };
 
             await _serviceBus.BusAccess.Publish(new IoTDevicesUpdateRequestedEvent()
