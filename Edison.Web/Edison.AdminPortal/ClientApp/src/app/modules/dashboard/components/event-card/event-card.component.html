@@ -1,105 +1,136 @@
 <mat-card [ngStyle]="getBorderStyle()">
-    <div class="card-header"
-         (click)="showEvent()">
-        <app-icon size="medium"
-                  [icon]="event.eventType.toLowerCase()"
-                  [style]="{ 'margin-right': '10px' }"></app-icon>
-        <div class="card-title">{{event.eventType}}</div>
+  <div class="card-header" (click)="showEvent()">
+    <app-icon
+      size="medium"
+      [icon]="event.eventType.toLowerCase()"
+      [style]="{ 'margin-right': '10px' }"
+    ></app-icon>
+    <div class="card-title">{{ event.eventType }}</div>
+  </div>
+  <div class="map-container" *ngIf="mapVisible">
+    <div
+      class="overlay"
+      (click)="showEvent()"
+      [ngClass]="getResponseColor()"
+    ></div>
+    <app-map
+      [pins]="pins"
+      [defaultOptions]="mapOptions"
+      [style.height]="mapOptions.height"
+    ></app-map>
+  </div>
+  <div
+    class="map-control"
+    (click)="toggleMapVisibility()"
+    [ngClass]="getResponseColor()"
+  >
+    <div>{{ mapVisible ? 'HIDE MAP' : 'SHOW MAP' }}</div>
+    <app-icon
+      [icon]="mapVisible ? 'arrow-up' : 'arrow-down'"
+      size="tiny"
+      [style]="{ margin: '0 10px' }"
+    ></app-icon>
+  </div>
+  <div class="card-details" (click)="showEvent()">
+    <div *ngIf="event.eventType === 'message'" class="message-content">
+      "{{ latestEventInstance.metadata.message }}"
     </div>
-    <div class="map-container"
-         *ngIf="mapVisible">
-        <div class="overlay"
-             (click)="showEvent()"
-             [ngClass]="getResponseColor()"></div>
-        <app-map [pins]="pins"
-                 [defaultOptions]="mapOptions"
-                 [style.height]="mapOptions.height"></app-map>
+    <div>
+      <app-icon
+        icon="time"
+        size="small"
+        wide="true"
+        [style]="{ 'margin-right': '10px' }"
+      ></app-icon>
+      <app-circle-spinner
+        size="20"
+        depth="2"
+        [circleColor]="circleColor"
+        fillColor="#fafafa"
+        [spinnerColor]="spinnerColor"
+        animate="true"
+      >
+        <div class="events-circle">
+          <div class="count">{{ eventEventsCount }}x</div>
+        </div>
+      </app-circle-spinner>
+      <div class="access-times">
+        <ng-container
+          *ngFor="let event of eventEvents; let first = first; let last = last"
+        >
+          <div [ngClass]="{ first: first, last: last }">
+            {{ event.date | date: 'shortTime' }}
+          </div>
+          <div *ngIf="!last" class="comma">,</div>
+        </ng-container>
+      </div>
     </div>
-    <div class="map-control"
-         (click)="toggleMapVisibility()"
-         [ngClass]="getResponseColor()">
-        <div>{{ mapVisible ? 'HIDE MAP' : 'SHOW MAP'}}</div>
-        <app-icon [icon]="mapVisible ? 'arrow-up' : 'arrow-down'"
-                  size="tiny"
-                  [style]="{ 'margin': '0 10px' }"></app-icon>
+    <div *ngIf="event.eventType !== 'message'">
+      <app-icon
+        size="small"
+        icon="building"
+        wide="true"
+        [style]="{ 'margin-right': '10px' }"
+      ></app-icon>
+      <div class="text">{{ event.device.name }}</div>
     </div>
-    <div class="card-details"
-         (click)="showEvent()">
-        <div *ngIf="event.eventType === 'message'">
-            "{{latestEventInstance.metadata.message}}"
-        </div>
-        <div>
-            <app-icon icon="time"
-                      size="small"
-                      wide="true"
-                      [style]="{ 'margin-right': '10px' }"></app-icon>
-            <app-circle-spinner size="20"
-                                depth="2"
-                                [circleColor]="circleColor"
-                                fillColor="#fafafa"
-                                [spinnerColor]="spinnerColor"
-                                animate="true">
-                <div class="events-circle">
-                    <div class="count">{{ eventEventsCount }}x</div>
-                </div>
-            </app-circle-spinner>
-            <div class="access-times">
-                <ng-container *ngFor="let event of eventEvents; let first = first; let last = last">
-                    <div [ngClass]="{'first': first, 'last': last}">{{ event.date | date : 'shortTime'}}</div>
-                    <div *ngIf="!last"
-                         class="comma">,</div>
-                </ng-container>
-            </div>
-        </div>
-        <div *ngIf="event.eventType !== 'message'">
-            <app-icon size="small"
-                      icon="building"
-                      wide="true"
-                      [style]="{ 'margin-right': '10px' }"></app-icon>
-            <div class="text">{{event.device.name}}</div>
-        </div>
-        <div *ngIf="event.eventType === 'message'">
-            <app-icon icon="person"
-                      size="small"
-                      wide="true"
-                      [style]="{ 'margin-right': '10px' }"></app-icon>
-            <div class="text">{{latestEventInstance.metadata.username}}</div>
-        </div>
-        <div class="last"
-             *ngIf="event.eventType !== 'message'">
-            <app-icon icon="stairs"
-                      size="small"
-                      wide="true"
-                      [style]="{ 'margin-right': '10px' }"></app-icon>
-            <div class="text">{{event.device.location1}}, {{event.device.location2}},
-                {{event.device.location3}}</div>
-        </div>
-        <div class="last"
-             *ngIf="event.eventType === 'message'">
-            <app-icon icon="building"
-                      size="small"
-                      wide="true"
-                      [style]="{ 'margin-right': '10px' }"></app-icon>
-            <div class="text">{{event.device.location1}}</div>
-        </div>
+    <div *ngIf="event.eventType === 'message'">
+      <app-icon
+        icon="person"
+        size="small"
+        wide="true"
+        [style]="{ 'margin-right': '10px' }"
+      ></app-icon>
+      <div class="text">{{ latestEventInstance.metadata.username }}</div>
     </div>
-    <div class="card-footer">
-        <button class="app-button default"
-                (click)="activateResponse()"
-                *ngIf="event && !event.closureDate && !response"
-                #activateButton>Activate
-            Response</button>
-        <div *ngIf="response && response.responseState === 0">Response Resolved</div>
-        <button class="app-button default"
-                #manageButton
-                *ngIf="response && response.responseState === 1"
-                (click)="manageResponse()"
-                tabindex="-1">
-            <app-icon [icon]="response.icon"
-                      size="medium"
-                      static="true"
-                      [style]="{ 'margin-right': '20px', 'margin-left': '-20px' }"></app-icon>
-            Manage Response
-        </button>
+    <div class="last" *ngIf="event.eventType !== 'message'">
+      <app-icon
+        icon="stairs"
+        size="small"
+        wide="true"
+        [style]="{ 'margin-right': '10px' }"
+      ></app-icon>
+      <div class="text">
+        {{ event.device.location1 }}, {{ event.device.location2 }},
+        {{ event.device.location3 }}
+      </div>
     </div>
+    <div class="last" *ngIf="event.eventType === 'message'">
+      <app-icon
+        icon="building"
+        size="small"
+        wide="true"
+        [style]="{ 'margin-right': '10px' }"
+      ></app-icon>
+      <div class="text">{{ event.device.location1 }}</div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button
+      class="app-button default"
+      (click)="activateResponse()"
+      *ngIf="event && !event.closureDate && !response"
+      #activateButton
+    >
+      Activate Response
+    </button>
+    <div *ngIf="response && response.responseState === 0">
+      Response Resolved
+    </div>
+    <button
+      class="app-button default"
+      #manageButton
+      *ngIf="response && response.responseState === 1"
+      (click)="manageResponse()"
+      tabindex="-1"
+    >
+      <app-icon
+        [icon]="response.icon"
+        size="medium"
+        static="true"
+        [style]="{ 'margin-right': '20px', 'margin-left': '-20px' }"
+      ></app-icon>
+      Manage Response
+    </button>
+  </div>
 </mat-card>
