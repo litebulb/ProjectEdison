@@ -5,120 +5,124 @@
 @import 'colorScheme';
 html,
 body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Rubik', sans-serif;
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .grey-subheader {
+  display: flex;
+  flex-grow: 2;
+  align-items: center;
+  justify-content: center;
+  > div {
+    background-color: #f9f9fa;
+    font-size: 12px;
+    color: #3e3d4a;
+    padding: 0 20px;
+    height: 20px;
     display: flex;
-    flex-grow: 2;
     align-items: center;
     justify-content: center;
-    >div {
-        background-color: #F9F9FA;
-        font-size: 12px;
-        color: #3E3D4A;
-        padding: 0 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  }
 }
 
 .message-container {
-    .ps {
-        display: flex;
-        flex-direction: column-reverse;
-    }
+  .ps {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-    background-color: $primary-color !important;
+  background-color: $primary-color !important;
 }
 
 .mat-ripple-element {
-    background: $secondary-color !important;
+  background: $secondary-color !important;
 }
 
 .mat-checkbox-inner-container {
-    height: 24px !important;
-    width: 24px !important;
+  height: 24px !important;
+  width: 24px !important;
 }
 
 .mat-checkbox-label {
-    line-height: initial !important;
-    display: flex;
-    align-items: center;
+  line-height: initial !important;
+  display: flex;
+  align-items: center;
 }
 
 .mat-tooltip {
-    // overflow: visible !important;
-    // border-top-left-radius: unset;
-    // border-bottom-left-radius: unset;
+  // overflow: visible !important;
+  // border-top-left-radius: unset;
+  // border-bottom-left-radius: unset;
 }
 
 .navlink-tooltip {
-    font-size: 16px;
-    position: relative; // &::after {
-    //     content: '';
-    //     width: 0;
-    //     height: 0;
-    //     border-top: 10px solid transparent;
-    //     border-bottom: 10px solid transparent;
-    //     border-right: 10px solid rgba(97, 97, 97, .9);
-    //     position: absolute;
-    //     left: 0;
-    //     margin-left: -10px;
-    //     z-index: 10;
-    // }
+  font-size: 16px;
+  position: relative; // &::after {
+  //     content: '';
+  //     width: 0;
+  //     height: 0;
+  //     border-top: 10px solid transparent;
+  //     border-bottom: 10px solid transparent;
+  //     border-right: 10px solid rgba(97, 97, 97, .9);
+  //     position: absolute;
+  //     left: 0;
+  //     margin-left: -10px;
+  //     z-index: 10;
+  // }
 }
 
 .toast-container {
-    position: relative;
-    z-index: 3;
+  position: relative;
+  z-index: 3;
+}
+
+.toast {
+  width: 372px !important;
 }
 
 .toast-success {
-    background-color: #323232;
-    background-image: url('/assets/icons/baseline-check-24px.svg');
+  background-color: #323232;
+  background-image: url('/assets/icons/baseline-check-24px.svg');
 }
 
 .toast-error {
-    background-color: #E62C1E;
-    background-image: url('/assets/icons/baseline-remove-24px.svg');
+  background-color: #e62c1e;
+  background-image: url('/assets/icons/baseline-remove-24px.svg');
 }
 
 .mat-table {
-    width: 100%;
-    box-shadow: none;
-    thead {
-        th {
-            border-top: 1px solid rgba(151, 151, 151, 0.33);
-            border-bottom: 1px solid rgba(151, 151, 151, 0.33);
-        }
+  width: 100%;
+  box-shadow: none;
+  thead {
+    th {
+      border-top: 1px solid rgba(151, 151, 151, 0.33);
+      border-bottom: 1px solid rgba(151, 151, 151, 0.33);
     }
-    tbody {
-        tr {
-            &:hover {
-                background-color: #F5F5F6;
-                cursor: pointer;
-            }
-            td {
-                border: none;
-            }
-        }
+  }
+  tbody {
+    tr {
+      &:hover {
+        background-color: #f5f5f6;
+        cursor: pointer;
+      }
+      td {
+        border: none;
+      }
     }
+  }
 }

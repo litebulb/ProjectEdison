@@ -88,6 +88,7 @@ import {
   UpdateResponse,
   ShowManageResponse,
   SelectActiveResponse,
+  ShowSelectingLocation,
 } from '../../../../reducers/response/response.actions';
 import {
   Response,
@@ -97,7 +98,6 @@ import {
   activeResponsesSelector,
   responsesExist,
   responsesSelector,
-  showSelectingLocationSelector,
   activeResponseSelector,
 } from '../../../../reducers/response/response.selectors';
 import { MapComponent } from '../../../map/components/map/map.component';
@@ -128,7 +128,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private activeUser$: Subscription;
   private activeMobileEvents$: Subscription;
   private actionPlans$: Subscription;
-  private showSelectingLocation$: Subscription;
 
   activeResponse$: Observable<Response>;
   activeResponses$: Observable<Response[]>;
@@ -186,7 +185,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.activeUser$.unsubscribe();
     this.activeMobileEvents$.unsubscribe();
     this.actionPlans$.unsubscribe();
-    this.showSelectingLocation$.unsubscribe();
   }
 
   toggleOverlay(state: boolean) {
@@ -511,12 +509,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.actionPlans$ = this.store
       .pipe(select(actionPlansSelector))
       .subscribe(actionPlans => (this.actionPlans = actionPlans));
-
-    this.showSelectingLocation$ = this.store
-      .pipe(select(showSelectingLocationSelector))
-      .subscribe(state => {
-        this._mapComponent.toggleSelectResponseLocation(state);
-      });
   }
 
   private _getPageData() {
@@ -610,6 +602,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(({ payload: { showManageResponse } }: ShowManageResponse) =>
         this._activeResponsesComponent.toggle(showManageResponse)
       );
+
+    this.actions$
+      .pipe(ofType(ResponseActionTypes.ShowSelectingLocation))
+      .subscribe((action: ShowSelectingLocation) => {
+        this._mapComponent.toggleSelectResponseLocation(
+          action.payload.showSelectingLocation
+        );
+      });
   }
 
   private _initMapData() {
