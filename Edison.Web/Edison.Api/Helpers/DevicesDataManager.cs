@@ -76,11 +76,41 @@ namespace Edison.Api.Helpers
         /// <summary>
         /// Get the list of devices
         /// </summary>
+        /// <param name="includeDisabled">Include devices where Enabled = false</param>
         /// <returns>List of devices</returns>
-        public async Task<IEnumerable<DeviceModel>> GetDevices()
+        public async Task<IEnumerable<DeviceModel>> GetDevices(bool includeDisabled)
         {
-            IEnumerable<DeviceDAO> devices = await _repoDevices.GetItemsAsync(p => p.Enabled && p.IoTDevice);
+            IEnumerable<DeviceDAO> devices = await _repoDevices.GetItemsAsync(p => (includeDisabled || p.Enabled) && p.IoTDevice);
             return _mapper.Map<IEnumerable<DeviceModel>>(devices);
+        }
+
+        /// <summary>
+        /// Get the list of devices in a specific radius
+        /// </summary>
+        /// <param name="pointLocation">Geolocation</param>
+        /// <param name="radius">Radius in km</param>
+        /// <param name="includeDisabled">Include devices where Enabled = false</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<DeviceModel>> GetDevicesNearby(Geolocation pointLocation, double radius, bool includeDisabled)
+        {
+            IEnumerable<DeviceDAO> devices = await _repoDevices.GetItemsAsync(p => (includeDisabled || p.Enabled) && p.IoTDevice,
+               p => new DeviceDAO()
+               {
+                   Id = p.Id,
+                   Geolocation = p.Geolocation
+               }
+               );
+
+            List<DeviceDAO> output = new List<DeviceDAO>();
+            GeolocationDAOObject daoGeocodeCenterPoint = _mapper.Map<GeolocationDAOObject>(pointLocation);
+            if (devices != null)
+            {
+                foreach (DeviceDAO deviceObj in devices)
+                    if (deviceObj.Geolocation != null)
+                        if (RadiusHelper.IsWithinRadius(deviceObj.Geolocation, daoGeocodeCenterPoint, radius))
+                            output.Add(deviceObj);
+            }
+            return _mapper.Map<IEnumerable<DeviceModel>>(output);
         }
 
         /// <summary>

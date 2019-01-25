@@ -87,14 +87,27 @@ namespace Edison.Api.Controllers
         [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
         [HttpGet]
         [Produces(typeof(IEnumerable<DeviceModel>))]
-        public async Task<IActionResult> GetDevices()
+        public async Task<IActionResult> GetDevices(bool includeDisabled = false)
         {
-            IEnumerable<DeviceModel> devices = await _devicesDataManager.GetDevices();
+            IEnumerable<DeviceModel> devices = await _devicesDataManager.GetDevices(includeDisabled);
             return Ok(devices);
         }
 
         /// <summary>
-        /// Get the list of devices in a specific radius
+        /// Get the list of devices nearby. TODO: Merge with GetDevicesInRadius
+        /// </summary>
+        /// <returns>List of devices</returns>
+        [Authorize(AuthenticationSchemes = AuthenticationBearers.AzureAD, Policy = AuthenticationRoles.Admin)]
+        [HttpGet("Nearby")]
+        [Produces(typeof(IEnumerable<DeviceModel>))]
+        public async Task<IActionResult> GetDevicesNearby(double lat, double lon, double radius, bool includeDisabled = false)
+        {
+            IEnumerable<DeviceModel> devices = await _devicesDataManager.GetDevicesNearby(new Geolocation() { Latitude = lat, Longitude = lon }, radius, includeDisabled);
+            return Ok(devices);
+        }
+
+        /// <summary>
+        /// Get the list of devices in a specific radius. TODO: Merge with GetDevicesNearby
         /// </summary>
         /// <param name="deviceGeolocationObj">DeviceGeolocationModel</param>
         /// <returns>List of device ids</returns>
