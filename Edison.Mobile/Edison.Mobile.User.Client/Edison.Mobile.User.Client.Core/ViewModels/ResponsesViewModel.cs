@@ -62,14 +62,14 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 {
 #if DEBUG
                     bool Test = true;
-                }
 #endif
+                }
                 else
                 {
 #if DEBUG
                     bool Test = true;
-                }
 #endif
+                }
             });
 
             // Attewmpt to get the current user location
