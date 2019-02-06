@@ -33,6 +33,7 @@ namespace Edison.Mobile.Admin.Client.iOS
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
                 RootViewController = new LoginViewController(),
+                //RootViewController = new UINavigationController(new ManageDeviceViewController()),
             };
 
             Window.MakeKeyAndVisible();

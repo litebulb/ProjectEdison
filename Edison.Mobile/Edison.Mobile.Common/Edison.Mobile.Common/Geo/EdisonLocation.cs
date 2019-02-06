@@ -18,7 +18,5 @@ namespace Edison.Mobile.Common.Geo
             Latitude = latitude;
             Longitude = longitude;
         }
-
-
     }
 }

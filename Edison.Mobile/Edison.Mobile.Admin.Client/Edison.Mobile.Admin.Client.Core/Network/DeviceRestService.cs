@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Models;
@@ -28,6 +29,26 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             logger.Log($"Error getting devices. Status code: {result.StatusCode}, Error Message: {result.ErrorMessage}");
 
             return null;
+        }
+
+        public async Task<DeviceModel> GetDevice(Guid deviceId)
+        {
+            var request = PrepareRequest("/Devices/{deviceId}", Method.GET);
+            request.AddUrlSegment("deviceId", deviceId.ToString());
+            var result = await client.ExecuteTaskAsync<DeviceModel>(request);
+            if (result.IsSuccessful)
+            {
+                return result.Data;
+            }
+
+            logger.Log($"Error getting devices. Status code: {result.StatusCode}, Error Message: {result.ErrorMessage}");
+
+            return null;
+        }
+
+        public async Task<object> UpdateDevice(DeviceModel deviceModel)
+        {
+
         }
     }
 }

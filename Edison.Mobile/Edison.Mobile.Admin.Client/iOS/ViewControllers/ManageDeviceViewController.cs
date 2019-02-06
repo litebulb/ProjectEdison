@@ -10,28 +10,41 @@ using Edison.Mobile.Admin.Client.iOS.Views;
 using Edison.Mobile.Admin.Client.iOS.Extensions;
 using Foundation;
 using CoreGraphics;
+using Edison.Mobile.iOS.Common.Extensions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 {
-    public class ManageDeviceViewController : BaseViewController<ManageDeviceViewModel>
+    public class ManageDeviceViewController : BaseViewController<ManageDeviceViewModel>, IMKMapViewDelegate
     {
+        bool isZoomedIn;
+
         MKMapView mapView;
         MKPinAnnotationView pinView;
 
         UIScrollView scrollView;
 
+        TextFieldView nameTextFieldView;
+        SwitchFieldView enabledSwitchFieldView;
         TextFieldView buildingTextFieldView;
         TextFieldView floorTextFieldView;
         TextFieldView roomTextFieldView;
         TextFieldView wifiTextFieldView;
 
-        UIButton doneButton;
+        NSObject keyboardWillShowNotificationToken;
+        NSObject keyboardWillHideNotificationToken;
 
         NSLayoutConstraint scrollViewBottomConstraint;
 
-        public ManageDeviceViewController(DeviceModel deviceModel)
+        TextFieldView textFieldViewFirstResponder;
+
+        List<TextFieldView> textFieldViews;
+
+        public ManageDeviceViewController(DeviceModel deviceModel = null)
         {
-            ViewModel.DeviceModel = deviceModel;
+            ViewModel.IsOnboardingStepSix = deviceModel == null;
+            ViewModel.DeviceModel = deviceModel ?? new DeviceModel();
         }
 
         public override void ViewDidLoad()
@@ -47,12 +60,13 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 NavigationController.PopViewController(true);
             });
 
-            NavigationController.InteractivePopGestureRecognizer.Delegate = null;
-        }
+            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Done, (object sender, EventArgs e) =>
+            {
 
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
+            });
+
+            NavigationController.InteractivePopGestureRecognizer.Delegate = null;
+
 
             NavigationController.NavigationBar.SetBackgroundImage(null, UIBarMetrics.Default);
             NavigationController.NavigationBar.ShadowImage = null;
@@ -67,10 +81,15 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
             };
 
+            var padding = Constants.Padding;
+            var halfPadding = padding / 2;
+            var doublePadding = padding * 2;
+
             scrollView = new UIScrollView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 AlwaysBounceVertical = true,
+                ShowsVerticalScrollIndicator = true,
             };
 
             View.AddSubview(scrollView);
@@ -78,7 +97,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             scrollView.LeftAnchor.ConstraintEqualTo(View.LeftAnchor).Active = true;
             scrollView.RightAnchor.ConstraintEqualTo(View.RightAnchor).Active = true;
             scrollView.TopAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.TopAnchor).Active = true;
-            scrollViewBottomConstraint = scrollView.BottomAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.BottomAnchor);
+            scrollViewBottomConstraint = scrollView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor);
             scrollViewBottomConstraint.Active = true;
 
             var deviceTypeImageView = new UIImageView
@@ -87,26 +106,62 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 Image = ViewModel.DeviceModel?.Sensor ?? false ? Constants.Assets.Lines : Constants.Assets.Power,
             };
 
-            scrollView.AddSubview(deviceTypeImageView);
-
-            deviceTypeImageView.TopAnchor.ConstraintEqualTo(scrollView.TopAnchor, constant: Constants.Padding).Active = true;
-            deviceTypeImageView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: Constants.Padding).Active = true;
-            deviceTypeImageView.WidthAnchor.ConstraintEqualTo(32).Active = true;
-            deviceTypeImageView.HeightAnchor.ConstraintEqualTo(deviceTypeImageView.WidthAnchor).Active = true;
-
-            var deviceLabel = new UILabel
+            var importantDetailsLabel = new UILabel
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                Text = ViewModel.DeviceModel.Name,
-                Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.TwentyFour),
-                TextColor = Constants.Color.DarkGray,
+                TextColor = Constants.Color.MidGray,
+                Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
+                AdjustsFontSizeToFitWidth = true,
+                MinimumScaleFactor = 0.1f,
+                LineBreakMode = UILineBreakMode.WordWrap,
+                Lines = 0,
+                Text = "Let's give this device some important details...",
             };
 
-            scrollView.AddSubview(deviceLabel);
+            if (!ViewModel.IsOnboardingStepSix)
+            {
+                scrollView.AddSubview(deviceTypeImageView);
 
-            deviceLabel.CenterYAnchor.ConstraintEqualTo(deviceTypeImageView.CenterYAnchor).Active = true;
-            deviceLabel.LeftAnchor.ConstraintEqualTo(deviceTypeImageView.RightAnchor, constant: Constants.Padding).Active = true;
-            deviceLabel.RightAnchor.ConstraintEqualTo(scrollView.RightAnchor, constant: -Constants.Padding).Active = true;
+                deviceTypeImageView.TopAnchor.ConstraintEqualTo(scrollView.TopAnchor, constant: padding).Active = true;
+                deviceTypeImageView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: padding).Active = true;
+                deviceTypeImageView.WidthAnchor.ConstraintEqualTo(32).Active = true;
+                deviceTypeImageView.HeightAnchor.ConstraintEqualTo(deviceTypeImageView.WidthAnchor).Active = true;
+
+                var deviceLabel = new UILabel
+                {
+                    TranslatesAutoresizingMaskIntoConstraints = false,
+                    Text = ViewModel.DeviceModel.Name,
+                    Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.TwentyFour),
+                    TextColor = Constants.Color.DarkGray,
+                };
+
+                scrollView.AddSubview(deviceLabel);
+
+                deviceLabel.CenterYAnchor.ConstraintEqualTo(deviceTypeImageView.CenterYAnchor).Active = true;
+                deviceLabel.LeftAnchor.ConstraintEqualTo(deviceTypeImageView.RightAnchor, constant: padding).Active = true;
+                deviceLabel.RightAnchor.ConstraintEqualTo(scrollView.RightAnchor, constant: -padding).Active = true;
+            }
+            else
+            {
+                var circleNumberView = new CircleNumberView
+                {
+                    TranslatesAutoresizingMaskIntoConstraints = false,
+                    Number = 6,
+                };
+
+                scrollView.AddSubview(circleNumberView);
+                circleNumberView.TopAnchor.ConstraintEqualTo(scrollView.TopAnchor, constant: padding).Active = true;
+                circleNumberView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: padding).Active = true;
+                circleNumberView.WidthAnchor.ConstraintEqualTo(Constants.CircleNumberSize).Active = true;
+                circleNumberView.HeightAnchor.ConstraintEqualTo(circleNumberView.WidthAnchor).Active = true;
+
+
+
+                scrollView.AddSubview(importantDetailsLabel);
+                importantDetailsLabel.LeftAnchor.ConstraintEqualTo(circleNumberView.RightAnchor, constant: padding).Active = true;
+                importantDetailsLabel.CenterYAnchor.ConstraintEqualTo(circleNumberView.CenterYAnchor).Active = true;
+                importantDetailsLabel.RightAnchor.ConstraintEqualTo(View.RightAnchor, constant: -padding).Active = true;
+            }
 
             var locationLabel = new UILabel
             {
@@ -118,25 +173,43 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             scrollView.AddSubview(locationLabel);
 
-            locationLabel.TopAnchor.ConstraintEqualTo(deviceTypeImageView.BottomAnchor, constant: Constants.Padding).Active = true;
-            locationLabel.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: Constants.Padding).Active = true;
+            locationLabel.TopAnchor.ConstraintEqualTo(!ViewModel.IsOnboardingStepSix ? deviceTypeImageView.BottomAnchor : importantDetailsLabel.BottomAnchor, constant: padding).Active = true;
+            locationLabel.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: padding).Active = true;
 
             mapView = new MKMapView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
+                ShowsUserLocation = true,
                 CenterCoordinate = ViewModel.DeviceModel.Geolocation != null
                     ? new CLLocationCoordinate2D(ViewModel.DeviceModel.Geolocation.Latitude, ViewModel.DeviceModel.Geolocation.Longitude)
                     : new CLLocationCoordinate2D(),
+                Delegate = this,
             };
 
             scrollView.AddSubview(mapView);
 
             mapView.AddStandardShadow();
 
-            mapView.TopAnchor.ConstraintEqualTo(locationLabel.BottomAnchor, constant: Constants.Padding).Active = true;
+            mapView.TopAnchor.ConstraintEqualTo(locationLabel.BottomAnchor, constant: padding).Active = true;
             mapView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
             mapView.WidthAnchor.ConstraintEqualTo(scrollView.WidthAnchor).Active = true;
-            mapView.HeightAnchor.ConstraintEqualTo(scrollView.HeightAnchor, multiplier: 0.25f).Active = true;
+            mapView.HeightAnchor.ConstraintEqualTo(View.HeightAnchor, multiplier: 0.25f).Active = true;
+
+            if (ViewModel.DeviceModel.Geolocation == null)
+            {
+                Task.Run(async () =>
+                {
+                    var edisonLocation = await ViewModel.GetLastKnownLocation();
+
+                    if (edisonLocation == null) return;
+
+                    InvokeOnMainThread(() => mapView.CenterCoordinate = new CLLocationCoordinate2D
+                    {
+                        Latitude = edisonLocation.Latitude,
+                        Longitude = edisonLocation.Longitude,
+                    });
+                });
+            }
 
             pinView = new MKPinAnnotationView(CGRect.Empty)
             {
@@ -164,85 +237,235 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             scrollView.AddSubview(moveLabel);
 
-            moveLabel.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: Constants.Padding).Active = true;
-            moveLabel.TopAnchor.ConstraintEqualTo(mapView.BottomAnchor, constant: Constants.Padding).Active = true;
-            moveLabel.WidthAnchor.ConstraintEqualTo(View.WidthAnchor, constant: -Constants.Padding).Active = true;
+            moveLabel.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor, constant: padding).Active = true;
+            moveLabel.TopAnchor.ConstraintEqualTo(mapView.BottomAnchor, constant: padding).Active = true;
+            moveLabel.WidthAnchor.ConstraintEqualTo(View.WidthAnchor, constant: -padding).Active = true;
 
-            //buildingTextFieldView = new TextFieldView
-            //{
-            //    TranslatesAutoresizingMaskIntoConstraints = false,
-            //    LabelText = "Building",
-            //};
+            nameTextFieldView = new TextFieldView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                LabelText = "Name",
+            };
 
-            //scrollView.AddSubview(buildingTextFieldView);
+            scrollView.AddSubview(nameTextFieldView);
 
-            //buildingTextFieldView.TopAnchor.ConstraintEqualTo(moveLabel.BottomAnchor, constant: Constants.Padding).Active = true;
-            //buildingTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
-            //buildingTextFieldView.RightAnchor.ConstraintEqualTo(scrollView.RightAnchor).Active = true;
+            nameTextFieldView.TopAnchor.ConstraintEqualTo(moveLabel.BottomAnchor, constant: padding).Active = true;
+            nameTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
+            nameTextFieldView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor).Active = true;
 
-            //floorTextFieldView = new TextFieldView
-            //{
-            //    TranslatesAutoresizingMaskIntoConstraints = false,
-            //    LabelText = "Floor",
-            //};
+            enabledSwitchFieldView = new SwitchFieldView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                LabelText = "Enabled",
+            };
 
-            //scrollView.AddSubview(floorTextFieldView);
+            scrollView.AddSubview(enabledSwitchFieldView);
 
-            //floorTextFieldView.TopAnchor.ConstraintEqualTo(buildingTextFieldView.BottomAnchor, constant: Constants.Padding / 2).Active = true;
-            //floorTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
-            //floorTextFieldView.RightAnchor.ConstraintEqualTo(scrollView.RightAnchor).Active = true;
+            enabledSwitchFieldView.TopAnchor.ConstraintEqualTo(nameTextFieldView.BottomAnchor, constant: padding).Active = true;
+            enabledSwitchFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
+            enabledSwitchFieldView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor).Active = true;
 
-            //roomTextFieldView = new TextFieldView
-            //{
-            //    TranslatesAutoresizingMaskIntoConstraints = false,
-            //    LabelText = "Room",
-            //};
+            buildingTextFieldView = new TextFieldView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                LabelText = "Building",
+            };
 
-            //scrollView.AddSubview(roomTextFieldView);
+            scrollView.AddSubview(buildingTextFieldView);
 
-            //roomTextFieldView.TopAnchor.ConstraintEqualTo(floorTextFieldView.BottomAnchor, constant: Constants.Padding / 2).Active = true;
-            //roomTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
-            //roomTextFieldView.RightAnchor.ConstraintEqualTo(scrollView.RightAnchor).Active = true;
+            buildingTextFieldView.TopAnchor.ConstraintEqualTo(enabledSwitchFieldView.BottomAnchor, constant: padding).Active = true;
+            buildingTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
+            buildingTextFieldView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor).Active = true;
 
-            //wifiTextFieldView = new TextFieldView
-            //{
-            //    TranslatesAutoresizingMaskIntoConstraints = false,
-            //    LabelText = "WiFi",
-            //};
+            floorTextFieldView = new TextFieldView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                LabelText = "Floor",
+            };
 
-            //scrollView.AddSubview(wifiTextFieldView);
+            scrollView.AddSubview(floorTextFieldView);
 
-            //wifiTextFieldView.TopAnchor.ConstraintEqualTo(roomTextFieldView.BottomAnchor, constant: Constants.Padding * 2).Active = true;
-            //wifiTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
-            //wifiTextFieldView.RightAnchor.ConstraintEqualTo(scrollView.RightAnchor).Active = true;
+            floorTextFieldView.TopAnchor.ConstraintEqualTo(buildingTextFieldView.BottomAnchor, constant: halfPadding).Active = true;
+            floorTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
+            floorTextFieldView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor).Active = true;
 
-            //var bottomAreaLayoutGuide = new UILayoutGuide();
+            roomTextFieldView = new TextFieldView
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+                LabelText = "Room",
+            };
 
-            //scrollView.AddLayoutGuide(bottomAreaLayoutGuide);
+            scrollView.AddSubview(roomTextFieldView);
 
-            //bottomAreaLayoutGuide.TopAnchor.ConstraintEqualTo(wifiTextFieldView.BottomAnchor).Active = true;
-            //bottomAreaLayoutGuide.BottomAnchor.ConstraintEqualTo(scrollView.SafeAreaLayoutGuide.BottomAnchor).Active = true;
+            roomTextFieldView.TopAnchor.ConstraintEqualTo(floorTextFieldView.BottomAnchor, constant: halfPadding).Active = true;
+            roomTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
+            roomTextFieldView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor).Active = true;
 
-            //doneButton = new UIButton
-            //{
-            //    TranslatesAutoresizingMaskIntoConstraints = false,
-            //    BackgroundColor = Constants.Color.DarkBlue,
-            //};
+            if (ViewModel.IsOnboardingStepSix)
+            {
+                roomTextFieldView.BottomAnchor.ConstraintEqualTo(scrollView.BottomAnchor, constant: -halfPadding).Active = true;
+            }
+            else
+            {
+                wifiTextFieldView = new TextFieldView
+                {
+                    TranslatesAutoresizingMaskIntoConstraints = false,
+                    LabelText = "WiFi",
+                };
 
-            //doneButton.SetAttributedTitle(new NSAttributedString("DONE", new UIStringAttributes
-            //{
-            //    Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
-            //    ForegroundColor = Constants.Color.White,
-            //}), UIControlState.Normal);
+                scrollView.AddSubview(wifiTextFieldView);
 
-            //doneButton.AddStandardShadow();
+                wifiTextFieldView.TopAnchor.ConstraintEqualTo(roomTextFieldView.BottomAnchor, constant: padding).Active = true;
+                wifiTextFieldView.LeftAnchor.ConstraintEqualTo(scrollView.LeftAnchor).Active = true;
+                wifiTextFieldView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor).Active = true;
+                wifiTextFieldView.BottomAnchor.ConstraintEqualTo(scrollView.BottomAnchor, constant: -halfPadding).Active = true;
+            }
 
-            //scrollView.AddSubview(doneButton);
+            textFieldViews = new List<TextFieldView>
+            {
+                nameTextFieldView,
+                buildingTextFieldView,
+                floorTextFieldView,
+                roomTextFieldView,
+            };
 
-            //doneButton.WidthAnchor.ConstraintEqualTo(scrollView.WidthAnchor, multiplier: 0.5f).Active = true;
-            //doneButton.HeightAnchor.ConstraintEqualTo(44).Active = true;
-            //doneButton.CenterXAnchor.ConstraintEqualTo(scrollView.CenterXAnchor).Active = true;
-            //doneButton.CenterYAnchor.ConstraintEqualTo(bottomAreaLayoutGuide.CenterYAnchor).Active = true;
+            textFieldViews.ForEach(t => t.ReturnKeyType = UIReturnKeyType.Done);
+        }
+
+        protected override void BindEventHandlers()
+        {
+            base.BindEventHandlers();
+
+            keyboardWillShowNotificationToken = UIKeyboard.Notifications.ObserveWillShow(HandleKeyboardWillShow);
+            keyboardWillHideNotificationToken = UIKeyboard.Notifications.ObserveWillHide(HandleKeyboardWillHide);
+
+            if (mapView.Delegate == null) mapView.Delegate = this;
+
+            enabledSwitchFieldView.OnSwitchValueChanged += EnabledSwitchFieldViewOnSwitchValueChanged;
+
+            foreach (var textFieldView in textFieldViews)
+            {
+                textFieldView.OnEditingBegan += OnTextFieldEditingBegan;
+                textFieldView.OnTextFieldViewReturned += OnTextFieldDone;
+                textFieldView.OnEditingEnded += OnTextFieldEditingEnded;
+            }
+        }
+
+        protected override void UnBindEventHandlers()
+        {
+            base.UnBindEventHandlers();
+
+            if (keyboardWillShowNotificationToken != null) NSNotificationCenter.DefaultCenter.RemoveObserver(keyboardWillShowNotificationToken);
+            if (keyboardWillHideNotificationToken != null) NSNotificationCenter.DefaultCenter.RemoveObserver(keyboardWillHideNotificationToken);
+
+            mapView.Delegate = null;
+
+            enabledSwitchFieldView.OnSwitchValueChanged -= EnabledSwitchFieldViewOnSwitchValueChanged;
+
+            foreach (var textFieldView in textFieldViews)
+            {
+                textFieldView.OnEditingBegan -= OnTextFieldEditingBegan;
+                textFieldView.OnTextFieldViewReturned -= OnTextFieldDone;
+                textFieldView.OnEditingEnded -= OnTextFieldEditingEnded;
+            }
+        }
+
+        [Export("mapView:didUpdateUserLocation:")]
+        public void DidUpdateUserLocation(MKMapView mapView, MKUserLocation userLocation)
+        {
+            if (!isZoomedIn)
+            {
+                var mapRegion = new MKCoordinateRegion(mapView.UserLocation.Coordinate, new MKCoordinateSpan(0.001, 0.001));
+                mapView.SetRegion(mapRegion, true);
+                isZoomedIn = true;
+            }
+        }
+
+        [Export("mapView:regionDidChangeAnimated:")]
+        public void RegionChanged(MKMapView mapView, bool animated)
+        {
+            if (!isZoomedIn) return;
+
+            var centerCoordinate = mapView.Region.Center;
+            ViewModel.DeviceModel.Geolocation = new Geolocation
+            {
+                Latitude = centerCoordinate.Latitude,
+                Longitude = centerCoordinate.Longitude,
+            };
+        }
+
+        void HandleKeyboardWillShow(object sender, UIKeyboardEventArgs e)
+        {
+            scrollViewBottomConstraint.Constant = -e.FrameEnd.Height;
+
+            UIView.BeginAnimations(null);
+            UIView.SetAnimationDuration(e.AnimationDuration);
+            UIView.SetAnimationCurve(e.AnimationCurve);
+            UIView.SetAnimationBeginsFromCurrentState(true);
+            View.LayoutIfNeeded();
+
+            EnsureFirstResponderTextFieldIsInView(e.FrameEnd.Height);
+
+            UIView.CommitAnimations();
+        }
+
+        void EnsureFirstResponderTextFieldIsInView(nfloat keyboardHeight, bool animated = false)
+        {
+            if (textFieldViewFirstResponder != null)
+            {
+                var textFieldFrame = View.ConvertRectFromView(textFieldViewFirstResponder.Frame, scrollView);
+                var keyboardAreaY = View.Bounds.Height - keyboardHeight;
+                var textViewBottomMargin = 0;
+                if (textFieldFrame.Bottom + textViewBottomMargin >= keyboardAreaY)
+                {
+                    var offsetDelta = (float)Math.Abs((textFieldFrame.Bottom + textViewBottomMargin) - keyboardAreaY);
+                    scrollView.SetContentOffset(new CGPoint
+                    {
+                        X = 0,
+                        Y = scrollView.ContentOffset.Y + offsetDelta,
+                    }, animated);
+                }
+            }
+        }
+
+        void HandleKeyboardWillHide(object sender, UIKeyboardEventArgs e)
+        {
+            scrollViewBottomConstraint.Constant = 0;
+
+            UIView.BeginAnimations(null);
+            UIView.SetAnimationDuration(e.AnimationDuration);
+            UIView.SetAnimationCurve(e.AnimationCurve);
+            UIView.SetAnimationBeginsFromCurrentState(true);
+            View.LayoutIfNeeded();
+            UIView.CommitAnimations();
+        }
+
+        void OnTextFieldDone(object sender, EventArgs e)
+        {
+            (sender as TextFieldView).ResignFirstResponder();
+            textFieldViewFirstResponder = null;
+        }
+
+        void OnTextFieldEditingBegan(object sender, EventArgs e)
+        {
+            if (sender is TextFieldView textFieldView)
+            {
+                textFieldViewFirstResponder = textFieldView;
+            }
+        }
+
+        void OnTextFieldEditingEnded(object sender, UITextFieldDidEndEditingReason reason)
+        {
+            if (!(sender is TextFieldView textFieldView) || reason != UITextFieldDidEndEditingReason.Committed) return;
+            if (textFieldView == nameTextFieldView) ViewModel.DeviceModel.Name = textFieldView.Text;
+            if (textFieldView == buildingTextFieldView) ViewModel.AddCustomDeviceField("Building", textFieldView.Text);
+            if (textFieldView == floorTextFieldView) ViewModel.AddCustomDeviceField("Floor", textFieldView.Text);
+            if (textFieldView == roomTextFieldView) ViewModel.AddCustomDeviceField("Room", textFieldView.Text);
+        }
+
+        void EnabledSwitchFieldViewOnSwitchValueChanged(object sender, bool enabled)
+        {
+            ViewModel.DeviceModel.Enabled = enabled;
         }
     }
 }

@@ -3,14 +3,19 @@ using CoreGraphics;
 using Edison.Mobile.Admin.Client.iOS.Shared;
 using Edison.Mobile.Admin.Client.iOS.Extensions;
 using UIKit;
+using Foundation;
 
 namespace Edison.Mobile.Admin.Client.iOS.Views
 {
-    public class TextFieldView : UIView
+    public class TextFieldView : UIView, IUITextFieldDelegate
     {
         UILabel label;
         UITextField textField;
         UITapGestureRecognizer tapGestureRecognizer;
+
+        public event EventHandler OnTextFieldViewReturned;
+        public event EventHandler OnEditingBegan;
+        public event EventHandler<UITextFieldDidEndEditingReason> OnEditingEnded;
 
         public string LabelText
         {
@@ -22,6 +27,18 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
         {
             get => textField.Text;
             set => textField.Text = value;
+        }
+
+        public bool SecureTextEntry
+        {
+            get => textField.SecureTextEntry;
+            set => textField.SecureTextEntry = value;
+        }
+
+        public UIReturnKeyType ReturnKeyType
+        {
+            get => textField.ReturnKeyType;
+            set => textField.ReturnKeyType = value;
         }
 
         public TextFieldView()
@@ -46,6 +63,7 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Fourteen),
                 TextColor = Constants.Color.MidGray,
+                Delegate = this,
             };
 
             AddSubview(textField);
@@ -65,6 +83,26 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
             this.AddStandardShadow();
         }
 
+        [Export("textFieldShouldReturn:")]
+        public bool ShouldReturn(UITextField textField)
+        {
+            OnTextFieldViewReturned?.Invoke(this, new EventArgs());
+            return true;
+        }
+
+        [Export("textFieldShouldBeginEditing:")]
+        public bool ShouldBeginEditing(UITextField textField)
+        {
+            OnEditingBegan?.Invoke(this, new EventArgs());
+            return true;
+        }
+
+        [Export("textFieldDidEndEditing:reason:")]
+        public void EditingEnded(UITextField textField, UITextFieldDidEndEditingReason reason)
+        {
+            OnEditingEnded?.Invoke(this, reason);
+        }
+
         public override void WillMoveToWindow(UIWindow window)
         {
             if (window == null)
@@ -75,6 +113,16 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
             {
                 AddGestureRecognizer(tapGestureRecognizer);
             }
+        }
+
+        public new void BecomeFirstResponder()
+        {
+            textField.BecomeFirstResponder();
+        }
+
+        public new bool ResignFirstResponder()
+        {
+            return textField.ResignFirstResponder();
         }
 
         void HandleTap()

@@ -18,8 +18,11 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
             builder.RegisterType<MainViewModel>();
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ChooseDeviceTypeViewModel>();
+            builder.RegisterType<SelectWifiViewModel>();
             builder.RegisterType<RegisterDeviceViewModel>();
             builder.RegisterType<ManageDeviceViewModel>();
+            builder.RegisterType<EnterWifiPasswordViewModel>();
+            builder.RegisterType<CompleteRegistrationViewModel>();
 
             builder.RegisterType<AppAuthService>()
                    .As<IAppAuthService>();

@@ -1,38 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Core.Network;
+using Edison.Mobile.Admin.Client.Core.Services;
+using Edison.Mobile.Common.Shared;
 using Edison.Mobile.Common.ViewModels;
 using Edison.Mobile.Common.WiFi;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
-    public class SelectWifiViewModel : BaseViewModel
+    public class SelectWifiViewModel : DeviceSetupBaseViewModel
     {
-        readonly IWifiService wifiService;
+        readonly OnboardingRestService onboardingRestService;
 
         public List<WifiNetwork> AvailableWifiNetworks { get; private set; }
 
-        public event EventHandler<List<WifiNetwork>> OnAvailableWifiNetworksChanged;
+        public event ViewNotification OnAvailableWifiNetworksChanged;
 
-        public SelectWifiViewModel(IWifiService wifiService)
+        public SelectWifiViewModel(OnboardingRestService onboardingRestService, DeviceSetupService deviceSetupService)
+            : base(deviceSetupService)
         {
-            this.wifiService = wifiService;
+            this.onboardingRestService = onboardingRestService;
         }
 
-        public override void ViewAppeared()
+        public override async void ViewAppeared()
         {
             base.ViewAppeared();
-
-            Task.Run(RefreshAvailableWifiNetworks);
+            await RefreshAvailableWifiNetworks();
         }
 
         public async Task RefreshAvailableWifiNetworks()
         {
-            var availableNetworks = await wifiService.GetAvailableWifiNetworks();
-
-            AvailableWifiNetworks = new List<WifiNetwork>(availableNetworks);
-
-            OnAvailableWifiNetworksChanged?.Invoke(this, AvailableWifiNetworks);
+            var networks = await onboardingRestService.GetAvailableWifiNetworks();
+            if (networks != null)
+            {
+                var list = new List<WifiNetwork>(networks);
+                if (list.Count == 0)
+                {
+                    list.Add(new WifiNetwork
+                    {
+                        SSID = "OffTheShortRail",
+                    });
+                }
+                AvailableWifiNetworks = list;
+                OnAvailableWifiNetworksChanged?.Invoke();
+            }
         }
     }
 }

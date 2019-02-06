@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Network;
+using Edison.Mobile.Common.WiFi;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -89,6 +93,49 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             {
                 var request = PrepareRequest("/ProvisionDevice", Method.POST, provisionDeviceCommand);
                 var queryResult = await client.ExecutePostTaskAsync<ResultCommand>(request);
+                if (queryResult.IsSuccessful)
+                {
+                    return queryResult.Data;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks()
+        {
+            try
+            {
+                var request = PrepareRequest("/GetAvailableNetworks", Method.GET);
+                var queryResult = await client.ExecuteTaskAsync<ResultCommandAvailableNetworks>(request);
+                if (queryResult.IsSuccessful)
+                {
+                    return queryResult.Data.Networks.Select(networkName => new WifiNetwork
+                    {
+                        SSID = networkName,
+                    });
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+                return null;
+            }
+        }
+
+        public async Task<ResultCommandNetworkStatus> ConnectToNetwork(RequestNetworkInformationModel networkInformationModel)
+        {
+            try
+            {
+                var request = PrepareRequest("/ConnectToNetwork", Method.POST, networkInformationModel);
+                var queryResult = await client.ExecutePostTaskAsync<ResultCommandNetworkStatus>(request);
                 if (queryResult.IsSuccessful)
                 {
                     return queryResult.Data;

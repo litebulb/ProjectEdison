@@ -17,46 +17,32 @@ namespace Edison.Mobile.Admin.Client.Core.Services
             public const string SoundSensor = "Edison.Devices.SoundSensor";
         }
 
-        readonly IWifiService wifiService;
-
-        DeviceTwinModel deviceTwinModel;
-        DeviceTwinModel DeviceTwinModel
-        {
-            get => deviceTwinModel ?? (deviceTwinModel = new DeviceTwinModel
-            {
-                Tags = new DeviceTwinTagsModel(),
-                Properties = new DeviceTwinPropertiesModel()
-            });
-            set => deviceTwinModel = value;
-        }
+        DeviceModel deviceModel;
 
         public WifiNetwork CurrentWifiNetwork { get; set; }
         public WifiNetwork CurrentDeviceHotspotNetwork { get; set; }
 
         public string DefaultPassword => "Edison1234";
 
-        public string DeviceTypeAsString => DeviceTwinModel?.Tags?.DeviceType ?? "";
+        public string DeviceTypeAsString => deviceModel?.DeviceType ?? "";
         public string DeviceTypeAsFriendlyString => DeviceTypeToFriendlyString(DeviceTypeAsString);
-
-        public DeviceSetupService(IWifiService wifiService)
-        {
-            this.wifiService = wifiService;
-        }
 
         public void ClearDevice()
         {
-            DeviceTwinModel = null;
+            deviceModel = null;
             CurrentDeviceHotspotNetwork = null;
         }
 
         public void SetDeviceType(DeviceType deviceType)
         {
-            DeviceTwinModel.Tags.DeviceType = DeviceTypeToString(deviceType);
+            EnsureDeviceExists();
+            deviceModel.DeviceType = DeviceTypeToString(deviceType);
         }
 
         public void SetDeviceGuid(Guid guid)
         {
-            DeviceTwinModel.DeviceId = guid;
+            EnsureDeviceExists();
+            deviceModel.DeviceId = guid;
         }
 
         public static string DeviceTypeToString(DeviceType deviceType)
@@ -72,6 +58,29 @@ namespace Edison.Mobile.Admin.Client.Core.Services
             }
         }
 
+        public void AddCustomDeviceField(string key, string value)
+        {
+            if (deviceModel.Custom == null)
+            {
+                deviceModel.Custom = new Dictionary<string, object>();
+            }
+
+            deviceModel.Custom[key] = value;
+        }
+
+        public static DeviceType DeviceTypeFromString(string deviceType)
+        {
+            switch (deviceType)
+            {
+                case DeviceTypeValues.ButtonSensor:
+                    return DeviceType.Button;
+                case DeviceTypeValues.SmartBulb:
+                    return DeviceType.Light;
+                default:
+                    return DeviceType.SoundSensor;
+            }
+        }
+
         public static string DeviceTypeToFriendlyString(string deviceType)
         {
             switch (deviceType)
@@ -83,6 +92,11 @@ namespace Edison.Mobile.Admin.Client.Core.Services
                 default:
                     return DeviceTypeValues.SoundSensor;
             }
+        }
+
+        void EnsureDeviceExists()
+        {
+            if (deviceModel == null) deviceModel = new DeviceModel();
         }
     }
 }

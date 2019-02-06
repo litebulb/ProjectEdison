@@ -118,12 +118,17 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Eighteen),
                 Text = "Pairing devices...",
                 Alpha = 0,
+                Lines = 0,
+                TextAlignment = UITextAlignment.Center,
+                LineBreakMode = UILineBreakMode.WordWrap,
             };
 
             View.AddSubview(pairingLabel);
 
             pairingLabel.CenterXAnchor.ConstraintEqualTo(noQRCodeButton.CenterXAnchor).Active = true;
             pairingLabel.CenterYAnchor.ConstraintEqualTo(noQRCodeButton.CenterYAnchor).Active = true;
+            pairingLabel.LeftAnchor.ConstraintEqualTo(View.LeftAnchor, constant: padding).Active = true;
+            pairingLabel.RightAnchor.ConstraintEqualTo(View.RightAnchor, constant: -padding).Active = true;
         }
 
         public override void ViewDidAppear(bool animated)
@@ -183,20 +188,21 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             alertController.AddTextField(textField =>
             {
-                textField.Text = $"EDISON_{ViewModel.MockDeviceID}";
+                textField.Text = $"EDISON_{ViewModel.MockDeviceId}";
             });
 
             alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, async action => {
-                var provisionSuccess = await ViewModel.ProvisionDevice(new WifiNetwork
+                var success = await ViewModel.ProvisionDevice(new WifiNetwork
                 {
                     SSID = alertController.TextFields[0]?.Text,
                 });
 
-                if (!provisionSuccess) return;
+                if (!success)
+                {
 
-                // TODO: GET provisioned device model via device ID (get access to device ID here somehow)
-                // TODO: go straight to manage device view model to edit device metadata!
-                
+                }
+
+                NavigationController.PushViewController(new SelectWifiViewController(), true);
             }));
 
             PresentViewController(alertController, true, null);

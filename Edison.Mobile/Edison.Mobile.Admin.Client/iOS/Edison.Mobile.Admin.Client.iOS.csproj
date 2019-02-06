@@ -429,6 +429,9 @@
     <Compile Include="ViewControllers\ManageDeviceViewController.cs" />
     <Compile Include="Views\TextFieldView.cs" />
     <Compile Include="Extensions\UIViewExtensions.cs" />
+    <Compile Include="ViewControllers\EnterWifiPasswordViewController.cs" />
+    <Compile Include="ViewControllers\CompleteRegistrationViewController.cs" />
+    <Compile Include="Views\SwitchFieldView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Edison.Mobile.Common\Edison.Mobile.Common\Edison.Mobile.Common.csproj">

@@ -31,7 +31,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             {
                 NavigationController.PopViewController(true);
             });
-
+             
             NavigationController.InteractivePopGestureRecognizer.Delegate = null;
 
             var topHalfLayoutGuide = new UILayoutGuide();

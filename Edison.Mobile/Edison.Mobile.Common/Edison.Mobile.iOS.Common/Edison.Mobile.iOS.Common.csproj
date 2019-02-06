@@ -182,6 +182,7 @@
     <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Auth\PlatformAuthService.cs" />
     <Compile Include="WiFi\PlatformWifiService.cs" />
+    <Compile Include="Extensions\UIView+Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
