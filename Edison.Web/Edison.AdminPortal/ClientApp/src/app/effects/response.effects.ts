@@ -118,7 +118,6 @@ export class ResponseEffects {
       const toastrOptions = {
         progressBar: true,
         closeButton: true,
-        disableTimeOut: true,
       };
       switch (foundAction.status) {
         case ActionStatus.Error:

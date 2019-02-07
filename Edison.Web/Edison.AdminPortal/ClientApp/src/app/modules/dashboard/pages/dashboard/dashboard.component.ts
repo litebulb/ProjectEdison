@@ -231,7 +231,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   protected clearActiveResponse(isSelecting: boolean) {
     this.store.dispatch(new SelectActionPlan({ actionPlan: null }));
-    this.store.dispatch(new SelectActiveEvent({ event: null }));
+    if (!isSelecting) {
+      this.store.dispatch(new SelectActiveEvent({ event: null }));
+    }
 
     this.toggleOverlay(isSelecting);
   }
@@ -255,7 +257,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     event: Event;
     actionPlan: ActionPlan;
   }) {
-    this.store.dispatch(new PostNewResponse({ event, actionPlan }));
+    this.store.dispatch(new PostNewResponse({ event: this.activeEvent, actionPlan }));
   }
 
   protected activateResponse() {
@@ -452,9 +454,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.activeMobileEvents$ = this.store
       .pipe(select(activeMobileEventsSelector))
       .subscribe(events => {
-        this.activeEvent = events.find(event =>
+        const foundEvent = events.find(event =>
           event.events.some(ee => ee.metadata.userId === this.userId)
         );
+        if (foundEvent) {
+          this.activeEvent = foundEvent;
+        }
         this._selectActiveEventInstance();
       });
   }
@@ -579,9 +584,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           const actionPlan = this.actionPlans.find(
             ap => ap.actionPlanId === actionPlanId
           );
+          this.activeEvent = event;
           if (actionPlan) {
             this.toggleOverlay(true);
-            this.activeEvent = event;
             this._selectActiveEventInstance();
             if (!actionPlan.openActions) {
               this.store.dispatch(new GetActionPlan({ actionPlanId }));
