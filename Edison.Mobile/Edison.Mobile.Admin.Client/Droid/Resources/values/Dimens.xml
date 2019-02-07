@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+  
+  <!-- Login/Splash screen -->
+  <dimen name="login_button_padding">60dp</dimen>
+  <dimen name="login_msg_text_size">10sp</dimen>
+  <dimen name="device_setup_message">12sp</dimen>
+</resources>

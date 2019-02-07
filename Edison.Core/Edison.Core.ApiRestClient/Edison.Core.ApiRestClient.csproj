@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Configurations>Debug;Release;Android User (Release)</Configurations>
+    <Configurations>Debug;Release;Android User (Release);Android Admin</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
@@ -19,6 +19,7 @@
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Admin|AnyCPU'" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS User|iPhone' ">
     <IntermediateOutputPath>obj\iPhone\iOS User</IntermediateOutputPath>
     <DebugType></DebugType>

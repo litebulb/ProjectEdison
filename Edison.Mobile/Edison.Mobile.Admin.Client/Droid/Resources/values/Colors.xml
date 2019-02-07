@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+  <color name="app_background">@color/white</color>
+  <color name="login_button_blue">#3333FF</color>
+  <color name="app_blue">#8886A0</color>
+  <color name="black">#3E3D4A</color>
+</resources>
+

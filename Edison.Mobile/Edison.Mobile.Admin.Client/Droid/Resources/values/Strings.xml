@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, Click Me!</string>
-    <string name="app_name">Edison.Mobile.Admin.Client.Droid</string>
+    <string name="app_name">Edison Device Setup</string>
+  <string name="login_window_message">A browser window will open</string>
+  <string name="sign_in_button_label">SIGN IN</string>
+  <string name="device_setup_message">Device Setup</string>
+  <string name="edison_device_setup_message">Edison Device Setup</string>
+  <string name="setup_new_device_label">Set Up New Device</string>
+  <string name="manage_your_devices_label">Manage Your Devices</string>
 </resources>

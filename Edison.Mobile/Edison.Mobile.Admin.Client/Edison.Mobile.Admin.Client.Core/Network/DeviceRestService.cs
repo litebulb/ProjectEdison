@@ -48,7 +48,7 @@ namespace Edison.Mobile.Admin.Client.Core.Network
 
         public async Task<object> UpdateDevice(DeviceModel deviceModel)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

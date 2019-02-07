@@ -10,17 +10,19 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         readonly ILocationService locationService;
-        readonly AuthService authService;
+        
+        public AuthService AuthService { get; private set; }
 
         bool isInitialAppearance = true;
 
         public event ViewNotification OnDisplayLogin;
+        public event ViewNotification OnLoginFailed;
         public event ViewNotification OnNavigateToMainViewModel;
         public event ViewNotification OnAppPermissionsFailed;
 
         public LoginViewModel(AuthService authService, ILocationService locationService)
         {
-            this.authService = authService;
+            this.AuthService = authService;
             this.locationService = locationService;
         }
 
@@ -38,14 +40,14 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             if (isInitialAppearance)
             {
                 isInitialAppearance = false;
-                var hasToken = await authService.AcquireTokenSilently();
+                var hasToken = await AuthService.AcquireTokenSilently();
                 if (hasToken)
                 {
                     await HandleAppPermissions();
                 }
                 else
                 {
-                    authService.OnAuthChanged += HandleOnAuthChanged;
+                    AuthService.OnAuthChanged += HandleOnAuthChanged;
                     OnDisplayLogin?.Invoke();
                 }
             }
@@ -54,12 +56,25 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public override void ViewDestroyed()
         {
             base.ViewDestroyed();
-            authService.OnAuthChanged -= HandleOnAuthChanged;
+            AuthService.OnAuthChanged -= HandleOnAuthChanged;
         }
 
         public async Task SignIn()
         {
-            await authService.AcquireToken();
+            await AuthService.AcquireToken();
+        }
+
+        // Android sign in
+        public async Task Login()
+        {
+            var hasToken = await AuthService.AcquireToken();
+            // Trigger clear any messages on login screen
+           // ClearLoginMessages?.Invoke();
+            if (!hasToken)
+                // Authenication failed - trigger updates to login screen
+                OnLoginFailed?.Invoke();
+            //         else Login success handled by permisions service which is called as a result of auth changed event which calls HandleOnAuthChanged
+
         }
 
         async void HandleOnAuthChanged(object sender, AuthChangedEventArgs e)

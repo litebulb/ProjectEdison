@@ -15,7 +15,6 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
     {
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterType<MainViewModel>();
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ChooseDeviceTypeViewModel>();
             builder.RegisterType<SelectWifiViewModel>();
@@ -33,6 +32,8 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
 
             builder.RegisterType<DeviceSetupService>()
                    .SingleInstance();
+
+            builder.RegisterType<MainViewModel>();
         }
     }
 }

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+
+
+
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+
+
+    <item name="android:windowLightStatusBar">true</item>
+    
+  </style>
+
+  <style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionModeOverlay">true</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+  </style>
+
+  <style name="AppTheme.Fullscreen">
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
+
+  <style name="AppTheme.Fullscreen.Splash">
+  </style>
+
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+
+
+
+
+  <style name="EdisonLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:colorPrimary">@color/app_background</item>
+  </style>
+
+  <style name="EdisonLight.Fullscreen">
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
+
+  <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+
+  </style>
+  
+  
+  
+  
+
+
+  <style name="AppTheme.NoActionBar.Splash">
+    
+  </style>
+  
+  
+  <style name="WhiteAccent" parent="ThemeOverlay.AppCompat.Light">
+    <item name="colorAccent">@color/white</item>
+  </style>
+  
+  <style name="AppBlueAccent" parent="ThemeOverlay.AppCompat.Light">
+    <item name="colorAccent">@color/app_blue</item>
+  </style>
+
+
+  <style name="Edison.Button" parent="Widget.AppCompat.Button">
+    <item name="android:drawablePadding">10dp</item>
+  </style>
+
+  <style name="Edison.Button.LoginScreen">
+    <item name="colorButtonNormal">@color/app_blue</item>
+    <item name="colorControlHighlight">@color/activity_blue_20</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:drawableTint">@color/white</item>
+  </style>
+  
+  
+
+</resources>

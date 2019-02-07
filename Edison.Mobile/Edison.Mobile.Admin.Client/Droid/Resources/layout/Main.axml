@@ -1,4 +1,122 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
-    
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:orientation="vertical" android:layout_width="match_parent" 
+	android:layout_height="match_parent"	
+				android:gravity="center_horizontal"
+	>
+				<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/login_msg"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:gravity="center"
+			android:paddingTop="6dp"
+		android:textColor="@color/login_button_blue"
+		android:textSize="16dp"
+		android:text="@string/edison_device_setup_message"			
+			android:paddingBottom="@dimen/login_button_padding"
+			
+			/>
+
+
+	<LinearLayout
+	android:id="@+id/button_new"
+	android:background="@drawable/border"
+	android:clickable="true"
+		android:layout_width="280dp"
+		android:layout_height="85dp"		       
+	android:orientation="horizontal" >
+			<LinearLayout
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"	
+		android:layout_gravity="center_vertical" >
+
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/textView2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_marginLeft="15dp"
+			android:textColor="@color/login_button_blue"
+		android:text="@string/setup_new_device_label" />
+			
+			 <LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="right" >
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/img"
+				android:layout_width="20dp"			
+				android:layout_height="20dp"
+					android:layout_marginRight="7dp"
+					android:layout_gravity="center_vertical"
+				android:src="@drawable/sensors"
+					android:alpha="0.4"
+				/>		    
+		
+		<android.support.v7.widget.AppCompatImageView
+		android:id="@+id/img_plus"
+		android:layout_height="wrap_content"		
+					android:layout_width="15dp"		
+				android:textAlignment="viewEnd"
+				android:gravity="end"
+					android:layout_marginRight="7dp"
+					android:layout_marginBottom="30dp"
+		android:src="@drawable/plus" />
+			</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+
+	
+	<LinearLayout
+	android:id="@+id/button_manage"
+	android:background="@drawable/border"
+	android:clickable="true"
+		android:layout_marginTop="12dp"
+		android:layout_width="280dp"
+		android:layout_height="85dp"		       
+	android:orientation="horizontal" >
+			<LinearLayout
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"	
+		android:layout_gravity="center_vertical" >
+
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/textView2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_marginLeft="15dp"
+			android:textColor="@color/login_button_blue"
+		android:text="@string/manage_your_devices_label" />
+			
+			 <LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="right" >
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/img"
+				android:layout_width="20dp"			
+				android:layout_height="20dp"
+					android:layout_marginRight="7dp"
+					android:layout_gravity="center_vertical"
+				android:src="@drawable/sensorsBlue"
+				/>		    
+		
+		<android.support.v7.widget.AppCompatImageView
+		android:id="@+id/img_plus"
+		android:layout_height="wrap_content"		
+					android:layout_width="15dp"		
+				android:textAlignment="viewEnd"
+				android:gravity="end"
+					android:layout_marginRight="7dp"
+					android:layout_marginBottom="30dp"
+		android:src="@drawable/gear" />
+			</LinearLayout>
+</LinearLayout>
+</LinearLayout>
+
+
 </LinearLayout>

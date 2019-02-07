@@ -1,5 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.bluemetal.Edison_Mobile_Admin_Client">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.bluemetal.Edison_Mobile_Admin_Client" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28" />
-	<application android:label="Edison.Mobile.Admin.Client"></application>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+	<application android:theme="@style/EdisonLight.Fullscreen" 
+               android:label="@string/app_name" 
+               android:icon="@mipmap/ic_edison_launcher">
+    <activity android:name="microsoft.identity.client.BrowserTabActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="com.onmicrosoft.edisonbluemetal" android:host="redirect" />
+
+        <data android:scheme="msal0b4a1cf5-7071-4255-9b5c-9f12c8f846bd" android:host="auth" />
+      </intent-filter>
+    </activity>
+    <!-- Necessary for apps that target Android 9.0 or higher -->
+    <uses-library android:name="org.apache.http.legacy" android:required="false" />   
+  </application>
 </manifest>
