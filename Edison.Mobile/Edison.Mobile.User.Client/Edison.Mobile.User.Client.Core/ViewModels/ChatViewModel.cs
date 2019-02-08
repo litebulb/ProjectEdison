@@ -111,7 +111,10 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             var actionPlans = await actionPlanRestService.GetActionPlans();
 
             if (actionPlans != null)
+            {
+                ActionPlans.Clear();
                 ActionPlans.AddRange(actionPlans);
+            }
 
             ChatTokenContext = await chatRestService.GetToken();
 

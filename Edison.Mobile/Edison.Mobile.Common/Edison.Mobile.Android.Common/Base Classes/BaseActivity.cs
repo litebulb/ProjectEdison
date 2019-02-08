@@ -10,6 +10,8 @@ using Edison.Mobile.Common.ViewModels;
 
 using Fragment = Android.Support.V4.App.Fragment;
 using DialogFragment = Android.Support.V4.App.DialogFragment;
+using Java.Lang;
+using Android.Content;
 
 namespace Edison.Mobile.Android.Common
 { 
@@ -135,8 +137,8 @@ namespace Edison.Mobile.Android.Common
             KeyboardStatusChanged?.Invoke(e);
         }
 
-        // To suport using the Fragment Backstack with back press
-        // Overridee OnBackPress and have it call this utility method
+        // To support using the Fragment Backstack with back press
+        // Override OnBackPress and have it call this utility method
         public void OnBackPressWithFragmentManagement()
         {
             BackPressed?.Invoke(this, EventArgs.Empty);
@@ -149,7 +151,11 @@ namespace Edison.Mobile.Android.Common
                 FragmentPoppedOnBack?.Invoke(null, frag);
             }
             else
+            {
+                if (SupportFragmentManager.BackStackEntryCount == 1)
+                    SupportFragmentManager.PopBackStackImmediate();
                 base.OnBackPressed();
+            }
         }
 
 

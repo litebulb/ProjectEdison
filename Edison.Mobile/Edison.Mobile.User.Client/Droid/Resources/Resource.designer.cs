@@ -7134,8 +7134,8 @@ namespace Edison.Mobile.User.Client.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f090058
-			public const int _more_info = 2131296344;
+			// aapt resource value: 0x7f090057
+			public const int _more_info = 2131296343;
 			
 			// aapt resource value: 0x7f090013
 			public const int abc_action_bar_home_description = 2131296275;
@@ -7224,26 +7224,23 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090023
 			public const int abc_toolbar_collapse_description = 2131296291;
 			
+			// aapt resource value: 0x7f090050
+			public const int active_shooter = 2131296336;
+			
 			// aapt resource value: 0x7f090051
-			public const int active_shooter = 2131296337;
-			
-			// aapt resource value: 0x7f090052
-			public const int air_quality = 2131296338;
-			
-			// aapt resource value: 0x7f09003f
-			public const int api_key = 2131296319;
+			public const int air_quality = 2131296337;
 			
 			// aapt resource value: 0x7f090012
 			public const int app_name = 2131296274;
 			
+			// aapt resource value: 0x7f090043
+			public const int app_permissions_error = 2131296323;
+			
 			// aapt resource value: 0x7f090044
-			public const int app_permissions_error = 2131296324;
+			public const int app_permissions_error1 = 2131296324;
 			
 			// aapt resource value: 0x7f090045
-			public const int app_permissions_error1 = 2131296325;
-			
-			// aapt resource value: 0x7f090046
-			public const int app_permissions_error2 = 2131296326;
+			public const int app_permissions_error2 = 2131296325;
 			
 			// aapt resource value: 0x7f090031
 			public const int appbar_scrolling_view_behavior = 2131296305;
@@ -7314,11 +7311,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090010
 			public const int common_signin_button_text_long = 2131296272;
 			
-			// aapt resource value: 0x7f09004d
-			public const int emergency = 2131296333;
+			// aapt resource value: 0x7f09004c
+			public const int emergency = 2131296332;
 			
-			// aapt resource value: 0x7f09005d
-			public const int enter_message = 2131296349;
+			// aapt resource value: 0x7f09005c
+			public const int enter_message = 2131296348;
 			
 			// aapt resource value: 0x7f09003e
 			public const int fadeWithBottomSheetBehavior = 2131296318;
@@ -7326,41 +7323,41 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090011
 			public const int fcm_fallback_notification_channel_label = 2131296273;
 			
-			// aapt resource value: 0x7f090050
-			public const int fire = 2131296336;
-			
-			// aapt resource value: 0x7f090053
-			public const int health_check = 2131296339;
-			
-			// aapt resource value: 0x7f090048
-			public const int home = 2131296328;
-			
 			// aapt resource value: 0x7f09004f
-			public const int im_safe = 2131296335;
+			public const int fire = 2131296335;
+			
+			// aapt resource value: 0x7f090052
+			public const int health_check = 2131296338;
+			
+			// aapt resource value: 0x7f090047
+			public const int home = 2131296327;
+			
+			// aapt resource value: 0x7f09004e
+			public const int im_safe = 2131296334;
 			
 			// aapt resource value: 0x7f09003a
 			public const int library_name = 2131296314;
 			
-			// aapt resource value: 0x7f09005f
-			public const int location_sent = 2131296351;
-			
-			// aapt resource value: 0x7f090042
-			public const int login_initial_msg = 2131296322;
-			
-			// aapt resource value: 0x7f090049
-			public const int my_info = 2131296329;
+			// aapt resource value: 0x7f09005e
+			public const int location_sent = 2131296350;
 			
 			// aapt resource value: 0x7f090041
-			public const int navigation_drawer_close = 2131296321;
+			public const int login_initial_msg = 2131296321;
+			
+			// aapt resource value: 0x7f090048
+			public const int my_info = 2131296328;
 			
 			// aapt resource value: 0x7f090040
-			public const int navigation_drawer_open = 2131296320;
+			public const int navigation_drawer_close = 2131296320;
 			
-			// aapt resource value: 0x7f09005c
-			public const int no = 2131296348;
+			// aapt resource value: 0x7f09003f
+			public const int navigation_drawer_open = 2131296319;
 			
-			// aapt resource value: 0x7f09004a
-			public const int notifications = 2131296330;
+			// aapt resource value: 0x7f09005b
+			public const int no = 2131296347;
+			
+			// aapt resource value: 0x7f090049
+			public const int notifications = 2131296329;
 			
 			// aapt resource value: 0x7f090034
 			public const int password_toggle_content_description = 2131296308;
@@ -7377,50 +7374,50 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090038
 			public const int path_password_strike_through = 2131296312;
 			
+			// aapt resource value: 0x7f090058
+			public const int permission_required = 2131296344;
+			
+			// aapt resource value: 0x7f090053
+			public const int protest = 2131296339;
+			
+			// aapt resource value: 0x7f09004d
+			public const int report_activity = 2131296333;
+			
+			// aapt resource value: 0x7f09004b
+			public const int right_now = 2131296331;
+			
 			// aapt resource value: 0x7f090059
-			public const int permission_required = 2131296345;
-			
-			// aapt resource value: 0x7f090054
-			public const int protest = 2131296340;
-			
-			// aapt resource value: 0x7f09004e
-			public const int report_activity = 2131296334;
-			
-			// aapt resource value: 0x7f09004c
-			public const int right_now = 2131296332;
-			
-			// aapt resource value: 0x7f09005a
-			public const int screen_brightness_dialog_message = 2131296346;
+			public const int screen_brightness_dialog_message = 2131296345;
 			
 			// aapt resource value: 0x7f090024
 			public const int search_menu_title = 2131296292;
 			
-			// aapt resource value: 0x7f09005e
-			public const int send_message = 2131296350;
+			// aapt resource value: 0x7f09005d
+			public const int send_message = 2131296349;
 			
-			// aapt resource value: 0x7f09004b
-			public const int settings = 2131296331;
+			// aapt resource value: 0x7f09004a
+			public const int settings = 2131296330;
 			
-			// aapt resource value: 0x7f090047
-			public const int sign_in = 2131296327;
+			// aapt resource value: 0x7f090046
+			public const int sign_in = 2131296326;
 			
-			// aapt resource value: 0x7f090043
-			public const int sign_in_error = 2131296323;
+			// aapt resource value: 0x7f090042
+			public const int sign_in_error = 2131296322;
 			
 			// aapt resource value: 0x7f090039
 			public const int status_bar_notification_info_overflow = 2131296313;
 			
+			// aapt resource value: 0x7f090054
+			public const int suspocious_package = 2131296340;
+			
 			// aapt resource value: 0x7f090055
-			public const int suspocious_package = 2131296341;
+			public const int tornado = 2131296341;
 			
 			// aapt resource value: 0x7f090056
-			public const int tornado = 2131296342;
+			public const int vip = 2131296342;
 			
-			// aapt resource value: 0x7f090057
-			public const int vip = 2131296343;
-			
-			// aapt resource value: 0x7f09005b
-			public const int yes = 2131296347;
+			// aapt resource value: 0x7f09005a
+			public const int yes = 2131296346;
 			
 			static String()
 			{

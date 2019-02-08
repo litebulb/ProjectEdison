@@ -102,7 +102,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _splachscreenMessage = FindViewById<AppCompatTextView>(Resource.Id.login_msg);
         }
 
-        private void NavigateToMainViewModel()
+        private async void NavigateToMainViewModel()
         {
             var intent = new Intent(this, typeof(MainActivity));
             //           intent.AddFlags(ActivityFlags.NoAnimation);
@@ -110,7 +110,15 @@ namespace Edison.Mobile.User.Client.Droid.Activities
  //           intent.AddFlags(ActivityFlags.NewTask);
  //           intent.AddFlags(ActivityFlags.ClearTask);
             StartActivity(intent);
-            Finish();
+
+            // Give the main activity a chance to render before killing this one
+            // TODO replace with cool transition
+            await Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                Finish();
+            }).ConfigureAwait(false);
+
         }
 
         protected void BindVMEvents()
