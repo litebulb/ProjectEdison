@@ -168,7 +168,7 @@ namespace Edison.Mobile.Android.Common.Controls
 
 
         /*
-                // Cant change easily in shape drawable wirth shape= ring, would need top recreate with SkiaSharp
+                // Cant change easily in shape drawable with shape= ring, would need top recreate with SkiaSharp
                 public int GaugeRingThicknessPx { get; set; }
         */
 
@@ -638,7 +638,7 @@ namespace Edison.Mobile.Android.Common.Controls
             LayoutInflater inflator = (LayoutInflater)context.GetSystemService(Context.LayoutInflaterService);
             inflator.Inflate(Resource.Layout.circular_event_gauge, this, true);
             BindViews();
-            // Bug in Xamarin bindings - these arent bound correctly so expressed manually as readonly 
+            // Bug in Xamarin bindings - these aren't bound correctly so expressed manually as readonly 
    //         _countAutoTextSizeMin = Count.AutoSizeMinTextSize;
    //         _countAutoTextSizeMax = Count.AutoSizeMaxTextSize;
    //         _countAutoTextSizeGranularity = Count.AutoSizeStepGranularity;
@@ -710,7 +710,7 @@ namespace Edison.Mobile.Android.Common.Controls
                     RingGapPx = a.GetDimensionPixelSize(Resource.Styleable.CircularEventGauge_ringGap, RingThicknessPx);
 
 
-                // Count Atttributes
+                // Count Attributes
 
                 bool fontPropertiesSet = false;
                 Typeface typeface = null;
@@ -779,7 +779,7 @@ namespace Edison.Mobile.Android.Common.Controls
 
 
 
-                // Label Atttributes
+                // Label Attributes
 
                 fontPropertiesSet = false;
                 typeface = null;
@@ -956,7 +956,7 @@ namespace Edison.Mobile.Android.Common.Controls
             TypefaceStyle style = TypefaceStyle.Normal;
             if (!string.IsNullOrWhiteSpace(styleName))
             {
-                // try to split style name (as may have bold, normal and italic in it). Ignore invalid names. Deafult to Normal.
+                // try to split style name (as may have bold, normal and italic in it). Ignore invalid names. Default to Normal.
                 var styleNames = styleName.Split("|");
                 if (styleNames.Contains("bold") && styleNames.Contains("italic"))
                     style = TypefaceStyle.BoldItalic;
@@ -1009,9 +1009,9 @@ namespace Edison.Mobile.Android.Common.Controls
 
 
         /// <summary>
-        /// Method to set the color ofthe material design ripple when the button is clicked.
+        /// Method to set the color of the material design ripple when the button is clicked.
         /// If the Android version is less than Lollipop (5.0) then the ripple will be a solid color
-        /// Note: the default is the defaut for material design.
+        /// Note: the default is the default for material design.
         /// </summary>
         /// <params> 
         /// Color

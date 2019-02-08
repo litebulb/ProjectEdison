@@ -39,19 +39,19 @@ namespace Edison.Mobile.Android.Common.Controls
         /// Initialized flag
         /// </summary>
         /// <value>bool</value>
-        private bool _initialized = false;
+        private readonly bool _initialized = false;
 
         /// <summary>
         /// Button Background
         /// </summary>
         /// <value>AppCompatImageView</value>
-        private AppCompatImageView _buttonBackground;
+        public AppCompatImageView ButtonBackground { get; private set; }
 
         /// <summary>
         /// ImageButton 
         /// </summary>
         /// <value>AppCompatImageView</value>
-        private AppCompatImageButton _button;
+        public AppCompatImageButton Button { get; private set; }
 
  //       private bool _backgroundWrapped = false;
 
@@ -66,7 +66,7 @@ namespace Edison.Mobile.Android.Common.Controls
         /// <value>Drawable</value>
         public new Drawable Background
         {
-            get => _buttonBackground?.Drawable;
+            get => ButtonBackground?.Drawable;
             set
             {
                 SetBackgroundDrawable(value);
@@ -136,11 +136,11 @@ namespace Edison.Mobile.Android.Common.Controls
                 if (_iconTint != value)
                 {
                     _iconTint = value;
-                    if (Icon != null && value != null && _button != null)
+                    if (Icon != null && value != null && Button != null)
                     {
-                        _button.SupportImageTintList = value;
+                        Button.SupportImageTintList = value;
                         if (_initialized)
-                            _button.Invalidate();
+                            Button.Invalidate();
                     }
                 }
             }
@@ -159,11 +159,11 @@ namespace Edison.Mobile.Android.Common.Controls
                 if (_iconTintMode != value)
                 {
                     _iconTintMode = value;
-                    if (_button != null)
+                    if (Button != null)
                     {
-                        _button.ImageTintMode = value;
+                        Button.ImageTintMode = value;
                         if (_initialized)
-                            _button.Invalidate();
+                            Button.Invalidate();
                     }
                 }
 
@@ -188,7 +188,7 @@ namespace Edison.Mobile.Android.Common.Controls
                 if (_initialized)
                 {
                     SetRippleColor(_rippleColor);
-                    _button.Invalidate();
+                    Button.Invalidate();
                 }
             }
         }
@@ -196,12 +196,28 @@ namespace Edison.Mobile.Android.Common.Controls
 
         public override Java.Lang.Object Tag
         {
-            get => _button.Tag;
+            get => Button.Tag;
             set
             {
-                _button.Tag = value;
+                Button.Tag = value;
             }
         }
+
+
+        public override bool Selected
+        {
+            get { return Button.Selected; }
+            set
+            {
+                if (value != Button.Selected)
+                {
+                    Button.Selected = value;
+                    ButtonBackground.Selected = value;
+                }
+            }
+        }
+
+
 
 #endregion
 
@@ -257,8 +273,8 @@ namespace Edison.Mobile.Android.Common.Controls
             LayoutInflater inflator = (LayoutInflater)context.GetSystemService(Context.LayoutInflaterService);
             inflator.Inflate(Resource.Layout.circular_image_button, this, true);
             // Assign the control sub-components
-            _buttonBackground = FindViewById<AppCompatImageView>(Resource.Id.button_background);
-            _button = FindViewById<AppCompatImageButton>(Resource.Id.button);
+            ButtonBackground = FindViewById<AppCompatImageView>(Resource.Id.cib_button_background);
+            Button = FindViewById<AppCompatImageButton>(Resource.Id.cib_button);
         }
 
 
@@ -280,8 +296,6 @@ namespace Edison.Mobile.Android.Common.Controls
 
         public void ApplyStylableAttributes(Context context, TypedArray a, int[] styleableRes)
         {
-            // Dont need to load NavigationIcon or OverfowIcon from attributes here because will have been laoded from base class and
-            // any tinting wll be done if tints etc are loaded here
 
             if (styleableRes == Resource.Styleable.CircularImageButton)
             {
@@ -335,11 +349,11 @@ namespace Edison.Mobile.Android.Common.Controls
                 }
                 if(iconPaddingSet)
                 {
-                    iconPaddingLeft = iconPaddingLeft == int.MinValue ? _button.PaddingLeft : iconPaddingLeft;
-                    iconPaddingTop = iconPaddingTop == int.MinValue ? _button.PaddingTop : iconPaddingTop;
-                    iconPaddingRight = iconPaddingRight == int.MinValue ? _button.PaddingRight : iconPaddingRight;
-                    iconPaddingBottom = iconPaddingBottom == int.MinValue ? _button.PaddingBottom : iconPaddingBottom;
-                    _button.SetPadding(iconPaddingLeft, iconPaddingTop, iconPaddingRight, iconPaddingBottom);
+                    iconPaddingLeft = iconPaddingLeft == int.MinValue ? Button.PaddingLeft : iconPaddingLeft;
+                    iconPaddingTop = iconPaddingTop == int.MinValue ? Button.PaddingTop : iconPaddingTop;
+                    iconPaddingRight = iconPaddingRight == int.MinValue ? Button.PaddingRight : iconPaddingRight;
+                    iconPaddingBottom = iconPaddingBottom == int.MinValue ? Button.PaddingBottom : iconPaddingBottom;
+                    Button.SetPadding(iconPaddingLeft, iconPaddingTop, iconPaddingRight, iconPaddingBottom);
                 }
 
                 if (a.HasValue(Resource.Styleable.CircularImageButton_android_tag))
@@ -376,14 +390,14 @@ namespace Edison.Mobile.Android.Common.Controls
             {
                 if (background != null)
                 {
-                    _buttonBackground.SetImageDrawable(background);
-                    _buttonBackground.SupportImageTintList = _backgroundTint;
+                    ButtonBackground.SetImageDrawable(background);
+                    ButtonBackground.SupportImageTintList = _backgroundTint;
                 }
                 else
-                    _buttonBackground?.SetImageDrawable(background);
+                    ButtonBackground?.SetImageDrawable(background);
 
                 if (_initialized)
-                    _buttonBackground?.Invalidate();
+                    ButtonBackground?.Invalidate();
             }
         }
 
@@ -413,9 +427,9 @@ namespace Edison.Mobile.Android.Common.Controls
                 _backgroundTint = tint;
                 if (Background != null && tint != null)
                 {
-                    _buttonBackground.SupportImageTintList = _backgroundTint;
+                    ButtonBackground.SupportImageTintList = _backgroundTint;
                     if (_initialized)
-                        _buttonBackground?.Invalidate();
+                        ButtonBackground?.Invalidate();
                 }
             }
         }
@@ -450,18 +464,18 @@ namespace Edison.Mobile.Android.Common.Controls
                 }
                 else
                     _icon = icon;
-                _button?.SetImageDrawable(_icon);
+                Button?.SetImageDrawable(_icon);
                 if (_initialized)
-                    _button?.Invalidate();
+                    Button?.Invalidate();
 */
                 if (icon != null)
                     _icon = DrawableCompat.Wrap(icon.Mutate());
                 else
                     _icon = icon;
-                _button?.SetImageDrawable(_icon);
-                _button.SupportImageTintList = _iconTint;
+                Button?.SetImageDrawable(_icon);
+                Button.SupportImageTintList = _iconTint;
                 if (_initialized)
-                    _button?.Invalidate();
+                    Button?.Invalidate();
 
 
 
@@ -492,7 +506,7 @@ namespace Edison.Mobile.Android.Common.Controls
         /// </params>
         public void SetIconPadding(int padding)
         {
-            _button?.SetPadding(padding, padding, padding, padding);
+            Button?.SetPadding(padding, padding, padding, padding);
             Invalidate();
         }
         /// <summary>
@@ -503,22 +517,22 @@ namespace Edison.Mobile.Android.Common.Controls
         /// </params>
         public void SetIconPadding(int iconPaddingLeft, int iconPaddingTop, int iconPaddingRight, int iconPaddingBottom)
         {
-            _button?.SetPadding(iconPaddingLeft, iconPaddingTop, iconPaddingRight, iconPaddingBottom);
+            Button?.SetPadding(iconPaddingLeft, iconPaddingTop, iconPaddingRight, iconPaddingBottom);
             Invalidate();
         }
 
 
         /// <summary>
-        /// Method to set the color ofthe material design ripple when the button is clicked.
+        /// Method to set the color of the material design ripple when the button is clicked.
         /// If the Android version is less than Lollipop (5.0) then the ripple will be a solid color
-        /// Note: the default is the defaut for material design.
+        /// Note: the default is the default for material design.
         /// </summary>
         /// <params> 
         /// Color
         /// </params>
         public void SetRippleColor(Color rippleColor)
         {
-            ViewCompat.SetBackground(_button, GetImageButtonBackground(rippleColor));
+            ViewCompat.SetBackground(Button, GetImageButtonBackground(rippleColor));
         }
         private Drawable GetImageButtonBackground(Color rippleColor)
         {
@@ -535,10 +549,10 @@ namespace Edison.Mobile.Android.Common.Controls
         private ShapeDrawable GetStateDrawable(Color pressedColor)
         {
             var drw = GetCircleDrawable(Color.White);
-            int[][] states = new int[][] {  new int[] { global::Android.Resource.Attribute.StatePressed },
+            int[][] states = {  new int[] { global::Android.Resource.Attribute.StatePressed },
                                             new int[] { global::Android.Resource.Attribute.StateSelected },
                                             new int[] { } };
-            int[] colors = new int[] { pressedColor, pressedColor, Color.Transparent };
+            int[] colors = { pressedColor, pressedColor, Color.Transparent };
             ColorStateList csl = new ColorStateList(states, colors);
             drw.SetDrawableTint(csl);
             return drw;
@@ -557,13 +571,13 @@ namespace Edison.Mobile.Android.Common.Controls
         protected override void OnAttachedToWindow()
         {
             base.OnAttachedToWindow();
-            _button.Click += OnClick;
+            Button.Click += OnClick;
         }
 
         protected override void OnDetachedFromWindow()
         {
             base.OnDetachedFromWindow();
-            _button.Click -= OnClick;
+            Button.Click -= OnClick;
         }
 
         private void OnClick(object s, EventArgs e)

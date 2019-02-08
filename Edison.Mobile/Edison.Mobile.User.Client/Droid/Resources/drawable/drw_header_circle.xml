@@ -3,7 +3,7 @@
   android:shape="oval">
   <solid android:color="@color/icon_background_grey" />
   <size
-    android:width="@dimen/profile_width"
-    android:height="@dimen/profile_height"
+    android:width="@dimen/profile_size"
+    android:height="@dimen/profile_size"
     />
 </shape>

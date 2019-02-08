@@ -43,7 +43,7 @@
 			android:id="@+id/event_carousel"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:scrollbars="horizontal"
+      android:overScrollMode="always"
 			/>
 		</FrameLayout>
 </LinearLayout>

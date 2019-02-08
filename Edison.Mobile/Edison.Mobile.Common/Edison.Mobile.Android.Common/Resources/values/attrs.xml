@@ -78,7 +78,16 @@
   <attr name="count" format="integer" />
   <attr name="active" format="boolean" />
 
-
+  <!-- RightAngleTriangle Attributes -->
+  <!-- <attr name="borderWidth" format="dimension" /> -->  <!-- Already defined -->
+  <!-- <attr name="borderColor" format="color" /> -->  <!-- Already defined -->
+  <attr name="fillColor" format="reference|color" />
+  <attr name="rightAnglePosition">
+    <flag name="bottomLeft" value="0" />
+    <flag name="topLeft" value="1" />
+    <flag name="topRight" value="2" />
+    <flag name="bottomRight" value="3" />
+  </attr>
 
 
 
@@ -152,6 +161,14 @@
     <attr name="active" />
     <attr name="controlRippleColor" />
   </declare-styleable>
-  
-  
+
+  <!-- RightAngleTriangle Stylable -->
+  <declare-styleable name="RightAngleTriangle">
+    <attr name="fillColor" />
+    <attr name="borderWidth" />
+    <attr name="borderColor" />
+    <attr name="rightAnglePosition" />
+  </declare-styleable>
+
+
 </resources>

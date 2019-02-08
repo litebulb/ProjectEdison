@@ -105,7 +105,10 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private void NavigateToMainViewModel()
         {
             var intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.NoAnimation);
+            //           intent.AddFlags(ActivityFlags.NoAnimation);
+ //           intent.AddFlags(ActivityFlags.ClearTop);
+ //           intent.AddFlags(ActivityFlags.NewTask);
+ //           intent.AddFlags(ActivityFlags.ClearTask);
             StartActivity(intent);
             Finish();
         }

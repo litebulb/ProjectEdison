@@ -8,7 +8,7 @@ namespace Edison.Mobile.Android.Common.Controls
 {
     /// <summary>
     /// Port of the SeekBarRotator found here: https://android.googlesource.com/platform/packages/apps/MusicFX/+/master/src/com/android/musicfx?autodive=0%2F%2F%2F%2F%2F
-    /// The folloowing is the Copyright statement that has to be included with the file
+    /// The following is the Copyright statement that has to be included with the file
     /// 
 /*
  * Copyright (C) 2015 The Android Open Source Project

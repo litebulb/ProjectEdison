@@ -4,6 +4,7 @@ using Android.Views.InputMethods;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Views;
+using Android.Graphics;
 
 namespace Edison.Mobile.Android.Common
 {
@@ -14,12 +15,26 @@ namespace Edison.Mobile.Android.Common
         public event KeyboardStatusChangeEventHandler KeyboardStatusChangeEvent;
 
 
+        private int _openHeightDelta = -1;
+        private int _closedHeightDelta = -1;
+
+        private InputMethodManager __imm = null;
+        private InputMethodManager _imm
+        {
+            get
+            {
+                if (__imm == null || __imm.Handle == IntPtr.Zero)
+                    __imm = BaseApplication.CurrentActivity?.GetSystemService(Context.InputMethodService) as InputMethodManager;
+                return __imm;
+            }
+        }
+
+
         public KeyboardStatus Status { get; private set; } = KeyboardStatus.Closed;  // Default to closed when the app starts
 
-        private bool keyboardAppearedProcessed = false;
-        private bool keyboardDisppearedProcessed = true;
-
         public bool Subscribed { get; private set; } = false;
+
+
 
         public void Subscribe()
         {
@@ -30,45 +45,73 @@ namespace Edison.Mobile.Android.Common
         {
             if (!Subscribed)
             {
-                var rootLayout = activity?.Window.DecorView.FindViewById(global::Android.Resource.Id.Content);
+                var rootLayout = activity?.Window.DecorView; //.FindViewById(global::Android.Resource.Id.Content);
                 if (rootLayout != null)
                 {
                     // Subscribe to ViewTreeObserver.GlobalLayout
-                    rootLayout.ViewTreeObserver.GlobalLayout += KeyboardStatusChangeDetected;
+                    rootLayout.ViewTreeObserver.GlobalLayout += LayoutChangeDetected;
                     Subscribed = true;  // so we only ever subscribe once
                 }
             }
         }
 
-        private async void KeyboardStatusChangeDetected(object sender, EventArgs e)
+        private async void LayoutChangeDetected(object sender, EventArgs e)
         {
-            await Task.Run(() =>
-            {
-                KeyboardStatusChangeDetected();
-            }).ConfigureAwait(false);
+            await Task.Run(() => { LayoutChangeDetected(); }).ConfigureAwait(false);
         }
 
-        private void KeyboardStatusChangeDetected()
+
+
+
+        private void LayoutChangeDetected()
         {
-            if (BaseApplication.CurrentActivity?.GetSystemService(Context.InputMethodService) is InputMethodManager imm)
+            var open = _imm.IsAcceptingText;
+            if (Status == KeyboardStatus.Closed && open)  // was closed. now open
             {
-                var open = imm.IsAcceptingText;
-                if (Status == KeyboardStatus.Closed && open)  // was closed. now open
+                var rootLayout = BaseApplication.CurrentActivity.Window.DecorView;
+                Rect r = new Rect();
+                rootLayout.GetWindowVisibleDisplayFrame(r);
+                Rect r1 = new Rect();
+                rootLayout.GetLocalVisibleRect(r1);
+                var heightDelta = r1.Bottom - r.Bottom;
+                if (_openHeightDelta == -1)
+                    _openHeightDelta = heightDelta;
+
+                // Double check (in case we have manually changed layouts in response to the keyboard opening and closing
+                if (heightDelta > _closedHeightDelta + 50)  // may need to add padding here to account for other layout changes
                 {
                     Status = KeyboardStatus.Open;
                     // Trigger the event
-                    var handler = KeyboardStatusChangeEvent;
-                    handler?.Invoke(new KeyboardStatusChangeEventArgs(Status));
-
+                    KeyboardStatusChangeEvent?.Invoke(new KeyboardStatusChangeEventArgs(Status, _openHeightDelta));
                 }
-                else if (Status == KeyboardStatus.Open && !open)  // was open. now closed
+
+            }
+            else if (Status == KeyboardStatus.Open)
+            {
+                if (!open)  // was open. now closed -  this handles when an action results in EditText losing focus and input ability
                 {
                     Status = KeyboardStatus.Closed;
                     // Trigger the event
-                    var handler = KeyboardStatusChangeEvent;
-                    handler?.Invoke(new KeyboardStatusChangeEventArgs(Status));
+                    KeyboardStatusChangeEvent?.Invoke(new KeyboardStatusChangeEventArgs(Status, _closedHeightDelta));
                 }
-                // else repeating the current status, so ignore
+                else
+                {
+                    // some actions don't result in edit Text losing focus or input ability, such as keyboard dismiss button.
+                    // This may be limited to when a hardware keyboard is attached, such as when debugging
+                    var rootLayout = BaseApplication.CurrentActivity.Window.DecorView;
+                    Rect r = new Rect();
+                    rootLayout.GetWindowVisibleDisplayFrame(r);
+                    Rect r1 = new Rect();
+                    rootLayout.GetLocalVisibleRect(r1);
+                    var heightDelta = r1.Bottom - r.Bottom;
+                    if  (heightDelta < _openHeightDelta - 50)  // may need to add padding here to account for other layout changes
+                    {
+                        _closedHeightDelta = heightDelta;
+                        Status = KeyboardStatus.Closed;
+                        // Trigger the event
+                        KeyboardStatusChangeEvent?.Invoke(new KeyboardStatusChangeEventArgs(Status, _closedHeightDelta));
+                    }
+                }
             }
         }
 
@@ -80,10 +123,10 @@ namespace Edison.Mobile.Android.Common
         }
         public void Unsubscribe(Activity activity)
         {
-            var rootLayout = activity?.Window.DecorView.FindViewById(global::Android.Resource.Id.Content);
+            var rootLayout = activity?.Window.DecorView; //.FindViewById(global::Android.Resource.Id.Content);
             if (rootLayout != null)
             {
-                rootLayout.ViewTreeObserver.GlobalLayout -= KeyboardStatusChangeDetected;  // Don't need to check for subscribed as wont cause an issue
+                rootLayout.ViewTreeObserver.GlobalLayout -= LayoutChangeDetected;  // Don't need to check for subscribed as wont cause an issue
                 Subscribed = false;
             }
         }
@@ -91,9 +134,57 @@ namespace Edison.Mobile.Android.Common
 
         public static void DismissKeyboard(Activity activity, View view)
         {
+            if (view == null)
+                view = new View(activity);
             InputMethodManager iMM = (InputMethodManager)activity.GetSystemService(Context.InputMethodService);
             iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
         }
+        public static void DismissKeyboard(Context ctx, View view)
+        {
+            if (view == null)
+                view = new View(ctx);
+            InputMethodManager iMM = (InputMethodManager)ctx.GetSystemService(Context.InputMethodService);
+            iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
+        }
+        public static void DismissKeyboard(Context ctx, Fragment fragment)
+        {
+            var view = fragment.View.RootView;
+            InputMethodManager iMM = (InputMethodManager)ctx.GetSystemService(Context.InputMethodService);
+            iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
+        }
+        public static void DismissKeyboard(Context ctx, global::Android.Support.V4.App.Fragment fragment)
+        {
+            var view = fragment.View.RootView;
+            InputMethodManager iMM = (InputMethodManager)ctx.GetSystemService(Context.InputMethodService);
+            iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
+        }
+        public static void DismissKeyboard(Fragment fragment)
+        {
+            var view = fragment.View.RootView;
+            InputMethodManager iMM = (InputMethodManager)fragment.Activity.GetSystemService(Context.InputMethodService);
+            iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
+        }
+        public static void DismissKeyboard(global::Android.Support.V4.App.Fragment fragment)
+        {
+            var view = fragment.View.RootView;
+            InputMethodManager iMM = (InputMethodManager)fragment.Activity.GetSystemService(Context.InputMethodService);
+            iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
+        }
+        public static void DismissKeyboard(Activity activity)
+        {
+            var view = activity.FindViewById(global::Android.Resource.Id.Content).RootView;
+            InputMethodManager iMM = (InputMethodManager)activity.GetSystemService(Context.InputMethodService);
+            iMM.HideSoftInputFromWindow(view.WindowToken, 0);
+            view.ClearFocus();
+        }
+
+
         public static void ToggleKeyboard(Activity activity)
         {
             InputMethodManager iMM = (InputMethodManager)activity.GetSystemService(Context.InputMethodService);
@@ -101,6 +192,8 @@ namespace Edison.Mobile.Android.Common
         }
         public static void ShowKeyboard(Activity activity, View view)
         {
+            if (view == null)
+                view = new View(activity);
             InputMethodManager iMM = (InputMethodManager)activity.GetSystemService(Context.InputMethodService);
             iMM.ShowSoftInput(view, ShowFlags.Implicit);
         }
@@ -118,9 +211,11 @@ namespace Edison.Mobile.Android.Common
     public class KeyboardStatusChangeEventArgs : EventArgs
     {
         public KeyboardStatus Status { get; private set; } = KeyboardStatus.Unknown;
-        public KeyboardStatusChangeEventArgs(KeyboardStatus status)
+        public int VisibleHeightToDecorHeightDelta { get; private set; } = -1;
+        public KeyboardStatusChangeEventArgs(KeyboardStatus status, int visibleHeightToDecorHeightDelta)
         {
             Status = status;
+            VisibleHeightToDecorHeightDelta = visibleHeightToDecorHeightDelta;
         }
     }
 }

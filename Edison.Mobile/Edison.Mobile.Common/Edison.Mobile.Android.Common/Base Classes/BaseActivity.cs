@@ -1,11 +1,9 @@
 ﻿using System;
-using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
-using Java.Lang;
 using Autofac;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.ViewModels;
@@ -18,12 +16,12 @@ namespace Edison.Mobile.Android.Common
 
     public class BaseActivity<T> : AppCompatActivity, ViewTreeObserver.IOnGlobalLayoutListener where T : BaseViewModel
     {
-        public static event EventHandler GlobalLayout;
+        public event EventHandler GlobalLayout;
         public delegate void OrientationChangedEventHandler(object sender, OrientationChangedEventArgs e);
-        public static event OrientationChangedEventHandler OrientationChanged;
-        public static event EventHandler BackPressed;
+        public event OrientationChangedEventHandler OrientationChanged;
+        public event EventHandler BackPressed;
         public delegate void KeyboardStatusChangeHandler(KeyboardStatusChangeEventArgs e);
-        public static event KeyboardStatusChangeHandler KeyboardStatusChanged;
+        public event KeyboardStatusChangeHandler KeyboardStatusChanged;
 
         public EventHandler<Fragment> FragmentPoppedOnBack;
 
@@ -126,9 +124,7 @@ namespace Edison.Mobile.Android.Common
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             if (item.ItemId == 16908332)  // Android.Resource.Id.BackButton - which is internal
-            {
                 BackPressed?.Invoke(this, EventArgs.Empty);
-            }
             return base.OnOptionsItemSelected(item);
         }
 
@@ -209,12 +205,6 @@ namespace Edison.Mobile.Android.Common
 
             }, transitionDelayMs);
         }
-
-
-
-
-
-
     }
 
     public class OrientationChangedEventArgs : EventArgs

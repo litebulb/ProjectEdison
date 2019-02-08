@@ -1,4 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="library_name">Edison.Mobile.Android.Common</string>
+  
+    <string name="bottomSheetBehavior">edison.mobile.android.common.behaviors.BottomSheetBehavior</string>
+    <string name="bottomNavigationViewBehavior">edison.mobile.android.common.behaviors.BottomNavigationViewBehavior</string>
+    <string name="bottomSheetAboveViewBehavior">edison.mobile.android.common.behaviors.BottomSheetAboveViewBehavior</string>
+    <string name="fadeWithBottomSheetBehavior">edison.mobile.android.common.behaviors.FadeWithBottomSheetBehavior</string>
 </resources>

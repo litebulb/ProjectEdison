@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/abc_text_select_handle_left_mtrl_light"
+    android:tint="@color/text_cursor_color" />

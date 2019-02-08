@@ -19,7 +19,7 @@ namespace Edison.Mobile.User.Client.Droid.Holders
     public class ResponseViewHolder : RecyclerView.ViewHolder, IOnMapReadyCallback
     {
 
-
+        private Action<int> _listener;
 
 
         private View _layout;
@@ -29,11 +29,12 @@ namespace Edison.Mobile.User.Client.Droid.Holders
         private LatLng _userLocation = null;
         private LatLng _userLocationOld = null;
         private LatLng _eventLocation = null;
-        private LatLng _eventLocationOld = null;
-        private double _latDelta;
-        private double _longDelta;
-        private Marker _userLocationMarker;
-        private Marker _eventLocationMarker;
+  //      private LatLng _eventLocationOld = null;
+ //       private double _latDelta;
+ //       private double _longDelta;
+
+        public Marker UserLocationMarker { get; set; }
+        public Marker EventLocationMarker { get; set; }
 
         private static BitmapDescriptor _userLocationIcon = null;
         private BitmapDescriptor UserLocationIcon
@@ -66,8 +67,9 @@ namespace Edison.Mobile.User.Client.Droid.Holders
         public ResponseViewHolder(View item, Action<int> listener) : base(item)
         {
             _layout = item;
+            _listener = listener;
             BindViews(item);
-            Ripple.Click += (s, e) => listener(base.LayoutPosition);
+            BindEvents();
             InitializeMapView();
         }
 
@@ -84,6 +86,21 @@ namespace Edison.Mobile.User.Client.Droid.Holders
             AlertTime = item.FindViewById<AppCompatTextView>(Resource.Id.card_alert_time);
             AlertDescription = item.FindViewById<AppCompatTextView>(Resource.Id.card_alert_description);
             Button = item.FindViewById<AppCompatTextView>(Resource.Id.more_info_btn);
+        }
+
+        private void BindEvents()
+        {
+            Ripple.Click -= OnButtonClick; // unsubscribe just in case
+            Ripple.Click += OnButtonClick;
+        }
+        internal void UnbindEvents()
+        {
+            Ripple.Click -= OnButtonClick;
+        }
+
+        private void OnButtonClick(object s, EventArgs e)
+        {
+            _listener(base.LayoutPosition);
         }
 
         private void InitializeMapView()
@@ -183,12 +200,12 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                     cameraUpdate = CameraUpdateFactory.NewLatLngZoom(_userLocation, Constants.DefaultResponseMapZoom);
                 else
                 {
-                    _latDelta = Math.Abs(_eventLocation.Latitude - _userLocation.Latitude);
-                    _longDelta = Math.Abs(_eventLocation.Longitude - _userLocation.Longitude);
-                    var minLat = Math.Min(_eventLocation.Latitude, _userLocation.Latitude) - _latDelta / 4;
-                    var maxLat = Math.Max(_eventLocation.Latitude, _userLocation.Latitude) + _latDelta / 4;
-                    var minLong = Math.Min(_eventLocation.Longitude, _userLocation.Longitude) - _longDelta / 4;
-                    var maxLong = Math.Max(_eventLocation.Longitude, _userLocation.Longitude) + _longDelta / 4;
+                    var latDelta = Math.Abs(_eventLocation.Latitude - _userLocation.Latitude);
+                    var longDelta = Math.Abs(_eventLocation.Longitude - _userLocation.Longitude);
+                    var minLat = Math.Min(_eventLocation.Latitude, _userLocation.Latitude) - latDelta / 4;
+                    var maxLat = Math.Max(_eventLocation.Latitude, _userLocation.Latitude) + latDelta / 4;
+                    var minLong = Math.Min(_eventLocation.Longitude, _userLocation.Longitude) - longDelta / 4;
+                    var maxLong = Math.Max(_eventLocation.Longitude, _userLocation.Longitude) + longDelta / 4;
 
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                     builder.Include(new LatLng(minLat, minLong));
@@ -206,7 +223,7 @@ namespace Edison.Mobile.User.Client.Droid.Holders
             // Add a markers
             if (_eventLocation != null)
             {
-                if (_eventLocationMarker == null)
+                if (EventLocationMarker == null)
                 {
                     var markerOptions = new MarkerOptions();
                     markerOptions.SetPosition(_eventLocation);
@@ -215,26 +232,28 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                         var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
                         markerOptions.SetIcon(bmDescriptor);
                     }
-                    _eventLocationMarker = GMap.AddMarker(markerOptions);
+                    EventLocationMarker = GMap.AddMarker(markerOptions);
                 }
                 else
                 {
-                    _eventLocationMarker.Position = _eventLocation;
+                    var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
+                    EventLocationMarker.SetIcon(bmDescriptor);
+                    EventLocationMarker.Position = _eventLocation;
                 }
             }
             if (_userLocation != null)
             {
-                if (_userLocationMarker == null)
+                if (UserLocationMarker == null)
                 {
                     var markerOptions0 = new MarkerOptions();
                     markerOptions0.SetPosition(_userLocation);
                     markerOptions0.SetIcon(UserLocationIcon);
                     markerOptions0.Anchor(0.5f, 0.5f);
-                    _userLocationMarker = GMap.AddMarker(markerOptions0);
+                    UserLocationMarker = GMap.AddMarker(markerOptions0);
                 }
                 else
                 {
-                    _userLocationMarker.Position = _userLocation;
+                    UserLocationMarker.Position = _userLocation;
                 }
             }
 
@@ -266,93 +285,114 @@ namespace Edison.Mobile.User.Client.Droid.Holders
         public void SetupMap(Color eventcolor, LatLng userLocation, LatLng eventLocation)
         {
             bool moveMap = true;
-            if (userLocation != null)
-            {
-                if (_userLocation == null)
-                    _userLocation = userLocation;
-                else {
-                    // filter out small user movements
-                    var latDeltaThreshold = _latDelta * 0.05;
-                    var longDeltaThreshold = _longDelta * 0.05;
-                    var latDelta = Math.Abs(userLocation.Latitude - _userLocation.Latitude);
-                    var longDelta = Math.Abs(userLocation.Longitude - _userLocation.Longitude);
-                    if (latDelta > latDeltaThreshold || longDelta > longDeltaThreshold)
-                        _userLocation = userLocation;
-                }
-            }
 
-            if (eventLocation != null)
-            {
-                var latDeltaThreshold = _latDelta * 0.1;
-                var longDeltaThreshold = _longDelta * 0.1;
-                if (_eventLocationOld == null)
-                    _eventLocationOld = _eventLocation;
-                else
-                {
-                    var latDelta = Math.Abs(eventLocation.Latitude - _eventLocationOld.Latitude);
-                    var longDelta = Math.Abs(eventLocation.Longitude - _eventLocationOld.Longitude);
-                    if (latDelta < latDeltaThreshold & longDelta < longDeltaThreshold)
-                        moveMap = false;
-                    else
-                        _eventLocationOld = _eventLocation;
-                }
-                _eventLocation = eventLocation;
-            }
+
+            /*
+                        if (userLocation != null)
+                        {
+                            if (_userLocation == null)
+                                _userLocation = userLocation;
+                            else {
+                                // filter out small user movements
+                                var latDeltaThreshold = _latDelta * 0.05;
+                                var longDeltaThreshold = _longDelta * 0.05;
+                                var latDelta = Math.Abs(userLocation.Latitude - _userLocation.Latitude);
+                                var longDelta = Math.Abs(userLocation.Longitude - _userLocation.Longitude);
+                                if (latDelta > latDeltaThreshold || longDelta > longDeltaThreshold)
+                                    _userLocation = userLocation;
+                            }
+                        }
+            */
+
+            /*
+                        if (eventLocation != null)
+                        {
+                            var latDeltaThreshold = _latDelta * 0.1;
+                            var longDeltaThreshold = _longDelta * 0.1;
+                            if (_eventLocationOld == null)
+                                _eventLocationOld = _eventLocation;
+                            else
+                            {
+                                var latDelta = Math.Abs(eventLocation.Latitude - _eventLocationOld.Latitude);
+                                var longDelta = Math.Abs(eventLocation.Longitude - _eventLocationOld.Longitude);
+                                if (latDelta < latDeltaThreshold & longDelta < longDeltaThreshold)
+                                    moveMap = false;
+                                else
+                                    _eventLocationOld = _eventLocation;
+                            }
+                            _eventLocation = eventLocation;
+                        }
+            */
+            _eventLocation = eventLocation;
+            _userLocation = userLocation;
+            _userLocationOld = userLocation;
             float[] hsl = new float[3];
             ColorUtils.ColorToHSL(eventcolor, hsl);
             _colorHue = hsl[0];
+ //           DrawMap(moveMap);
             DrawMap(moveMap);
         }
+
 
         public void UpdateMap(LatLng userLocation)
         {
             if (userLocation != null)
             {
-                // Only update the map if user has moved moved than (approx) 5% of the distance to the event
-                var latDeltaThreshold = _latDelta * 0.05;
-                var longDeltaThreshold = _longDelta * 0.05;
-                var latDelta = Math.Abs(userLocation.Latitude - _userLocation.Latitude);
-                var longDelta = Math.Abs(userLocation.Longitude - _userLocation.Longitude);
-                if (_eventLocation ==  null )
+                if (_userLocation != null)
                 {
-                    // if there is no event, only the user location, check the user has moved more than 3m to update map
-                    if (latDelta * 111111 > 3 || longDelta * 111111 * Math.Cos(userLocation.Latitude) > 3)
+                    var latDelta = Math.Abs(userLocation.Latitude - _userLocation.Latitude);
+                    var longDelta = Math.Abs(userLocation.Longitude - _userLocation.Longitude);
+                    // Check for user location jitter check the user has moved more than 3m to update map
+                    var latDistanceDelta = latDelta * 111111;
+                    var longDistanceDelta = longDelta * 111111 * Math.Cos(userLocation.Latitude);
+                    if (latDistanceDelta > Constants.UserLocationJitterThreshold || longDistanceDelta > Constants.UserLocationJitterThreshold)
                     {
+                        // Greater than jitter threshold, so process.
                         bool moveMap = true;
+
                         if (_userLocationOld == null)
                             _userLocationOld = _userLocation;
-                        else
-                        {
-                            if (latDelta * 111111 < 5000 || longDelta * 111111 * Math.Cos(userLocation.Latitude) < 5000)
-                                moveMap = false;
-                            else
-                                _userLocationOld = _userLocation;
-                        }
+
                         _userLocation = userLocation;
-                        DrawMap(moveMap);
-                    }
-                }
-                else if (latDelta > latDeltaThreshold || longDelta > longDeltaThreshold)
-                {
-                    bool moveMap = true;
-                    latDeltaThreshold = _latDelta * 0.1;
-                    longDeltaThreshold = _longDelta * 0.1;
-                    if (_userLocationOld == null)
-                        _userLocationOld = _userLocation;
-                    else
-                    {
+
                         latDelta = Math.Abs(userLocation.Latitude - _userLocationOld.Latitude);
                         longDelta = Math.Abs(userLocation.Longitude - _userLocationOld.Longitude);
-                        if (latDelta < latDeltaThreshold & longDelta < longDeltaThreshold)
-                            moveMap = false;
+
+                        if (_eventLocation == null)
+                        {
+                            // if eventLocation is null, then Only User Location is available, so use single location threshold
+                            // Check to see if location has moved enough to move the map
+                            if (latDistanceDelta <= Constants.SingleLocationRefocusMapThreshold && longDistanceDelta <= Constants.SingleLocationRefocusMapThreshold)
+                                // has so move map and update previous position
+                                _userLocationOld = userLocation;
+                            else
+                                // hasn't so don't move map
+                                moveMap = false;
+                        }
                         else
-                            _userLocationOld = _userLocation;
+                        {
+                            // if event Location is not null, then both locations are available so use threshold that is % of distance between them
+                            var latDeltaThreshold = Constants.LocationThresholdPercent * Math.Abs(_eventLocation.Latitude - userLocation.Latitude);
+                            var longDeltaThreshold = Constants.LocationThresholdPercent * Math.Abs(_eventLocation.Longitude - userLocation.Longitude);
+                            // Check to see if location has moved enough to move the map
+                            if (latDelta > latDeltaThreshold || longDelta > longDeltaThreshold)
+                                // has so move map and update previous position
+                                _userLocationOld = userLocation;
+                            else
+                                // hasn't so don't move map - use previous location
+                                moveMap = false;
+                        }
+                        DrawMap(moveMap);
                     }
-                    _userLocation = userLocation;
-                    DrawMap(moveMap);
+                    else
+                    {
+                        _userLocation = userLocation;
+                        DrawMap(true);
+                    }
                 }
             }
         }
+
 
 
         private Drawable CircleDrawable(Color color, int intrinsicSize = -1)
@@ -396,6 +436,12 @@ namespace Edison.Mobile.User.Client.Droid.Holders
         }
 
 
+        protected override void Dispose(bool disposing)
+        {
+            UnbindEvents();
+            _listener = null;
+            base.Dispose(disposing);
+        }
 
     }
 }

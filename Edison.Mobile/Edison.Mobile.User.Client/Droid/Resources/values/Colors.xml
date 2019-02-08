@@ -19,17 +19,32 @@
   <color name="app_background">@color/neutral_grey</color>
   <color name="action_bar_color">@color/white</color>
   <color name="navdrawer_background">#cfffffff</color>
-  <color name="profile_background">@color/neutral_midgrey</color>
   <color name="app_background_grey">@color/neutral_grey</color>
   <color name="app_background_darkgrey">@color/very_dark_grey</color>
   <color name="icon_background_grey">@color/neutral_grey</color>
   <color name="icon_red">@color/activity_red_60</color>
   <color name="icon_blue">@color/activity_blue</color>
+  
+  <color name="profile_background">@color/neutral_midgrey</color>
+  <color name="profile_name_color">@color/black</color>
+  <color name="profile_initials_color">@color/white</color>
+  
   <color name="bottom_sheet_button_text_color">@color/black</color>
-
+  <color name="medium_message_button_text_color">@color/neutral_midgrey</color>
+  
   <color name="user_location">@color/yellow</color>
   <color name="user_location_stroke">@color/black</color>
   <color name="user_location_center">@color/black</color>
+  
+  <color name="message_hint_text_color">@color/neutral_grey</color>
+  <color name="message_text_color">@color/neutral_darkgrey</color>
+  <color name="message_background_color">@color/neutral_grey</color>
+  <color name="message_title_color">@color/neutral_midgrey</color>
+  <color name="message_area_seperator_color">@color/neutral_grey</color>
+  
+  <color name="text_highlight_color">@color/neutral_grey</color>
+  <color name="text_cursor_color">@color/neutral_darkgrey</color>
+  
   
 </resources>
 

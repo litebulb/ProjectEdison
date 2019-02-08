@@ -98,7 +98,7 @@ namespace Edison.Mobile.Android.Common.Controls
         }
 
         /// <summary>
-        /// Profil Background Tint Mode
+        /// Profile Background Tint Mode
         /// </summary>
         /// <value>PorterDuff.Mode</value>
         public PorterDuff.Mode _backgroundTintMode;
@@ -379,8 +379,6 @@ namespace Edison.Mobile.Android.Common.Controls
 
         public void ApplyStylableAttributes(Context context, TypedArray a, int[] styleableRes)
         {
-            // Dont need to load NavigationIcon or OverfowIcon from attributes here because will have been laoded from base class and
-            // any tinting wll be done if tints etc are loaded here
 
             if (styleableRes == Resource.Styleable.CircularProfileView)
             {
@@ -414,7 +412,7 @@ namespace Edison.Mobile.Android.Common.Controls
 
 
 
-                // Text Atttributes
+                // Text Attributes
 
                 bool fontPropertiesSet = false;
                 Typeface typeface = null;
@@ -596,7 +594,7 @@ namespace Edison.Mobile.Android.Common.Controls
             TypefaceStyle style = TypefaceStyle.Normal;
             if (!string.IsNullOrWhiteSpace(styleName))
             {
-                // try to split style name (as may have bold, normal and italic in it). Ignore invalid names. Deafult to Normal.
+                // try to split style name (as may have bold, normal and italic in it). Ignore invalid names. Default to Normal.
                 var styleNames = styleName.Split("|");
                 if (styleNames.Contains("bold") && styleNames.Contains("italic"))
                     style = TypefaceStyle.BoldItalic;
@@ -763,9 +761,9 @@ namespace Edison.Mobile.Android.Common.Controls
 
 
         /// <summary>
-        /// Method to set the color ofthe material design ripple when the button is clicked.
+        /// Method to set the color of the material design ripple when the button is clicked.
         /// If the Android version is less than Lollipop (5.0) then the ripple will be a solid color
-        /// Note: the default is the defaut for material design.
+        /// Note: the default is the default for material design.
         /// </summary>
         /// <params> 
         /// Color

@@ -3,10 +3,107 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/chat_fragment_holder"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		>
 
+		<android.support.constraint.ConstraintLayout
+			android:id="@+id/chat_layout_holder"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:alpha="0"
+			>
+			
+			
+			<android.support.constraint.ConstraintLayout
+				android:id="@+id/chat_input_holder"
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/message_text_area_height"
+				app:layout_constraintBottom_toBottomOf="parent"
+				android:paddingLeft="@dimen/message_area_padding"
+				>
+        <edison.mobile.android.common.controls.CircularImageButton
+          android:id="@+id/send_button"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+          app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintRight_toRightOf="parent"
+          app:iconPadding="@dimen/large_message_button_padding"
+					app:buttonBackgroundTint="@color/transparent"
+					app:iconSrc="@drawable/ic_send_24"
+					app:iconTint="@color/icon_blue"
+					android:tag="SendMessageButton"
+					/>
+				<android.support.v7.widget.AppCompatEditText
+					android:id="@+id/chat_input"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintRight_toLeftOf="@+id/send_button"
+					android:paddingVertical="0dp"
+					android:hint="@string/enter_message"
+					android:textColorHint="@color/message_hint_text_color"
+					android:textColor="@color/message_text_color"
+					android:textSize="@dimen/message_text_size"
+					android:textColorHighlight="@color/text_highlight_color"
+					android:textCursorDrawable="@drawable/text_cursor"
+					android:textSelectHandle="@drawable/text_select_handle_middle"
+					android:textSelectHandleLeft="@drawable/text_select_handle_left"
+					android:textSelectHandleRight="@drawable/text_select_handle_right"
+					android:background="@null"
+					/>
+			</android.support.constraint.ConstraintLayout>
+			<!--  ="@null" -->
+			<FrameLayout
+				android:id="@+id/chat_input_seperator"
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/message_area_seperator_height"
+				app:layout_constraintBottom_toTopOf="@+id/chat_input_holder"
+				android:background="@color/message_area_seperator_color"
+				/>
+      
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/chat_button_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:layout_constraintBottom_toTopOf="@+id/chat_input_seperator"
+				android:overScrollMode="never"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+				/>
+      
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/chat_area_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				app:layout_constraintTop_toTopOf="parent"
+				android:paddingHorizontal="@dimen/message_area_padding"
+				android:textColor="@color/message_text_color"
+				android:textSize="@dimen/message_page_title_size"
+				android:textAllCaps="true"
+				android:text="@string/send_message"
+				/>
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/chat_area"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				app:layout_constraintTop_toBottomOf="@+id/chat_area_title"
+				app:layout_constraintBottom_toTopOf="@+id/chat_button_list"
+				android:paddingHorizontal="@dimen/message_area_padding"
+				android:paddingBottom="@dimen/message_area_padding"
+        android:orientation="vertical"
+        app:stackFromEnd="true"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+				/>
+		</android.support.constraint.ConstraintLayout>
+			
+		
+		
+			
 		<LinearLayout
 			android:id="@+id/quick_chat_holder"
 			android:layout_width="match_parent"
@@ -33,7 +130,7 @@
 					android:tag="qc_emergency"
 					/>
 				<android.support.v7.widget.AppCompatTextView
-					android:id="@+id/profile_name"
+					android:id="@+id/sc_emergency"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-
 using Android.Content;
 using Android.Views;
 using Android.Content.Res;
+using Android.Runtime;
 using Android.Support.V7.Widget;
-
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Edison.Mobile.User.Client.Droid.Holders;
 using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
-using Android.Gms.Maps.Model;
 using Edison.Mobile.Common.Geo;
-using Android.Graphics;
+using Edison.Mobile.Android.Common;
 
 namespace Edison.Mobile.User.Client.Droid.Adapters
 {
@@ -65,7 +65,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             ResponseViewHolder vh = holder as ResponseViewHolder;
-            // Add margin to act as seperator between itmes. Double size for first item to center the first card
+            // Add margin to act as seperaor betwen itmes. Double size for first item to center the first card
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)vh.Card.LayoutParameters;
             lp.Width = Constants.EventResponseCardWidthPx;
             if (position == 0)
@@ -74,47 +74,87 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
                 lp.LeftMargin = Constants.EventResponseCardSeperatorWidthPx / 2;
             if (position == Responses.Count - 1)
                 lp.RightMargin = Constants.EventResponseCardSeperatorWidthPx;
+            else
+                lp.RightMargin = 0;
             vh.Card.LayoutParameters = lp;
-
             // Try to get the actual response details
             var response = Responses[position].Response;
 
-            if (response == null) return;
-
+            // if the details have not been fetched (the inital API only fetches a summary), fetch it
             if (response?.ActionPlan == null)
-                // The details have not been fetched (the inital API only fetches a summary), fetch it
+            {
+                vh.Loading.Visibility = ViewStates.Visible;
                 UpdateResponseDetails(position);
+            }
+            if (response != null)
+            {
+                vh.Loading.Visibility = ViewStates.Gone;
+                // Set the contents in this ViewHolder's CardView  from this position in the collection:
+                var color = Constants.GetEventTypeColor(_context, response.Color);
+                vh.Seperator.SetBackgroundColor(color);
+                vh.Icon.BackgroundTintList = ColorStateList.ValueOf(color);
+                vh.Icon.SetImageResource(GetIconResourceId(response.Icon));
+                vh.Alert.Text = response.Name;
+                vh.AlertTime.Text = response.StartDate.ToString();
+                vh.AlertDescription.Text = response.ActionPlan?.Description;
 
-            vh.Loading.Visibility = response.ActionPlan == null ? ViewStates.Visible : ViewStates.Gone;
+             //   double userLatitude = double.MinValue;
+             //   double userLongitude = double.MinValue;
+             //   double eventLatitude = double.MinValue;
+              //  double eventLongitude = double.MinValue;
+                LatLng eventLocation = null;
+                // get user position
 
-            var eventColorName = string.IsNullOrWhiteSpace(response.ActionPlan?.Color) ? response.Color : response.ActionPlan.Color;
-            var eventColor = Constants.GetEventTypeColor(_context, eventColorName);
-            vh.Seperator.SetBackgroundColor(eventColor);
-            var eventIconName = string.IsNullOrWhiteSpace(response.ActionPlan?.Icon) ? response.Icon : response.ActionPlan.Icon;
-            vh.Icon.SetImageResource(GetIconResourceId(eventIconName));
-            vh.Icon.BackgroundTintList = ColorStateList.ValueOf(eventColor);
-            vh.Alert.Text = string.IsNullOrWhiteSpace(response.ActionPlan?.Name) ? response.Name : response.ActionPlan.Name;
-            vh.AlertDescription.Text = string.IsNullOrWhiteSpace(response.ActionPlan?.Description) ? null : response.ActionPlan.Description;
-            vh.AlertTime.Text = response.StartDate.ToString();
 
-            LatLng eventLocation = null;
-            //_userLocation = new LatLng(41.885796, -87.624911);  // For testing
-            //eventLatitude = new LatLng(41.883408, -87.621907);  // For testing
-            var eventGeolocation = response.Geolocation == null ? Responses[position].Geolocation : response.Geolocation;
-            if (eventGeolocation != null)
-                eventLocation = new LatLng(eventGeolocation.Latitude, eventGeolocation.Longitude);
-            if (eventLocation != null || UserLocation != null)
-                vh.SetupMap(eventColor, UserLocation, eventLocation);
 
-            LocationChanged -= vh.OnLocationChanged;
-            LocationChanged += vh.OnLocationChanged;
 
+ //               userLatitude = 41.885796;  // For testing
+ //               userLongitude = -87.624911;  // For testing
+
+                if (response.Geolocation != null)
+                {
+                    eventLocation = new LatLng(response.Geolocation.Latitude, response.Geolocation.Longitude);
+                    //eventLatitude = response.Geolocation.Latitude;
+                    //eventLongitude = response.Geolocation.Longitude;
+                } 
+
+ //                   eventLatitude = 41.883408;  // For testing
+ //                   eventLongitude = -87.621907;  // For testing
+ //               if (response.Geolocation != null || (userLatitude != double.MinValue && userLongitude != double.MinValue))
+ //                   vh.SetMapLocation(color, userLatitude, userLongitude, eventLatitude, eventLongitude);
+                if (eventLocation != null || UserLocation != null)
+                    vh.SetupMap(color, UserLocation, eventLocation);
+
+                LocationChanged -= vh.OnLocationChanged;
+                LocationChanged += vh.OnLocationChanged;
+
+                vh.Card.Invalidate();
+            }
         }
 
 
 
+        public override void OnViewRecycled(Java.Lang.Object holder)
+        {
+            if (holder == null)
+                return;
 
-
+            var vH = holder.JavaCast<ResponseViewHolder>();
+            if (vH != null)
+            {
+                LocationChanged -= vH.OnLocationChanged;
+                if (vH.GMap != null)
+                {
+                    vH.EventLocationMarker?.Remove();
+                    vH.EventLocationMarker = null;
+                    vH.UserLocationMarker?.Remove();
+                    vH.UserLocationMarker = null;
+                    // Need to figure out if this should be done
+  //                  vH.GMap.Clear();
+  //                  vH.GMap.MapType = GoogleMap.MapTypeNone;
+                }
+            }
+        }
 
 
         // Raise an event when the item-click takes place:
@@ -142,7 +182,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
         private int GetIconResourceId(string iconName)
         {
-            var id = _context.Resources.GetIdentifier(iconName, "drawable", _context.PackageName);
+            var id = _context.GetDrawableId(iconName);
             return id == 0 ? Resource.Drawable.emergency : id;
         }
 

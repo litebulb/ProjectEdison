@@ -70,7 +70,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             if (Activity is MainActivity act)
                 act.SetToolbarCustomTitle(act.Resources.GetString(Resource.String.right_now));
 
-            // Set the inital event count and event gauge color
+            // Set the initial event count and event gauge color
             _eventGauge.EventCount = ViewModel.Responses.Count;
             if (ViewModel.Responses.Count > 0)
                 // restore the current event gauge color
@@ -191,7 +191,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                     else
                         _responsesAdapter.NotifyDataSetChanged();
                     break;
-                case NotifyCollectionChangedAction.Reset:// prob need to chage to range
+                case NotifyCollectionChangedAction.Reset:// prob need to change to range
                     _responsesAdapter.NotifyDataSetChanged();
                     break;
                 default:

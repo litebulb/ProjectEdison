@@ -18,7 +18,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         public string Email => authService.UserInfo?.Email;
 
         //TODO  Currently not supported, so just returning null
-        public Uri ProfileImageUri => null;  // authService.ProfileImageUri - needs to be added
+        public Uri ProfileImageUri => null;  // authService.ProfileImageUri or add from local file system- - needs to be added
 
         public MenuViewModel(AuthService authService)
         {

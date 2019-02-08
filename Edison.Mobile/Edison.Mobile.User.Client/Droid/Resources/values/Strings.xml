@@ -26,6 +26,15 @@
     <string name="emergency">Emergency</string>
     <string name="report_activity">Report Activity</string>
     <string name="im_safe">I\'m Safe</string>
+  
+    <string name="fire">Fire</string>
+    <string name="active_shooter">Active Shooter</string>
+    <string name="air_quality">Air Quality</string>
+    <string name="health_check">Health Check</string>
+    <string name="protest">Protest</string>
+    <string name="suspocious_package">Suspicious Package</string>
+    <string name="tornado">Tornado</string>
+    <string name="vip">VIP</string>
 
     <string name="_more_info">MORE INFO</string>
   
@@ -33,4 +42,8 @@
     <string name="screen_brightness_dialog_message">In order to modify the screen brightness, explicit permission is required to change device settings.\n\nMay we open your system permissions page?\n\n{Note: Press the Back button to return to Edison from the perissions screen)</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+  
+    <string name="enter_message">Enter message</string>
+    <string name="send_message">Send Message</string>
+    <string name="location_sent">Location sent</string>
 </resources>

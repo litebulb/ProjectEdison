@@ -45,8 +45,8 @@ using Math = System.Math;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait)]
- //   [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize )]  //, WindowSoftInputMode = SoftInput.AdjustResize
+//  [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
     public class MainActivity : BaseActivity<MenuViewModel>
     {
 
@@ -66,9 +66,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private DrawerLayout _drawer;
         private CircularProfileView _profileView;
         private AppCompatTextView _profileNameView;
-        private LinearLayout _bottomSheet;
-        private BottomSheetBehavior _bottomSheetBehaviour;
-        //        private BottomSheet4StateBehaviour _bottomSheetBehaviour;
+        private FrameLayout _page_container;
+
         private LinearLayout _brightnessControlContainer;
         private AppCompatSeekBar _brightnessControl;
 
@@ -83,6 +82,9 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private List<TextImageResourcePair> _listDataGroups;
         private Dictionary<string, List<TextImageResourcePair>> _listDataItems;
         private int _previousGroup = -1;
+
+        public LinearLayout BottomSheet { get; private set; }
+        public Edison.Mobile.Android.Common.Behaviors.BottomSheetBehavior BottomSheetBehaviour { get; private set; }
 
 
         public static string Name { get; private set; }
@@ -131,8 +133,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
             base.OnCreate(savedInstanceState);
 
-            //Initializatio now done in MainApplication
-  //          Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
+            //Initialization now done in MainApplication
+            //Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
 #if DEBUG
             // Used when testing UI without having to login each time
@@ -182,9 +184,17 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             _customToolbarSubtitle = FindViewById<AppCompatTextView>(Resource.Id.toolbar_subtitle);
             _profileView = FindViewById<CircularProfileView>(Resource.Id.img_profile);
             _profileNameView = FindViewById<AppCompatTextView>(Resource.Id.profile_name);
-            _bottomSheet = FindViewById<LinearLayout>(Resource.Id.bottom_sheet);
-            _bottomSheetBehaviour = BottomSheetBehavior.From(_bottomSheet);
+            _page_container = FindViewById<FrameLayout>(Resource.Id.page_container);
+            BottomSheet = FindViewById<LinearLayout>(Resource.Id.bottom_sheet);
+            //BottomSheetBehaviour = Edison.Mobile.Android.Common.Behaviors.BottomSheetBehavior.From(_bottomSheet);
             //            _bottomSheetBehaviour = BottomSheet4StateBehaviour.From(_bottomSheet);
+            BottomSheetBehaviour = new Edison.Mobile.Android.Common.Behaviors.BottomSheetBehavior();
+            CoordinatorLayout.LayoutParams lp = BottomSheet.LayoutParameters as CoordinatorLayout.LayoutParams;
+            lp.Behavior = BottomSheetBehaviour;
+            BottomSheet.LayoutParameters = lp;
+
+
+
 
             _brightnessControlContainer = FindViewById<LinearLayout>(Resource.Id.brightness_slider_container);
             _brightnessControl = FindViewById<AppCompatSeekBar>(Resource.Id.brightness_slider);
@@ -198,19 +208,19 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
         private void AdjustViewPositions()
         {
-            // Set the Bottom Sheet parameters - dependant on screen dimensions
+            // Set the Bottom Sheet parameters - dependent on screen dimensions
             if (Constants.BottomSheetPeekHeightPx > -1)
-                _bottomSheetBehaviour.PeekHeight = Constants.BottomSheetPeekHeightPx;
+                BottomSheetBehaviour.PeekHeight = Constants.BottomSheetPeekHeightPx;
             if (Constants.BottomSheetHeightPx > -1)
-                _bottomSheet.LayoutParameters.Height = Constants.BottomSheetHeightPx;
+                BottomSheet.LayoutParameters.Height = Constants.BottomSheetHeightPx;
 
             var pageContainer = FindViewById<FrameLayout>(Resource.Id.page_container);
             pageContainer.SetPadding(0, 0, 0, Constants.BottomSheetPeekHeightPx);
 
-            _brightnessControl.LayoutParameters.Width = Constants.EventGaugeAreaHeightPx;  // Transposed 90deg so Width actaully Height
+            _brightnessControl.LayoutParameters.Width = Constants.EventGaugeAreaHeightPx;  // Transposed 90deg so Width actually Height
   //          var mode = ScreenUtilities.GetScreenBrightnessMode(this);
   //          var brightness = ScreenUtilities.GetScreenBrightnessWithMode(this, mode);
- //           // Get the Current Brightness level and adjust brighness slider if necessary
+ //           // Get the Current Brightness level and adjust brightness slider if necessary
  //           GetAndSetBrightnessBrightness();
         }
         
@@ -247,8 +257,8 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             }
             else
             {
-                // TODO - Fetch Image -  actually probably pre-fetch as aprt of login and store as local file - or allocate fiel name if selcted form file system
-                // Will require Data service to be added to MenuViewModel - prob to retunr an object which we can cast to a Drawable/Bitmap. etc
+                // TODO - Fetch Image -  actually probably pre-fetch as a part of login and store as local file - or allocate field name if selected form file system
+                // Will require Data service to be added to MenuViewModel - prob to return an object which we can cast to a Drawable/Bitmap. etc
                 _profileView.SetProfileUri(profileImageUri);
             }
 
@@ -266,7 +276,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
         private void SetUpToolbar()
         {
-            // Not having reaised AppBar area, so dont set SupportActionBar
+            // Not having raised AppBar area, so don't set SupportActionBar
             //SetSupportActionBar(_toolbar);
 
             // Set the page Title - Required because of the way that Android sets up app asset names
@@ -276,7 +286,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 //            SetToolbarCustomSubtitle("Subtitle");
 //            _toolbar.Subtitle = "Subtitle";
 
-            //Set tolbar title colors
+            //Set toolbar title colors
             Color col = new Color(ContextCompat.GetColor(this, Resource.Color.app_blue));
             _toolbar.SetTitleTextColor(col);
             _toolbar.SetSubtitleTextColor(col);
@@ -323,19 +333,26 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             _brightnessControl.ProgressChanged += OnBrightnessChanged;
 
             FragmentPoppedOnBack += OnFragmentPopped;
+
+            BottomSheetBehaviour.Slide += OnBottomSheetSlide;
         }
 
-        private void UnBindEvents()
+        private void UnbindEvents()
         {
-            _toolbar.MenuItemClick += OnMenuItemClicked;
-            _toolbar.ViewTreeObserver.GlobalLayout += OnToolbarLayout;
+            _toolbar.MenuItemClick -= OnMenuItemClicked;
+            _toolbar.ViewTreeObserver.GlobalLayout -= OnToolbarLayout;
 
-            _navDrawerListview.GroupExpand += OnGroupExpand;
-            _navDrawerListview.GroupCollapse += OnGroupCollapse;
-            _navDrawerListview.ChildClick += OnChildClicked;
-            _navDrawerListview.GroupClick += OnGroupClicked;
+            _navDrawerListview.GroupExpand -= OnGroupExpand;
+            _navDrawerListview.GroupCollapse -= OnGroupCollapse;
+            _navDrawerListview.ChildClick -= OnChildClicked;
+            _navDrawerListview.GroupClick -= OnGroupClicked;
 
-            _brightnessControl.ProgressChanged += OnBrightnessChanged;
+            _brightnessControl.ProgressChanged -= OnBrightnessChanged;
+
+            BottomSheetBehaviour.Slide -= OnBottomSheetSlide;
+
+
+            _brightnessControl.ProgressChanged -= OnBrightnessChanged;
 
             FragmentPoppedOnBack -= OnFragmentPopped;
         }
@@ -692,7 +709,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             var mode = ScreenUtilities.GetScreenBrightnessMode(this);
             var brightness = ScreenUtilities.GetScreenBrightnessWithMode(this, mode);
             var brightnessInt = (int)Math.Round(brightness * 100);
-            // set the level on the control if diferent from current position (user or system may have altered the brightness outside the app)
+            // set the level on the control if different from current position (user or system may have altered the brightness outside the app)
             // <0 check done in case auto value returned
             if (brightnessInt >= 0 && brightnessInt != _brightnessControl.Progress)
                 _brightnessControl.Progress = brightnessInt;
@@ -718,7 +735,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
                 Constants.UpdateBrightnessControlDimensions(_toolbar, FindViewById<ActionMenuItemView>(Resource.Id.action_brightness));
                 // Set the brightness control container width
                 _brightnessControlContainer.LayoutParameters.Width = Constants.BrightnessContainerWidth;
-                // Set the layiout margin for the brightness control container to bring it just under the menu item icon
+                // Set the layout margin for the brightness control container to bring it just under the menu item icon
                 var lp = (ViewGroup.MarginLayoutParams)_brightnessControlContainer.LayoutParameters;
                 lp.SetMargins(0, -Constants.BrightnessToolbarItemIconBottomPadding, 0, 0);
                 _brightnessControlContainer.LayoutParameters = lp;
@@ -765,10 +782,10 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             var permission = global::Android.Manifest.Permission.WriteSettings;
             if (ContextCompat.CheckSelfPermission(this, permission) == Permission.Granted || Settings.System.CanWrite(this))
                 return true;
-            // Ask for permission - causes OnRequestPermissionsResult to be called wirth the result
+            // Ask for permission - causes OnRequestPermissionsResult to be called with the result
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
-                // Need to open up the system permissions settigns page.to give permissions (Android requirement for 6.0 onwards)
+                // Need to open up the system permissions settings page.to give permissions (Android requirement for 6.0 onwards)
                 // Display a dialog to warn the user otherwise the will be confused
                 _dialog = new SimpleModalAlertDialogFragment
                 {
@@ -790,7 +807,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
         {
             if (e.Which == -1) // Yes
             {
-                // Open up the system permissions settigns page.to give permission (Android requirement for 6.0 onwards)
+                // Open up the system permissions settings page.to give permission (Android requirement for 6.0 onwards)
                 Intent intent = new Intent(Settings.ActionManageWriteSettings);
                 intent.SetData(global::Android.Net.Uri.Parse("package:" + this.PackageName));
                 this.StartActivityForResult(intent, RequestWriteSettingsPermissionId);
@@ -849,6 +866,12 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
 
 
+        public void OnBottomSheetSlide(object s, float slideOffset)
+        {
+            if (slideOffset >= 0 && slideOffset <= 1)
+                _page_container.Alpha = 1 - slideOffset * 0.8f;
+        }
+
 
         protected override void OnSaveInstanceState(Bundle outState)
         {
@@ -871,7 +894,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
         protected override void OnDestroy()
         {
-            UnBindEvents();
+            UnbindEvents();
             base.OnDestroy();
         }
 

@@ -6,16 +6,16 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	>
-  <android.support.v7.widget.AppCompatImageView
-		android:id="@+id/button_background"
+	<android.support.v7.widget.AppCompatImageView
+		android:id="@+id/cib_button_background"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:scaleType="fitCenter"
 		android:adjustViewBounds="true"
 		app:srcCompat="@drawable/circular_image_background"
 		/>
-  <android.support.v7.widget.AppCompatImageButton
-		android:id="@+id/button"
+	<android.support.v7.widget.AppCompatImageButton
+		android:id="@+id/cib_button"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:padding="20dp"

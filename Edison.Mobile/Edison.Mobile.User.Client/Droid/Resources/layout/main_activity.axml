@@ -154,6 +154,8 @@
 <!--  
 app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
 app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
+
+
 -->
 		<LinearLayout
 			android:id="@+id/bottom_sheet"
@@ -210,15 +212,15 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 				>
 				<edison.mobile.android.common.controls.CircularProfileView
 					android:id="@+id/img_profile"
-					android:layout_width="@dimen/profile_width"
-					android:layout_height="@dimen/profile_height"
+					android:layout_width="@dimen/profile_size"
+					android:layout_height="@dimen/profile_size"
 					android:layout_marginTop="@dimen/nav_header_vertical_spacing"
 					android:layout_gravity="center_horizontal"
 					android:gravity="center_horizontal"
 					android:backgroundTint="@color/profile_background"
-					android:textColor="@color/white"
+					android:textColor="@color/profile_initials_color"
 					android:fontFamily="@font/rubikblack"
-					app:borderWidth="2dp"
+					app:borderWidth="@dimen/profile_image_border_width"
 					app:borderColor="@color/app_blue"
 					/>
 				<android.support.v7.widget.AppCompatTextView
@@ -226,8 +228,8 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:paddingTop="@dimen/nav_header_vertical_spacing"
-					android:textColor="@color/black"
-					android:textSize="24sp"
+					android:textColor="@color/profile_name_color"
+					android:textSize="@dimen/profile_name_text_size"
 					android:text="ALISON SUMMERFIELD"
 					/>
 			</LinearLayout>
@@ -238,7 +240,7 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 					android:id="@+id/nav_list"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
-					android:paddingLeft="10dp"
+					android:paddingLeft="@dimen/nav_drawer_menu_left_padding"
 					android:layout_gravity="top|start"
 					android:groupIndicator="@null"
 					/>

@@ -36,8 +36,13 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Animation.abc_slide_in_top = global::Edison.Mobile.User.Client.Droid.Resource.Animation.abc_slide_in_top;
 			global::Edison.Mobile.Android.Common.Resource.Animation.abc_slide_out_bottom = global::Edison.Mobile.User.Client.Droid.Resource.Animation.abc_slide_out_bottom;
 			global::Edison.Mobile.Android.Common.Resource.Animation.abc_slide_out_top = global::Edison.Mobile.User.Client.Droid.Resource.Animation.abc_slide_out_top;
+			global::Edison.Mobile.Android.Common.Resource.Animation.design_bottom_sheet_slide_in = global::Edison.Mobile.User.Client.Droid.Resource.Animation.design_bottom_sheet_slide_in;
+			global::Edison.Mobile.Android.Common.Resource.Animation.design_bottom_sheet_slide_out = global::Edison.Mobile.User.Client.Droid.Resource.Animation.design_bottom_sheet_slide_out;
+			global::Edison.Mobile.Android.Common.Resource.Animation.design_snackbar_in = global::Edison.Mobile.User.Client.Droid.Resource.Animation.design_snackbar_in;
+			global::Edison.Mobile.Android.Common.Resource.Animation.design_snackbar_out = global::Edison.Mobile.User.Client.Droid.Resource.Animation.design_snackbar_out;
 			global::Edison.Mobile.Android.Common.Resource.Animation.tooltip_enter = global::Edison.Mobile.User.Client.Droid.Resource.Animation.tooltip_enter;
 			global::Edison.Mobile.Android.Common.Resource.Animation.tooltip_exit = global::Edison.Mobile.User.Client.Droid.Resource.Animation.tooltip_exit;
+			global::Edison.Mobile.Android.Common.Resource.Animator.design_appbar_state_list_animator = global::Edison.Mobile.User.Client.Droid.Resource.Animator.design_appbar_state_list_animator;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.actionBarDivider = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.actionBarDivider;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.actionBarItemBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.actionBarItemBackground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.actionBarPopupTheme = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.actionBarPopupTheme;
@@ -95,9 +100,16 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.backgroundTint = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.backgroundTint;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.backgroundTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.backgroundTintMode;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.barLength = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.barLength;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.behavior_autoHide = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.behavior_autoHide;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.behavior_hideable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.behavior_hideable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.behavior_overlapTop = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.behavior_overlapTop;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.behavior_peekHeight = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.behavior_peekHeight;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.behavior_skipCollapsed = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.behavior_skipCollapsed;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.borderColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.borderColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.borderWidth = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.borderWidth;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.borderlessButtonStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.borderlessButtonStyle;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.bottomSheetDialogTheme = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.bottomSheetDialogTheme;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.bottomSheetStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.bottomSheetStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.buttonBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.buttonBackground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.buttonBackgroundTint = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.buttonBackgroundTint;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.buttonBackgroundTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.buttonBackgroundTintMode;
@@ -134,6 +146,8 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.closeItemLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.closeItemLayout;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.collapseContentDescription = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.collapseContentDescription;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.collapseIcon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.collapseIcon;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.collapsedTitleGravity = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.collapsedTitleGravity;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.collapsedTitleTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.collapsedTitleTextAppearance;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.color = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.color;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.colorAccent = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.colorAccent;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.colorBackgroundFloating = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.colorBackgroundFloating;
@@ -154,6 +168,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.contentInsetRight = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.contentInsetRight;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.contentInsetStart = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.contentInsetStart;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.contentInsetStartWithNavigation = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.contentInsetStartWithNavigation;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.contentScrim = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.contentScrim;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.controlBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.controlBackground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.controlRippleColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.controlRippleColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.count = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.count;
@@ -165,6 +180,10 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.countTextSize = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.countTextSize;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.countTextStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.countTextStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.countTypeface = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.countTypeface;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.counterEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.counterEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.counterMaxLength = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.counterMaxLength;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.counterOverflowTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.counterOverflowTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.counterTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.counterTextAppearance;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.customNavigationLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.customNavigationLayout;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.defaultQueryHint = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.defaultQueryHint;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.dialogPreferredPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.dialogPreferredPadding;
@@ -182,7 +201,24 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.editTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.editTextColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.editTextStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.editTextStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.elevation = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.elevation;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.errorEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.errorEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.errorTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.errorTextAppearance;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.expandActivityOverflowButtonDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expanded = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expanded;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleGravity = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleGravity;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleMargin = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleMargin;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleMarginBottom = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleMarginBottom;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleMarginEnd = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleMarginEnd;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleMarginStart = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleMarginStart;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleMarginTop = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleMarginTop;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.expandedTitleTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.expandedTitleTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fabSize = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fabSize;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fastScrollEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fastScrollEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fastScrollHorizontalThumbDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fastScrollHorizontalThumbDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fastScrollHorizontalTrackDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fastScrollHorizontalTrackDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fastScrollVerticalThumbDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fastScrollVerticalThumbDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fastScrollVerticalTrackDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fastScrollVerticalTrackDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.fillColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fillColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.font = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.font;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.fontFamily = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fontFamily;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.fontProviderAuthority = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fontProviderAuthority;
@@ -193,10 +229,15 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.fontProviderQuery = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fontProviderQuery;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.fontStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fontStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.fontWeight = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.fontWeight;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.foregroundInsidePadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.foregroundInsidePadding;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.gapBetweenBars = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.gapBetweenBars;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.goIcon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.goIcon;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.headerLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.headerLayout;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.height = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.height;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.hideOnContentScroll = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.hideOnContentScroll;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.hintAnimationEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.hintAnimationEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.hintEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.hintEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.hintTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.hintTextAppearance;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.homeAsUpIndicator = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.homeAsUpIndicator;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.homeLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.homeLayout;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.icon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.icon;
@@ -215,8 +256,14 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.imageButtonStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.imageButtonStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.indeterminateProgressStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.indeterminateProgressStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.initialActivityCount = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.initialActivityCount;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.insetForeground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.insetForeground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.isLightTheme = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.isLightTheme;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.itemBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.itemBackground;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.itemIconTint = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.itemIconTint;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.itemPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.itemPadding;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.itemTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.itemTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.itemTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.itemTextColor;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.keylines = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.keylines;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.labelAllCaps = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.labelAllCaps;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.labelColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.labelColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.labelFontFamily = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.labelFontFamily;
@@ -229,6 +276,17 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.latLngBoundsSouthWestLatitude = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.latLngBoundsSouthWestLatitude;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.latLngBoundsSouthWestLongitude = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.latLngBoundsSouthWestLongitude;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.layout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layoutManager = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layoutManager;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_anchor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_anchor;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_anchorGravity = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_anchorGravity;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_behavior = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_behavior;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_collapseMode = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_collapseMode;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_collapseParallaxMultiplier = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_collapseParallaxMultiplier;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_dodgeInsetEdges = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_insetEdge = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_insetEdge;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_keyline = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_keyline;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_scrollFlags = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_scrollFlags;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.layout_scrollInterpolator = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.layout_scrollInterpolator;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.listChoiceBackgroundIndicator = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.listDividerAlertDialog = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.listDividerAlertDialog;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.listItemLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.listItemLayout;
@@ -244,8 +302,10 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.logo = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.logo;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.logoDescription = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.logoDescription;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.mapType = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.mapType;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.maxActionInlineWidth = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.maxActionInlineWidth;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.maxButtonHeight = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.maxButtonHeight;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.measureWithLargestChild = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.measureWithLargestChild;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.menu = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.menu;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.multiChoiceItemLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.multiChoiceItemLayout;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.navigationContentDescription = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.navigationContentDescription;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.navigationIcon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.navigationIcon;
@@ -259,10 +319,16 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.panelBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.panelBackground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.panelMenuListTheme = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.panelMenuListTheme;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.panelMenuListWidth = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.panelMenuListWidth;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.passwordToggleContentDescription = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.passwordToggleContentDescription;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.passwordToggleDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.passwordToggleDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.passwordToggleEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.passwordToggleEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.passwordToggleTint = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.passwordToggleTint;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.passwordToggleTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.passwordToggleTintMode;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.popupMenuStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.popupMenuStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.popupTheme = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.popupTheme;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.popupWindowStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.popupWindowStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.preserveIconSpacing = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.preserveIconSpacing;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.pressedTranslationZ = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.pressedTranslationZ;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.progressBarPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.progressBarPadding;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.progressBarStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.progressBarStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.queryBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.queryBackground;
@@ -271,10 +337,15 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.ratingBarStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.ratingBarStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.ratingBarStyleIndicator = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.ratingBarStyleIndicator;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.ratingBarStyleSmall = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.ratingBarStyleSmall;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.reverseLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.reverseLayout;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.rightAnglePosition = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.rightAnglePosition;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.ringEndColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.ringEndColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.ringGap = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.ringGap;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.ringStartColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.ringStartColor;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.rippleColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.rippleColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.scopeUris = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.scopeUris;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.scrimAnimationDuration = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.scrimAnimationDuration;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.scrimVisibleHeightTrigger = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.scrimVisibleHeightTrigger;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.searchHintIcon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.searchHintIcon;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.searchIcon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.searchIcon;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.searchViewStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.searchViewStyle;
@@ -286,12 +357,18 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.showText = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.showText;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.showTitle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.showTitle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.singleChoiceItemLayout = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.singleChoiceItemLayout;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.spanCount = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.spanCount;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.spinBars = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.spinBars;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.spinnerDropDownItemStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.spinnerDropDownItemStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.spinnerStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.spinnerStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.splitTrack = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.splitTrack;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.srcCompat = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.srcCompat;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.stackFromEnd = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.stackFromEnd;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.state_above_anchor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.state_above_anchor;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.state_collapsed = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.state_collapsed;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.state_collapsible = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.state_collapsible;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.statusBarBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.statusBarBackground;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.statusBarScrim = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.statusBarScrim;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.subMenuArrow = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.subMenuArrow;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.submitBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.submitBackground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.subtitle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.subtitle;
@@ -303,6 +380,22 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.switchPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.switchPadding;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.switchStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.switchStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.switchTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.switchTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabBackground = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabBackground;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabContentStart = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabContentStart;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabGravity = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabGravity;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabIndicatorColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabIndicatorColor;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabIndicatorHeight = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabIndicatorHeight;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabMaxWidth = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabMaxWidth;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabMinWidth = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabMinWidth;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabMode = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabMode;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabPadding;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabPaddingBottom = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabPaddingBottom;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabPaddingEnd = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabPaddingEnd;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabPaddingStart = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabPaddingStart;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabPaddingTop = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabPaddingTop;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabSelectedTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabSelectedTextColor;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.tabTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tabTextColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textAllCaps = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textAllCaps;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textAppearanceLargePopupMenu = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textAppearanceListItem = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textAppearanceListItem;
@@ -313,6 +406,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textAppearanceSearchResultTitle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textAppearanceSmallPopupMenu = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textColorAlertDialogListItem = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textColorAlertDialogListItem;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.textColorError = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textColorError;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textColorSearchUrl = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textColorSearchUrl;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.textPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.textPadding;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.theme = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.theme;
@@ -326,6 +420,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.tint = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tint;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.tintMode = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tintMode;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.title = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.title;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.titleEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleEnabled;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.titleMargin = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleMargin;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.titleMarginBottom = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleMarginBottom;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.titleMarginEnd = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleMarginEnd;
@@ -335,6 +430,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.titleTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleTextAppearance;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.titleTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleTextColor;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.titleTextStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.titleTextStyle;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.toolbarId = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.toolbarId;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.toolbarNavigationButtonStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.toolbarStyle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.toolbarStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.tooltipForegroundColor = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.tooltipForegroundColor;
@@ -350,6 +446,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.uiTiltGestures = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.uiTiltGestures;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.uiZoomControls = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.uiZoomControls;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.uiZoomGestures = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.uiZoomGestures;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.useCompatPadding = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.useCompatPadding;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.useViewLifecycle = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.useViewLifecycle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.voiceIcon = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.voiceIcon;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.windowActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Attribute.windowActionBar;
@@ -438,6 +535,17 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Color.dark_blue = global::Edison.Mobile.User.Client.Droid.Resource.Color.dark_blue;
 			global::Edison.Mobile.Android.Common.Resource.Color.dark_grey = global::Edison.Mobile.User.Client.Droid.Resource.Color.dark_grey;
 			global::Edison.Mobile.Android.Common.Resource.Color.deep_purple = global::Edison.Mobile.User.Client.Droid.Resource.Color.deep_purple;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_bottom_navigation_shadow_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_bottom_navigation_shadow_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_error = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_error;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_shadow_end_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_shadow_end_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_shadow_mid_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_shadow_mid_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_shadow_start_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_shadow_start_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_stroke_end_inner_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_stroke_end_inner_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_stroke_end_outer_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_stroke_end_outer_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_stroke_top_inner_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_stroke_top_inner_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_fab_stroke_top_outer_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_fab_stroke_top_outer_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_snackbar_background_color = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_snackbar_background_color;
+			global::Edison.Mobile.Android.Common.Resource.Color.design_tint_password_toggle = global::Edison.Mobile.User.Client.Droid.Resource.Color.design_tint_password_toggle;
 			global::Edison.Mobile.Android.Common.Resource.Color.dim_foreground_disabled_material_dark = global::Edison.Mobile.User.Client.Droid.Resource.Color.dim_foreground_disabled_material_dark;
 			global::Edison.Mobile.Android.Common.Resource.Color.dim_foreground_disabled_material_light = global::Edison.Mobile.User.Client.Droid.Resource.Color.dim_foreground_disabled_material_light;
 			global::Edison.Mobile.Android.Common.Resource.Color.dim_foreground_material_dark = global::Edison.Mobile.User.Client.Droid.Resource.Color.dim_foreground_material_dark;
@@ -596,8 +704,49 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Dimension.compat_button_padding_horizontal_material = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.compat_button_padding_vertical_material = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.compat_button_padding_vertical_material;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.compat_control_corner_material = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.compat_control_corner_material;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_appbar_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_appbar_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_active_item_max_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_active_item_max_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_active_text_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_active_text_size;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_height = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_height;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_item_max_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_item_max_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_item_min_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_item_min_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_margin = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_margin;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_shadow_height = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_shadow_height;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_navigation_text_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_navigation_text_size;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_sheet_modal_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_sheet_modal_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_bottom_sheet_peek_height_min = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_bottom_sheet_peek_height_min;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_fab_border_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_fab_border_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_fab_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_fab_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_fab_image_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_fab_image_size;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_fab_size_mini = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_fab_size_mini;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_fab_size_normal = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_fab_size_normal;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_fab_translation_z_pressed = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_fab_translation_z_pressed;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_navigation_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_navigation_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_navigation_icon_padding = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_navigation_icon_padding;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_navigation_icon_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_navigation_icon_size;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_navigation_max_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_navigation_max_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_navigation_padding_bottom = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_navigation_padding_bottom;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_navigation_separator_vertical_padding = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_navigation_separator_vertical_padding;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_action_inline_max_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_action_inline_max_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_background_corner_radius = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_background_corner_radius;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_extra_spacing_horizontal = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_extra_spacing_horizontal;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_max_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_max_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_min_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_min_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_padding_horizontal = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_padding_horizontal;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_padding_vertical = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_padding_vertical;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_padding_vertical_2lines = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_padding_vertical_2lines;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_snackbar_text_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_snackbar_text_size;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_tab_max_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_tab_max_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_tab_scrollable_min_width = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_tab_scrollable_min_width;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_tab_text_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_tab_text_size;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.design_tab_text_size_2line = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.design_tab_text_size_2line;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.disabled_alpha_material_dark = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.disabled_alpha_material_dark;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.disabled_alpha_material_light = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.disabled_alpha_material_light;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.fastscroll_default_thickness = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.fastscroll_default_thickness;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.fastscroll_margin = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.fastscroll_margin;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.fastscroll_minimum_range = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.fastscroll_minimum_range;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.highlight_alpha_material_colored = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.highlight_alpha_material_colored;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.highlight_alpha_material_dark = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.highlight_alpha_material_dark;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.highlight_alpha_material_light = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.highlight_alpha_material_light;
@@ -605,6 +754,9 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Dimension.hint_alpha_material_light = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.hint_alpha_material_light;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.hint_pressed_alpha_material_dark = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.hint_pressed_alpha_material_dark;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.hint_pressed_alpha_material_light = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.hint_pressed_alpha_material_light;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.item_touch_helper_swipe_escape_max_velocity = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.item_touch_helper_swipe_escape_max_velocity;
+			global::Edison.Mobile.Android.Common.Resource.Dimension.item_touch_helper_swipe_escape_velocity = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.item_touch_helper_swipe_escape_velocity;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.notification_action_icon_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.notification_action_icon_size;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.notification_action_text_size = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.notification_action_text_size;
 			global::Edison.Mobile.Android.Common.Resource.Dimension.notification_big_circle_margin = global::Edison.Mobile.User.Client.Droid.Resource.Dimension.notification_big_circle_margin;
@@ -711,6 +863,14 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.abc_textfield_search_material = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.abc_textfield_search_material;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.abc_vector_test = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.abc_vector_test;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_hide_password = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_hide_password;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_hide_password_1 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_hide_password_1;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_hide_password_2 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_hide_password_2;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_hide_password_3 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_hide_password_3;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_show_password = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_show_password;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_show_password_1 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_show_password_1;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_show_password_2 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_show_password_2;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.avd_show_password_3 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.avd_show_password_3;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.circular_event_gauge = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.circular_event_gauge;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.circular_event_gauge_ring = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.circular_event_gauge_ring;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.circular_image_background = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.circular_image_background;
@@ -735,8 +895,15 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Drawable.common_google_signin_btn_text_light_focused = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.common_google_signin_btn_text_light_focused;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.common_google_signin_btn_text_light_normal = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.common_google_signin_btn_text_light_normal;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.common_google_signin_btn_text_light_normal_background = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.common_google_signin_btn_text_light_normal_background;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.design_bottom_navigation_item_background = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.design_bottom_navigation_item_background;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.design_fab_background = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.design_fab_background;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.design_ic_visibility = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.design_ic_visibility;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.design_ic_visibility_off = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.design_ic_visibility_off;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.design_password_eye = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.design_password_eye;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.design_snackbar_background = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.design_snackbar_background;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.googleg_disabled_color_18 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.googleg_disabled_color_18;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.googleg_standard_color_18 = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.googleg_standard_color_18;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.navigation_empty_icon = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.navigation_empty_icon;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.notification_action_background = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.notification_action_background;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.notification_bg = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.notification_bg;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.notification_bg_low = global::Edison.Mobile.User.Client.Droid.Resource.Drawable.notification_bg_low;
@@ -797,6 +964,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Id.adjust_height = global::Edison.Mobile.User.Client.Droid.Resource.Id.adjust_height;
 			global::Edison.Mobile.Android.Common.Resource.Id.adjust_width = global::Edison.Mobile.User.Client.Droid.Resource.Id.adjust_width;
 			global::Edison.Mobile.Android.Common.Resource.Id.alertTitle = global::Edison.Mobile.User.Client.Droid.Resource.Id.alertTitle;
+			global::Edison.Mobile.Android.Common.Resource.Id.all = global::Edison.Mobile.User.Client.Droid.Resource.Id.all;
 			global::Edison.Mobile.Android.Common.Resource.Id.always = global::Edison.Mobile.User.Client.Droid.Resource.Id.always;
 			global::Edison.Mobile.Android.Common.Resource.Id.async = global::Edison.Mobile.User.Client.Droid.Resource.Id.async;
 			global::Edison.Mobile.Android.Common.Resource.Id.auto = global::Edison.Mobile.User.Client.Droid.Resource.Id.auto;
@@ -805,32 +973,53 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Id.blocking = global::Edison.Mobile.User.Client.Droid.Resource.Id.blocking;
 			global::Edison.Mobile.Android.Common.Resource.Id.bold = global::Edison.Mobile.User.Client.Droid.Resource.Id.bold;
 			global::Edison.Mobile.Android.Common.Resource.Id.bottom = global::Edison.Mobile.User.Client.Droid.Resource.Id.bottom;
-			global::Edison.Mobile.Android.Common.Resource.Id.button = global::Edison.Mobile.User.Client.Droid.Resource.Id.button;
+			global::Edison.Mobile.Android.Common.Resource.Id.bottomLeft = global::Edison.Mobile.User.Client.Droid.Resource.Id.bottomLeft;
+			global::Edison.Mobile.Android.Common.Resource.Id.bottomRight = global::Edison.Mobile.User.Client.Droid.Resource.Id.bottomRight;
 			global::Edison.Mobile.Android.Common.Resource.Id.buttonPanel = global::Edison.Mobile.User.Client.Droid.Resource.Id.buttonPanel;
-			global::Edison.Mobile.Android.Common.Resource.Id.button_background = global::Edison.Mobile.User.Client.Droid.Resource.Id.button_background;
 			global::Edison.Mobile.Android.Common.Resource.Id.button_ripple = global::Edison.Mobile.User.Client.Droid.Resource.Id.button_ripple;
 			global::Edison.Mobile.Android.Common.Resource.Id.cancel_action = global::Edison.Mobile.User.Client.Droid.Resource.Id.cancel_action;
 			global::Edison.Mobile.Android.Common.Resource.Id.center = global::Edison.Mobile.User.Client.Droid.Resource.Id.center;
+			global::Edison.Mobile.Android.Common.Resource.Id.center_horizontal = global::Edison.Mobile.User.Client.Droid.Resource.Id.center_horizontal;
+			global::Edison.Mobile.Android.Common.Resource.Id.center_vertical = global::Edison.Mobile.User.Client.Droid.Resource.Id.center_vertical;
 			global::Edison.Mobile.Android.Common.Resource.Id.checkbox = global::Edison.Mobile.User.Client.Droid.Resource.Id.checkbox;
 			global::Edison.Mobile.Android.Common.Resource.Id.chronometer = global::Edison.Mobile.User.Client.Droid.Resource.Id.chronometer;
+			global::Edison.Mobile.Android.Common.Resource.Id.cib_button = global::Edison.Mobile.User.Client.Droid.Resource.Id.cib_button;
+			global::Edison.Mobile.Android.Common.Resource.Id.cib_button_background = global::Edison.Mobile.User.Client.Droid.Resource.Id.cib_button_background;
+			global::Edison.Mobile.Android.Common.Resource.Id.clip_horizontal = global::Edison.Mobile.User.Client.Droid.Resource.Id.clip_horizontal;
+			global::Edison.Mobile.Android.Common.Resource.Id.clip_vertical = global::Edison.Mobile.User.Client.Droid.Resource.Id.clip_vertical;
 			global::Edison.Mobile.Android.Common.Resource.Id.collapseActionView = global::Edison.Mobile.User.Client.Droid.Resource.Id.collapseActionView;
+			global::Edison.Mobile.Android.Common.Resource.Id.container = global::Edison.Mobile.User.Client.Droid.Resource.Id.container;
 			global::Edison.Mobile.Android.Common.Resource.Id.contentPanel = global::Edison.Mobile.User.Client.Droid.Resource.Id.contentPanel;
+			global::Edison.Mobile.Android.Common.Resource.Id.coordinator = global::Edison.Mobile.User.Client.Droid.Resource.Id.coordinator;
 			global::Edison.Mobile.Android.Common.Resource.Id.custom = global::Edison.Mobile.User.Client.Droid.Resource.Id.custom;
 			global::Edison.Mobile.Android.Common.Resource.Id.customPanel = global::Edison.Mobile.User.Client.Droid.Resource.Id.customPanel;
 			global::Edison.Mobile.Android.Common.Resource.Id.dark = global::Edison.Mobile.User.Client.Droid.Resource.Id.dark;
 			global::Edison.Mobile.Android.Common.Resource.Id.decor_content_parent = global::Edison.Mobile.User.Client.Droid.Resource.Id.decor_content_parent;
 			global::Edison.Mobile.Android.Common.Resource.Id.default_activity_button = global::Edison.Mobile.User.Client.Droid.Resource.Id.default_activity_button;
+			global::Edison.Mobile.Android.Common.Resource.Id.design_bottom_sheet = global::Edison.Mobile.User.Client.Droid.Resource.Id.design_bottom_sheet;
+			global::Edison.Mobile.Android.Common.Resource.Id.design_menu_item_action_area = global::Edison.Mobile.User.Client.Droid.Resource.Id.design_menu_item_action_area;
+			global::Edison.Mobile.Android.Common.Resource.Id.design_menu_item_action_area_stub = global::Edison.Mobile.User.Client.Droid.Resource.Id.design_menu_item_action_area_stub;
+			global::Edison.Mobile.Android.Common.Resource.Id.design_menu_item_text = global::Edison.Mobile.User.Client.Droid.Resource.Id.design_menu_item_text;
+			global::Edison.Mobile.Android.Common.Resource.Id.design_navigation_view = global::Edison.Mobile.User.Client.Droid.Resource.Id.design_navigation_view;
 			global::Edison.Mobile.Android.Common.Resource.Id.disableHome = global::Edison.Mobile.User.Client.Droid.Resource.Id.disableHome;
 			global::Edison.Mobile.Android.Common.Resource.Id.edit_query = global::Edison.Mobile.User.Client.Droid.Resource.Id.edit_query;
 			global::Edison.Mobile.Android.Common.Resource.Id.end = global::Edison.Mobile.User.Client.Droid.Resource.Id.end;
 			global::Edison.Mobile.Android.Common.Resource.Id.end_padder = global::Edison.Mobile.User.Client.Droid.Resource.Id.end_padder;
+			global::Edison.Mobile.Android.Common.Resource.Id.enterAlways = global::Edison.Mobile.User.Client.Droid.Resource.Id.enterAlways;
+			global::Edison.Mobile.Android.Common.Resource.Id.enterAlwaysCollapsed = global::Edison.Mobile.User.Client.Droid.Resource.Id.enterAlwaysCollapsed;
 			global::Edison.Mobile.Android.Common.Resource.Id.event_count = global::Edison.Mobile.User.Client.Droid.Resource.Id.event_count;
 			global::Edison.Mobile.Android.Common.Resource.Id.event_icon = global::Edison.Mobile.User.Client.Droid.Resource.Id.event_icon;
 			global::Edison.Mobile.Android.Common.Resource.Id.event_indicator = global::Edison.Mobile.User.Client.Droid.Resource.Id.event_indicator;
 			global::Edison.Mobile.Android.Common.Resource.Id.event_label = global::Edison.Mobile.User.Client.Droid.Resource.Id.event_label;
+			global::Edison.Mobile.Android.Common.Resource.Id.exitUntilCollapsed = global::Edison.Mobile.User.Client.Droid.Resource.Id.exitUntilCollapsed;
 			global::Edison.Mobile.Android.Common.Resource.Id.expand_activities_button = global::Edison.Mobile.User.Client.Droid.Resource.Id.expand_activities_button;
 			global::Edison.Mobile.Android.Common.Resource.Id.expanded_menu = global::Edison.Mobile.User.Client.Droid.Resource.Id.expanded_menu;
+			global::Edison.Mobile.Android.Common.Resource.Id.fill = global::Edison.Mobile.User.Client.Droid.Resource.Id.fill;
+			global::Edison.Mobile.Android.Common.Resource.Id.fill_horizontal = global::Edison.Mobile.User.Client.Droid.Resource.Id.fill_horizontal;
+			global::Edison.Mobile.Android.Common.Resource.Id.fill_vertical = global::Edison.Mobile.User.Client.Droid.Resource.Id.fill_vertical;
+			global::Edison.Mobile.Android.Common.Resource.Id.@fixed = global::Edison.Mobile.User.Client.Droid.Resource.Id.@fixed;
 			global::Edison.Mobile.Android.Common.Resource.Id.forever = global::Edison.Mobile.User.Client.Droid.Resource.Id.forever;
+			global::Edison.Mobile.Android.Common.Resource.Id.ghost_view = global::Edison.Mobile.User.Client.Droid.Resource.Id.ghost_view;
 			global::Edison.Mobile.Android.Common.Resource.Id.home = global::Edison.Mobile.User.Client.Droid.Resource.Id.home;
 			global::Edison.Mobile.Android.Common.Resource.Id.homeAsUp = global::Edison.Mobile.User.Client.Droid.Resource.Id.homeAsUp;
 			global::Edison.Mobile.Android.Common.Resource.Id.hybrid = global::Edison.Mobile.User.Client.Droid.Resource.Id.hybrid;
@@ -842,39 +1031,54 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Id.info = global::Edison.Mobile.User.Client.Droid.Resource.Id.info;
 			global::Edison.Mobile.Android.Common.Resource.Id.info_holder = global::Edison.Mobile.User.Client.Droid.Resource.Id.info_holder;
 			global::Edison.Mobile.Android.Common.Resource.Id.italic = global::Edison.Mobile.User.Client.Droid.Resource.Id.italic;
+			global::Edison.Mobile.Android.Common.Resource.Id.item_touch_helper_previous_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Id.item_touch_helper_previous_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Id.largeLabel = global::Edison.Mobile.User.Client.Droid.Resource.Id.largeLabel;
+			global::Edison.Mobile.Android.Common.Resource.Id.left = global::Edison.Mobile.User.Client.Droid.Resource.Id.left;
 			global::Edison.Mobile.Android.Common.Resource.Id.light = global::Edison.Mobile.User.Client.Droid.Resource.Id.light;
 			global::Edison.Mobile.Android.Common.Resource.Id.line1 = global::Edison.Mobile.User.Client.Droid.Resource.Id.line1;
 			global::Edison.Mobile.Android.Common.Resource.Id.line3 = global::Edison.Mobile.User.Client.Droid.Resource.Id.line3;
 			global::Edison.Mobile.Android.Common.Resource.Id.listMode = global::Edison.Mobile.User.Client.Droid.Resource.Id.listMode;
 			global::Edison.Mobile.Android.Common.Resource.Id.list_item = global::Edison.Mobile.User.Client.Droid.Resource.Id.list_item;
+			global::Edison.Mobile.Android.Common.Resource.Id.masked = global::Edison.Mobile.User.Client.Droid.Resource.Id.masked;
 			global::Edison.Mobile.Android.Common.Resource.Id.media_actions = global::Edison.Mobile.User.Client.Droid.Resource.Id.media_actions;
 			global::Edison.Mobile.Android.Common.Resource.Id.message = global::Edison.Mobile.User.Client.Droid.Resource.Id.message;
 			global::Edison.Mobile.Android.Common.Resource.Id.middle = global::Edison.Mobile.User.Client.Droid.Resource.Id.middle;
+			global::Edison.Mobile.Android.Common.Resource.Id.mini = global::Edison.Mobile.User.Client.Droid.Resource.Id.mini;
 			global::Edison.Mobile.Android.Common.Resource.Id.monospace = global::Edison.Mobile.User.Client.Droid.Resource.Id.monospace;
 			global::Edison.Mobile.Android.Common.Resource.Id.multiply = global::Edison.Mobile.User.Client.Droid.Resource.Id.multiply;
+			global::Edison.Mobile.Android.Common.Resource.Id.navigation_header_container = global::Edison.Mobile.User.Client.Droid.Resource.Id.navigation_header_container;
 			global::Edison.Mobile.Android.Common.Resource.Id.never = global::Edison.Mobile.User.Client.Droid.Resource.Id.never;
 			global::Edison.Mobile.Android.Common.Resource.Id.none = global::Edison.Mobile.User.Client.Droid.Resource.Id.none;
 			global::Edison.Mobile.Android.Common.Resource.Id.normal = global::Edison.Mobile.User.Client.Droid.Resource.Id.normal;
 			global::Edison.Mobile.Android.Common.Resource.Id.notification_background = global::Edison.Mobile.User.Client.Droid.Resource.Id.notification_background;
 			global::Edison.Mobile.Android.Common.Resource.Id.notification_main_column = global::Edison.Mobile.User.Client.Droid.Resource.Id.notification_main_column;
 			global::Edison.Mobile.Android.Common.Resource.Id.notification_main_column_container = global::Edison.Mobile.User.Client.Droid.Resource.Id.notification_main_column_container;
+			global::Edison.Mobile.Android.Common.Resource.Id.parallax = global::Edison.Mobile.User.Client.Droid.Resource.Id.parallax;
 			global::Edison.Mobile.Android.Common.Resource.Id.parentPanel = global::Edison.Mobile.User.Client.Droid.Resource.Id.parentPanel;
+			global::Edison.Mobile.Android.Common.Resource.Id.parent_matrix = global::Edison.Mobile.User.Client.Droid.Resource.Id.parent_matrix;
+			global::Edison.Mobile.Android.Common.Resource.Id.pin = global::Edison.Mobile.User.Client.Droid.Resource.Id.pin;
 			global::Edison.Mobile.Android.Common.Resource.Id.profile_background = global::Edison.Mobile.User.Client.Droid.Resource.Id.profile_background;
 			global::Edison.Mobile.Android.Common.Resource.Id.profile_image = global::Edison.Mobile.User.Client.Droid.Resource.Id.profile_image;
 			global::Edison.Mobile.Android.Common.Resource.Id.profile_initials = global::Edison.Mobile.User.Client.Droid.Resource.Id.profile_initials;
 			global::Edison.Mobile.Android.Common.Resource.Id.progress_circular = global::Edison.Mobile.User.Client.Droid.Resource.Id.progress_circular;
 			global::Edison.Mobile.Android.Common.Resource.Id.progress_horizontal = global::Edison.Mobile.User.Client.Droid.Resource.Id.progress_horizontal;
 			global::Edison.Mobile.Android.Common.Resource.Id.radio = global::Edison.Mobile.User.Client.Droid.Resource.Id.radio;
+			global::Edison.Mobile.Android.Common.Resource.Id.right = global::Edison.Mobile.User.Client.Droid.Resource.Id.right;
 			global::Edison.Mobile.Android.Common.Resource.Id.right_icon = global::Edison.Mobile.User.Client.Droid.Resource.Id.right_icon;
 			global::Edison.Mobile.Android.Common.Resource.Id.right_side = global::Edison.Mobile.User.Client.Droid.Resource.Id.right_side;
 			global::Edison.Mobile.Android.Common.Resource.Id.ring = global::Edison.Mobile.User.Client.Droid.Resource.Id.ring;
 			global::Edison.Mobile.Android.Common.Resource.Id.ripple = global::Edison.Mobile.User.Client.Droid.Resource.Id.ripple;
 			global::Edison.Mobile.Android.Common.Resource.Id.sans = global::Edison.Mobile.User.Client.Droid.Resource.Id.sans;
 			global::Edison.Mobile.Android.Common.Resource.Id.satellite = global::Edison.Mobile.User.Client.Droid.Resource.Id.satellite;
+			global::Edison.Mobile.Android.Common.Resource.Id.save_image_matrix = global::Edison.Mobile.User.Client.Droid.Resource.Id.save_image_matrix;
+			global::Edison.Mobile.Android.Common.Resource.Id.save_non_transition_alpha = global::Edison.Mobile.User.Client.Droid.Resource.Id.save_non_transition_alpha;
+			global::Edison.Mobile.Android.Common.Resource.Id.save_scale_type = global::Edison.Mobile.User.Client.Droid.Resource.Id.save_scale_type;
 			global::Edison.Mobile.Android.Common.Resource.Id.screen = global::Edison.Mobile.User.Client.Droid.Resource.Id.screen;
+			global::Edison.Mobile.Android.Common.Resource.Id.scroll = global::Edison.Mobile.User.Client.Droid.Resource.Id.scroll;
 			global::Edison.Mobile.Android.Common.Resource.Id.scrollIndicatorDown = global::Edison.Mobile.User.Client.Droid.Resource.Id.scrollIndicatorDown;
 			global::Edison.Mobile.Android.Common.Resource.Id.scrollIndicatorUp = global::Edison.Mobile.User.Client.Droid.Resource.Id.scrollIndicatorUp;
 			global::Edison.Mobile.Android.Common.Resource.Id.scrollView = global::Edison.Mobile.User.Client.Droid.Resource.Id.scrollView;
+			global::Edison.Mobile.Android.Common.Resource.Id.scrollable = global::Edison.Mobile.User.Client.Droid.Resource.Id.scrollable;
 			global::Edison.Mobile.Android.Common.Resource.Id.search_badge = global::Edison.Mobile.User.Client.Droid.Resource.Id.search_badge;
 			global::Edison.Mobile.Android.Common.Resource.Id.search_bar = global::Edison.Mobile.User.Client.Droid.Resource.Id.search_bar;
 			global::Edison.Mobile.Android.Common.Resource.Id.search_button = global::Edison.Mobile.User.Client.Droid.Resource.Id.search_button;
@@ -891,12 +1095,17 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Id.showCustom = global::Edison.Mobile.User.Client.Droid.Resource.Id.showCustom;
 			global::Edison.Mobile.Android.Common.Resource.Id.showHome = global::Edison.Mobile.User.Client.Droid.Resource.Id.showHome;
 			global::Edison.Mobile.Android.Common.Resource.Id.showTitle = global::Edison.Mobile.User.Client.Droid.Resource.Id.showTitle;
+			global::Edison.Mobile.Android.Common.Resource.Id.smallLabel = global::Edison.Mobile.User.Client.Droid.Resource.Id.smallLabel;
+			global::Edison.Mobile.Android.Common.Resource.Id.snackbar_action = global::Edison.Mobile.User.Client.Droid.Resource.Id.snackbar_action;
+			global::Edison.Mobile.Android.Common.Resource.Id.snackbar_text = global::Edison.Mobile.User.Client.Droid.Resource.Id.snackbar_text;
+			global::Edison.Mobile.Android.Common.Resource.Id.snap = global::Edison.Mobile.User.Client.Droid.Resource.Id.snap;
 			global::Edison.Mobile.Android.Common.Resource.Id.spacer = global::Edison.Mobile.User.Client.Droid.Resource.Id.spacer;
 			global::Edison.Mobile.Android.Common.Resource.Id.split_action_bar = global::Edison.Mobile.User.Client.Droid.Resource.Id.split_action_bar;
 			global::Edison.Mobile.Android.Common.Resource.Id.src_atop = global::Edison.Mobile.User.Client.Droid.Resource.Id.src_atop;
 			global::Edison.Mobile.Android.Common.Resource.Id.src_in = global::Edison.Mobile.User.Client.Droid.Resource.Id.src_in;
 			global::Edison.Mobile.Android.Common.Resource.Id.src_over = global::Edison.Mobile.User.Client.Droid.Resource.Id.src_over;
 			global::Edison.Mobile.Android.Common.Resource.Id.standard = global::Edison.Mobile.User.Client.Droid.Resource.Id.standard;
+			global::Edison.Mobile.Android.Common.Resource.Id.start = global::Edison.Mobile.User.Client.Droid.Resource.Id.start;
 			global::Edison.Mobile.Android.Common.Resource.Id.status_bar_latest_event_content = global::Edison.Mobile.User.Client.Droid.Resource.Id.status_bar_latest_event_content;
 			global::Edison.Mobile.Android.Common.Resource.Id.submenuarrow = global::Edison.Mobile.User.Client.Droid.Resource.Id.submenuarrow;
 			global::Edison.Mobile.Android.Common.Resource.Id.submit_area = global::Edison.Mobile.User.Client.Droid.Resource.Id.submit_area;
@@ -907,23 +1116,41 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Id.text2 = global::Edison.Mobile.User.Client.Droid.Resource.Id.text2;
 			global::Edison.Mobile.Android.Common.Resource.Id.textSpacerNoButtons = global::Edison.Mobile.User.Client.Droid.Resource.Id.textSpacerNoButtons;
 			global::Edison.Mobile.Android.Common.Resource.Id.textSpacerNoTitle = global::Edison.Mobile.User.Client.Droid.Resource.Id.textSpacerNoTitle;
+			global::Edison.Mobile.Android.Common.Resource.Id.text_input_password_toggle = global::Edison.Mobile.User.Client.Droid.Resource.Id.text_input_password_toggle;
+			global::Edison.Mobile.Android.Common.Resource.Id.textinput_counter = global::Edison.Mobile.User.Client.Droid.Resource.Id.textinput_counter;
+			global::Edison.Mobile.Android.Common.Resource.Id.textinput_error = global::Edison.Mobile.User.Client.Droid.Resource.Id.textinput_error;
 			global::Edison.Mobile.Android.Common.Resource.Id.time = global::Edison.Mobile.User.Client.Droid.Resource.Id.time;
 			global::Edison.Mobile.Android.Common.Resource.Id.title = global::Edison.Mobile.User.Client.Droid.Resource.Id.title;
 			global::Edison.Mobile.Android.Common.Resource.Id.titleDividerNoCustom = global::Edison.Mobile.User.Client.Droid.Resource.Id.titleDividerNoCustom;
 			global::Edison.Mobile.Android.Common.Resource.Id.title_template = global::Edison.Mobile.User.Client.Droid.Resource.Id.title_template;
 			global::Edison.Mobile.Android.Common.Resource.Id.top = global::Edison.Mobile.User.Client.Droid.Resource.Id.top;
+			global::Edison.Mobile.Android.Common.Resource.Id.topLeft = global::Edison.Mobile.User.Client.Droid.Resource.Id.topLeft;
 			global::Edison.Mobile.Android.Common.Resource.Id.topPanel = global::Edison.Mobile.User.Client.Droid.Resource.Id.topPanel;
+			global::Edison.Mobile.Android.Common.Resource.Id.topRight = global::Edison.Mobile.User.Client.Droid.Resource.Id.topRight;
+			global::Edison.Mobile.Android.Common.Resource.Id.touch_outside = global::Edison.Mobile.User.Client.Droid.Resource.Id.touch_outside;
+			global::Edison.Mobile.Android.Common.Resource.Id.transition_current_scene = global::Edison.Mobile.User.Client.Droid.Resource.Id.transition_current_scene;
+			global::Edison.Mobile.Android.Common.Resource.Id.transition_layout_save = global::Edison.Mobile.User.Client.Droid.Resource.Id.transition_layout_save;
+			global::Edison.Mobile.Android.Common.Resource.Id.transition_position = global::Edison.Mobile.User.Client.Droid.Resource.Id.transition_position;
+			global::Edison.Mobile.Android.Common.Resource.Id.transition_scene_layoutid_cache = global::Edison.Mobile.User.Client.Droid.Resource.Id.transition_scene_layoutid_cache;
+			global::Edison.Mobile.Android.Common.Resource.Id.transition_transform = global::Edison.Mobile.User.Client.Droid.Resource.Id.transition_transform;
 			global::Edison.Mobile.Android.Common.Resource.Id.uniform = global::Edison.Mobile.User.Client.Droid.Resource.Id.uniform;
 			global::Edison.Mobile.Android.Common.Resource.Id.up = global::Edison.Mobile.User.Client.Droid.Resource.Id.up;
 			global::Edison.Mobile.Android.Common.Resource.Id.useLogo = global::Edison.Mobile.User.Client.Droid.Resource.Id.useLogo;
+			global::Edison.Mobile.Android.Common.Resource.Id.view_offset_helper = global::Edison.Mobile.User.Client.Droid.Resource.Id.view_offset_helper;
+			global::Edison.Mobile.Android.Common.Resource.Id.visible = global::Edison.Mobile.User.Client.Droid.Resource.Id.visible;
 			global::Edison.Mobile.Android.Common.Resource.Id.wide = global::Edison.Mobile.User.Client.Droid.Resource.Id.wide;
 			global::Edison.Mobile.Android.Common.Resource.Id.withText = global::Edison.Mobile.User.Client.Droid.Resource.Id.withText;
 			global::Edison.Mobile.Android.Common.Resource.Id.wrap_content = global::Edison.Mobile.User.Client.Droid.Resource.Id.wrap_content;
 			global::Edison.Mobile.Android.Common.Resource.Integer.abc_config_activityDefaultDur = global::Edison.Mobile.User.Client.Droid.Resource.Integer.abc_config_activityDefaultDur;
 			global::Edison.Mobile.Android.Common.Resource.Integer.abc_config_activityShortDur = global::Edison.Mobile.User.Client.Droid.Resource.Integer.abc_config_activityShortDur;
+			global::Edison.Mobile.Android.Common.Resource.Integer.app_bar_elevation_anim_duration = global::Edison.Mobile.User.Client.Droid.Resource.Integer.app_bar_elevation_anim_duration;
+			global::Edison.Mobile.Android.Common.Resource.Integer.bottom_sheet_slide_duration = global::Edison.Mobile.User.Client.Droid.Resource.Integer.bottom_sheet_slide_duration;
 			global::Edison.Mobile.Android.Common.Resource.Integer.cancel_button_image_alpha = global::Edison.Mobile.User.Client.Droid.Resource.Integer.cancel_button_image_alpha;
 			global::Edison.Mobile.Android.Common.Resource.Integer.config_tooltipAnimTime = global::Edison.Mobile.User.Client.Droid.Resource.Integer.config_tooltipAnimTime;
+			global::Edison.Mobile.Android.Common.Resource.Integer.design_snackbar_text_max_lines = global::Edison.Mobile.User.Client.Droid.Resource.Integer.design_snackbar_text_max_lines;
 			global::Edison.Mobile.Android.Common.Resource.Integer.google_play_services_version = global::Edison.Mobile.User.Client.Droid.Resource.Integer.google_play_services_version;
+			global::Edison.Mobile.Android.Common.Resource.Integer.hide_password_duration = global::Edison.Mobile.User.Client.Droid.Resource.Integer.hide_password_duration;
+			global::Edison.Mobile.Android.Common.Resource.Integer.show_password_duration = global::Edison.Mobile.User.Client.Droid.Resource.Integer.show_password_duration;
 			global::Edison.Mobile.Android.Common.Resource.Integer.status_bar_notification_info_maxnum = global::Edison.Mobile.User.Client.Droid.Resource.Integer.status_bar_notification_info_maxnum;
 			global::Edison.Mobile.Android.Common.Resource.Layout.abc_action_bar_title_item = global::Edison.Mobile.User.Client.Droid.Resource.Layout.abc_action_bar_title_item;
 			global::Edison.Mobile.Android.Common.Resource.Layout.abc_action_bar_up_container = global::Edison.Mobile.User.Client.Droid.Resource.Layout.abc_action_bar_up_container;
@@ -954,6 +1181,20 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Layout.circular_event_gauge = global::Edison.Mobile.User.Client.Droid.Resource.Layout.circular_event_gauge;
 			global::Edison.Mobile.Android.Common.Resource.Layout.circular_image_button = global::Edison.Mobile.User.Client.Droid.Resource.Layout.circular_image_button;
 			global::Edison.Mobile.Android.Common.Resource.Layout.circular_profile_view = global::Edison.Mobile.User.Client.Droid.Resource.Layout.circular_profile_view;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_bottom_navigation_item = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_bottom_navigation_item;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_bottom_sheet_dialog = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_bottom_sheet_dialog;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_layout_snackbar = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_layout_snackbar;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_layout_snackbar_include = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_layout_snackbar_include;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_layout_tab_icon = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_layout_tab_icon;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_layout_tab_text = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_layout_tab_text;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_menu_item_action_area = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_menu_item_action_area;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_navigation_item = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_navigation_item;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_navigation_item_header = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_navigation_item_header;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_navigation_item_separator = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_navigation_item_separator;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_navigation_item_subheader = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_navigation_item_subheader;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_navigation_menu = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_navigation_menu;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_navigation_menu_item = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_navigation_menu_item;
+			global::Edison.Mobile.Android.Common.Resource.Layout.design_text_input_password_icon = global::Edison.Mobile.User.Client.Droid.Resource.Layout.design_text_input_password_icon;
 			global::Edison.Mobile.Android.Common.Resource.Layout.notification_action = global::Edison.Mobile.User.Client.Droid.Resource.Layout.notification_action;
 			global::Edison.Mobile.Android.Common.Resource.Layout.notification_action_tombstone = global::Edison.Mobile.User.Client.Droid.Resource.Layout.notification_action_tombstone;
 			global::Edison.Mobile.Android.Common.Resource.Layout.notification_media_action = global::Edison.Mobile.User.Client.Droid.Resource.Layout.notification_media_action;
@@ -1003,6 +1244,12 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.String.abc_shareactionprovider_share_with = global::Edison.Mobile.User.Client.Droid.Resource.String.abc_shareactionprovider_share_with;
 			global::Edison.Mobile.Android.Common.Resource.String.abc_shareactionprovider_share_with_application = global::Edison.Mobile.User.Client.Droid.Resource.String.abc_shareactionprovider_share_with_application;
 			global::Edison.Mobile.Android.Common.Resource.String.abc_toolbar_collapse_description = global::Edison.Mobile.User.Client.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::Edison.Mobile.Android.Common.Resource.String.appbar_scrolling_view_behavior = global::Edison.Mobile.User.Client.Droid.Resource.String.appbar_scrolling_view_behavior;
+			global::Edison.Mobile.Android.Common.Resource.String.bottomNavigationViewBehavior = global::Edison.Mobile.User.Client.Droid.Resource.String.bottomNavigationViewBehavior;
+			global::Edison.Mobile.Android.Common.Resource.String.bottomSheetAboveViewBehavior = global::Edison.Mobile.User.Client.Droid.Resource.String.bottomSheetAboveViewBehavior;
+			global::Edison.Mobile.Android.Common.Resource.String.bottomSheetBehavior = global::Edison.Mobile.User.Client.Droid.Resource.String.bottomSheetBehavior;
+			global::Edison.Mobile.Android.Common.Resource.String.bottom_sheet_behavior = global::Edison.Mobile.User.Client.Droid.Resource.String.bottom_sheet_behavior;
+			global::Edison.Mobile.Android.Common.Resource.String.character_counter_pattern = global::Edison.Mobile.User.Client.Droid.Resource.String.character_counter_pattern;
 			global::Edison.Mobile.Android.Common.Resource.String.common_google_play_services_enable_button = global::Edison.Mobile.User.Client.Droid.Resource.String.common_google_play_services_enable_button;
 			global::Edison.Mobile.Android.Common.Resource.String.common_google_play_services_enable_text = global::Edison.Mobile.User.Client.Droid.Resource.String.common_google_play_services_enable_text;
 			global::Edison.Mobile.Android.Common.Resource.String.common_google_play_services_enable_title = global::Edison.Mobile.User.Client.Droid.Resource.String.common_google_play_services_enable_title;
@@ -1020,7 +1267,13 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.String.common_open_on_phone = global::Edison.Mobile.User.Client.Droid.Resource.String.common_open_on_phone;
 			global::Edison.Mobile.Android.Common.Resource.String.common_signin_button_text = global::Edison.Mobile.User.Client.Droid.Resource.String.common_signin_button_text;
 			global::Edison.Mobile.Android.Common.Resource.String.common_signin_button_text_long = global::Edison.Mobile.User.Client.Droid.Resource.String.common_signin_button_text_long;
+			global::Edison.Mobile.Android.Common.Resource.String.fadeWithBottomSheetBehavior = global::Edison.Mobile.User.Client.Droid.Resource.String.fadeWithBottomSheetBehavior;
 			global::Edison.Mobile.Android.Common.Resource.String.library_name = global::Edison.Mobile.User.Client.Droid.Resource.String.library_name;
+			global::Edison.Mobile.Android.Common.Resource.String.password_toggle_content_description = global::Edison.Mobile.User.Client.Droid.Resource.String.password_toggle_content_description;
+			global::Edison.Mobile.Android.Common.Resource.String.path_password_eye = global::Edison.Mobile.User.Client.Droid.Resource.String.path_password_eye;
+			global::Edison.Mobile.Android.Common.Resource.String.path_password_eye_mask_strike_through = global::Edison.Mobile.User.Client.Droid.Resource.String.path_password_eye_mask_strike_through;
+			global::Edison.Mobile.Android.Common.Resource.String.path_password_eye_mask_visible = global::Edison.Mobile.User.Client.Droid.Resource.String.path_password_eye_mask_visible;
+			global::Edison.Mobile.Android.Common.Resource.String.path_password_strike_through = global::Edison.Mobile.User.Client.Droid.Resource.String.path_password_strike_through;
 			global::Edison.Mobile.Android.Common.Resource.String.search_menu_title = global::Edison.Mobile.User.Client.Droid.Resource.String.search_menu_title;
 			global::Edison.Mobile.Android.Common.Resource.String.status_bar_notification_info_overflow = global::Edison.Mobile.User.Client.Droid.Resource.String.status_bar_notification_info_overflow;
 			global::Edison.Mobile.Android.Common.Resource.Style.AlertDialog_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.AlertDialog_AppCompat;
@@ -1028,6 +1281,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.Animation_AppCompat_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Animation_AppCompat_Dialog;
 			global::Edison.Mobile.Android.Common.Resource.Style.Animation_AppCompat_DropDownUp = global::Edison.Mobile.User.Client.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
 			global::Edison.Mobile.Android.Common.Resource.Style.Animation_AppCompat_Tooltip = global::Edison.Mobile.User.Client.Droid.Resource.Style.Animation_AppCompat_Tooltip;
+			global::Edison.Mobile.Android.Common.Resource.Style.Animation_Design_BottomSheetDialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Animation_Design_BottomSheetDialog;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_AlertDialog_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_AlertDialog_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_AlertDialog_AppCompat_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_Animation_AppCompat_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
@@ -1109,11 +1363,13 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V11_ThemeOverlay_AppCompat_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V11_ThemeOverlay_AppCompat_Dialog;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V12_Widget_AppCompat_AutoCompleteTextView = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V12_Widget_AppCompat_AutoCompleteTextView;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V12_Widget_AppCompat_EditText = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V12_Widget_AppCompat_EditText;
+			global::Edison.Mobile.Android.Common.Resource.Style.Base_V14_Widget_Design_AppBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V14_Widget_Design_AppBarLayout;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V21_Theme_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V21_Theme_AppCompat_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
+			global::Edison.Mobile.Android.Common.Resource.Style.Base_V21_Widget_Design_AppBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V21_Widget_Design_AppBarLayout;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V22_Theme_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V22_Theme_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V22_Theme_AppCompat_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V23_Theme_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V23_Theme_AppCompat;
@@ -1121,6 +1377,7 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V26_Theme_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V26_Theme_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V26_Theme_AppCompat_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
+			global::Edison.Mobile.Android.Common.Resource.Style.Base_V26_Widget_Design_AppBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V26_Widget_Design_AppBarLayout;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V7_Theme_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_V7_Theme_AppCompat_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
@@ -1186,6 +1443,8 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_Widget_AppCompat_Toolbar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
 			global::Edison.Mobile.Android.Common.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Edison.Mobile.Android.Common.Resource.Style.Base_Widget_Design_AppBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_Widget_Design_AppBarLayout;
+			global::Edison.Mobile.Android.Common.Resource.Style.Base_Widget_Design_TabLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Base_Widget_Design_TabLayout;
 			global::Edison.Mobile.Android.Common.Resource.Style.Platform_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Platform_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.Platform_AppCompat_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Platform_AppCompat_Light;
 			global::Edison.Mobile.Android.Common.Resource.Style.Platform_ThemeOverlay_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
@@ -1272,6 +1531,13 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Compat_Notification_Time_Media = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Time_Media;
 			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Compat_Notification_Title = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Title;
 			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Compat_Notification_Title_Media = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Compat_Notification_Title_Media;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_Counter = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_Counter;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_Counter_Overflow = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_Counter_Overflow;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_Error = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_Error;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_Hint = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_Hint;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_Snackbar_Message = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_Snackbar_Message;
+			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Design_Tab = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Design_Tab;
 			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
 			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
 			global::Edison.Mobile.Android.Common.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::Edison.Mobile.User.Client.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
@@ -1296,6 +1562,12 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
 			global::Edison.Mobile.Android.Common.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
 			global::Edison.Mobile.Android.Common.Resource.Style.Theme_AppCompat_NoActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::Edison.Mobile.Android.Common.Resource.Style.Theme_Design = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_Design;
+			global::Edison.Mobile.Android.Common.Resource.Style.Theme_Design_BottomSheetDialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_Design_BottomSheetDialog;
+			global::Edison.Mobile.Android.Common.Resource.Style.Theme_Design_Light = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_Design_Light;
+			global::Edison.Mobile.Android.Common.Resource.Style.Theme_Design_Light_BottomSheetDialog = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_Design_Light_BottomSheetDialog;
+			global::Edison.Mobile.Android.Common.Resource.Style.Theme_Design_Light_NoActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_Design_Light_NoActionBar;
+			global::Edison.Mobile.Android.Common.Resource.Style.Theme_Design_NoActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Theme_Design_NoActionBar;
 			global::Edison.Mobile.Android.Common.Resource.Style.ThemeOverlay_AppCompat = global::Edison.Mobile.User.Client.Droid.Resource.Style.ThemeOverlay_AppCompat;
 			global::Edison.Mobile.Android.Common.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
 			global::Edison.Mobile.Android.Common.Resource.Style.ThemeOverlay_AppCompat_Dark = global::Edison.Mobile.User.Client.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
@@ -1377,6 +1649,17 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
 			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Compat_NotificationActionContainer = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
 			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Compat_NotificationActionText = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Compat_NotificationActionText;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_AppBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_AppBarLayout;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_BottomNavigationView = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_BottomNavigationView;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_BottomSheet_Modal = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_BottomSheet_Modal;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_CollapsingToolbar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_CollapsingToolbar;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_CoordinatorLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_CoordinatorLayout;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_FloatingActionButton = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_FloatingActionButton;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_NavigationView = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_NavigationView;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_ScrimInsetsFrameLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_ScrimInsetsFrameLayout;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_Snackbar = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_Snackbar;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_TabLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_TabLayout;
+			global::Edison.Mobile.Android.Common.Resource.Style.Widget_Design_TextInputLayout = global::Edison.Mobile.User.Client.Droid.Resource.Style.Widget_Design_TextInputLayout;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ActionBar = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ActionBar;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ActionBar_background = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ActionBar_background;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ActionBar_backgroundSplit = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ActionBar_backgroundSplit;
@@ -1430,6 +1713,18 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AlertDialog_showTitle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AlertDialog_showTitle;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_android_background = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_android_background;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_android_keyboardNavigationCluster = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_android_keyboardNavigationCluster;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_android_touchscreenBlocksFocus = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_android_touchscreenBlocksFocus;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_expanded = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_expanded;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayoutStates = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayoutStates;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayoutStates_state_collapsed = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayoutStates_state_collapsed;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayoutStates_state_collapsible = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayoutStates_state_collapsible;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_Layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_Layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_Layout_layout_scrollFlags = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_Layout_layout_scrollFlags;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.AppBarLayout_Layout_layout_scrollInterpolator = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppBarLayout_Layout_layout_scrollInterpolator;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AppCompatImageView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppCompatImageView;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AppCompatImageView_android_src = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppCompatImageView_android_src;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AppCompatImageView_srcCompat = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
@@ -1577,6 +1872,16 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.AppCompatTheme_windowNoTitle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomNavigationView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomNavigationView;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomNavigationView_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomNavigationView_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomNavigationView_itemBackground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomNavigationView_itemBackground;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomNavigationView_itemIconTint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomNavigationView_itemIconTint;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomNavigationView_itemTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomNavigationView_itemTextColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomNavigationView_menu = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomNavigationView_menu;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomSheetBehavior_Layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomSheetBehavior_Layout_behavior_hideable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_hideable;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomSheetBehavior_Layout_behavior_peekHeight = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_peekHeight;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ButtonBarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ButtonBarLayout;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ButtonBarLayout_allowStacking = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircleImageView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CircleImageView;
@@ -1641,6 +1946,26 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularProfileView_borderWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CircularProfileView_borderWidth;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularProfileView_controlRippleColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CircularProfileView_controlRippleColor;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularProfileView_textPadding = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CircularProfileView_textPadding;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_contentScrim = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_contentScrim;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_scrimAnimationDuration = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_scrimAnimationDuration;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_title = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_title;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_titleEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_titleEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_toolbarId = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_toolbarId;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_Layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseMode = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseMode;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ColorStateListItem = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ColorStateListItem;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ColorStateListItem_alpha = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ColorStateListItem_alpha;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.ColorStateListItem_android_alpha = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
@@ -1649,6 +1974,21 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CompoundButton_android_button = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CompoundButton_android_button;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CompoundButton_buttonTint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CompoundButton_buttonTint;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CompoundButton_buttonTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_keylines = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.DesignTheme = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DesignTheme;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.DesignTheme_bottomSheetDialogTheme = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DesignTheme_bottomSheetDialogTheme;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.DesignTheme_bottomSheetStyle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DesignTheme_bottomSheetStyle;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.DesignTheme_textColorError = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DesignTheme_textColorError;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.DrawerArrowToggle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DrawerArrowToggle;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
@@ -1658,6 +1998,17 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.DrawerArrowToggle_spinBars = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.DrawerArrowToggle_thickness = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_backgroundTint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_backgroundTint;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_backgroundTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_backgroundTintMode;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_borderWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_borderWidth;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_fabSize = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_fabSize;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_pressedTranslationZ = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_pressedTranslationZ;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_rippleColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_rippleColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_useCompatPadding = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_useCompatPadding;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_Behavior_Layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_Behavior_Layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.FloatingActionButton_Behavior_Layout_behavior_autoHide = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FloatingActionButton_Behavior_Layout_behavior_autoHide;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.FontFamily = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FontFamily;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.FontFamily_fontProviderAuthority = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FontFamily_fontProviderAuthority;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.FontFamily_fontProviderCerts = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FontFamily_fontProviderCerts;
@@ -1672,6 +2023,10 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.FontFamilyFont_font = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FontFamilyFont_font;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.FontFamilyFont_fontStyle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FontFamilyFont_fontStyle;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.FontFamilyFont_fontWeight = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ForegroundLinearLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ForegroundLinearLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ForegroundLinearLayout_android_foreground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ForegroundLinearLayout_android_foreground;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.LinearLayoutCompat = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.LinearLayoutCompat;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
@@ -1759,6 +2114,17 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.MenuView_android_windowAnimationStyle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.MenuView_preserveIconSpacing = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.MenuView_subMenuArrow = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.MenuView_subMenuArrow;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_android_background = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_android_background;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_android_fitsSystemWindows = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_android_fitsSystemWindows;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_android_maxWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_android_maxWidth;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_headerLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_headerLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_itemBackground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_itemBackground;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_itemIconTint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_itemIconTint;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_itemTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_itemTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_itemTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_itemTextColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.NavigationView_menu = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.NavigationView_menu;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.PopupWindow = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.PopupWindow;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.PopupWindow_android_popupBackground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
@@ -1768,6 +2134,27 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.RecycleListView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecycleListView;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_android_descendantFocusability = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_android_descendantFocusability;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_android_orientation = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_android_orientation;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_fastScrollEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_fastScrollEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_fastScrollHorizontalThumbDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_fastScrollHorizontalThumbDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_fastScrollHorizontalTrackDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_fastScrollHorizontalTrackDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_fastScrollVerticalThumbDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_fastScrollVerticalThumbDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_fastScrollVerticalTrackDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_fastScrollVerticalTrackDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_layoutManager = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_layoutManager;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_reverseLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_reverseLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_spanCount = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_spanCount;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RecyclerView_stackFromEnd = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RecyclerView_stackFromEnd;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RightAngleTriangle = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RightAngleTriangle;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RightAngleTriangle_borderColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RightAngleTriangle_borderColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RightAngleTriangle_borderWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RightAngleTriangle_borderWidth;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RightAngleTriangle_fillColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RightAngleTriangle_fillColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.RightAngleTriangle_rightAnglePosition = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.RightAngleTriangle_rightAnglePosition;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ScrimInsetsFrameLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ScrimInsetsFrameLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ScrollingViewBehavior_Layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ScrollingViewBehavior_Layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SearchView = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SearchView;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SearchView_android_focusable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SearchView_android_focusable;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SearchView_android_imeOptions = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SearchView_android_imeOptions;
@@ -1790,6 +2177,10 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SignInButton_buttonSize = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SignInButton_buttonSize;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SignInButton_colorScheme = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SignInButton_colorScheme;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SignInButton_scopeUris = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SignInButton_scopeUris;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.SnackbarLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SnackbarLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.SnackbarLayout_android_maxWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SnackbarLayout_android_maxWidth;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.SnackbarLayout_elevation = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SnackbarLayout_elevation;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.SnackbarLayout_maxActionInlineWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SnackbarLayout_maxActionInlineWidth;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.Spinner = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.Spinner;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.Spinner_android_dropDownWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.Spinner_android_entries = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.Spinner_android_entries;
@@ -1811,6 +2202,27 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SwitchCompat_track = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SwitchCompat_track;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SwitchCompat_trackTint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SwitchCompat_trackTint;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.SwitchCompat_trackTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.SwitchCompat_trackTintMode;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabItem = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabItem;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabItem_android_icon = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabItem_android_icon;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabItem_android_layout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabItem_android_layout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabItem_android_text = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabItem_android_text;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabBackground = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabBackground;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabContentStart = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabContentStart;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabGravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabGravity;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabIndicatorColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabIndicatorHeight = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabIndicatorHeight;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabMaxWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabMaxWidth;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabMinWidth = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabMinWidth;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabMode = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabMode;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabPadding = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabPadding;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabPaddingBottom = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabPaddingBottom;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabPaddingEnd = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabPaddingEnd;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabPaddingStart = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabPaddingStart;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabPaddingTop = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabPaddingTop;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabSelectedTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabSelectedTextColor;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TabLayout_tabTextColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TabLayout_tabTextColor;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.TextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextAppearance;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.TextAppearance_android_fontFamily = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextAppearance_android_fontFamily;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.TextAppearance_android_shadowColor = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
@@ -1825,6 +2237,23 @@ namespace Edison.Mobile.User.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.TextAppearance_android_typeface = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextAppearance_android_typeface;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.TextAppearance_fontFamily = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextAppearance_fontFamily;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.TextAppearance_textAllCaps = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextAppearance_textAllCaps;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_android_hint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_android_hint;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_android_textColorHint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_android_textColorHint;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_counterEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_counterEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_counterMaxLength = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_counterMaxLength;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_counterTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_counterTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_errorEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_errorEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_errorTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_errorTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_hintAnimationEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_hintAnimationEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_hintEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_hintEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_hintTextAppearance = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_hintTextAppearance;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_passwordToggleContentDescription = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleContentDescription;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_passwordToggleDrawable = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleDrawable;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_passwordToggleEnabled = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleEnabled;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_passwordToggleTint = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleTint;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.TextInputLayout_passwordToggleTintMode = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.TextInputLayout_passwordToggleTintMode;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.Toolbar = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.Toolbar;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.Toolbar_android_gravity = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.Toolbar_android_gravity;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.Toolbar_android_minHeight = global::Edison.Mobile.User.Client.Droid.Resource.Styleable.Toolbar_android_minHeight;
@@ -2080,8 +2509,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f010010
 			public const int ambientEnabled = 2130771984;
 			
-			// aapt resource value: 0x7f0101ed
-			public const int anchorPoint = 2130772461;
+			// aapt resource value: 0x7f0101ef
+			public const int anchorPoint = 2130772463;
 			
 			// aapt resource value: 0x7f0100e2
 			public const int arrowHeadLength = 2130772194;
@@ -2434,8 +2863,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0100fc
 			public const int defaultQueryHint = 2130772220;
 			
-			// aapt resource value: 0x7f0101ee
-			public const int defaultState = 2130772462;
+			// aapt resource value: 0x7f0101f0
+			public const int defaultState = 2130772464;
 			
 			// aapt resource value: 0x7f01008f
 			public const int dialogPreferredPadding = 2130772111;
@@ -2535,6 +2964,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f010023
 			public const int fastScrollVerticalTrackDrawable = 2130772003;
+			
+			// aapt resource value: 0x7f0101ed
+			public const int fillColor = 2130772461;
 			
 			// aapt resource value: 0x7f0101c3
 			public const int font = 2130772419;
@@ -3073,6 +3505,9 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f01001f
 			public const int reverseLayout = 2130771999;
 			
+			// aapt resource value: 0x7f0101ee
+			public const int rightAnglePosition = 2130772462;
+			
 			// aapt resource value: 0x7f0101d7
 			public const int ringEndColor = 2130772439;
 			
@@ -3477,44 +3912,44 @@ namespace Edison.Mobile.User.Client.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0a00a1
-			public const int abc_background_cache_hint_selector_material_dark = 2131361953;
+			// aapt resource value: 0x7f0a00ab
+			public const int abc_background_cache_hint_selector_material_dark = 2131361963;
 			
-			// aapt resource value: 0x7f0a00a2
-			public const int abc_background_cache_hint_selector_material_light = 2131361954;
+			// aapt resource value: 0x7f0a00ac
+			public const int abc_background_cache_hint_selector_material_light = 2131361964;
 			
-			// aapt resource value: 0x7f0a00a3
-			public const int abc_btn_colored_borderless_text_material = 2131361955;
+			// aapt resource value: 0x7f0a00ad
+			public const int abc_btn_colored_borderless_text_material = 2131361965;
 			
-			// aapt resource value: 0x7f0a00a4
-			public const int abc_btn_colored_text_material = 2131361956;
+			// aapt resource value: 0x7f0a00ae
+			public const int abc_btn_colored_text_material = 2131361966;
 			
-			// aapt resource value: 0x7f0a00a5
-			public const int abc_color_highlight_material = 2131361957;
+			// aapt resource value: 0x7f0a00af
+			public const int abc_color_highlight_material = 2131361967;
 			
-			// aapt resource value: 0x7f0a00a6
-			public const int abc_hint_foreground_material_dark = 2131361958;
+			// aapt resource value: 0x7f0a00b0
+			public const int abc_hint_foreground_material_dark = 2131361968;
 			
-			// aapt resource value: 0x7f0a00a7
-			public const int abc_hint_foreground_material_light = 2131361959;
+			// aapt resource value: 0x7f0a00b1
+			public const int abc_hint_foreground_material_light = 2131361969;
 			
 			// aapt resource value: 0x7f0a000c
 			public const int abc_input_method_navigation_guard = 2131361804;
 			
-			// aapt resource value: 0x7f0a00a8
-			public const int abc_primary_text_disable_only_material_dark = 2131361960;
+			// aapt resource value: 0x7f0a00b2
+			public const int abc_primary_text_disable_only_material_dark = 2131361970;
 			
-			// aapt resource value: 0x7f0a00a9
-			public const int abc_primary_text_disable_only_material_light = 2131361961;
+			// aapt resource value: 0x7f0a00b3
+			public const int abc_primary_text_disable_only_material_light = 2131361971;
 			
-			// aapt resource value: 0x7f0a00aa
-			public const int abc_primary_text_material_dark = 2131361962;
+			// aapt resource value: 0x7f0a00b4
+			public const int abc_primary_text_material_dark = 2131361972;
 			
-			// aapt resource value: 0x7f0a00ab
-			public const int abc_primary_text_material_light = 2131361963;
+			// aapt resource value: 0x7f0a00b5
+			public const int abc_primary_text_material_light = 2131361973;
 			
-			// aapt resource value: 0x7f0a00ac
-			public const int abc_search_url_text = 2131361964;
+			// aapt resource value: 0x7f0a00b6
+			public const int abc_search_url_text = 2131361974;
 			
 			// aapt resource value: 0x7f0a000d
 			public const int abc_search_url_text_normal = 2131361805;
@@ -3525,29 +3960,29 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a000f
 			public const int abc_search_url_text_selected = 2131361807;
 			
-			// aapt resource value: 0x7f0a00ad
-			public const int abc_secondary_text_material_dark = 2131361965;
+			// aapt resource value: 0x7f0a00b7
+			public const int abc_secondary_text_material_dark = 2131361975;
 			
-			// aapt resource value: 0x7f0a00ae
-			public const int abc_secondary_text_material_light = 2131361966;
+			// aapt resource value: 0x7f0a00b8
+			public const int abc_secondary_text_material_light = 2131361976;
 			
-			// aapt resource value: 0x7f0a00af
-			public const int abc_tint_btn_checkable = 2131361967;
+			// aapt resource value: 0x7f0a00b9
+			public const int abc_tint_btn_checkable = 2131361977;
 			
-			// aapt resource value: 0x7f0a00b0
-			public const int abc_tint_default = 2131361968;
+			// aapt resource value: 0x7f0a00ba
+			public const int abc_tint_default = 2131361978;
 			
-			// aapt resource value: 0x7f0a00b1
-			public const int abc_tint_edittext = 2131361969;
+			// aapt resource value: 0x7f0a00bb
+			public const int abc_tint_edittext = 2131361979;
 			
-			// aapt resource value: 0x7f0a00b2
-			public const int abc_tint_seek_thumb = 2131361970;
+			// aapt resource value: 0x7f0a00bc
+			public const int abc_tint_seek_thumb = 2131361980;
 			
-			// aapt resource value: 0x7f0a00b3
-			public const int abc_tint_spinner = 2131361971;
+			// aapt resource value: 0x7f0a00bd
+			public const int abc_tint_spinner = 2131361981;
 			
-			// aapt resource value: 0x7f0a00b4
-			public const int abc_tint_switch_track = 2131361972;
+			// aapt resource value: 0x7f0a00be
+			public const int abc_tint_switch_track = 2131361982;
 			
 			// aapt resource value: 0x7f0a0062
 			public const int accent_blue = 2131361890;
@@ -3603,11 +4038,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0094
 			public const int app_background = 2131361940;
 			
-			// aapt resource value: 0x7f0a0099
-			public const int app_background_darkgrey = 2131361945;
-			
 			// aapt resource value: 0x7f0a0098
-			public const int app_background_grey = 2131361944;
+			public const int app_background_darkgrey = 2131361944;
+			
+			// aapt resource value: 0x7f0a0097
+			public const int app_background_grey = 2131361943;
 			
 			// aapt resource value: 0x7f0a008c
 			public const int app_blue = 2131361932;
@@ -3654,8 +4089,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a006f
 			public const int blue2 = 2131361903;
 			
-			// aapt resource value: 0x7f0a009d
-			public const int bottom_sheet_button_text_color = 2131361949;
+			// aapt resource value: 0x7f0a009f
+			public const int bottom_sheet_button_text_color = 2131361951;
 			
 			// aapt resource value: 0x7f0a0016
 			public const int bright_foreground_disabled_material_dark = 2131361814;
@@ -3702,8 +4137,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a008a
 			public const int colorPrimaryDark = 2131361930;
 			
-			// aapt resource value: 0x7f0a00b5
-			public const int common_google_signin_btn_text_dark = 2131361973;
+			// aapt resource value: 0x7f0a00bf
+			public const int common_google_signin_btn_text_dark = 2131361983;
 			
 			// aapt resource value: 0x7f0a0000
 			public const int common_google_signin_btn_text_dark_default = 2131361792;
@@ -3717,8 +4152,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0003
 			public const int common_google_signin_btn_text_dark_pressed = 2131361795;
 			
-			// aapt resource value: 0x7f0a00b6
-			public const int common_google_signin_btn_text_light = 2131361974;
+			// aapt resource value: 0x7f0a00c0
+			public const int common_google_signin_btn_text_light = 2131361984;
 			
 			// aapt resource value: 0x7f0a0004
 			public const int common_google_signin_btn_text_light_default = 2131361796;
@@ -3732,8 +4167,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0007
 			public const int common_google_signin_btn_text_light_pressed = 2131361799;
 			
-			// aapt resource value: 0x7f0a00b7
-			public const int common_google_signin_btn_tint = 2131361975;
+			// aapt resource value: 0x7f0a00c1
+			public const int common_google_signin_btn_tint = 2131361985;
 			
 			// aapt resource value: 0x7f0a0081
 			public const int cyan = 2131361921;
@@ -3750,8 +4185,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0048
 			public const int design_bottom_navigation_shadow_color = 2131361864;
 			
-			// aapt resource value: 0x7f0a00b8
-			public const int design_error = 2131361976;
+			// aapt resource value: 0x7f0a00c2
+			public const int design_error = 2131361986;
 			
 			// aapt resource value: 0x7f0a0049
 			public const int design_fab_shadow_end_color = 2131361865;
@@ -3777,8 +4212,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0050
 			public const int design_snackbar_background_color = 2131361872;
 			
-			// aapt resource value: 0x7f0a00b9
-			public const int design_tint_password_toggle = 2131361977;
+			// aapt resource value: 0x7f0a00c3
+			public const int design_tint_password_toggle = 2131361987;
 			
 			// aapt resource value: 0x7f0a001e
 			public const int dim_foreground_disabled_material_dark = 2131361822;
@@ -3819,14 +4254,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0026
 			public const int highlighted_text_material_light = 2131361830;
 			
-			// aapt resource value: 0x7f0a009a
-			public const int icon_background_grey = 2131361946;
-			
-			// aapt resource value: 0x7f0a009c
-			public const int icon_blue = 2131361948;
+			// aapt resource value: 0x7f0a0099
+			public const int icon_background_grey = 2131361945;
 			
 			// aapt resource value: 0x7f0a009b
-			public const int icon_red = 2131361947;
+			public const int icon_blue = 2131361947;
+			
+			// aapt resource value: 0x7f0a009a
+			public const int icon_red = 2131361946;
 			
 			// aapt resource value: 0x7f0a0073
 			public const int light_grey = 2131361907;
@@ -3872,6 +4307,24 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0a0032
 			public const int material_grey_900 = 2131361842;
+			
+			// aapt resource value: 0x7f0a00a0
+			public const int medium_message_button_text_color = 2131361952;
+			
+			// aapt resource value: 0x7f0a00a8
+			public const int message_area_seperator_color = 2131361960;
+			
+			// aapt resource value: 0x7f0a00a6
+			public const int message_background_color = 2131361958;
+			
+			// aapt resource value: 0x7f0a00a4
+			public const int message_hint_text_color = 2131361956;
+			
+			// aapt resource value: 0x7f0a00a5
+			public const int message_text_color = 2131361957;
+			
+			// aapt resource value: 0x7f0a00a7
+			public const int message_title_color = 2131361959;
 			
 			// aapt resource value: 0x7f0a0074
 			public const int mid_grey = 2131361908;
@@ -3948,8 +4401,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a003a
 			public const int primary_text_disabled_material_light = 2131361850;
 			
-			// aapt resource value: 0x7f0a0097
-			public const int profile_background = 2131361943;
+			// aapt resource value: 0x7f0a009c
+			public const int profile_background = 2131361948;
+			
+			// aapt resource value: 0x7f0a009e
+			public const int profile_initials_color = 2131361950;
+			
+			// aapt resource value: 0x7f0a009d
+			public const int profile_name_color = 2131361949;
 			
 			// aapt resource value: 0x7f0a0084
 			public const int purple = 2131361924;
@@ -3993,11 +4452,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0042
 			public const int switch_thumb_disabled_material_light = 2131361858;
 			
-			// aapt resource value: 0x7f0a00ba
-			public const int switch_thumb_material_dark = 2131361978;
+			// aapt resource value: 0x7f0a00c4
+			public const int switch_thumb_material_dark = 2131361988;
 			
-			// aapt resource value: 0x7f0a00bb
-			public const int switch_thumb_material_light = 2131361979;
+			// aapt resource value: 0x7f0a00c5
+			public const int switch_thumb_material_light = 2131361989;
 			
 			// aapt resource value: 0x7f0a0043
 			public const int switch_thumb_normal_material_dark = 2131361859;
@@ -4008,6 +4467,12 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0085
 			public const int teal = 2131361925;
 			
+			// aapt resource value: 0x7f0a00aa
+			public const int text_cursor_color = 2131361962;
+			
+			// aapt resource value: 0x7f0a00a9
+			public const int text_highlight_color = 2131361961;
+			
 			// aapt resource value: 0x7f0a0045
 			public const int tooltip_background_dark = 2131361861;
 			
@@ -4017,14 +4482,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0a0077
 			public const int transparent = 2131361911;
 			
-			// aapt resource value: 0x7f0a009e
-			public const int user_location = 2131361950;
+			// aapt resource value: 0x7f0a00a1
+			public const int user_location = 2131361953;
 			
-			// aapt resource value: 0x7f0a00a0
-			public const int user_location_center = 2131361952;
+			// aapt resource value: 0x7f0a00a3
+			public const int user_location_center = 2131361955;
 			
-			// aapt resource value: 0x7f0a009f
-			public const int user_location_stroke = 2131361951;
+			// aapt resource value: 0x7f0a00a2
+			public const int user_location_stroke = 2131361954;
 			
 			// aapt resource value: 0x7f0a0076
 			public const int very_dark_grey = 2131361910;
@@ -4282,32 +4747,32 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b00a7
 			public const int activity_vertical_margin = 2131427495;
 			
-			// aapt resource value: 0x7f0b00ac
-			public const int app_bar_elevation = 2131427500;
+			// aapt resource value: 0x7f0b00ab
+			public const int app_bar_elevation = 2131427499;
 			
-			// aapt resource value: 0x7f0b00b8
-			public const int bottom_sheet_button_icon_padding = 2131427512;
+			// aapt resource value: 0x7f0b00ba
+			public const int bottom_sheet_button_icon_padding = 2131427514;
+			
+			// aapt resource value: 0x7f0b00bb
+			public const int bottom_sheet_button_icon_toppadding = 2131427515;
 			
 			// aapt resource value: 0x7f0b00b9
-			public const int bottom_sheet_button_icon_toppadding = 2131427513;
+			public const int bottom_sheet_button_text_size = 2131427513;
+			
+			// aapt resource value: 0x7f0b00ac
+			public const int bottom_sheet_elevation = 2131427500;
 			
 			// aapt resource value: 0x7f0b00b7
-			public const int bottom_sheet_button_text_size = 2131427511;
+			public const int bottom_sheet_thumb_height = 2131427511;
 			
-			// aapt resource value: 0x7f0b00ad
-			public const int bottom_sheet_elevation = 2131427501;
-			
-			// aapt resource value: 0x7f0b00b5
-			public const int bottom_sheet_thumb_height = 2131427509;
+			// aapt resource value: 0x7f0b00b8
+			public const int bottom_sheet_thumb_padding = 2131427512;
 			
 			// aapt resource value: 0x7f0b00b6
-			public const int bottom_sheet_thumb_padding = 2131427510;
+			public const int bottom_sheet_thumb_width = 2131427510;
 			
-			// aapt resource value: 0x7f0b00b4
-			public const int bottom_sheet_thumb_width = 2131427508;
-			
-			// aapt resource value: 0x7f0b00b1
-			public const int card_elevation = 2131427505;
+			// aapt resource value: 0x7f0b00b0
+			public const int card_elevation = 2131427504;
 			
 			// aapt resource value: 0x7f0b0006
 			public const int cardview_compat_inset_shadow = 2131427334;
@@ -4317,6 +4782,57 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0b0008
 			public const int cardview_default_radius = 2131427336;
+			
+			// aapt resource value: 0x7f0b00e3
+			public const int chat_avatar_size = 2131427555;
+			
+			// aapt resource value: 0x7f0b00e5
+			public const int chat_icon_padding = 2131427557;
+			
+			// aapt resource value: 0x7f0b00e4
+			public const int chat_icon_size = 2131427556;
+			
+			// aapt resource value: 0x7f0b00eb
+			public const int chat_indicator_icon_size = 2131427563;
+			
+			// aapt resource value: 0x7f0b00ec
+			public const int chat_indicator_text_size = 2131427564;
+			
+			// aapt resource value: 0x7f0b00ed
+			public const int chat_item_spacing = 2131427565;
+			
+			// aapt resource value: 0x7f0b00de
+			public const int chat_margin_horiz = 2131427550;
+			
+			// aapt resource value: 0x7f0b00dd
+			public const int chat_margin_width_percent = 2131427549;
+			
+			// aapt resource value: 0x7f0b00e2
+			public const int chat_min_height = 2131427554;
+			
+			// aapt resource value: 0x7f0b00e8
+			public const int chat_padding_bottom = 2131427560;
+			
+			// aapt resource value: 0x7f0b00e6
+			public const int chat_padding_horiz = 2131427558;
+			
+			// aapt resource value: 0x7f0b00e7
+			public const int chat_padding_top = 2131427559;
+			
+			// aapt resource value: 0x7f0b00ea
+			public const int chat_text_size = 2131427562;
+			
+			// aapt resource value: 0x7f0b00e0
+			public const int chat_tick_height = 2131427552;
+			
+			// aapt resource value: 0x7f0b00e1
+			public const int chat_tick_margin_vert = 2131427553;
+			
+			// aapt resource value: 0x7f0b00df
+			public const int chat_tick_width = 2131427551;
+			
+			// aapt resource value: 0x7f0b00e9
+			public const int chat_title_size = 2131427561;
 			
 			// aapt resource value: 0x7f0b008e
 			public const int compat_button_inset_horizontal_material = 2131427470;
@@ -4333,8 +4849,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0092
 			public const int compat_control_corner_material = 2131427474;
 			
-			// aapt resource value: 0x7f0b00ab
-			public const int content_elevation = 2131427499;
+			// aapt resource value: 0x7f0b00aa
+			public const int content_elevation = 2131427498;
 			
 			// aapt resource value: 0x7f0b006c
 			public const int design_appbar_elevation = 2131427436;
@@ -4456,11 +4972,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0054
 			public const int disabled_alpha_material_light = 2131427412;
 			
-			// aapt resource value: 0x7f0b00ba
-			public const int event_guage_area_padding = 2131427514;
+			// aapt resource value: 0x7f0b00bc
+			public const int event_guage_area_padding = 2131427516;
 			
-			// aapt resource value: 0x7f0b00ae
-			public const int fab_elevation = 2131427502;
+			// aapt resource value: 0x7f0b00ad
+			public const int fab_elevation = 2131427501;
 			
 			// aapt resource value: 0x7f0b00a8
 			public const int fab_margin = 2131427496;
@@ -4507,6 +5023,9 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b0005
 			public const int item_touch_helper_swipe_escape_velocity = 2131427333;
 			
+			// aapt resource value: 0x7f0b00d3
+			public const int large_message_button_padding = 2131427539;
+			
 			// aapt resource value: 0x7f0b00a0
 			public const int login_button_padding = 2131427488;
 			
@@ -4522,14 +5041,77 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b009f
 			public const int login_screen_padding = 2131427487;
 			
-			// aapt resource value: 0x7f0b00b3
-			public const int nav_drawer_bottom_margin = 2131427507;
+			// aapt resource value: 0x7f0b00d6
+			public const int medium_message_button_icon_padding = 2131427542;
 			
-			// aapt resource value: 0x7f0b00b0
-			public const int nav_drawer_elevation = 2131427504;
+			// aapt resource value: 0x7f0b00dc
+			public const int medium_message_button_min_text_size = 2131427548;
+			
+			// aapt resource value: 0x7f0b00d4
+			public const int medium_message_button_padding_horiz = 2131427540;
+			
+			// aapt resource value: 0x7f0b00d5
+			public const int medium_message_button_padding_vert = 2131427541;
+			
+			// aapt resource value: 0x7f0b00db
+			public const int medium_message_button_text_size = 2131427547;
+			
+			// aapt resource value: 0x7f0b00d2
+			public const int message_area_padding = 2131427538;
+			
+			// aapt resource value: 0x7f0b00c9
+			public const int message_area_seperator_height = 2131427529;
+			
+			// aapt resource value: 0x7f0b00d1
+			public const int message_avatar_area_width = 2131427537;
+			
+			// aapt resource value: 0x7f0b00d0
+			public const int message_avatar_size = 2131427536;
+			
+			// aapt resource value: 0x7f0b00d9
+			public const int message_button_area_width = 2131427545;
+			
+			// aapt resource value: 0x7f0b00d8
+			public const int message_button_size = 2131427544;
+			
+			// aapt resource value: 0x7f0b00da
+			public const int message_buttons_list_height = 2131427546;
+			
+			// aapt resource value: 0x7f0b00cd
+			public const int message_icon_height = 2131427533;
+			
+			// aapt resource value: 0x7f0b00ce
+			public const int message_icon_padding = 2131427534;
+			
+			// aapt resource value: 0x7f0b00cf
+			public const int message_info_icon_height = 2131427535;
+			
+			// aapt resource value: 0x7f0b00ca
+			public const int message_page_title_size = 2131427530;
+			
+			// aapt resource value: 0x7f0b00c7
+			public const int message_text_area_height = 2131427527;
+			
+			// aapt resource value: 0x7f0b00c8
+			public const int message_text_area_vpadding = 2131427528;
+			
+			// aapt resource value: 0x7f0b00cc
+			public const int message_text_size = 2131427532;
+			
+			// aapt resource value: 0x7f0b00cb
+			public const int message_title_size = 2131427531;
 			
 			// aapt resource value: 0x7f0b00b2
-			public const int nav_drawer_top_margin = 2131427506;
+			public const int nav_drawer_bottom_margin = 2131427506;
+			
+			// aapt resource value: 0x7f0b00af
+			public const int nav_drawer_elevation = 2131427503;
+			
+			// aapt resource value: 0x7f0b00b3
+			public const int nav_drawer_menu_left_padding = 2131427507;
+			
+			// aapt resource value: 0x7f0b00b1
+			public const int nav_drawer_top_margin = 2131427505;
 			
 			// aapt resource value: 0x7f0b00a5
 			public const int nav_header_height = 2131427493;
@@ -4582,44 +5164,50 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b009d
 			public const int notification_top_pad_large_text = 2131427485;
 			
-			// aapt resource value: 0x7f0b00aa
-			public const int profile_height = 2131427498;
+			// aapt resource value: 0x7f0b00b5
+			public const int profile_image_border_width = 2131427509;
+			
+			// aapt resource value: 0x7f0b00b4
+			public const int profile_name_text_size = 2131427508;
 			
 			// aapt resource value: 0x7f0b00a9
-			public const int profile_width = 2131427497;
+			public const int profile_size = 2131427497;
 			
-			// aapt resource value: 0x7f0b00c4
-			public const int reponse_card_map_default_zoom = 2131427524;
+			// aapt resource value: 0x7f0b00c6
+			public const int reponse_card_map_default_zoom = 2131427526;
 			
-			// aapt resource value: 0x7f0b00c3
-			public const int reponse_card_map_height_percent = 2131427523;
-			
-			// aapt resource value: 0x7f0b00bf
-			public const int response_card_content_padding_left = 2131427519;
-			
-			// aapt resource value: 0x7f0b00c0
-			public const int response_card_content_padding_right = 2131427520;
-			
-			// aapt resource value: 0x7f0b00bd
-			public const int response_card_corner_radius = 2131427517;
-			
-			// aapt resource value: 0x7f0b00c2
-			public const int response_card_icon_padding = 2131427522;
+			// aapt resource value: 0x7f0b00c5
+			public const int reponse_card_map_height_percent = 2131427525;
 			
 			// aapt resource value: 0x7f0b00c1
-			public const int response_card_icon_size = 2131427521;
+			public const int response_card_content_padding_left = 2131427521;
+			
+			// aapt resource value: 0x7f0b00c2
+			public const int response_card_content_padding_right = 2131427522;
+			
+			// aapt resource value: 0x7f0b00bf
+			public const int response_card_corner_radius = 2131427519;
+			
+			// aapt resource value: 0x7f0b00c4
+			public const int response_card_icon_padding = 2131427524;
+			
+			// aapt resource value: 0x7f0b00c3
+			public const int response_card_icon_size = 2131427523;
+			
+			// aapt resource value: 0x7f0b00c0
+			public const int response_card_seperator_height = 2131427520;
 			
 			// aapt resource value: 0x7f0b00be
-			public const int response_card_seperator_height = 2131427518;
+			public const int response_carousel_area_padding_bottom = 2131427518;
 			
-			// aapt resource value: 0x7f0b00bc
-			public const int response_carousel_area_padding_bottom = 2131427516;
+			// aapt resource value: 0x7f0b00bd
+			public const int response_carousel_area_padding_top = 2131427517;
 			
-			// aapt resource value: 0x7f0b00bb
-			public const int response_carousel_area_padding_top = 2131427515;
+			// aapt resource value: 0x7f0b00d7
+			public const int small_message_button_padding = 2131427543;
 			
-			// aapt resource value: 0x7f0b00af
-			public const int snack_bar_elevation = 2131427503;
+			// aapt resource value: 0x7f0b00ae
+			public const int snack_bar_elevation = 2131427502;
 			
 			// aapt resource value: 0x7f0b005c
 			public const int tooltip_corner_radius = 2131427420;
@@ -4913,26 +5501,26 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f020054
 			public const int avd_hide_password = 2130837588;
 			
-			// aapt resource value: 0x7f0200b2
-			public const int avd_hide_password_1 = 2130837682;
+			// aapt resource value: 0x7f0200b8
+			public const int avd_hide_password_1 = 2130837688;
 			
-			// aapt resource value: 0x7f0200b3
-			public const int avd_hide_password_2 = 2130837683;
+			// aapt resource value: 0x7f0200b9
+			public const int avd_hide_password_2 = 2130837689;
 			
-			// aapt resource value: 0x7f0200b4
-			public const int avd_hide_password_3 = 2130837684;
+			// aapt resource value: 0x7f0200ba
+			public const int avd_hide_password_3 = 2130837690;
 			
 			// aapt resource value: 0x7f020055
 			public const int avd_show_password = 2130837589;
 			
-			// aapt resource value: 0x7f0200b5
-			public const int avd_show_password_1 = 2130837685;
+			// aapt resource value: 0x7f0200bb
+			public const int avd_show_password_1 = 2130837691;
 			
-			// aapt resource value: 0x7f0200b6
-			public const int avd_show_password_2 = 2130837686;
+			// aapt resource value: 0x7f0200bc
+			public const int avd_show_password_2 = 2130837692;
 			
-			// aapt resource value: 0x7f0200b7
-			public const int avd_show_password_3 = 2130837687;
+			// aapt resource value: 0x7f0200bd
+			public const int avd_show_password_3 = 2130837693;
 			
 			// aapt resource value: 0x7f020056
 			public const int baseline_chevron_right_white = 2130837590;
@@ -4962,253 +5550,271 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int card_ripple_background = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int chevron_right = 2130837599;
+			public const int chat_background = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int circular_event_gauge = 2130837600;
+			public const int chevron_right = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int circular_event_gauge_ring = 2130837601;
+			public const int circular_event_gauge = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int circular_image_background = 2130837602;
+			public const int circular_event_gauge_ring = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int circular_image_button_ripple = 2130837603;
+			public const int circular_image_background = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int circular_ripple_background = 2130837604;
+			public const int circular_image_button_ripple = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int common_full_open_on_phone = 2130837605;
+			public const int circular_ripple_background = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int common_google_signin_btn_icon_dark = 2130837606;
+			public const int common_full_open_on_phone = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int common_google_signin_btn_icon_dark_focused = 2130837607;
+			public const int common_google_signin_btn_icon_dark = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int common_google_signin_btn_icon_dark_normal = 2130837608;
+			public const int common_google_signin_btn_icon_dark_focused = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int common_google_signin_btn_icon_dark_normal_background = 2130837609;
+			public const int common_google_signin_btn_icon_dark_normal = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int common_google_signin_btn_icon_disabled = 2130837610;
+			public const int common_google_signin_btn_icon_dark_normal_background = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int common_google_signin_btn_icon_light = 2130837611;
+			public const int common_google_signin_btn_icon_disabled = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int common_google_signin_btn_icon_light_focused = 2130837612;
+			public const int common_google_signin_btn_icon_light = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int common_google_signin_btn_icon_light_normal = 2130837613;
+			public const int common_google_signin_btn_icon_light_focused = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int common_google_signin_btn_icon_light_normal_background = 2130837614;
+			public const int common_google_signin_btn_icon_light_normal = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int common_google_signin_btn_text_dark = 2130837615;
+			public const int common_google_signin_btn_icon_light_normal_background = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int common_google_signin_btn_text_dark_focused = 2130837616;
+			public const int common_google_signin_btn_text_dark = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int common_google_signin_btn_text_dark_normal = 2130837617;
+			public const int common_google_signin_btn_text_dark_focused = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int common_google_signin_btn_text_dark_normal_background = 2130837618;
+			public const int common_google_signin_btn_text_dark_normal = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int common_google_signin_btn_text_disabled = 2130837619;
+			public const int common_google_signin_btn_text_dark_normal_background = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int common_google_signin_btn_text_light = 2130837620;
+			public const int common_google_signin_btn_text_disabled = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int common_google_signin_btn_text_light_focused = 2130837621;
+			public const int common_google_signin_btn_text_light = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int common_google_signin_btn_text_light_normal = 2130837622;
+			public const int common_google_signin_btn_text_light_focused = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int common_google_signin_btn_text_light_normal_background = 2130837623;
+			public const int common_google_signin_btn_text_light_normal = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int design_bottom_navigation_item_background = 2130837624;
+			public const int common_google_signin_btn_text_light_normal_background = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int design_fab_background = 2130837625;
+			public const int design_bottom_navigation_item_background = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int design_ic_visibility = 2130837626;
+			public const int design_fab_background = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int design_ic_visibility_off = 2130837627;
+			public const int design_ic_visibility = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int design_password_eye = 2130837628;
+			public const int design_ic_visibility_off = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int design_snackbar_background = 2130837629;
+			public const int design_password_eye = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int drawer_shape = 2130837630;
+			public const int design_snackbar_background = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int drw_header_circle = 2130837631;
+			public const int drawer_shape = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int edison_fox1 = 2130837632;
+			public const int drw_header_circle = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int edison_fox2 = 2130837633;
+			public const int edison_fox1 = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int edison_fox2_96 = 2130837634;
+			public const int edison_fox2 = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int emergency = 2130837635;
+			public const int edison_fox2_96 = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int event_drawable = 2130837636;
+			public const int emergency = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int expanded_list_group_indicator_selector = 2130837637;
+			public const int event_drawable = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int fire = 2130837638;
+			public const int expanded_list_group_indicator_selector = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int googleg_disabled_color_18 = 2130837639;
+			public const int fire = 2130837639;
 			
 			// aapt resource value: 0x7f020088
-			public const int googleg_standard_color_18 = 2130837640;
+			public const int googleg_disabled_color_18 = 2130837640;
 			
 			// aapt resource value: 0x7f020089
-			public const int greyhound_kimmie = 2130837641;
+			public const int googleg_standard_color_18 = 2130837641;
 			
 			// aapt resource value: 0x7f02008a
-			public const int gun = 2130837642;
+			public const int greyhound_kimmie = 2130837642;
 			
 			// aapt resource value: 0x7f02008b
-			public const int health_check = 2130837643;
+			public const int gun = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int ic_home_24 = 2130837644;
+			public const int health_check = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int ic_launcher = 2130837645;
+			public const int ic_home_24 = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int lclose = 2130837646;
+			public const int ic_launcher = 2130837646;
 			
 			// aapt resource value: 0x7f02008f
-			public const int location = 2130837647;
+			public const int ic_send_24 = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int menu = 2130837648;
+			public const int lclose = 2130837648;
 			
 			// aapt resource value: 0x7f020091
-			public const int message = 2130837649;
+			public const int location = 2130837649;
 			
 			// aapt resource value: 0x7f020092
-			public const int moon = 2130837650;
+			public const int menu = 2130837650;
 			
 			// aapt resource value: 0x7f020093
-			public const int moon_24 = 2130837651;
+			public const int message = 2130837651;
 			
 			// aapt resource value: 0x7f020094
-			public const int navigation_empty_icon = 2130837652;
+			public const int moon = 2130837652;
 			
 			// aapt resource value: 0x7f020095
-			public const int notification = 2130837653;
+			public const int moon_24 = 2130837653;
 			
 			// aapt resource value: 0x7f020096
-			public const int notification_action_background = 2130837654;
+			public const int navigation_empty_icon = 2130837654;
 			
 			// aapt resource value: 0x7f020097
-			public const int notification_bg = 2130837655;
+			public const int notification = 2130837655;
 			
 			// aapt resource value: 0x7f020098
-			public const int notification_bg_low = 2130837656;
+			public const int notification_action_background = 2130837656;
 			
 			// aapt resource value: 0x7f020099
-			public const int notification_bg_low_normal = 2130837657;
+			public const int notification_bg = 2130837657;
 			
 			// aapt resource value: 0x7f02009a
-			public const int notification_bg_low_pressed = 2130837658;
+			public const int notification_bg_low = 2130837658;
 			
 			// aapt resource value: 0x7f02009b
-			public const int notification_bg_normal = 2130837659;
+			public const int notification_bg_low_normal = 2130837659;
 			
 			// aapt resource value: 0x7f02009c
-			public const int notification_bg_normal_pressed = 2130837660;
+			public const int notification_bg_low_pressed = 2130837660;
 			
 			// aapt resource value: 0x7f02009d
-			public const int notification_icon_background = 2130837661;
-			
-			// aapt resource value: 0x7f0200b0
-			public const int notification_template_icon_bg = 2130837680;
-			
-			// aapt resource value: 0x7f0200b1
-			public const int notification_template_icon_low_bg = 2130837681;
+			public const int notification_bg_normal = 2130837661;
 			
 			// aapt resource value: 0x7f02009e
-			public const int notification_tile_bg = 2130837662;
+			public const int notification_bg_normal_pressed = 2130837662;
 			
 			// aapt resource value: 0x7f02009f
-			public const int notify_panel_notification_icon_bg = 2130837663;
+			public const int notification_icon_background = 2130837663;
+			
+			// aapt resource value: 0x7f0200b6
+			public const int notification_template_icon_bg = 2130837686;
+			
+			// aapt resource value: 0x7f0200b7
+			public const int notification_template_icon_low_bg = 2130837687;
 			
 			// aapt resource value: 0x7f0200a0
-			public const int personal_check = 2130837664;
+			public const int notification_tile_bg = 2130837664;
 			
 			// aapt resource value: 0x7f0200a1
-			public const int pin = 2130837665;
+			public const int notify_panel_notification_icon_bg = 2130837665;
 			
 			// aapt resource value: 0x7f0200a2
-			public const int plus = 2130837666;
+			public const int personal_check = 2130837666;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int protest = 2130837667;
+			public const int pin = 2130837667;
 			
 			// aapt resource value: 0x7f0200a4
-			public const int responsive_splashscreen = 2130837668;
+			public const int plus = 2130837668;
 			
 			// aapt resource value: 0x7f0200a5
-			public const int sensors = 2130837669;
+			public const int protest = 2130837669;
 			
 			// aapt resource value: 0x7f0200a6
-			public const int settings = 2130837670;
+			public const int responsive_splashscreen = 2130837670;
 			
 			// aapt resource value: 0x7f0200a7
-			public const int sound = 2130837671;
+			public const int sensors = 2130837671;
 			
 			// aapt resource value: 0x7f0200a8
-			public const int suspicious_package = 2130837672;
+			public const int settings = 2130837672;
 			
 			// aapt resource value: 0x7f0200a9
-			public const int thumb_shape = 2130837673;
+			public const int sound = 2130837673;
 			
 			// aapt resource value: 0x7f0200aa
-			public const int tooltip_frame_dark = 2130837674;
+			public const int suspicious_package = 2130837674;
 			
 			// aapt resource value: 0x7f0200ab
-			public const int tooltip_frame_light = 2130837675;
+			public const int text_cursor = 2130837675;
 			
 			// aapt resource value: 0x7f0200ac
-			public const int tornado = 2130837676;
+			public const int text_select_handle_left = 2130837676;
 			
 			// aapt resource value: 0x7f0200ad
-			public const int user = 2130837677;
+			public const int text_select_handle_middle = 2130837677;
 			
 			// aapt resource value: 0x7f0200ae
-			public const int user_location_icon = 2130837678;
+			public const int text_select_handle_right = 2130837678;
 			
 			// aapt resource value: 0x7f0200af
-			public const int vip = 2130837679;
+			public const int thumb_shape = 2130837679;
+			
+			// aapt resource value: 0x7f0200b0
+			public const int tooltip_frame_dark = 2130837680;
+			
+			// aapt resource value: 0x7f0200b1
+			public const int tooltip_frame_light = 2130837681;
+			
+			// aapt resource value: 0x7f0200b2
+			public const int tornado = 2130837682;
+			
+			// aapt resource value: 0x7f0200b3
+			public const int user = 2130837683;
+			
+			// aapt resource value: 0x7f0200b4
+			public const int user_location_icon = 2130837684;
+			
+			// aapt resource value: 0x7f0200b5
+			public const int vip = 2130837685;
 			
 			static Drawable()
 			{
@@ -5302,44 +5908,44 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0042
 			public const int SYM = 2131492930;
 			
-			// aapt resource value: 0x7f0c00e7
-			public const int action0 = 2131493095;
+			// aapt resource value: 0x7f0c0100
+			public const int action0 = 2131493120;
 			
-			// aapt resource value: 0x7f0c009a
-			public const int action_bar = 2131493018;
+			// aapt resource value: 0x7f0c009e
+			public const int action_bar = 2131493022;
 			
 			// aapt resource value: 0x7f0c0001
 			public const int action_bar_activity_content = 2131492865;
 			
-			// aapt resource value: 0x7f0c0099
-			public const int action_bar_container = 2131493017;
+			// aapt resource value: 0x7f0c009d
+			public const int action_bar_container = 2131493021;
 			
-			// aapt resource value: 0x7f0c0095
-			public const int action_bar_root = 2131493013;
+			// aapt resource value: 0x7f0c0099
+			public const int action_bar_root = 2131493017;
 			
 			// aapt resource value: 0x7f0c0002
 			public const int action_bar_spinner = 2131492866;
 			
-			// aapt resource value: 0x7f0c0079
-			public const int action_bar_subtitle = 2131492985;
+			// aapt resource value: 0x7f0c007d
+			public const int action_bar_subtitle = 2131492989;
 			
-			// aapt resource value: 0x7f0c0078
-			public const int action_bar_title = 2131492984;
+			// aapt resource value: 0x7f0c007c
+			public const int action_bar_title = 2131492988;
 			
-			// aapt resource value: 0x7f0c0114
-			public const int action_brightness = 2131493140;
+			// aapt resource value: 0x7f0c012d
+			public const int action_brightness = 2131493165;
 			
-			// aapt resource value: 0x7f0c00e4
-			public const int action_container = 2131493092;
+			// aapt resource value: 0x7f0c00fd
+			public const int action_container = 2131493117;
 			
-			// aapt resource value: 0x7f0c009b
-			public const int action_context_bar = 2131493019;
+			// aapt resource value: 0x7f0c009f
+			public const int action_context_bar = 2131493023;
 			
-			// aapt resource value: 0x7f0c00eb
-			public const int action_divider = 2131493099;
+			// aapt resource value: 0x7f0c0104
+			public const int action_divider = 2131493124;
 			
-			// aapt resource value: 0x7f0c00e5
-			public const int action_image = 2131493093;
+			// aapt resource value: 0x7f0c00fe
+			public const int action_image = 2131493118;
 			
 			// aapt resource value: 0x7f0c0003
 			public const int action_menu_divider = 2131492867;
@@ -5347,23 +5953,23 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0004
 			public const int action_menu_presenter = 2131492868;
 			
-			// aapt resource value: 0x7f0c0097
-			public const int action_mode_bar = 2131493015;
+			// aapt resource value: 0x7f0c009b
+			public const int action_mode_bar = 2131493019;
 			
-			// aapt resource value: 0x7f0c0096
-			public const int action_mode_bar_stub = 2131493014;
+			// aapt resource value: 0x7f0c009a
+			public const int action_mode_bar_stub = 2131493018;
 			
-			// aapt resource value: 0x7f0c007a
-			public const int action_mode_close_button = 2131492986;
+			// aapt resource value: 0x7f0c007e
+			public const int action_mode_close_button = 2131492990;
 			
-			// aapt resource value: 0x7f0c00e6
-			public const int action_text = 2131493094;
+			// aapt resource value: 0x7f0c00ff
+			public const int action_text = 2131493119;
 			
-			// aapt resource value: 0x7f0c00f4
-			public const int actions = 2131493108;
+			// aapt resource value: 0x7f0c010d
+			public const int actions = 2131493133;
 			
-			// aapt resource value: 0x7f0c007b
-			public const int activity_chooser_view_content = 2131492987;
+			// aapt resource value: 0x7f0c007f
+			public const int activity_chooser_view_content = 2131492991;
 			
 			// aapt resource value: 0x7f0c0032
 			public const int add = 2131492914;
@@ -5374,8 +5980,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0023
 			public const int adjust_width = 2131492899;
 			
-			// aapt resource value: 0x7f0c008e
-			public const int alertTitle = 2131493006;
+			// aapt resource value: 0x7f0c0092
+			public const int alertTitle = 2131493010;
 			
 			// aapt resource value: 0x7f0c005c
 			public const int all = 2131492956;
@@ -5389,8 +5995,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0027
 			public const int auto = 2131492903;
 			
-			// aapt resource value: 0x7f0c010f
-			public const int background = 2131493135;
+			// aapt resource value: 0x7f0c0128
+			public const int background = 2131493160;
 			
 			// aapt resource value: 0x7f0c0068
 			public const int barrier = 2131492968;
@@ -5407,68 +6013,71 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0048
 			public const int bottom = 2131492936;
 			
-			// aapt resource value: 0x7f0c00d4
-			public const int bottom_sheet = 2131493076;
+			// aapt resource value: 0x7f0c0074
+			public const int bottomLeft = 2131492980;
 			
-			// aapt resource value: 0x7f0c00d6
-			public const int bottom_sheet_fragment_container = 2131493078;
+			// aapt resource value: 0x7f0c0075
+			public const int bottomRight = 2131492981;
 			
-			// aapt resource value: 0x7f0c00d2
-			public const int brightness_slider = 2131493074;
+			// aapt resource value: 0x7f0c00ec
+			public const int bottom_sheet = 2131493100;
 			
-			// aapt resource value: 0x7f0c00d1
-			public const int brightness_slider_container = 2131493073;
+			// aapt resource value: 0x7f0c00ee
+			public const int bottom_sheet_fragment_container = 2131493102;
 			
-			// aapt resource value: 0x7f0c00d5
-			public const int bs_thumb = 2131493077;
+			// aapt resource value: 0x7f0c00ea
+			public const int brightness_slider = 2131493098;
 			
-			// aapt resource value: 0x7f0c00b6
-			public const int button = 2131493046;
+			// aapt resource value: 0x7f0c00e9
+			public const int brightness_slider_container = 2131493097;
 			
-			// aapt resource value: 0x7f0c0081
-			public const int buttonPanel = 2131492993;
+			// aapt resource value: 0x7f0c00ed
+			public const int bs_thumb = 2131493101;
 			
-			// aapt resource value: 0x7f0c00b5
-			public const int button_background = 2131493045;
+			// aapt resource value: 0x7f0c00ad
+			public const int button = 2131493037;
 			
-			// aapt resource value: 0x7f0c010e
-			public const int button_ripple = 2131493134;
+			// aapt resource value: 0x7f0c0085
+			public const int buttonPanel = 2131492997;
 			
-			// aapt resource value: 0x7f0c00e8
-			public const int cancel_action = 2131493096;
-			
-			// aapt resource value: 0x7f0c00fb
-			public const int card = 2131493115;
-			
-			// aapt resource value: 0x7f0c0102
-			public const int card_alert = 2131493122;
-			
-			// aapt resource value: 0x7f0c0105
-			public const int card_alert_description = 2131493125;
-			
-			// aapt resource value: 0x7f0c0103
-			public const int card_alert_time = 2131493123;
+			// aapt resource value: 0x7f0c0127
+			public const int button_ripple = 2131493159;
 			
 			// aapt resource value: 0x7f0c0101
-			public const int card_icon = 2131493121;
+			public const int cancel_action = 2131493121;
 			
-			// aapt resource value: 0x7f0c0106
-			public const int card_loading = 2131493126;
+			// aapt resource value: 0x7f0c0114
+			public const int card = 2131493140;
 			
-			// aapt resource value: 0x7f0c00fd
-			public const int card_map = 2131493117;
+			// aapt resource value: 0x7f0c011b
+			public const int card_alert = 2131493147;
 			
-			// aapt resource value: 0x7f0c00fc
-			public const int card_map_container = 2131493116;
+			// aapt resource value: 0x7f0c011e
+			public const int card_alert_description = 2131493150;
 			
-			// aapt resource value: 0x7f0c010c
-			public const int card_ripple = 2131493132;
+			// aapt resource value: 0x7f0c011c
+			public const int card_alert_time = 2131493148;
 			
-			// aapt resource value: 0x7f0c00ff
-			public const int card_seperator = 2131493119;
+			// aapt resource value: 0x7f0c011a
+			public const int card_icon = 2131493146;
 			
-			// aapt resource value: 0x7f0c0100
-			public const int card_title_container = 2131493120;
+			// aapt resource value: 0x7f0c011f
+			public const int card_loading = 2131493151;
+			
+			// aapt resource value: 0x7f0c0116
+			public const int card_map = 2131493142;
+			
+			// aapt resource value: 0x7f0c0115
+			public const int card_map_container = 2131493141;
+			
+			// aapt resource value: 0x7f0c0125
+			public const int card_ripple = 2131493157;
+			
+			// aapt resource value: 0x7f0c0118
+			public const int card_seperator = 2131493144;
+			
+			// aapt resource value: 0x7f0c0119
+			public const int card_title_container = 2131493145;
 			
 			// aapt resource value: 0x7f0c004f
 			public const int center = 2131492943;
@@ -5482,11 +6091,68 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0069
 			public const int chains = 2131492969;
 			
-			// aapt resource value: 0x7f0c0091
-			public const int checkbox = 2131493009;
+			// aapt resource value: 0x7f0c00c0
+			public const int chat_area = 2131493056;
 			
-			// aapt resource value: 0x7f0c00f0
-			public const int chronometer = 2131493104;
+			// aapt resource value: 0x7f0c00bf
+			public const int chat_area_title = 2131493055;
+			
+			// aapt resource value: 0x7f0c00b0
+			public const int chat_avatar = 2131493040;
+			
+			// aapt resource value: 0x7f0c00be
+			public const int chat_button_list = 2131493054;
+			
+			// aapt resource value: 0x7f0c00b8
+			public const int chat_fragment_holder = 2131493048;
+			
+			// aapt resource value: 0x7f0c00b3
+			public const int chat_icon = 2131493043;
+			
+			// aapt resource value: 0x7f0c00b5
+			public const int chat_indicator_holder = 2131493045;
+			
+			// aapt resource value: 0x7f0c00b6
+			public const int chat_indicator_icon = 2131493046;
+			
+			// aapt resource value: 0x7f0c00b7
+			public const int chat_indicator_text = 2131493047;
+			
+			// aapt resource value: 0x7f0c00bc
+			public const int chat_input = 2131493052;
+			
+			// aapt resource value: 0x7f0c00ba
+			public const int chat_input_holder = 2131493050;
+			
+			// aapt resource value: 0x7f0c00bd
+			public const int chat_input_seperator = 2131493053;
+			
+			// aapt resource value: 0x7f0c00b9
+			public const int chat_layout_holder = 2131493049;
+			
+			// aapt resource value: 0x7f0c00af
+			public const int chat_margin = 2131493039;
+			
+			// aapt resource value: 0x7f0c00b2
+			public const int chat_text = 2131493042;
+			
+			// aapt resource value: 0x7f0c00b1
+			public const int chat_tick = 2131493041;
+			
+			// aapt resource value: 0x7f0c00b4
+			public const int chat_title = 2131493044;
+			
+			// aapt resource value: 0x7f0c0095
+			public const int checkbox = 2131493013;
+			
+			// aapt resource value: 0x7f0c0109
+			public const int chronometer = 2131493129;
+			
+			// aapt resource value: 0x7f0c00ce
+			public const int cib_button = 2131493070;
+			
+			// aapt resource value: 0x7f0c00cd
+			public const int cib_button_background = 2131493069;
 			
 			// aapt resource value: 0x7f0c0058
 			public const int clip_horizontal = 2131492952;
@@ -5497,47 +6163,47 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0044
 			public const int collapseActionView = 2131492932;
 			
-			// aapt resource value: 0x7f0c00bc
-			public const int container = 2131493052;
+			// aapt resource value: 0x7f0c00d4
+			public const int container = 2131493076;
 			
-			// aapt resource value: 0x7f0c0084
-			public const int contentPanel = 2131492996;
+			// aapt resource value: 0x7f0c0088
+			public const int contentPanel = 2131493000;
 			
-			// aapt resource value: 0x7f0c00d0
-			public const int content_container = 2131493072;
+			// aapt resource value: 0x7f0c00e8
+			public const int content_container = 2131493096;
 			
-			// aapt resource value: 0x7f0c00bd
-			public const int coordinator = 2131493053;
+			// aapt resource value: 0x7f0c00d5
+			public const int coordinator = 2131493077;
 			
-			// aapt resource value: 0x7f0c008b
-			public const int custom = 2131493003;
+			// aapt resource value: 0x7f0c008f
+			public const int custom = 2131493007;
 			
-			// aapt resource value: 0x7f0c008a
-			public const int customPanel = 2131493002;
+			// aapt resource value: 0x7f0c008e
+			public const int customPanel = 2131493006;
 			
 			// aapt resource value: 0x7f0c0028
 			public const int dark = 2131492904;
 			
-			// aapt resource value: 0x7f0c0098
-			public const int decor_content_parent = 2131493016;
+			// aapt resource value: 0x7f0c009c
+			public const int decor_content_parent = 2131493020;
 			
-			// aapt resource value: 0x7f0c007e
-			public const int default_activity_button = 2131492990;
+			// aapt resource value: 0x7f0c0082
+			public const int default_activity_button = 2131492994;
 			
-			// aapt resource value: 0x7f0c00bf
-			public const int design_bottom_sheet = 2131493055;
+			// aapt resource value: 0x7f0c00d7
+			public const int design_bottom_sheet = 2131493079;
 			
-			// aapt resource value: 0x7f0c00c6
-			public const int design_menu_item_action_area = 2131493062;
+			// aapt resource value: 0x7f0c00de
+			public const int design_menu_item_action_area = 2131493086;
 			
-			// aapt resource value: 0x7f0c00c5
-			public const int design_menu_item_action_area_stub = 2131493061;
+			// aapt resource value: 0x7f0c00dd
+			public const int design_menu_item_action_area_stub = 2131493085;
 			
-			// aapt resource value: 0x7f0c00c4
-			public const int design_menu_item_text = 2131493060;
+			// aapt resource value: 0x7f0c00dc
+			public const int design_menu_item_text = 2131493084;
 			
-			// aapt resource value: 0x7f0c00c3
-			public const int design_navigation_view = 2131493059;
+			// aapt resource value: 0x7f0c00db
+			public const int design_navigation_view = 2131493083;
 			
 			// aapt resource value: 0x7f0c006a
 			public const int dimensions = 2131492970;
@@ -5548,17 +6214,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c002c
 			public const int disableHome = 2131492908;
 			
-			// aapt resource value: 0x7f0c00c8
-			public const int drawer_layout = 2131493064;
+			// aapt resource value: 0x7f0c00e0
+			public const int drawer_layout = 2131493088;
 			
-			// aapt resource value: 0x7f0c009c
-			public const int edit_query = 2131493020;
+			// aapt resource value: 0x7f0c00a0
+			public const int edit_query = 2131493024;
 			
 			// aapt resource value: 0x7f0c003b
 			public const int end = 2131492923;
 			
-			// aapt resource value: 0x7f0c00f6
-			public const int end_padder = 2131493110;
+			// aapt resource value: 0x7f0c010f
+			public const int end_padder = 2131493135;
 			
 			// aapt resource value: 0x7f0c004a
 			public const int enterAlways = 2131492938;
@@ -5566,38 +6232,38 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c004b
 			public const int enterAlwaysCollapsed = 2131492939;
 			
-			// aapt resource value: 0x7f0c00fa
-			public const int event_carousel = 2131493114;
+			// aapt resource value: 0x7f0c0113
+			public const int event_carousel = 2131493139;
 			
-			// aapt resource value: 0x7f0c00f9
-			public const int event_carousel_container = 2131493113;
+			// aapt resource value: 0x7f0c0112
+			public const int event_carousel_container = 2131493138;
 			
-			// aapt resource value: 0x7f0c00b2
-			public const int event_count = 2131493042;
+			// aapt resource value: 0x7f0c00ca
+			public const int event_count = 2131493066;
 			
-			// aapt resource value: 0x7f0c00f8
-			public const int event_gauge = 2131493112;
+			// aapt resource value: 0x7f0c0111
+			public const int event_gauge = 2131493137;
 			
-			// aapt resource value: 0x7f0c00f7
-			public const int event_guage_container = 2131493111;
+			// aapt resource value: 0x7f0c0110
+			public const int event_guage_container = 2131493136;
 			
-			// aapt resource value: 0x7f0c00b3
-			public const int event_icon = 2131493043;
+			// aapt resource value: 0x7f0c00cb
+			public const int event_icon = 2131493067;
 			
-			// aapt resource value: 0x7f0c00b0
-			public const int event_indicator = 2131493040;
+			// aapt resource value: 0x7f0c00c8
+			public const int event_indicator = 2131493064;
 			
-			// aapt resource value: 0x7f0c00b4
-			public const int event_label = 2131493044;
+			// aapt resource value: 0x7f0c00cc
+			public const int event_label = 2131493068;
 			
 			// aapt resource value: 0x7f0c004c
 			public const int exitUntilCollapsed = 2131492940;
 			
-			// aapt resource value: 0x7f0c007c
-			public const int expand_activities_button = 2131492988;
+			// aapt resource value: 0x7f0c0080
+			public const int expand_activities_button = 2131492992;
 			
-			// aapt resource value: 0x7f0c0090
-			public const int expanded_menu = 2131493008;
+			// aapt resource value: 0x7f0c0094
+			public const int expanded_menu = 2131493012;
 			
 			// aapt resource value: 0x7f0c005a
 			public const int fill = 2131492954;
@@ -5629,11 +6295,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c001d
 			public const int hybrid = 2131492893;
 			
-			// aapt resource value: 0x7f0c0080
-			public const int icon = 2131492992;
+			// aapt resource value: 0x7f0c0084
+			public const int icon = 2131492996;
 			
-			// aapt resource value: 0x7f0c00f5
-			public const int icon_group = 2131493109;
+			// aapt resource value: 0x7f0c010e
+			public const int icon_group = 2131493134;
 			
 			// aapt resource value: 0x7f0c0024
 			public const int icon_only = 2131492900;
@@ -5641,17 +6307,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0045
 			public const int ifRoom = 2131492933;
 			
-			// aapt resource value: 0x7f0c007d
-			public const int image = 2131492989;
+			// aapt resource value: 0x7f0c0081
+			public const int image = 2131492993;
 			
-			// aapt resource value: 0x7f0c00da
-			public const int img_profile = 2131493082;
+			// aapt resource value: 0x7f0c00f2
+			public const int img_profile = 2131493106;
 			
-			// aapt resource value: 0x7f0c00f1
-			public const int info = 2131493105;
+			// aapt resource value: 0x7f0c010a
+			public const int info = 2131493130;
 			
-			// aapt resource value: 0x7f0c00b1
-			public const int info_holder = 2131493041;
+			// aapt resource value: 0x7f0c00c9
+			public const int info_holder = 2131493065;
 			
 			// aapt resource value: 0x7f0c0061
 			public const int invisible = 2131492961;
@@ -5662,8 +6328,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0000
 			public const int item_touch_helper_previous_elevation = 2131492864;
 			
-			// aapt resource value: 0x7f0c00bb
-			public const int largeLabel = 2131493051;
+			// aapt resource value: 0x7f0c00ae
+			public const int label = 2131493038;
+			
+			// aapt resource value: 0x7f0c00d3
+			public const int largeLabel = 2131493075;
 			
 			// aapt resource value: 0x7f0c0053
 			public const int left = 2131492947;
@@ -5680,26 +6349,26 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c002a
 			public const int listMode = 2131492906;
 			
-			// aapt resource value: 0x7f0c007f
-			public const int list_item = 2131492991;
+			// aapt resource value: 0x7f0c0083
+			public const int list_item = 2131492995;
 			
-			// aapt resource value: 0x7f0c0109
-			public const int login_activity = 2131493129;
+			// aapt resource value: 0x7f0c0122
+			public const int login_activity = 2131493154;
 			
-			// aapt resource value: 0x7f0c010a
-			public const int login_msg = 2131493130;
+			// aapt resource value: 0x7f0c0123
+			public const int login_msg = 2131493155;
 			
-			// aapt resource value: 0x7f0c0107
-			public const int login_screen = 2131493127;
+			// aapt resource value: 0x7f0c0120
+			public const int login_screen = 2131493152;
 			
-			// aapt resource value: 0x7f0c0111
-			public const int masked = 2131493137;
+			// aapt resource value: 0x7f0c012a
+			public const int masked = 2131493162;
 			
-			// aapt resource value: 0x7f0c00ea
-			public const int media_actions = 2131493098;
+			// aapt resource value: 0x7f0c0103
+			public const int media_actions = 2131493123;
 			
-			// aapt resource value: 0x7f0c010b
-			public const int message = 2131493131;
+			// aapt resource value: 0x7f0c0124
+			public const int message = 2131493156;
 			
 			// aapt resource value: 0x7f0c003c
 			public const int middle = 2131492924;
@@ -5710,59 +6379,59 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0070
 			public const int monospace = 2131492976;
 			
-			// aapt resource value: 0x7f0c00d3
-			public const int moon = 2131493075;
+			// aapt resource value: 0x7f0c00eb
+			public const int moon = 2131493099;
 			
-			// aapt resource value: 0x7f0c0104
-			public const int more_info_btn = 2131493124;
+			// aapt resource value: 0x7f0c011d
+			public const int more_info_btn = 2131493149;
 			
 			// aapt resource value: 0x7f0c0033
 			public const int multiply = 2131492915;
 			
-			// aapt resource value: 0x7f0c00dd
-			public const int name = 2131493085;
-			
-			// aapt resource value: 0x7f0c00ca
-			public const int nav_appbar = 2131493066;
-			
-			// aapt resource value: 0x7f0c00c9
-			public const int nav_coordinator_content = 2131493065;
-			
-			// aapt resource value: 0x7f0c00d9
-			public const int nav_header = 2131493081;
-			
-			// aapt resource value: 0x7f0c00db
-			public const int nav_list = 2131493083;
-			
-			// aapt resource value: 0x7f0c00de
-			public const int nav_menu = 2131493086;
-			
-			// aapt resource value: 0x7f0c00cb
-			public const int nav_toolbar = 2131493067;
-			
-			// aapt resource value: 0x7f0c00d7
-			public const int nav_view = 2131493079;
-			
-			// aapt resource value: 0x7f0c00d8
-			public const int nav_wrapper = 2131493080;
-			
-			// aapt resource value: 0x7f0c00c2
-			public const int navigation_header_container = 2131493058;
-			
-			// aapt resource value: 0x7f0c00df
-			public const int navlistgroup_image = 2131493087;
-			
-			// aapt resource value: 0x7f0c00e1
-			public const int navlistgroup_indicator = 2131493089;
-			
-			// aapt resource value: 0x7f0c00e0
-			public const int navlistgroup_text = 2131493088;
+			// aapt resource value: 0x7f0c00f6
+			public const int name = 2131493110;
 			
 			// aapt resource value: 0x7f0c00e2
-			public const int navlistitem_image = 2131493090;
+			public const int nav_appbar = 2131493090;
+			
+			// aapt resource value: 0x7f0c00e1
+			public const int nav_coordinator_content = 2131493089;
+			
+			// aapt resource value: 0x7f0c00f1
+			public const int nav_header = 2131493105;
+			
+			// aapt resource value: 0x7f0c00f4
+			public const int nav_list = 2131493108;
+			
+			// aapt resource value: 0x7f0c00f7
+			public const int nav_menu = 2131493111;
 			
 			// aapt resource value: 0x7f0c00e3
-			public const int navlistitem_text = 2131493091;
+			public const int nav_toolbar = 2131493091;
+			
+			// aapt resource value: 0x7f0c00ef
+			public const int nav_view = 2131493103;
+			
+			// aapt resource value: 0x7f0c00f0
+			public const int nav_wrapper = 2131493104;
+			
+			// aapt resource value: 0x7f0c00da
+			public const int navigation_header_container = 2131493082;
+			
+			// aapt resource value: 0x7f0c00f8
+			public const int navlistgroup_image = 2131493112;
+			
+			// aapt resource value: 0x7f0c00fa
+			public const int navlistgroup_indicator = 2131493114;
+			
+			// aapt resource value: 0x7f0c00f9
+			public const int navlistgroup_text = 2131493113;
+			
+			// aapt resource value: 0x7f0c00fb
+			public const int navlistitem_image = 2131493115;
+			
+			// aapt resource value: 0x7f0c00fc
+			public const int navlistitem_text = 2131493116;
 			
 			// aapt resource value: 0x7f0c0046
 			public const int never = 2131492934;
@@ -5773,20 +6442,20 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c001f
 			public const int normal = 2131492895;
 			
-			// aapt resource value: 0x7f0c00f3
-			public const int notification_background = 2131493107;
+			// aapt resource value: 0x7f0c010c
+			public const int notification_background = 2131493132;
 			
-			// aapt resource value: 0x7f0c00ed
-			public const int notification_main_column = 2131493101;
+			// aapt resource value: 0x7f0c0106
+			public const int notification_main_column = 2131493126;
 			
-			// aapt resource value: 0x7f0c00ec
-			public const int notification_main_column_container = 2131493100;
+			// aapt resource value: 0x7f0c0105
+			public const int notification_main_column_container = 2131493125;
 			
 			// aapt resource value: 0x7f0c0066
 			public const int packed = 2131492966;
 			
-			// aapt resource value: 0x7f0c00cf
-			public const int page_container = 2131493071;
+			// aapt resource value: 0x7f0c00e7
+			public const int page_container = 2131493095;
 			
 			// aapt resource value: 0x7f0c0056
 			public const int parallax = 2131492950;
@@ -5794,8 +6463,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0062
 			public const int parent = 2131492962;
 			
-			// aapt resource value: 0x7f0c0083
-			public const int parentPanel = 2131492995;
+			// aapt resource value: 0x7f0c0087
+			public const int parentPanel = 2131492999;
 			
 			// aapt resource value: 0x7f0c000b
 			public const int parent_matrix = 2131492875;
@@ -5806,17 +6475,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0057
 			public const int pin = 2131492951;
 			
-			// aapt resource value: 0x7f0c00b7
-			public const int profile_background = 2131493047;
+			// aapt resource value: 0x7f0c00cf
+			public const int profile_background = 2131493071;
 			
-			// aapt resource value: 0x7f0c00b8
-			public const int profile_image = 2131493048;
+			// aapt resource value: 0x7f0c00d0
+			public const int profile_image = 2131493072;
 			
-			// aapt resource value: 0x7f0c00b9
-			public const int profile_initials = 2131493049;
+			// aapt resource value: 0x7f0c00d1
+			public const int profile_initials = 2131493073;
 			
-			// aapt resource value: 0x7f0c00ab
-			public const int profile_name = 2131493035;
+			// aapt resource value: 0x7f0c00f3
+			public const int profile_name = 2131493107;
 			
 			// aapt resource value: 0x7f0c0006
 			public const int progress_circular = 2131492870;
@@ -5824,38 +6493,38 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0007
 			public const int progress_horizontal = 2131492871;
 			
-			// aapt resource value: 0x7f0c0112
-			public const int pulloutShape = 2131493138;
+			// aapt resource value: 0x7f0c012b
+			public const int pulloutShape = 2131493163;
 			
-			// aapt resource value: 0x7f0c00ac
-			public const int qc_activity = 2131493036;
+			// aapt resource value: 0x7f0c00c4
+			public const int qc_activity = 2131493060;
 			
-			// aapt resource value: 0x7f0c00aa
-			public const int qc_emergency = 2131493034;
+			// aapt resource value: 0x7f0c00c2
+			public const int qc_emergency = 2131493058;
 			
-			// aapt resource value: 0x7f0c00ae
-			public const int qc_safe = 2131493038;
+			// aapt resource value: 0x7f0c00c6
+			public const int qc_safe = 2131493062;
 			
-			// aapt resource value: 0x7f0c00a9
-			public const int quick_chat_holder = 2131493033;
+			// aapt resource value: 0x7f0c00c1
+			public const int quick_chat_holder = 2131493057;
 			
-			// aapt resource value: 0x7f0c0093
-			public const int radio = 2131493011;
+			// aapt resource value: 0x7f0c0097
+			public const int radio = 2131493015;
 			
 			// aapt resource value: 0x7f0c0054
 			public const int right = 2131492948;
 			
-			// aapt resource value: 0x7f0c00f2
-			public const int right_icon = 2131493106;
+			// aapt resource value: 0x7f0c010b
+			public const int right_icon = 2131493131;
 			
-			// aapt resource value: 0x7f0c00ee
-			public const int right_side = 2131493102;
+			// aapt resource value: 0x7f0c0107
+			public const int right_side = 2131493127;
 			
-			// aapt resource value: 0x7f0c010d
-			public const int ring = 2131493133;
+			// aapt resource value: 0x7f0c0126
+			public const int ring = 2131493158;
 			
-			// aapt resource value: 0x7f0c00fe
-			public const int ripple = 2131493118;
+			// aapt resource value: 0x7f0c0117
+			public const int ripple = 2131493143;
 			
 			// aapt resource value: 0x7f0c0071
 			public const int sans = 2131492977;
@@ -5872,11 +6541,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c000e
 			public const int save_scale_type = 2131492878;
 			
-			// aapt resource value: 0x7f0c00ad
-			public const int sc_activity_name = 2131493037;
+			// aapt resource value: 0x7f0c00c5
+			public const int sc_activity_name = 2131493061;
 			
-			// aapt resource value: 0x7f0c00af
-			public const int sc_safe_name = 2131493039;
+			// aapt resource value: 0x7f0c00c3
+			public const int sc_emergency = 2131493059;
+			
+			// aapt resource value: 0x7f0c00c7
+			public const int sc_safe_name = 2131493063;
 			
 			// aapt resource value: 0x7f0c0034
 			public const int screen = 2131492916;
@@ -5884,56 +6556,59 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c004d
 			public const int scroll = 2131492941;
 			
+			// aapt resource value: 0x7f0c008d
+			public const int scrollIndicatorDown = 2131493005;
+			
 			// aapt resource value: 0x7f0c0089
-			public const int scrollIndicatorDown = 2131493001;
+			public const int scrollIndicatorUp = 2131493001;
 			
-			// aapt resource value: 0x7f0c0085
-			public const int scrollIndicatorUp = 2131492997;
-			
-			// aapt resource value: 0x7f0c0086
-			public const int scrollView = 2131492998;
+			// aapt resource value: 0x7f0c008a
+			public const int scrollView = 2131493002;
 			
 			// aapt resource value: 0x7f0c005f
 			public const int scrollable = 2131492959;
 			
-			// aapt resource value: 0x7f0c009e
-			public const int search_badge = 2131493022;
-			
-			// aapt resource value: 0x7f0c009d
-			public const int search_bar = 2131493021;
-			
-			// aapt resource value: 0x7f0c009f
-			public const int search_button = 2131493023;
-			
-			// aapt resource value: 0x7f0c00a4
-			public const int search_close_btn = 2131493028;
-			
-			// aapt resource value: 0x7f0c00a0
-			public const int search_edit_frame = 2131493024;
-			
-			// aapt resource value: 0x7f0c00a6
-			public const int search_go_btn = 2131493030;
+			// aapt resource value: 0x7f0c00a2
+			public const int search_badge = 2131493026;
 			
 			// aapt resource value: 0x7f0c00a1
-			public const int search_mag_icon = 2131493025;
-			
-			// aapt resource value: 0x7f0c00a2
-			public const int search_plate = 2131493026;
+			public const int search_bar = 2131493025;
 			
 			// aapt resource value: 0x7f0c00a3
-			public const int search_src_text = 2131493027;
-			
-			// aapt resource value: 0x7f0c00a7
-			public const int search_voice_btn = 2131493031;
+			public const int search_button = 2131493027;
 			
 			// aapt resource value: 0x7f0c00a8
-			public const int select_dialog_listview = 2131493032;
+			public const int search_close_btn = 2131493032;
+			
+			// aapt resource value: 0x7f0c00a4
+			public const int search_edit_frame = 2131493028;
+			
+			// aapt resource value: 0x7f0c00aa
+			public const int search_go_btn = 2131493034;
+			
+			// aapt resource value: 0x7f0c00a5
+			public const int search_mag_icon = 2131493029;
+			
+			// aapt resource value: 0x7f0c00a6
+			public const int search_plate = 2131493030;
+			
+			// aapt resource value: 0x7f0c00a7
+			public const int search_src_text = 2131493031;
+			
+			// aapt resource value: 0x7f0c00ab
+			public const int search_voice_btn = 2131493035;
+			
+			// aapt resource value: 0x7f0c00ac
+			public const int select_dialog_listview = 2131493036;
+			
+			// aapt resource value: 0x7f0c00bb
+			public const int send_button = 2131493051;
 			
 			// aapt resource value: 0x7f0c0072
 			public const int serif = 2131492978;
 			
-			// aapt resource value: 0x7f0c0092
-			public const int shortcut = 2131493010;
+			// aapt resource value: 0x7f0c0096
+			public const int shortcut = 2131493014;
 			
 			// aapt resource value: 0x7f0c002e
 			public const int showCustom = 2131492910;
@@ -5944,23 +6619,23 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0030
 			public const int showTitle = 2131492912;
 			
-			// aapt resource value: 0x7f0c0108
-			public const int signin_button = 2131493128;
+			// aapt resource value: 0x7f0c0121
+			public const int signin_button = 2131493153;
 			
-			// aapt resource value: 0x7f0c00ba
-			public const int smallLabel = 2131493050;
+			// aapt resource value: 0x7f0c00d2
+			public const int smallLabel = 2131493074;
 			
-			// aapt resource value: 0x7f0c00c1
-			public const int snackbar_action = 2131493057;
+			// aapt resource value: 0x7f0c00d9
+			public const int snackbar_action = 2131493081;
 			
-			// aapt resource value: 0x7f0c00c0
-			public const int snackbar_text = 2131493056;
+			// aapt resource value: 0x7f0c00d8
+			public const int snackbar_text = 2131493080;
 			
 			// aapt resource value: 0x7f0c004e
 			public const int snap = 2131492942;
 			
-			// aapt resource value: 0x7f0c0082
-			public const int spacer = 2131492994;
+			// aapt resource value: 0x7f0c0086
+			public const int spacer = 2131492998;
 			
 			// aapt resource value: 0x7f0c0008
 			public const int split_action_bar = 2131492872;
@@ -5986,26 +6661,26 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0055
 			public const int start = 2131492949;
 			
-			// aapt resource value: 0x7f0c0074
-			public const int stateAnchorPoint = 2131492980;
+			// aapt resource value: 0x7f0c0078
+			public const int stateAnchorPoint = 2131492984;
 			
-			// aapt resource value: 0x7f0c0075
-			public const int stateCollapsed = 2131492981;
+			// aapt resource value: 0x7f0c0079
+			public const int stateCollapsed = 2131492985;
 			
-			// aapt resource value: 0x7f0c0076
-			public const int stateExpanded = 2131492982;
+			// aapt resource value: 0x7f0c007a
+			public const int stateExpanded = 2131492986;
 			
-			// aapt resource value: 0x7f0c0077
-			public const int stateHidden = 2131492983;
+			// aapt resource value: 0x7f0c007b
+			public const int stateHidden = 2131492987;
 			
-			// aapt resource value: 0x7f0c00e9
-			public const int status_bar_latest_event_content = 2131493097;
+			// aapt resource value: 0x7f0c0102
+			public const int status_bar_latest_event_content = 2131493122;
 			
-			// aapt resource value: 0x7f0c0094
-			public const int submenuarrow = 2131493012;
+			// aapt resource value: 0x7f0c0098
+			public const int submenuarrow = 2131493016;
 			
-			// aapt resource value: 0x7f0c00a5
-			public const int submit_area = 2131493029;
+			// aapt resource value: 0x7f0c00a9
+			public const int submit_area = 2131493033;
 			
 			// aapt resource value: 0x7f0c002b
 			public const int tabMode = 2131492907;
@@ -6022,14 +6697,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c001b
 			public const int text2 = 2131492891;
 			
-			// aapt resource value: 0x7f0c0088
-			public const int textSpacerNoButtons = 2131493000;
+			// aapt resource value: 0x7f0c008c
+			public const int textSpacerNoButtons = 2131493004;
 			
-			// aapt resource value: 0x7f0c0087
-			public const int textSpacerNoTitle = 2131492999;
+			// aapt resource value: 0x7f0c008b
+			public const int textSpacerNoTitle = 2131493003;
 			
-			// aapt resource value: 0x7f0c00c7
-			public const int text_input_password_toggle = 2131493063;
+			// aapt resource value: 0x7f0c00df
+			public const int text_input_password_toggle = 2131493087;
 			
 			// aapt resource value: 0x7f0c0014
 			public const int textinput_counter = 2131492884;
@@ -6037,38 +6712,44 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0015
 			public const int textinput_error = 2131492885;
 			
-			// aapt resource value: 0x7f0c0113
-			public const int thumbShape = 2131493139;
+			// aapt resource value: 0x7f0c012c
+			public const int thumbShape = 2131493164;
 			
-			// aapt resource value: 0x7f0c00ef
-			public const int time = 2131493103;
+			// aapt resource value: 0x7f0c0108
+			public const int time = 2131493128;
 			
 			// aapt resource value: 0x7f0c001c
 			public const int title = 2131492892;
 			
-			// aapt resource value: 0x7f0c008f
-			public const int titleDividerNoCustom = 2131493007;
+			// aapt resource value: 0x7f0c0093
+			public const int titleDividerNoCustom = 2131493011;
 			
-			// aapt resource value: 0x7f0c008d
-			public const int title_template = 2131493005;
+			// aapt resource value: 0x7f0c0091
+			public const int title_template = 2131493009;
 			
-			// aapt resource value: 0x7f0c00ce
-			public const int toolbar_subtitle = 2131493070;
+			// aapt resource value: 0x7f0c00e6
+			public const int toolbar_subtitle = 2131493094;
 			
-			// aapt resource value: 0x7f0c00cd
-			public const int toolbar_title = 2131493069;
+			// aapt resource value: 0x7f0c00e5
+			public const int toolbar_title = 2131493093;
 			
-			// aapt resource value: 0x7f0c00cc
-			public const int toolbar_title_wrapper = 2131493068;
+			// aapt resource value: 0x7f0c00e4
+			public const int toolbar_title_wrapper = 2131493092;
 			
 			// aapt resource value: 0x7f0c0049
 			public const int top = 2131492937;
 			
-			// aapt resource value: 0x7f0c008c
-			public const int topPanel = 2131493004;
+			// aapt resource value: 0x7f0c0076
+			public const int topLeft = 2131492982;
 			
-			// aapt resource value: 0x7f0c00be
-			public const int touch_outside = 2131493054;
+			// aapt resource value: 0x7f0c0090
+			public const int topPanel = 2131493008;
+			
+			// aapt resource value: 0x7f0c0077
+			public const int topRight = 2131492983;
+			
+			// aapt resource value: 0x7f0c00d6
+			public const int touch_outside = 2131493078;
 			
 			// aapt resource value: 0x7f0c000f
 			public const int transition_current_scene = 2131492879;
@@ -6094,14 +6775,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0031
 			public const int useLogo = 2131492913;
 			
-			// aapt resource value: 0x7f0c00dc
-			public const int view_container = 2131493084;
+			// aapt resource value: 0x7f0c00f5
+			public const int view_container = 2131493109;
 			
 			// aapt resource value: 0x7f0c0016
 			public const int view_offset_helper = 2131492886;
 			
-			// aapt resource value: 0x7f0c0110
-			public const int visible = 2131493136;
+			// aapt resource value: 0x7f0c0129
+			public const int visible = 2131493161;
 			
 			// aapt resource value: 0x7f0c0026
 			public const int wide = 2131492902;
@@ -6253,151 +6934,160 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int abc_select_dialog_material = 2131034137;
 			
 			// aapt resource value: 0x7f05001a
-			public const int chat_fragment = 2131034138;
+			public const int chat_button_cell = 2131034138;
 			
 			// aapt resource value: 0x7f05001b
-			public const int circular_event_gauge = 2131034139;
+			public const int chat_cell_rx = 2131034139;
 			
 			// aapt resource value: 0x7f05001c
-			public const int circular_image_button = 2131034140;
+			public const int chat_cell_tx = 2131034140;
 			
 			// aapt resource value: 0x7f05001d
-			public const int circular_profile_view = 2131034141;
+			public const int chat_fragment = 2131034141;
 			
 			// aapt resource value: 0x7f05001e
-			public const int design_bottom_navigation_item = 2131034142;
+			public const int circular_event_gauge = 2131034142;
 			
 			// aapt resource value: 0x7f05001f
-			public const int design_bottom_sheet_dialog = 2131034143;
+			public const int circular_image_button = 2131034143;
 			
 			// aapt resource value: 0x7f050020
-			public const int design_layout_snackbar = 2131034144;
+			public const int circular_profile_view = 2131034144;
 			
 			// aapt resource value: 0x7f050021
-			public const int design_layout_snackbar_include = 2131034145;
+			public const int design_bottom_navigation_item = 2131034145;
 			
 			// aapt resource value: 0x7f050022
-			public const int design_layout_tab_icon = 2131034146;
+			public const int design_bottom_sheet_dialog = 2131034146;
 			
 			// aapt resource value: 0x7f050023
-			public const int design_layout_tab_text = 2131034147;
+			public const int design_layout_snackbar = 2131034147;
 			
 			// aapt resource value: 0x7f050024
-			public const int design_menu_item_action_area = 2131034148;
+			public const int design_layout_snackbar_include = 2131034148;
 			
 			// aapt resource value: 0x7f050025
-			public const int design_navigation_item = 2131034149;
+			public const int design_layout_tab_icon = 2131034149;
 			
 			// aapt resource value: 0x7f050026
-			public const int design_navigation_item_header = 2131034150;
+			public const int design_layout_tab_text = 2131034150;
 			
 			// aapt resource value: 0x7f050027
-			public const int design_navigation_item_separator = 2131034151;
+			public const int design_menu_item_action_area = 2131034151;
 			
 			// aapt resource value: 0x7f050028
-			public const int design_navigation_item_subheader = 2131034152;
+			public const int design_navigation_item = 2131034152;
 			
 			// aapt resource value: 0x7f050029
-			public const int design_navigation_menu = 2131034153;
+			public const int design_navigation_item_header = 2131034153;
 			
 			// aapt resource value: 0x7f05002a
-			public const int design_navigation_menu_item = 2131034154;
+			public const int design_navigation_item_separator = 2131034154;
 			
 			// aapt resource value: 0x7f05002b
-			public const int design_text_input_password_icon = 2131034155;
+			public const int design_navigation_item_subheader = 2131034155;
 			
 			// aapt resource value: 0x7f05002c
-			public const int main_activity = 2131034156;
+			public const int design_navigation_menu = 2131034156;
 			
 			// aapt resource value: 0x7f05002d
-			public const int main_drawer_header = 2131034157;
+			public const int design_navigation_menu_item = 2131034157;
 			
 			// aapt resource value: 0x7f05002e
-			public const int nav_list = 2131034158;
+			public const int design_text_input_password_icon = 2131034158;
 			
 			// aapt resource value: 0x7f05002f
-			public const int nav_list_group = 2131034159;
+			public const int main_activity = 2131034159;
 			
 			// aapt resource value: 0x7f050030
-			public const int nav_list_item = 2131034160;
+			public const int main_drawer_header = 2131034160;
 			
 			// aapt resource value: 0x7f050031
-			public const int notification_action = 2131034161;
+			public const int nav_list = 2131034161;
 			
 			// aapt resource value: 0x7f050032
-			public const int notification_action_tombstone = 2131034162;
+			public const int nav_list_group = 2131034162;
 			
 			// aapt resource value: 0x7f050033
-			public const int notification_media_action = 2131034163;
+			public const int nav_list_item = 2131034163;
 			
 			// aapt resource value: 0x7f050034
-			public const int notification_media_cancel_action = 2131034164;
+			public const int notification_action = 2131034164;
 			
 			// aapt resource value: 0x7f050035
-			public const int notification_template_big_media = 2131034165;
+			public const int notification_action_tombstone = 2131034165;
 			
 			// aapt resource value: 0x7f050036
-			public const int notification_template_big_media_custom = 2131034166;
+			public const int notification_media_action = 2131034166;
 			
 			// aapt resource value: 0x7f050037
-			public const int notification_template_big_media_narrow = 2131034167;
+			public const int notification_media_cancel_action = 2131034167;
 			
 			// aapt resource value: 0x7f050038
-			public const int notification_template_big_media_narrow_custom = 2131034168;
+			public const int notification_template_big_media = 2131034168;
 			
 			// aapt resource value: 0x7f050039
-			public const int notification_template_custom_big = 2131034169;
+			public const int notification_template_big_media_custom = 2131034169;
 			
 			// aapt resource value: 0x7f05003a
-			public const int notification_template_icon_group = 2131034170;
+			public const int notification_template_big_media_narrow = 2131034170;
 			
 			// aapt resource value: 0x7f05003b
-			public const int notification_template_lines_media = 2131034171;
+			public const int notification_template_big_media_narrow_custom = 2131034171;
 			
 			// aapt resource value: 0x7f05003c
-			public const int notification_template_media = 2131034172;
+			public const int notification_template_custom_big = 2131034172;
 			
 			// aapt resource value: 0x7f05003d
-			public const int notification_template_media_custom = 2131034173;
+			public const int notification_template_icon_group = 2131034173;
 			
 			// aapt resource value: 0x7f05003e
-			public const int notification_template_part_chronometer = 2131034174;
+			public const int notification_template_lines_media = 2131034174;
 			
 			// aapt resource value: 0x7f05003f
-			public const int notification_template_part_time = 2131034175;
+			public const int notification_template_media = 2131034175;
 			
 			// aapt resource value: 0x7f050040
-			public const int page_home = 2131034176;
+			public const int notification_template_media_custom = 2131034176;
 			
 			// aapt resource value: 0x7f050041
-			public const int page_notifications = 2131034177;
+			public const int notification_template_part_chronometer = 2131034177;
 			
 			// aapt resource value: 0x7f050042
-			public const int page_profile = 2131034178;
+			public const int notification_template_part_time = 2131034178;
 			
 			// aapt resource value: 0x7f050043
-			public const int page_settings = 2131034179;
+			public const int page_home = 2131034179;
 			
 			// aapt resource value: 0x7f050044
-			public const int response_card = 2131034180;
+			public const int page_notifications = 2131034180;
 			
 			// aapt resource value: 0x7f050045
-			public const int screen_login = 2131034181;
+			public const int page_profile = 2131034181;
 			
 			// aapt resource value: 0x7f050046
-			public const int select_dialog_item_material = 2131034182;
+			public const int page_settings = 2131034182;
 			
 			// aapt resource value: 0x7f050047
-			public const int select_dialog_multichoice_material = 2131034183;
+			public const int response_card = 2131034183;
 			
 			// aapt resource value: 0x7f050048
-			public const int select_dialog_singlechoice_material = 2131034184;
+			public const int screen_login = 2131034184;
 			
 			// aapt resource value: 0x7f050049
-			public const int support_simple_spinner_dropdown_item = 2131034185;
+			public const int select_dialog_item_material = 2131034185;
 			
 			// aapt resource value: 0x7f05004a
-			public const int tooltip = 2131034186;
+			public const int select_dialog_multichoice_material = 2131034186;
+			
+			// aapt resource value: 0x7f05004b
+			public const int select_dialog_singlechoice_material = 2131034187;
+			
+			// aapt resource value: 0x7f05004c
+			public const int support_simple_spinner_dropdown_item = 2131034188;
+			
+			// aapt resource value: 0x7f05004d
+			public const int tooltip = 2131034189;
 			
 			static Layout()
 			{
@@ -6444,8 +7134,8 @@ namespace Edison.Mobile.User.Client.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f09004c
-			public const int _more_info = 2131296332;
+			// aapt resource value: 0x7f090058
+			public const int _more_info = 2131296344;
 			
 			// aapt resource value: 0x7f090013
 			public const int abc_action_bar_home_description = 2131296275;
@@ -6534,23 +7224,38 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090023
 			public const int abc_toolbar_collapse_description = 2131296291;
 			
-			// aapt resource value: 0x7f09003b
-			public const int api_key = 2131296315;
+			// aapt resource value: 0x7f090051
+			public const int active_shooter = 2131296337;
+			
+			// aapt resource value: 0x7f090052
+			public const int air_quality = 2131296338;
+			
+			// aapt resource value: 0x7f09003f
+			public const int api_key = 2131296319;
 			
 			// aapt resource value: 0x7f090012
 			public const int app_name = 2131296274;
 			
-			// aapt resource value: 0x7f090040
-			public const int app_permissions_error = 2131296320;
+			// aapt resource value: 0x7f090044
+			public const int app_permissions_error = 2131296324;
 			
-			// aapt resource value: 0x7f090041
-			public const int app_permissions_error1 = 2131296321;
+			// aapt resource value: 0x7f090045
+			public const int app_permissions_error1 = 2131296325;
 			
-			// aapt resource value: 0x7f090042
-			public const int app_permissions_error2 = 2131296322;
+			// aapt resource value: 0x7f090046
+			public const int app_permissions_error2 = 2131296326;
 			
 			// aapt resource value: 0x7f090031
 			public const int appbar_scrolling_view_behavior = 2131296305;
+			
+			// aapt resource value: 0x7f09003c
+			public const int bottomNavigationViewBehavior = 2131296316;
+			
+			// aapt resource value: 0x7f09003d
+			public const int bottomSheetAboveViewBehavior = 2131296317;
+			
+			// aapt resource value: 0x7f09003b
+			public const int bottomSheetBehavior = 2131296315;
 			
 			// aapt resource value: 0x7f090032
 			public const int bottom_sheet_behavior = 2131296306;
@@ -6609,38 +7314,53 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090010
 			public const int common_signin_button_text_long = 2131296272;
 			
-			// aapt resource value: 0x7f090049
-			public const int emergency = 2131296329;
+			// aapt resource value: 0x7f09004d
+			public const int emergency = 2131296333;
+			
+			// aapt resource value: 0x7f09005d
+			public const int enter_message = 2131296349;
+			
+			// aapt resource value: 0x7f09003e
+			public const int fadeWithBottomSheetBehavior = 2131296318;
 			
 			// aapt resource value: 0x7f090011
 			public const int fcm_fallback_notification_channel_label = 2131296273;
 			
-			// aapt resource value: 0x7f090044
-			public const int home = 2131296324;
+			// aapt resource value: 0x7f090050
+			public const int fire = 2131296336;
 			
-			// aapt resource value: 0x7f09004b
-			public const int im_safe = 2131296331;
+			// aapt resource value: 0x7f090053
+			public const int health_check = 2131296339;
+			
+			// aapt resource value: 0x7f090048
+			public const int home = 2131296328;
+			
+			// aapt resource value: 0x7f09004f
+			public const int im_safe = 2131296335;
 			
 			// aapt resource value: 0x7f09003a
 			public const int library_name = 2131296314;
 			
-			// aapt resource value: 0x7f09003e
-			public const int login_initial_msg = 2131296318;
+			// aapt resource value: 0x7f09005f
+			public const int location_sent = 2131296351;
 			
-			// aapt resource value: 0x7f090045
-			public const int my_info = 2131296325;
+			// aapt resource value: 0x7f090042
+			public const int login_initial_msg = 2131296322;
 			
-			// aapt resource value: 0x7f09003d
-			public const int navigation_drawer_close = 2131296317;
+			// aapt resource value: 0x7f090049
+			public const int my_info = 2131296329;
 			
-			// aapt resource value: 0x7f09003c
-			public const int navigation_drawer_open = 2131296316;
+			// aapt resource value: 0x7f090041
+			public const int navigation_drawer_close = 2131296321;
 			
-			// aapt resource value: 0x7f090050
-			public const int no = 2131296336;
+			// aapt resource value: 0x7f090040
+			public const int navigation_drawer_open = 2131296320;
 			
-			// aapt resource value: 0x7f090046
-			public const int notifications = 2131296326;
+			// aapt resource value: 0x7f09005c
+			public const int no = 2131296348;
+			
+			// aapt resource value: 0x7f09004a
+			public const int notifications = 2131296330;
 			
 			// aapt resource value: 0x7f090034
 			public const int password_toggle_content_description = 2131296308;
@@ -6657,35 +7377,50 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090038
 			public const int path_password_strike_through = 2131296312;
 			
-			// aapt resource value: 0x7f09004d
-			public const int permission_required = 2131296333;
+			// aapt resource value: 0x7f090059
+			public const int permission_required = 2131296345;
 			
-			// aapt resource value: 0x7f09004a
-			public const int report_activity = 2131296330;
-			
-			// aapt resource value: 0x7f090048
-			public const int right_now = 2131296328;
+			// aapt resource value: 0x7f090054
+			public const int protest = 2131296340;
 			
 			// aapt resource value: 0x7f09004e
-			public const int screen_brightness_dialog_message = 2131296334;
+			public const int report_activity = 2131296334;
+			
+			// aapt resource value: 0x7f09004c
+			public const int right_now = 2131296332;
+			
+			// aapt resource value: 0x7f09005a
+			public const int screen_brightness_dialog_message = 2131296346;
 			
 			// aapt resource value: 0x7f090024
 			public const int search_menu_title = 2131296292;
 			
+			// aapt resource value: 0x7f09005e
+			public const int send_message = 2131296350;
+			
+			// aapt resource value: 0x7f09004b
+			public const int settings = 2131296331;
+			
 			// aapt resource value: 0x7f090047
-			public const int settings = 2131296327;
+			public const int sign_in = 2131296327;
 			
 			// aapt resource value: 0x7f090043
-			public const int sign_in = 2131296323;
-			
-			// aapt resource value: 0x7f09003f
-			public const int sign_in_error = 2131296319;
+			public const int sign_in_error = 2131296323;
 			
 			// aapt resource value: 0x7f090039
 			public const int status_bar_notification_info_overflow = 2131296313;
 			
-			// aapt resource value: 0x7f09004f
-			public const int yes = 2131296335;
+			// aapt resource value: 0x7f090055
+			public const int suspocious_package = 2131296341;
+			
+			// aapt resource value: 0x7f090056
+			public const int tornado = 2131296342;
+			
+			// aapt resource value: 0x7f090057
+			public const int vip = 2131296343;
+			
+			// aapt resource value: 0x7f09005b
+			public const int yes = 2131296347;
 			
 			static String()
 			{
@@ -7254,6 +7989,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0d018b
 			public const int EdisonLight_Fullscreen = 2131558795;
+			
+			// aapt resource value: 0x7f0d0192
+			public const int EditTextNoUnderline = 2131558802;
 			
 			// aapt resource value: 0x7f0d0022
 			public const int Platform_AppCompat = 2131558434;
@@ -9760,8 +10498,8 @@ namespace Edison.Mobile.User.Client.Droid
 			public const int CoordinatorLayout_Layout_layout_keyline = 3;
 			
 			public static int[] CustomBottomSheetBehavior = new int[] {
-					2130772461,
-					2130772462};
+					2130772463,
+					2130772464};
 			
 			// aapt resource value: 0
 			public const int CustomBottomSheetBehavior_anchorPoint = 0;
@@ -10420,6 +11158,24 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 5
 			public const int RecyclerView_stackFromEnd = 5;
+			
+			public static int[] RightAngleTriangle = new int[] {
+					2130772312,
+					2130772435,
+					2130772461,
+					2130772462};
+			
+			// aapt resource value: 1
+			public const int RightAngleTriangle_borderColor = 1;
+			
+			// aapt resource value: 0
+			public const int RightAngleTriangle_borderWidth = 0;
+			
+			// aapt resource value: 2
+			public const int RightAngleTriangle_fillColor = 2;
+			
+			// aapt resource value: 3
+			public const int RightAngleTriangle_rightAnglePosition = 3;
 			
 			public static int[] ScrimInsetsFrameLayout = new int[] {
 					2130772322};

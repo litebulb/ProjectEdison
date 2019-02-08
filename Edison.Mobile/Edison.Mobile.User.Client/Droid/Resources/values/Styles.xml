@@ -41,9 +41,6 @@
 
 
 
-
-
-
   <style name="EdisonLight" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowActionBar">false</item>
@@ -91,7 +88,12 @@
     <item name="android:textColor">@color/white</item>
     <item name="android:drawableTint">@color/white</item>
   </style>
-  
-  
+
+  <style name="EditTextNoUnderline">
+    <item name="colorControlNormal">@color/transparent</item>
+    <item name="colorControlActivated">@color/transparent</item>
+    <item name="colorControlHighlight">@color/transparent</item>
+    <item name="colorAccent">@color/text_highlight_color</item>
+  </style>
 
 </resources>
