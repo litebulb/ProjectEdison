@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Network;
@@ -29,31 +30,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             var devices = await deviceRestService.GetDevices();
             if (devices != null)
             {
-                NearDevices.AddRange(devices);
+                NearDevices.ReplaceRange(devices);
             }
-
-            //await Task.Delay(3000);
-            //NearDevices.AddRange(new DeviceModel[]
-            //{
-            //    new DeviceModel
-            //    {
-            //        Online = true,
-            //        Sensor = true,
-            //        Name = "Kitchen Device",
-            //    },
-            //    new DeviceModel
-            //    {
-            //        Online = false,
-            //        Sensor = false,
-            //        Name = "Office Device",
-            //    },
-            //    new DeviceModel
-            //    {
-            //        Online = true,
-            //        Sensor = false,
-            //        Name = "Upstairs Device",
-            //    },
-            //});
         }
     }
 }

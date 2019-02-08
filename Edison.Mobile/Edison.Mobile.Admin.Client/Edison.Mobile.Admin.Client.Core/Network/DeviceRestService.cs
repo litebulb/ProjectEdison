@@ -17,7 +17,7 @@ namespace Edison.Mobile.Admin.Client.Core.Network
         {
         }
 
-        public async Task<IEnumerable<DeviceModel>> GetDevices()
+        public async Task<IEnumerable<DeviceModel>> GetDevices(Geolocation geolocation = null)
         {
             var request = PrepareRequest("/Devices", Method.GET);
             var result = await client.ExecuteTaskAsync<IEnumerable<DeviceModel>>(request);
@@ -46,9 +46,18 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             return null;
         }
 
-        public async Task<object> UpdateDevice(DeviceModel deviceModel)
+        public async Task<bool> UpdateDevice(DevicesUpdateTagsModel updateTagsModel)
         {
-            throw new NotImplementedException();
+            var request = PrepareRequest("/IoTHub/Tags", Method.PUT, updateTagsModel);
+            var result = await client.ExecuteTaskAsync<bool>(request);
+            if (result.IsSuccessful)
+            {
+                return result.Data;
+            }
+
+            logger.Log($"Error updating device: {result.ErrorMessage}");
+
+            return false;
         }
     }
 }

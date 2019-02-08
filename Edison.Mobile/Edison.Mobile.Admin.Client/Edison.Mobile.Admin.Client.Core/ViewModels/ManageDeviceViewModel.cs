@@ -16,6 +16,13 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public bool IsOnboardingStepSix { get; set; }
 
+        public event EventHandler<bool> OnDeviceUpdated;
+
+        public DeviceModel CurrentDeviceModel
+        {
+            get => deviceSetupService.CurrentDeviceModel;
+        }
+
         public ManageDeviceViewModel(
             DeviceSetupService deviceSetupService,
             ILocationService locationService,
@@ -38,7 +45,23 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public async Task UpdateDevice()
         {
-            
+            var currentDeviceModel = deviceSetupService.CurrentDeviceModel;
+            if (currentDeviceModel == null) return;
+
+            var updateTagsModel = new DevicesUpdateTagsModel
+            {
+                DeviceIds = new List<Guid> { currentDeviceModel.DeviceId },
+                Name = currentDeviceModel.Name,
+                Enabled = currentDeviceModel.Enabled,
+                Geolocation = currentDeviceModel.Geolocation,
+                Location1 = currentDeviceModel.Location1,
+                Location2 = currentDeviceModel.Location2,
+                Location3 = currentDeviceModel.Location3,
+            };
+
+            var success = await deviceRestService.UpdateDevice(updateTagsModel);
+
+            OnDeviceUpdated?.Invoke(this, success);
         }
     }
 }

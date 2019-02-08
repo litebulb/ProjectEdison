@@ -76,7 +76,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             var defaultWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
             var success = await wifiService.ConnectToWifiNetwork(wifiNetwork.SSID, deviceSetupService.DefaultPassword);
 
-            await Task.Delay(1000);
+            await Task.Delay(2000);
 
             if (!success) return await ProvisionDeviceFail();
 
@@ -90,7 +90,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             if (deviceIdResponse == null) return await ProvisionDeviceFail();
 
-            deviceSetupService.SetDeviceGuid(deviceIdResponse.DeviceId);
+            deviceSetupService.CurrentDeviceModel.DeviceId = deviceIdResponse.DeviceId;
 
             //return deviceIdResponse?.DeviceId; // shortcut for testing
 
@@ -99,7 +99,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             // disconnect from device and connect to the internet to provision device with services
             await wifiService.DisconnectFromWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork);
 
-            await Task.Delay(1000);
+            await Task.Delay(2000);
 
             if (csrResult == null) return await ProvisionDeviceFail();
 
@@ -114,14 +114,14 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             if (certificateResponse == null) return await ProvisionDeviceFail();
 
-            await Task.Delay(1000);
+            await Task.Delay(2000);
 
             SetPairingStatusText("Reconnecting to device and finishing up! Sit tight...");
 
             // reconnect to device to set device type
             var reconnectSuccess = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.DefaultPassword);
 
-            await Task.Delay(1000);
+            await Task.Delay(2000);
 
             if (!reconnectSuccess) return await ProvisionDeviceFail();
 
@@ -154,14 +154,9 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             SetPairingStatusText("Pairing Successful!");
 
-            deviceSetupService.SetDeviceType(DeviceSetupService.DeviceTypeFromString(certificateResponse.DeviceType));
+            deviceSetupService.CurrentDeviceModel.DeviceType = certificateResponse.DeviceType;
 
-            // disconnect from device and connect to the internet to provision device with services
-            //await wifiService.DisconnectFromWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork);
-
-            // actually, stay connected to device to get available wifi networks on the next screen....
-
-            //await Task.Delay(2000);
+            // stay connected to device to get available wifi networks on the next screen....
 
             return true;
         }

@@ -138,7 +138,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         {
             var availableNetworks = ViewModel.AvailableWifiNetworks;
             tableViewSource.AvailableNetworks = availableNetworks.ToArray();
-            tableView.ReloadData();
+            InvokeOnMainThread(tableView.ReloadData);
         }
     }
 }

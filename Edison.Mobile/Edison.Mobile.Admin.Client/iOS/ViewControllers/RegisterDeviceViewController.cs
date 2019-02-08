@@ -18,6 +18,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         CameraView cameraView;
         UIButton noQRCodeButton;
         UILabel pairingLabel;
+        bool isShowingAlert;
 
         public override void ViewDidLoad()
         {
@@ -148,6 +149,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             ViewModel.OnBeginDevicePairing += HandleOnBeginDevicePairing;
             ViewModel.OnFinishDevicePairing += HandleOnFinishDevicePairing;
             ViewModel.OnPairingStatusTextChanged += HandleOnPairingStatusTextChanged;
+
+            cameraView.OnQRCodeScanned += HandleOnQRCodeScanned;
         }
 
         protected override void UnBindEventHandlers()
@@ -157,6 +160,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             ViewModel.OnBeginDevicePairing -= HandleOnBeginDevicePairing;
             ViewModel.OnFinishDevicePairing -= HandleOnFinishDevicePairing;
             ViewModel.OnPairingStatusTextChanged -= HandleOnPairingStatusTextChanged;
+
+            cameraView.OnQRCodeScanned -= HandleOnQRCodeScanned;
         }
 
         void HandleOnBeginDevicePairing()
@@ -178,20 +183,35 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             pairingLabel.Text = e.IsSuccess ? "Pairing Successful!" : "Pairing Failed.";
         }
 
+        void HandleOnQRCodeScanned(object sender, string ssid)
+        {
+            InvokeOnMainThread(() => ShowNetworkAlert(ssid));
+        }
+
         void HandleNoQRCodeButtonTouchUpInside(object sender, EventArgs e)
         {
+            InvokeOnMainThread(() => ShowNetworkAlert());
+        }
+
+        void ShowNetworkAlert(string ssid = null)
+        {
+            if (isShowingAlert) return;
+
+            isShowingAlert = true;
+
             var alertController = UIAlertController.Create(
-                $"Enter your {ViewModel.DeviceTypeAsString}'s wifi network manually below.",
+                ssid == null ? $"Enter your {ViewModel.DeviceTypeAsString}'s wifi network manually below." : null,
                 $"Your {ViewModel.DeviceTypeAsString} should be emitting a wifi network of the format EDISON_{{ID}}.",
                 UIAlertControllerStyle.Alert
             );
 
             alertController.AddTextField(textField =>
             {
-                textField.Text = $"EDISON_{ViewModel.MockDeviceId}";
+                textField.Text = ssid;
             });
 
-            alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, async action => {
+            alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, async action =>
+            {
                 var success = await ViewModel.ProvisionDevice(new WifiNetwork
                 {
                     SSID = alertController.TextFields[0]?.Text,
@@ -199,11 +219,15 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
                 if (!success)
                 {
-
+                    isShowingAlert = false;
                 }
-
-                NavigationController.PushViewController(new SelectWifiViewController(), true);
+                else if (NavigationController != null)
+                {
+                    NavigationController.PushViewController(new SelectWifiViewController(), true);
+                }
             }));
+
+            alertController.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
 
             PresentViewController(alertController, true, null);
         }

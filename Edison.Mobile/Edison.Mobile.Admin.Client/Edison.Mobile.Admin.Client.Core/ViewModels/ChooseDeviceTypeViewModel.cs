@@ -15,7 +15,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public void SetDeviceType(DeviceType deviceType)
         {
             deviceSetupService.ClearDevice();
-            deviceSetupService.SetDeviceType(deviceType);
+            deviceSetupService.CurrentDeviceModel.DeviceType = DeviceSetupService.DeviceTypeToString(deviceType);
         }
     }
 }

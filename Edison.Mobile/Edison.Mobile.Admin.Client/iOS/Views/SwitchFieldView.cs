@@ -62,6 +62,11 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
             this.AddStandardShadow();
         }
 
+        void SwitchView_EditingChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine(e);
+        }
+
         void HandleTap()
         {
             //switchView.On = !switchView.On;
@@ -74,10 +79,12 @@ namespace Edison.Mobile.Admin.Client.iOS.Views
             if (window == null)
             {
                 RemoveGestureRecognizer(tapGestureRecognizer);
+                switchView.EditingChanged += SwitchView_EditingChanged;
             }
             else
             {
                 AddGestureRecognizer(tapGestureRecognizer);
+                switchView.EditingChanged += SwitchView_EditingChanged;
             }
         }
     }

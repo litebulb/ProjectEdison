@@ -44,7 +44,6 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         public ManageDeviceViewController(DeviceModel deviceModel = null)
         {
             ViewModel.IsOnboardingStepSix = deviceModel == null;
-            ViewModel.DeviceModel = deviceModel ?? new DeviceModel();
         }
 
         public override void ViewDidLoad()
@@ -60,9 +59,9 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 NavigationController.PopViewController(true);
             });
 
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Done, (object sender, EventArgs e) =>
+            NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Done, async (object sender, EventArgs e) =>
             {
-
+                await ViewModel.UpdateDevice();
             });
 
             NavigationController.InteractivePopGestureRecognizer.Delegate = null;
@@ -103,7 +102,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             var deviceTypeImageView = new UIImageView
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
-                Image = ViewModel.DeviceModel?.Sensor ?? false ? Constants.Assets.Lines : Constants.Assets.Power,
+                Image = ViewModel.CurrentDeviceModel?.Sensor ?? false ? Constants.Assets.Lines : Constants.Assets.Power,
             };
 
             var importantDetailsLabel = new UILabel
@@ -130,7 +129,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 var deviceLabel = new UILabel
                 {
                     TranslatesAutoresizingMaskIntoConstraints = false,
-                    Text = ViewModel.DeviceModel.Name,
+                    Text = ViewModel.CurrentDeviceModel.Name,
                     Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.TwentyFour),
                     TextColor = Constants.Color.DarkGray,
                 };
@@ -180,8 +179,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             {
                 TranslatesAutoresizingMaskIntoConstraints = false,
                 ShowsUserLocation = true,
-                CenterCoordinate = ViewModel.DeviceModel.Geolocation != null
-                    ? new CLLocationCoordinate2D(ViewModel.DeviceModel.Geolocation.Latitude, ViewModel.DeviceModel.Geolocation.Longitude)
+                CenterCoordinate = ViewModel.CurrentDeviceModel.Geolocation != null
+                    ? new CLLocationCoordinate2D(ViewModel.CurrentDeviceModel.Geolocation.Latitude, ViewModel.CurrentDeviceModel.Geolocation.Longitude)
                     : new CLLocationCoordinate2D(),
                 Delegate = this,
             };
@@ -195,7 +194,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             mapView.WidthAnchor.ConstraintEqualTo(scrollView.WidthAnchor).Active = true;
             mapView.HeightAnchor.ConstraintEqualTo(View.HeightAnchor, multiplier: 0.25f).Active = true;
 
-            if (ViewModel.DeviceModel.Geolocation == null)
+            if (ViewModel.CurrentDeviceModel.Geolocation == null)
             {
                 Task.Run(async () =>
                 {
@@ -343,6 +342,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             enabledSwitchFieldView.OnSwitchValueChanged += EnabledSwitchFieldViewOnSwitchValueChanged;
 
+            ViewModel.OnDeviceUpdated += HandleOnDeviceUpdated;
+
             foreach (var textFieldView in textFieldViews)
             {
                 textFieldView.OnEditingBegan += OnTextFieldEditingBegan;
@@ -359,6 +360,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             if (keyboardWillHideNotificationToken != null) NSNotificationCenter.DefaultCenter.RemoveObserver(keyboardWillHideNotificationToken);
 
             mapView.Delegate = null;
+
+            ViewModel.OnDeviceUpdated -= HandleOnDeviceUpdated;
 
             enabledSwitchFieldView.OnSwitchValueChanged -= EnabledSwitchFieldViewOnSwitchValueChanged;
 
@@ -387,7 +390,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             if (!isZoomedIn) return;
 
             var centerCoordinate = mapView.Region.Center;
-            ViewModel.DeviceModel.Geolocation = new Geolocation
+            ViewModel.CurrentDeviceModel.Geolocation = new Geolocation
             {
                 Latitude = centerCoordinate.Latitude,
                 Longitude = centerCoordinate.Longitude,
@@ -454,18 +457,40 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             }
         }
 
+        void HandleOnDeviceUpdated(object sender, bool success)
+        {
+            UIAlertController alertController = null;
+            UIAlertAction action = null;
+            if (success)
+            {
+                alertController = UIAlertController.Create("Setup Complete", "You can make changes to this device from 'Manage Your Devices' on the home screen.", UIAlertControllerStyle.Alert);
+                action = UIAlertAction.Create("OK", UIAlertActionStyle.Default, a =>
+                {
+                    NavigationController.PopToRootViewController(true);
+                });
+            }
+            else
+            {
+                alertController = UIAlertController.Create(null, "Could not update device. Please try again.", UIAlertControllerStyle.Alert);
+                action = UIAlertAction.Create("OK", UIAlertActionStyle.Default, null);
+            }
+
+            alertController.AddAction(action);
+            PresentViewController(alertController, true, null);
+        }
+
         void OnTextFieldEditingEnded(object sender, UITextFieldDidEndEditingReason reason)
         {
             if (!(sender is TextFieldView textFieldView) || reason != UITextFieldDidEndEditingReason.Committed) return;
-            if (textFieldView == nameTextFieldView) ViewModel.DeviceModel.Name = textFieldView.Text;
-            if (textFieldView == buildingTextFieldView) ViewModel.AddCustomDeviceField("Building", textFieldView.Text);
-            if (textFieldView == floorTextFieldView) ViewModel.AddCustomDeviceField("Floor", textFieldView.Text);
-            if (textFieldView == roomTextFieldView) ViewModel.AddCustomDeviceField("Room", textFieldView.Text);
+            if (textFieldView == nameTextFieldView) ViewModel.CurrentDeviceModel.Name = textFieldView.Text;
+            if (textFieldView == buildingTextFieldView) ViewModel.CurrentDeviceModel.Location1 = textFieldView.Text;
+            if (textFieldView == floorTextFieldView) ViewModel.CurrentDeviceModel.Location2 = textFieldView.Text;
+            if (textFieldView == roomTextFieldView) ViewModel.CurrentDeviceModel.Location3 = textFieldView.Text;
         }
 
         void EnabledSwitchFieldViewOnSwitchValueChanged(object sender, bool enabled)
         {
-            ViewModel.DeviceModel.Enabled = enabled;
+            ViewModel.CurrentDeviceModel.Enabled = enabled;
         }
     }
 }

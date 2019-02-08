@@ -17,33 +17,23 @@ namespace Edison.Mobile.Admin.Client.Core.Services
             public const string SoundSensor = "Edison.Devices.SoundSensor";
         }
 
-        DeviceModel deviceModel;
+        public DeviceModel CurrentDeviceModel { get; set; } = new DeviceModel();
 
         public WifiNetwork CurrentWifiNetwork { get; set; }
         public WifiNetwork CurrentDeviceHotspotNetwork { get; set; }
 
         public string DefaultPassword => "Edison1234";
 
-        public string DeviceTypeAsString => deviceModel?.DeviceType ?? "";
+        public string DeviceTypeAsString => CurrentDeviceModel?.DeviceType ?? "";
         public string DeviceTypeAsFriendlyString => DeviceTypeToFriendlyString(DeviceTypeAsString);
 
         public void ClearDevice()
         {
-            deviceModel = null;
+            CurrentDeviceModel = new DeviceModel();
             CurrentDeviceHotspotNetwork = null;
         }
-
-        public void SetDeviceType(DeviceType deviceType)
-        {
-            EnsureDeviceExists();
-            deviceModel.DeviceType = DeviceTypeToString(deviceType);
-        }
-
-        public void SetDeviceGuid(Guid guid)
-        {
-            EnsureDeviceExists();
-            deviceModel.DeviceId = guid;
-        }
+         
+        public static bool SSIDIsEdisonDevice(string ssid) => ssid.StartsWith("EDISON_", StringComparison.Ordinal);
 
         public static string DeviceTypeToString(DeviceType deviceType)
         {
@@ -60,12 +50,12 @@ namespace Edison.Mobile.Admin.Client.Core.Services
 
         public void AddCustomDeviceField(string key, string value)
         {
-            if (deviceModel.Custom == null)
+            if (CurrentDeviceModel.Custom == null)
             {
-                deviceModel.Custom = new Dictionary<string, object>();
+                CurrentDeviceModel.Custom = new Dictionary<string, object>();
             }
 
-            deviceModel.Custom[key] = value;
+            CurrentDeviceModel.Custom[key] = value;
         }
 
         public static DeviceType DeviceTypeFromString(string deviceType)
@@ -92,11 +82,6 @@ namespace Edison.Mobile.Admin.Client.Core.Services
                 default:
                     return DeviceTypeValues.SoundSensor;
             }
-        }
-
-        void EnsureDeviceExists()
-        {
-            if (deviceModel == null) deviceModel = new DeviceModel();
         }
     }
 }
