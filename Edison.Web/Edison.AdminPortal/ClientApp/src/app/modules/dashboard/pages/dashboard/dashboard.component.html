@@ -7,7 +7,7 @@
                                [actionPlan]="selectedActionPlan$ | async"
                                (onGetFullActionPlan)="getActionPlan($event)"
                                (onSelectActionPlan)="selectActionPlan($event)"
-                               (onActiveToggle)="clearActiveResponse($event)"
+                               (onClose)="clearActiveResponse()"
                                (onRetry)="retryResponseActions($event)"
                                (onPostNewResponse)="postNewResponse($event)"></app-activate-response>
         <app-all-users-chat [messages]="messages$ | async"

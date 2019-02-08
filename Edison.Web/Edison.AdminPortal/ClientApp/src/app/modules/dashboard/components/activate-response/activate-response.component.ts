@@ -24,7 +24,8 @@ export class ActivateResponseComponent implements OnInit, OnChanges {
     @Output() onGetFullActionPlan = new EventEmitter<string>();
     @Output() onPostNewResponse = new EventEmitter();
     @Output() onRetry = new EventEmitter();
-    @Output() onActiveToggle = new EventEmitter();
+    @Output() onClose = new EventEmitter();
+    @Output() onOpen = new EventEmitter();
 
     activated = false;
     active = false;
@@ -152,21 +153,29 @@ export class ActivateResponseComponent implements OnInit, OnChanges {
     }
 
     onReturnToMapClick() {
-        this.toggleActive();
+        this.close();
+    }
+
+    close() {
+        this.active = false;
+        this.activated = false;
+        this.onSelectActionPlan.emit(null);
+        this.onClose.emit();
+    }
+
+    open() {
+        if (this.disabled) { return; }
+
+        this.active = true;
+        this.onSelectActionPlan.emit(null);
+        this.onOpen.emit();
     }
 
     toggleActive() {
-        if (this.disabled) { return; }
-
         if (this.active) {
-            this.active = false;
-            this.activated = false;
+            this.close();
         } else {
-            this.active = true;
+            this.open();
         }
-
-        this.onSelectActionPlan.emit(null);
-
-        this.onActiveToggle.emit(this.active);
     }
 }

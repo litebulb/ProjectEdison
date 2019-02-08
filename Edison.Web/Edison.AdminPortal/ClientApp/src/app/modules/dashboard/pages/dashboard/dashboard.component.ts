@@ -229,13 +229,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ShowEventInEventBar({ event }));
   }
 
-  protected clearActiveResponse(isSelecting: boolean) {
+  protected clearActiveResponse() {
     this.store.dispatch(new SelectActionPlan({ actionPlan: null }));
-    if (!isSelecting) {
-      this.store.dispatch(new SelectActiveEvent({ event: null }));
-    }
+    this.store.dispatch(new SelectActiveEvent({ event: null }));
 
-    this.toggleOverlay(isSelecting);
+    this.toggleOverlay(false);
+    this.activeEvent = null;
   }
 
   protected retryResponseActions(responseId: string) {
@@ -257,7 +256,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     event: Event;
     actionPlan: ActionPlan;
   }) {
-    this.store.dispatch(new PostNewResponse({ event: this.activeEvent, actionPlan }));
+    this.store.dispatch(
+      new PostNewResponse({ event: this.activeEvent, actionPlan })
+    );
+    this.activeEvent = null;
   }
 
   protected activateResponse() {
@@ -653,10 +655,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       )
       .subscribe(auth => {
         this.directlineService
-          .connect(
-            auth.token,
-            auth.user
-          )
+          .connect(auth.token, auth.user)
           .subscribe((message: MessageModel) => {
             switch (message.channelData.baseCommand) {
               case DirectLineCommand.SendMessage:
