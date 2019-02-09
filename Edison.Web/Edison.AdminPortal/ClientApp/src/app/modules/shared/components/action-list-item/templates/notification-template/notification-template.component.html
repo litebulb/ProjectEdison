@@ -1,54 +1,62 @@
-<app-action-list-item-state [status]="context.status"
-                            [loading]="context.loading"></app-action-list-item-state>
-<app-icon icon="notification"
-          color="red"
-          round="true"
-          size="large"></app-icon>
+<app-action-list-item-state
+  [status]="context.status"
+  [loading]="context.loading"
+></app-action-list-item-state>
+<app-icon icon="notification" color="red" round="true" size="large"></app-icon>
 <div class="content-container">
-    <div>
-        {{context.description}}
+  <div>
+    {{ context.description }}
+  </div>
+  <div class="content-header">
+    <div>NOTIFICATION CONTENT</div>
+    <div class="edit-notification-container" *ngIf="canEdit">
+      <app-icon
+        icon="edit"
+        size="large"
+        (click)="!editing && edit()"
+        (keyup.space)="!editing && edit()"
+        (keyup.enter)="!editing && edit()"
+        #editButton
+        tabindex="500"
+        class="edit-icon"
+      >
+      </app-icon>
+      <span
+        class="edit-done"
+        *ngIf="editing && !adding"
+        (click)="editComplete()"
+        (keyup.space)="editComplete()"
+        (keyup.enter)="editComplete()"
+        tabindex="500"
+        >Done</span
+      >
     </div>
-    <div class="content-header">
-        <div>NOTIFICATION CONTENT</div>
-        <div class="edit-notification-container"
-             *ngIf="canEdit">
-            <app-icon icon="edit"
-                      size="large"
-                      (click)="!editing && edit()"
-                      (keyup.space)="!editing && edit()"
-                      (keyup.enter)="!editing && edit()"
-                      #editButton
-                      tabindex="500"
-                      class="edit-icon">
-            </app-icon>
-            <span class="edit-done"
-                  *ngIf="editing && !adding"
-                  (click)="editComplete()"
-                  (keyup.space)="editComplete()"
-                  (keyup.enter)="editComplete()"
-                  tabindex="500">Done</span>
-        </div>
-    </div>
-    <div class="content-text">
-        <ng-container *ngIf="!editing">{{notificationText}}</ng-container>
-        <textarea #textarea
-                  class="text-area"
-                  tabindex="510"
-                  [(ngModel)]="notificationText"
-                  placeholder="Enter text here"
-                  rows="8"
-                  *ngIf="editing"
-                  (change)="notificationChanged()">
-        </textarea>
-        <span class="removeBtn"
-              *ngIf="editing && adding"
-              tabindex="520"
-              (click)="remove()"
-              (keyup.space)="remove()"
-              (keyup.enter)="remove()">Remove</span>
-    </div>
-    <div class="error"
-         *ngIf="context.status === actionStatus.Error">{{context.errorMessage}}</div>
+  </div>
+  <div class="content-text">
+    <ng-container *ngIf="!editing">{{ notificationText }}</ng-container>
+    <textarea
+      #textarea
+      class="text-area"
+      tabindex="510"
+      [(ngModel)]="notificationText"
+      placeholder="Enter text here"
+      rows="8"
+      *ngIf="editing"
+      (keyup)="notificationChanged()"
+    >
+    </textarea>
+    <span
+      class="removeBtn"
+      *ngIf="editing && adding"
+      tabindex="520"
+      (click)="remove()"
+      (keyup.space)="remove()"
+      (keyup.enter)="remove()"
+      >Remove</span
+    >
+  </div>
+  <div class="error" *ngIf="context.status === actionStatus.Error">
+    {{ context.errorMessage }}
+  </div>
 </div>
-<div class="line-hider"
-     *ngIf="last"></div>
+<div class="line-hider" *ngIf="last"></div>

@@ -593,7 +593,12 @@ export class ResponseEffects {
           action.payload
         )
         .pipe(
-          map(() => new RetryResponseActionsSuccess()),
+          map(
+            (response: Response) =>
+              new UpdateResponse({
+                response: { id: response.responseId, changes: response },
+              })
+          ),
           catchError(() => of(new RetryResponseActionsError()))
         )
     )
