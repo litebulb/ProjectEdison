@@ -45,7 +45,6 @@ export class UserChatComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
-    // console.log(this.userName);
     this.textareaRef.nativeElement.focus();
   }
 

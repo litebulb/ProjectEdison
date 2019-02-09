@@ -1,59 +1,95 @@
 <div class="chat-header">
-    <div>
-        <div class="name">{{userName}}</div>
-    </div>
-    <mat-icon class="closeBtn"
-              (click)="close()"
-              (keyup.space)="close()"
-              (keyup.enter)="close()"
-              tabindex="440">close</mat-icon>
+  <div>
+    <div class="name">{{ userName }}</div>
+  </div>
+  <mat-icon
+    class="closeBtn"
+    (click)="close()"
+    (keyup.space)="close()"
+    (keyup.enter)="close()"
+    tabindex="440"
+    >close</mat-icon
+  >
 </div>
 <div class="response-container">
-    <div *ngIf="activeEventInstance && activeEventInstance.metadata">
-        <div class="activity-reported">
-            <mat-form-field>
-                <mat-select [(ngModel)]="activeEventInstance.metadata.reportType"
-                            [placeholder]="'Activity Reported'">
-                    <mat-option *ngFor="let actionPlan of actionPlans"
-                                [value]="actionPlan.actionPlanId">{{actionPlan.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+  <div *ngIf="activeEventInstance && activeEventInstance.metadata">
+    <div class="activity-reported">
+      <mat-form-field>
+        <mat-select
+          [(ngModel)]="activeEventInstance.metadata.reportType"
+          [placeholder]="'Activity Reported'"
+        >
+          <mat-option
+            *ngFor="let actionPlan of actionPlans"
+            [value]="actionPlan.actionPlanId"
+            >{{ actionPlan.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="info-row">
-        <app-icon icon="building"
-                  size="medium"></app-icon>
-        <div class="location">{{this.activeEvent ? this.activeEvent.device.location1 : 'Unknown'}}</div>
-        <div class="map-link app-button primary"
-             *ngIf="activeEvent"
-             (click)="showOnMap()"
-             (keyup.space)="showOnMap()"
-             (keyup.enter)="showOnMap()"
-             tabindex="430">MAP</div>
+  </div>
+  <div
+    class="info-row"
+    *ngIf="activeEventInstance && activeEventInstance.metadata"
+  >
+    <app-icon icon="building" size="medium"></app-icon>
+    <div class="location">
+      {{ this.activeEvent ? this.activeEvent.device.location1 : 'Unknown' }}
     </div>
-    <div class="info-row">
-        <app-icon icon="time"
-                  size="medium"></app-icon>
-        <div class="location">{{activeEventInstance ? (activeEventInstance.date | date : 'shortTime') : 'Unknown'}}</div>
+    <div
+      class="map-link app-button primary"
+      *ngIf="activeEvent"
+      (click)="showOnMap()"
+      (keyup.space)="showOnMap()"
+      (keyup.enter)="showOnMap()"
+      tabindex="430"
+    >
+      MAP
     </div>
-    <button class="app-button primary"
-            (click)="activateResponse()"
-            (keyup.space)="activateResponse()"
-            (keyup.enter)="activateResponse()"
-            tabindex="410">ACTIVATE RESPONSE</button>
-    <button class="app-button secondary"
-            (click)="confirmEndChat()"
-            (keyup.space)="confirmEndChat()"
-            (keyup.enter)="confirmEndChat()"
-            tabindex="420">END CONVERSATION</button>
+  </div>
+  <div
+    class="info-row"
+    *ngIf="activeEventInstance && activeEventInstance.metadata"
+  >
+    <app-icon icon="time" size="medium"></app-icon>
+    <div class="location">
+      {{
+        activeEventInstance
+          ? (activeEventInstance.date | date: 'shortTime')
+          : 'Unknown'
+      }}
+    </div>
+  </div>
+  <button
+    class="app-button primary"
+    (click)="activateResponse()"
+    (keyup.space)="activateResponse()"
+    (keyup.enter)="activateResponse()"
+    tabindex="410"
+  >
+    ACTIVATE RESPONSE
+  </button>
+  <button
+    class="app-button secondary"
+    (click)="confirmEndChat()"
+    (keyup.space)="confirmEndChat()"
+    (keyup.enter)="confirmEndChat()"
+    tabindex="420"
+  >
+    END CONVERSATION
+  </button>
 </div>
 <div class="body">
-    <div class="subheader">Message <span class="user-name">{{userName}}</span></div>
-    <app-message-list [messages]="messages"></app-message-list>
+  <div class="subheader">
+    Message <span class="user-name">{{ userName }}</span>
+  </div>
+  <app-message-list [messages]="messages"></app-message-list>
 </div>
-<textarea #textarea
-          rows="8"
-          placeholder="Send a message"
-          [(ngModel)]="message"
-          (keydown)="onEnter($event)"
-          tabindex="400"></textarea>
+<textarea
+  #textarea
+  rows="8"
+  placeholder="Send a message"
+  [(ngModel)]="message"
+  (keydown)="onEnter($event)"
+  tabindex="400"
+></textarea>

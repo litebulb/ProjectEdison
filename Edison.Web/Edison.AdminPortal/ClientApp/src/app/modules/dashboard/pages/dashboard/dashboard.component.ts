@@ -47,9 +47,8 @@ import { Message } from '../../../../reducers/chat/chat.model';
 import {
   chatActiveMessagesSelector,
   chatActiveUsersCountSelector,
-  chatActiveUserSelector,
   chatAllMessagesSelector,
-  chatAuthSelector,
+  chatTokenSelector,
 } from '../../../../reducers/chat/chat.selectors';
 import {
   DeviceActionTypes,
@@ -125,7 +124,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private focusDevicesSub$: Subscription;
   private setPageDataSub$: Subscription;
   private messagesSub$: Subscription;
-  private activeUser$: Subscription;
   private activeMobileEvents$: Subscription;
   private actionPlans$: Subscription;
 
@@ -182,7 +180,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.focusDevicesSub$.unsubscribe();
     this.setPageDataSub$.unsubscribe();
     this.messagesSub$.unsubscribe();
-    this.activeUser$.unsubscribe();
     this.activeMobileEvents$.unsubscribe();
     this.actionPlans$.unsubscribe();
   }
@@ -477,42 +474,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private _initMessageData() {
     this.messagesSub$ = this.store
       .pipe(select(chatActiveMessagesSelector))
-      .subscribe(messages => {
-        if (
+      .subscribe(({ userMessages, userId, name }) => {
+        const userChanged = this.userId !== userId;
+        const messagesChanged =
           !this.activeMessages ||
-          this.activeMessages.length < messages.length
-        ) {
-          this.activeMessages = messages;
-          if (this.userId) {
-            this.store.dispatch(
-              new SendUserReadReceipt({ userId: this.userId, date: new Date() })
-            );
-          }
+          this.activeMessages.length !== userMessages.length ||
+          userChanged;
+        const messagesAdded =
+          this.userId === userId &&
+          userMessages.length > this.activeMessages.length;
+
+        if (messagesAdded) {
+          this.store.dispatch(
+            new SendUserReadReceipt({ userId: this.userId, date: new Date() })
+          );
+        }
+
+        if (messagesChanged) {
+          this.activeMessages = userMessages;
+        }
+
+        if (userChanged) {
+          this.userId = userId;
+          this.userName = name;
         }
       });
   }
 
   private _initData() {
-    this.activeUser$ = this.store
-      .pipe(
-        select(chatActiveUserSelector),
-        filter(
-          user =>
-            user &&
-            user.userId !== null &&
-            user.name !== null &&
-            this.userId !== user.userId
-        )
-      )
-      .subscribe(user => {
-        this.userId = user.userId;
-        this.userName = user.name;
-
-        this.store.dispatch(
-          new SendUserReadReceipt({ userId: user.userId, date: new Date() })
-        );
-      });
-
     this.actionPlans$ = this.store
       .pipe(select(actionPlansSelector))
       .subscribe(actionPlans => (this.actionPlans = actionPlans));
@@ -649,7 +638,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private _initDirectLine() {
     this.store
       .pipe(
-        select(chatAuthSelector),
+        select(chatTokenSelector),
         filter(auth => auth.token !== null),
         first(auth => auth.token !== null)
       )
