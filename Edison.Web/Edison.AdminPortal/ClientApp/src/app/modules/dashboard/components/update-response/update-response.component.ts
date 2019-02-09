@@ -58,12 +58,12 @@ export class UpdateResponseComponent implements OnInit, OnChanges {
 
   addEditAction(action: AddEditAction) {
     this._addEditActions.set(action.action.actionId, action);
-    this._updateActionItems();
+    this.modified = true;
   }
 
   removeAction(action: AddEditAction) {
     this._addEditActions.delete(action.action.actionId);
-    this._updateActionItems();
+    this.modified = true;
   }
 
   sendUpdates() {
@@ -110,26 +110,34 @@ export class UpdateResponseComponent implements OnInit, OnChanges {
     this.actionPlanActions.push(notification);
   }
 
-  private _updateActionItems() {
-    this.modified = true;
-    // this.actionPlanActions = this.actionPlanActions.map(action => {
-    //   const modifiedAction = this._addEditActions.get(action.actionId);
-    //   if (modifiedAction) {
-    //     return {
-    //       ...action,
-    //       ...modifiedAction.action,
-    //       status: null,
-    //       loading: false,
-    //     };
-    //   }
-    //   return action;
-    // });
+  private _getEditableActions() {
+    if (
+      this.activeResponse &&
+      this.activeResponse.actionPlan &&
+      this.activeResponse.actionPlan.openActions
+    ) {
+      return this.activeResponse.actionPlan.openActions.filter(action => {
+        switch (action.actionType) {
+          case ActionPlanType.Notification:
+          case ActionPlanType.Twilio:
+            return action.status !== ActionStatus.Success;
+          case ActionPlanType.LightSensor:
+            return true;
+          case ActionPlanType.EmergencyCall:
+          case ActionPlanType.Email:
+          case ActionPlanType.None:
+          default:
+            return false;
+        }
+      });
+    }
+    return [];
   }
 
   private _updateActions(updateStatus: boolean) {
     if (this.activeResponse && this.activeResponse.actionPlan) {
-      this.actionPlanActions = [...this.activeResponse.actionPlan.openActions];
-      this._actionPlanActions = [...this.activeResponse.actionPlan.openActions];
+      this.actionPlanActions = [...this._getEditableActions()];
+      this._actionPlanActions = [...this._getEditableActions()];
       if (updateStatus) {
         this.showSuccessMessage =
           this.updating &&
