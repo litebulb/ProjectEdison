@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="@dimen/message_button_area_width"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:layout_gravity="center_horizontal"
+	android:gravity="center_horizontal"
+	android:layout_marginTop="@dimen/medium_message_button_padding_vert"
+	android:layout_marginLeft="@dimen/medium_message_button_padding_horiz"
+	android:layout_marginRight="@dimen/medium_message_button_padding_horiz"
+	android:layout_marginBottom="0dp"
+	>
+	<edison.mobile.android.common.controls.CircularImageButton
+		android:id="@+id/button"
+		android:layout_width="@dimen/message_button_size"
+		android:layout_height="@dimen/message_button_size"
+		android:layout_gravity="top|center_horizontal"
+		android:gravity="top|center_horizontal"
+		app:iconPadding="@dimen/medium_message_button_icon_padding"
+		app:buttonBackgroundTint="@color/icon_background_grey"
+		app:iconSrc="@drawable/emergency"
+		app:iconTint="@color/icon_red"
+		/>
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/label"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:textColor="@color/medium_message_button_text_color"
+		android:textSize="@dimen/medium_message_button_text_size"
+		android:text="@string/emergency"
+		android:lines="1"
+		android:autoSizeTextType="uniform"
+		android:autoSizeMaxTextSize="@dimen/medium_message_button_text_size"
+		android:autoSizeMinTextSize="@dimen/medium_message_button_min_text_size"
+		android:ellipsize="marquee"
+		/>
+</LinearLayout>
