@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+		android:id="@+id/login_screen"
+	android:background="@color/app_background">
+	<LinearLayout 
+		android:layout_centerInParent="true"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+		android:orientation="vertical">
+
+			<android.support.v7.widget.AppCompatImageView
+		android:src="@drawable/edison_logo"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:id="@+id/imageView1" 
+		/>
+		<android.support.v7.widget.AppCompatImageView
+		android:src="@drawable/sensors"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/sensors"
+			android:paddingTop="40dp"
+		/>
+			<android.support.v7.widget.AppCompatTextView
+        android:id="@+id/login_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+			android:paddingTop="6dp"
+        android:textColor="@color/app_blue"
+        android:textSize="@dimen/device_setup_message"
+        android:text="@string/device_setup_message"			
+			android:paddingBottom="@dimen/login_button_padding"
+			
+		    />
+	<android.support.v7.widget.AppCompatButton 
+		android:text="@string/sign_in_button_label" 		        
+		android:layout_width="wrap_content"
+        android:layout_height="35dp"
+			android:paddingHorizontal="@dimen/login_button_padding"
+		android:background="@color/login_button_blue"
+			android:id="@+id/sign_in_button"			
+			android:textColor="@color/white"
+	/>
+	<android.support.v7.widget.AppCompatTextView
+        android:id="@+id/login_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/login_msg_text_size"
+        android:text="@string/login_window_message"			
+			android:paddingVertical="10dp"
+			
+		    />
+		</LinearLayout>
+
+
+
+</RelativeLayout>
