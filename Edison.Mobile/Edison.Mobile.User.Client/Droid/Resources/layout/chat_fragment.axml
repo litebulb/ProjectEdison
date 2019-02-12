@@ -23,14 +23,14 @@
 				app:layout_constraintBottom_toBottomOf="parent"
 				android:paddingLeft="@dimen/message_area_padding"
 				>
-        <edison.mobile.android.common.controls.CircularImageButton
-          android:id="@+id/send_button"
+				<edison.mobile.android.common.controls.CircularImageButton
+					android:id="@+id/send_button"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
-          app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintRight_toRightOf="parent"
-          app:iconPadding="@dimen/large_message_button_padding"
+					app:iconPadding="@dimen/large_message_button_padding"
 					app:buttonBackgroundTint="@color/transparent"
 					app:iconSrc="@drawable/ic_send_24"
 					app:iconTint="@color/icon_blue"
@@ -65,17 +65,17 @@
 				app:layout_constraintBottom_toTopOf="@+id/chat_input_holder"
 				android:background="@color/message_area_seperator_color"
 				/>
-      
+			
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/chat_button_list"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:layout_constraintBottom_toTopOf="@+id/chat_input_seperator"
 				android:overScrollMode="never"
-        android:orientation="horizontal"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+				android:orientation="horizontal"
+				app:layoutManager="android.support.v7.widget.LinearLayoutManager"
 				/>
-      
+			
 			<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/chat_area_title"
 				android:layout_width="wrap_content"
@@ -95,9 +95,9 @@
 				app:layout_constraintBottom_toTopOf="@+id/chat_button_list"
 				android:paddingHorizontal="@dimen/message_area_padding"
 				android:paddingBottom="@dimen/message_area_padding"
-        android:orientation="vertical"
-        app:stackFromEnd="true"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+				android:orientation="vertical"
+				app:stackFromEnd="true"
+				app:layoutManager="android.support.v7.widget.LinearLayoutManager"
 				/>
 		</android.support.constraint.ConstraintLayout>
 			
@@ -115,6 +115,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:orientation="vertical"
+				android:gravity="center"
 				android:layout_marginTop="@dimen/bottom_sheet_button_icon_toppadding"
 				android:layout_marginLeft="@dimen/bottom_sheet_button_icon_padding"
 				android:layout_marginRight="@dimen/bottom_sheet_button_icon_padding"
@@ -122,15 +123,15 @@
 				>
 				<edison.mobile.android.common.controls.CircularImageButton
 					android:id="@+id/qc_emergency"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
 					app:buttonBackgroundTint="@color/icon_background_grey"
 					app:iconSrc="@drawable/emergency"
 					app:iconTint="@color/icon_red"
 					android:tag="qc_emergency"
 					/>
 				<android.support.v7.widget.AppCompatTextView
-					android:id="@+id/sc_emergency"
+					android:id="@+id/qc_emergency_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
@@ -145,6 +146,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:orientation="vertical"
+				android:gravity="center"
 				android:layout_marginTop="@dimen/bottom_sheet_button_icon_toppadding"
 				android:layout_marginLeft="@dimen/bottom_sheet_button_icon_padding"
 				android:layout_marginRight="@dimen/bottom_sheet_button_icon_padding"
@@ -152,15 +154,15 @@
 				>
 				<edison.mobile.android.common.controls.CircularImageButton
 					android:id="@+id/qc_activity"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
 					app:buttonBackgroundTint="@color/icon_background_grey"
 					app:iconSrc="@drawable/message"
 					app:iconTint="@color/icon_blue"
 					android:tag="qc_activity"
 					/>
 				<android.support.v7.widget.AppCompatTextView
-					android:id="@+id/sc_activity_name"
+					android:id="@+id/qc_activity_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
@@ -171,10 +173,12 @@
 					/>
 			</LinearLayout>
 			<LinearLayout
+				android:id="@+id/qc_safe_holder"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:orientation="vertical"
+				android:gravity="center"
 				android:layout_marginTop="@dimen/bottom_sheet_button_icon_toppadding"
 				android:layout_marginLeft="@dimen/bottom_sheet_button_icon_padding"
 				android:layout_marginRight="@dimen/bottom_sheet_button_icon_padding"
@@ -182,15 +186,15 @@
 				>
 				<edison.mobile.android.common.controls.CircularImageButton
 					android:id="@+id/qc_safe"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
 					app:buttonBackgroundTint="@color/icon_background_grey"
 					app:iconSrc="@drawable/user"
 					app:iconTint="@color/icon_blue"
 					android:tag="qc_safe"
 					/>
 				<android.support.v7.widget.AppCompatTextView
-					android:id="@+id/sc_safe_name"
+					android:id="@+id/qc_safe_name"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"

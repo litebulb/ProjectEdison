@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.IO;
+using System.Threading.Tasks;
+using Android.Content;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
-
+using Edison.Core.Common.Models;
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Controls;
 using Edison.Mobile.Common.Geo;
 using Edison.Mobile.User.Client.Core.ViewModels;
 using Edison.Mobile.User.Client.Droid.Activities;
 using Edison.Mobile.User.Client.Droid.Adapters;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
@@ -224,15 +228,32 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         }
 
 
-        private void OnResponseSelected(object sender, int index)
+        private async void OnResponseSelected(object sender, int index)
         {
             IsShowingDetails = true;
             OnViewResponseDetails?.Invoke(this, new EventArgs());
-            var response = ViewModel.Responses[index];
+            var response = ViewModel.Responses[index].Response;
 
             // TODO:  Navigate to details view - probably a new activity as wont show navigation drawer
+            await NavigateToEventDetails(response);
+
 
         }
+
+        private async Task NavigateToEventDetails(ResponseModel response)
+        {
+            string responseJson = JsonConvert.SerializeObject(response);
+
+            var intent = new Intent(Activity, typeof(EventDetailActivity));
+            intent.PutExtra("response", responseJson);
+            //           intent.AddFlags(ActivityFlags.NoAnimation);
+            //           intent.AddFlags(ActivityFlags.ClearTop);
+            //           intent.AddFlags(ActivityFlags.NewTask);
+            //           intent.AddFlags(ActivityFlags.ClearTask);
+            StartActivity(intent);
+
+        }
+
 
 
         private void OnEventGaugeClicked(object sender, EventArgs e)

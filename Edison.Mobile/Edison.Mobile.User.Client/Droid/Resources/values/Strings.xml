@@ -46,4 +46,7 @@
     <string name="enter_message">Enter message</string>
     <string name="send_message">Send Message</string>
     <string name="location_sent">Location sent</string>
+  
+    <string name="_alert_updates">ALERT UPDATES</string>
+    <string name="proximity_message">You are near the event and should move to a safer location if possible.</string>
 </resources>

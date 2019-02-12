@@ -45,7 +45,7 @@ using Math = System.Math;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize )]  //, WindowSoftInputMode = SoftInput.AdjustResize
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize )]
 //  [Activity(Label = "@string/app_name", MainLauncher = true, Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/AppTheme.NoActionBar")]
     public class MainActivity : BaseActivity<MenuViewModel>
     {
@@ -290,6 +290,8 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             Color col = new Color(ContextCompat.GetColor(this, Resource.Color.app_blue));
             _toolbar.SetTitleTextColor(col);
             _toolbar.SetSubtitleTextColor(col);
+            SetToolbarCustomTitleColor(col);
+            SetToolbarCustomSubtitleColor(col);
 
             // Manually add the menu to the toolbar and set the menu item click event(not done automatically because not setting SupportActionBar)
             OnCreateOptionsMenu(_toolbar.Menu);
@@ -479,7 +481,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
         private void LoadChatFragment()
         {
-            _chatFragment = new ChatFragment();
+            _chatFragment = new ChatFragment(Resource.Layout.main_activity);
             ReplaceFragment(_chatFragment, Resource.Id.bottom_sheet_fragment_container, false);
  //           SupportFragmentManager.BeginTransaction().Replace(Resource.Id.bottom_sheet_fragment_container, _chatFragment, null).Commit();
         }
@@ -775,7 +777,14 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
             return true;
         }
 
-
+        public void SetToolbarCustomTitleColor(Color color)
+        {
+            _customToolbarTitle?.SetTextColor(color);
+        }
+        public void SetToolbarCustomSubtitleColor(Color color)
+        {
+            _customToolbarSubtitle?.SetTextColor(color);
+        }
 
         public bool EnsureWriteSettingsPrivilege()
         {

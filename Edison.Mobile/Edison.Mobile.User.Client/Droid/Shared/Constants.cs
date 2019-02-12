@@ -28,17 +28,31 @@ namespace Edison.Mobile.User.Client.Droid
         internal const string CHANNEL_ID = "my_notification_channel";
         internal const int NOTIFICATION_ID = 100;
 
-        public static int StatusBarHeightPx = PixelSizeConverter.DpToPx(24);
+        public static int StatusBarHeightPx { get; private set; } = PixelSizeConverter.DpToPx(24);
 
-        public static int ToolbarHeightPx = -1;
+        public static int ToolbarHeightPx { get; private set; } = -1;
 
-        public static int AvailablePageHeightPx = -1;
+        public static int AvailablePageHeightPx { get; private set; } = -1;
+
+
+        public static int QuickChatIconHorizontalMarginPx { get; private set; } = -1;
+        public static int QuickChatIconVerticalMarginsPx { get; private set; } = -1;
+        public static int QuickChatIconLabelHeightPx { get; private set; } = -1;
+        public static int BottomSheetThumbHeightPx { get; private set; } = -1;
+        public static int QuickChatIconHorizontalMarginsPx { get; private set; } = -1;
+        public static int QuickChatIconButtonDiameterPx { get; private set; } = -1;
+        public static int QuickChatSmallIconButtonDiameterPx { get; private set; } = -1;
+        public static int QuickChatIconButtonPaddingPx { get; private set; } = -1;
+        public static int QuickChatSmallIconButtonPaddingPx { get; private set; } = -1;
+
 
         public static int BottomSheetPeekHeightPx { get; private set; } = -1;
         public static int BottomSheetHeightPx { get; private set; } = -1;
         public static int BottomSheetThumbTotalHeightPx { get; private set; } = -1;
         public static int BottomSheetContentHeightPx { get; private set; } = -1;
 
+        public static int BottomSheetSmallPeekHeightPx { get; private set; } = -1;
+        public static int AvailableDetailBottomSheetHeightPx { get; private set; } = -1;
 
         public static Padding PagePaddingPx { get; private set; }
 
@@ -81,24 +95,32 @@ namespace Edison.Mobile.User.Client.Droid
             UpdateBarDimensions(act);
 
             // BottomSheet PeekHeight
-            int quickChatIconHorizontalMarginPx =
+            QuickChatIconHorizontalMarginPx =
                 (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_button_icon_padding);
-            int quickChatIconVerticalMarginsPx = quickChatIconHorizontalMarginPx +
+            QuickChatIconVerticalMarginsPx = QuickChatIconHorizontalMarginPx +
                                                  (int)act.Resources.GetDimension(Resource.Dimension
                                                      .bottom_sheet_button_icon_toppadding);
-            int labelHeightPx = act.Resources.GetDimensionPixelSize(Resource.Dimension.bottom_sheet_button_text_size);
-            int bottomSheetThumbHeightPx =
+            QuickChatIconLabelHeightPx = act.Resources.GetDimensionPixelSize(Resource.Dimension.bottom_sheet_button_text_size);
+            BottomSheetThumbHeightPx =
                 2 * (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_thumb_padding) +
                 (int)act.Resources.GetDimension(Resource.Dimension.bottom_sheet_thumb_height);
-            int quickChatIconHorizontalMarginsPx = 2 * quickChatIconHorizontalMarginPx;
-            int quickChatIconDiameterPx = (int)(displayWidthPx / 3 - quickChatIconHorizontalMarginsPx);
-            BottomSheetPeekHeightPx = quickChatIconDiameterPx + labelHeightPx + bottomSheetThumbHeightPx +
-                                      quickChatIconVerticalMarginsPx;
+            QuickChatIconHorizontalMarginsPx = 2 *QuickChatIconHorizontalMarginPx;
+            QuickChatIconButtonDiameterPx = (int)(displayWidthPx / 3 - QuickChatIconHorizontalMarginsPx);
+            QuickChatSmallIconButtonDiameterPx = QuickChatIconButtonDiameterPx / 2;
+
+            QuickChatIconButtonPaddingPx = act.Resources.GetDimensionPixelSize(Resource.Dimension.large_message_button_icon_padding);
+            QuickChatSmallIconButtonPaddingPx = act.Resources.GetDimensionPixelSize(Resource.Dimension.small_message_button_icon_padding);
+
+            BottomSheetPeekHeightPx = QuickChatIconButtonDiameterPx + QuickChatIconLabelHeightPx + BottomSheetThumbHeightPx +
+                                      QuickChatIconVerticalMarginsPx;
             // BottomSheet Height
             BottomSheetHeightPx = displayHeightPx - act.Resources.GetDimensionPixelSize(Resource.Dimension.abc_action_bar_default_height_material);
             BottomSheetThumbTotalHeightPx = act.Resources.GetDimensionPixelSize(Resource.Dimension.bottom_sheet_thumb_height) +
                                                 2 * act.Resources.GetDimensionPixelSize(Resource.Dimension.bottom_sheet_thumb_padding);
             BottomSheetContentHeightPx = BottomSheetHeightPx - BottomSheetThumbTotalHeightPx;
+
+            BottomSheetSmallPeekHeightPx = QuickChatSmallIconButtonDiameterPx + BottomSheetThumbHeightPx + QuickChatIconVerticalMarginsPx;;
+            AvailableDetailBottomSheetHeightPx = BottomSheetHeightPx - BottomSheetSmallPeekHeightPx;
 
             PagePaddingPx = new Padding(0, 0, 0, BottomSheetPeekHeightPx);
 
@@ -160,16 +182,7 @@ namespace Edison.Mobile.User.Client.Droid
 
         }
 
-        /*
-                public static void CalculateDefaultZoms(Context ctx)
-                {
-                    TypedValue typedValue = new TypedValue();
 
-                    ctx.Resources.GetValue(Resource.Dimension.reponse_card_map_default_zoom, typedValue, true);
-                    DefaultResponseMapZoom = typedValue.Float;
-
-                }
-        */
 
         private static readonly bool _eventRedSet = false;
         private static Color _eventRed;

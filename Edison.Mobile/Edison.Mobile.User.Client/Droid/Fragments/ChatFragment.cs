@@ -23,6 +23,7 @@ using Edison.Core.Common.Models;
 using Edison.Mobile.User.Client.Droid.Adapters;
 using Android.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Edison.Mobile.User.Client.Droid.Fragments
 {
@@ -39,8 +40,9 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         private ChatAdapter _chatAdapter;
 
 
-        private List<CircularImageButton> _quickButtons = new List<CircularImageButton>();
-        private int _safeQuickButtonIndex = -1;
+        private List<Tuple<CircularImageButton, AppCompatTextView>> _quickButtons = new List<Tuple<CircularImageButton, AppCompatTextView>>();
+        private LinearLayout _safeButtonHolder;
+
 
         private ConstraintLayout _chatInputHolder;
         private AppCompatEditText _chatMessageInput;
@@ -52,11 +54,13 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         private Color _origSafeIconColor;
         private Color _selectedSafeIconColor;
 
+        private int _parentId;
 
 
-
-    
-
+        public ChatFragment(int parentId) : base()
+        {
+            _parentId = parentId;
+        }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -71,6 +75,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
             BindViews(root);
             BindData();
+            AdjustViewPositions();
             BindEvents();
 
             _origSafeButtonColor = new Color(ContextCompat.GetColor(Context, Resource.Color.icon_background_grey));
@@ -87,10 +92,18 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             _quick_chat_holder = root.FindViewById<LinearLayout>(Resource.Id.quick_chat_holder);
             _chat_layout_holder = root.FindViewById<ConstraintLayout>(Resource.Id.chat_layout_holder);
 
-            _quickButtons.Add(root.FindViewById<CircularImageButton>(Resource.Id.qc_emergency));
-            _quickButtons.Add(root.FindViewById<CircularImageButton>(Resource.Id.qc_activity));
-            _quickButtons.Add(root.FindViewById<CircularImageButton>(Resource.Id.qc_safe));
-            _safeQuickButtonIndex = 2;
+            _quickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_emergency), root.FindViewById<AppCompatTextView>(Resource.Id.qc_emergency_name)));
+            _quickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_activity), root.FindViewById<AppCompatTextView>(Resource.Id.qc_activity_name)));
+            _quickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_safe), root.FindViewById<AppCompatTextView>(Resource.Id.qc_safe_name)));
+            _safeButtonHolder = root.FindViewById<LinearLayout>(Resource.Id.qc_safe_holder);
+            // if the fragment is contained in an EventDetailActivity, initially make labels invisible by setting alpha to 0
+            if (_parentId == Resource.Layout.event_detail_activity)
+            {
+                foreach (var button in _quickButtons)
+                {
+                    button.Item2.Alpha = 0;
+                }
+            }
 
             _chatInputHolder = root.FindViewById<ConstraintLayout>(Resource.Id.chat_input_holder);
             _chatMessageInput = root.FindViewById<AppCompatEditText>(Resource.Id.chat_input);
@@ -100,19 +113,42 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             _chatMessages = root.FindViewById<RecyclerView>(Resource.Id.chat_area);
         }
 
+        private void AdjustViewPositions()
+        {
+            if (Constants.QuickChatIconButtonDiameterPx > -1)
+            {
+                foreach (var button in _quickButtons)
+                {
+                    var padding = _parentId == Resource.Layout.main_activity ? Constants.QuickChatIconButtonPaddingPx : Constants.QuickChatSmallIconButtonPaddingPx;
+                    button.Item1.SetIconPadding(padding);
+                    var size = _parentId == Resource.Layout.main_activity ? Constants.QuickChatIconButtonDiameterPx : Constants.QuickChatSmallIconButtonDiameterPx;
+                    var lp = button.Item1.LayoutParameters;
+                    lp.Height = size;
+                    lp.Width = size;
+                    button.Item1.LayoutParameters = lp;
+                }
+            }
+        }
 
         private void BindEvents()
         {
             foreach (var button in _quickButtons)
             {
-                button.Click += OnButtonClick;
+                button.Item1.Click += OnButtonClick;
             }
             ViewModel.ChatPromptTypes.CollectionChanged += OnChatPromptTypesCollectionChanged;
-            if (Activity is Edison.Mobile.User.Client.Droid.Activities.MainActivity act)
+            if (Activity is MainActivity act)
             {
                 act.BottomSheetBehaviour.Slide += OnSlide;
                 act.KeyboardStatusChanged += OnKeyboardChange;
             }
+            else if (Activity is EventDetailActivity act1)
+            {
+                act1.BottomSheetBehaviour.Slide += OnSlide;
+                act1.KeyboardStatusChanged += OnKeyboardChange;
+            }
+            
+
             ViewModel.ActionPlans.CollectionChanged += OnEventButtonCollectionChanged;
             _eventButtonsAdapter.ItemClick += OnButtonClick;
 
@@ -125,14 +161,20 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         {
             foreach (var button in _quickButtons)
             {
-                button.Click -= OnButtonClick;
+                button.Item1.Click -= OnButtonClick;
             }
             ViewModel.ChatPromptTypes.CollectionChanged -= OnChatPromptTypesCollectionChanged;
-            if (Activity is Edison.Mobile.User.Client.Droid.Activities.MainActivity act)
+            if (Activity is MainActivity act)
             {
                 act.BottomSheetBehaviour.Slide -= OnSlide;
                 act.KeyboardStatusChanged -= OnKeyboardChange;
             }
+            else if (Activity is EventDetailActivity act1)
+            {
+                act1.BottomSheetBehaviour.Slide -= OnSlide;
+                act1.KeyboardStatusChanged -= OnKeyboardChange;
+            }
+
             ViewModel.ActionPlans.CollectionChanged -= OnEventButtonCollectionChanged;
             _eventButtonsAdapter.ItemClick -= OnButtonClick;
 
@@ -155,7 +197,12 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             };
             _chatMessages.AddItemDecoration(new SpaceItemDecoration(Activity.Resources.GetDimensionPixelSize(Resource.Dimension.chat_item_spacing)));
             _chatMessages.SetAdapter(_chatAdapter);
-            ((MainActivity)Activity).BottomSheetBehaviour.NestedScrollingViewIds.Add(Resource.Id.chat_area);
+
+
+            if (Activity is MainActivity act)
+                act.BottomSheetBehaviour.NestedScrollingViewIds.Add(Resource.Id.chat_area);
+            else if (Activity is EventDetailActivity act1)
+                act1.BottomSheetBehaviour.NestedScrollingViewIds.Add(Resource.Id.chat_area);
         }
 
 
@@ -171,22 +218,56 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         {
             if (slideOffset >= 0 && slideOffset <= 1)
             {
-                _quick_chat_holder.Alpha = 1 - slideOffset;
-                _chat_layout_holder.Alpha = slideOffset;
+                if (_parentId == Resource.Layout.main_activity)
+                {
+                    // Main Activity - simple linear fading based on bottom sheet position
+                    _quick_chat_holder.Alpha = 1 - slideOffset;
+                    _chat_layout_holder.Alpha = slideOffset;
+                }
+                else if (_parentId == Resource.Layout.event_detail_activity)
+                {
+                    // EventDetails Activity
+                    // Calculate two offset thresholds on which view behaviour is based
+                    var threshold2 = (float)(Constants.BottomSheetPeekHeightPx - Constants.BottomSheetSmallPeekHeightPx)/(float)Constants.AvailableDetailBottomSheetHeightPx;
+                    var threshold1 = threshold2/2;
+                    // Linear fading based on bottom sheet position above threshold 2 position
+                    _quick_chat_holder.Alpha = slideOffset <= threshold2 ? 1 : 1 - ((slideOffset - threshold2) / (1 - threshold2));
+                    _chat_layout_holder.Alpha = slideOffset <= threshold2 ? 0 : (slideOffset - threshold2) / (1 - threshold2);
+
+                    foreach (var button in _quickButtons)
+                    {
+                        // QuickChatIconButtonDiameterPx
+                        // QuickChatSmallIconButtonDiameterPx
+                        // button icon padding based on bottom sheet position between closed and threshold 2 position
+                        var paddingDelta = Constants.QuickChatIconButtonPaddingPx - Constants.QuickChatSmallIconButtonPaddingPx;
+                        var padding = slideOffset >= threshold2 ? Constants.QuickChatIconButtonPaddingPx : (int)(Constants.QuickChatSmallIconButtonPaddingPx + (paddingDelta * slideOffset / threshold2));
+                        button.Item1.SetIconPadding(padding);
+                        // button icon size based on bottom sheet position between closed and threshold 2 position
+                        var sizeDelta = Constants.QuickChatIconButtonDiameterPx - Constants.QuickChatSmallIconButtonDiameterPx;
+                        var size = slideOffset >= threshold2 ? Constants.QuickChatIconButtonDiameterPx : (int)(Constants.QuickChatSmallIconButtonDiameterPx + (sizeDelta * slideOffset / threshold2));
+                        var lp = button.Item1.LayoutParameters;
+                        lp.Width = size;
+                        lp.Height = size;
+                        button.Item1.LayoutParameters = lp;
+
+                        // button label alpha based on bottom sheet position between threshold 1 and threshold 2 positions
+                        button.Item2.Alpha = slideOffset <= threshold1 ? 0 : slideOffset >= threshold2 ? 1 : (slideOffset - threshold1) / (threshold2 - threshold1);
+                    }
+
+                }
+
+
+
             }
         }
 
 
         private void OnChatPromptTypesCollectionChanged(object sender, EventArgs e)
         {
-            if (_safeQuickButtonIndex > -1)
-            {
-                if (ViewModel.ChatPromptTypes.Contains(ChatPromptType.SafetyCheck))
-                    _quickButtons[_safeQuickButtonIndex].Visibility = ViewStates.Visible;
-                else
-                    _quickButtons[_safeQuickButtonIndex].Visibility = ViewStates.Gone;
-            }
-
+            if (ViewModel.ChatPromptTypes.Contains(ChatPromptType.SafetyCheck))
+                _safeButtonHolder.Visibility = ViewStates.Visible;
+            else
+                _safeButtonHolder.Visibility = ViewStates.Gone;
         }
 
         private async void OnButtonClick(object sender, EventArgs e)
@@ -210,18 +291,26 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                     case "qc_activity":
                         if (Activity is MainActivity act)
                             act.BottomSheetBehaviour.State = BottomSheetBehavior.StateExpanded;
-                        // inject message into chat
-                         cpt = ChatPromptType.ReportActivity;
+                        else if (Activity is EventDetailActivity act1)
+                            act1.BottomSheetBehaviour.State = BottomSheetBehavior.StateExpanded;
+                            // inject message into chat
+                            cpt = ChatPromptType.ReportActivity;
                         
 
                         break;
 
                     case "qc_emergency":
-                        if (Activity is MainActivity act1)
-                            act1.BottomSheetBehaviour.State = BottomSheetBehavior.StateExpanded;
+                        if (Activity is MainActivity act2)
+                            act2.BottomSheetBehaviour.State = BottomSheetBehavior.StateExpanded;
+                        else if (Activity is EventDetailActivity act3)
+                            act3.BottomSheetBehaviour.State = BottomSheetBehavior.StateExpanded;
                         // inject message into chat
                         cpt = ChatPromptType.Emergency;
 
+                        // set the selected button to emergency
+                        var button = _eventButtonsAdapter.EventButtons.FirstOrDefault(b => b.Name.ToLowerInvariant() == "emergency");
+                        var index = button == null ? -1 : _eventButtonsAdapter.EventButtons.IndexOf(button);
+                        _eventButtonsAdapter.SelectedPosition = index;
 
                         break;
 
@@ -294,6 +383,8 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                 // Disable the Bottom sheet
                 if (Activity is MainActivity act)
                     act.BottomSheetBehaviour.Enabled = false;
+                else if (Activity is EventDetailActivity act1)
+                    act1.BottomSheetBehaviour.Enabled = false;
 
                 // Change the height of the containing view to take into account the keyboard
                 var lp = _chat_layout_holder.LayoutParameters;
@@ -309,6 +400,9 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                 // Enable the Bottom sheet
                 if (Activity is MainActivity act)
                     act.BottomSheetBehaviour.Enabled = true;
+                else if (Activity is EventDetailActivity act1)
+                    act1.BottomSheetBehaviour.Enabled = true;
+
                 // Reset the height of the containing view to take into account the keyboard
                 var lp = _chat_layout_holder.LayoutParameters;
                 lp.Height = _chatHolderHeight;

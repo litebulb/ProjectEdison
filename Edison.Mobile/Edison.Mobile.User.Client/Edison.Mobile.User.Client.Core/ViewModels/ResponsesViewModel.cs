@@ -72,7 +72,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 }
             });
 
-            // Attewmpt to get the current user location
+            // Attempt to get the current user location
             UserLocation = _locationService.LastKnownLocation;
             if (UserLocation == null)
             {

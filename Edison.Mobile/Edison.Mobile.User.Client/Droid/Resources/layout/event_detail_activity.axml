@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- Page Content Area - includes App Bar Definition  -->
+	<android.support.design.widget.CoordinatorLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/nav_coordinator_content"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fitsSystemWindows="true"
+		>
+
+		<android.support.design.widget.AppBarLayout
+			android:id="@+id/nav_appbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:elevation="0dp"
+			>
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/nav_toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:elevation="0dp"
+				android:background="@color/app_background"
+				android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+				>
+				<LinearLayout
+					android:id="@+id/toolbar_title_wrapper"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dp"
+					android:orientation="vertical"
+					android:paddingLeft="@dimen/abc_action_bar_default_padding_start_material"
+					android:paddingRight="@dimen/abc_action_bar_default_padding_end_material"
+					android:layout_gravity="center"
+					android:gravity="center"
+					>
+					<android.support.v7.widget.AppCompatTextView
+						android:id="@+id/toolbar_title"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:gravity="center"
+						android:singleLine="true"
+						android:ellipsize="end"
+						android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+						android:text="Edison"
+						android:textColor="@color/app_blue"
+						android:visibility="gone"
+						/>
+					<android.support.v7.widget.AppCompatTextView
+						 android:id="@+id/toolbar_subtitle"
+						 android:layout_width="wrap_content"
+						 android:layout_height="wrap_content"
+						 android:layout_gravity="center"
+						 android:gravity="center"
+						 android:singleLine="true"
+						 android:ellipsize="end"
+						 android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+						 android:text="Subtitle"
+						 android:textColor="@color/app_blue"
+						 android:visibility="gone"
+						/>
+				</LinearLayout>
+			</android.support.v7.widget.Toolbar>
+		</android.support.design.widget.AppBarLayout>
+
+		<android.support.constraint.ConstraintLayout
+			android:id="@+id/page_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:elevation="@dimen/content_elevation"
+			android:clipChildren="false"
+			android:clipToPadding="false"
+			android:background="@color/app_background_darkgrey"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			>
+
+			<com.google.android.gms.maps.MapView
+				android:id="@+id/map_container"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+		    app:layout_constraintTop_toTopOf="parent"
+		    app:layout_constraintHeight_default="percent"
+		    app:layout_constraintHeight_percent="@dimen/detailed_map_height_percent"
+				android:background="@color/white"
+				app:layout_behavior="@string/appbar_scrolling_view_behavior"
+				/>
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/message_area_title"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/map_container"
+				android:layout_gravity="left"
+				android:lines="1"
+				android:textAllCaps="true"
+				android:text="@string/_alert_updates"
+				android:textColor="@color/white"
+				android:visibility="gone"
+				/>
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/detailed_message_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/message_area_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:overScrollMode="always"
+        android:orientation="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+				/>
+		</android.support.constraint.ConstraintLayout>
+
+
+
+
+		<!---
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/content_floating_action_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="16dp"
+			android:clickable="true"
+			android:src="@drawable/ic_add_24"
+			app:layout_anchor="@id/content_container"
+			app:layout_anchorGravity="bottom|right|end"
+			app:backgroundTint="?attr/colorAccent"
+			android:elevation="@dimen/design_fab_elevation"
+			android:visibility="invisible"
+		/>
+		-->
+		<!--  
+app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
+
+
+-->
+		<LinearLayout
+			android:id="@+id/bottom_sheet"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:layout_marginTop="0dp"
+			android:elevation="@dimen/bottom_sheet_elevation"
+			android:background="@drawable/bottom_sheet_background"
+			app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+			app:behavior_peekHeight="80dp"
+			>
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/bs_thumb"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/bottom_sheet_thumb_padding"
+				android:layout_marginBottom="@dimen/bottom_sheet_thumb_padding"
+				app:srcCompat="@drawable/bottom_sheet_thumb"
+				/>
+
+			<FrameLayout
+				android:id="@+id/bottom_sheet_fragment_container"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				/>
+		</LinearLayout>
+
+
+	</android.support.design.widget.CoordinatorLayout>
+
+
+

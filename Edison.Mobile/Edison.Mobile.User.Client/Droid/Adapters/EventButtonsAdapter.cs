@@ -32,7 +32,23 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
         public ObservableRangeCollection<ActionPlanListModel> EventButtons { get; set; } = new ObservableRangeCollection<ActionPlanListModel>();
     
-        public int SelectedPosition { get; set; } = -1;
+        private int _selectedPosition = -1;
+        public int SelectedPosition
+        {
+            get { return _selectedPosition; }
+            set
+            {
+                if (value != SelectedPosition)
+                {
+                    PreviousSelectedPosition = _selectedPosition;
+                    _selectedPosition = value;
+                    if (PreviousSelectedPosition > -1)
+                        NotifyItemChanged(PreviousSelectedPosition);
+                    if (value > -1)
+                        NotifyItemChanged(value);
+                }
+            }
+        }
         public int PreviousSelectedPosition { get; set; } = -1;
 
         public override int ItemCount => EventButtons.Count;
@@ -78,15 +94,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
         // Raise an event when the item-click takes place:
         void OnClick(int position)
         {
-            if (position != SelectedPosition)
-            {
-                PreviousSelectedPosition = SelectedPosition;
-                SelectedPosition = position;
-                if (PreviousSelectedPosition > -1)
-                    NotifyItemChanged(PreviousSelectedPosition);
-                NotifyItemChanged(position);
-            }
-
+            SelectedPosition = position;
             ItemClick?.Invoke(this, position);
         }
 

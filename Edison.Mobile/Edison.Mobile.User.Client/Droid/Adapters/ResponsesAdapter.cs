@@ -12,6 +12,7 @@ using Edison.Mobile.User.Client.Droid.Holders;
 using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
 using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Android.Common;
+using Android.App;
 
 namespace Edison.Mobile.User.Client.Droid.Adapters
 {
@@ -21,7 +22,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
         public event EventHandler<LocationChangedEventArgs> LocationChanged;
         public event EventHandler<int> ItemClick;
 
-        private Context _context;
+        private Activity _activity;
 
 
         private EdisonLocation _oldUserLocation = null;
@@ -42,9 +43,9 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
         public override int ItemCount => Responses.Count;
 
 
-        public ResponsesAdapter(Context ctx, ObservableRangeCollection<ResponseCollectionItemViewModel> responses, EdisonLocation userLocation)
+        public ResponsesAdapter(Activity ctx, ObservableRangeCollection<ResponseCollectionItemViewModel> responses, EdisonLocation userLocation)
         {
-            _context = ctx;
+            _activity = ctx;
             Responses = responses;
             if (userLocation != null)
                 UserLocation = new LatLng(userLocation.Latitude, userLocation.Longitude);
@@ -57,15 +58,15 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             // Inflate the CardView
             View responseCard = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.response_card, parent, false);
             // Create a ViewHolder to find and hold these view references, and register OnClick with the view holder:
-            ResponseViewHolder vh = new ResponseViewHolder(responseCard, OnClick);
+            ResponseViewHolder vh = new ResponseViewHolder(_activity, responseCard, OnClick);
             return vh;
         }
 
 
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public async override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             ResponseViewHolder vh = holder as ResponseViewHolder;
-            // Add margin to act as seperaor betwen itmes. Double size for first item to center the first card
+            // Add margin to act as separator between items. Double size for first item to center the first card
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)vh.Card.LayoutParameters;
             lp.Width = Constants.EventResponseCardWidthPx;
             if (position == 0)
@@ -80,7 +81,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             // Try to get the actual response details
             var response = Responses[position].Response;
 
-            // if the details have not been fetched (the inital API only fetches a summary), fetch it
+            // if the details have not been fetched (the initial API only fetches a summary), fetch it
             if (response?.ActionPlan == null)
             {
                 vh.Loading.Visibility = ViewStates.Visible;
@@ -90,7 +91,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             {
                 vh.Loading.Visibility = ViewStates.Gone;
                 // Set the contents in this ViewHolder's CardView  from this position in the collection:
-                var color = Constants.GetEventTypeColor(_context, response.Color);
+                var color = Constants.GetEventTypeColor(_activity, response.Color);
                 vh.Seperator.SetBackgroundColor(color);
                 vh.Icon.BackgroundTintList = ColorStateList.ValueOf(color);
                 vh.Icon.SetImageResource(GetIconResourceId(response.Icon));
@@ -123,7 +124,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
  //               if (response.Geolocation != null || (userLatitude != double.MinValue && userLongitude != double.MinValue))
  //                   vh.SetMapLocation(color, userLatitude, userLongitude, eventLatitude, eventLongitude);
                 if (eventLocation != null || UserLocation != null)
-                    vh.SetupMap(color, UserLocation, eventLocation);
+                    await vh.SetupMapAsync(color, UserLocation, eventLocation);
 
                 LocationChanged -= vh.OnLocationChanged;
                 LocationChanged += vh.OnLocationChanged;
@@ -158,7 +159,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
 
         // Raise an event when the item-click takes place:
-        void OnClick(int position)
+        private async void OnClick(int position)
         {
             ItemClick?.Invoke(this, position);
         }
@@ -182,7 +183,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
         private int GetIconResourceId(string iconName)
         {
-            var id = _context.GetDrawableId(iconName);
+            var id = _activity.GetDrawableId(iconName);
             return id == 0 ? Resource.Drawable.emergency : id;
         }
 

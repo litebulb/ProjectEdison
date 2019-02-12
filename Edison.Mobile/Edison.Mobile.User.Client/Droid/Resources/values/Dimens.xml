@@ -72,8 +72,9 @@
   <dimen name="large_message_button_padding">10dp</dimen>
   <dimen name="medium_message_button_padding_horiz">1dp</dimen>
   <dimen name="medium_message_button_padding_vert">2dp</dimen>
+  <dimen name="large_message_button_icon_padding">20dp</dimen>
   <dimen name="medium_message_button_icon_padding">4dp</dimen>
-  <dimen name="small_message_button_padding">4dp</dimen>
+  <dimen name="small_message_button_icon_padding">6dp</dimen>
   
   <dimen name="message_button_size">50dp</dimen>
   <dimen name="message_button_area_width">66dp</dimen>
@@ -98,4 +99,6 @@
   <dimen name="chat_indicator_icon_size">12dp</dimen>
   <dimen name="chat_indicator_text_size">14sp</dimen>
   <dimen name="chat_item_spacing">10dp</dimen>
+
+  <item name="detailed_map_height_percent" type="dimen" format="float">0.55</item>
 </resources>

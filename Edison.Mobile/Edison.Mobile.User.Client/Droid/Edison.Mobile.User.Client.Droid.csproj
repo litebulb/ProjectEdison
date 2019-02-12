@@ -220,6 +220,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\EventDetailActivity.cs" />
     <Compile Include="Adapters\ChatAdapter.cs" />
     <Compile Include="Adapters\EventButtonsAdapter.cs" />
     <Compile Include="Adapters\NavMenuExpandableListAdapter.cs" />
@@ -296,11 +297,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\main_drawer_header.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
@@ -929,6 +925,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\chat_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\event_detail_activity.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
