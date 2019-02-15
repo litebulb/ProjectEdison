@@ -41,13 +41,14 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             {
                 isInitialAppearance = false;
                 var hasToken = await AuthService.AcquireTokenSilently();
+
+                AuthService.OnAuthChanged += HandleOnAuthChanged;
                 if (hasToken)
                 {
                     await HandleAppPermissions();
                 }
                 else
                 {
-                    AuthService.OnAuthChanged += HandleOnAuthChanged;
                     OnDisplayLogin?.Invoke();
                 }
             }

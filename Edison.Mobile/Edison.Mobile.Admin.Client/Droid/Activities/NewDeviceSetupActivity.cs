@@ -18,52 +18,36 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "test", MainLauncher = true, Theme = "@style/EdisonLight.TransparentBar", Icon = "@mipmap/icon")]
-    public class MainActivity : BaseActivity<MainViewModel>
+    [Activity(Label = "hello", MainLauncher = true, Icon = "@mipmap/icon")]
+    public class NewDeviceSetupActivity : BaseActivity<RegisterDeviceViewModel>
     {
-        private LinearLayout _setupNewButton;
-        private LinearLayout _manageButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             
-            SetContentView(Resource.Layout.Main);
+            SetContentView(Resource.Layout.new_device_setup);
 
             BindResources();
             BindVMEvents();
         }
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.top_menus, menu);
-            return base.OnCreateOptionsMenu(menu);
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            Toast.MakeText(this, "Action selected: " + item.TitleFormatted,
-                ToastLength.Short).Show();
-            return base.OnOptionsItemSelected(item);
-        }
 
         private void BindResources()
         {
-            _setupNewButton = FindViewById<LinearLayout>(Resource.Id.button_new);
-            _manageButton = FindViewById<LinearLayout>(Resource.Id.button_manage);
-            
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-
+            
             //TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            //mTitle.Text = GetString(Resource.String.edison_device_setup_message);
+            //mTitle.Text = GetString(Resource.String.setup_new_device_label);
 
             SetSupportActionBar(toolbar);
-            
+                        
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
         }
+
 
         protected void BindVMEvents()
         {
-            _setupNewButton.Click += OnSetupNewButtonClick;
-            _manageButton.Click += OnManageButtonClick;
         }
 
         private async void OnManageButtonClick(object sender, EventArgs e)
@@ -74,11 +58,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private async void OnSetupNewButtonClick(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(NewDeviceSetupActivity));
-            intent.AddFlags(ActivityFlags.NoAnimation);
-            StartActivity(intent);
-            Finish();
-
+            //ClearMessages();
+            
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

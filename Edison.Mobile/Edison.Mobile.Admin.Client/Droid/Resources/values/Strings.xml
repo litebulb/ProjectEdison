@@ -8,4 +8,9 @@
   <string name="edison_device_setup_message">Edison Device Setup</string>
   <string name="setup_new_device_label">Set Up New Device</string>
   <string name="manage_your_devices_label">Manage Your Devices</string>
+  <string name="what_type_of_device_label">What type of device?</string>
+  <string name="button_label">Button</string>
+  <string name="sound_sensor_label">Sound Sensor</string>
+  <string name="light_label">Light</string>
+
 </resources>
