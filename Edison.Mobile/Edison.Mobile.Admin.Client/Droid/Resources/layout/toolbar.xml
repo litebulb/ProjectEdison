@@ -5,16 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
-         android:gravity="center_horizontal"
     android:background="?attr/colorPrimary"
+                                   app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+                                   android:paddingRight="?attr/actionBarSize"
     android:titleTextColor="?attr/titleTextColor"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
- 
-  <android.support.v7.widget.AppCompatTextView
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-       android:gravity="center"
-     android:id="@+id/toolbar_title"    
-     android:textColor="?attr/titleTextColor"
-     android:text="My Title" />
+    
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/toolbar_title"
+                android:textColor="?attr/titleTextColor"
+                android:text="My Title" />
+    
 </android.support.v7.widget.Toolbar>

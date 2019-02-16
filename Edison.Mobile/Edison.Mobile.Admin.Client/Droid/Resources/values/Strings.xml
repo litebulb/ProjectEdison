@@ -13,4 +13,5 @@
   <string name="sound_sensor_label">Sound Sensor</string>
   <string name="light_label">Light</string>
 <string name="turn_on_device_power_label">Turn on the device power.</string>
+    <string name="next_label">Next</string>
 </resources>

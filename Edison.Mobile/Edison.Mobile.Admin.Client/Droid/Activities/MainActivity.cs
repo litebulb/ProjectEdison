@@ -35,7 +35,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            MenuInflater.Inflate(Resource.Menu.top_menus, menu);
             return base.OnCreateOptionsMenu(menu);
         }
 

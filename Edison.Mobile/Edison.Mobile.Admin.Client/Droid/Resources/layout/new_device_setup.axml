@@ -1,115 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android" 
-	android:orientation="vertical" android:layout_width="match_parent" 
-	android:layout_height="match_parent"	
-				android:gravity="center_horizontal" 
-	>    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"		
-	/>
-	<LinearLayout
-				android:orientation="vertical" 
-		android:layout_width="match_parent" 
-		android:layout_height="match_parent"	
-		android:paddingTop="24dp"
-		>	
-	<LinearLayout		
-		 android:layout_width="match_parent" 
-	android:layout_height="30dp"		
-		android:orientation="horizontal"		
-				android:paddingLeft="12dp"		
-		>
-			<LinearLayout		
-	android:background="@drawable/circled_number"
-		 android:layout_width="22dp" 
-	android:layout_height="22dp"				
-				android:gravity="center"
-		>
-					<android.support.v7.widget.AppCompatTextView
-		android:id="@+id/login_msg"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"	
-		android:textColor="@color/white"
-		android:textSize="12dp"
-		android:text="1"					
-			/>
-		</LinearLayout>
-
-					<android.support.v7.widget.AppCompatTextView
-		android:id="@+id/login_msg"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"		
-		android:textSize="16dp"				
-			android:paddingLeft="10dp"
-		android:text="@string/what_type_of_device_label"			
-			
-			/>
-		</LinearLayout>
-	<LinearLayout 
-		android:orientation="vertical" 
-		android:layout_width="match_parent" 
-		android:layout_height="wrap_content"	
-		android:paddingLeft="24dp"
-		>
-			<RadioGroup
-			android:minWidth="25px"
-			android:minHeight="25px"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/radioGroup1">
-			<RadioButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:checked="true"
-				android:text="@string/button_label"
-				android:id="@+id/radioButton1"/>
-			
-			<RadioButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/sound_sensor_label"
-				android:id="@+id/radioButton2" />
-			<RadioButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/light_label"
-				android:id="@+id/radioButton3" />
-		</RadioGroup>
-	
-	</LinearLayout>
-			<LinearLayout		
-		 android:layout_width="match_parent" 
-	android:layout_height="80dp"		
-		android:orientation="horizontal"		
-				android:paddingLeft="12dp"	
-			android:paddingTop="24dp"
-		>
-			<LinearLayout		
-	android:background="@drawable/circled_number"
-		 android:layout_width="22dp" 
-	android:layout_height="22dp"				
-				android:gravity="center"
-		>
-					<android.support.v7.widget.AppCompatTextView
-		android:id="@+id/login_msg"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"	
-		android:textColor="@color/white"
-		android:textSize="12dp"
-		android:text="2"					
-			/>
-		</LinearLayout>
-
-					<android.support.v7.widget.AppCompatTextView
-		android:id="@+id/login_msg"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"		
-		android:textSize="16dp"				
-			android:paddingLeft="10dp"
-		android:text="@string/turn_on_device_power_label"			
-			
-			/>
-		</LinearLayout>
-
-		</LinearLayout>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center_horizontal">
+    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingTop="24dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:orientation="horizontal" android:paddingLeft="12dp">
+            <LinearLayout android:background="@drawable/circled_number" android:layout_width="22dp" android:layout_height="22dp" android:gravity="center">
+                <android.support.v7.widget.AppCompatTextView android:id="@+id/login_msg_number_one" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/white" android:textSize="12dp" android:text="1" />
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatTextView android:id="@+id/login_msg_one" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16dp" android:paddingLeft="10dp" android:text="@string/what_type_of_device_label" />
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingLeft="24dp">
+            <RadioGroup android:minWidth="25px" android:minHeight="25px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/radioGroup1">
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:text="@string/button_label" android:id="@+id/radioButton1" />
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sound_sensor_label" android:id="@+id/radioButton2" />
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/light_label" android:id="@+id/radioButton3" />
+            </RadioGroup>
+        </LinearLayout>
+        
+        <LinearLayout android:layout_width="match_parent" android:layout_height="80dp" android:orientation="horizontal" android:paddingLeft="12dp" android:paddingTop="24dp">
+            <LinearLayout android:background="@drawable/circled_number" android:layout_width="22dp" android:layout_height="22dp" android:gravity="center">
+                <android.support.v7.widget.AppCompatTextView android:id="@+id/login_msg_number_two" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/white" android:textSize="12dp" android:text="2" />
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatTextView android:id="@+id/login_msg_two" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16dp" android:paddingLeft="10dp" android:text="@string/turn_on_device_power_label" />
+        </LinearLayout>
+        
+            
+        <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingTop="24dp">
+        <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.2">
+    </LinearLayout>    
+        <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.6">
+            <android.support.v7.widget.AppCompatButton 
+            android:text="@string/next_label"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@color/login_button_blue"
+                android:id="@+id/sign_in_button"            
+                android:textColor="@color/white"
+            />
+        </LinearLayout>
+         <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.2">
+    </LinearLayout>
+                </LinearLayout>
+                       </LinearLayout>
 </android.support.v7.widget.LinearLayoutCompat>
