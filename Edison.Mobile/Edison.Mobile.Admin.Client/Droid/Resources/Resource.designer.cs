@@ -6329,6 +6329,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f090037
 			public const int status_bar_notification_info_overflow = 2131296311;
 			
+			// aapt resource value: 0x7f090049
+			public const int turn_on_device_power_label = 2131296329;
+			
 			// aapt resource value: 0x7f090045
 			public const int what_type_of_device_label = 2131296325;
 			

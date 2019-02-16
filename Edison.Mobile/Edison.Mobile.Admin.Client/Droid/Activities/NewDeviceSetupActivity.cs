@@ -36,15 +36,19 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         {
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             
-            //TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            //mTitle.Text = GetString(Resource.String.setup_new_device_label);
+            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
+            mTitle.Text = GetString(Resource.String.setup_new_device_label);
 
             SetSupportActionBar(toolbar);
-                        
+            this.BackPressed += NewDeviceSetupActivity_BackPressed;               
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
         }
 
+        private void NewDeviceSetupActivity_BackPressed(object sender, EventArgs e)
+        {
+            Finish();
+        }
 
         protected void BindVMEvents()
         {

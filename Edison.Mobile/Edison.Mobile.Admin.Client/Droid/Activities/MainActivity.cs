@@ -53,8 +53,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 
-            //TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            //mTitle.Text = GetString(Resource.String.edison_device_setup_message);
+            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
+            mTitle.Text = GetString(Resource.String.edison_device_setup_message);
 
             SetSupportActionBar(toolbar);
             
@@ -77,8 +77,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             var intent = new Intent(this, typeof(NewDeviceSetupActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);
             StartActivity(intent);
-            Finish();
-
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

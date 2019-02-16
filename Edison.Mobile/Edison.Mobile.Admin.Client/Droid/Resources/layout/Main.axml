@@ -1,115 +1,128 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.LinearLayoutCompat 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	    xmlns:local="http://schemas.android.com/apk/res-auto"
-	android:orientation="vertical" android:layout_width="match_parent" 
-	android:layout_height="match_parent"	
-				android:gravity="center_horizontal"
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"	
 	android:theme="@style/EdisonLight.TransparentBar"	
 	>
-	<include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
-	<LinearLayout
-	android:id="@+id/button_new"
-	android:background="@drawable/border"
-	android:clickable="true"
-		android:layout_width="300dp"
-		android:layout_height="85dp"
-		android:layout_marginTop="18dp"
-	android:orientation="horizontal" >
-			<LinearLayout
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"	
-		android:layout_gravity="center_vertical" >
-
-	<android.support.v7.widget.AppCompatTextView
-		android:id="@+id/textView2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center_vertical"
-		android:layout_marginLeft="15dp"
-			android:textColor="@color/login_button_blue"
-		android:text="@string/setup_new_device_label" />
-			
-			 <LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="right" >
-			<android.support.v7.widget.AppCompatImageView
-				android:id="@+id/img"
-				android:layout_width="20dp"			
-				android:layout_height="20dp"
-					android:layout_marginRight="7dp"
-					android:layout_gravity="center_vertical"
-				android:src="@drawable/sensors"
-					android:alpha="0.4"
-				/>		    
-		
-		<android.support.v7.widget.AppCompatImageView
-		android:id="@+id/img_plus"
-		android:layout_height="wrap_content"		
-					android:layout_width="15dp"		
-				android:textAlignment="viewEnd"
-				android:gravity="end"
-					android:layout_marginRight="7dp"
-					android:layout_marginBottom="30dp"
-		android:src="@drawable/plus" />
+		    <LinearLayout
+				android:layout_width="0dip"
+				android:layout_height="fill_parent"
+				android:layout_weight="0.05">
 			</LinearLayout>
-</LinearLayout>
-	</LinearLayout>
-
-	
-		<LinearLayout
-		android:id="@+id/button_manage"
-		android:background="@drawable/border"
-		android:clickable="true"
-			android:layout_marginTop="12dp"
-			android:layout_width="300dp"
-			android:layout_height="85dp"		       
-		android:orientation="horizontal" >
-				<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"	
-			android:layout_gravity="center_vertical" >
-
-		<android.support.v7.widget.AppCompatTextView
-			android:id="@+id/textView2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_marginLeft="15dp"
-				android:textColor="@color/login_button_blue"
-			android:text="@string/manage_your_devices_label" />
-			
-				 <LinearLayout
-			android:orientation="horizontal"
+	   <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.9"
+			android:orientation="vertical"
+		android:layout_gravity="center_vertical">  
+		<include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"		
+	/>
+						<LinearLayout
+			android:id="@+id/button_new"
+			android:background="@drawable/border"
+			android:clickable="true"
+				android:layout_width="fill_parent"		
+				android:layout_height="85dp"
+				android:layout_marginTop="10dp"
+			android:orientation="horizontal" >
+					<LinearLayout
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="right" >
-				<android.support.v7.widget.AppCompatImageView
-					android:id="@+id/img"
-					android:layout_width="20dp"			
-					android:layout_height="20dp"
-						android:layout_marginRight="7dp"
-						android:layout_gravity="center_vertical"
-					android:src="@drawable/sensorsBlue"
-					/>		    
+			android:layout_height="wrap_content"	
+				android:layout_gravity="center_vertical" >
+
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/textView2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_marginLeft="15dp"
+					android:textColor="@color/login_button_blue"
+				android:text="@string/setup_new_device_label" />
+			
+					 <LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="right" >
+					<android.support.v7.widget.AppCompatImageView
+						android:id="@+id/img"
+						android:layout_width="20dp"			
+						android:layout_height="20dp"
+							android:layout_marginRight="7dp"
+							android:layout_gravity="center_vertical"
+						android:src="@drawable/sensors"
+							android:alpha="0.4"
+						/>		    
 		
-			<android.support.v7.widget.AppCompatImageView
-			android:id="@+id/img_plus"
-			android:layout_height="wrap_content"		
-						android:layout_width="15dp"		
-					android:textAlignment="viewEnd"
-					android:gravity="end"
-						android:layout_marginRight="7dp"
-						android:layout_marginBottom="30dp"
-			android:src="@drawable/gear" />
-				</LinearLayout>
-	</LinearLayout>
-	</LinearLayout>
+				<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/img_plus"
+				android:layout_height="wrap_content"		
+							android:layout_width="15dp"		
+						android:textAlignment="viewEnd"
+						android:gravity="end"
+							android:layout_marginRight="7dp"
+							android:layout_marginBottom="30dp"
+				android:src="@drawable/plus" />
+					</LinearLayout>
+		</LinearLayout>
+			</LinearLayout>
+				<LinearLayout
+				android:id="@+id/button_manage"
+				android:background="@drawable/border"
+				android:clickable="true"
+					android:layout_marginTop="18dp"
+					android:layout_width="fill_parent"
+					android:layout_height="85dp"		       
+				android:orientation="horizontal" >
+						<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"	
+					android:layout_gravity="center_vertical" >
 
-
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/textView2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginLeft="15dp"
+						android:textColor="@color/login_button_blue"
+					android:text="@string/manage_your_devices_label" />
+			
+						 <LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:gravity="right" >
+						<android.support.v7.widget.AppCompatImageView
+							android:id="@+id/img"
+							android:layout_width="20dp"			
+							android:layout_height="20dp"
+								android:layout_marginRight="7dp"
+								android:layout_gravity="center_vertical"
+							android:src="@drawable/sensorsBlue"
+							/>		    
+		
+					<android.support.v7.widget.AppCompatImageView
+					android:id="@+id/img_plus"
+					android:layout_height="wrap_content"		
+								android:layout_width="15dp"		
+							android:textAlignment="viewEnd"
+							android:gravity="end"
+								android:layout_marginRight="7dp"
+								android:layout_marginBottom="30dp"
+					android:src="@drawable/gear" />
+						</LinearLayout>
+			</LinearLayout>
+			</LinearLayout>
+			
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_height="fill_parent"
+				android:layout_weight="0.05">
+			</LinearLayout>
 </android.support.v7.widget.LinearLayoutCompat>
