@@ -5,4 +5,5 @@
   <dimen name="login_button_padding">60dp</dimen>
   <dimen name="login_msg_text_size">10sp</dimen>
   <dimen name="device_setup_message">12sp</dimen>
+  <dimen name="action_bar_size">25dp</dimen>
 </resources>
