@@ -260,6 +260,10 @@
       <Project>{AA414052-365E-4269-B07D-AFD513336C8F}</Project>
       <Name>Edison.Mobile.Android.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj">
+      <Project>{3A1C71AF-E551-498A-BF79-C84D4E741F83}</Project>
+      <Name>Edison.Core.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\screen_login.axml">

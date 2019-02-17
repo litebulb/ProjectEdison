@@ -13,7 +13,7 @@ namespace Edison.Mobile.Common.Auth
 
         public static string UserRedirectUri { get; } = "com.onmicrosoft.edisondevb2c.user://redirect/";
         public static string AdminRedirectUri { get; } = "com.onmicrosoft.edisonadmin://redirect/";
-        public static string AndroidAdminRedirectUri { get; } = "msal0b4a1cf5-7071-4255-9b5c-9f12c8f846bd://auth";
+        public static string AndroidAdminRedirectUri { get; } = "msal2373be1e-6d0b-4e38-9115-e0bd01dadd61://auth";
 
         public static IEnumerable<string> Scopes { get; } = new string[] { "email" };
 
