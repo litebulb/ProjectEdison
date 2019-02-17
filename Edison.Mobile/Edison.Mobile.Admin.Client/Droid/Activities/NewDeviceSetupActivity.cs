@@ -43,6 +43,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             this.BackPressed += NewDeviceSetupActivity_BackPressed;               
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
+
         }
 
         private void NewDeviceSetupActivity_BackPressed(object sender, EventArgs e)
