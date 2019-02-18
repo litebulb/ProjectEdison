@@ -1,4 +1,4 @@
-﻿using Android.App;
+using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V7.Widget;
@@ -58,6 +58,9 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             SetSupportActionBar(toolbar);            
             
             SupportActionBar.SetIcon(Resource.Drawable.menu);
+
+
+
         }
 
         protected void BindVMEvents()
@@ -70,7 +73,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         public void NearDevices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-
+            //https://docs.microsoft.com/en-us/xamarin/android/user-interface/layouts/recycler-view/recyclerview-example
         }
 
 
