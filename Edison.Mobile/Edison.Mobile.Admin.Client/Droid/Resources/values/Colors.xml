@@ -5,5 +5,6 @@
   <color name="login_button_blue">#3333FF</color>
   <color name="app_blue">#8886A0</color>
   <color name="black">#3E3D4A</color>
+  <color name="enabled_green">#28CB4E</color>
 </resources>
 

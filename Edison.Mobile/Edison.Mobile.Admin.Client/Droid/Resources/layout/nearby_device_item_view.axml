@@ -6,33 +6,47 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardElevation="4dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="5dp">
+        card_view:cardElevation="4dp">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+			android:gravity="center_vertical"
+           >
+			<LinearLayout 
+				android:id="@+id/stateLayout"		
+				android:layout_width="14dp" 
+				android:layout_height="14dp"				
+				android:layout_marginLeft="16dp"
+				android:gravity="center">
+                
+            </LinearLayout>
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/stateImageView"
-                android:scaleType="centerCrop" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+				android:src="@drawable/power"
                 android:id="@+id/typeImageView"
+				android:layout_marginLeft="16dp"
                 android:scaleType="centerCrop" />
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#333333"
                 android:text="Caption"
                 android:id="@+id/textView"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="4dp" />
-        </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp" />
+
+		
+			</LinearLayout>
+				<ImageView
+                android:layout_width="6dp"
+                android:layout_height="12dp"
+				android:src="@drawable/arrowRight"
+                android:id="@+id/typeImageView"				
+                android:layout_gravity="end|center_vertical"	
+				android:layout_marginRight="16dp"
+                android:scaleType="centerCrop" />
     </android.support.v7.widget.CardView>
 </FrameLayout>

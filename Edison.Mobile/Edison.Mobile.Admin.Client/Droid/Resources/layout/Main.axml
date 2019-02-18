@@ -13,7 +13,8 @@
 	<LinearLayout
 	android:orientation="horizontal" 
 	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"		
+	android:layout_height="250dp"	
+		
 	>
 
 		    <LinearLayout
@@ -133,6 +134,14 @@
 				android:layout_weight="0.05">
 			</LinearLayout>
 		</LinearLayout>
+					<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/textView2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginLeft="30dp"
+						android:textColor="@color/app_blue"
+					android:text="@string/devices_near_you_label" />
         <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:scrollbars="vertical"

@@ -64,7 +64,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             SetSupportActionBar(toolbar);            
             
             SupportActionBar.SetIcon(Resource.Drawable.menu);
-
+            
             _layoutManager = new LinearLayoutManager(this);
 
             // Get our RecyclerView layout:
@@ -77,9 +77,10 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         {
             _setupNewButton.Click += OnSetupNewButtonClick;
             _manageButton.Click += OnManageButtonClick;
-            
+
             ViewModel.NearDevices.CollectionChanged += NearDevices_CollectionChanged;;
         }
+
 
         public void NearDevices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

@@ -31,13 +31,25 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
 
             var device = _devices[position];
 
-            int icon = Resource.Drawable.edison_logo;
+            int icon = Resource.Drawable.disabled_circle;
             if(device.Online)
             {
-                icon = Resource.Drawable.gear;
+                icon = Resource.Drawable.enabled_circle;
+            }
+                       
+            vh.StateLayout.SetBackgroundResource(icon);
+            
+            switch (device.DeviceType)
+            {
+                case "SmartBulb":
+                case "ButtonSensor":
+                    vh.DeviceTypeImage.SetImageResource(Resource.Drawable.power);
+                    break;
+                case "SoundSensor":
+                    vh.DeviceTypeImage.SetImageResource(Resource.Drawable.lines);
+                    break;
             }
 
-            vh.StateImage.SetImageResource(icon);
             vh.Caption.Text = device.Name;
         }
 
@@ -50,14 +62,14 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
     public class NearbyDeviceHolder : RecyclerView.ViewHolder
     {
         public ImageView DeviceTypeImage { get; private set; }
-        public ImageView StateImage { get; private set; }
+        public LinearLayout StateLayout { get; private set; }
         public TextView Caption { get; private set; }
 
         public NearbyDeviceHolder(View itemView) : base(itemView)
         {
             // Locate and cache view references:
             DeviceTypeImage = itemView.FindViewById<ImageView>(Resource.Id.typeImageView);
-            StateImage = itemView.FindViewById<ImageView>(Resource.Id.stateImageView);
+            StateLayout = itemView.FindViewById<LinearLayout>(Resource.Id.stateLayout);
             Caption = itemView.FindViewById<TextView>(Resource.Id.textView);
         }
     }

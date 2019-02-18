@@ -14,4 +14,5 @@
   <string name="light_label">Light</string>
 <string name="turn_on_device_power_label">Turn on the device power.</string>
     <string name="next_label">Next</string>
+  <string name="devices_near_you_label">Devices Near You</string>
 </resources>
