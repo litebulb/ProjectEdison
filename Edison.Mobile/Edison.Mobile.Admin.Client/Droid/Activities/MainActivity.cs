@@ -4,8 +4,10 @@ using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
+using Edison.Mobile.Admin.Client.Droid.Adapters;
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Ioc;
 using Edison.Mobile.Common.Ioc;
@@ -14,6 +16,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
 using System;
+using System.Collections.Generic;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
@@ -23,6 +26,9 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
     {
         private LinearLayout _setupNewButton;
         private LinearLayout _manageButton;
+
+        private RecyclerView _recyclerView;
+        private RecyclerView.LayoutManager _layoutManager;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -59,7 +65,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             
             SupportActionBar.SetIcon(Resource.Drawable.menu);
 
+            _layoutManager = new LinearLayoutManager(this);
 
+            // Get our RecyclerView layout:
+            _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            _recyclerView.SetLayoutManager(_layoutManager);
 
         }
 
@@ -73,7 +83,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         public void NearDevices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            //https://docs.microsoft.com/en-us/xamarin/android/user-interface/layouts/recycler-view/recyclerview-example
+            var devices = new List<DeviceModel>(ViewModel.NearDevices);
+
+            // Instantiate the adapter and pass in its data source:
+            var mAdapter = new NearbyDeviceAdapter(devices);            
+
+            // Plug the adapter into the RecyclerView:
+            _recyclerView.SetAdapter(mAdapter);
         }
 
 
