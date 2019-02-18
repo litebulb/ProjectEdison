@@ -61,10 +61,14 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
             mTitle.Text = GetString(Resource.String.edison_device_setup_message);
 
-            SetSupportActionBar(toolbar);            
-            
+            SetSupportActionBar(toolbar);
+
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(true);
+            SupportActionBar.SetDisplayUseLogoEnabled(true);
             SupportActionBar.SetIcon(Resource.Drawable.menu);
-            
+            SupportActionBar.SetDisplayShowTitleEnabled(false);
+                        
             _layoutManager = new LinearLayoutManager(this);
 
             // Get our RecyclerView layout:

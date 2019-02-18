@@ -15,4 +15,6 @@
 <string name="turn_on_device_power_label">Turn on the device power.</string>
     <string name="next_label">Next</string>
   <string name="devices_near_you_label">Devices Near You</string>
+  <string name="new_device_scan_title">Set Up Button</string>
+  <string name="scan_qr_message_label">Scan the QR Code on the device to connect it to this phone.</string>
 </resources>

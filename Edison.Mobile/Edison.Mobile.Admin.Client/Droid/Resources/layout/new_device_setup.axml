@@ -39,7 +39,7 @@
             android:layout_width="fill_parent"
             android:layout_height="35dp"
             android:background="@color/login_button_blue"
-                android:id="@+id/sign_in_button"            
+                android:id="@+id/new_device_setup_next_button"            
                 android:textColor="@color/white"
             />
         </LinearLayout>

@@ -40,10 +40,20 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             mTitle.Text = GetString(Resource.String.setup_new_device_label);
 
             SetSupportActionBar(toolbar);
-            this.BackPressed += NewDeviceSetupActivity_BackPressed;               
+            this.BackPressed += NewDeviceSetupActivity_BackPressed;
+
+            AppCompatButton button = FindViewById<AppCompatButton>(Resource.Id.new_device_setup_next_button);
+            button.Click += Button_Click;
+
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
+        }
 
+        private void Button_Click(object sender, EventArgs e)
+        {
+            var intent = new Intent(this, typeof(NewDeviceScanActivity));
+            intent.AddFlags(ActivityFlags.NoAnimation);
+            StartActivity(intent);
         }
 
         private void NewDeviceSetupActivity_BackPressed(object sender, EventArgs e)
