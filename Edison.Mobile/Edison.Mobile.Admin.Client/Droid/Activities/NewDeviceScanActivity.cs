@@ -1,10 +1,12 @@
-﻿using Android;
+﻿using System.Linq;
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Vision;
 using Android.Gms.Vision.Barcodes;
 using Android.Graphics;
+using Android.Net.Wifi;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
@@ -21,6 +23,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
+using Newtonsoft.Json;
 using System;
 using static Android.Gms.Vision.Detector;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
@@ -31,40 +34,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
     public class NewDeviceScanActivity : BaseActivity<RegisterDeviceViewModel>, ISurfaceHolderCallback, IProcessor    
     {
         SurfaceView surfaceView;
-        TextView txtResult;
         BarcodeDetector barcodeDetector;
         CameraSource cameraSource;
-        const int RequestCameraPermisionID = 1001;
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            switch (requestCode)
-            {
-                case RequestCameraPermisionID:
-                    {
-                        if (grantResults[0] == Permission.Granted)
-                        {
-                            if (ActivityCompat.CheckSelfPermission(ApplicationContext, Manifest.Permission.Camera) != Permission.Granted)
-                            {
-                                //Request Permision  
-                                ActivityCompat.RequestPermissions(this, new string[]
-                                {
-                    Manifest.Permission.Camera
-                                }, RequestCameraPermisionID);
-                                return;
-                            }
-                            try
-                            {
-                                cameraSource.Start(surfaceView.Holder);
-                            }
-                            catch (InvalidOperationException)
-                            {
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -73,6 +44,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             SetContentView(Resource.Layout.new_device_scan);
 
             BindResources();
+
+
             BindVMEvents();
         }
 
@@ -126,7 +99,31 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             {
                 Vibrator vibrator = (Vibrator)GetSystemService(Context.VibratorService);
                 vibrator.Vibrate(1000);
-                var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;             
+                var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;
+
+                string networkSSID = value;
+                string networkPass = "Edison1234";
+
+                WifiConfiguration wifiConfig = new WifiConfiguration();
+                wifiConfig.Ssid = string.Format("\"{0}\"", networkSSID);
+                wifiConfig.PreSharedKey = string.Format("\"{0}\"", networkPass);
+                
+                WifiManager wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
+
+                // Use ID
+                var existing = wifiManager.ConfiguredNetworks.FirstOrDefault(i => i.Ssid == networkSSID);
+                int netId;
+                if (existing == null)
+                {
+                    netId = wifiManager.AddNetwork(wifiConfig);
+                }
+                else
+                {
+                    netId = existing.NetworkId;
+                }
+                
+                wifiManager.Disconnect();
+                wifiManager.EnableNetwork(netId, true);
             }
         }
 
@@ -141,15 +138,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         public void SurfaceCreated(ISurfaceHolder holder)
         {
-            if (ActivityCompat.CheckSelfPermission(ApplicationContext, Manifest.Permission.Camera) != Permission.Granted)
-            {
-                //Request Permision  
-                ActivityCompat.RequestPermissions(this, new string[]
-                {
-                    Manifest.Permission.Camera
-                }, RequestCameraPermisionID);
-                return;
-            }
             try
             {
                 cameraSource.Start(surfaceView.Holder);
