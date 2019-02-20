@@ -223,6 +223,7 @@
     <Compile Include="Controls\CircularEventGauge.cs" />
     <Compile Include="Controls\CircularImageButton.cs" />
     <Compile Include="Controls\CircularProfileView.cs" />
+    <Compile Include="Controls\Drawables.cs" />
     <Compile Include="Controls\RightAngleTriangle.cs" />
     <Compile Include="Controls\RippleDrawables.cs" />
     <Compile Include="Controls\SeekBarRotator.cs" />

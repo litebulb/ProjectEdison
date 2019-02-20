@@ -4,6 +4,8 @@
   
     <!-- System strings -->
     <string name="app_name">Edison</string>
+    <string name="event_channel_name">Edison Events</string>
+    <string name="event_channel_description">This channel is used to notify users of important Edison events such as imminent dangers</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
   
@@ -48,5 +50,15 @@
     <string name="location_sent">Location sent</string>
   
     <string name="_alert_updates">ALERT UPDATES</string>
+    <string name="_edison_alert_update">EDISON ALERT UPDATE</string>
     <string name="proximity_message">You are near the event and should move to a safer location if possible.</string>
+
+ <!--   <string name="notification_emergency">Emergency Help Needed</string>
+    <string name="notification_activity">Report Activity</string>
+    <string name="notification_dismiss">Dismiss</string> -->
+    <string name="notification_emergency">Help Needed</string>
+    <string name="notification_activity">Reply</string>
+    <string name="notification_dismiss">Dismiss</string>
+  
+  
 </resources>

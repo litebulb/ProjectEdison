@@ -15,7 +15,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		>
-		
+    <!-- App Bar Definition  -->
 		<android.support.design.widget.AppBarLayout
 			android:id="@+id/nav_appbar"
 			android:layout_width="match_parent"
@@ -72,6 +72,7 @@
 			</android.support.v7.widget.Toolbar>
 		</android.support.design.widget.AppBarLayout>
 
+    <!-- Content Area    -->
 		<FrameLayout
 			android:id="@+id/page_container"
 			android:layout_width="match_parent"
@@ -81,14 +82,15 @@
 			android:clipToPadding="false"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior"
 			>
+      <!-- Fragment Target    -->
 			<FrameLayout
 				android:id="@+id/content_container"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 		</FrameLayout>
-		
-		
+
+    <!-- Other Content on page    -->
 		<LinearLayout
 			android:id="@+id/brightness_slider_container"
 			android:layout_width="50dp"
@@ -132,10 +134,10 @@
 				android:tint="@color/app_blue"
 				/>
 		</LinearLayout>
-		
-		
-		
-		
+
+
+
+    <!-- Floating Action Button    -->
 		<!---
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/content_floating_action_button"
@@ -151,12 +153,8 @@
 			android:visibility="invisible"
 		/>
 		-->
-<!--  
-app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 
-
--->
+    <!-- Bottom Sheet  -->
 		<LinearLayout
 			android:id="@+id/bottom_sheet"
 			android:layout_width="match_parent"
@@ -187,6 +185,7 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 
 	</android.support.design.widget.CoordinatorLayout>
 
+  
 	<!-- Navigation Area Definition -->
 	<android.support.design.widget.NavigationView
 		android:id="@+id/nav_view"
@@ -202,7 +201,7 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 			android:layout_height="match_parent"
 			android:orientation="vertical"
 			>
-			<!-- header area-->
+			<!-- navigation drawer header area-->
 			<LinearLayout
 				android:id="@+id/nav_header"
 				android:layout_width="match_parent"
@@ -235,7 +234,7 @@ app:layout_behavior="edison.mobile.user.client.droid.BottomSheet4StateBehaviour"
 			</LinearLayout>
 
 
-			<!-- main selection area-->
+			<!-- navigation drawer selection area-->
 			<ExpandableListView
 					android:id="@+id/nav_list"
 					android:layout_height="match_parent"

@@ -26,9 +26,6 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public event EventHandler OnViewResponseDetails;  // not sure if we need this
         public event EventHandler OnDismissResponseDetails;// not sure if we need this
 
-  //      public const Tag= 
-        private const string CurrentResponseColorKey = "CurrentColor";
-
         private static bool _isInitialAppearance = true;  // Not sure we need this
 
         private static Color _currentResponseColor = Constants.DefaultResponseColor;
@@ -49,7 +46,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             base.OnCreate(savedInstanceState);
             if (savedInstanceState != null)
             {
-                int col = savedInstanceState.GetInt(CurrentResponseColorKey, -1);
+                int col = savedInstanceState.GetInt(Constants.CurrentResponseColorKey, -1);
                 if (col != -1)
                     _currentResponseColor = new Color(col);
             }
@@ -58,7 +55,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public override void OnSaveInstanceState(Bundle outState)
         {
             // Save the current color
-            outState.PutInt(CurrentResponseColorKey, _currentResponseColor);
+            outState.PutInt(Constants.CurrentResponseColorKey, _currentResponseColor);
             base.OnSaveInstanceState(outState);
         }
 

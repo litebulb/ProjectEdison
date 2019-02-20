@@ -54,7 +54,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             UsingLogon = true;
 # endif
 
-            //Initializatio done in MainApplication
+            //Initialization done in MainApplication
 //        Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(this), new PlatformContainerRegistrar());
 
             base.OnCreate(bundle);
@@ -115,6 +115,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             // TODO replace with cool transition
             await Task.Run(async () =>
             {
+ //               var instanceId = Shared.FirebaseRegistrationService.GetFirebaseInstanceId();
+ //               var token = Shared.FirebaseRegistrationService.GetPushNotificationToken();
                 await Task.Delay(5000);
                 Finish();
             }).ConfigureAwait(false);

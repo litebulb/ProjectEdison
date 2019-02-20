@@ -10,6 +10,7 @@ using Edison.Core.Common.Models;
 using System;
 using Edison.Mobile.User.Client.Core.Shared;
 using Edison.Mobile.Common.Geo;
+using System.Collections.Generic;
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {
@@ -32,6 +33,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         };
 
         string currentAlertCircleColor;
+
+        public List<Guid> PreviousResponseIds { get; private set; } = new List<Guid>();
+        public List<Guid> CurrentResponseIds { get; private set; } = new List<Guid>();
 
         public ObservableRangeCollection<ResponseCollectionItemViewModel> Responses { get; } = new ObservableRangeCollection<ResponseCollectionItemViewModel>();
 
@@ -132,9 +136,11 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 
         public async Task GetResponses()
         {
-            var responses = await responseRestService.GetResponses();
+            var responses = await GetResponsesAsync();
             if (responses != null)
             {
+                PreviousResponseIds = CurrentResponseIds;
+
                 Responses.ReplaceRange(0, Responses.Count, responses.Select(r => new ResponseCollectionItemViewModel(r)));
                 // get the details for each response in the background
                 UpdateResponseDetails(0, Responses.Count);
@@ -145,8 +151,21 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     var chatViewModel = Container.Instance.Resolve<ChatViewModel>();
                     chatViewModel.ChatPromptTypes.Add(ChatPromptType.SafetyCheck);
                 }
+
+                CurrentResponseIds.Clear();
+                foreach (var response in Responses)
+                {
+                    CurrentResponseIds.Add(response.ResponseId);
+                }
             }
         }
+
+        private async Task<IEnumerable<ResponseLightModel>> GetResponsesAsync()
+        {
+            var responses = await responseRestService.GetResponses().ConfigureAwait(false);
+            return responses;
+        }
+
 
         public void HandleResponseModelReceived(ResponseModel responseModel)
         {
@@ -173,6 +192,14 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 await Responses[i].GetResponse();
                 ResponseUpdated?.Invoke(null, i);
             }
+        }
+
+
+        public ResponseModel GetResponse(Guid responseId)
+        {
+            if (responseId == Guid.Empty) return null;
+            var response = Responses.Where((r) => r.ResponseId == responseId).FirstOrDefault();
+            return response?.Response;
         }
 
 

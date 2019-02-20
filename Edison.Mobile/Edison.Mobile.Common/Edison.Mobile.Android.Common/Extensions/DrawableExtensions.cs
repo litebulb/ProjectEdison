@@ -25,15 +25,12 @@ namespace Edison.Mobile.Android.Common
             }
         }
 
-        public static void SetDrawableTint(this Drawable drawable, Color tint, bool correctEnabled = false)
+        public static void SetDrawableTint(this Drawable drawable, Color tint)
         {
-            if (tint != null)
-            {
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
-                    drawable.SetTint(tint);
-                else
-                    DrawableCompat.SetTint(drawable, tint);
-            }
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+                drawable.SetTint(tint);
+            else
+                DrawableCompat.SetTint(drawable, tint);
         }
 
 
@@ -62,7 +59,7 @@ namespace Edison.Mobile.Android.Common
             if (wrap || !(drawable is DrawableWrapper))
                 drw = DrawableCompat.Wrap(drwbl);
 
-            drw.SetDrawableTint(tint, correctEnabled);
+            drw.SetDrawableTint(tint);
 
             return drw;
         }
@@ -105,6 +102,25 @@ namespace Edison.Mobile.Android.Common
             drawable.Draw(canvas);
             return BitmapDescriptorFactory.FromBitmap(bitmap);
         }
+
+        public static Bitmap ToBitmap(this Drawable drw)
+        {
+            Bitmap bitmap = null;
+
+            if (drw is BitmapDrawable bmDrw && bmDrw.Bitmap != null)
+                    return bmDrw.Bitmap;
+
+            if (drw.IntrinsicWidth <= 0 || drw.IntrinsicHeight <= 0)
+                bitmap = Bitmap.CreateBitmap(1, 1, Bitmap.Config.Argb8888); // Single color bitmap will be created of 1x1 pixel
+            else
+                bitmap = Bitmap.CreateBitmap(drw.IntrinsicWidth, drw.IntrinsicHeight, Bitmap.Config.Argb8888);
+
+            Canvas canvas = new Canvas(bitmap);
+            drw.SetBounds(0, 0, canvas.Width, canvas.Height);
+            drw.Draw(canvas);
+            return bitmap;
+        }
+
 
 
 

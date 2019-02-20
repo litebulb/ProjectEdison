@@ -40,7 +40,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         private ChatAdapter _chatAdapter;
 
 
-        private List<Tuple<CircularImageButton, AppCompatTextView>> _quickButtons = new List<Tuple<CircularImageButton, AppCompatTextView>>();
+        public List<Tuple<CircularImageButton, AppCompatTextView>> QuickButtons { get; private set; } = new List<Tuple<CircularImageButton, AppCompatTextView>>();
         private LinearLayout _safeButtonHolder;
 
 
@@ -55,11 +55,12 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         private Color _selectedSafeIconColor;
 
         private int _parentId;
+        private string _loadAction;
 
-
-        public ChatFragment(int parentId) : base()
+        public ChatFragment(int parentId, string loadAction = null) : base()
         {
             _parentId = parentId;
+            _loadAction = loadAction;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -86,20 +87,54 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             return root;
         }
 
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            // Handle any automatic actions required on loading, for example due to a request from a notification 
+            // TODO:  Will probably remove and replace with notification service or activity to process these actions and not open app
+            if (!string.IsNullOrWhiteSpace(_loadAction))
+            {
+                switch (_loadAction)
+                {
+                    case Constants.ActionEmergency:
+                        var button = QuickButtons.FirstOrDefault(b => ((string)b.Item1.Tag).ToLowerInvariant() == "qc_emergency")?.Item1;
+                        OnButtonClick(button, null);
+                        OnSlide(null, 1f);  // Bug in Android framework - callback not being triggered so manually invoke method
+                        break;
+
+                    case Constants.ActionActivity:
+                        var button1 = QuickButtons.FirstOrDefault(b => ((string)b.Item1.Tag).ToLowerInvariant() == "qc_activity")?.Item1;
+                        OnButtonClick(button1, null);
+                        OnSlide(null, 1f); // Bug in Android framework - callback not being triggered so manually invoke method
+                        //                    _chatMessageInput.RequestFocus();  // need to check that the view has adjusted correctly
+                        break;
+
+                    case Constants.ActionSafe:
+                        var button2 = QuickButtons.FirstOrDefault(b => ((string)b.Item1.Tag).ToLowerInvariant() == "qc_safe")?.Item1;
+                        OnButtonClick(button2, null);
+                        break;
+
+                    default:
+                        break;
+                }
+                UpdatePosition();
+            }
+        }
 
         private void BindViews(View root)
         {
             _quick_chat_holder = root.FindViewById<LinearLayout>(Resource.Id.quick_chat_holder);
             _chat_layout_holder = root.FindViewById<ConstraintLayout>(Resource.Id.chat_layout_holder);
 
-            _quickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_emergency), root.FindViewById<AppCompatTextView>(Resource.Id.qc_emergency_name)));
-            _quickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_activity), root.FindViewById<AppCompatTextView>(Resource.Id.qc_activity_name)));
-            _quickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_safe), root.FindViewById<AppCompatTextView>(Resource.Id.qc_safe_name)));
+            QuickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_emergency), root.FindViewById<AppCompatTextView>(Resource.Id.qc_emergency_name)));
+            QuickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_activity), root.FindViewById<AppCompatTextView>(Resource.Id.qc_activity_name)));
+            QuickButtons.Add(new Tuple<CircularImageButton, AppCompatTextView>(root.FindViewById<CircularImageButton>(Resource.Id.qc_safe), root.FindViewById<AppCompatTextView>(Resource.Id.qc_safe_name)));
             _safeButtonHolder = root.FindViewById<LinearLayout>(Resource.Id.qc_safe_holder);
             // if the fragment is contained in an EventDetailActivity, initially make labels invisible by setting alpha to 0
             if (_parentId == Resource.Layout.event_detail_activity)
             {
-                foreach (var button in _quickButtons)
+                foreach (var button in QuickButtons)
                 {
                     button.Item2.Alpha = 0;
                 }
@@ -117,7 +152,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         {
             if (Constants.QuickChatIconButtonDiameterPx > -1)
             {
-                foreach (var button in _quickButtons)
+                foreach (var button in QuickButtons)
                 {
                     var padding = _parentId == Resource.Layout.main_activity ? Constants.QuickChatIconButtonPaddingPx : Constants.QuickChatSmallIconButtonPaddingPx;
                     button.Item1.SetIconPadding(padding);
@@ -132,7 +167,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
         private void BindEvents()
         {
-            foreach (var button in _quickButtons)
+            foreach (var button in QuickButtons)
             {
                 button.Item1.Click += OnButtonClick;
             }
@@ -159,7 +194,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
         private void UnbindEvents()
         {
-            foreach (var button in _quickButtons)
+            foreach (var button in QuickButtons)
             {
                 button.Item1.Click -= OnButtonClick;
             }
@@ -234,7 +269,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                     _quick_chat_holder.Alpha = slideOffset <= threshold2 ? 1 : 1 - ((slideOffset - threshold2) / (1 - threshold2));
                     _chat_layout_holder.Alpha = slideOffset <= threshold2 ? 0 : (slideOffset - threshold2) / (1 - threshold2);
 
-                    foreach (var button in _quickButtons)
+                    foreach (var button in QuickButtons)
                     {
                         // QuickChatIconButtonDiameterPx
                         // QuickChatSmallIconButtonDiameterPx
@@ -270,13 +305,13 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                 _safeButtonHolder.Visibility = ViewStates.Gone;
         }
 
-        private async void OnButtonClick(object sender, EventArgs e)
+        public async void OnButtonClick(object sender, EventArgs e)
         {
+
             if (sender is CircularImageButton imgButton && Activity != null)
             {
-
                 ChatPromptType cpt = ChatPromptType.ReportActivity;
-                switch ((string)imgButton.Tag)
+                switch ((string)imgButton?.Tag)
                 {
                     case "qc_safe":
                         // Change the color of the button
@@ -311,7 +346,8 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                         var button = _eventButtonsAdapter.EventButtons.FirstOrDefault(b => b.Name.ToLowerInvariant() == "emergency");
                         var index = button == null ? -1 : _eventButtonsAdapter.EventButtons.IndexOf(button);
                         _eventButtonsAdapter.SelectedPosition = index;
-
+                        if (index > -1)
+                            _eventButtons.ScrollToPosition(index);
                         break;
 
                 }
@@ -390,10 +426,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                 var lp = _chat_layout_holder.LayoutParameters;
                 lp.Height = _chatHolderHeight - keyboardHeight;
                 var lm = (LinearLayoutManager)_chatMessages.GetLayoutManager();
-                Activity.RunOnUiThread(() => {
-                    _chat_layout_holder.LayoutParameters = lp;
-                    lm.ScrollToPositionWithOffset(_chatAdapter.ItemCount - 1, 0);
-                });
+                UpdatePosition();
             }
             else
             {
@@ -406,11 +439,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
                 // Reset the height of the containing view to take into account the keyboard
                 var lp = _chat_layout_holder.LayoutParameters;
                 lp.Height = _chatHolderHeight;
-                var lm = (LinearLayoutManager)_chatMessages.GetLayoutManager();
-                Activity.RunOnUiThread(() => {
-                    _chat_layout_holder.LayoutParameters = lp;
-                    lm.ScrollToPositionWithOffset(_chatAdapter.ItemCount - 1, 0);
-                });
+                UpdatePosition();
             }
 
         }
@@ -432,24 +461,27 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             }
             else
                 Activity.RunOnUiThread(() => { _chatAdapter.NotifyDataSetChanged(); });
-            await UpdatePosition();
+            await UpdatePositionAsync();
         }
 
 
-        private async Task UpdatePosition()
+        private async Task UpdatePositionAsync()
         {
             await Task.Run(async () =>
             {
                 await Task.Delay(200);
-                var lm = (LinearLayoutManager)_chatMessages.GetLayoutManager();
-                Activity.RunOnUiThread(() =>
-                {
-                    lm.ScrollToPositionWithOffset(_chatAdapter.ItemCount - 1, 0);
-                });
+                UpdatePosition();
             }).ConfigureAwait(false);
         }
 
-
+        private void UpdatePosition()
+        {
+            var lm = (LinearLayoutManager)_chatMessages.GetLayoutManager();
+            Activity.RunOnUiThread(() =>
+            {
+                lm.ScrollToPositionWithOffset(_chatAdapter.ItemCount - 1, 0);
+            });
+        }
 
     }
 }

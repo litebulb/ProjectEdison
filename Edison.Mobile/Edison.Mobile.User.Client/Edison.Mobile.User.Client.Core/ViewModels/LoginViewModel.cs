@@ -52,15 +52,15 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             if (isInitialAppearance)
             {
                 isInitialAppearance = false;
-                // Attenpt to authenticate silently - with a previously stored token
+                // Attempt to authenticate silently - with a previously stored token
                 var hasToken = await AuthService.AcquireTokenSilently();
                 if (hasToken)
-                    // Authenticated, so check for required permisions
+                    // Authenticated, so check for required permissions
                     await HandleAppPermissions();
                 else
                 {
                     // Hasn't authenticated
-                    // Subscribe to the Authentication OnAuthChanged event (fired when authentiction succeeds)
+                    // Subscribe to the Authentication OnAuthChanged event (fired when authentication succeeds)
                     AuthService.OnAuthChanged += HandleOnAuthChanged;
                     // Trigger login screen
                     OnDisplayLogin?.Invoke();
@@ -90,9 +90,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             // Trigger clear any messages on login screen
             ClearLoginMessages?.Invoke();
             if (!hasToken)
-                // Authenication failed - trigger updates to login screen
+                // Authentication failed - trigger updates to login screen
                 OnLoginFailed?.Invoke();
- //         else Login success handled by permisions service which is called as a result of auth changed event which calls HandleOnAuthChanged
+ //         else Login success handled by permissions service which is called as a result of auth changed event which calls HandleOnAuthChanged
 
         }
 
@@ -101,7 +101,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         async void HandleOnAuthChanged(object sender, AuthChangedEventArgs e)
         {
             if (e.IsLoggedIn)
-                // Authenticated, so check for required permisions
+                // Authenticated, so check for required permissions
                 await HandleAppPermissions();
             else
                 // Not authenticated, so update login screen

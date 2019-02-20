@@ -24,9 +24,26 @@ namespace Edison.Mobile.User.Client.Droid
         public const int SingleLocationRefocusMapThreshold = 5000; // meters
         public const float LocationThresholdPercent = 0.1f; // % as fraction
 
+        internal const string EVENT_CHANNEL_ID = "edison_notification_channel";
+        internal const string NotificationTagLabel = "NotificationTag";
+        internal const string NotificationIdLabel = "NotificationId";
+        internal const string NotificationTag = "Edison";
+        internal const int NotificationId = 100;
 
-        internal const string CHANNEL_ID = "my_notification_channel";
-        internal const int NOTIFICATION_ID = 100;
+        internal const string IntentSourceLabel = "Source";
+        internal const string IntentActionLabel = "Action";
+        internal const string IntentSourceBackgroundNotification = "BackgroundNotification";
+
+        internal const string ActionEmergency = "Emergency";
+        internal const string ActionActivity = "Activity";
+        internal const string ActionSafe = "Safe";
+
+        internal const string MessageTypeSilent = "silent";
+        internal const string MessageDataAction = "action";
+        internal const string MessageDataMessage = "message";
+
+        internal const string CurrentResponseColorKey = "CurrentColor";
+
 
         public static int StatusBarHeightPx { get; private set; } = PixelSizeConverter.DpToPx(24);
 
@@ -72,9 +89,6 @@ namespace Edison.Mobile.User.Client.Droid
         public readonly static Color DefaultResponseColor = Color.Argb(255, 34, 240, 255);
 
         public const float DefaultResponseMapZoom = 5f;
-
-
-
 
 
         public static async Task CalculateUIDimensionsAsync(Activity act)

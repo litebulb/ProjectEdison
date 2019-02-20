@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 using Android.App;
 using Android.OS;
@@ -83,6 +84,9 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private Dictionary<string, List<TextImageResourcePair>> _listDataItems;
         private int _previousGroup = -1;
 
+
+        private string _chatFragmentLoadAction = null;
+
         public LinearLayout BottomSheet { get; private set; }
         public Edison.Mobile.Android.Common.Behaviors.BottomSheetBehavior BottomSheetBehaviour { get; private set; }
 
@@ -144,7 +148,25 @@ namespace Edison.Mobile.User.Client.Droid.Activities
                     await Constants.CalculateUIDimensionsAsync(this);
                 });
             }
-# endif
+#endif
+            if (Intent.Extras != null)
+            {
+                var source = Intent.GetStringExtra(Constants.IntentSourceLabel);
+                if (source == Constants.IntentSourceBackgroundNotification)
+                {
+                    var act = Intent.GetStringExtra(Constants.IntentActionLabel);
+                    _chatFragmentLoadAction = act;
+                }
+                var notificationId = Intent.GetIntExtra(Constants.NotificationIdLabel, 0);
+                var notificationTag = Intent.GetStringExtra(Constants.NotificationTagLabel);
+                var notificationManager = NotificationManager.FromContext(ApplicationContext);
+                if (string.IsNullOrWhiteSpace(notificationTag))
+                    notificationManager.Cancel(notificationId);
+                else
+                    notificationManager.Cancel(notificationTag, notificationId);
+            }
+
+            CreateNotificationChannels();
 
             SetContentView(Resource.Layout.main_activity);
 
@@ -155,8 +177,20 @@ namespace Edison.Mobile.User.Client.Droid.Activities
 
             Initialize(savedInstanceState);
             Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.app_background)));
+
         }
 
+
+        private void CreateNotificationChannels()
+        {
+
+            Edison.Mobile.Android.Common.Notifications.NotificationService.CreateNotificationChannel(this,
+                                                                                                     Constants.EVENT_CHANNEL_ID,
+                                                                                                     Resources.GetString(Resource.String.event_channel_name, Constants.EVENT_CHANNEL_ID),
+                                                                                                     Resources.GetString(Resource.String.event_channel_description),
+                                                                                                     NotificationImportance.Max);
+
+        }
 
 
         private void Initialize(Bundle savedInstanceState)
@@ -481,7 +515,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
         private void LoadChatFragment()
         {
-            _chatFragment = new ChatFragment(Resource.Layout.main_activity);
+            _chatFragment = new ChatFragment(Resource.Layout.main_activity, _chatFragmentLoadAction);
             ReplaceFragment(_chatFragment, Resource.Id.bottom_sheet_fragment_container, false);
  //           SupportFragmentManager.BeginTransaction().Replace(Resource.Id.bottom_sheet_fragment_container, _chatFragment, null).Commit();
         }
@@ -930,6 +964,37 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
 
         }
 
+/*
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+
+            // uncomment  when start notification added
+            var myextravalue1 = intent.GetStringExtra("Source");
+            var myextravalue2 = intent.GetStringExtra("Action");
+            bool test = true;
+        }
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+        }
+
+        protected override void OnPostResume()
+        {
+            base.OnPostResume();
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+        }
+*/
 
     }
 }

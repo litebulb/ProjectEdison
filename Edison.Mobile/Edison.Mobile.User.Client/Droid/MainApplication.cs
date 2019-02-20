@@ -24,22 +24,22 @@ namespace Edison.Mobile.User.Client.Droid
 #endif
 	public partial class MainApplication : BaseApplication
 	{
-        bool FirstActivityCreated = false;
+		bool FirstActivityCreated = false;
 
 		public MainApplication(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
 		{
 
 		}
 
-        public override void OnCreate()
-        {
-            base.OnCreate();
-            Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(), new PlatformContainerRegistrar());
-        }
+		public override void OnCreate()
+		{
+			base.OnCreate();
+			Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(), new PlatformContainerRegistrar());
+		}
 
 
 
-        public override void OnActivityCreated(Activity activity, Bundle savedInstanceState)
+		public override void OnActivityCreated(Activity activity, Bundle savedInstanceState)
 		{
 			base.OnActivityCreated(activity, savedInstanceState);
 /*            if (!FirstActivityCreated)
@@ -47,10 +47,10 @@ namespace Edison.Mobile.User.Client.Droid
 				Container.Initialize(new CoreContainerRegistrar(), new PlatformCommonContainerRegistrar(), new PlatformContainerRegistrar());
 				FirstActivityCreated = true;
 			}
-            else
-            {
-                Container.Reregister<Activity>(new PlatformCommonContainerRegistrar(activity), activity);
-            } */
+			else
+			{
+				Container.Reregister<Activity>(new PlatformCommonContainerRegistrar(activity), activity);
+			} */
 
 		}
 

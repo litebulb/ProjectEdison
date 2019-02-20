@@ -41,7 +41,7 @@ using Android.Support.Constraints;
 
 namespace Edison.Mobile.User.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize, ParentActivity = typeof(MainActivity))]
     public class EventDetailActivity : BaseActivity<ResponseDetailsViewModel>
     {
 
