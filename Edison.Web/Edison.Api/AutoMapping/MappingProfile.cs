@@ -56,7 +56,9 @@ namespace Edison.Api.AutoMapping
                 .ForMember(dto => dto.Icon, opts => opts.MapFrom(src => src.ActionPlan.Icon))
                 .ForMember(dto => dto.Color, opts => opts.MapFrom(src => src.ActionPlan.Color))
                 .ForMember(dto => dto.StartDate, opts => opts.MapFrom(src => src.CreationDate))
-                .ForMember(dto => dto.EndDate, opts => opts.MapFrom(src => src.EndDate));
+                .ForMember(dto => dto.EndDate, opts => opts.MapFrom(src => src.EndDate))
+                .ForMember(dto => dto.ActionPlan, opts => opts.MapFrom(src => src.ActionPlan));
+                
             CreateMap<ResponseDAO, ResponseLightModel>()
                 .ForMember(dto => dto.ResponseId, opts => opts.MapFrom(src => src.Id))
                 .ForMember(dto => dto.StartDate, opts => opts.MapFrom(src => src.CreationDate))
@@ -64,7 +66,10 @@ namespace Edison.Api.AutoMapping
                 .ForMember(dto => dto.Icon, opts => opts.MapFrom(src => src.ActionPlan.Icon))
                 .ForMember(dto => dto.Color, opts => opts.MapFrom(src => src.ActionPlan.Color))
                 .ForMember(dto => dto.AcceptSafeStatus, opts => opts.MapFrom(src => src.ActionPlan.AcceptSafeStatus))
-                .ForMember(dto => dto.EndDate, opts => opts.MapFrom(src => src.EndDate));
+                .ForMember(dto => dto.EndDate, opts => opts.MapFrom(src => src.EndDate))
+                .ForMember(dto => dto.IsActive, opts => opts.Condition(dao => dao.EndDate < DateTime.UtcNow));
+            CreateMap<ResponseActionPlanDAOObject, ResponseActionPlanModel>();
+            CreateMap<ResponseActionDAOObject, ResponseActionModel>();
             CreateMap<ResponseDAO, ResponseUpdateModel>()
                 .ForMember(dto => dto.ResponseId, opts => opts.MapFrom(src => src.Id));
             CreateMap<ActionPlanUpdateModel, ActionPlanDAO>()

@@ -68,7 +68,7 @@ namespace Edison.Workflows.Extensions
                         Action = action,
                         Geolocation = context.Data.Response.Geolocation,
                         PrimaryRadius = context.Data.Response.ActionPlan.PrimaryRadius,
-                        SecondaryRadius = context.Data.Response.ActionPlan.SecondaryRadius
+                        SecondaryRadius = context.Data.Response.ActionPlan.SecondaryRadius                        
                     });
                 });
             });

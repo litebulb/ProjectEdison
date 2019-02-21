@@ -61,7 +61,7 @@ namespace Edison.Api.Helpers
                     Geolocation = p.Geolocation,
                     PrimaryEventClusterId = p.PrimaryEventClusterId,
                     ResponderUserId = p.ResponderUserId,
-                    ResponseState = p.ResponseState
+                    ResponseState = p.ResponseState,                    
                 }
                 );
 
