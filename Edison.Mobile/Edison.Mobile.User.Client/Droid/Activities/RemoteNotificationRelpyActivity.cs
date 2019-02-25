@@ -54,6 +54,8 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         public override void OnAttachedToWindow()
         {
             base.OnAttachedToWindow();
+            Window.AddFlags(WindowManagerFlags.ShowWhenLocked);
+
             if (_messageInput != null)
             {
                 _messageInput.RequestFocus();
