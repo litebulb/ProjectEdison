@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
   
-  
     <!-- System strings -->
     <string name="app_name">Edison</string>
     <string name="event_channel_name">Edison Events</string>
@@ -34,14 +33,15 @@
     <string name="air_quality">Air Quality</string>
     <string name="health_check">Health Check</string>
     <string name="protest">Protest</string>
-    <string name="suspocious_package">Suspicious Package</string>
+    <string name="suspicious_package">Suspicious Package</string>
     <string name="tornado">Tornado</string>
     <string name="vip">VIP</string>
-
+    <string name="announcement">Announcement</string>
+  
     <string name="_more_info">MORE INFO</string>
   
     <string name="permission_required">Permission Required</string>
-    <string name="screen_brightness_dialog_message">In order to modify the screen brightness, explicit permission is required to change device settings.\n\nMay we open your system permissions page?\n\n{Note: Press the Back button to return to Edison from the perissions screen)</string>
+    <string name="screen_brightness_dialog_message">In order to modify the screen brightness, explicit permission is required to change device settings.\n\nMay we open your system permissions page?\n\n{Note: Press the Back button to return to Edison from the permissions screen)</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
   
@@ -60,5 +60,34 @@
     <string name="notification_activity">Reply</string>
     <string name="notification_dismiss">Dismiss</string>
   
+    <string name="send_error">Send error. Please try again</string>
+    <string name="remote_message_title">Send Message to Edison</string>
+  
+    <string name="event_over">EVENT OVER</string>
+    <string name="location_changed">LOCATION CHANGED</string>
+    <string name="event_update">UPDATE</string>
+  
+    <string name="shooter">shooter</string>
+    <string name="gun">gun</string>
+    <string name="suspicious">suspicious</string>
+    <string name="pckg">package</string>
+    <string name="bomb">bomb</string>
+    <string name="fire_">fire</string>
+    <string name="riot">riot</string>
+    <string name="demonstration">demonstration</string>
+    <string name="disturbance">disturbance</string>
+    <string name="violence">violence</string>
+    <string name="barricade">barricade</string>
+    <string name="health">health</string>
+    <string name="virus">virus</string>
+    <string name="infection">infection</string>
+    <string name="illness">illness</string>
+    <string name="air">air</string>
+    <string name="pollution">pollution</string>
+    <string name="pollen">pollen</string>
+    <string name="wind">wind</string>
+    <string name="celebrity">celebrity</string>
+    <string name="famous">famous</string>
+    <string name="vip_">vip</string>
   
 </resources>

@@ -557,7 +557,7 @@ if (ViewModel.Email == null || ViewModel.Email.Contains("bluemetal.com"))
         public void OnGroupCollapse(object sender, global::Android.Widget.ExpandableListView.GroupCollapseEventArgs e)
         {
 #if DEBUG
-            bool test = true;
+            bool test = true;  // for use as breakpoint during testing
 #endif
         }
         public void OnGroupClicked(object sender, global::Android.Widget.ExpandableListView.GroupClickEventArgs e)

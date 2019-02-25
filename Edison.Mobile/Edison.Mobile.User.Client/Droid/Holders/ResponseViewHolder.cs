@@ -232,27 +232,29 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                 // Add a markers
                 if (_eventLocation != null)
                 {
-                    if (EventLocationMarker == null)
+                    _activity.RunOnUiThread(() =>
                     {
-                        var markerOptions = new MarkerOptions();
-                        markerOptions.SetPosition(_eventLocation);
-                        if (_colorHue > -1)
+                        if (EventLocationMarker == null)
                         {
-                            var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
-                            _activity.RunOnUiThread(() => { markerOptions.SetIcon(bmDescriptor); });
+                            var markerOptions = new MarkerOptions();
+                            markerOptions.SetPosition(_eventLocation);
+                            if (_colorHue > -1)
+                            {
+                                var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
+                                markerOptions.SetIcon(bmDescriptor);
+                            }
+                            EventLocationMarker = GMap.AddMarker(markerOptions);
                         }
-                        _activity.RunOnUiThread(() => { EventLocationMarker = GMap.AddMarker(markerOptions); });
-                        
-                    }
-                    else
-                    {
-                        var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
-                        _activity.RunOnUiThread(() => {
-                            EventLocationMarker.SetIcon(bmDescriptor);
+                        else
+                        {
+                            if (_colorHue > -1)
+                            {
+                                var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
+                                EventLocationMarker?.SetIcon(bmDescriptor);
+                            }
                             EventLocationMarker.Position = _eventLocation;
-                        });
-
-                    }
+                        }
+                    });
                 }
                 if (_userLocation != null)
                 {

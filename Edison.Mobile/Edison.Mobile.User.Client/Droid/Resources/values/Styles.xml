@@ -97,5 +97,14 @@
   </style>
 
 
+  <style name="RemoteNotificationRelpyTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+    <item name="android:windowBackground">@color/app_background</item>
+    <item name="android:background">@color/app_background</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowCloseOnTouchOutside">false</item>
+    <item name="android:padding">0dp</item>
+  </style>
+  
   
 </resources>

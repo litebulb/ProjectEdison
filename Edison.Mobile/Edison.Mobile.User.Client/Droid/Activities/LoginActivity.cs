@@ -36,13 +36,16 @@ namespace Edison.Mobile.User.Client.Droid.Activities
     [Activity(Label = "@string/app_name", MainLauncher = true, Icon = "@mipmap/ic_edison_launcher", Exported = true, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait)]
     public class LoginActivity : BaseActivity<LoginViewModel>
     {
+        private const int RequestNotificationPermissionId = 0;
+        private const int RequestLocationPermissionId = 1;
+
         private ConstraintLayout _loginScreen;
         private AppCompatButton _signInButton;
         private ProgressBar _activityIndicator;
         private AppCompatTextView _splachscreenMessage;
 
-        private const int RequestNotificationPermissionId = 0;
-        private const int RequestLocationPermissionId = 1;
+        private string _source = null;
+        private string _action = null;
 
 #if DEBUG
         public static bool UsingLogon = false;
@@ -62,9 +65,13 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             if (ViewModel != null)
                 ((LoginViewModel)ViewModel).AuthService.UiParent = new UIParent(this);
 
-
-
             AppCenter.Start("959d5bd2-9e29-4f17-aed6-68885af8c63d", typeof(Analytics), typeof(Crashes));
+
+            if (Intent.Extras != null)
+            {
+                _source = Intent.GetStringExtra(Constants.IntentSourceLabel);
+                _action = Intent.GetStringExtra(Constants.IntentActionLabel);
+            }
 
             SetContentView(Resource.Layout.screen_login);
             BindResources();
@@ -105,10 +112,11 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         private async void NavigateToMainViewModel()
         {
             var intent = new Intent(this, typeof(MainActivity));
-            //           intent.AddFlags(ActivityFlags.NoAnimation);
- //           intent.AddFlags(ActivityFlags.ClearTop);
- //           intent.AddFlags(ActivityFlags.NewTask);
- //           intent.AddFlags(ActivityFlags.ClearTask);
+            if (!string.IsNullOrWhiteSpace(_source) || !string.IsNullOrWhiteSpace(_action))
+            {
+                intent.PutExtra(Constants.IntentSourceLabel, _source);
+                intent.PutExtra(Constants.IntentActionLabel, _action);
+            }
             StartActivity(intent);
 
             // Give the main activity a chance to render before killing this one

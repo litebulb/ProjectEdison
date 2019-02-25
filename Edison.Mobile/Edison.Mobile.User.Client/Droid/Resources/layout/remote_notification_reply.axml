@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/message_input_holder"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@color/app_background"
+	>
+	<LinearLayout
+		android:id="@+id/title_holder"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		android:orientation="horizontal"
+		android:layout_marginLeft="@dimen/remote_message_title_horiz_padding"
+		android:layout_marginRight="@dimen/remote_message_title_horiz_padding"
+		android:layout_marginTop="@dimen/remote_message_title_top_padding"
+		android:gravity="left|center_vertical"
+		>
+		<android.support.v7.widget.AppCompatImageView
+			android:layout_width="@dimen/notification_small_icon_size"
+			android:layout_height="@dimen/notification_small_icon_size"
+			android:layout_gravity="left|center_vertical"
+			android:layout_marginRight="@dimen/notification_internal_margin"
+			android:scaleType="fitCenter"
+			android:src="@drawable/edison_fox2"
+			/>
+		<android.support.v7.widget.AppCompatTextView
+			android:id="@+id/title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="left|center_vertical"
+			android:gravity="left|center_vertical"
+			android:textColor="@color/message_text_color"
+			android:textSize="@dimen/remote_message_title_size"
+			android:textStyle="bold"
+			android:text="@string/remote_message_title"
+			/> 
+	</LinearLayout>
+	
+	
+
+	
+	<edison.mobile.android.common.controls.CircularImageButton
+		android:id="@+id/cancel_button"
+		android:layout_width="wrap_content"
+		android:layout_height="@dimen/message_text_area_height"
+		app:layout_constraintTop_toBottomOf="@+id/title_holder"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:iconPadding="@dimen/large_message_button_padding"
+		app:buttonBackgroundTint="@color/transparent"
+		app:iconSrc="@drawable/lclose"
+		app:iconTint="@color/icon_red"
+		/>
+	
+	<edison.mobile.android.common.controls.CircularImageButton
+		android:id="@+id/send_button"
+		android:layout_width="wrap_content"
+		android:layout_height="@dimen/message_text_area_height"
+		app:layout_constraintTop_toBottomOf="@+id/title_holder"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:iconPadding="@dimen/large_message_button_padding"
+		app:buttonBackgroundTint="@color/transparent"
+		app:iconSrc="@drawable/ic_send_24"
+		app:iconTint="@color/icon_blue"
+		android:alpha="0.5"
+		android:enabled="false"
+		/>
+	<android.support.v7.widget.AppCompatEditText
+		android:id="@+id/message_input"
+		android:layout_width="0dp"
+		android:layout_height="@dimen/message_text_area_height"
+		app:layout_constraintTop_toBottomOf="@+id/title_holder"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toRightOf="@+id/cancel_button"
+		app:layout_constraintRight_toLeftOf="@+id/send_button"
+		android:paddingVertical="0dp"
+		android:hint="@string/enter_message"
+		android:textColorHint="@color/message_hint_text_color"
+		android:textColor="@color/message_text_color"
+		android:textSize="@dimen/message_text_size"
+		android:textColorHighlight="@color/text_highlight_color"
+		android:textCursorDrawable="@drawable/text_cursor"
+		android:textSelectHandle="@drawable/text_select_handle_middle"
+		android:textSelectHandleLeft="@drawable/text_select_handle_left"
+		android:textSelectHandleRight="@drawable/text_select_handle_right"
+		android:background="@null"
+					/>
+</android.support.constraint.ConstraintLayout>

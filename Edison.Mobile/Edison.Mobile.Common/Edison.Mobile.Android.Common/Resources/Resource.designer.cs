@@ -203,8 +203,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0100e2
 			public static int actionViewClass = 2130772194;
 			
-			// aapt resource value: 0x7f01019e
-			public static int active = 2130772382;
+			// aapt resource value: 0x7f01019f
+			public static int active = 2130772383;
 			
 			// aapt resource value: 0x7f010092
 			public static int activityChooserViewStyle = 2130772114;
@@ -290,8 +290,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f010123
 			public static int behavior_skipCollapsed = 2130772259;
 			
-			// aapt resource value: 0x7f010185
-			public static int borderColor = 2130772357;
+			// aapt resource value: 0x7f010186
+			public static int borderColor = 2130772358;
 			
 			// aapt resource value: 0x7f010143
 			public static int borderWidth = 2130772291;
@@ -374,11 +374,11 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f010005
 			public static int cameraZoom = 2130771973;
 			
-			// aapt resource value: 0x7f01018b
-			public static int centerSrc = 2130772363;
+			// aapt resource value: 0x7f01018c
+			public static int centerSrc = 2130772364;
 			
-			// aapt resource value: 0x7f01018a
-			public static int centerTint = 2130772362;
+			// aapt resource value: 0x7f01018b
+			public static int centerTint = 2130772363;
 			
 			// aapt resource value: 0x7f0100c1
 			public static int checkboxStyle = 2130772161;
@@ -485,35 +485,35 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f0100b4
 			public static int controlBackground = 2130772148;
 			
-			// aapt resource value: 0x7f010187
-			public static int controlRippleColor = 2130772359;
+			// aapt resource value: 0x7f010188
+			public static int controlRippleColor = 2130772360;
 			
-			// aapt resource value: 0x7f01019d
-			public static int count = 2130772381;
-			
-			// aapt resource value: 0x7f010193
-			public static int countAllCaps = 2130772371;
-			
-			// aapt resource value: 0x7f010191
-			public static int countAutosize = 2130772369;
-			
-			// aapt resource value: 0x7f010190
-			public static int countColor = 2130772368;
-			
-			// aapt resource value: 0x7f01018f
-			public static int countFontFamily = 2130772367;
+			// aapt resource value: 0x7f01019e
+			public static int count = 2130772382;
 			
 			// aapt resource value: 0x7f010194
-			public static int countText = 2130772372;
+			public static int countAllCaps = 2130772372;
 			
 			// aapt resource value: 0x7f010192
-			public static int countTextSize = 2130772370;
+			public static int countAutosize = 2130772370;
+			
+			// aapt resource value: 0x7f010191
+			public static int countColor = 2130772369;
+			
+			// aapt resource value: 0x7f010190
+			public static int countFontFamily = 2130772368;
+			
+			// aapt resource value: 0x7f010195
+			public static int countText = 2130772373;
+			
+			// aapt resource value: 0x7f010193
+			public static int countTextSize = 2130772371;
+			
+			// aapt resource value: 0x7f01018f
+			public static int countTextStyle = 2130772367;
 			
 			// aapt resource value: 0x7f01018e
-			public static int countTextStyle = 2130772366;
-			
-			// aapt resource value: 0x7f01018d
-			public static int countTypeface = 2130772365;
+			public static int countTypeface = 2130772366;
 			
 			// aapt resource value: 0x7f010164
 			public static int counterEnabled = 2130772324;
@@ -629,8 +629,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f010023
 			public static int fastScrollVerticalTrackDrawable = 2130772003;
 			
-			// aapt resource value: 0x7f01019f
-			public static int fillColor = 2130772383;
+			// aapt resource value: 0x7f0101a0
+			public static int fillColor = 2130772384;
 			
 			// aapt resource value: 0x7f010175
 			public static int font = 2130772341;
@@ -713,8 +713,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f010181
 			public static int iconPaddingTop = 2130772353;
 			
-			// aapt resource value: 0x7f01019c
-			public static int iconSize = 2130772380;
+			// aapt resource value: 0x7f01019d
+			public static int iconSize = 2130772381;
 			
 			// aapt resource value: 0x7f01017e
 			public static int iconSrc = 2130772350;
@@ -767,26 +767,26 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f010135
 			public static int keylines = 2130772277;
 			
-			// aapt resource value: 0x7f01019a
-			public static int labelAllCaps = 2130772378;
-			
-			// aapt resource value: 0x7f010198
-			public static int labelColor = 2130772376;
-			
-			// aapt resource value: 0x7f010197
-			public static int labelFontFamily = 2130772375;
-			
 			// aapt resource value: 0x7f01019b
-			public static int labelText = 2130772379;
+			public static int labelAllCaps = 2130772379;
 			
 			// aapt resource value: 0x7f010199
-			public static int labelTextSize = 2130772377;
+			public static int labelColor = 2130772377;
+			
+			// aapt resource value: 0x7f010198
+			public static int labelFontFamily = 2130772376;
+			
+			// aapt resource value: 0x7f01019c
+			public static int labelText = 2130772380;
+			
+			// aapt resource value: 0x7f01019a
+			public static int labelTextSize = 2130772378;
+			
+			// aapt resource value: 0x7f010197
+			public static int labelTextStyle = 2130772375;
 			
 			// aapt resource value: 0x7f010196
-			public static int labelTextStyle = 2130772374;
-			
-			// aapt resource value: 0x7f010195
-			public static int labelTypeface = 2130772373;
+			public static int labelTypeface = 2130772374;
 			
 			// aapt resource value: 0x7f010015
 			public static int latLngBoundsNorthEastLatitude = 2130771989;
@@ -989,17 +989,17 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f01001f
 			public static int reverseLayout = 2130771999;
 			
-			// aapt resource value: 0x7f0101a0
-			public static int rightAnglePosition = 2130772384;
+			// aapt resource value: 0x7f0101a1
+			public static int rightAnglePosition = 2130772385;
+			
+			// aapt resource value: 0x7f01018a
+			public static int ringEndColor = 2130772362;
+			
+			// aapt resource value: 0x7f01018d
+			public static int ringGap = 2130772365;
 			
 			// aapt resource value: 0x7f010189
-			public static int ringEndColor = 2130772361;
-			
-			// aapt resource value: 0x7f01018c
-			public static int ringGap = 2130772364;
-			
-			// aapt resource value: 0x7f010188
-			public static int ringStartColor = 2130772360;
+			public static int ringStartColor = 2130772361;
 			
 			// aapt resource value: 0x7f010140
 			public static int rippleColor = 2130772288;
@@ -1030,6 +1030,9 @@ namespace Edison.Mobile.Android.Common
 			
 			// aapt resource value: 0x7f01008e
 			public static int selectableItemBackgroundBorderless = 2130772110;
+			
+			// aapt resource value: 0x7f010185
+			public static int selected = 2130772357;
 			
 			// aapt resource value: 0x7f0100e0
 			public static int showAsAction = 2130772192;
@@ -1199,8 +1202,8 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f01009c
 			public static int textColorSearchUrl = 2130772124;
 			
-			// aapt resource value: 0x7f010186
-			public static int textPadding = 2130772358;
+			// aapt resource value: 0x7f010187
+			public static int textPadding = 2130772359;
 			
 			// aapt resource value: 0x7f010119
 			public static int theme = 2130772249;
@@ -5980,7 +5983,6 @@ namespace Edison.Mobile.Android.Common
 					2130772198,
 					2130772199,
 					2130772350,
-					2130772359,
 					2130772360,
 					2130772361,
 					2130772362,
@@ -6003,7 +6005,8 @@ namespace Edison.Mobile.Android.Common
 					2130772379,
 					2130772380,
 					2130772381,
-					2130772382};
+					2130772382,
+					2130772383};
 			
 			// aapt resource value: 26
 			public static int CircularEventGauge_active = 26;
@@ -6087,6 +6090,7 @@ namespace Edison.Mobile.Android.Common
 			public static int CircularEventGauge_ringStartColor = 4;
 			
 			public static int[] CircularImageButton = new int[] {
+					16842766,
 					16842961,
 					2130772198,
 					2130772199,
@@ -6099,46 +6103,53 @@ namespace Edison.Mobile.Android.Common
 					2130772353,
 					2130772354,
 					2130772355,
-					2130772356};
+					2130772356,
+					2130772357};
 			
 			// aapt resource value: 0
-			public static int CircularImageButton_android_tag = 0;
-			
-			// aapt resource value: 3
-			public static int CircularImageButton_buttonBackground = 3;
-			
-			// aapt resource value: 4
-			public static int CircularImageButton_buttonBackgroundTint = 4;
-			
-			// aapt resource value: 5
-			public static int CircularImageButton_buttonBackgroundTintMode = 5;
-			
-			// aapt resource value: 7
-			public static int CircularImageButton_buttonRippleColor = 7;
-			
-			// aapt resource value: 12
-			public static int CircularImageButton_iconPadding = 12;
-			
-			// aapt resource value: 11
-			public static int CircularImageButton_iconPaddingBottom = 11;
-			
-			// aapt resource value: 8
-			public static int CircularImageButton_iconPaddingLeft = 8;
-			
-			// aapt resource value: 10
-			public static int CircularImageButton_iconPaddingRight = 10;
-			
-			// aapt resource value: 9
-			public static int CircularImageButton_iconPaddingTop = 9;
-			
-			// aapt resource value: 6
-			public static int CircularImageButton_iconSrc = 6;
+			public static int CircularImageButton_android_enabled = 0;
 			
 			// aapt resource value: 1
-			public static int CircularImageButton_iconTint = 1;
+			public static int CircularImageButton_android_tag = 1;
+			
+			// aapt resource value: 4
+			public static int CircularImageButton_buttonBackground = 4;
+			
+			// aapt resource value: 5
+			public static int CircularImageButton_buttonBackgroundTint = 5;
+			
+			// aapt resource value: 6
+			public static int CircularImageButton_buttonBackgroundTintMode = 6;
+			
+			// aapt resource value: 8
+			public static int CircularImageButton_buttonRippleColor = 8;
+			
+			// aapt resource value: 13
+			public static int CircularImageButton_iconPadding = 13;
+			
+			// aapt resource value: 12
+			public static int CircularImageButton_iconPaddingBottom = 12;
+			
+			// aapt resource value: 9
+			public static int CircularImageButton_iconPaddingLeft = 9;
+			
+			// aapt resource value: 11
+			public static int CircularImageButton_iconPaddingRight = 11;
+			
+			// aapt resource value: 10
+			public static int CircularImageButton_iconPaddingTop = 10;
+			
+			// aapt resource value: 7
+			public static int CircularImageButton_iconSrc = 7;
 			
 			// aapt resource value: 2
-			public static int CircularImageButton_iconTintMode = 2;
+			public static int CircularImageButton_iconTint = 2;
+			
+			// aapt resource value: 3
+			public static int CircularImageButton_iconTintMode = 3;
+			
+			// aapt resource value: 14
+			public static int CircularImageButton_selected = 14;
 			
 			public static int[] CircularProfileView = new int[] {
 					16842902,
@@ -6152,9 +6163,9 @@ namespace Edison.Mobile.Android.Common
 					16843883,
 					16843884,
 					2130772291,
-					2130772357,
 					2130772358,
-					2130772359};
+					2130772359,
+					2130772360};
 			
 			// aapt resource value: 3
 			public static int CircularProfileView_android_background = 3;
@@ -6948,9 +6959,9 @@ namespace Edison.Mobile.Android.Common
 			
 			public static int[] RightAngleTriangle = new int[] {
 					2130772291,
-					2130772357,
-					2130772383,
-					2130772384};
+					2130772358,
+					2130772384,
+					2130772385};
 			
 			// aapt resource value: 1
 			public static int RightAngleTriangle_borderColor = 1;

@@ -72,5 +72,25 @@ namespace Edison.Mobile.User.Client.Core.CollectionItemViewModels
         {
             LocationChanged?.Invoke(sender, e);
         }
+
+
+        public ResponseLightModel ToLightModel()
+        {
+            return new ResponseLightModel
+            {
+                ResponseId = this.ResponseId,
+                Geolocation = this.Geolocation,
+                Color = this.Response.Color,
+                Icon = this.Response.Icon,
+                Name = this.Response.Name,
+                StartDate = this.Response.StartDate,
+                EndDate = this.Response.EndDate == null ? DateTime.MinValue : (DateTime)this.Response.EndDate,
+                EventClusterIds = this.Response.EventClusterIds,
+                PrimaryEventClusterId = this.Response.PrimaryEventClusterId,
+                ResponderUserId = this.Response.ResponderUserId,
+                ResponseState = this.Response.ResponseState
+            };
+        }
+
     }
 }

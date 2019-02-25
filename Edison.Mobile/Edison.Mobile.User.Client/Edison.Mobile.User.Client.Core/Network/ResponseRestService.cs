@@ -14,7 +14,7 @@ namespace Edison.Mobile.User.Client.Core.Network
         public ResponseRestService(AuthService authService, ILogger logger, string baseUrl) : base(authService, logger, baseUrl)
         {
 #if DEBUG
-            bool test = true;  // for use as breakpoint durign testing
+            bool test = true;  // for use as breakpoint during testing
 #endif
         }
 

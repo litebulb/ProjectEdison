@@ -104,9 +104,13 @@
   
 <!--  Note:  The large icon size provided by the support libraries is incorrect - it is still the large size from pre-android 6 (64dp) -->
   <dimen name="notification_large_icon_size">36dp</dimen>
+  <dimen name="notification_small_icon_size">18dp</dimen>
   <dimen name="notification_internal_margin">5dp</dimen>
   <dimen name="notification_circular_button_size">48dp</dimen>
+  <dimen name="notification_small_circular_button_size">32dp</dimen>
   <dimen name="notification_circular_button_padding">8dp</dimen>
   <dimen name="notification_button_area_top_margin">10dp</dimen>
-  
+  <dimen name="remote_message_title_size">16sp</dimen>
+  <dimen name="remote_message_title_top_padding">8dp</dimen>
+  <dimen name="remote_message_title_horiz_padding">12dp</dimen>
 </resources>

@@ -1,16 +1,23 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
-using Autofac;
 using System.Threading.Tasks;
-using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
-using Edison.Mobile.User.Client.Core.Network;
+
+using Autofac;
+
+using Edison.Core.Common.Models;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.ViewModels;
-using Edison.Core.Common.Models;
-using System;
-using Edison.Mobile.User.Client.Core.Shared;
 using Edison.Mobile.Common.Geo;
-using System.Collections.Generic;
+using Edison.Mobile.User.Client.Core.CollectionItemViewModels;
+using Edison.Mobile.User.Client.Core.Network;
+using Edison.Mobile.User.Client.Core.LocalStorage;
+using Edison.Mobile.User.Client.Core.Shared;
+
+
+
+
 
 namespace Edison.Mobile.User.Client.Core.ViewModels
 {
@@ -35,7 +42,20 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         string currentAlertCircleColor;
 
         public List<Guid> PreviousResponseIds { get; private set; } = new List<Guid>();
-        public List<Guid> CurrentResponseIds { get; private set; } = new List<Guid>();
+
+        public List<Guid> CurrentResponseIds
+        {
+            get => Settings.CurrentResponseIds; 
+            private set => Settings.CurrentResponseIds = value;
+        }// = new List<Guid>();
+
+
+        public List<ResponseLightModel> CurrentResponseSummaries
+        {
+            get => Settings.CurrentResponseSummaries;
+            private set => Settings.CurrentResponseSummaries = value;
+        }
+
 
         public ObservableRangeCollection<ResponseCollectionItemViewModel> Responses { get; } = new ObservableRangeCollection<ResponseCollectionItemViewModel>();
 
@@ -65,13 +85,13 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 if (await Task.WhenAny(task, Task.Delay(timeoutMs)) == task)
                 {
 #if DEBUG
-                    bool Test = true;
+                    bool test = true;  // for use as breakpoint during testing
 #endif
                 }
                 else
                 {
 #if DEBUG
-                    bool Test = true;
+                    bool test = true;  // for use as breakpoint during testing
 #endif
                 }
             });
@@ -88,16 +108,16 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     {
                         UserLocation = await task;
 #if DEBUG
-                        bool Test = true;
+                        bool test = true;  // for use as breakpoint during testing
 #endif
                     }
                     else
                     {
 #if DEBUG
-                        bool Test = true;
+                        bool test = true;  // for use as breakpoint during testing
 #endif
                     }
- //                   UserLocation = await _locationService.GetLastKnownLocationAsync();
+                    //                   UserLocation = await _locationService.GetLastKnownLocationAsync();
                 });
             }
         }
@@ -152,18 +172,14 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     chatViewModel.ChatPromptTypes.Add(ChatPromptType.SafetyCheck);
                 }
 
-                CurrentResponseIds.Clear();
-                foreach (var response in Responses)
-                {
-                    CurrentResponseIds.Add(response.ResponseId);
-                }
+                CurrentResponseIds = Responses.Select(i => i.Response.ResponseId).ToList();
+                CurrentResponseSummaries = Responses.Select(i => i.ToLightModel()).ToList();
             }
         }
 
         private async Task<IEnumerable<ResponseLightModel>> GetResponsesAsync()
         {
-            var responses = await responseRestService.GetResponses().ConfigureAwait(false);
-            return responses;
+            return await responseRestService.GetResponses().ConfigureAwait(false);
         }
 
 
@@ -201,6 +217,12 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             var response = Responses.Where((r) => r.ResponseId == responseId).FirstOrDefault();
             return response?.Response;
         }
+        public ResponseLightModel GetResponseSummary(Guid responseId)
+        {
+            if (responseId == Guid.Empty) return null;
+            return CurrentResponseSummaries.Where((r) => r.ResponseId == responseId).FirstOrDefault();
+        }
+
 
 
         void OnLocationChanged(object sender, LocationChangedEventArgs e)

@@ -13,7 +13,7 @@ namespace Edison.Mobile.User.Client.Core.Network
         public ChatRestService(AuthService authService, ILogger logger, string baseUrl) : base(authService, logger, baseUrl)
         {
 #if DEBUG
-            bool test = true;
+            bool test = true;  // for use as breakpoint during testing
 #endif
         }
 

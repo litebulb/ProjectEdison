@@ -32,7 +32,13 @@ namespace Edison.Mobile.User.Client.Droid
 
         internal const string IntentSourceLabel = "Source";
         internal const string IntentActionLabel = "Action";
+        internal const string IntentAuthenticatedLabel = "Authenticated";
         internal const string IntentSourceBackgroundNotification = "BackgroundNotification";
+        internal const string IntentSourceNotRunningNotification = "NotRunningNotification";
+        internal const string IntentSourceForegroundNotification = "ForegrounddNotification";
+        internal const string IntentSourceNotForegroundNotification = "NotForegrounddNotification";
+        internal const string IntentAuthenticated = "True";
+        internal const string IntentNotAuthenticated = "False";
 
         internal const string ActionEmergency = "Emergency";
         internal const string ActionActivity = "Activity";

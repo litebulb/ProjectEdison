@@ -80,10 +80,9 @@ namespace Edison.Mobile.Android.Common.Notifications
 
 
 
-
         public static void SendLocalNotification(Context ctx, string notificationChannelId, string title, int smallIconResId, Color smallIconColor, string notificationCatagory, 
                                                 int notificationVisibility, int notificationId = 0, string notificationTag = "Edison", PendingIntent pendingIntent = null, bool autoCancel = true, 
-                                                string summaryContent = null, int contentIconResId = 0, NotificationCompat.Style style = null, string groupKey = null)
+                                                string summaryContent = null, int contentIconResId = 0, int color = -1, NotificationCompat.Style style = null, string groupKey = null)
         {
             var notificationManager = NotificationManager.FromContext(ctx);
             var channel = notificationManager.GetNotificationChannel(notificationChannelId);
@@ -130,8 +129,21 @@ namespace Edison.Mobile.Android.Common.Notifications
             Bitmap icon = null;
             if (contentIconResId != 0)
             {
-                // try to get bitmap
-                icon = BitmapFactory.DecodeResource(ctx.Resources, contentIconResId);
+                if (color != -1)
+                {
+                    Color col = new Color(color);
+                    if (contentIconResId != 0)
+                    {
+                        // build circular icon
+                        Drawable iconDrawable = Drawables.CircularIcon(ctx, contentIconResId, Color.White, col, PixelSizeConverter.DpToPx(15), PixelSizeConverter.DpToPx(140));
+                        // try to get bitmap
+                        icon = iconDrawable.ToBitmap();
+                    }
+                }
+                else
+                    // try to get bitmap
+                    icon = BitmapFactory.DecodeResource(ctx.Resources, contentIconResId);
+
                 if (icon != null)
                     notificationBuilder.SetLargeIcon(icon);
             }
@@ -226,9 +238,7 @@ namespace Edison.Mobile.Android.Common.Notifications
                 }
             }
 
-
             notificationManager.Notify(notificationTag, notificationId, notificationBuilder.Build());
-
             icon?.Dispose();
         }
 
@@ -328,8 +338,7 @@ namespace Edison.Mobile.Android.Common.Notifications
             collapsedContent.SetOnClickPendingIntent(activityButtonResId, activityIntent);
             collapsedContent.SetOnClickPendingIntent(safeButtonResId, safeIntent);
             notificationBuilder.SetCustomContentView(collapsedContent);
-
-
+            
             RemoteViews headsupContent = new RemoteViews(ctx.PackageName, headsupLayoutResId);
             if (!string.IsNullOrWhiteSpace(title))
             {
@@ -363,7 +372,6 @@ namespace Edison.Mobile.Android.Common.Notifications
             notificationBuilder.SetCustomBigContentView(expandedContent);
 
             notificationManager.Notify(notificationTag, notificationId, notificationBuilder.Build());
-
             icon?.Dispose();
         }
 

@@ -103,5 +103,35 @@ namespace Edison.Mobile.Android.Common.Utilities
         }
 
 
+        public static ScreenStatus GetScreenStatus(Context ctx)
+        {
+            PowerManager powerManager = (PowerManager)ctx.GetSystemService(Context.PowerService);
+            var isScreenAwake = Build.VERSION.SdkInt < BuildVersionCodes.KitkatWatch ? powerManager.IsScreenOn : powerManager.IsInteractive;
+            KeyguardManager kM = (KeyguardManager)ctx.GetSystemService(Context.KeyguardService);
+
+            if (kM.IsDeviceLocked)
+            {
+                if (isScreenAwake)
+                    return kM.IsDeviceSecure ? ScreenStatus.OnLockedSecure : ScreenStatus.OnLockedInsecure;
+                return kM.IsDeviceSecure ? ScreenStatus.OffLockedSecure : ScreenStatus.OffLockedInsecure;
+            }
+            return isScreenAwake ? ScreenStatus.OnUnlocked : ScreenStatus.OffUnlocked;
+        }
+
+
+
+
     }
+
+    public enum ScreenStatus
+    {
+        OnLockedSecure,
+        OnLockedInsecure,
+        OffLockedSecure,
+        OffLockedInsecure,
+        OnUnlocked,
+        OffUnlocked
+    }
+
+
 }

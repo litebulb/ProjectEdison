@@ -69,7 +69,9 @@ namespace Edison.Mobile.User.Client.iOS
             {
                 if (error != null)
                 {
+#if DEBUG
                     System.Diagnostics.Debug.WriteLine("Error calling Unregister: {0}", error.ToString());
+#endif
                     return;
                 }
 

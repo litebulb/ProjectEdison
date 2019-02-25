@@ -436,9 +436,11 @@ namespace Edison.Mobile.Android.Common.Controls
                     }
                     catch (Exception ex)
                     {
-                        bool test = true;
+#if DEBUG
+                        bool test = true;  // for use as breakpoint during testing
+#endif
                     }
-                    
+
                     if (tf == null)
                         // Try to resolve as a font asset or system font
                         familyName = a.GetString(Resource.Styleable.CircularProfileView_android_fontFamily);

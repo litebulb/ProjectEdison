@@ -155,7 +155,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             if (ViewModel.Responses == null)
                 return;
 
-            ViewModel.Responses.CollectionChanged -= OnResponsesChanged;  // Why???? - ask Alex
+            ViewModel.Responses.CollectionChanged -= OnResponsesChanged;
             ViewModel.Responses.CollectionChanged += OnResponsesChanged;
         }
 

@@ -28,6 +28,7 @@
   <attr name="iconPaddingRight" format="dimension" />
   <attr name="iconPaddingBottom" format="dimension" />
   <attr name="iconPadding" format="dimension" />
+  <attr name="selected" format="boolean" />
   
   <!-- CircularProfileView Attributes -->
   <attr name="borderWidth" format="dimension" />
@@ -93,9 +94,9 @@
 
 
 
-<!-- Stylable Declarations -->
+<!-- Styleable Declarations -->
   
-  <!-- CircularImageButton Stylable -->
+  <!-- CircularImageButton Styleable -->
   <declare-styleable name="CircularImageButton">
     <attr name="buttonBackground" />
     <attr name="buttonBackgroundTint" />
@@ -110,9 +111,11 @@
     <attr name="iconPaddingBottom" />
     <attr name="iconPadding" />
     <attr name="android:tag" />
+    <attr name="selected" />
+    <attr name="android:enabled" />
   </declare-styleable>
 
-  <!-- CircularProfileView Stylable -->
+  <!-- CircularProfileView Styleable -->
   <declare-styleable name="CircularProfileView">
     <attr name="android:background" />
     <attr name="android:backgroundTint" />
@@ -131,7 +134,7 @@
   </declare-styleable>
 
 
-  <!-- CircularEventGauge Stylable -->
+  <!-- CircularEventGauge Styleable -->
   <declare-styleable name="CircularEventGauge">
     <attr name="ringStartColor" />
     <attr name="ringEndColor" />
@@ -162,7 +165,7 @@
     <attr name="controlRippleColor" />
   </declare-styleable>
 
-  <!-- RightAngleTriangle Stylable -->
+  <!-- RightAngleTriangle Styleable -->
   <declare-styleable name="RightAngleTriangle">
     <attr name="fillColor" />
     <attr name="borderWidth" />

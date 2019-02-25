@@ -217,6 +217,18 @@ namespace Edison.Mobile.Android.Common.Controls
             }
         }
 
+        public override bool Enabled
+        {
+            get { return Button.Enabled; }
+            set
+            {
+                if (value != Button.Enabled)
+                {
+                    Button.Enabled = value;
+                    ButtonBackground.Enabled = value;
+                }
+            }
+        }
 
 
 #endregion
@@ -372,7 +384,11 @@ namespace Edison.Mobile.Android.Common.Controls
                 if (a.HasValue(Resource.Styleable.CircularImageButton_buttonRippleColor))
                     RippleColor = a.GetColor(Resource.Styleable.CircularImageButton_buttonRippleColor, ContextCompat.GetColor(Context, Resource.Color.ripple_material_light));
 
+                if (a.HasValue(Resource.Styleable.CircularImageButton_selected))
+                    Selected = a.GetBoolean(Resource.Styleable.CircularImageButton_selected, false);
 
+                if (a.HasValue(Resource.Styleable.CircularImageButton_android_enabled))
+                    Enabled = a.GetBoolean(Resource.Styleable.CircularImageButton_android_enabled, true);
             }
 
         }
