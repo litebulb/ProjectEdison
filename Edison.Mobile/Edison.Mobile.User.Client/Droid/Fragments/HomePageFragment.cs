@@ -243,6 +243,11 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
 
             var intent = new Intent(Activity, typeof(EventDetailActivity));
             intent.PutExtra("response", responseJson);
+            if (_responsesAdapter.UserLocation != null)
+            {
+                intent.PutExtra("USER_LAT", (double)_responsesAdapter.UserLocation.Latitude);
+                intent.PutExtra("USER_LON", (double)_responsesAdapter.UserLocation.Longitude);
+            }
             //           intent.AddFlags(ActivityFlags.NoAnimation);
             //           intent.AddFlags(ActivityFlags.ClearTop);
             //           intent.AddFlags(ActivityFlags.NewTask);

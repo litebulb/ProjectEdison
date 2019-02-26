@@ -91,24 +91,82 @@
 				android:id="@+id/message_area_title"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/map_container"
+                app:layout_constraintTop_toBottomOf="@+id/map_container"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
 				android:layout_gravity="left"
 				android:lines="1"
 				android:textAllCaps="true"
 				android:text="@string/_alert_updates"
 				android:textColor="@color/white"
-				android:visibility="gone"
+                android:textSize="20dp"
+                
 				/>
       <android.support.v7.widget.RecyclerView
         android:id="@+id/detailed_message_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/message_area_title"
+        app:layout_constraintTop_toBottomOf="@+id/message_area_title"
         app:layout_constraintBottom_toBottomOf="parent"
         android:overScrollMode="always"
         android:orientation="vertical"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:paddingTop="10dp"
 				/>
+      <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/message_area_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:weightSum="1"
+            android:paddingTop="10dp">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight=".1"
+        >
+        <View
+            android:id="@+id/event_cell_left_line"
+            android:background="@color/background_floating_material_dark"
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"/>
+        </LinearLayout>
+        <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight=".9"
+                android:layout_marginTop="0dp">
+                <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+                </LinearLayout>
+                </LinearLayout>
+        <ImageView
+        android:id="@+id/event_detail_image"
+        android:background="@drawable/circular_image_background"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@id/message_area_title"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:padding="@dimen/response_card_icon_padding"
+        android:tint="@color/white"
+
+        />
 		</android.support.constraint.ConstraintLayout>
 
 
