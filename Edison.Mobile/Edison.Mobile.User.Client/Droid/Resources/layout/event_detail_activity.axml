@@ -155,16 +155,16 @@
                 android:layout_height="match_parent"/>
                 </LinearLayout>
                 </LinearLayout>
-        <ImageView
-        android:id="@+id/event_detail_image"
-        android:background="@drawable/circular_image_background"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:layout_constraintBottom_toBottomOf="@id/message_area_title"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
-        android:padding="@dimen/response_card_icon_padding"
-        android:tint="@color/white"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/event_detail_image"
+            android:background="@drawable/circular_image_background"
+            android:layout_width="@dimen/circular_detail_icon_size"
+            android:layout_height="@dimen/circular_detail_icon_size"
+            app:layout_constraintBottom_toBottomOf="@id/message_area_title"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="16dp"
+            android:padding="@dimen/notification_circular_button_padding"
+            android:tint="@color/white"
 
         />
 		</android.support.constraint.ConstraintLayout>

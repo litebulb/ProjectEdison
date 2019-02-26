@@ -4840,6 +4840,12 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0b00ea
 			public const int chat_title_size = 2131427562;
 			
+			// aapt resource value: 0x7f0b00fb
+			public const int circular_detail_icon_padding = 2131427579;
+			
+			// aapt resource value: 0x7f0b00fa
+			public const int circular_detail_icon_size = 2131427578;
+			
 			// aapt resource value: 0x7f0b008e
 			public const int compat_button_inset_horizontal_material = 2131427470;
 			
@@ -4983,6 +4989,9 @@ namespace Edison.Mobile.User.Client.Droid
 			
 			// aapt resource value: 0x7f0b00bc
 			public const int event_guage_area_padding = 2131427516;
+			
+			// aapt resource value: 0x7f0b00fc
+			public const int event_message_text_padding = 2131427580;
 			
 			// aapt resource value: 0x7f0b00ad
 			public const int fab_elevation = 2131427501;
