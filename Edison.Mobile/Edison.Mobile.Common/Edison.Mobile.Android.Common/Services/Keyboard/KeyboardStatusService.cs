@@ -16,7 +16,7 @@ namespace Edison.Mobile.Android.Common
 
 
         private int _openHeightDelta = -1;
-        private int _closedHeightDelta = -1;
+        private int _closedHeightDelta = 0;
 
         private InputMethodManager __imm = null;
         private InputMethodManager _imm
@@ -34,7 +34,7 @@ namespace Edison.Mobile.Android.Common
 
         public bool Subscribed { get; private set; } = false;
 
-
+        public int Threshold { get; set; } = 144;
 
         public void Subscribe()
         {
@@ -74,12 +74,13 @@ namespace Edison.Mobile.Android.Common
                 Rect r1 = new Rect();
                 rootLayout.GetLocalVisibleRect(r1);
                 var heightDelta = r1.Bottom - r.Bottom;
-                if (_openHeightDelta == -1)
-                    _openHeightDelta = heightDelta;
+
 
                 // Double check (in case we have manually changed layouts in response to the keyboard opening and closing
-                if (heightDelta > _closedHeightDelta + 50)  // may need to add padding here to account for other layout changes
+                if (heightDelta > _closedHeightDelta + Threshold)  // may need to add padding here to account for other layout changes
                 {
+                    if (_openHeightDelta == -1)
+                        _openHeightDelta = heightDelta;
                     Status = KeyboardStatus.Open;
                     // Trigger the event
                     KeyboardStatusChangeEvent?.Invoke(new KeyboardStatusChangeEventArgs(Status, _openHeightDelta));
@@ -104,7 +105,7 @@ namespace Edison.Mobile.Android.Common
                     Rect r1 = new Rect();
                     rootLayout.GetLocalVisibleRect(r1);
                     var heightDelta = r1.Bottom - r.Bottom;
-                    if  (heightDelta < _openHeightDelta - 50)  // may need to add padding here to account for other layout changes
+                    if  (heightDelta < _openHeightDelta - Threshold)  // may need to add padding here to account for other layout changes
                     {
                         _closedHeightDelta = heightDelta;
                         Status = KeyboardStatus.Closed;

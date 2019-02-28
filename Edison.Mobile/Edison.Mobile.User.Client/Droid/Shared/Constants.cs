@@ -33,6 +33,7 @@ namespace Edison.Mobile.User.Client.Droid
         internal const string IntentSourceLabel = "Source";
         internal const string IntentActionLabel = "Action";
         internal const string IntentAuthenticatedLabel = "Authenticated";
+        internal const string IntentSourceLogout = "Logout";
         internal const string IntentSourceBackgroundNotification = "BackgroundNotification";
         internal const string IntentSourceNotRunningNotification = "NotRunningNotification";
         internal const string IntentSourceForegroundNotification = "ForegrounddNotification";
@@ -85,7 +86,6 @@ namespace Edison.Mobile.User.Client.Droid
         public static int EventResponseAreaHeightPx { get; private set; } = -1;
         public static int EventResponseCardWidthPx { get; private set; } = -1;
         public static int EventResponseCardSeperatorWidthPx { get; private set; } = -1;
-
 
         public static int BrightnessContainerWidth { get; private set; } = -1;
         public static int BrightnessToolbarItemIconBottomPadding { get; private set; } = -1;
@@ -154,7 +154,6 @@ namespace Edison.Mobile.User.Client.Droid
 
             EventResponseCardWidthPx = (int)(displayWidthPx * 0.65);
             EventResponseCardSeperatorWidthPx = (int)((displayWidthPx - EventResponseCardWidthPx) / 2);
-
 
         }
 

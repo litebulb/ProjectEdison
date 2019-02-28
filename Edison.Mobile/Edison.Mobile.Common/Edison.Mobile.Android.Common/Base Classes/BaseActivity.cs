@@ -38,9 +38,12 @@ namespace Edison.Mobile.Android.Common
         protected T ViewModel => _viewModel ?? (_viewModel = Container.Instance.Resolve<T>());
         protected Rect VisibleDisplayRect { get; private set; } = new Rect();
 
+        public ActivityState State { get; private set; } = ActivityState.Undefined;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            State = ActivityState.Created;
             _context = this;
             KeyboardStatus.Subscribe(this);
             KeyboardStatus.KeyboardStatusChangeEvent += OnKeyboardStatusChanged;
@@ -51,6 +54,7 @@ namespace Edison.Mobile.Android.Common
         protected override void OnStart()
         {
             base.OnStart();
+            State = ActivityState.Started;
             BindEventHandlers();
             ViewModel?.ViewAppearing();
         }
@@ -58,6 +62,7 @@ namespace Edison.Mobile.Android.Common
         protected override void OnResume()
         {
             base.OnResume();
+            State = ActivityState.Resumed;
             BindEventHandlers();
             ViewModel?.ViewAppeared();
         }
@@ -65,6 +70,7 @@ namespace Edison.Mobile.Android.Common
         protected override void OnPause()
         {
             base.OnPause();
+            State = ActivityState.Paused;
             UnBindEventHandlers();
             ViewModel?.ViewDisappearing();
         }
@@ -72,6 +78,7 @@ namespace Edison.Mobile.Android.Common
         protected override void OnStop()
         {
             base.OnStop();
+            State = ActivityState.Stopped;
             UnBindEventHandlers();
             ViewModel?.ViewDisappeared();
         }
@@ -79,12 +86,32 @@ namespace Edison.Mobile.Android.Common
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            State = ActivityState.Destroyed;
             KeyboardStatus.KeyboardStatusChangeEvent -= OnKeyboardStatusChanged;
             KeyboardStatus.Unsubscribe(this);
             UnBindEventHandlers();
             ViewModel?.ViewDestroyed();
             Window.DecorView.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
         }
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+            State = ActivityState.Restarted;
+        }
+
+        public override void OnAttachedToWindow()
+        {
+            base.OnAttachedToWindow();
+            State = ActivityState.AttachedToWindow;
+        }
+
+        public override void OnDetachedFromWindow()
+        {
+            base.OnDetachedFromWindow();
+            State = ActivityState.DettachedFromWindow;
+        }
+
 
         protected virtual void BindEventHandlers() 
         {
@@ -230,4 +257,19 @@ namespace Edison.Mobile.Android.Common
         }
 
     }
+
+    public enum ActivityState
+    {
+        Undefined,
+        Created,
+        Started,
+        Resumed,
+        Paused,
+        Stopped,
+        Destroyed,
+        Restarted,
+        AttachedToWindow,
+        DettachedFromWindow
+    }
+
 }

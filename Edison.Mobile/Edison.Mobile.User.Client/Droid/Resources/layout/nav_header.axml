@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- navigation drawer header area-->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_header"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/nav_header_height"
+	android:orientation="vertical"
+	android:padding="@dimen/activity_horizontal_margin"
+				>
+	<edison.mobile.android.common.controls.CircularProfileView
+		android:id="@+id/img_profile"
+		android:layout_width="@dimen/profile_size"
+		android:layout_height="@dimen/profile_size"
+		android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+		android:layout_gravity="center_horizontal"
+		android:gravity="center_horizontal"
+		android:backgroundTint="@color/profile_background"
+		android:textColor="@color/profile_initials_color"
+		android:fontFamily="@font/rubikblack"
+		app:borderWidth="@dimen/profile_image_border_width"
+		app:borderColor="@color/app_blue"
+					/>
+	<android.support.v7.widget.AppCompatTextView
+		android:id="@+id/profile_name"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="@dimen/nav_header_vertical_spacing"
+		android:textColor="@color/profile_name_color"
+		android:textSize="@dimen/profile_name_text_size"
+		android:text="ALISON SUMMERFIELD"
+					/>
+</LinearLayout>
+

@@ -469,7 +469,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         {
             await Task.Run(async () =>
             {
-                await Task.Delay(200);
+                await Task.Delay(250);
                 UpdatePosition();
             }).ConfigureAwait(false);
         }

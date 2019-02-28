@@ -20,7 +20,7 @@ namespace Edison.Mobile.Android.Common.Behaviors
 
         public EventHandler<float> Slide;
 
-        public EventHandler<int> StateChanged;
+        public EventHandler<SheetState> StateChanged;
 
         private bool _nestedScrollingViewTouched = false;
 
@@ -128,9 +128,22 @@ namespace Edison.Mobile.Android.Common.Behaviors
 
             public override void OnStateChanged(View bottomSheet, int newState)
             {
-                _parent.StateChanged?.Invoke(bottomSheet, newState);
+                _parent.StateChanged?.Invoke(bottomSheet, (SheetState)newState);
             }
         }
+
+
+
+        public enum SheetState
+        {
+            Unknown = 0,
+            Dragging = 1,
+            Settling = 2,
+            Expanded = 3,
+            Collapsed = 4,
+            Hidden = 5
+        }
+
 
     }
 }

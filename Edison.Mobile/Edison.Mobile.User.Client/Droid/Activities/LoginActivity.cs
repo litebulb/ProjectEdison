@@ -65,17 +65,24 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             if (ViewModel != null)
                 ((LoginViewModel)ViewModel).AuthService.UiParent = new UIParent(this);
 
-            AppCenter.Start("959d5bd2-9e29-4f17-aed6-68885af8c63d", typeof(Analytics), typeof(Crashes));
-
             if (Intent.Extras != null)
             {
                 _source = Intent.GetStringExtra(Constants.IntentSourceLabel);
                 _action = Intent.GetStringExtra(Constants.IntentActionLabel);
             }
 
+            AppCenter.Start("959d5bd2-9e29-4f17-aed6-68885af8c63d", typeof(Analytics), typeof(Crashes));
+
+
             SetContentView(Resource.Layout.screen_login);
             BindResources();
             BindVMEvents();
+
+            if (_source == Constants.IntentSourceLogout && ViewModel != null)
+            {
+                ViewModel.HaveSignedOut();
+                ShowLogin();
+            }
 
 
 #if DEBUG
@@ -85,8 +92,6 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             Log.Debug("ACTIVITY", "**************************************");
             Log.Debug("ACTIVITY", "**************************************");
 #endif
-
-
 
 
             Task.Run(async () => {
@@ -166,14 +171,22 @@ namespace Edison.Mobile.User.Client.Droid.Activities
         // Clears progress bar, sets a login failed message, and shows login button
         private void OnLoginFailed()
         {
-            _activityIndicator.Visibility = ViewStates.Invisible;
+            ShowLogin();
             _splachscreenMessage.Text = Resources.GetString(Resource.String.sign_in_error);
             _splachscreenMessage.Visibility = ViewStates.Visible;
+            _loginScreen.Invalidate();
+        }
+
+        private void ShowLogin()
+        {
+            _activityIndicator.Visibility = ViewStates.Invisible;
             _signInButton.Alpha = 0f;
             _signInButton.Visibility = ViewStates.Visible;
             _signInButton.Animate().Alpha(1).SetDuration(1000).Start();
+            _splachscreenMessage.Visibility = ViewStates.Invisible;
             _loginScreen.Invalidate();
         }
+
 
         // Clears progress bar, sets a permissions denied message, and shows login button
         private void OnAppPermissionsFailed()
@@ -188,6 +201,7 @@ namespace Edison.Mobile.User.Client.Droid.Activities
             ClearMessages();
             await ViewModel.Login();
         }
+
 
         // Called when returns from MSAL authentication
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

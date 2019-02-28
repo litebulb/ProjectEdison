@@ -16,7 +16,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         readonly INotificationService notificationService;
         readonly ILocationService locationService;
 
-        bool isInitialAppearance = true;
+
+
+        private bool _isInitialAppearance = true;
 
         public event ViewNotification OnDisplayLogin;
         public event ViewNotification OnLoginFailed;
@@ -49,9 +51,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         {
             base.ViewAppeared();
 
-            if (isInitialAppearance)
+            if (_isInitialAppearance)
             {
-                isInitialAppearance = false;
+                _isInitialAppearance = false;
                 // Attempt to authenticate silently - with a previously stored token
                 var hasToken = await AuthService.AcquireTokenSilently();
                 if (hasToken)
@@ -72,7 +74,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         {
             // Unsubscribe from the Authentication OnAuthChanged event
             AuthService.OnAuthChanged -= HandleOnAuthChanged;
-            LoginSucceed += OnLoginSucceeded;
+            LoginSucceed -= OnLoginSucceeded;
             base.ViewDestroyed();
 
         }
@@ -128,8 +130,6 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 OnAppPermissionsFailed?.Invoke();
         }
 
-        public 
-
 
         async Task<bool> GetAppPermissions()
         {
@@ -158,5 +158,15 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
         {
             LoginSucceed?.Invoke();
         }
+
+
+        public void HaveSignedOut()
+        {
+            _isInitialAppearance = false;
+            AuthService.OnAuthChanged -= HandleOnAuthChanged;  // In case
+            AuthService.OnAuthChanged += HandleOnAuthChanged;
+        }
+
+
     }
 }

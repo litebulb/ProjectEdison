@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App Bar Definition  -->
+<android.support.design.widget.AppBarLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_appbar"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:elevation="0dp"
+			>
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/nav_toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:elevation="0dp"
+		android:background="@color/app_background"
+		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+		app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+		>
+		<LinearLayout
+			android:id="@+id/toolbar_title_wrapper"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="4dp"
+			android:orientation="vertical"
+			android:paddingLeft="@dimen/abc_action_bar_default_padding_start_material"
+			android:paddingRight="@dimen/abc_action_bar_default_padding_end_material"
+			android:layout_gravity="center"
+			android:gravity="center"
+			>
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/toolbar_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+				android:text="Edison"
+				android:textColor="@color/app_blue"
+				android:visibility="gone"
+				/>
+			<android.support.v7.widget.AppCompatTextView
+				 android:id="@+id/toolbar_subtitle"
+				 android:layout_width="wrap_content"
+				 android:layout_height="wrap_content"
+				 android:layout_gravity="center"
+				 android:gravity="center"
+				 android:singleLine="true"
+				 android:ellipsize="end"
+				 android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+				 android:text="Subtitle"
+				 android:textColor="@color/app_blue"
+				 android:visibility="gone"
+				/>
+		</LinearLayout>
+	</android.support.v7.widget.Toolbar>
+</android.support.design.widget.AppBarLayout>
+

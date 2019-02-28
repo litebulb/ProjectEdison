@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ripple
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/button_ripple"
+  android:color="@color/ripple_material_light"
+  tools:targetApi="lollipop">
+</ripple>

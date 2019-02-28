@@ -2622,26 +2622,26 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f020053
 			public static int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020084
-			public static int avd_hide_password_1 = 2130837636;
-			
-			// aapt resource value: 0x7f020085
-			public static int avd_hide_password_2 = 2130837637;
-			
 			// aapt resource value: 0x7f020086
-			public static int avd_hide_password_3 = 2130837638;
+			public static int avd_hide_password_1 = 2130837638;
+			
+			// aapt resource value: 0x7f020087
+			public static int avd_hide_password_2 = 2130837639;
+			
+			// aapt resource value: 0x7f020088
+			public static int avd_hide_password_3 = 2130837640;
 			
 			// aapt resource value: 0x7f020054
 			public static int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020087
-			public static int avd_show_password_1 = 2130837639;
-			
-			// aapt resource value: 0x7f020088
-			public static int avd_show_password_2 = 2130837640;
-			
 			// aapt resource value: 0x7f020089
-			public static int avd_show_password_3 = 2130837641;
+			public static int avd_show_password_1 = 2130837641;
+			
+			// aapt resource value: 0x7f02008a
+			public static int avd_show_password_2 = 2130837642;
+			
+			// aapt resource value: 0x7f02008b
+			public static int avd_show_password_3 = 2130837643;
 			
 			// aapt resource value: 0x7f020055
 			public static int circular_event_gauge = 2130837589;
@@ -2766,11 +2766,11 @@ namespace Edison.Mobile.Android.Common
 			// aapt resource value: 0x7f02007d
 			public static int notification_icon_background = 2130837629;
 			
-			// aapt resource value: 0x7f020082
-			public static int notification_template_icon_bg = 2130837634;
+			// aapt resource value: 0x7f020084
+			public static int notification_template_icon_bg = 2130837636;
 			
-			// aapt resource value: 0x7f020083
-			public static int notification_template_icon_low_bg = 2130837635;
+			// aapt resource value: 0x7f020085
+			public static int notification_template_icon_low_bg = 2130837637;
 			
 			// aapt resource value: 0x7f02007e
 			public static int notification_tile_bg = 2130837630;
@@ -2779,10 +2779,16 @@ namespace Edison.Mobile.Android.Common
 			public static int notify_panel_notification_icon_bg = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public static int tooltip_frame_dark = 2130837632;
+			public static int rectangular_ripple_default = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public static int tooltip_frame_light = 2130837633;
+			public static int ripple_default = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public static int tooltip_frame_dark = 2130837634;
+			
+			// aapt resource value: 0x7f020083
+			public static int tooltip_frame_light = 2130837635;
 			
 			static Drawable()
 			{
