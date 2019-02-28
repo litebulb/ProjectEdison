@@ -17,4 +17,6 @@
   <string name="devices_near_you_label">Devices Near You</string>
   <string name="new_device_scan_title">Set Up Button</string>
   <string name="scan_qr_message_label">Scan the QR Code on the device to connect it to this phone.</string>
+  <string name="select_wifi_network_label">Select a Wifi network the button should use.</string>
+  <string name="avalable_networks_label">Available Networks</string>
 </resources>

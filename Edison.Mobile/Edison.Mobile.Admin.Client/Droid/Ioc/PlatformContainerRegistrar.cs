@@ -14,7 +14,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Ioc
             {
                 RedirectUri = AuthConfig.AndroidAdminRedirectUri,
             };
-
+                       
             builder.RegisterInstance(publicClientApplication)
                    .As<IPublicClientApplication>();
         }

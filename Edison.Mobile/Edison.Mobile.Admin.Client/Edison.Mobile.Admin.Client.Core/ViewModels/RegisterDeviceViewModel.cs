@@ -6,8 +6,8 @@ using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Admin.Client.Core.Shared;
 using Edison.Mobile.Common.Shared;
-using Edison.Mobile.Common.ViewModels;
 using Edison.Mobile.Common.WiFi;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
@@ -15,7 +15,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     {
         readonly IWifiService wifiService;
         readonly DeviceRestService deviceRestService;
-        readonly OnboardingRestService onboardingRestService;
+        readonly IOnboardingRestService onboardingRestService;
         readonly DeviceProvisioningRestService deviceProvisioningRestService;
 
         public event ViewNotification OnBeginDevicePairing;
@@ -33,7 +33,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             DeviceSetupService deviceSetupService, 
             DeviceRestService deviceRestService,
             IWifiService wifiService,
-            OnboardingRestService onboardingRestService,
+            IOnboardingRestService onboardingRestService,
             DeviceProvisioningRestService deviceProvisioningRestService
         ) : base(deviceSetupService)
         {

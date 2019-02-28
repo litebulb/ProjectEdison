@@ -43,7 +43,7 @@ namespace Edison.Mobile.iOS.Common.WiFi
             return await Task.FromResult(wifiNetwork);
         }
 
-        public async Task<bool> ConnectToWifiNetwork(string ssid, string passphrase = null)
+        public async Task<bool> ConnectToWifiNetwork(string ssid, string passphrase)
         {
             try
             {
@@ -60,6 +60,11 @@ namespace Edison.Mobile.iOS.Common.WiFi
 
                 return false;
             }
+        }
+
+        public async Task<bool> ConnectToWifiNetwork(string ssid)
+        {
+            return await ConnectToWifiNetwork(ssid, null);
         }
 
         public async Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)

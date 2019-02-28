@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Configurations>Debug;Release;Android User (Release);Android Admin</Configurations>
+    <Configurations>Debug;Release;Android User (Release);Android Admin;Android Admin NoPI;AndroidAdminNoPi</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
@@ -11,7 +11,9 @@
     <OutputPath>bin\iPhoneSimulator\iOS User</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AndroidAdminNoPi|AnyCPU'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Admin|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Admin NoPI|AnyCPU'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android User (Release)|AnyCPU'" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS User|iPhone' ">
     <IntermediateOutputPath>obj\iPhone\iOS User</IntermediateOutputPath>

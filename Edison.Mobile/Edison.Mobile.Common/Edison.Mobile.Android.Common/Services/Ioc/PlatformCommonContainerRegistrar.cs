@@ -12,6 +12,10 @@ using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.WiFi;
 using System;
+using Moq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Edison.Mobile.Android.Common.Ioc
 {
@@ -48,9 +52,26 @@ namespace Edison.Mobile.Android.Common.Ioc
                     .SingleInstance();
 
             builder.RegisterType<PlatformWifiService>()
-                    .As<IWifiService>()
-                    .SingleInstance();
-        }
+                .As<IWifiService>()
+                .SingleInstance();
 
+#if ANDROIDADMINNOPI
+            var WifiServiceMock = new Mock<IWifiService>();
+            WifiServiceMock.Setup(i => i.GetCurrentlyConnectedWifiNetwork()).Returns(Task.FromResult(PlatformCommonContainerRegistrar.MockNetworks().First()));
+            WifiServiceMock.Setup(i => i.ConnectToWifiNetwork(It.IsAny<string>())).Returns(Task.FromResult(true));
+            WifiServiceMock.Setup(i => i.ConnectToWifiNetwork(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(true));
+            WifiServiceMock.Setup(i => i.DisconnectFromWifiNetwork(It.IsAny<WifiNetwork>())).Returns(Task.FromResult(true));
+
+            builder.RegisterInstance<IWifiService>(WifiServiceMock.Object);
+#endif
+        }
+        public static IEnumerable<WifiNetwork> MockNetworks()
+        {
+            return new List<WifiNetwork>()
+            {
+                new WifiNetwork(){ SSID = "SSID 1"},
+                new WifiNetwork(){ SSID = "SSID 2"},
+            };
+        }
     }
 }

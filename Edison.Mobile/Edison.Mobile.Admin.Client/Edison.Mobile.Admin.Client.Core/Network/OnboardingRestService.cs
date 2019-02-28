@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
@@ -14,7 +15,7 @@ using RestSharp.Authenticators;
 
 namespace Edison.Mobile.Admin.Client.Core.Network
 {
-    public class OnboardingRestService : BaseRestService
+    public class OnboardingRestService : BaseRestService, IOnboardingRestService
     {
         public OnboardingRestService(AuthService authService, ILogger logger, string baseUrl)
             : base(authService, logger, baseUrl)

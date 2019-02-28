@@ -26,10 +26,10 @@
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <PackageCertificateThumbprint>D519E72B4C1AB230E79B15941C87F75FA3774FB9</PackageCertificateThumbprint>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+    <PackageCertificateThumbprint>019CE8218D984674DC895A49ECDAC4AF1DD172BB</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Edison.Devices.SoundSensor_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxPackageDir>D:\Edison\Edison.Devices\AppPackages\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\bkotvis\Desktop\SoundSensor\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

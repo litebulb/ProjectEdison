@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 using System;
 using static Android.Gms.Vision.Detector;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
+using System.Threading.Tasks;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -98,32 +99,16 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             if (qrcodes.Size() != 0)
             {
                 Vibrator vibrator = (Vibrator)GetSystemService(Context.VibratorService);
-                vibrator.Vibrate(1000);
+                vibrator.Vibrate(VibrationEffect.CreateOneShot(1000, 1));
                 var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;
 
                 string networkSSID = value;
-                string networkPass = "Edison1234";
-
-                WifiConfiguration wifiConfig = new WifiConfiguration();
-                wifiConfig.Ssid = string.Format("\"{0}\"", networkSSID);
-                wifiConfig.PreSharedKey = string.Format("\"{0}\"", networkPass);
-                
-                WifiManager wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
-
-                // Use ID
-                var existing = wifiManager.ConfiguredNetworks.FirstOrDefault(i => i.Ssid == networkSSID);
-                int netId;
-                if (existing == null)
-                {
-                    netId = wifiManager.AddNetwork(wifiConfig);
-                }
-                else
-                {
-                    netId = existing.NetworkId;
-                }
-                
-                wifiManager.Disconnect();
-                wifiManager.EnableNetwork(netId, true);
+                                
+                this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID }).GetAwaiter().GetResult();
+                                
+                var intent = new Intent(this, typeof(SelectWifiOnDeviceActivity));
+                intent.AddFlags(ActivityFlags.NoAnimation);
+                StartActivity(intent);
             }
         }
 

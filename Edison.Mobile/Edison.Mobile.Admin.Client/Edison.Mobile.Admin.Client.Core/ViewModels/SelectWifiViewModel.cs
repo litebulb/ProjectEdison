@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Common.Shared;
@@ -12,7 +13,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class SelectWifiViewModel : DeviceSetupBaseViewModel
     {
-        readonly OnboardingRestService onboardingRestService;
+        readonly IOnboardingRestService onboardingRestService;
         readonly IWifiService wifiService;
         readonly System.Timers.Timer refreshAvailableNetworksTimer;
 
@@ -21,7 +22,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public event ViewNotification OnAvailableWifiNetworksChanged;
 
         public SelectWifiViewModel(
-            OnboardingRestService onboardingRestService, 
+            IOnboardingRestService onboardingRestService, 
             DeviceSetupService deviceSetupService,
             IWifiService wifiService
         )

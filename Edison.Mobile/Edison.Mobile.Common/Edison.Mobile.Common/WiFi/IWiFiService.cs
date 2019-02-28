@@ -7,7 +7,8 @@ namespace Edison.Mobile.Common.WiFi
     public interface IWifiService
     {
         Task<WifiNetwork> GetCurrentlyConnectedWifiNetwork();
-        Task<bool> ConnectToWifiNetwork(string ssid, string passphrase = null);
+        Task<bool> ConnectToWifiNetwork(string ssid);
+        Task<bool> ConnectToWifiNetwork(string ssid, string passphrase);
         Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork);
     }
 }
