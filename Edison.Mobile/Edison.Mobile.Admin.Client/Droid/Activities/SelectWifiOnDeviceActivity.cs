@@ -22,7 +22,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "test", Icon = "@mipmap/icon")]
+    [Activity(Label = "@string/app_name", Icon = "@mipmap/ic_edison_launcher")]
     public class SelectWifiOnDeviceActivity : BaseActivity<SelectWifiViewModel>
     {
         private RecyclerView _recyclerView;
@@ -81,6 +81,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
                 // Plug the adapter into the RecyclerView:
                 _recyclerView.SetAdapter(mAdapter);
+
+                
             }));
         }
         

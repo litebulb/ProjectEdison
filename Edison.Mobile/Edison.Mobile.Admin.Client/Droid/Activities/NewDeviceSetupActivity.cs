@@ -18,7 +18,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "hello", MainLauncher = true, Icon = "@mipmap/icon")]
+    [Activity(Label = "@string/app_name", Icon = "@mipmap/ic_edison_launcher")]
     public class NewDeviceSetupActivity : BaseActivity<RegisterDeviceViewModel>
     {
 

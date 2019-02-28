@@ -352,6 +352,7 @@ namespace Edison.Mobile.Admin.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Attribute.seekBarStyle = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.seekBarStyle;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.selectableItemBackground = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.selectableItemBackground;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.selectableItemBackgroundBorderless = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::Edison.Mobile.Android.Common.Resource.Attribute.selected = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.selected;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.showAsAction = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.showAsAction;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.showDividers = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.showDividers;
 			global::Edison.Mobile.Android.Common.Resource.Attribute.showText = global::Edison.Mobile.Admin.Client.Droid.Resource.Attribute.showText;
@@ -916,6 +917,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Drawable.notification_template_icon_low_bg = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.notification_template_icon_low_bg;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.notification_tile_bg = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.notification_tile_bg;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.notify_panel_notification_icon_bg = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.rectangular_ripple_default = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.rectangular_ripple_default;
+			global::Edison.Mobile.Android.Common.Resource.Drawable.ripple_default = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.ripple_default;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.tooltip_frame_dark = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.tooltip_frame_dark;
 			global::Edison.Mobile.Android.Common.Resource.Drawable.tooltip_frame_light = global::Edison.Mobile.Admin.Client.Droid.Resource.Drawable.tooltip_frame_light;
 			global::Edison.Mobile.Android.Common.Resource.Font.rubik = global::Edison.Mobile.Admin.Client.Droid.Resource.Font.rubik;
@@ -1908,6 +1911,7 @@ namespace Edison.Mobile.Admin.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularEventGauge_ringGap = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularEventGauge_ringGap;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularEventGauge_ringStartColor = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularEventGauge_ringStartColor;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_android_enabled = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_android_enabled;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_android_tag = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_android_tag;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_buttonBackground = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_buttonBackground;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_buttonBackgroundTint = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_buttonBackgroundTint;
@@ -1921,6 +1925,7 @@ namespace Edison.Mobile.Admin.Client.Droid
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_iconSrc = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_iconSrc;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_iconTint = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_iconTint;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_iconTintMode = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_iconTintMode;
+			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularImageButton_selected = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularImageButton_selected;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularProfileView = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularProfileView;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularProfileView_android_background = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularProfileView_android_background;
 			global::Edison.Mobile.Android.Common.Resource.Styleable.CircularProfileView_android_backgroundTint = global::Edison.Mobile.Admin.Client.Droid.Resource.Styleable.CircularProfileView_android_backgroundTint;
@@ -2469,8 +2474,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010143
 			public const int actionViewClass = 2130772291;
 			
-			// aapt resource value: 0x7f0101a9
-			public const int active = 2130772393;
+			// aapt resource value: 0x7f0101aa
+			public const int active = 2130772394;
 			
 			// aapt resource value: 0x7f0100f3
 			public const int activityChooserViewStyle = 2130772211;
@@ -2556,8 +2561,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010007
 			public const int behavior_skipCollapsed = 2130771975;
 			
-			// aapt resource value: 0x7f010190
-			public const int borderColor = 2130772368;
+			// aapt resource value: 0x7f010191
+			public const int borderColor = 2130772369;
 			
 			// aapt resource value: 0x7f010027
 			public const int borderWidth = 2130772007;
@@ -2658,11 +2663,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010080
 			public const int cardUseCompatPadding = 2130772096;
 			
-			// aapt resource value: 0x7f010196
-			public const int centerSrc = 2130772374;
+			// aapt resource value: 0x7f010197
+			public const int centerSrc = 2130772375;
 			
-			// aapt resource value: 0x7f010195
-			public const int centerTint = 2130772373;
+			// aapt resource value: 0x7f010196
+			public const int centerTint = 2130772374;
 			
 			// aapt resource value: 0x7f010122
 			public const int checkboxStyle = 2130772258;
@@ -2784,35 +2789,35 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010115
 			public const int controlBackground = 2130772245;
 			
-			// aapt resource value: 0x7f010192
-			public const int controlRippleColor = 2130772370;
+			// aapt resource value: 0x7f010193
+			public const int controlRippleColor = 2130772371;
 			
-			// aapt resource value: 0x7f0101a8
-			public const int count = 2130772392;
-			
-			// aapt resource value: 0x7f01019e
-			public const int countAllCaps = 2130772382;
-			
-			// aapt resource value: 0x7f01019c
-			public const int countAutosize = 2130772380;
-			
-			// aapt resource value: 0x7f01019b
-			public const int countColor = 2130772379;
-			
-			// aapt resource value: 0x7f01019a
-			public const int countFontFamily = 2130772378;
+			// aapt resource value: 0x7f0101a9
+			public const int count = 2130772393;
 			
 			// aapt resource value: 0x7f01019f
-			public const int countText = 2130772383;
+			public const int countAllCaps = 2130772383;
 			
 			// aapt resource value: 0x7f01019d
-			public const int countTextSize = 2130772381;
+			public const int countAutosize = 2130772381;
+			
+			// aapt resource value: 0x7f01019c
+			public const int countColor = 2130772380;
+			
+			// aapt resource value: 0x7f01019b
+			public const int countFontFamily = 2130772379;
+			
+			// aapt resource value: 0x7f0101a0
+			public const int countText = 2130772384;
+			
+			// aapt resource value: 0x7f01019e
+			public const int countTextSize = 2130772382;
+			
+			// aapt resource value: 0x7f01019a
+			public const int countTextStyle = 2130772378;
 			
 			// aapt resource value: 0x7f010199
-			public const int countTextStyle = 2130772377;
-			
-			// aapt resource value: 0x7f010198
-			public const int countTypeface = 2130772376;
+			public const int countTypeface = 2130772377;
 			
 			// aapt resource value: 0x7f010048
 			public const int counterEnabled = 2130772040;
@@ -2928,8 +2933,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010079
 			public const int fastScrollVerticalTrackDrawable = 2130772089;
 			
-			// aapt resource value: 0x7f0101aa
-			public const int fillColor = 2130772394;
+			// aapt resource value: 0x7f0101ab
+			public const int fillColor = 2130772395;
 			
 			// aapt resource value: 0x7f010184
 			public const int font = 2130772356;
@@ -3012,8 +3017,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f01018c
 			public const int iconPaddingTop = 2130772364;
 			
-			// aapt resource value: 0x7f0101a7
-			public const int iconSize = 2130772391;
+			// aapt resource value: 0x7f0101a8
+			public const int iconSize = 2130772392;
 			
 			// aapt resource value: 0x7f010189
 			public const int iconSrc = 2130772361;
@@ -3066,26 +3071,26 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010019
 			public const int keylines = 2130771993;
 			
-			// aapt resource value: 0x7f0101a5
-			public const int labelAllCaps = 2130772389;
-			
-			// aapt resource value: 0x7f0101a3
-			public const int labelColor = 2130772387;
-			
-			// aapt resource value: 0x7f0101a2
-			public const int labelFontFamily = 2130772386;
-			
 			// aapt resource value: 0x7f0101a6
-			public const int labelText = 2130772390;
+			public const int labelAllCaps = 2130772390;
 			
 			// aapt resource value: 0x7f0101a4
-			public const int labelTextSize = 2130772388;
+			public const int labelColor = 2130772388;
+			
+			// aapt resource value: 0x7f0101a3
+			public const int labelFontFamily = 2130772387;
+			
+			// aapt resource value: 0x7f0101a7
+			public const int labelText = 2130772391;
+			
+			// aapt resource value: 0x7f0101a5
+			public const int labelTextSize = 2130772389;
+			
+			// aapt resource value: 0x7f0101a2
+			public const int labelTextStyle = 2130772386;
 			
 			// aapt resource value: 0x7f0101a1
-			public const int labelTextStyle = 2130772385;
-			
-			// aapt resource value: 0x7f0101a0
-			public const int labelTypeface = 2130772384;
+			public const int labelTypeface = 2130772385;
 			
 			// aapt resource value: 0x7f01006b
 			public const int latLngBoundsNorthEastLatitude = 2130772075;
@@ -3288,17 +3293,17 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f010075
 			public const int reverseLayout = 2130772085;
 			
-			// aapt resource value: 0x7f0101ab
-			public const int rightAnglePosition = 2130772395;
+			// aapt resource value: 0x7f0101ac
+			public const int rightAnglePosition = 2130772396;
+			
+			// aapt resource value: 0x7f010195
+			public const int ringEndColor = 2130772373;
+			
+			// aapt resource value: 0x7f010198
+			public const int ringGap = 2130772376;
 			
 			// aapt resource value: 0x7f010194
-			public const int ringEndColor = 2130772372;
-			
-			// aapt resource value: 0x7f010197
-			public const int ringGap = 2130772375;
-			
-			// aapt resource value: 0x7f010193
-			public const int ringStartColor = 2130772371;
+			public const int ringStartColor = 2130772372;
 			
 			// aapt resource value: 0x7f010024
 			public const int rippleColor = 2130772004;
@@ -3329,6 +3334,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			// aapt resource value: 0x7f0100ef
 			public const int selectableItemBackgroundBorderless = 2130772207;
+			
+			// aapt resource value: 0x7f010190
+			public const int selected = 2130772368;
 			
 			// aapt resource value: 0x7f010141
 			public const int showAsAction = 2130772289;
@@ -3498,8 +3506,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0100fd
 			public const int textColorSearchUrl = 2130772221;
 			
-			// aapt resource value: 0x7f010191
-			public const int textPadding = 2130772369;
+			// aapt resource value: 0x7f010192
+			public const int textPadding = 2130772370;
 			
 			// aapt resource value: 0x7f01017a
 			public const int theme = 2130772346;
@@ -4966,26 +4974,26 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f020054
 			public const int avd_hide_password = 2130837588;
 			
-			// aapt resource value: 0x7f020092
-			public const int avd_hide_password_1 = 2130837650;
-			
-			// aapt resource value: 0x7f020093
-			public const int avd_hide_password_2 = 2130837651;
-			
 			// aapt resource value: 0x7f020094
-			public const int avd_hide_password_3 = 2130837652;
+			public const int avd_hide_password_1 = 2130837652;
+			
+			// aapt resource value: 0x7f020095
+			public const int avd_hide_password_2 = 2130837653;
+			
+			// aapt resource value: 0x7f020096
+			public const int avd_hide_password_3 = 2130837654;
 			
 			// aapt resource value: 0x7f020055
 			public const int avd_show_password = 2130837589;
 			
-			// aapt resource value: 0x7f020095
-			public const int avd_show_password_1 = 2130837653;
-			
-			// aapt resource value: 0x7f020096
-			public const int avd_show_password_2 = 2130837654;
-			
 			// aapt resource value: 0x7f020097
-			public const int avd_show_password_3 = 2130837655;
+			public const int avd_show_password_1 = 2130837655;
+			
+			// aapt resource value: 0x7f020098
+			public const int avd_show_password_2 = 2130837656;
+			
+			// aapt resource value: 0x7f020099
+			public const int avd_show_password_3 = 2130837657;
 			
 			// aapt resource value: 0x7f020056
 			public const int border = 2130837590;
@@ -5137,11 +5145,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f020087
 			public const int notification_icon_background = 2130837639;
 			
-			// aapt resource value: 0x7f020090
-			public const int notification_template_icon_bg = 2130837648;
+			// aapt resource value: 0x7f020092
+			public const int notification_template_icon_bg = 2130837650;
 			
-			// aapt resource value: 0x7f020091
-			public const int notification_template_icon_low_bg = 2130837649;
+			// aapt resource value: 0x7f020093
+			public const int notification_template_icon_low_bg = 2130837651;
 			
 			// aapt resource value: 0x7f020088
 			public const int notification_tile_bg = 2130837640;
@@ -5156,16 +5164,22 @@ namespace Edison.Mobile.Admin.Client.Droid
 			public const int power = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int sensors = 2130837644;
+			public const int rectangular_ripple_default = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int sensorsBlue = 2130837645;
+			public const int ripple_default = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int tooltip_frame_dark = 2130837646;
+			public const int sensors = 2130837646;
 			
 			// aapt resource value: 0x7f02008f
-			public const int tooltip_frame_light = 2130837647;
+			public const int sensorsBlue = 2130837647;
+			
+			// aapt resource value: 0x7f020090
+			public const int tooltip_frame_dark = 2130837648;
+			
+			// aapt resource value: 0x7f020091
+			public const int tooltip_frame_light = 2130837649;
 			
 			static Drawable()
 			{
@@ -8656,7 +8670,6 @@ namespace Edison.Mobile.Admin.Client.Droid
 					2130772295,
 					2130772296,
 					2130772361,
-					2130772370,
 					2130772371,
 					2130772372,
 					2130772373,
@@ -8679,7 +8692,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 					2130772390,
 					2130772391,
 					2130772392,
-					2130772393};
+					2130772393,
+					2130772394};
 			
 			// aapt resource value: 26
 			public const int CircularEventGauge_active = 26;
@@ -8763,6 +8777,7 @@ namespace Edison.Mobile.Admin.Client.Droid
 			public const int CircularEventGauge_ringStartColor = 4;
 			
 			public static int[] CircularImageButton = new int[] {
+					16842766,
 					16842961,
 					2130772295,
 					2130772296,
@@ -8775,46 +8790,53 @@ namespace Edison.Mobile.Admin.Client.Droid
 					2130772364,
 					2130772365,
 					2130772366,
-					2130772367};
+					2130772367,
+					2130772368};
 			
 			// aapt resource value: 0
-			public const int CircularImageButton_android_tag = 0;
-			
-			// aapt resource value: 3
-			public const int CircularImageButton_buttonBackground = 3;
-			
-			// aapt resource value: 4
-			public const int CircularImageButton_buttonBackgroundTint = 4;
-			
-			// aapt resource value: 5
-			public const int CircularImageButton_buttonBackgroundTintMode = 5;
-			
-			// aapt resource value: 7
-			public const int CircularImageButton_buttonRippleColor = 7;
-			
-			// aapt resource value: 12
-			public const int CircularImageButton_iconPadding = 12;
-			
-			// aapt resource value: 11
-			public const int CircularImageButton_iconPaddingBottom = 11;
-			
-			// aapt resource value: 8
-			public const int CircularImageButton_iconPaddingLeft = 8;
-			
-			// aapt resource value: 10
-			public const int CircularImageButton_iconPaddingRight = 10;
-			
-			// aapt resource value: 9
-			public const int CircularImageButton_iconPaddingTop = 9;
-			
-			// aapt resource value: 6
-			public const int CircularImageButton_iconSrc = 6;
+			public const int CircularImageButton_android_enabled = 0;
 			
 			// aapt resource value: 1
-			public const int CircularImageButton_iconTint = 1;
+			public const int CircularImageButton_android_tag = 1;
+			
+			// aapt resource value: 4
+			public const int CircularImageButton_buttonBackground = 4;
+			
+			// aapt resource value: 5
+			public const int CircularImageButton_buttonBackgroundTint = 5;
+			
+			// aapt resource value: 6
+			public const int CircularImageButton_buttonBackgroundTintMode = 6;
+			
+			// aapt resource value: 8
+			public const int CircularImageButton_buttonRippleColor = 8;
+			
+			// aapt resource value: 13
+			public const int CircularImageButton_iconPadding = 13;
+			
+			// aapt resource value: 12
+			public const int CircularImageButton_iconPaddingBottom = 12;
+			
+			// aapt resource value: 9
+			public const int CircularImageButton_iconPaddingLeft = 9;
+			
+			// aapt resource value: 11
+			public const int CircularImageButton_iconPaddingRight = 11;
+			
+			// aapt resource value: 10
+			public const int CircularImageButton_iconPaddingTop = 10;
+			
+			// aapt resource value: 7
+			public const int CircularImageButton_iconSrc = 7;
 			
 			// aapt resource value: 2
-			public const int CircularImageButton_iconTintMode = 2;
+			public const int CircularImageButton_iconTint = 2;
+			
+			// aapt resource value: 3
+			public const int CircularImageButton_iconTintMode = 3;
+			
+			// aapt resource value: 14
+			public const int CircularImageButton_selected = 14;
 			
 			public static int[] CircularProfileView = new int[] {
 					16842902,
@@ -8828,9 +8850,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 					16843883,
 					16843884,
 					2130772007,
-					2130772368,
 					2130772369,
-					2130772370};
+					2130772370,
+					2130772371};
 			
 			// aapt resource value: 3
 			public const int CircularProfileView_android_background = 3;
@@ -9624,9 +9646,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			public static int[] RightAngleTriangle = new int[] {
 					2130772007,
-					2130772368,
-					2130772394,
-					2130772395};
+					2130772369,
+					2130772395,
+					2130772396};
 			
 			// aapt resource value: 1
 			public const int RightAngleTriangle_borderColor = 1;

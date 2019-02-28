@@ -32,12 +32,20 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
             var device = _devices[position];
 
             vh.Caption.Text = device.SSID;
+
+            vh.ItemView.Click += ItemView_Click;
+        }
+
+        private void ItemView_Click(object sender, EventArgs e)
+        {
+            
         }
 
         public override int ItemCount
         {
             get { return _devices.Count; }
         }
+
     }
 
     public class WifiSelectionDeviceHolder : RecyclerView.ViewHolder
@@ -48,5 +56,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
         {
             Caption = itemView.FindViewById<TextView>(Resource.Id.deviceWifiSSIDTextView);
         }
+        
     }
 }
