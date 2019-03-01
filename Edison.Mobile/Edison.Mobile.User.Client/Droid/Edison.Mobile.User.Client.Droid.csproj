@@ -315,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <GoogleServicesJson Include="google-services.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>

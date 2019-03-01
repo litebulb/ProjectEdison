@@ -75,6 +75,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
+            if (holder == null) return;
             switch (holder.ItemViewType)
             {
                 case Tx:

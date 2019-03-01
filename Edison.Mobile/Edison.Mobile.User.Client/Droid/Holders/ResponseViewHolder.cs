@@ -236,8 +236,6 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                         builder.Include(new LatLng(minLat, minLong));
                         builder.Include(new LatLng(maxLat, maxLong));
                         // shouldn't need to include these but we'll include them just in case
-                        builder.Include(new LatLng(_eventLocation.Latitude, _eventLocation.Longitude));
-                        builder.Include(new LatLng(_currentUserLocation.Latitude, _currentUserLocation.Longitude));
                         LatLngBounds bounds = builder.Build();
                         cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 0);
                     }

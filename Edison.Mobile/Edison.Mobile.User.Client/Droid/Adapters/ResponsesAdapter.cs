@@ -70,6 +70,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
         public async override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
+            if (holder == null) return;
             ResponseViewHolder vh = holder as ResponseViewHolder;
             // Add margin to act as separator between items. Double size for first item to center the first card
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)vh.Card.LayoutParameters;
@@ -113,12 +114,6 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
                 LatLng eventLocation = null;
                 // get user position
 
-
-
-
- //               userLatitude = 41.885796;  // For testing
- //               userLongitude = -87.624911;  // For testing
-
                 if (response.Geolocation != null)
                 {
                     eventLocation = new LatLng(response.Geolocation.Latitude, response.Geolocation.Longitude);
@@ -161,8 +156,8 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
                     vH.UserLocationMarker?.Remove();
                     vH.UserLocationMarker = null;
                     // Need to figure out if this should be done
-  //                  vH.GMap.Clear();
-  //                  vH.GMap.MapType = GoogleMap.MapTypeNone;
+                    vH.GMap.Clear();
+                    vH.GMap.MapType = GoogleMap.MapTypeNone;
                 }
             }
         }
