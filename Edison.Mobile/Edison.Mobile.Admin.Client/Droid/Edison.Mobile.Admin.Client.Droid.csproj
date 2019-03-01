@@ -361,6 +361,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Activities\EnterPasswordActivity.cs" />
     <Compile Include="Activities\SelectWifiOnDeviceActivity.cs" />
     <Compile Include="Activities\NewDeviceScanActivity.cs" />
     <Compile Include="Activities\NewDeviceSetupActivity.cs" />
@@ -528,6 +529,27 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\device_wifi_view.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\enter_password.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\vertical_border.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\button_color.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\button_border.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

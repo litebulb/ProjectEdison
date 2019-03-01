@@ -22,7 +22,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Icon = "@mipmap/ic_edison_launcher")]
+    [Activity(Label = "@string/app_name", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
     public class SelectWifiOnDeviceActivity : BaseActivity<SelectWifiViewModel>
     {
         private RecyclerView _recyclerView;
@@ -77,13 +77,20 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
                 var devices = new List<Common.WiFi.WifiNetwork>(ViewModel.AvailableWifiNetworks);
 
                 // Instantiate the adapter and pass in its data source:
-                var mAdapter = new WifiSelectionDeviceAdapter(devices);
+                var mAdapter = new WifiSelectionDeviceAdapter(devices, GoToEnterPassword);
 
                 // Plug the adapter into the RecyclerView:
                 _recyclerView.SetAdapter(mAdapter);
-
                 
             }));
+        }
+
+        public void GoToEnterPassword(string networkSsid)
+        {
+            var intent = new Intent(this, typeof(EnterPasswordActivity));
+            intent.AddFlags(ActivityFlags.NoAnimation);
+            intent.PutExtra("ssid", networkSsid);
+            StartActivity(intent);
         }
         
     }

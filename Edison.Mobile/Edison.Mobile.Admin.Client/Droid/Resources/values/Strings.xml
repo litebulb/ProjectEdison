@@ -19,4 +19,7 @@
   <string name="scan_qr_message_label">Scan the QR Code on the device to connect it to this phone.</string>
   <string name="select_wifi_network_label">Select a Wifi network the button should use.</string>
   <string name="avalable_networks_label">Available Networks</string>
+  <string name="enter_password_instruction_label">Enter the password for </string>
+  <string name="connect_label">Connect</string>
+  <string name="show_password_link">Show Password</string>
 </resources>

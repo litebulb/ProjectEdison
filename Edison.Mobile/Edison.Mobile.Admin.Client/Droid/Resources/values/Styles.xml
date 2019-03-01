@@ -39,11 +39,12 @@
     <item name="windowActionBar">false</item>
     <item name="colorPrimary">@color/login_button_blue</item>
     <item name="actionMenuTextColor">@color/black</item>
-    <item name="colorAccent">@color/black</item>
+    <item name="colorAccent">@color/login_button_blue</item>
     <item name="titleTextColor">@color/app_background</item>
     <item name="colorControlHighlight">@color/black</item>
     <!-- You can also set colorControlNormal, colorControlActivated
-         colorControlHighlight and colorSwitchThumbNormal. -->
+         colorControlHighlight and colorSwitchThumbNormal. -->   
+    
 
   </style>
 
@@ -90,9 +91,13 @@
     <item name="colorAccent">@color/app_blue</item>
   </style>
 
-
   <style name="Edison.Button" parent="Widget.AppCompat.Button">
     <item name="android:drawablePadding">10dp</item>
+  </style>
+
+  <style name="EdisonAdminButton" parent="ThemeOverlay.AppCompat.Dark">    
+    <item name="colorAccent">@color/login_button_blue</item>
+    <item name="colorButtonNormal">@color/disabled_button</item>
   </style>
 
   <style name="Edison.Button.LoginScreen">

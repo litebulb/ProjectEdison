@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using Android.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Edison.Core.Common.Models;
+using Edison.Mobile.Admin.Client.Droid.Activities;
 
 namespace Edison.Mobile.Admin.Client.Droid.Adapters
 {
     public class WifiSelectionDeviceAdapter : RecyclerView.Adapter
     {
         public List<Common.WiFi.WifiNetwork> _devices;
-        public WifiSelectionDeviceAdapter(List<Common.WiFi.WifiNetwork> devices)
+        public Action<string> _action;
+        public WifiSelectionDeviceAdapter(List<Common.WiFi.WifiNetwork> devices, Action<string> action)
         {
             _devices = devices;
+            _action = action;
         }
 
         public override RecyclerView.ViewHolder
@@ -32,14 +36,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
             var device = _devices[position];
 
             vh.Caption.Text = device.SSID;
-
-            vh.ItemView.Click += ItemView_Click;
+         
+            vh.ItemView.Click += (sender, e) =>
+            {
+                _action(device.SSID);
+            };
         }
-
-        private void ItemView_Click(object sender, EventArgs e)
-        {
-            
-        }
+        
 
         public override int ItemCount
         {

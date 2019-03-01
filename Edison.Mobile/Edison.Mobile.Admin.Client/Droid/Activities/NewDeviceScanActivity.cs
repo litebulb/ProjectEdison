@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Icon = "@mipmap/ic_edison_launcher")]
+    [Activity(Label = "@string/app_name", Icon = "@mipmap/ic_edison_launcher",ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait)]
     public class NewDeviceScanActivity : BaseActivity<RegisterDeviceViewModel>, ISurfaceHolderCallback, IProcessor    
     {
         SurfaceView surfaceView;

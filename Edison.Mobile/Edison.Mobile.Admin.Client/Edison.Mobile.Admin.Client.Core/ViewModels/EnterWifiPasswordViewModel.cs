@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
@@ -11,13 +12,13 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class EnterWifiPasswordViewModel : DeviceSetupBaseViewModel
     {
-        readonly OnboardingRestService onboardingRestService;
+        readonly IOnboardingRestService onboardingRestService;
         readonly IWifiService wifiService;
         readonly ILogger logger;
 
         public EnterWifiPasswordViewModel(
             DeviceSetupService deviceSetupService, 
-            OnboardingRestService onboardingRestService,
+            IOnboardingRestService onboardingRestService,
             ILogger logger,
             IWifiService wifiService
         ) : base(deviceSetupService)
