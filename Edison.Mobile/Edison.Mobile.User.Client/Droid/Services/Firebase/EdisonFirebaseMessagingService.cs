@@ -731,7 +731,7 @@ namespace Edison.Mobile.User.Client.Droid.Shared
                 _iconResId = Resource.Drawable.air_quality;
                 _responseTitle = ctx.Resources.GetString(Resource.String.air_quality);
             }
-            else if (message.Contains(ctx.Resources.GetString(Resource.String.tornado)) || message.Contains(ctx.Resources.GetString(Resource.String.wind)))
+            else if (message.Contains(ctx.Resources.GetString(Resource.String.tornado_)) || message.Contains(ctx.Resources.GetString(Resource.String.wind)))
             {
                 _color = Constants.GetEventTypeColor(ApplicationContext, Core.Shared.Constants.ColorName.Yellow);
                 _iconResId = Resource.Drawable.tornado;

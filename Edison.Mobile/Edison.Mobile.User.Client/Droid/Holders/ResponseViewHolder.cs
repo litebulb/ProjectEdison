@@ -28,9 +28,17 @@ namespace Edison.Mobile.User.Client.Droid.Holders
 
         private float _colorHue = -1;
 
-        private LatLng _userLocation = null;
-        private LatLng _userLocationOld = null;
+
+        private LatLng _oldUserLocation = null;
+        private LatLng _lastProvidedUserLocation = null;
+        private LatLng _currentUserLocation = null;
+        private LatLng _oldEventLocation = null;
         private LatLng _eventLocation = null;
+
+
+   //     private LatLng _userLocation = null;
+   //     private LatLng _userLocationOld = null;
+   //     private LatLng _eventLocation = null;
   //      private LatLng _eventLocationOld = null;
  //       private double _latDelta;
  //       private double _longDelta;
@@ -95,10 +103,13 @@ namespace Edison.Mobile.User.Client.Droid.Holders
         {
             Ripple.Click -= OnButtonClick; // unsubscribe just in case
             Ripple.Click += OnButtonClick;
+            MapLoadedCallback.MapLoaded -= OnMapLoaded; // unsubscribe just in case
+            MapLoadedCallback.MapLoaded += OnMapLoaded;
         }
         internal void UnbindEvents()
         {
             Ripple.Click -= OnButtonClick;
+            MapLoadedCallback.MapLoaded -= OnMapLoaded;
         }
 
         private void OnButtonClick(object s, EventArgs e)
@@ -187,11 +198,15 @@ namespace Edison.Mobile.User.Client.Droid.Holders
 
 
 
+
         private async Task DrawMapAsync(bool moveMap = true)
         {
             if (GMap == null) return;
 
-            if (_eventLocation == null && _userLocation == null) return;
+            if (_eventLocation == null && _currentUserLocation == null) return;
+
+            // Set callback to detect when map has finished loading
+  //          _activity.RunOnUiThread(() => { GMap.SetOnMapLoadedCallback(new MapLoadedCallback(Map.Id)); });
 
             await Task.Run(() =>
             {
@@ -199,40 +214,40 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                 CameraUpdate cameraUpdate = null;
                 if (moveMap)
                 {
-                    if (_userLocation == null)
+                    if (_currentUserLocation == null)
+                        // Only event location available
                         cameraUpdate = CameraUpdateFactory.NewLatLngZoom(_eventLocation, Constants.DefaultResponseMapZoom);
                     else if (_eventLocation == null)
-                        cameraUpdate = CameraUpdateFactory.NewLatLngZoom(_userLocation, Constants.DefaultResponseMapZoom);
+                        // Only user location available
+                        cameraUpdate = CameraUpdateFactory.NewLatLngZoom(_currentUserLocation, Constants.DefaultResponseMapZoom);
                     else
                     {
-                        var latDelta = Math.Abs(_eventLocation.Latitude - _userLocation.Latitude);
-                        var longDelta = Math.Abs(_eventLocation.Longitude - _userLocation.Longitude);
-                        var minLat = Math.Min(_eventLocation.Latitude, _userLocation.Latitude) - latDelta / 4;
-                        var maxLat = Math.Max(_eventLocation.Latitude, _userLocation.Latitude) + latDelta / 4;
-                        var minLong = Math.Min(_eventLocation.Longitude, _userLocation.Longitude) - longDelta / 4;
-                        var maxLong = Math.Max(_eventLocation.Longitude, _userLocation.Longitude) + longDelta / 4;
+                        // Both locations available
+                        // get deltas between those locations
+                        var latDelta = Math.Abs(_eventLocation.Latitude - _currentUserLocation.Latitude);
+                        var longDelta = Math.Abs(_eventLocation.Longitude - _currentUserLocation.Longitude);
+                        // get the boundaries of the map
+                        var minLat = Math.Min(_eventLocation.Latitude, _currentUserLocation.Latitude) - latDelta / 4;
+                        var maxLat = Math.Max(_eventLocation.Latitude, _currentUserLocation.Latitude) + latDelta / 4;
+                        var minLong = Math.Min(_eventLocation.Longitude, _currentUserLocation.Longitude) - longDelta / 4;
+                        var maxLong = Math.Max(_eventLocation.Longitude, _currentUserLocation.Longitude) + longDelta / 4;
 
                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
                         builder.Include(new LatLng(minLat, minLong));
                         builder.Include(new LatLng(maxLat, maxLong));
                         // shouldn't need to include these but we'll include them just in case
                         builder.Include(new LatLng(_eventLocation.Latitude, _eventLocation.Longitude));
-                        builder.Include(new LatLng(_userLocation.Latitude, _userLocation.Longitude));
+                        builder.Include(new LatLng(_currentUserLocation.Latitude, _currentUserLocation.Longitude));
                         LatLngBounds bounds = builder.Build();
                         cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 0);
                     }
                     // Set the map position
                     _activity.RunOnUiThread(() => { GMap.MoveCamera(cameraUpdate); });
-                    
                 }
-            });
 
-            await Task.Run(() =>
-            {
-                // Add a markers
-                if (_eventLocation != null)
-                {
-                    _activity.RunOnUiThread(() =>
+                _activity.RunOnUiThread(() => {
+                    // Add a markers
+                    if (_eventLocation != null)
                     {
                         if (EventLocationMarker == null)
                         {
@@ -247,112 +262,192 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                         }
                         else
                         {
-                            if (_colorHue > -1)
-                            {
-                                var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
-                                EventLocationMarker?.SetIcon(bmDescriptor);
-                            }
+                            var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
+                            EventLocationMarker.SetIcon(bmDescriptor);
                             EventLocationMarker.Position = _eventLocation;
                         }
-                    });
-                }
-                if (_userLocation != null)
-                {
-                    _activity.RunOnUiThread(() => {
+                    }
+                    if (_currentUserLocation != null)
+                    {
                         if (UserLocationMarker == null)
                         {
                             var markerOptions0 = new MarkerOptions();
-                            markerOptions0.SetPosition(_userLocation);
+                            markerOptions0.SetPosition(_currentUserLocation);
                             markerOptions0.SetIcon(UserLocationIcon);
                             markerOptions0.Anchor(0.5f, 0.5f);
                             UserLocationMarker = GMap.AddMarker(markerOptions0);
-                        
                         }
                         else
+                            UserLocationMarker.Position = _currentUserLocation;
+                    }
+
+                    Map.OnResume();
+  //                  Map.OnEnterAmbient(null);
+                });
+            });
+
+            // Set the map type back to normal.
+            _activity.RunOnUiThread(() => { GMap.MapType = GoogleMap.MapTypeNormal; });
+        }
+
+
+
+
+
+        /*
+                private async Task DrawMapAsync(bool moveMap = true)
+                {
+                    if (GMap == null) return;
+
+                    if (_eventLocation == null && _currentUserLocation == null) return;
+
+                    await Task.Run(() =>
+                    {
+                        // Calculate the map position and zoom/size
+                        CameraUpdate cameraUpdate = null;
+                        if (moveMap)
                         {
-                            UserLocationMarker.Position = _userLocation;
+                            if (_serLocation == null)
+                                cameraUpdate = CameraUpdateFactory.NewLatLngZoom(_eventLocation, Constants.DefaultResponseMapZoom);
+                            else if (_eventLocation == null)
+                                cameraUpdate = CameraUpdateFactory.NewLatLngZoom(_userLocation, Constants.DefaultResponseMapZoom);
+                            else
+                            {
+                                var latDelta = Math.Abs(_eventLocation.Latitude - _userLocation.Latitude);
+                                var longDelta = Math.Abs(_eventLocation.Longitude - _userLocation.Longitude);
+                                var minLat = Math.Min(_eventLocation.Latitude, _userLocation.Latitude) - latDelta / 4;
+                                var maxLat = Math.Max(_eventLocation.Latitude, _userLocation.Latitude) + latDelta / 4;
+                                var minLong = Math.Min(_eventLocation.Longitude, _userLocation.Longitude) - longDelta / 4;
+                                var maxLong = Math.Max(_eventLocation.Longitude, _userLocation.Longitude) + longDelta / 4;
+
+                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                builder.Include(new LatLng(minLat, minLong));
+                                builder.Include(new LatLng(maxLat, maxLong));
+                                // shouldn't need to include these but we'll include them just in case
+                                builder.Include(new LatLng(_eventLocation.Latitude, _eventLocation.Longitude));
+                                builder.Include(new LatLng(_userLocation.Latitude, _userLocation.Longitude));
+                                LatLngBounds bounds = builder.Build();
+                                cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 0);
+                            }
+                            // Set the map position
+                            _activity.RunOnUiThread(() => { GMap.MoveCamera(cameraUpdate); });
+
                         }
                     });
 
+                    await Task.Run(() =>
+                    {
+                        // Add a markers
+                        if (_eventLocation != null)
+                        {
+                            _activity.RunOnUiThread(() =>
+                            {
+                                if (EventLocationMarker == null)
+                                {
+                                    var markerOptions = new MarkerOptions();
+                                    markerOptions.SetPosition(_eventLocation);
+                                    if (_colorHue > -1)
+                                    {
+                                        var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
+                                        markerOptions.SetIcon(bmDescriptor);
+                                    }
+                                    EventLocationMarker = GMap.AddMarker(markerOptions);
+                                }
+                                else
+                                {
+                                    if (_colorHue > -1)
+                                    {
+                                        var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(_colorHue);
+                                        EventLocationMarker?.SetIcon(bmDescriptor);
+                                    }
+                                    EventLocationMarker.Position = _eventLocation;
+                                }
+                            });
+                        }
+                        if (_userLocation != null)
+                        {
+                            _activity.RunOnUiThread(() => {
+                                if (UserLocationMarker == null)
+                                {
+                                    var markerOptions0 = new MarkerOptions();
+                                    markerOptions0.SetPosition(_userLocation);
+                                    markerOptions0.SetIcon(UserLocationIcon);
+                                    markerOptions0.Anchor(0.5f, 0.5f);
+                                    UserLocationMarker = GMap.AddMarker(markerOptions0);
+
+                                }
+                                else
+                                {
+                                    UserLocationMarker.Position = _userLocation;
+                                }
+                            });
+
+                        }
+                    });
+                    // Set the map type back to normal.
+                    _activity.RunOnUiThread(() => { GMap.MapType = GoogleMap.MapTypeNormal;});
                 }
-            });
-            // Set the map type back to normal.
-            _activity.RunOnUiThread(() => { GMap.MapType = GoogleMap.MapTypeNormal;});
-        }
+        */
 
 
+        /*
+                public void SetMapLocation(Color eventcolor, double userLatitude = double.MinValue, double userLongitude = double.MinValue, double latitude = double.MinValue, double longitude = double.MinValue)
+                {
+                    if (userLatitude != double.MinValue && userLongitude != double.MinValue)
+                        _userLocation = new LatLng(userLatitude, userLongitude);
+                    if (latitude != double.MinValue && longitude != double.MinValue)
+                    {
+                        var location = eventLocation;
+                        _layout.Tag = this;
+                        Map.Tag = location;
+                    }
 
-/*
-        public void SetMapLocation(Color eventcolor, double userLatitude = double.MinValue, double userLongitude = double.MinValue, double latitude = double.MinValue, double longitude = double.MinValue)
-        {
-            if (userLatitude != double.MinValue && userLongitude != double.MinValue)
-                _userLocation = new LatLng(userLatitude, userLongitude);
-            if (latitude != double.MinValue && longitude != double.MinValue)
-            {
-                var location = eventLocation;
-                _layout.Tag = this;
-                Map.Tag = location;
-            }
+                    float[] hsl = new float[3];
+                    ColorUtils.ColorToHSL(eventcolor, hsl);
+                    _colorHue = hsl[0];
+                    SetMapLocation();
+                }
+        */
 
-            float[] hsl = new float[3];
-            ColorUtils.ColorToHSL(eventcolor, hsl);
-            _colorHue = hsl[0];
-            SetMapLocation();
-        }
-*/
-
-        public async Task SetupMapAsync(Color eventcolor, LatLng userLocation, LatLng eventLocation)
+        public async Task SetupMapAsync(Color eventColor, LatLng userLocation, LatLng eventLocation)
         {
             bool moveMap = true;
-
-
-            /*
-                        if (userLocation != null)
-                        {
-                            if (_userLocation == null)
-                                _userLocation = userLocation;
-                            else {
-                                // filter out small user movements
-                                var latDeltaThreshold = _latDelta * 0.05;
-                                var longDeltaThreshold = _longDelta * 0.05;
-                                var latDelta = Math.Abs(userLocation.Latitude - _userLocation.Latitude);
-                                var longDelta = Math.Abs(userLocation.Longitude - _userLocation.Longitude);
-                                if (latDelta > latDeltaThreshold || longDelta > longDeltaThreshold)
-                                    _userLocation = userLocation;
-                            }
-                        }
-            */
-
-            /*
-                        if (eventLocation != null)
-                        {
-                            var latDeltaThreshold = _latDelta * 0.1;
-                            var longDeltaThreshold = _longDelta * 0.1;
-                            if (_eventLocationOld == null)
-                                _eventLocationOld = _eventLocation;
-                            else
-                            {
-                                var latDelta = Math.Abs(eventLocation.Latitude - _eventLocationOld.Latitude);
-                                var longDelta = Math.Abs(eventLocation.Longitude - _eventLocationOld.Longitude);
-                                if (latDelta < latDeltaThreshold & longDelta < longDeltaThreshold)
-                                    moveMap = false;
-                                else
-                                    _eventLocationOld = _eventLocation;
-                            }
-                            _eventLocation = eventLocation;
-                        }
-            */
             _eventLocation = eventLocation;
-            _userLocation = userLocation;
-            _userLocationOld = userLocation;
+            _currentUserLocation = userLocation;
+            _oldUserLocation = userLocation;
             float[] hsl = new float[3];
-            ColorUtils.ColorToHSL(eventcolor, hsl);
+            ColorUtils.ColorToHSL(eventColor, hsl);
             _colorHue = hsl[0];
  //           DrawMap(moveMap);
             await DrawMapAsync(moveMap);
         }
 
 
+        public async Task UpdateMapAsync(LatLng userLocation)
+        {
+            if (userLocation != null)
+            {
+                await Task.Run(async () =>
+                {
+                    // work out if map should be moved or only the markers
+                    if (_oldUserLocation == null)
+                        _oldUserLocation = userLocation;
+
+                    var moveMap = MappingUtilities.ShouldMoveMap1(userLocation, _oldUserLocation, _eventLocation);
+
+                    if (moveMap)
+                        // update the old user location
+                        _oldUserLocation = _currentUserLocation;
+
+                    // Update the current user location
+                    _currentUserLocation = userLocation;
+
+                    // draw the map
+                    await DrawMapAsync(moveMap);
+                });
+            }
+        }
+        /*
         public async Task UpdateMapAsync(LatLng userLocation)
         {
             if (userLocation != null)
@@ -414,8 +509,15 @@ namespace Edison.Mobile.User.Client.Droid.Holders
                 }
             }
         }
+*/
 
 
+        private void OnMapLoaded(object s, int mapResId)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("**************  Map Loaded  ***************");
+#endif
+        }
 
         private Drawable CircleDrawable(Color color, int intrinsicSize = -1)
         {
@@ -453,10 +555,38 @@ namespace Edison.Mobile.User.Client.Droid.Holders
 
         public async void OnLocationChanged(object s, LocationChangedEventArgs e)
         {
-            var userLocation = new LatLng(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
-            await UpdateMapAsync(userLocation);
+            if (MappingUtilities.RemoveLocationJitter(e.CurrentLocation, e.LastLocation))
+            {
+                var userLocation = new LatLng(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
+                await UpdateMapAsync(userLocation);
+            }
         }
 
+
+        public void OnActivityStateChanged(object s, ActivityState e)
+        {
+            switch (e)
+            {
+                case ActivityState.Started:
+                    Map?.OnStart();
+                    break;
+                case ActivityState.Resumed:
+                    Map?.OnResume();
+                    break;
+                case ActivityState.Paused:
+                    Map?.OnPause();
+                    break;
+                case ActivityState.Stopped:
+                    Map?.OnStop();
+                    break;
+                case ActivityState.Destroyed:
+                    Map?.OnDestroy();
+                    break;
+                case ActivityState.LowMemory:
+                    Map?.OnLowMemory();
+                    break;
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

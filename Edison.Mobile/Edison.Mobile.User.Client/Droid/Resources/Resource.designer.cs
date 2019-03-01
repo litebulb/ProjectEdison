@@ -6306,8 +6306,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c00ec
 			public const int design_navigation_view = 2131493100;
 			
-			// aapt resource value: 0x7f0c00f6
-			public const int detailed_message_list = 2131493110;
+			// aapt resource value: 0x7f0c00f7
+			public const int detailed_message_list = 2131493111;
 			
 			// aapt resource value: 0x7f0c006a
 			public const int dimensions = 2131492970;
@@ -6345,8 +6345,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f0c0122
 			public const int event_carousel_container = 2131493154;
 			
-			// aapt resource value: 0x7f0c00f7
-			public const int event_cell_left_line = 2131493111;
+			// aapt resource value: 0x7f0c00f6
+			public const int event_cell_left_line = 2131493110;
 			
 			// aapt resource value: 0x7f0c00fb
 			public const int event_cell_message = 2131493115;
@@ -7418,8 +7418,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090053
 			public const int active_shooter = 2131296339;
 			
-			// aapt resource value: 0x7f09007f
-			public const int air = 2131296383;
+			// aapt resource value: 0x7f090080
+			public const int air = 2131296384;
 			
 			// aapt resource value: 0x7f090054
 			public const int air_quality = 2131296340;
@@ -7442,8 +7442,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090031
 			public const int appbar_scrolling_view_behavior = 2131296305;
 			
-			// aapt resource value: 0x7f09007a
-			public const int barricade = 2131296378;
+			// aapt resource value: 0x7f09007b
+			public const int barricade = 2131296379;
 			
 			// aapt resource value: 0x7f090074
 			public const int bomb = 2131296372;
@@ -7460,8 +7460,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090032
 			public const int bottom_sheet_behavior = 2131296306;
 			
-			// aapt resource value: 0x7f090083
-			public const int celebrity = 2131296387;
+			// aapt resource value: 0x7f090085
+			public const int celebrity = 2131296389;
 			
 			// aapt resource value: 0x7f090033
 			public const int character_counter_pattern = 2131296307;
@@ -7517,11 +7517,11 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090010
 			public const int common_signin_button_text_long = 2131296272;
 			
-			// aapt resource value: 0x7f090077
-			public const int demonstration = 2131296375;
-			
 			// aapt resource value: 0x7f090078
-			public const int disturbance = 2131296376;
+			public const int demonstration = 2131296376;
+			
+			// aapt resource value: 0x7f090079
+			public const int disturbance = 2131296377;
 			
 			// aapt resource value: 0x7f09004f
 			public const int emergency = 2131296335;
@@ -7544,8 +7544,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09003e
 			public const int fadeWithBottomSheetBehavior = 2131296318;
 			
-			// aapt resource value: 0x7f090084
-			public const int famous = 2131296388;
+			// aapt resource value: 0x7f090086
+			public const int famous = 2131296390;
 			
 			// aapt resource value: 0x7f090011
 			public const int fcm_fallback_notification_channel_label = 2131296273;
@@ -7559,8 +7559,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090071
 			public const int gun = 2131296369;
 			
-			// aapt resource value: 0x7f09007b
-			public const int health = 2131296379;
+			// aapt resource value: 0x7f09007c
+			public const int health = 2131296380;
 			
 			// aapt resource value: 0x7f090055
 			public const int health_check = 2131296341;
@@ -7568,14 +7568,14 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09004a
 			public const int home = 2131296330;
 			
-			// aapt resource value: 0x7f09007e
-			public const int illness = 2131296382;
+			// aapt resource value: 0x7f09007f
+			public const int illness = 2131296383;
 			
 			// aapt resource value: 0x7f090051
 			public const int im_safe = 2131296337;
 			
-			// aapt resource value: 0x7f09007d
-			public const int infection = 2131296381;
+			// aapt resource value: 0x7f09007e
+			public const int infection = 2131296382;
 			
 			// aapt resource value: 0x7f09003a
 			public const int library_name = 2131296314;
@@ -7634,14 +7634,17 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09005c
 			public const int permission_required = 2131296348;
 			
-			// aapt resource value: 0x7f090081
-			public const int pollen = 2131296385;
+			// aapt resource value: 0x7f090082
+			public const int pollen = 2131296386;
 			
-			// aapt resource value: 0x7f090080
-			public const int pollution = 2131296384;
+			// aapt resource value: 0x7f090081
+			public const int pollution = 2131296385;
 			
 			// aapt resource value: 0x7f090056
 			public const int protest = 2131296342;
+			
+			// aapt resource value: 0x7f090076
+			public const int protest_ = 2131296374;
 			
 			// aapt resource value: 0x7f090067
 			public const int proximity_message = 2131296359;
@@ -7655,8 +7658,8 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f09004e
 			public const int right_now = 2131296334;
 			
-			// aapt resource value: 0x7f090076
-			public const int riot = 2131296374;
+			// aapt resource value: 0x7f090077
+			public const int riot = 2131296375;
 			
 			// aapt resource value: 0x7f09005d
 			public const int screen_brightness_dialog_message = 2131296349;
@@ -7703,20 +7706,23 @@ namespace Edison.Mobile.User.Client.Droid
 			// aapt resource value: 0x7f090058
 			public const int tornado = 2131296344;
 			
-			// aapt resource value: 0x7f090079
-			public const int violence = 2131296377;
+			// aapt resource value: 0x7f090084
+			public const int tornado_ = 2131296388;
+			
+			// aapt resource value: 0x7f09007a
+			public const int violence = 2131296378;
 			
 			// aapt resource value: 0x7f090059
 			public const int vip = 2131296345;
 			
-			// aapt resource value: 0x7f090085
-			public const int vip_ = 2131296389;
+			// aapt resource value: 0x7f090087
+			public const int vip_ = 2131296391;
 			
-			// aapt resource value: 0x7f09007c
-			public const int virus = 2131296380;
+			// aapt resource value: 0x7f09007d
+			public const int virus = 2131296381;
 			
-			// aapt resource value: 0x7f090082
-			public const int wind = 2131296386;
+			// aapt resource value: 0x7f090083
+			public const int wind = 2131296387;
 			
 			// aapt resource value: 0x7f090060
 			public const int yes = 2131296352;

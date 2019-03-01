@@ -33,6 +33,9 @@ namespace Edison.Mobile.User.Client.Droid
         internal const string IntentSourceLabel = "Source";
         internal const string IntentActionLabel = "Action";
         internal const string IntentAuthenticatedLabel = "Authenticated";
+        internal const string IntentDataResponseLabel= "Response";
+        internal const string IntentDataUserLatLabel= "UserLat";
+        internal const string IntentDataUserLongLabel= "UserLong";
         internal const string IntentSourceLogout = "Logout";
         internal const string IntentSourceBackgroundNotification = "BackgroundNotification";
         internal const string IntentSourceNotRunningNotification = "NotRunningNotification";
@@ -238,18 +241,26 @@ namespace Edison.Mobile.User.Client.Droid
             { "fire", Core.Shared.Constants.ColorName.Red},
             { "gun", Core.Shared.Constants.ColorName.Red},
             { "Gun", Core.Shared.Constants.ColorName.Red},
+            { "shooter", Core.Shared.Constants.ColorName.Red},
+            { "Shooter", Core.Shared.Constants.ColorName.Red},
             { "Active Shooter", Core.Shared.Constants.ColorName.Red},
+            { "active shooter", Core.Shared.Constants.ColorName.Red},
             { "health", Core.Shared.Constants.ColorName.Blue},
             { "Health", Core.Shared.Constants.ColorName.Blue},
             { "Health Check", Core.Shared.Constants.ColorName.Blue},
-            { "pollution", Core.Shared.Constants.ColorName.Blue},
-            { "Pollution", Core.Shared.Constants.ColorName.Blue},
-            { "Air Quality", Core.Shared.Constants.ColorName.Blue},
+            { "health check", Core.Shared.Constants.ColorName.Blue},
+            { "pollution", Core.Shared.Constants.ColorName.Yellow},
+            { "Pollution", Core.Shared.Constants.ColorName.Yellow},
+            { "Air Quality", Core.Shared.Constants.ColorName.Yellow},
+            { "air quality", Core.Shared.Constants.ColorName.Yellow},
             { "protest", Core.Shared.Constants.ColorName.Blue},
             { "Protest", Core.Shared.Constants.ColorName.Blue},
             { "package", Core.Shared.Constants.ColorName.Red},
             { "Package", Core.Shared.Constants.ColorName.Red},
+            { "suspicious package", Core.Shared.Constants.ColorName.Red},
             { "Suspicious Package", Core.Shared.Constants.ColorName.Red},
+            { "Bomb", Core.Shared.Constants.ColorName.Red},
+            { "bomb", Core.Shared.Constants.ColorName.Red},
             { "tornado", Core.Shared.Constants.ColorName.Yellow},
             { "Tornado", Core.Shared.Constants.ColorName.Yellow},
             { "vip", Core.Shared.Constants.ColorName.Blue},
@@ -265,18 +276,26 @@ namespace Edison.Mobile.User.Client.Droid
             { "fire", "fire"},
             { "gun", "gun"},
             { "Gun", "gun"},
+            { "shooter", "gun"},
+            { "Shooter", "gun"},
             { "Active Shooter", "gun"},
+            { "active shooter", "gun"},
             { "health", "health_check"},
             { "Health", "health_check"},
             { "Health Check", "health_check"},
+            { "health check", "health_check"},
             { "pollution", "air_quality"},
             { "Pollution", "air_quality"},
             { "Air Quality", "air_quality"},
+            { "air quality", "air_quality"},
             { "protest", "protest"},
             { "Protest", "protest"},
             { "package", "suspicious_package"},
             { "Package", "suspicious_package"},
             { "Suspicious Package", "suspicious_package"},
+            { "suspicious package", "suspicious_package"},
+            { "Bomb", "suspicious_package"},
+            { "bomb", "suspicious_package"},
             { "tornado", "tornado"},
             { "Tornado", "tornado"},
             { "vip", "vip"},
@@ -306,6 +325,41 @@ namespace Edison.Mobile.User.Client.Droid
             }
             return new Tuple<string, Color>(iconName, GetEventTypeColor(ctx, colorName));
         }
+
+
+        public static Tuple<string, Color> GetIconSettingsFromTitle(Context ctx, string title)
+        {
+            var name = InferNameFromTitle(ctx, title);
+            return GetChatMessageButtonSettings(ctx, name);
+        }
+
+        public static string InferNameFromTitle(Context ctx, string title)
+        {
+            var _title = title.ToLowerInvariant();
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.shooter)) || _title.Contains(ctx.Resources.GetString(Resource.String.gun)))
+                return "Active Shooter";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.suspicious)) || _title.Contains(ctx.Resources.GetString(Resource.String.pckg)) || _title.Contains(ctx.Resources.GetString(Resource.String.bomb)))
+                return "Suspicious Package";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.fire_)))
+                return "Fire";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.protest_)) || _title.Contains(ctx.Resources.GetString(Resource.String.demonstration)) ||
+                _title.Contains(ctx.Resources.GetString(Resource.String.disturbance)) || _title.Contains(ctx.Resources.GetString(Resource.String.riot)) ||
+                _title.Contains(ctx.Resources.GetString(Resource.String.violence)) || _title.Contains(ctx.Resources.GetString(Resource.String.barricade)))
+                return "Protest";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.health)) || _title.Contains(ctx.Resources.GetString(Resource.String.virus)) ||
+                _title.Contains(ctx.Resources.GetString(Resource.String.infection)) || _title.Contains(ctx.Resources.GetString(Resource.String.illness)))
+                return "Health Check";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.air)) || _title.Contains(ctx.Resources.GetString(Resource.String.pollution)) || _title.Contains(ctx.Resources.GetString(Resource.String.pollen)))
+                return "Air Quality";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.tornado_)) || _title.Contains(ctx.Resources.GetString(Resource.String.wind)))
+                return "Tornado";
+            if (_title.Contains(ctx.Resources.GetString(Resource.String.vip_)) || _title.Contains(ctx.Resources.GetString(Resource.String.celebrity)) || _title.Contains(ctx.Resources.GetString(Resource.String.famous)))
+                return "VIP";
+            return "Emergency";
+        }
+
+
+
 
     }
 }

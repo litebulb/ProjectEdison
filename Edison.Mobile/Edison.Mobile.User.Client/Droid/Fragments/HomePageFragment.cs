@@ -84,7 +84,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public override void OnStart()
         {
             base.OnStart();
-
+            _responsesAdapter?.PropogateActivityState(ActivityState.Started);
             // Not sure we need any of this
             if (_isInitialAppearance)
             {
@@ -230,11 +230,7 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             IsShowingDetails = true;
             OnViewResponseDetails?.Invoke(this, new EventArgs());
             var response = ViewModel.Responses[index].Response;
-
-            // TODO:  Navigate to details view - probably a new activity as wont show navigation drawer
             await NavigateToEventDetails(response);
-
-
         }
 
         private async Task NavigateToEventDetails(ResponseModel response)
@@ -242,18 +238,14 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
             string responseJson = JsonConvert.SerializeObject(response);
 
             var intent = new Intent(Activity, typeof(EventDetailActivity));
-            intent.PutExtra("response", responseJson);
+            intent.PutExtra(Constants.IntentDataResponseLabel, responseJson);
             if (_responsesAdapter.UserLocation != null)
             {
-                intent.PutExtra("USER_LAT", (double)_responsesAdapter.UserLocation.Latitude);
-                intent.PutExtra("USER_LON", (double)_responsesAdapter.UserLocation.Longitude);
+                intent.PutExtra(Constants.IntentDataUserLatLabel, (double)_responsesAdapter.UserLocation.Latitude);
+                intent.PutExtra(Constants.IntentDataUserLongLabel, (double)_responsesAdapter.UserLocation.Longitude);
             }
-            //           intent.AddFlags(ActivityFlags.NoAnimation);
-            //           intent.AddFlags(ActivityFlags.ClearTop);
-            //           intent.AddFlags(ActivityFlags.NewTask);
-            //           intent.AddFlags(ActivityFlags.ClearTask);
-            StartActivity(intent);
 
+            StartActivity(intent);
         }
 
 
@@ -267,6 +259,38 @@ namespace Edison.Mobile.User.Client.Droid.Fragments
         public void OnLocationChanged(object s, LocationChangedEventArgs e)
         {
             _responsesAdapter.UserLocation = new LatLng(e.CurrentLocation.Latitude, e.CurrentLocation.Longitude);
+        }
+
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            _responsesAdapter?.PropogateActivityState(ActivityState.Resumed);
+        }
+
+
+        public override void OnStop()
+        {
+            _responsesAdapter?.PropogateActivityState(ActivityState.Stopped);
+            base.OnStop();
+        }
+
+        public override void OnPause()
+        {
+            _responsesAdapter?.PropogateActivityState(ActivityState.Paused);
+            base.OnPause();
+        }
+
+        public override void OnDestroy()
+        {
+            _responsesAdapter?.PropogateActivityState(ActivityState.Destroyed);
+            base.OnDestroy();
+        }
+
+        public override void OnLowMemory()
+        {
+            _responsesAdapter?.PropogateActivityState(ActivityState.LowMemory);
+            base.OnLowMemory();
         }
 
 

@@ -76,6 +76,7 @@
     <string name="pckg">package</string>
     <string name="bomb">bomb</string>
     <string name="fire_">fire</string>
+    <string name="protest_">protest</string>
     <string name="riot">riot</string>
     <string name="demonstration">demonstration</string>
     <string name="disturbance">disturbance</string>
@@ -89,6 +90,7 @@
     <string name="pollution">pollution</string>
     <string name="pollen">pollen</string>
     <string name="wind">wind</string>
+    <string name="tornado_">tornado</string>
     <string name="celebrity">celebrity</string>
     <string name="famous">famous</string>
     <string name="vip_">vip</string>

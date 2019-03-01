@@ -301,6 +301,7 @@
     <Compile Include="Extensions\ToolbarExtensions.cs" />
     <Compile Include="Utilities\DisplayDetails.cs" />
     <Compile Include="Utilities\FloatingActionButtonSize.cs" />
+    <Compile Include="Utilities\MappingUtilities.cs" />
     <Compile Include="Utilities\Padding.cs" />
     <Compile Include="Utilities\PixelSizeConverter.cs" />
     <Compile Include="Utilities\ResourcePair.cs" />

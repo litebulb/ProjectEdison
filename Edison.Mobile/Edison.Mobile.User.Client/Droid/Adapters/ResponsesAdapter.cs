@@ -21,6 +21,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
         public event EventHandler<LocationChangedEventArgs> LocationChanged;
         public event EventHandler<int> ItemClick;
+        public event EventHandler<ActivityState> ActivityStateChanged;
 
         private Activity _activity;
 
@@ -51,6 +52,10 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
                 UserLocation = new LatLng(userLocation.Latitude, userLocation.Longitude);
         }
 
+        public void PropogateActivityState(ActivityState state)
+        {
+            ActivityStateChanged?.Invoke(null, state);
+        }
 
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -90,11 +95,13 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             if (response != null)
             {
                 vh.Loading.Visibility = ViewStates.Gone;
-                // Set the contents in this ViewHolder's CardView  from this position in the collection:
-                var color = Constants.GetEventTypeColor(_activity, response.Color);
+                // Set the contents in this ViewHolder's CardView  from this position in the collection
+                var iconValues = Constants.GetIconSettingsFromTitle(_activity, response.Name);
+                var color = iconValues.Item2; // Constants.GetEventTypeColor(_activity, response.Color);
                 vh.Seperator.SetBackgroundColor(color);
                 vh.Icon.BackgroundTintList = ColorStateList.ValueOf(color);
-                vh.Icon.SetImageResource(GetIconResourceId(response.Icon));
+//                vh.Icon.SetImageResource(GetIconResourceId(response.Icon));
+                vh.Icon.SetImageResource(GetIconResourceId(iconValues.Item1));
                 vh.Alert.Text = response.Name;
                 vh.AlertTime.Text = response.StartDate.ToString();
                 vh.AlertDescription.Text = response.ActionPlan?.Description;
@@ -128,6 +135,8 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
 
                 LocationChanged -= vh.OnLocationChanged;
                 LocationChanged += vh.OnLocationChanged;
+                ActivityStateChanged -= vh.OnActivityStateChanged;
+                ActivityStateChanged += vh.OnActivityStateChanged;
 
                 vh.Card.Invalidate();
             }
@@ -144,6 +153,7 @@ namespace Edison.Mobile.User.Client.Droid.Adapters
             if (vH != null)
             {
                 LocationChanged -= vH.OnLocationChanged;
+                ActivityStateChanged -= vH.OnActivityStateChanged;
                 if (vH.GMap != null)
                 {
                     vH.EventLocationMarker?.Remove();

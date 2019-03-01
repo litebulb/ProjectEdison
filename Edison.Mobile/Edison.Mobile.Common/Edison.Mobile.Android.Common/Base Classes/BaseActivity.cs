@@ -269,7 +269,8 @@ namespace Edison.Mobile.Android.Common
         Destroyed,
         Restarted,
         AttachedToWindow,
-        DettachedFromWindow
+        DettachedFromWindow,
+        LowMemory
     }
 
 }
