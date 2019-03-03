@@ -8,6 +8,7 @@ using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Admin.Client.Droid.Adapters;
+using Edison.Mobile.Admin.Client.Droid.Toolbars;
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Ioc;
 using Edison.Mobile.Common.Ioc;
@@ -40,10 +41,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void BindResources()
         {            
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-
-            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            mTitle.Text = GetString(Resource.String.edison_device_setup_message);
+            var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
+            toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
             SetSupportActionBar(toolbar);
 

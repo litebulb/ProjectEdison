@@ -5,20 +5,10 @@
 	android:layout_width="match_parent" 
 	android:layout_height="match_parent"	
 	android:gravity="center_horizontal">
-    <include android:id="@+id/toolbar" layout="@layout/toolbar" />  
-	 
+    <include android:id="@+id/toolbar" layout="@layout/toolbar_centered" />  
+	<include android:id="@+id/instruction" layout="@layout/numbered_instruction"  />   
         
-        <LinearLayout android:layout_width="match_parent" 
-		android:layout_height="90dp" 
-		android:orientation="horizontal" 
-		android:paddingLeft="12dp" 
-		android:paddingTop="12dp">
-            <LinearLayout android:background="@drawable/circled_number" android:layout_width="22dp" android:layout_height="22dp" android:gravity="center">
-                <android.support.v7.widget.AppCompatTextView android:id="@+id/login_msg_number_five" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/white" android:textSize="12dp" android:text="6" />
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatTextView android:id="@+id/enter_password_for_network" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="20dp" android:paddingLeft="10dp" android:text="@string/device_details_instruction_label" />		
-	    </LinearLayout>
+     
 
 						<android.support.v7.widget.AppCompatTextView
 					android:id="@+id/selectWifiTtextView"

@@ -22,7 +22,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/EdisonLight.TransparentBar", Icon = "@mipmap/ic_edison_launcher")]
+    [Activity(ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Theme = "@style/EdisonLight.TransparentBar", Icon = "@mipmap/ic_edison_launcher")]
     public class MainActivity : BaseActivity<MainViewModel>
     {
         private LinearLayout _setupNewButton;
@@ -105,7 +105,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private async void OnSetupNewButtonClick(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(NewDeviceSetupActivity));
+            var intent = new Intent(this, typeof(NewDeviceSetupActivity));            
             intent.AddFlags(ActivityFlags.NoAnimation);
             StartActivity(intent);
         }

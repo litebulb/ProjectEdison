@@ -34,7 +34,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Toolbars
 
         public CenteredToolbar(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
-
             titleView = new TextView(context);
 
             int textAppearanceStyleResId;
@@ -62,9 +61,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Toolbars
             AddView(titleView, new LayoutParams(LayoutParams.WrapContent, LayoutParams.WrapContent));
         }
 
+        public override void SetSubtitle(int resId)
+        {
+            base.SetSubtitle(resId);
+        }
+
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
-            this.Title = null;
             base.OnLayout(changed, l, t, r, b);
             
             titleView.SetX((Width - titleView.Width) / 2);
@@ -72,6 +75,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Toolbars
 
         public override void SetTitle(int resId)
         {
+            base.SetTitle(Resource.String.blank_title);
             titleView.SetText(resId);
         }        
     }

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using TextTypes = Android.Text.InputTypes;
+using Edison.Mobile.Admin.Client.Droid.Toolbars;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -42,10 +43,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void BindResources()
         {            
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-
-            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            mTitle.Text = GetString(Resource.String.edison_device_setup_message);
+            var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
+            toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
             TextView labelView = FindViewById<TextView>(Resource.Id.enter_password_for_network_ssid);
             labelView.Text = _ssid;

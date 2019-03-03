@@ -19,6 +19,7 @@ using Android.Support.Fragment;
 using Android.Gms.Maps.Model;
 using System.Threading.Tasks;
 using Java.Lang;
+using Edison.Mobile.Admin.Client.Droid.Toolbars;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -69,10 +70,18 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         
         private void BindResources()
         {            
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
+            toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
-            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            mTitle.Text = GetString(Resource.String.edison_device_setup_message);
+            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
+
+
+            var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
+            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+
+
+            instructionNumber.Text = "6";
+            instructionText.SetText(Resource.String.device_details_instruction_label);
 
             SetSupportActionBar(toolbar);
 

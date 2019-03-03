@@ -5288,8 +5288,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0050
 			public const int SYM = 2131492944;
 			
-			// aapt resource value: 0x7f0c00cd
-			public const int action0 = 2131493069;
+			// aapt resource value: 0x7f0c00ce
+			public const int action0 = 2131493070;
 			
 			// aapt resource value: 0x7f0c0084
 			public const int action_bar = 2131492996;
@@ -5312,17 +5312,17 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0062
 			public const int action_bar_title = 2131492962;
 			
-			// aapt resource value: 0x7f0c00ca
-			public const int action_container = 2131493066;
+			// aapt resource value: 0x7f0c00cb
+			public const int action_container = 2131493067;
 			
 			// aapt resource value: 0x7f0c0085
 			public const int action_context_bar = 2131492997;
 			
-			// aapt resource value: 0x7f0c00d1
-			public const int action_divider = 2131493073;
+			// aapt resource value: 0x7f0c00d2
+			public const int action_divider = 2131493074;
 			
-			// aapt resource value: 0x7f0c00cb
-			public const int action_image = 2131493067;
+			// aapt resource value: 0x7f0c00cc
+			public const int action_image = 2131493068;
 			
 			// aapt resource value: 0x7f0c0006
 			public const int action_menu_divider = 2131492870;
@@ -5339,11 +5339,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0064
 			public const int action_mode_close_button = 2131492964;
 			
-			// aapt resource value: 0x7f0c00cc
-			public const int action_text = 2131493068;
+			// aapt resource value: 0x7f0c00cd
+			public const int action_text = 2131493069;
 			
-			// aapt resource value: 0x7f0c00da
-			public const int actions = 2131493082;
+			// aapt resource value: 0x7f0c00db
+			public const int actions = 2131493083;
 			
 			// aapt resource value: 0x7f0c0065
 			public const int activity_chooser_view_content = 2131492965;
@@ -5372,8 +5372,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0018
 			public const int auto = 2131492888;
 			
-			// aapt resource value: 0x7f0c00e7
-			public const int background = 2131493095;
+			// aapt resource value: 0x7f0c00ea
+			public const int background = 2131493098;
 			
 			// aapt resource value: 0x7f0c0049
 			public const int beginning = 2131492937;
@@ -5396,20 +5396,20 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c006b
 			public const int buttonPanel = 2131492971;
 			
-			// aapt resource value: 0x7f0c00bb
-			public const int button_manage = 2131493051;
+			// aapt resource value: 0x7f0c00bc
+			public const int button_manage = 2131493052;
 			
-			// aapt resource value: 0x7f0c00b7
-			public const int button_new = 2131493047;
+			// aapt resource value: 0x7f0c00b8
+			public const int button_new = 2131493048;
 			
-			// aapt resource value: 0x7f0c00e6
-			public const int button_ripple = 2131493094;
+			// aapt resource value: 0x7f0c00e9
+			public const int button_ripple = 2131493097;
 			
-			// aapt resource value: 0x7f0c00bf
-			public const int cameraView = 2131493055;
+			// aapt resource value: 0x7f0c00c0
+			public const int cameraView = 2131493056;
 			
-			// aapt resource value: 0x7f0c00ce
-			public const int cancel_action = 2131493070;
+			// aapt resource value: 0x7f0c00cf
+			public const int cancel_action = 2131493071;
 			
 			// aapt resource value: 0x7f0c001a
 			public const int center = 2131492890;
@@ -5423,8 +5423,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c007b
 			public const int checkbox = 2131492987;
 			
-			// aapt resource value: 0x7f0c00d6
-			public const int chronometer = 2131493078;
+			// aapt resource value: 0x7f0c00d7
+			public const int chronometer = 2131493079;
 			
 			// aapt resource value: 0x7f0c0099
 			public const int cib_button = 2131493017;
@@ -5441,11 +5441,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0052
 			public const int collapseActionView = 2131492946;
 			
-			// aapt resource value: 0x7f0c00b2
-			public const int complete_setup_button = 2131493042;
+			// aapt resource value: 0x7f0c00b1
+			public const int complete_setup_button = 2131493041;
 			
-			// aapt resource value: 0x7f0c00b6
-			public const int connect_button = 2131493046;
+			// aapt resource value: 0x7f0c00b7
+			public const int connect_button = 2131493047;
 			
 			// aapt resource value: 0x7f0c009f
 			public const int container = 2131493023;
@@ -5498,8 +5498,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c001d
 			public const int end = 2131492893;
 			
-			// aapt resource value: 0x7f0c00dc
-			public const int end_padder = 2131493084;
+			// aapt resource value: 0x7f0c00dd
+			public const int end_padder = 2131493085;
 			
 			// aapt resource value: 0x7f0c0013
 			public const int enterAlways = 2131492883;
@@ -5507,11 +5507,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0014
 			public const int enterAlwaysCollapsed = 2131492884;
 			
-			// aapt resource value: 0x7f0c00af
-			public const int enter_password_for_network = 2131493039;
-			
 			// aapt resource value: 0x7f0c00b3
-			public const int enter_password_for_network_ssid = 2131493043;
+			public const int enter_password_for_network = 2131493043;
+			
+			// aapt resource value: 0x7f0c00b4
+			public const int enter_password_for_network_ssid = 2131493044;
 			
 			// aapt resource value: 0x7f0c0095
 			public const int event_count = 2131493013;
@@ -5561,8 +5561,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c006a
 			public const int icon = 2131492970;
 			
-			// aapt resource value: 0x7f0c00db
-			public const int icon_group = 2131493083;
+			// aapt resource value: 0x7f0c00dc
+			public const int icon_group = 2131493084;
 			
 			// aapt resource value: 0x7f0c0039
 			public const int icon_only = 2131492921;
@@ -5573,20 +5573,29 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0067
 			public const int image = 2131492967;
 			
-			// aapt resource value: 0x7f0c00de
-			public const int imageView1 = 2131493086;
-			
-			// aapt resource value: 0x7f0c00b9
-			public const int img = 2131493049;
+			// aapt resource value: 0x7f0c00e1
+			public const int imageView1 = 2131493089;
 			
 			// aapt resource value: 0x7f0c00ba
-			public const int img_plus = 2131493050;
+			public const int img = 2131493050;
 			
-			// aapt resource value: 0x7f0c00d7
-			public const int info = 2131493079;
+			// aapt resource value: 0x7f0c00bb
+			public const int img_plus = 2131493051;
+			
+			// aapt resource value: 0x7f0c00d8
+			public const int info = 2131493080;
 			
 			// aapt resource value: 0x7f0c0094
 			public const int info_holder = 2131493012;
+			
+			// aapt resource value: 0x7f0c00ae
+			public const int instruction = 2131493038;
+			
+			// aapt resource value: 0x7f0c00de
+			public const int instruction_number = 2131493086;
+			
+			// aapt resource value: 0x7f0c00df
+			public const int instruction_text = 2131493087;
 			
 			// aapt resource value: 0x7f0c0059
 			public const int italic = 2131492953;
@@ -5615,41 +5624,41 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0069
 			public const int list_item = 2131492969;
 			
-			// aapt resource value: 0x7f0c00e0
-			public const int login_msg = 2131493088;
+			// aapt resource value: 0x7f0c00e3
+			public const int login_msg = 2131493091;
 			
-			// aapt resource value: 0x7f0c00ae
-			public const int login_msg_number_five = 2131493038;
-			
-			// aapt resource value: 0x7f0c00c3
-			public const int login_msg_number_one = 2131493059;
-			
-			// aapt resource value: 0x7f0c00c0
-			public const int login_msg_number_two = 2131493056;
+			// aapt resource value: 0x7f0c00b2
+			public const int login_msg_number_five = 2131493042;
 			
 			// aapt resource value: 0x7f0c00c4
-			public const int login_msg_one = 2131493060;
+			public const int login_msg_number_one = 2131493060;
 			
 			// aapt resource value: 0x7f0c00c1
-			public const int login_msg_two = 2131493057;
+			public const int login_msg_number_two = 2131493057;
 			
-			// aapt resource value: 0x7f0c00dd
-			public const int login_screen = 2131493085;
+			// aapt resource value: 0x7f0c00c5
+			public const int login_msg_one = 2131493061;
 			
-			// aapt resource value: 0x7f0c00b1
-			public const int map = 2131493041;
+			// aapt resource value: 0x7f0c00c2
+			public const int login_msg_two = 2131493058;
 			
-			// aapt resource value: 0x7f0c00ea
-			public const int masked = 2131493098;
+			// aapt resource value: 0x7f0c00e0
+			public const int login_screen = 2131493088;
 			
-			// aapt resource value: 0x7f0c00d0
-			public const int media_actions = 2131493072;
+			// aapt resource value: 0x7f0c00b0
+			public const int map = 2131493040;
 			
-			// aapt resource value: 0x7f0c00eb
-			public const int menu_preferences = 2131493099;
+			// aapt resource value: 0x7f0c00ed
+			public const int masked = 2131493101;
 			
-			// aapt resource value: 0x7f0c00e4
-			public const int message = 2131493092;
+			// aapt resource value: 0x7f0c00d1
+			public const int media_actions = 2131493073;
+			
+			// aapt resource value: 0x7f0c00ee
+			public const int menu_preferences = 2131493102;
+			
+			// aapt resource value: 0x7f0c00e7
+			public const int message = 2131493095;
 			
 			// aapt resource value: 0x7f0c004a
 			public const int middle = 2131492938;
@@ -5669,8 +5678,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0054
 			public const int never = 2131492948;
 			
-			// aapt resource value: 0x7f0c00c9
-			public const int new_device_setup_next_button = 2131493065;
+			// aapt resource value: 0x7f0c00ca
+			public const int new_device_setup_next_button = 2131493066;
 			
 			// aapt resource value: 0x7f0c0023
 			public const int none = 2131492899;
@@ -5678,14 +5687,14 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c002c
 			public const int normal = 2131492908;
 			
-			// aapt resource value: 0x7f0c00d9
-			public const int notification_background = 2131493081;
+			// aapt resource value: 0x7f0c00da
+			public const int notification_background = 2131493082;
+			
+			// aapt resource value: 0x7f0c00d4
+			public const int notification_main_column = 2131493076;
 			
 			// aapt resource value: 0x7f0c00d3
-			public const int notification_main_column = 2131493075;
-			
-			// aapt resource value: 0x7f0c00d2
-			public const int notification_main_column_container = 2131493074;
+			public const int notification_main_column_container = 2131493075;
 			
 			// aapt resource value: 0x7f0c0024
 			public const int parallax = 2131492900;
@@ -5714,35 +5723,35 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c007d
 			public const int radio = 2131492989;
 			
-			// aapt resource value: 0x7f0c00c6
-			public const int radioButton1 = 2131493062;
-			
 			// aapt resource value: 0x7f0c00c7
-			public const int radioButton2 = 2131493063;
+			public const int radioButton1 = 2131493063;
 			
 			// aapt resource value: 0x7f0c00c8
-			public const int radioButton3 = 2131493064;
+			public const int radioButton2 = 2131493064;
 			
-			// aapt resource value: 0x7f0c00c5
-			public const int radioGroup1 = 2131493061;
+			// aapt resource value: 0x7f0c00c9
+			public const int radioButton3 = 2131493065;
 			
-			// aapt resource value: 0x7f0c00bc
-			public const int recyclerView = 2131493052;
+			// aapt resource value: 0x7f0c00c6
+			public const int radioGroup1 = 2131493062;
+			
+			// aapt resource value: 0x7f0c00bd
+			public const int recyclerView = 2131493053;
 			
 			// aapt resource value: 0x7f0c0020
 			public const int right = 2131492896;
 			
-			// aapt resource value: 0x7f0c00d8
-			public const int right_icon = 2131493080;
+			// aapt resource value: 0x7f0c00d9
+			public const int right_icon = 2131493081;
 			
-			// aapt resource value: 0x7f0c00d4
-			public const int right_side = 2131493076;
-			
-			// aapt resource value: 0x7f0c00e5
-			public const int ring = 2131493093;
+			// aapt resource value: 0x7f0c00d5
+			public const int right_side = 2131493077;
 			
 			// aapt resource value: 0x7f0c00e8
-			public const int ripple = 2131493096;
+			public const int ring = 2131493096;
+			
+			// aapt resource value: 0x7f0c00eb
+			public const int ripple = 2131493099;
 			
 			// aapt resource value: 0x7f0c005b
 			public const int sans = 2131492955;
@@ -5798,17 +5807,17 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0091
 			public const int search_voice_btn = 2131493009;
 			
-			// aapt resource value: 0x7f0c00e2
-			public const int selectWifiRecyclerView = 2131493090;
+			// aapt resource value: 0x7f0c00e5
+			public const int selectWifiRecyclerView = 2131493093;
 			
-			// aapt resource value: 0x7f0c00b0
-			public const int selectWifiTtextView = 2131493040;
+			// aapt resource value: 0x7f0c00af
+			public const int selectWifiTtextView = 2131493039;
 			
 			// aapt resource value: 0x7f0c0092
 			public const int select_dialog_listview = 2131493010;
 			
-			// aapt resource value: 0x7f0c00df
-			public const int sensors = 2131493087;
+			// aapt resource value: 0x7f0c00e2
+			public const int sensors = 2131493090;
 			
 			// aapt resource value: 0x7f0c005c
 			public const int serif = 2131492956;
@@ -5825,11 +5834,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0044
 			public const int showTitle = 2131492932;
 			
-			// aapt resource value: 0x7f0c00b5
-			public const int show_password_textview = 2131493045;
+			// aapt resource value: 0x7f0c00b6
+			public const int show_password_textview = 2131493046;
 			
-			// aapt resource value: 0x7f0c00e1
-			public const int sign_in_button = 2131493089;
+			// aapt resource value: 0x7f0c00e4
+			public const int sign_in_button = 2131493092;
 			
 			// aapt resource value: 0x7f0c009d
 			public const int smallLabel = 2131493021;
@@ -5864,11 +5873,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0021
 			public const int start = 2131492897;
 			
-			// aapt resource value: 0x7f0c00bd
-			public const int stateLayout = 2131493053;
+			// aapt resource value: 0x7f0c00be
+			public const int stateLayout = 2131493054;
 			
-			// aapt resource value: 0x7f0c00cf
-			public const int status_bar_latest_event_content = 2131493071;
+			// aapt resource value: 0x7f0c00d0
+			public const int status_bar_latest_event_content = 2131493072;
 			
 			// aapt resource value: 0x7f0c007e
 			public const int submenuarrow = 2131492990;
@@ -5897,11 +5906,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0071
 			public const int textSpacerNoTitle = 2131492977;
 			
-			// aapt resource value: 0x7f0c00be
-			public const int textView = 2131493054;
+			// aapt resource value: 0x7f0c00bf
+			public const int textView = 2131493055;
 			
-			// aapt resource value: 0x7f0c00b8
-			public const int textView2 = 2131493048;
+			// aapt resource value: 0x7f0c00b9
+			public const int textView2 = 2131493049;
 			
 			// aapt resource value: 0x7f0c00aa
 			public const int text_input_password_toggle = 2131493034;
@@ -5912,8 +5921,8 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0001
 			public const int textinput_error = 2131492865;
 			
-			// aapt resource value: 0x7f0c00d5
-			public const int time = 2131493077;
+			// aapt resource value: 0x7f0c00d6
+			public const int time = 2131493078;
 			
 			// aapt resource value: 0x7f0c0012
 			public const int title = 2131492882;
@@ -5927,11 +5936,11 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c00ad
 			public const int toolbar = 2131493037;
 			
-			// aapt resource value: 0x7f0c00c2
-			public const int toolbar_new_device_setup = 2131493058;
+			// aapt resource value: 0x7f0c00c3
+			public const int toolbar_new_device_setup = 2131493059;
 			
-			// aapt resource value: 0x7f0c00e3
-			public const int toolbar_title = 2131493091;
+			// aapt resource value: 0x7f0c00e6
+			public const int toolbar_title = 2131493094;
 			
 			// aapt resource value: 0x7f0c0022
 			public const int top = 2131492898;
@@ -5963,14 +5972,14 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0002
 			public const int view_offset_helper = 2131492866;
 			
-			// aapt resource value: 0x7f0c00e9
-			public const int visible = 2131493097;
+			// aapt resource value: 0x7f0c00ec
+			public const int visible = 2131493100;
 			
 			// aapt resource value: 0x7f0c003b
 			public const int wide = 2131492923;
 			
-			// aapt resource value: 0x7f0c00b4
-			public const int wifiPasswordEditText = 2131493044;
+			// aapt resource value: 0x7f0c00b5
+			public const int wifiPasswordEditText = 2131493045;
 			
 			// aapt resource value: 0x7f0c0055
 			public const int withText = 2131492949;
@@ -6233,31 +6242,34 @@ namespace Edison.Mobile.Admin.Client.Droid
 			public const int notification_template_part_time = 2131034176;
 			
 			// aapt resource value: 0x7f050041
-			public const int screen_login = 2131034177;
+			public const int numbered_instruction = 2131034177;
 			
 			// aapt resource value: 0x7f050042
-			public const int select_dialog_item_material = 2131034178;
+			public const int screen_login = 2131034178;
 			
 			// aapt resource value: 0x7f050043
-			public const int select_dialog_multichoice_material = 2131034179;
+			public const int select_dialog_item_material = 2131034179;
 			
 			// aapt resource value: 0x7f050044
-			public const int select_dialog_singlechoice_material = 2131034180;
+			public const int select_dialog_multichoice_material = 2131034180;
 			
 			// aapt resource value: 0x7f050045
-			public const int select_wifi_on_device = 2131034181;
+			public const int select_dialog_singlechoice_material = 2131034181;
 			
 			// aapt resource value: 0x7f050046
-			public const int support_simple_spinner_dropdown_item = 2131034182;
+			public const int select_wifi_on_device = 2131034182;
 			
 			// aapt resource value: 0x7f050047
-			public const int toolbar = 2131034183;
+			public const int support_simple_spinner_dropdown_item = 2131034183;
 			
 			// aapt resource value: 0x7f050048
-			public const int toolbar_centered = 2131034184;
+			public const int toolbar = 2131034184;
 			
 			// aapt resource value: 0x7f050049
-			public const int tooltip = 2131034185;
+			public const int toolbar_centered = 2131034185;
+			
+			// aapt resource value: 0x7f05004a
+			public const int tooltip = 2131034186;
 			
 			static Layout()
 			{
@@ -6415,6 +6427,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0d004f
 			public const int avalable_networks_label = 2131558479;
 			
+			// aapt resource value: 0x7f0d003d
+			public const int blank_title = 2131558461;
+			
 			// aapt resource value: 0x7f0d003a
 			public const int bottomNavigationViewBehavior = 2131558458;
 			
@@ -6510,9 +6525,6 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			// aapt resource value: 0x7f0d003c
 			public const int fadeWithBottomSheetBehavior = 2131558460;
-			
-			// aapt resource value: 0x7f0d003d
-			public const int hello = 2131558461;
 			
 			// aapt resource value: 0x7f0d0038
 			public const int library_name = 2131558456;

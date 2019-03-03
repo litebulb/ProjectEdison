@@ -28,6 +28,7 @@ using System;
 using static Android.Gms.Vision.Detector;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Droid.Toolbars;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -52,10 +53,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void BindResources()
         {
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            
-            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            mTitle.Text = GetString(Resource.String.new_device_scan_title);
+            var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);                        
+            toolbar.SetTitle(Resource.String.new_device_scan_title);
 
             SetSupportActionBar(toolbar);
             this.BackPressed += NewDeviceSetupActivity_BackPressed;               

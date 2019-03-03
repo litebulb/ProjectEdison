@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Click Me!</string>
+    <string name="blank_title"></string>
     <string name="app_name">Edison Device Setup</string>
   <string name="login_window_message">A browser window will open</string>
   <string name="sign_in_button_label">SIGN IN</string>
