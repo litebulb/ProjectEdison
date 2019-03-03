@@ -55,6 +55,7 @@
     <item name="colorPrimary">@color/transparent</item>
     <item name="colorControlNormal">@color/login_button_blue</item>
     <item name="titleTextColor">@color/login_button_blue</item>    
+    
   </style>
 
 

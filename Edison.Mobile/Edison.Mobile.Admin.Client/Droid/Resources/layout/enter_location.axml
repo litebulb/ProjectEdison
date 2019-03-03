@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat 
+	xmlns:android="http://schemas.android.com/apk/res/android" 	
+	android:orientation="vertical" 
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent"	
+	android:gravity="center_horizontal">
+    <include android:id="@+id/toolbar" layout="@layout/toolbar" />  
+	 
+        
+        <LinearLayout android:layout_width="match_parent" 
+		android:layout_height="90dp" 
+		android:orientation="horizontal" 
+		android:paddingLeft="12dp" 
+		android:paddingTop="12dp">
+            <LinearLayout android:background="@drawable/circled_number" android:layout_width="22dp" android:layout_height="22dp" android:gravity="center">
+                <android.support.v7.widget.AppCompatTextView android:id="@+id/login_msg_number_five" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/white" android:textSize="12dp" android:text="6" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView android:id="@+id/enter_password_for_network" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="20dp" android:paddingLeft="10dp" android:text="@string/device_details_instruction_label" />		
+	    </LinearLayout>
+
+						<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/selectWifiTtextView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginLeft="30dp"
+						android:textColor="@color/app_blue"
+					android:text="@string/device_location_label" />
+	<fragment
+          android:id="@+id/map"
+          android:layout_width="match_parent"
+			android:layout_height="180dp" 
+          class="com.google.android.gms.maps.MapFragment" />
+	        <LinearLayout 
+		android:orientation="horizontal" 
+		android:layout_width="match_parent" 
+		android:layout_height="match_parent" >
+        <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.2">
+    </LinearLayout>    
+        <LinearLayout
+			android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"	
+		android:gravity="center|bottom"
+			android:paddingBottom="50dp"
+        android:layout_weight="0.6">
+            <android.support.v7.widget.AppCompatButton
+            android:text="@string/complete_setup_button_label"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+                android:id="@+id/complete_setup_button"            
+                android:textColor="@color/white"
+				style="@style/Widget.AppCompat.Button.Colored"
+			android:theme="@style/EdisonAdminButton"			
+            />
+        </LinearLayout>
+         <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.2">
+    </LinearLayout>
+		</LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>

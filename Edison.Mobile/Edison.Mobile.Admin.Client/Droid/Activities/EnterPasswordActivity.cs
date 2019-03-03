@@ -55,7 +55,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
                         
-
             this.BackPressed += SelectWifiOnDeviceActivity_BackPressed;
 
             _editText = (AppCompatEditText)FindViewById(Resource.Id.wifiPasswordEditText);
@@ -63,10 +62,25 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             _connectButton = (AppCompatButton)FindViewById(Resource.Id.connect_button);
             _connectButton.Enabled = false;
+            _connectButton.Click += _connectButton_Click;
 
             _showPasswordTextView = (AppCompatTextView)FindViewById(Resource.Id.show_password_textview);
             _showPasswordTextView.Click += _showPasswordTextView_Click;
 
+        }
+
+        private async void _connectButton_Click(object sender, EventArgs e)
+        {
+            if ((await ViewModel.ConnectDeviceToNetwork(_ssid, _editText.Text)))
+            {
+                var intent = new Intent(this, typeof(EnterLocationActivity));
+                intent.AddFlags(ActivityFlags.NoAnimation);
+                StartActivity(intent);
+            }
+            else
+            {
+                //failed
+            }
         }
 
         private void _showPasswordTextView_Click(object sender, EventArgs e)

@@ -22,4 +22,7 @@
   <string name="enter_password_instruction_label">Enter the password for </string>
   <string name="connect_label">Connect</string>
   <string name="show_password_link">Show Password</string>
+  <string name="device_details_instruction_label">Let\&#39;s give this device some important details...</string>
+  <string name="complete_setup_button_label">Complete Set Up</string>
+  <string name="device_location_label">Device Location</string>
 </resources>

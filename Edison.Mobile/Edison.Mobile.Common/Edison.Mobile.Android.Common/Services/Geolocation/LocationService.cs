@@ -40,6 +40,8 @@ namespace Edison.Mobile.Android.Common.Geolocation
             if (_locationCallback == null)
                 _locationCallback = new EdisonLocationCallback();
 
+            
+
             _locationCallback.LocationUpdated += OnLocationUpdated;
         }
 

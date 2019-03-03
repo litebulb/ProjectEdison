@@ -12,7 +12,9 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\iOS User</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;ANDROIDADMINNOPI</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AndroidAdminNoPi|AnyCPU'">
     <DefineConstants>TRACE;ANDROIDADMINNOPI</DefineConstants>
   </PropertyGroup>

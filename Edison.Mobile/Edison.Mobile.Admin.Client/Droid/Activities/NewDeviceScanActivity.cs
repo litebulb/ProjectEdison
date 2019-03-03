@@ -93,7 +93,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
         }
 
-        public void ReceiveDetections(Detections detections)
+        public async void ReceiveDetections(Detections detections)
         {
             SparseArray qrcodes = detections.DetectedItems;
             if (qrcodes.Size() != 0)
@@ -103,8 +103,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
                 var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;
 
                 string networkSSID = value;
-                                
-                this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID }).GetAwaiter().GetResult();
+
+                await this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID });
                                 
                 var intent = new Intent(this, typeof(SelectWifiOnDeviceActivity));
                 intent.AddFlags(ActivityFlags.NoAnimation);

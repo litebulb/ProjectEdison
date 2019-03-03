@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
+using Edison.Mobile.Admin.Client.Droid.Toolbars;
 using Edison.Mobile.Android.Common;
 using Edison.Mobile.Android.Common.Ioc;
 using Edison.Mobile.Common.Ioc;
@@ -14,7 +15,6 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
 using System;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -34,10 +34,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void BindResources()
         {
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            
-            TextView mTitle = (TextView)toolbar.FindViewById(Resource.Id.toolbar_title);
-            mTitle.Text = GetString(Resource.String.setup_new_device_label);
+            var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar_new_device_setup);                        
+            toolbar.SetTitle(Resource.String.setup_new_device_label);
 
             SetSupportActionBar(toolbar);
             this.BackPressed += NewDeviceSetupActivity_BackPressed;
