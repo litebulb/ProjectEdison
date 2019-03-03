@@ -20,9 +20,9 @@ namespace Edison.Mobile.User.Client.Droid
         public const string ClientId = "19cb746c-3066-4cd8-8cd2-e0ce1176ae33"; //"64531b8c-3d22-4c2a-8d72-bf37c8609fbe";
 
         // Response summary Map values
-        public const int UserLocationJitterThreshold = 3; //meters
-        public const int SingleLocationRefocusMapThreshold = 5000; // meters
-        public const float LocationThresholdPercent = 0.1f; // % as fraction
+        internal const int UserLocationJitterThreshold = 3; //meters
+        internal const int SingleLocationRefocusMapThreshold = 5000; // meters
+        internal const float LocationThresholdPercent = 0.1f; // % as fraction
 
         internal const string EVENT_CHANNEL_ID = "edison_notification_channel";
         internal const string NotificationTagLabel = "NotificationTag";

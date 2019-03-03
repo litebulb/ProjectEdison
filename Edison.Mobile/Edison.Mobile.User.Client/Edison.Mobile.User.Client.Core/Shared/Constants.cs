@@ -4,8 +4,16 @@ namespace Edison.Mobile.User.Client.Core.Shared
     public static class Constants
     {
 
-        public static readonly string ListenConnectionString = "Endpoint=sb://edisondev.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=CNCM1xn79hHuUUj6GiAct1JJe5kdzGuPmzBOaVoSGsA=";
-        public static readonly string NotificationHubName = "edisondevnotificationhub";
+
+
+
+        public const string ListenConnectionString = "Endpoint=sb://edisondev.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=CNCM1xn79hHuUUj6GiAct1JJe5kdzGuPmzBOaVoSGsA=";
+        public const string NotificationHubName = "edisondevnotificationhub";
+
+        internal const string ChatActivityMessageType = "MessageType";
+        internal const string ChatActivityMessageIndex = "MessageIndex";
+        internal const string ChatActivityMessageId = "MessageId";
+        internal const string ChatActivityClientTextMessage = "ClientTextMessage";
 
         public static int UpdateLocationTimerInterval { get; } = 10000;
 

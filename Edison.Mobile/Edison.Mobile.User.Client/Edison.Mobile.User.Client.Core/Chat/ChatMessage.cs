@@ -8,5 +8,6 @@ namespace Edison.Mobile.User.Client.Core.Chat
         public ChatUserModel UserModel { get; set; }
         public ActionPlanListModel ActionPlan { get; set; }
         public bool IsNewActionPlan { get; set; }
+        public string Id { get; set; }
     }
 }

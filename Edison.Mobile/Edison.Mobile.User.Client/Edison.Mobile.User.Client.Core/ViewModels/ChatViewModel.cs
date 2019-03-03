@@ -161,9 +161,12 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("***********  Chat 'Activity' created  *********");
 #endif
-
+            ActionPlanListModel messageActionPlan = null;
             if (isPromptedFromActionPlanButton)
+            {
+                messageActionPlan = CurrentActionPlan ?? GetEmergencyActionPlan();
                 newActivity.Properties["reportType"] = CurrentActionPlan?.ActionPlanId ?? GetEmergencyActionPlan()?.ActionPlanId;
+            }
 
             newActivity.Properties["deviceId"] = chatClientConfig?.DeviceId;
 
@@ -210,6 +213,22 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             System.Diagnostics.Debug.WriteLine("*************************************************");
 #endif
 
+            // Mark and display message
+            newActivity.Properties[Constants.ChatActivityMessageType] = Constants.ChatActivityClientTextMessage;
+            var messageId = Guid.NewGuid().ToString();
+            newActivity.Properties[Constants.ChatActivityMessageId] = messageId;
+            var clientMessage = new ChatMessage
+            {
+                Text = newActivity.Text,
+                UserModel = ChatTokenContext.UserContext,
+                ActionPlan = messageActionPlan,
+                IsNewActionPlan = messageActionPlan != CurrentActionPlan,
+                Id = messageId
+            };
+            ChatMessages.Add(clientMessage);
+            var index = ChatMessages.Count - 1;
+            newActivity.Properties[Constants.ChatActivityMessageIndex] = index;
+
             ResourceResponse response = null;
             try
             {
@@ -233,6 +252,11 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                 System.Diagnostics.Debug.WriteLine("*********  SUCCESS");
             System.Diagnostics.Debug.WriteLine("***************************************************");
 #endif
+
+            if (response == null && ChatMessages.Count > index)
+                // remove message
+                ChatMessages.RemoveAt(index);
+
             return response != null;
         }
 
@@ -328,6 +352,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                         System.Diagnostics.Debug.WriteLine("*********  ActionPlans exist");
                     System.Diagnostics.Debug.WriteLine("********************************************************************");
 #endif
+
                     ActionPlanListModel actionPlan = null;
                     try
                     {
@@ -358,6 +383,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     System.Diagnostics.Debug.WriteLine("*********  ChatViewModel - Calling BeginConversationWithActionPlan  *********");
                     System.Diagnostics.Debug.WriteLine("*****************************************************************************");
 #endif
+
                     await BeginConversationWithActionPlanAsync(GetEmergencyActionPlan());
                     break;
                 case ChatPromptType.SafetyCheck:
@@ -482,11 +508,27 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             await UpdateDeviceLocation();
         }
 
-        async Task UpdateDeviceLocation() => await locationRestService.UpdateDeviceLocation(new Geolocation
+        async Task UpdateDeviceLocation()
         {
-            Latitude = locationService.LastKnownLocation.Latitude,
-            Longitude = locationService.LastKnownLocation.Longitude,
-        });
+            if (locationService.LastKnownLocation != null)
+            {
+                await locationRestService.UpdateDeviceLocation(new Geolocation
+                {
+                    Latitude = locationService.LastKnownLocation.Latitude,
+                    Longitude = locationService.LastKnownLocation.Longitude,
+                });
+            }
+            else
+            {
+                var location = await locationService.GetLastKnownLocationAsync();
+                await locationRestService.UpdateDeviceLocation(new Geolocation
+                {
+                    Latitude = location.Latitude,
+                    Longitude = location.Longitude
+                });
+            }
+        }
+
 
         async Task GetChatTranscript()
         {
@@ -501,7 +543,9 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
             };
 
             var response = await client.Conversations.PostActivityAsync(conversation.ConversationId, transcriptActivity);
+#if DEBUG
             Console.WriteLine(response);
+#endif
         }
 
         async Task ReadBotMessagesAsync(DirectLineClient directLineClient, string conversationId)
@@ -530,9 +574,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                                 var isMyChatId = IsMyChatId(sendMessageProperties.From.Id);
 
                                 if (isMyChatId && actionPlan != null)
-                                {
                                     CurrentActionPlan = actionPlan;
-                                }
 
                                 chatMessages.Add(new ChatMessage
                                 {
@@ -548,7 +590,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                             var previouslySentMessage = ChatMessages.LastOrDefault(m => IsMyChatId(m.UserModel.Id));
                             var isNewActionPlan = previouslySentMessage == null || previouslySentMessage.ActionPlan != CurrentActionPlan;
 
-                            chatMessages.Add(new ChatMessage
+                            var message = new ChatMessage
                             {
                                 Text = activity.Text,
                                 UserModel = new ChatUserModel
@@ -559,7 +601,51 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                                 },
                                 ActionPlan = CurrentActionPlan,
                                 IsNewActionPlan = isNewActionPlan,
-                            });
+                            };
+
+                            // Check to see if the message was a client sent message that is already in ChatMessage collection
+                            bool alreadyDisplayed = false;
+                            int index = -1;
+                            string id = null;
+                            activity.Properties.TryGetValue(Constants.ChatActivityMessageType, out JToken token1);
+                            activity.Properties.TryGetValue(Constants.ChatActivityMessageId, out JToken token2);
+                            if (token1 != null && token1.ToObject<string>() == Constants.ChatActivityClientTextMessage && token2 != null)
+                            {
+                                // Is a message that was sent by the client and reflected back by chat bot service
+                                alreadyDisplayed = true;
+                                id = token2.ToObject<string>();
+                                activity.Properties.TryGetValue(Constants.ChatActivityMessageIndex, out JToken token3);
+                                if (token3 != null)
+                                    index = token3.ToObject<int>();
+                            }
+
+                            if (alreadyDisplayed)
+                            {
+                                // try to locate message in ChatMessages and replace with the one reflected back
+                                if (ChatMessages.Count > index)
+                                {
+                                    // iterate from index to end of chat message just in case messages have somehow been added - normally index will be last item
+                                    for (int i = index; i < ChatMessages.Count; i++)
+                                    {
+                                        if (ChatMessages[i].Id == id)
+                                        {
+                                            // have found message, so replace
+                                            ChatMessages[i] = message;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // count is last than index so just the last item
+                                    if (ChatMessages.LastOrDefault()?.Id == id)
+                                            ChatMessages[ChatMessages.Count-1] = message;
+                                }
+
+
+                            }
+                            else
+                                chatMessages.Add(message);
                         }
 
                         isEndingConversation = activity.Type == "endOfConversation";
@@ -570,7 +656,7 @@ namespace Edison.Mobile.User.Client.Core.ViewModels
                     {
                         if (!isInConversation)
                             ChatMessages.Clear();
-
+ 
                         isInConversation = true;
                         ChatMessages.AddRange(chatMessages);
                     }
