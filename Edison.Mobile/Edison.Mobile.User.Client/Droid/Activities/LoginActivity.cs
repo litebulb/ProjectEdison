@@ -17,11 +17,6 @@ using Android.Support.V7.Widget;
 using Android.Support.Design.Widget;
 
 using Edison.Mobile.Android.Common;
-using Edison.Mobile.User.Client.Core.ViewModels;
-using Edison.Mobile.User.Client.Droid.Ioc;
-using Edison.Mobile.User.Client.Core.Ioc;
-using Edison.Mobile.Android.Common.Ioc;
-using Edison.Mobile.Common.Ioc;
 
 
 

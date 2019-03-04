@@ -26,8 +26,9 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
     [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode = SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
     public class EnterLocationFullscreenActivity : BaseActivity<ManageDeviceViewModel>, IOnMapReadyCallback
     {
-        MapFragment mapFragment;
-        GoogleMap googleMap;
+        private MapFragment mapFragment;
+        private GoogleMap googleMap;
+        private Marker _marker;
 
         public async void OnMapReady(GoogleMap map)
         {
@@ -57,7 +58,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
                 .Draggable(true)
                 .SetTitle("Current");
 
-            googleMap.AddMarker(marker);
+            _marker = googleMap.AddMarker(marker);
         }
 
         private async void GoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
@@ -95,13 +96,21 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void Button_Click(object sender, EventArgs e)
         {
+            Intent intent = new Intent(this, typeof(EnterLocationActivity));
+            intent.SetFlags(ActivityFlags.ClearTop);
+            intent.PutExtra("latitude", _marker.Position.Latitude);
+            intent.PutExtra("longitude", _marker.Position.Longitude);
+            StartActivity(intent);
+
+
+            /*
             var builder = new AlertDialog.Builder(this);
             builder.SetTitle("Operation confirmation");
             builder.SetMessage("Continue with command?");
-            builder.SetPositiveButton("Yes", (s, args) => { /* do stuff on OK */ });
+            builder.SetPositiveButton("Yes", (s, args) => { });
             builder.SetNegativeButton("No", (s, args) => { });
             builder.SetCancelable(false);
-            builder.Show();
+            builder.Show();*/
         }
 
         private void SelectWifiOnDeviceActivity_BackPressed(object sender, EventArgs e)
