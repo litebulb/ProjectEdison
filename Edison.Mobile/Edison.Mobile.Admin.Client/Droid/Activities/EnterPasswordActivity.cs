@@ -46,6 +46,14 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
             toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
+            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
+            
+            var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
+            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+            
+            instructionNumber.Text = "5";
+            instructionText.SetText(Resource.String.enter_password_instruction_label);
+            
             TextView labelView = FindViewById<TextView>(Resource.Id.enter_password_for_network_ssid);
             labelView.Text = _ssid;
 

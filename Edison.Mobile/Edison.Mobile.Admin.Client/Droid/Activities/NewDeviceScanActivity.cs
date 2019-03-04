@@ -56,6 +56,14 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);                        
             toolbar.SetTitle(Resource.String.new_device_scan_title);
 
+            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
+
+            var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
+            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+
+            instructionNumber.Text = "3";
+            instructionText.SetText(Resource.String.scan_qr_message_label);            
+
             SetSupportActionBar(toolbar);
             this.BackPressed += NewDeviceSetupActivity_BackPressed;               
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);

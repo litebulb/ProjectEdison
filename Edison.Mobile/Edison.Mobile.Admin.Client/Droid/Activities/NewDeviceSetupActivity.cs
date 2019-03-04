@@ -37,6 +37,22 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar_new_device_setup);                        
             toolbar.SetTitle(Resource.String.setup_new_device_label);
 
+            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
+
+            var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
+            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+
+            instructionNumber.Text = "1";
+            instructionText.SetText(Resource.String.what_type_of_device_label);
+            
+            var secondLayout = FindViewById<LinearLayout>(Resource.Id.second_instruction);
+
+            var secondInstructionNumber = secondLayout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
+            var secondInstructionText = secondLayout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+
+            secondInstructionNumber.Text = "2";
+            secondInstructionText.SetText(Resource.String.turn_on_device_power_label);
+
             SetSupportActionBar(toolbar);
             this.BackPressed += NewDeviceSetupActivity_BackPressed;
 
