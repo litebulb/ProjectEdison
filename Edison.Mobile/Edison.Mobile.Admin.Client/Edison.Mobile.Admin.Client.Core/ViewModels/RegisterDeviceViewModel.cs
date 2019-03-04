@@ -47,8 +47,6 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         {
             await wifiService.DisconnectFromWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork);
 
-            await Task.Delay(2000);
-
             OnFinishDevicePairing?.Invoke(this, new OnFinishDevicePairingEventArgs
             {
                 IsSuccess = false,
@@ -64,27 +62,30 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public async Task<bool> ProvisionDevice(WifiNetwork wifiNetwork)
         {
-
-            Guid.TryParse("ed655b50-a146-47e4-a1d7-4cd2d940eedb", out var guid);
-            var deviceModel = await GetDevice(guid);
-
             OnBeginDevicePairing?.Invoke();
 
             // connect to device
             SetPairingStatusText("Connecting to device...");
 
             var defaultWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
+            await wifiService.DisconnectFromWifiNetwork(defaultWifiNetwork);
             var success = await wifiService.ConnectToWifiNetwork(wifiNetwork.SSID, deviceSetupService.DefaultPassword);
-
-            await Task.Delay(2000);
 
             if (!success) return await ProvisionDeviceFail();
 
+            await Task.Delay(4000);
+
+
+            var current = await wifiService.GetCurrentlyConnectedWifiNetwork();
+            if (current.SSID == defaultWifiNetwork.SSID) return await ProvisionDeviceFail();
 
             // get stuff from device
             SetPairingStatusText("Grabbing some information from the device...");
 
             deviceSetupService.CurrentDeviceHotspotNetwork = success ? wifiNetwork : null;
+
+              
+            onboardingRestService.SetBasicAuthentication("ftEqbq7rjs"); // TODO: remove after done debugging
 
             var deviceIdResponse = await onboardingRestService.GetDeviceId();
 
@@ -114,14 +115,18 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             if (certificateResponse == null) return await ProvisionDeviceFail();
 
-            await Task.Delay(2000);
+            var generateKeysResponse = await deviceProvisioningRestService.GenerateDeviceKeys(deviceSetupService.CurrentDeviceModel.DeviceId);
+
+            if (generateKeysResponse == null) return await ProvisionDeviceFail();
+
+            //await Task.Delay(2000);
 
             SetPairingStatusText("Reconnecting to device and finishing up! Sit tight...");
 
             // reconnect to device to set device type
             var reconnectSuccess = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.DefaultPassword);
 
-            await Task.Delay(2000);
+            await Task.Delay(4000);
 
             if (!reconnectSuccess) return await ProvisionDeviceFail();
 
@@ -137,6 +142,15 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             });
 
             if (provisionSuccess == null || !provisionSuccess.IsSuccess) return await ProvisionDeviceFail();
+
+            var setDeviceKeysResponse = await onboardingRestService.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys
+            {
+                AccessPointPassword = generateKeysResponse.AccessPointPassword,
+                EncryptionKey = generateKeysResponse.EncryptionKey,
+                PortalPassword = generateKeysResponse.PortalPassword,
+            });
+
+            if (setDeviceKeysResponse == null || !setDeviceKeysResponse.IsSuccess) return await ProvisionDeviceFail();
 
             var setDeviceTypeResult = await onboardingRestService.SetDeviceType(new RequestCommandSetDeviceType
             {

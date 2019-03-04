@@ -8,25 +8,36 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+<<<<<<< HEAD
+	<application android:theme="@style/EdisonLight.Fullscreen" android:label="@string/app_name" android:icon="@mipmap/ic_edison_launcher">
+=======
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<application android:theme="@style/EdisonLight" android:label="@string/app_name" android:icon="@mipmap/ic_edison_launcher" android:supportsRtl="true">
+>>>>>>> fc1ee898871d4c8d031620924c764c11697ccc17
 		<activity android:name="microsoft.identity.client.BrowserTabActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="com.onmicrosoft.edisonbluemetal" android:host="redirect" />
+<<<<<<< HEAD
+				<data android:scheme="msal0b4a1cf5-7071-4255-9b5c-9f12c8f846bd" android:host="auth" />
+=======
 				<data android:scheme="msal2373be1e-6d0b-4e38-9115-e0bd01dadd61" android:host="auth" />
+>>>>>>> fc1ee898871d4c8d031620924c764c11697ccc17
 			</intent-filter>
 		</activity>
 		<!-- Necessary for apps that target Android 9.0 or higher -->
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
+<<<<<<< HEAD
+=======
 		<meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode" />
     <!-- Necessary for apps that target Android 9.0 or higher -->
     <uses-library android:name="org.apache.http.legacy" android:required="false" />
     <!-- Put your Google Maps V2 API Key here. -->
     <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBpR4rDzFjMDuMv7OrcqayYCViEW-xOHWE" />
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+>>>>>>> fc1ee898871d4c8d031620924c764c11697ccc17
 	</application>
 </manifest>

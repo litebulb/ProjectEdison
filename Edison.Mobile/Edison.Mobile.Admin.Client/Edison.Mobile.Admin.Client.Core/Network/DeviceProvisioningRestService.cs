@@ -28,5 +28,34 @@ namespace Edison.Mobile.Admin.Client.Core.Network
 
             return null;
         }
+
+        public async Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId)
+        {
+            var request = PrepareRequest("Security", Method.POST, deviceId);
+            var queryResult = await client.ExecutePostTaskAsync<DeviceSecretKeysModel>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return queryResult.Data;
+            }
+
+            logger.Log($"GenerateDeviceKeys: Error while generating or retrieving device keys: {queryResult.StatusCode}");
+
+            return null;
+        }
+
+        public async Task<DeviceSecretKeysModel> GetDeviceKeys(Guid deviceId)
+        {
+            RestRequest request = PrepareRequest("Security/{deviceId}", Method.GET);
+            request.AddUrlSegment("deviceId", deviceId);
+            var queryResult = await client.ExecuteGetTaskAsync<DeviceSecretKeysModel>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return queryResult.Data;
+            }
+
+            logger.Log($"GetDeviceKeys: Error while retrieving device keys: {queryResult.StatusCode}");
+
+            return null;
+        }
     }
 }

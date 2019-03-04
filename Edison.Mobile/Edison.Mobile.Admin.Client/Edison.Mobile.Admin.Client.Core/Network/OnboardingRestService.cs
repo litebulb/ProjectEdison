@@ -20,12 +20,17 @@ namespace Edison.Mobile.Admin.Client.Core.Network
         public OnboardingRestService(AuthService authService, ILogger logger, string baseUrl)
             : base(authService, logger, baseUrl)
         {
-            client.Authenticator = new HttpBasicAuthenticator("Administrator", "Edison1234");
+            client.Authenticator = new HttpBasicAuthenticator("Administrator", "ftEqbq7rjs");
         }
 
         protected override void AddAuthHeader(RestRequest request)
         {
             // no-op
+        }
+
+        public void SetBasicAuthentication(string password)
+        {
+            client.Authenticator = new HttpBasicAuthenticator("Administrator", password);
         }
 
         public async Task<ResultCommandGetDeviceId> GetDeviceId()
@@ -137,6 +142,26 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             {
                 var request = PrepareRequest("/ConnectToNetwork", Method.POST, networkInformationModel);
                 var queryResult = await client.ExecutePostTaskAsync<ResultCommandNetworkStatus>(request);
+                if (queryResult.IsSuccessful)
+                {
+                    return queryResult.Data;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+                return null;
+            }
+        }
+
+        public async Task<ResultCommand> SetDeviceSecretKeys(RequestCommandSetDeviceSecretKeys command)
+        {
+            try
+            {
+                var request = PrepareRequest("/SetDeviceSecretKeys", Method.POST, command);
+                var queryResult = await client.ExecutePostTaskAsync<ResultCommand>(request);
                 if (queryResult.IsSuccessful)
                 {
                     return queryResult.Data;

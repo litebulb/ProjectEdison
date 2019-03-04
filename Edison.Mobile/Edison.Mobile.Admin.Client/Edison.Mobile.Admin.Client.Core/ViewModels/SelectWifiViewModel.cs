@@ -31,7 +31,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             this.onboardingRestService = onboardingRestService;
             this.wifiService = wifiService;
 
-            refreshAvailableNetworksTimer = new System.Timers.Timer(3000);
+            refreshAvailableNetworksTimer = new System.Timers.Timer(1000);
         }
 
         public override async void ViewAppeared()

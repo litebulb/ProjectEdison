@@ -61,7 +61,11 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Done, async (object sender, EventArgs e) =>
             {
+                NavigationItem.RightBarButtonItem.Enabled = false;
+
                 await ViewModel.UpdateDevice();
+
+                NavigationItem.RightBarButtonItem.Enabled = true;
             });
 
             NavigationController.InteractivePopGestureRecognizer.Delegate = null;
