@@ -24,7 +24,7 @@ using Edison.Mobile.Admin.Client.Droid.Toolbars;
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
     [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode = SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
-    public class EnterLocationActivity : BaseActivity<ManageDeviceViewModel>, IOnMapReadyCallback
+    public class EnterLocationFullscreenActivity : BaseActivity<ManageDeviceViewModel>, IOnMapReadyCallback
     {
         MapFragment mapFragment;
         GoogleMap googleMap;
@@ -54,6 +54,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             
             var marker = new MarkerOptions()
                 .SetPosition(location) 
+                .Draggable(true)
                 .SetTitle("Current");
 
             googleMap.AddMarker(marker);
@@ -61,36 +62,23 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private async void GoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
         {
-            var intent = new Intent(this, typeof(EnterLocationFullscreenActivity));
-            intent.AddFlags(ActivityFlags.NoAnimation);            
-            StartActivity(intent);
+            //throw new NotImplementedException();
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
                        
-            SetContentView(Resource.Layout.enter_location);
+            SetContentView(Resource.Layout.enter_location_fullscreen);
 
             BindResources();
-            //BindVMEvents();
         }
         
         private void BindResources()
         {            
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
             toolbar.SetTitle(Resource.String.edison_device_setup_message);
-
-            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
-
-
-            var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
-            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
-
-
-            instructionNumber.Text = "6";
-            instructionText.SetText(Resource.String.device_details_instruction_label);
-
+            
             SetSupportActionBar(toolbar);
 
             SupportActionBar.SetHomeButtonEnabled(true);
@@ -101,7 +89,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
             mapFragment.GetMapAsync(this);
 
-            var button = FindViewById<AppCompatButton>(Resource.Id.complete_setup_button);
+            var button = FindViewById<AppCompatButton>(Resource.Id.done_button);
             button.Click += Button_Click;
         }
 

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat 
+	xmlns:android="http://schemas.android.com/apk/res/android" 	
+	android:orientation="vertical" 
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent"	
+	android:gravity="center_horizontal">
+	<include android:id="@+id/toolbar" layout="@layout/toolbar_centered" />  
+	
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android" 	
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent">
+	<fragment
+		  android:id="@+id/map"
+		  android:layout_width="match_parent"
+			android:layout_height="fill_parent" 
+		  class="com.google.android.gms.maps.MapFragment" />
+	
+	<android.support.v7.widget.AppCompatButton
+            android:text="@string/done_button_label"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+                android:id="@+id/done_button"            
+                android:textColor="@color/white"
+				style="@style/Widget.AppCompat.Button.Colored"
+			android:theme="@style/EdisonAdminButton"	
+		android:layout_alignParentBottom="true"
+		android:layout_margin="40dp"
+            />
+</RelativeLayout>
+	
+</android.support.v7.widget.LinearLayoutCompat>

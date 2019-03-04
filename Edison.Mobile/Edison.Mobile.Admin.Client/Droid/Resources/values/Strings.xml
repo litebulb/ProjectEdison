@@ -25,4 +25,5 @@
   <string name="device_details_instruction_label">Let\&#39;s give this device some important details...</string>
   <string name="complete_setup_button_label">Complete Set Up</string>
   <string name="device_location_label">Device Location</string>
+  <string name="done_button_label">Done</string>
 </resources>
