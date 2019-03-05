@@ -20,6 +20,7 @@ using Android.Gms.Maps.Model;
 using System.Threading.Tasks;
 using Java.Lang;
 using Edison.Mobile.Admin.Client.Droid.Toolbars;
+using Android.Runtime;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -28,20 +29,29 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
     {
         MapFragment mapFragment;
         GoogleMap googleMap;
+        private string _latitude;
+        private string _longitude;
+        private LatLng _location;
 
         public async void OnMapReady(GoogleMap map)
         {
             googleMap = map;
 
-            googleMap.UiSettings.ZoomControlsEnabled = true;
-           // googleMap.MyLocationEnabled = true;
+            googleMap.UiSettings.ZoomControlsEnabled = true;           
             googleMap.UiSettings.MyLocationButtonEnabled = true;
 
             var gpsLocation = await ViewModel.GetLastKnownLocation();
-            LatLng location = new LatLng(gpsLocation.Latitude, gpsLocation.Longitude);
+            _location = new LatLng(gpsLocation.Latitude, gpsLocation.Longitude);
 
+            googleMap.MapClick += GoogleMap_MapClick;
+
+            AddMarker();
+        }
+
+        private void AddMarker()
+        {
             CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
-            builder.Target(location);
+            builder.Target(_location);
             builder.Zoom(16);
 
             CameraPosition cameraPosition = builder.Build();
@@ -50,20 +60,36 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             googleMap.MoveCamera(cameraUpdate);
 
-            googleMap.MapClick += GoogleMap_MapClick;
-            
             var marker = new MarkerOptions()
-                .SetPosition(location) 
-                .SetTitle("Current");
+            .SetPosition(_location)
+            .SetTitle("Current");
 
             googleMap.AddMarker(marker);
+        }
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (data.HasExtra("latitude") && data.HasExtra("longitude"))
+            {
+                _latitude = data.GetStringExtra("latitude");
+                _longitude = data.GetStringExtra("longitude");
+
+                if (!string.IsNullOrWhiteSpace(_latitude) && !string.IsNullOrWhiteSpace(_longitude))
+                {
+                    _location = new LatLng(double.Parse(_latitude), double.Parse(_longitude));                    
+
+                    AddMarker();
+                }
+            }
         }
 
         private async void GoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
         {
             var intent = new Intent(this, typeof(EnterLocationFullscreenActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);            
-            StartActivity(intent);
+            StartActivityForResult(intent, 1);
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -73,9 +99,10 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             SetContentView(Resource.Layout.enter_location);
 
             BindResources();
+
             //BindVMEvents();
         }
-        
+
         private void BindResources()
         {            
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);

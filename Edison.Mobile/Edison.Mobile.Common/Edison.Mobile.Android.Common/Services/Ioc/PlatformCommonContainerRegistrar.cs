@@ -12,7 +12,6 @@ using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Notifications;
 using Edison.Mobile.Common.WiFi;
 using System;
-using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,22 +55,36 @@ namespace Edison.Mobile.Android.Common.Ioc
                 .SingleInstance();
 
 #if ANDROIDADMINNOPI
-            var WifiServiceMock = new Mock<IWifiService>();
-            WifiServiceMock.Setup(i => i.GetCurrentlyConnectedWifiNetwork()).Returns(Task.FromResult(PlatformCommonContainerRegistrar.MockNetworks().First()));
-            WifiServiceMock.Setup(i => i.ConnectToWifiNetwork(It.IsAny<string>())).Returns(Task.FromResult(true));
-            WifiServiceMock.Setup(i => i.ConnectToWifiNetwork(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(true));
-            WifiServiceMock.Setup(i => i.DisconnectFromWifiNetwork(It.IsAny<WifiNetwork>())).Returns(Task.FromResult(true));
-
-            builder.RegisterInstance<IWifiService>(WifiServiceMock.Object);
+            
+            builder.RegisterInstance<IWifiService>(new WifiServiceMock());
 #endif
         }
-        public static IEnumerable<WifiNetwork> MockNetworks()
+  
+
+        public class WifiServiceMock : IWifiService
         {
-            return new List<WifiNetwork>()
+            public Task<bool> ConnectToWifiNetwork(string ssid)
             {
-                new WifiNetwork(){ SSID = "SSID 1"},
-                new WifiNetwork(){ SSID = "SSID 2"},
-            };
+                return Task.FromResult(true);
+            }
+
+            public Task<bool> ConnectToWifiNetwork(string ssid, string passphrase)
+            {
+                return Task.FromResult(true);
+            }
+
+            public Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)
+            {
+                return Task.FromResult(true);
+            }
+
+            public Task<WifiNetwork> GetCurrentlyConnectedWifiNetwork()
+            {
+                return Task.FromResult(new WifiNetwork()
+                {
+                    SSID = "SSID 1"
+                });
+            }
         }
     }
 }

@@ -8,7 +8,6 @@ using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Ioc;
 using Edison.Mobile.Common.Logging;
 using Edison.Mobile.Common.Shared;
-using Moq;
 
 namespace Edison.Mobile.Admin.Client.Core.Ioc
 {

@@ -59,6 +59,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
                 .SetTitle("Current");
 
             _marker = googleMap.AddMarker(marker);
+
+            googleMap.MarkerDragEnd += GoogleMap_MarkerDragEnd;
+        }
+
+        private void GoogleMap_MarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
+        {
+            _marker.Position = e.Marker.Position;
         }
 
         private async void GoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
@@ -96,11 +103,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void Button_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(EnterLocationActivity));
-            intent.SetFlags(ActivityFlags.ClearTop);
-            intent.PutExtra("latitude", _marker.Position.Latitude);
-            intent.PutExtra("longitude", _marker.Position.Longitude);
-            StartActivity(intent);
+            Intent intent = new Intent();            
+            intent.PutExtra("latitude", _marker.Position.Latitude.ToString());
+            intent.PutExtra("longitude", _marker.Position.Longitude.ToString());
+            SetResult(Result.Ok, intent);
+            Finish();
 
 
             /*
@@ -118,7 +125,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             Finish();
         }
 
-        
     }
 }
 

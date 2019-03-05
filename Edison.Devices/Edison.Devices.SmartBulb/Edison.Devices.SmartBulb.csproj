@@ -23,13 +23,13 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <PackageCertificateThumbprint>DF37791EEEA6B5BDC27099E96F264FFC15FD45E3</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>D9A161B16A6FB7B41B681834BA14089B7D67E2E7</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Edison.Devices.SmartBulb_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxPackageDir>D:\Edison\Edison.Devices\AppPackages\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\bkotvis\Desktop\SmartBulb\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Moq" Version="4.7.145" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />

@@ -1,5 +1,4 @@
 ﻿using Edison.Mobile.Admin.Client.Core.Network;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,30 +13,62 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
 {
     public class ServiceMocks
     {
-        public static Mock<IOnboardingRestService> OnboardingServiceMock;
-        public static Mock<IWifiService> WifiServiceMock;
-
         public static void Setup(ContainerBuilder builder)
         {
-            OnboardingServiceMock = new Mock<IOnboardingRestService>();
 
-            OnboardingServiceMock.Setup(i => i.GetAvailableWifiNetworks()).Returns(Task.FromResult(ServiceMocks.MockNetworks()));
-            OnboardingServiceMock.Setup(i => i.ConnectToNetwork(It.IsAny<RequestNetworkInformationModel>())).Returns(Task.FromResult(
-                new ResultCommandNetworkStatus() { IsSuccess = true, Status = "Connected" }
-                ));
+            builder.RegisterInstance<IOnboardingRestService>(new OnboardingRestServiceMock());
 
-            builder.RegisterInstance<IOnboardingRestService>(OnboardingServiceMock.Object);
+        }        
 
-        }
-
-        public static IEnumerable<WifiNetwork> MockNetworks()
+        public class OnboardingRestServiceMock : IOnboardingRestService
         {
-            return new List<WifiNetwork>()
+            public async Task<ResultCommandNetworkStatus> ConnectToNetwork(RequestNetworkInformationModel networkInformationModel)
             {
-                new WifiNetwork(){ SSID = "SSID 1"},
-                new WifiNetwork(){ SSID = "SSID 2"},
-            };
-        }
+                return new ResultCommandNetworkStatus() { IsSuccess = true, Status = "Connected" };
+            }
 
+            public async Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks()
+            {
+                return new List<WifiNetwork>()
+                {
+                    new WifiNetwork(){ SSID = "SSID 1"},
+                    new WifiNetwork(){ SSID = "SSID 2"},
+                };
+            }
+
+            public Task<ResultCommandGetDeviceId> GetDeviceId()
+            {
+                return Task.FromResult(new ResultCommandGetDeviceId()
+                {
+                    DeviceId = Guid.NewGuid(),
+                    IsSuccess = true
+                });
+            }
+
+            public Task<ResultCommandGenerateCSR> GetGeneratedCSR()
+            {
+                return Task.FromResult(new ResultCommandGenerateCSR()
+                {
+                    Csr = "random string",
+                    IsSuccess = true
+                });
+            }
+
+            public Task<ResultCommand> ProvisionDevice(RequestCommandProvisionDevice provisionDeviceCommand)
+            {
+                return Task.FromResult(new ResultCommand()
+                {
+                    IsSuccess = true
+                });
+            }
+
+            public Task<ResultCommand> SetDeviceType(RequestCommandSetDeviceType setDeviceTypeCommand)
+            {
+                return Task.FromResult(new ResultCommand()
+                {
+                    IsSuccess = true
+                });
+            }
+        }
     }
 }
