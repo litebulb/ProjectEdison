@@ -21,6 +21,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public event ViewNotification OnAvailableWifiNetworksChanged;
 
+
         public SelectWifiViewModel(
             IOnboardingRestService onboardingRestService, 
             DeviceSetupService deviceSetupService,

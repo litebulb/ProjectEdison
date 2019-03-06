@@ -389,6 +389,7 @@
     <Compile Include="Activities\EnterLocationActivity.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Activities\EnterPasswordActivity.cs" />
+    <Compile Include="Activities\ManageDevicesActivity.cs" />
     <Compile Include="Activities\SelectWifiOnDeviceActivity.cs" />
     <Compile Include="Activities\NewDeviceScanActivity.cs" />
     <Compile Include="Activities\NewDeviceSetupActivity.cs" />
@@ -673,6 +674,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\enter_location_fullscreen.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\manage_devices.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

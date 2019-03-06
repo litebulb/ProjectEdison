@@ -10,9 +10,12 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
     public class NearbyDeviceAdapter : RecyclerView.Adapter
     {
         public List<DeviceModel> _devices;
-        public NearbyDeviceAdapter(List<DeviceModel> devices)
+        public Action<Guid> _action;
+
+        public NearbyDeviceAdapter(List<DeviceModel> devices, Action<Guid> action)
         {
             _devices = devices;
+            _action = action;
         }
 
         public override RecyclerView.ViewHolder
@@ -51,6 +54,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
             }
 
             vh.Caption.Text = device.Name;
+
+            vh.ItemView.Click += (sender, e) =>
+            {
+                _action(device.DeviceId);
+            };
         }
 
         public override int ItemCount

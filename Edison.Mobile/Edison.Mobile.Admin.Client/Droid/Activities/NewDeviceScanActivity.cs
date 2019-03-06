@@ -112,7 +112,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
                 string networkSSID = value;
 
                 await this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID });
-                                
+                
                 var intent = new Intent(this, typeof(SelectWifiOnDeviceActivity));
                 intent.AddFlags(ActivityFlags.NoAnimation);
                 StartActivity(intent);

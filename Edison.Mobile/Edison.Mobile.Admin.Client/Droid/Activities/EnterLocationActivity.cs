@@ -34,6 +34,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         GoogleMap googleMap;
         private LatLng _location;
 
+        private AppCompatEditText nameEditText;
+        private AppCompatEditText buildingEditText;
+        private AppCompatEditText floorEditText;
+        private AppCompatEditText roomEditText;
+
         public async void OnMapReady(GoogleMap map)
         {
             googleMap = map;
@@ -74,7 +79,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             if (data.HasExtra(Latitude) && data.HasExtra(Longitude))
             {
-
                 var latitude = data.GetDoubleExtra(Latitude, default(double));
                 var longitude = data.GetDoubleExtra(Longitude, default(double));
 
@@ -100,23 +104,29 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             base.OnCreate(savedInstanceState);
                        
             SetContentView(Resource.Layout.enter_location);
-
-            BindResources();
-
-            //BindVMEvents();
+            
+            BindResources();            
         }
 
         private void BindResources()
-        {            
+        {
+            nameEditText = FindViewById<AppCompatEditText>(Resource.Id.nameEditText);
+            buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
+            floorEditText = FindViewById<AppCompatEditText>(Resource.Id.floorEditText);
+            roomEditText = FindViewById<AppCompatEditText>(Resource.Id.roomEditText);
+
+            ReconcileEditText(i => i.Name, nameEditText);
+            ReconcileEditText(i => i.Location1, buildingEditText);
+            ReconcileEditText(i => i.Location2, floorEditText);
+            ReconcileEditText(i => i.Location3, roomEditText);
+
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
             toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
-            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
-
+            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);            
 
             var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
-            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
-
+            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);            
 
             instructionNumber.Text = "6";
             instructionText.SetText(Resource.String.device_details_instruction_label);
@@ -134,19 +144,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             var button = FindViewById<AppCompatButton>(Resource.Id.complete_setup_button);
             button.Click += Button_Click;
         }
-
+        
         private async void Button_Click(object sender, EventArgs e)
         {
-            var nameEditText = FindViewById<AppCompatEditText>(Resource.Id.nameEditText);
-            var buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
-            var floorEditText = FindViewById<AppCompatEditText>(Resource.Id.floorEditText);
-            var roomEditText = FindViewById<AppCompatEditText>(Resource.Id.roomEditText);
-
-
-            this.ViewModel.CurrentDeviceModel.Name = nameEditText.Text;            
-            this.ViewModel.CurrentDeviceModel.Location1 = buildingEditText.Text;
-            this.ViewModel.CurrentDeviceModel.Location2 = floorEditText.Text;
-            this.ViewModel.CurrentDeviceModel.Location3 = roomEditText.Text;
+            this.ViewModel.CurrentDeviceModel.Name = ValidateInput(nameEditText.Text);            
+            this.ViewModel.CurrentDeviceModel.Location1 = ValidateInput(buildingEditText.Text);
+            this.ViewModel.CurrentDeviceModel.Location2 = ValidateInput(floorEditText.Text);
+            this.ViewModel.CurrentDeviceModel.Location3 = ValidateInput(roomEditText.Text);
             this.ViewModel.CurrentDeviceModel.Geolocation = new Geolocation() { Latitude = _location.Latitude, Longitude = _location.Longitude };
 
             await this.ViewModel.UpdateDevice();
@@ -158,6 +162,26 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             builder.SetNegativeButton("No", (s, args) => { });
             builder.SetCancelable(false);
             builder.Show();
+        }
+
+        private string ValidateInput(string value)
+        {
+            if(value == GetString(Resource.String.edit_text_label))
+            {
+                return default(string);
+            }
+
+            return value;
+        }
+
+        private void ReconcileEditText(Func<DeviceModel, string> prop, AppCompatEditText editText)
+        {
+            string value = prop(this.ViewModel.CurrentDeviceModel);
+
+            if (value != default(string))
+            {            
+                editText.Text = value;
+            }
         }
 
         private void SelectWifiOnDeviceActivity_BackPressed(object sender, EventArgs e)

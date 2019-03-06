@@ -36,7 +36,8 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
             {
                 return Task.FromResult<IEnumerable<DeviceModel>>(new List<DeviceModel>()
                 {
-                    new DeviceModel(){ DeviceId = Guid.NewGuid() },
+                    new DeviceModel(){ DeviceId = Guid.NewGuid(), Name = "Fake Device" },
+                    new DeviceModel(){ DeviceId = Guid.NewGuid(), Name = "Another Fake Device" },
                 });
             }
 

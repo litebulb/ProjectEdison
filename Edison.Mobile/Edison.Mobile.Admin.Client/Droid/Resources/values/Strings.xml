@@ -33,4 +33,5 @@
   <string name="map_small_instructions">Move the pin as needed to make sure it\&#39;s location accurately represents a precise spot where the device will be.</string>
   <string name="edit_text_label">Not Set</string>
   <string name="name_label">Name</string>
+  <string name="your_devices_label">Your Devices</string>
 </resources>

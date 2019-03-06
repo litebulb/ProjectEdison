@@ -15,7 +15,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         readonly IOnboardingRestService onboardingRestService;
         readonly IWifiService wifiService;
         readonly ILogger logger;
-
+        
         public EnterWifiPasswordViewModel(
             DeviceSetupService deviceSetupService, 
             IOnboardingRestService onboardingRestService,

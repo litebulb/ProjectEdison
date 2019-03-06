@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"	
+	>		
+	<include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_centered"	
+	/>
+					<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/textView2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginLeft="30dp"
+						android:textColor="@color/app_blue"
+					android:text="@string/your_devices_label" />
+        <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:scrollbars="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</android.support.v7.widget.LinearLayoutCompat>

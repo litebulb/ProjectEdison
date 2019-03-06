@@ -11,10 +11,10 @@
 	<include android:id="@+id/instruction" layout="@layout/numbered_instruction"  />   
 
         <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingLeft="24dp">
-            <RadioGroup android:minWidth="25px" android:minHeight="25px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/radioGroup1">
-                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:text="@string/button_label" android:id="@+id/radioButton1" />
-                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sound_sensor_label" android:id="@+id/radioButton2" />
-                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/light_label" android:id="@+id/radioButton3" />
+            <RadioGroup android:minWidth="25px" android:minHeight="25px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/sensorTypeRadioGroup">
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" android:text="@string/button_label" android:id="@+id/buttonRadioButton" />
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sound_sensor_label" android:id="@+id/soundSensorRadioButton" />
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/light_label" android:id="@+id/lightRadioButton" />
             </RadioGroup>
         </LinearLayout>
         

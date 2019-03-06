@@ -34,7 +34,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             base.OnCreate(savedInstanceState);
             
             SetContentView(Resource.Layout.select_wifi_on_device);
-
+            
             BindResources();
             BindVMEvents();
         }
@@ -52,7 +52,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             instructionNumber.Text = "4";
             instructionText.SetText(Resource.String.select_wifi_network_label);
             
-
             SetSupportActionBar(toolbar);
 
             SupportActionBar.SetHomeButtonEnabled(true);
@@ -97,7 +96,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         {
             var intent = new Intent(this, typeof(EnterPasswordActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);
-            intent.PutExtra("ssid", networkSsid);
+            intent.PutExtra("ssid", networkSsid);            
             StartActivity(intent);
         }
         

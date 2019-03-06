@@ -89,8 +89,9 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             var deviceIdResponse = await onboardingRestService.GetDeviceId();
 
-            if (deviceIdResponse == null) return await ProvisionDeviceFail();
 
+            if (deviceIdResponse == null) return await ProvisionDeviceFail();
+            
             deviceSetupService.CurrentDeviceModel.DeviceId = deviceIdResponse.DeviceId;
 
             //return deviceIdResponse?.DeviceId; // shortcut for testing
@@ -111,8 +112,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             {
                 Csr = csrResult?.Csr ?? "MIIBbjCB2AIBADAvMS0wKwYDVQQDEyQ4OTJlYWM5YS1iOWFkLTQ0NDgtYWEwYS0wOTI0MDE1YWMwMWEwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALeqOH+XoeXXERg8neKzr3IumxTDMKsPzKjZ/kfE1gu/FHmr1ugPuRTtQzP5WFVD5lWqtEKJyX+YDCjNevKeHBSpHTAAdVR8GbpDdvRvij0k6yrmrjTRVohO5bTaE611KNzXOW5K4Y8PhoTHasNnMEydfAh4ysut92lWObmg2CG1AgMBAAGgADANBgkqhkiG9w0BAQsFAAOBgQCg8dbM4gMxChp4MF67B/0ARv5Ezq3423v/Tkj5KOMxFql+NeYtM9JpIWABMw2xlARl+agp9e8eaj503grhHjYeGV0afC2/8AA2o/PyZOrS80QViDK6Z4cY+zUO5hp3darGCEH14fuAHKwrokSQxYReqdBELyT3r4ZnCdbi+NUx7A==",
                 DeviceType = deviceSetupService.DeviceTypeAsString,
-            });
-
+            });            
+            
             if (certificateResponse == null) return await ProvisionDeviceFail();
 
             var generateKeysResponse = await deviceProvisioningRestService.GenerateDeviceKeys(deviceSetupService.CurrentDeviceModel.DeviceId);

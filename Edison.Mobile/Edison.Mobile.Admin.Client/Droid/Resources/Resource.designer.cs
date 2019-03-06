@@ -5402,6 +5402,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c006b
 			public const int buttonPanel = 2131492971;
 			
+			// aapt resource value: 0x7f0c00c6
+			public const int buttonRadioButton = 2131493062;
+			
 			// aapt resource value: 0x7f0c00bf
 			public const int button_manage = 2131493055;
 			
@@ -5621,6 +5624,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c003d
 			public const int light = 2131492925;
 			
+			// aapt resource value: 0x7f0c00c8
+			public const int lightRadioButton = 2131493064;
+			
 			// aapt resource value: 0x7f0c000d
 			public const int line1 = 2131492877;
 			
@@ -5720,18 +5726,6 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c007d
 			public const int radio = 2131492989;
 			
-			// aapt resource value: 0x7f0c00c6
-			public const int radioButton1 = 2131493062;
-			
-			// aapt resource value: 0x7f0c00c7
-			public const int radioButton2 = 2131493063;
-			
-			// aapt resource value: 0x7f0c00c8
-			public const int radioButton3 = 2131493064;
-			
-			// aapt resource value: 0x7f0c00c5
-			public const int radioGroup1 = 2131493061;
-			
 			// aapt resource value: 0x7f0c00c0
 			public const int recyclerView = 2131493056;
 			
@@ -5819,6 +5813,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0c0092
 			public const int select_dialog_listview = 2131493010;
 			
+			// aapt resource value: 0x7f0c00c5
+			public const int sensorTypeRadioGroup = 2131493061;
+			
 			// aapt resource value: 0x7f0c00e2
 			public const int sensors = 2131493090;
 			
@@ -5854,6 +5851,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			// aapt resource value: 0x7f0c0017
 			public const int snap = 2131492887;
+			
+			// aapt resource value: 0x7f0c00c7
+			public const int soundSensorRadioButton = 2131493063;
 			
 			// aapt resource value: 0x7f0c006c
 			public const int spacer = 2131492972;
@@ -6194,88 +6194,91 @@ namespace Edison.Mobile.Admin.Client.Droid
 			public const int Main = 2131034159;
 			
 			// aapt resource value: 0x7f050030
-			public const int nearby_device_item_view = 2131034160;
+			public const int manage_devices = 2131034160;
 			
 			// aapt resource value: 0x7f050031
-			public const int new_device_scan = 2131034161;
+			public const int nearby_device_item_view = 2131034161;
 			
 			// aapt resource value: 0x7f050032
-			public const int new_device_setup = 2131034162;
+			public const int new_device_scan = 2131034162;
 			
 			// aapt resource value: 0x7f050033
-			public const int notification_action = 2131034163;
+			public const int new_device_setup = 2131034163;
 			
 			// aapt resource value: 0x7f050034
-			public const int notification_action_tombstone = 2131034164;
+			public const int notification_action = 2131034164;
 			
 			// aapt resource value: 0x7f050035
-			public const int notification_media_action = 2131034165;
+			public const int notification_action_tombstone = 2131034165;
 			
 			// aapt resource value: 0x7f050036
-			public const int notification_media_cancel_action = 2131034166;
+			public const int notification_media_action = 2131034166;
 			
 			// aapt resource value: 0x7f050037
-			public const int notification_template_big_media = 2131034167;
+			public const int notification_media_cancel_action = 2131034167;
 			
 			// aapt resource value: 0x7f050038
-			public const int notification_template_big_media_custom = 2131034168;
+			public const int notification_template_big_media = 2131034168;
 			
 			// aapt resource value: 0x7f050039
-			public const int notification_template_big_media_narrow = 2131034169;
+			public const int notification_template_big_media_custom = 2131034169;
 			
 			// aapt resource value: 0x7f05003a
-			public const int notification_template_big_media_narrow_custom = 2131034170;
+			public const int notification_template_big_media_narrow = 2131034170;
 			
 			// aapt resource value: 0x7f05003b
-			public const int notification_template_custom_big = 2131034171;
+			public const int notification_template_big_media_narrow_custom = 2131034171;
 			
 			// aapt resource value: 0x7f05003c
-			public const int notification_template_icon_group = 2131034172;
+			public const int notification_template_custom_big = 2131034172;
 			
 			// aapt resource value: 0x7f05003d
-			public const int notification_template_lines_media = 2131034173;
+			public const int notification_template_icon_group = 2131034173;
 			
 			// aapt resource value: 0x7f05003e
-			public const int notification_template_media = 2131034174;
+			public const int notification_template_lines_media = 2131034174;
 			
 			// aapt resource value: 0x7f05003f
-			public const int notification_template_media_custom = 2131034175;
+			public const int notification_template_media = 2131034175;
 			
 			// aapt resource value: 0x7f050040
-			public const int notification_template_part_chronometer = 2131034176;
+			public const int notification_template_media_custom = 2131034176;
 			
 			// aapt resource value: 0x7f050041
-			public const int notification_template_part_time = 2131034177;
+			public const int notification_template_part_chronometer = 2131034177;
 			
 			// aapt resource value: 0x7f050042
-			public const int numbered_instruction = 2131034178;
+			public const int notification_template_part_time = 2131034178;
 			
 			// aapt resource value: 0x7f050043
-			public const int screen_login = 2131034179;
+			public const int numbered_instruction = 2131034179;
 			
 			// aapt resource value: 0x7f050044
-			public const int select_dialog_item_material = 2131034180;
+			public const int screen_login = 2131034180;
 			
 			// aapt resource value: 0x7f050045
-			public const int select_dialog_multichoice_material = 2131034181;
+			public const int select_dialog_item_material = 2131034181;
 			
 			// aapt resource value: 0x7f050046
-			public const int select_dialog_singlechoice_material = 2131034182;
+			public const int select_dialog_multichoice_material = 2131034182;
 			
 			// aapt resource value: 0x7f050047
-			public const int select_wifi_on_device = 2131034183;
+			public const int select_dialog_singlechoice_material = 2131034183;
 			
 			// aapt resource value: 0x7f050048
-			public const int support_simple_spinner_dropdown_item = 2131034184;
+			public const int select_wifi_on_device = 2131034184;
 			
 			// aapt resource value: 0x7f050049
-			public const int toolbar = 2131034185;
+			public const int support_simple_spinner_dropdown_item = 2131034185;
 			
 			// aapt resource value: 0x7f05004a
-			public const int toolbar_centered = 2131034186;
+			public const int toolbar = 2131034186;
 			
 			// aapt resource value: 0x7f05004b
-			public const int tooltip = 2131034187;
+			public const int toolbar_centered = 2131034187;
+			
+			// aapt resource value: 0x7f05004c
+			public const int tooltip = 2131034188;
 			
 			static Layout()
 			{
@@ -6618,6 +6621,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			// aapt resource value: 0x7f0d0045
 			public const int what_type_of_device_label = 2131558469;
+			
+			// aapt resource value: 0x7f0d005e
+			public const int your_devices_label = 2131558494;
 			
 			static String()
 			{

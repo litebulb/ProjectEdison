@@ -19,7 +19,7 @@ using System;
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
     [Activity(ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
-    public class NewDeviceSetupActivity : BaseActivity<RegisterDeviceViewModel>
+    public class NewDeviceSetupActivity : BaseActivity<ChooseDeviceTypeViewModel>
     {
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -65,6 +65,25 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private void Button_Click(object sender, EventArgs e)
         {
+            var radioGroup = FindViewById<RadioGroup>(Resource.Id.sensorTypeRadioGroup);
+
+            Core.Shared.DeviceType deviceType = Core.Shared.DeviceType.Button;
+            switch (radioGroup.CheckedRadioButtonId)
+            {
+                case Resource.Id.buttonRadioButton:
+                default:
+                    deviceType = Core.Shared.DeviceType.Button;
+                    break;
+                case Resource.Id.soundSensorRadioButton:
+                    deviceType = Core.Shared.DeviceType.SoundSensor;
+                    break;
+                case Resource.Id.lightRadioButton:
+                    deviceType = Core.Shared.DeviceType.Light;
+                    break;
+            }
+
+            this.ViewModel.SetDeviceType(deviceType);
+
             var intent = new Intent(this, typeof(NewDeviceScanActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);
             StartActivity(intent);
