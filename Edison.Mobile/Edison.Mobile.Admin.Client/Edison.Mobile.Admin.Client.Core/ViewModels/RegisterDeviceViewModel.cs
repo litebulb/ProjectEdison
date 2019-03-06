@@ -14,7 +14,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     public class RegisterDeviceViewModel : DeviceSetupBaseViewModel
     {
         readonly IWifiService wifiService;
-        readonly DeviceRestService deviceRestService;
+        readonly IDeviceRestService deviceRestService;
         readonly IOnboardingRestService onboardingRestService;
         readonly DeviceProvisioningRestService deviceProvisioningRestService;
 
@@ -30,8 +30,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public string MockDeviceId => "BA27EB910E94";
 
         public RegisterDeviceViewModel(
-            DeviceSetupService deviceSetupService, 
-            DeviceRestService deviceRestService,
+            DeviceSetupService deviceSetupService,
+            IDeviceRestService deviceRestService,
             IWifiService wifiService,
             IOnboardingRestService onboardingRestService,
             DeviceProvisioningRestService deviceProvisioningRestService

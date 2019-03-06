@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Common.Geo;
@@ -12,7 +13,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     public class ManageDeviceViewModel : DeviceSetupBaseViewModel
     {
         readonly ILocationService locationService;
-        readonly DeviceRestService deviceRestService;
+        readonly IDeviceRestService deviceRestService;
 
         public bool IsOnboardingStepSix { get; set; }
 
@@ -26,7 +27,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public ManageDeviceViewModel(
             DeviceSetupService deviceSetupService,
             ILocationService locationService,
-            DeviceRestService deviceRestService
+            IDeviceRestService deviceRestService
         ) : base(deviceSetupService)
         {
             this.locationService = locationService;

@@ -7,7 +7,7 @@
 
 
     <item name="android:windowLightStatusBar">true</item>
-    
+
   </style>
 
   <style name="AppTheme.NoActionBar">
@@ -43,8 +43,8 @@
     <item name="titleTextColor">@color/app_background</item>
     <item name="colorControlHighlight">@color/black</item>
     <!-- You can also set colorControlNormal, colorControlActivated
-         colorControlHighlight and colorSwitchThumbNormal. -->   
-    
+         colorControlHighlight and colorSwitchThumbNormal. -->
+
 
   </style>
 
@@ -54,8 +54,8 @@
     <item name="windowActionBar">false</item>
     <item name="colorPrimary">@color/transparent</item>
     <item name="colorControlNormal">@color/login_button_blue</item>
-    <item name="titleTextColor">@color/login_button_blue</item>    
-    
+    <item name="titleTextColor">@color/login_button_blue</item>
+
   </style>
 
 
@@ -73,21 +73,21 @@
   <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
   </style>
-  
-  
-  
-  
+
+
+
+
 
 
   <style name="AppTheme.NoActionBar.Splash">
-    
+
   </style>
-  
-  
+
+
   <style name="WhiteAccent" parent="ThemeOverlay.AppCompat.Light">
     <item name="colorAccent">@color/white</item>
   </style>
-  
+
   <style name="AppBlueAccent" parent="ThemeOverlay.AppCompat.Light">
     <item name="colorAccent">@color/app_blue</item>
   </style>
@@ -96,7 +96,7 @@
     <item name="android:drawablePadding">10dp</item>
   </style>
 
-  <style name="EdisonAdminButton" parent="ThemeOverlay.AppCompat.Dark">    
+  <style name="EdisonAdminButton" parent="ThemeOverlay.AppCompat.Dark">
     <item name="colorAccent">@color/login_button_blue</item>
     <item name="colorButtonNormal">@color/disabled_button</item>
   </style>
@@ -107,7 +107,7 @@
     <item name="android:textColor">@color/white</item>
     <item name="android:drawableTint">@color/white</item>
   </style>
-  
-  
+
+
 
 </resources>

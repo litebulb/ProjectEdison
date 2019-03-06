@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="blank_title"></string>
-    <string name="app_name">Edison Device Setup</string>
+  <string name="blank_title"></string>
+  <string name="app_name">Edison Device Setup</string>
   <string name="login_window_message">A browser window will open</string>
   <string name="sign_in_button_label">SIGN IN</string>
   <string name="device_setup_message">Device Setup</string>
@@ -12,8 +12,8 @@
   <string name="button_label">Button</string>
   <string name="sound_sensor_label">Sound Sensor</string>
   <string name="light_label">Light</string>
-<string name="turn_on_device_power_label">Turn on the device power.</string>
-    <string name="next_label">Next</string>
+  <string name="turn_on_device_power_label">Turn on the device power.</string>
+  <string name="next_label">Next</string>
   <string name="devices_near_you_label">Devices Near You</string>
   <string name="new_device_scan_title">Set Up Button</string>
   <string name="scan_qr_message_label">Scan the QR Code on the device to connect it to this phone.</string>
@@ -26,4 +26,11 @@
   <string name="complete_setup_button_label">Complete Set Up</string>
   <string name="device_location_label">Device Location</string>
   <string name="done_button_label">Done</string>
+  <string name="password_label">Password</string>
+  <string name="building_label">Building</string>
+  <string name="floor_label">Floor</string>
+  <string name="room_label">Room</string>
+  <string name="map_small_instructions">Move the pin as needed to make sure it\&#39;s location accurately represents a precise spot where the device will be.</string>
+  <string name="edit_text_label">Not Set</string>
+  <string name="name_label">Name</string>
 </resources>

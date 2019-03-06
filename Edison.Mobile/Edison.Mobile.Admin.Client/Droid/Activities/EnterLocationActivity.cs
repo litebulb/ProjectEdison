@@ -24,13 +24,14 @@ using Android.Runtime;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode = SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
+    [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode =  SoftInput.StateHidden|SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
     public class EnterLocationActivity : BaseActivity<ManageDeviceViewModel>, IOnMapReadyCallback
     {
+        public const string Latitude = "latitude";
+        public const string Longitude = "longitude";
+
         MapFragment mapFragment;
         GoogleMap googleMap;
-        private string _latitude;
-        private string _longitude;
         private LatLng _location;
 
         public async void OnMapReady(GoogleMap map)
@@ -71,15 +72,15 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (data.HasExtra("latitude") && data.HasExtra("longitude"))
+            if (data.HasExtra(Latitude) && data.HasExtra(Longitude))
             {
-                _latitude = data.GetStringExtra("latitude");
-                _longitude = data.GetStringExtra("longitude");
 
-                if (!string.IsNullOrWhiteSpace(_latitude) && !string.IsNullOrWhiteSpace(_longitude))
+                var latitude = data.GetDoubleExtra(Latitude, default(double));
+                var longitude = data.GetDoubleExtra(Longitude, default(double));
+
+                if (latitude != default(double) && longitude != default(double))
                 {
-                    _location = new LatLng(double.Parse(_latitude), double.Parse(_longitude));                    
-
+                    _location = new LatLng(latitude, longitude);          
                     AddMarker();
                 }
             }
@@ -88,7 +89,9 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         private async void GoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
         {
             var intent = new Intent(this, typeof(EnterLocationFullscreenActivity));
-            intent.AddFlags(ActivityFlags.NoAnimation);            
+            intent.AddFlags(ActivityFlags.NoAnimation);
+            intent.PutExtra(Latitude, _location.Latitude);
+            intent.PutExtra(Longitude, _location.Longitude);
             StartActivityForResult(intent, 1);
         }
 
@@ -132,8 +135,22 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             button.Click += Button_Click;
         }
 
-        private void Button_Click(object sender, EventArgs e)
+        private async void Button_Click(object sender, EventArgs e)
         {
+            var nameEditText = FindViewById<AppCompatEditText>(Resource.Id.nameEditText);
+            var buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
+            var floorEditText = FindViewById<AppCompatEditText>(Resource.Id.floorEditText);
+            var roomEditText = FindViewById<AppCompatEditText>(Resource.Id.roomEditText);
+
+
+            this.ViewModel.CurrentDeviceModel.Name = nameEditText.Text;            
+            this.ViewModel.CurrentDeviceModel.Location1 = buildingEditText.Text;
+            this.ViewModel.CurrentDeviceModel.Location2 = floorEditText.Text;
+            this.ViewModel.CurrentDeviceModel.Location3 = roomEditText.Text;
+            this.ViewModel.CurrentDeviceModel.Geolocation = new Geolocation() { Latitude = _location.Latitude, Longitude = _location.Longitude };
+
+            await this.ViewModel.UpdateDevice();
+
             var builder = new AlertDialog.Builder(this);
             builder.SetTitle("Operation confirmation");
             builder.SetMessage("Continue with command?");

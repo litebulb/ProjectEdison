@@ -8,6 +8,8 @@ using System.Linq;
 using Edison.Mobile.Admin.Client.Core.Ioc;
 using Autofac;
 using Edison.Mobile.Admin.Client.Core.Models;
+using RestSharp;
+using Edison.Core.Common.Models;
 
 namespace Edison.Mobile.Admin.Client.Core.Ioc
 {
@@ -17,11 +19,49 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
         {
 
             builder.RegisterInstance<IOnboardingRestService>(new OnboardingRestServiceMock());
+            builder.RegisterInstance<IDeviceRestService>(new DeviceRestServiceMock());
+        }
 
-        }        
+        public class DeviceRestServiceMock : IDeviceRestService
+        {
+            public Task<DeviceModel> GetDevice(Guid deviceId)
+            {
+                return Task.FromResult(new DeviceModel()
+                {
+                    DeviceId = deviceId,                    
+                });
+            }
+
+            public Task<IEnumerable<DeviceModel>> GetDevices(Geolocation geolocation = null)
+            {
+                return Task.FromResult<IEnumerable<DeviceModel>>(new List<DeviceModel>()
+                {
+                    new DeviceModel(){ DeviceId = Guid.NewGuid() },
+                });
+            }
+
+            public Task<bool> UpdateDevice(DevicesUpdateTagsModel updateTagsModel)
+            {
+                return Task.FromResult(true);
+            }
+        }
+
 
         public class OnboardingRestServiceMock : IOnboardingRestService
         {
+            public void AddAuthHeader(RestRequest request)
+            {
+                
+            }
+
+            public Task<ResultCommand> SetDeviceSecretKeys(RequestCommandSetDeviceSecretKeys command)
+            {
+                return Task.FromResult(new ResultCommand()
+                {
+                    IsSuccess = true
+                });
+            }
+
             public async Task<ResultCommandNetworkStatus> ConnectToNetwork(RequestNetworkInformationModel networkInformationModel)
             {
                 return new ResultCommandNetworkStatus() { IsSuccess = true, Status = "Connected" };
@@ -60,6 +100,11 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
                 {
                     IsSuccess = true
                 });
+            }
+
+            public void SetBasicAuthentication(string password)
+            {
+                
             }
 
             public Task<ResultCommand> SetDeviceType(RequestCommandSetDeviceType setDeviceTypeCommand)

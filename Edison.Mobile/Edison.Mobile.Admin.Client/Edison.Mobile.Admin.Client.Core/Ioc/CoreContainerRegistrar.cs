@@ -26,7 +26,7 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
             builder.RegisterType<AppAuthService>()
                    .As<IAppAuthService>();
 
-            builder.Register((c, p) => new DeviceRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
+            builder.Register<IDeviceRestService>((c, p) => new DeviceRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), Constants.BaseUrl));
 
             builder.Register<IOnboardingRestService>((c, p) => new OnboardingRestService(c.Resolve<AuthService>(), c.Resolve<ILogger>(), DeviceConfig.BaseUrl));
 

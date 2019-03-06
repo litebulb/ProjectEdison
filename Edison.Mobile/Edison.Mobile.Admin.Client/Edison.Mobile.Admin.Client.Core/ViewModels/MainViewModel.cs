@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Common.ViewModels;
 
@@ -9,11 +10,11 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        readonly DeviceRestService deviceRestService;
+        readonly IDeviceRestService deviceRestService;
 
         public ObservableRangeCollection<DeviceModel> NearDevices { get; private set; } = new ObservableRangeCollection<DeviceModel>();
 
-        public MainViewModel(DeviceRestService deviceRestService)
+        public MainViewModel(IDeviceRestService deviceRestService)
         {
             this.deviceRestService = deviceRestService;
         }

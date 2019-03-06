@@ -26,9 +26,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
     [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode = SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
     public class EnterLocationFullscreenActivity : BaseActivity<ManageDeviceViewModel>, IOnMapReadyCallback
     {
+        public const string Latitude = "latitude";
+        public const string Longitude = "longitude";
+
         private MapFragment mapFragment;
         private GoogleMap googleMap;
         private Marker _marker;
+        private LatLng _location;
 
         public async void OnMapReady(GoogleMap map)
         {
@@ -37,12 +41,16 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             googleMap.UiSettings.ZoomControlsEnabled = true;
            // googleMap.MyLocationEnabled = true;
             googleMap.UiSettings.MyLocationButtonEnabled = true;
+            
+            AddMarker();
 
-            var gpsLocation = await ViewModel.GetLastKnownLocation();
-            LatLng location = new LatLng(gpsLocation.Latitude, gpsLocation.Longitude);
+            googleMap.MarkerDragEnd += GoogleMap_MarkerDragEnd;
+        }
 
+        private void AddMarker()
+        {
             CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
-            builder.Target(location);
+            builder.Target(_location);
             builder.Zoom(16);
 
             CameraPosition cameraPosition = builder.Build();
@@ -51,26 +59,18 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             googleMap.MoveCamera(cameraUpdate);
 
-            googleMap.MapClick += GoogleMap_MapClick;
-            
             var marker = new MarkerOptions()
-                .SetPosition(location) 
-                .Draggable(true)
-                .SetTitle("Current");
+            .SetPosition(_location)
+            .Draggable(true)
+            .SetTitle("Current");
 
             _marker = googleMap.AddMarker(marker);
-
-            googleMap.MarkerDragEnd += GoogleMap_MarkerDragEnd;
         }
+
 
         private void GoogleMap_MarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
         {
             _marker.Position = e.Marker.Position;
-        }
-
-        private async void GoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
-        {
-            //throw new NotImplementedException();
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -78,6 +78,14 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             base.OnCreate(savedInstanceState);
                        
             SetContentView(Resource.Layout.enter_location_fullscreen);
+
+            var latitude = this.Intent.GetDoubleExtra(Latitude, default(double));
+            var longitude = this.Intent.GetDoubleExtra(Longitude, default(double));
+
+            if (latitude != default(double) && longitude != default(double))
+            {
+                _location = new LatLng(latitude, longitude);
+            }
 
             BindResources();
         }
@@ -104,20 +112,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         private void Button_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent();            
-            intent.PutExtra("latitude", _marker.Position.Latitude.ToString());
-            intent.PutExtra("longitude", _marker.Position.Longitude.ToString());
+            intent.PutExtra(Latitude, _marker.Position.Latitude);
+            intent.PutExtra(Longitude, _marker.Position.Longitude);
             SetResult(Result.Ok, intent);
             Finish();
-
-
-            /*
-            var builder = new AlertDialog.Builder(this);
-            builder.SetTitle("Operation confirmation");
-            builder.SetMessage("Continue with command?");
-            builder.SetPositiveButton("Yes", (s, args) => { });
-            builder.SetNegativeButton("No", (s, args) => { });
-            builder.SetCancelable(false);
-            builder.Show();*/
+      
         }
 
         private void SelectWifiOnDeviceActivity_BackPressed(object sender, EventArgs e)

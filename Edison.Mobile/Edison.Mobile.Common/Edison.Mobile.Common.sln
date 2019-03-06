@@ -384,7 +384,6 @@ Global
 		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.Android User|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.Android User|iPhoneSimulator.Build.0 = Release|Any CPU
 		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.AndroidAdminNoPi|Any CPU.ActiveCfg = AndroidAdminNoPi|Any CPU
-		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.AndroidAdminNoPi|Any CPU.Build.0 = AndroidAdminNoPi|Any CPU
 		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.AndroidAdminNoPi|iPhone.ActiveCfg = AndroidAdminNoPi|Any CPU
 		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.AndroidAdminNoPi|iPhone.Build.0 = AndroidAdminNoPi|Any CPU
 		{BB668B11-E2E1-46C0-A3B9-4A036CBFF55B}.AndroidAdminNoPi|iPhoneSimulator.ActiveCfg = AndroidAdminNoPi|Any CPU

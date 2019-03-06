@@ -18,7 +18,7 @@ using Edison.Mobile.Admin.Client.Droid.Toolbars;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode = SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
+    [Activity(Label = "@string/app_name", Theme = "@style/EdisonLight.Base", WindowSoftInputMode =  SoftInput.StateAlwaysVisible|SoftInput.AdjustResize, ScreenOrientation = global::Android.Content.PM.ScreenOrientation.Portrait, Icon = "@mipmap/ic_edison_launcher")]
     public class EnterPasswordActivity : BaseActivity<EnterWifiPasswordViewModel>
     {
         private string _ssid;
