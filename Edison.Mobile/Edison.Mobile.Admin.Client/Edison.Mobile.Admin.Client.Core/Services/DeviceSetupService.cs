@@ -19,10 +19,12 @@ namespace Edison.Mobile.Admin.Client.Core.Services
 
         public DeviceModel CurrentDeviceModel { get; set; } = new DeviceModel();
 
+        public string OriginalSSID { get; set; }
+
         public WifiNetwork CurrentWifiNetwork { get; set; }
         public WifiNetwork CurrentDeviceHotspotNetwork { get; set; }
 
-        public string DefaultPassword => "b1hx0FirT6"; //"Edison1234";
+        public string DefaultPassword => "Edison1234";
 
         public string DeviceTypeAsString => CurrentDeviceModel?.DeviceType ?? "";
         public string DeviceTypeAsFriendlyString => DeviceTypeToFriendlyString(DeviceTypeAsString);

@@ -55,7 +55,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 Geolocation = currentDeviceModel.Geolocation,
                 Location1 = currentDeviceModel.Location1,
                 Location2 = currentDeviceModel.Location2,
-                Location3 = currentDeviceModel.Location3,
+                Location3 = currentDeviceModel.Location3,                
             };
 
             var success = await deviceRestService.UpdateDevice(updateTagsModel);

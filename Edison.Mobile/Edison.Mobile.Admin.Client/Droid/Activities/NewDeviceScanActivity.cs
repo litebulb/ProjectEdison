@@ -105,8 +105,12 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             SparseArray qrcodes = detections.DetectedItems;
             if (qrcodes.Size() != 0)
             {
-                Vibrator vibrator = (Vibrator)GetSystemService(Context.VibratorService);
-                vibrator.Vibrate(VibrationEffect.CreateOneShot(1000, 1));
+                try
+                {
+                    Vibrator vibrator = (Vibrator)GetSystemService(Context.VibratorService);
+                    vibrator.Vibrate(VibrationEffect.CreateOneShot(1000, 1));
+                }
+                catch { }
                 var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;
 
                 string networkSSID = value;

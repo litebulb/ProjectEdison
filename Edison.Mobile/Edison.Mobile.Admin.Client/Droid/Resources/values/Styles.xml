@@ -100,13 +100,7 @@
     <item name="colorAccent">@color/login_button_blue</item>
     <item name="colorButtonNormal">@color/disabled_button</item>
   </style>
-  
-  <style name="EdisonDialogButton" >
-    <item name="colorAccent">@color/#ffffff</item>
-    <item name="colorButtonNormal">@color/#ffffff</item>
-    <item name="background">@color/#ffffff</item>
-  </style>
-  
+    
   <style name="Edison.Button.LoginScreen">
     <item name="colorButtonNormal">@color/app_blue</item>
     <item name="colorControlHighlight">@color/activity_blue_20</item>

@@ -20,6 +20,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Dialogs
 
         }
 
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            this.SetContentView(Resource.Layout.setup_complete_dialog);
+        }
+
         public void OnClick(Views.View v)
         {
             this.OwnerActivity.Finish();

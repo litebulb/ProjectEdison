@@ -21,6 +21,9 @@ using System.Threading.Tasks;
 using Java.Lang;
 using Edison.Mobile.Admin.Client.Droid.Toolbars;
 using Android.Runtime;
+using Edison.Mobile.Admin.Client.Droid.Dialogs;
+using Android.Graphics.Drawables;
+using Color = Android.Graphics.Color;
 
 namespace Edison.Mobile.Admin.Client.Droid.Activities
 {
@@ -152,16 +155,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             this.ViewModel.CurrentDeviceModel.Location2 = ValidateInput(floorEditText.Text);
             this.ViewModel.CurrentDeviceModel.Location3 = ValidateInput(roomEditText.Text);
             this.ViewModel.CurrentDeviceModel.Geolocation = new Geolocation() { Latitude = _location.Latitude, Longitude = _location.Longitude };
+            this.ViewModel.CurrentDeviceModel.Enabled = true;
 
             await this.ViewModel.UpdateDevice();
-
-            var builder = new AlertDialog.Builder(this);
-            builder.SetTitle("Operation confirmation");
-            builder.SetMessage("Continue with command?");
-            builder.SetPositiveButton("Yes", (s, args) => { /* do stuff on OK */ });
-            builder.SetNegativeButton("No", (s, args) => { });
-            builder.SetCancelable(false);
-            builder.Show();
+            
+            SetupCompleteDialog setupCompleteDialog = new SetupCompleteDialog(this);
+            setupCompleteDialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
+            setupCompleteDialog.Show();
         }
 
         private string ValidateInput(string value)

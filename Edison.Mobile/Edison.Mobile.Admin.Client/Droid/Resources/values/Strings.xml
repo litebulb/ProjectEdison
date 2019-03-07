@@ -35,7 +35,7 @@
   <string name="name_label">Name</string>
   <string name="your_devices_label">Your Devices</string>
   <string name="setup_complete_label">Setup Complete!</string>
-  <string name="setup_complete_comment_label">You can make changes to this device from 'Manage Your Devices' on the home screen</string>
+  <string name="setup_complete_comment_label">You can make changes to this device from \'Manage Your Devices\' on the home screen</string>
   <string name="manage_this_device_button_label">Manage this device</string>
   <string name="go_to_home_screen_button_label">Go to Home Screen</string>
 </resources>

@@ -20,7 +20,6 @@ namespace Edison.Mobile.Admin.Client.Core.Network
         public OnboardingRestService(AuthService authService, ILogger logger, string baseUrl)
             : base(authService, logger, baseUrl)
         {
-            client.Authenticator = new HttpBasicAuthenticator("Administrator", "ftEqbq7rjs");
         }
 
         protected override void AddAuthHeader(RestRequest request)

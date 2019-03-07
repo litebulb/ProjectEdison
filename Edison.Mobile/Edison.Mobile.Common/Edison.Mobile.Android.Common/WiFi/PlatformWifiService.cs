@@ -37,9 +37,16 @@ namespace Edison.Mobile.Android.Common.WiFi
             return Task.FromResult(wifiManager.EnableNetwork(netId, true));
         }
         
-        public async Task<bool> ConnectToWifiNetwork(string ssid)
+        public Task<bool> ConnectToWifiNetwork(string ssid)
         {
-            return await ConnectToWifiNetwork(ssid, null);
+            WifiManager wifiManager = (WifiManager)Application.Context.GetSystemService(Context.WifiService);
+
+            // Use ID
+            var existing = wifiManager.ConfiguredNetworks.FirstOrDefault(i => i.Ssid == ssid);
+            int netId = existing.NetworkId;
+            
+            wifiManager.Disconnect();
+            return Task.FromResult(wifiManager.EnableNetwork(netId, true));
         }
 
         public Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)

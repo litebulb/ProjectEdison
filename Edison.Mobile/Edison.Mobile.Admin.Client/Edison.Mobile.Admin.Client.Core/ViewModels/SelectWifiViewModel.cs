@@ -30,9 +30,10 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             : base(deviceSetupService)
         {
             this.onboardingRestService = onboardingRestService;
+            onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPassword);
             this.wifiService = wifiService;
 
-            refreshAvailableNetworksTimer = new System.Timers.Timer(1000);
+            refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
         }
 
         public override async void ViewAppeared()

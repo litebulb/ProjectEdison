@@ -24,8 +24,11 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         ) : base(deviceSetupService)
         {
             this.onboardingRestService = onboardingRestService;
+            this.onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPassword);
+
             this.logger = logger;
             this.wifiService = wifiService;
+
         }
 
         public async Task<bool> ConnectDeviceToNetwork(string ssid, string password)
@@ -40,6 +43,12 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                         Password = password,
                     },
                 });
+
+                if(result.IsSuccess)
+                {
+                    //change wifi back
+                    await wifiService.ConnectToWifiNetwork(deviceSetupService.OriginalSSID);
+                }
 
                 return result.IsSuccess;
             } 

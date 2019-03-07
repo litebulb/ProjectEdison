@@ -6553,6 +6553,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			// aapt resource value: 0x7f0d0059
 			public const int floor_label = 2131558489;
 			
+			// aapt resource value: 0x7f0d0062
+			public const int go_to_home_screen_button_label = 2131558498;
+			
 			// aapt resource value: 0x7f0d0038
 			public const int library_name = 2131558456;
 			
@@ -6561,6 +6564,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			// aapt resource value: 0x7f0d003f
 			public const int login_window_message = 2131558463;
+			
+			// aapt resource value: 0x7f0d0061
+			public const int manage_this_device_button_label = 2131558497;
 			
 			// aapt resource value: 0x7f0d0044
 			public const int manage_your_devices_label = 2131558468;
@@ -6606,6 +6612,9 @@ namespace Edison.Mobile.Admin.Client.Droid
 			
 			// aapt resource value: 0x7f0d004e
 			public const int select_wifi_network_label = 2131558478;
+			
+			// aapt resource value: 0x7f0d0060
+			public const int setup_complete_comment_label = 2131558496;
 			
 			// aapt resource value: 0x7f0d005f
 			public const int setup_complete_label = 2131558495;

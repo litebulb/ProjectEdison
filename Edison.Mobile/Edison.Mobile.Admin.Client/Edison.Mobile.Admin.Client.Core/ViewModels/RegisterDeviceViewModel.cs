@@ -83,9 +83,9 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             SetPairingStatusText("Grabbing some information from the device...");
 
             deviceSetupService.CurrentDeviceHotspotNetwork = success ? wifiNetwork : null;
-
+            deviceSetupService.OriginalSSID = defaultWifiNetwork.SSID;
               
-            onboardingRestService.SetBasicAuthentication("ftEqbq7rjs"); // TODO: remove after done debugging
+            onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPassword); 
 
             var deviceIdResponse = await onboardingRestService.GetDeviceId();
 
