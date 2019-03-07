@@ -394,6 +394,7 @@
     <Compile Include="Activities\NewDeviceScanActivity.cs" />
     <Compile Include="Activities\NewDeviceSetupActivity.cs" />
     <Compile Include="Adapters\WifiSelectionDeviceAdapter.cs" />
+    <Compile Include="Dialogs\SetupCompleteDialog.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -681,6 +682,14 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\manage_devices.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\setup_complete_dialog_border.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\setup_complete_dialog.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

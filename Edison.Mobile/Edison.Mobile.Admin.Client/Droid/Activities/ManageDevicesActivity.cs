@@ -51,7 +51,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             // Get our RecyclerView layout:
             _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            _recyclerView.SetLayoutManager(_layoutManager);
+             _recyclerView.SetLayoutManager(_layoutManager);
 
             this.BackPressed += (s, e) => { Finish(); };
         }

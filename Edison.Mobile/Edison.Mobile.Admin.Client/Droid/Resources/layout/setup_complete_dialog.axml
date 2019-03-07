@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:gravity="center"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+	android:background="@drawable/setup_complete_dialog_border">
+		<LinearLayout
+		android:orientation="vertical"
+	android:gravity="center"
+		android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+		android:paddingHorizontal="15dp"
+		android:paddingVertical="25dp"
+		>
+					<android.support.v7.widget.AppCompatTextView					
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+						android:textColor="@color/black"
+		android:textStyle="bold"
+			android:textSize="16dp" 
+					android:text="@string/setup_complete_label" />
+
+	<android.support.v7.widget.AppCompatTextView					
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+						android:textColor="@color/black"
+			android:textSize="10dp" 
+					android:text="@string/setup_complete_comment_label" />
+</LinearLayout>
+
+	
+	<LinearLayout
+    android:layout_width="match_parent" 
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">				    
+		<LinearLayout
+    android:layout_weight="1" 
+    android:layout_height="wrap_content"
+			android:layout_width="0dp"
+    android:orientation="vertical">
+      <android.support.v7.widget.AppCompatButton
+			android:text="@string/manage_this_device_button_label"
+			android:layout_width="fill_parent"
+				android:textAllCaps="false"
+				
+			android:layout_height="wrap_content"								
+					android:id="@+id/complete_setup_button"
+					android:textColor="@color/login_button_blue"
+	android:background="@color/transparent"			
+						/>
+			<android.support.v7.widget.AppCompatButton
+			android:text="@string/go_to_home_screen_button_label"
+			android:layout_width="fill_parent"
+				android:textAllCaps="false"
+			android:layout_height="wrap_content"								
+					android:id="@+id/complete_setup_button"
+					android:textColor="@color/login_button_blue"
+	android:background="@color/transparent"			
+						/>
+			</LinearLayout>
+</LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>
