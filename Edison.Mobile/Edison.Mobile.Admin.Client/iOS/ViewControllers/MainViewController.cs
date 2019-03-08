@@ -121,7 +121,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             NavigationController.NavigationBar.Translucent = true;
             NavigationController.NavigationBar.BackgroundColor = UIColor.Clear;
 
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem(Constants.Assets.Menu, UIBarButtonItemStyle.Plain, null);
+            NavigationItem.LeftBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, HandleLogoutTapped);
             NavigationController.NavigationBar.TintColor = Constants.Color.DarkBlue;
             NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes
             {
@@ -159,6 +159,22 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             newDeviceView.OnTap -= HandleNewDeviceViewOnTap;
             manageDeviceView.OnTap -= HandleManageDeviceViewOnTap;
             nearDevicesTableViewSource.OnDeviceSelected -= HandleNearDevicesTableViewSourceOnDeviceSelected;
+        }
+        
+        void HandleLogoutTapped(object sender, EventArgs e)
+        {
+            var alertController = UIAlertController.Create(null, "Are you sure you'd like to sign out?", UIAlertControllerStyle.Alert);
+            var yesAction = UIAlertAction.Create("Yes", UIAlertActionStyle.Destructive, async action =>
+            {
+                await ViewModel.SignOut();
+
+                UIApplication.SharedApplication.KeyWindow.RootViewController = new LoginViewController();
+            });
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            alertController.AddAction(yesAction);
+            alertController.AddAction(cancelAction);
+
+            PresentViewController(alertController, true, null);
         }
 
         void HandleNearDevicesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

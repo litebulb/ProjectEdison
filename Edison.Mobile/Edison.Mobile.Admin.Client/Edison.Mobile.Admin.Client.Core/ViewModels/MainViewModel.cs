@@ -5,6 +5,7 @@ using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
+using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.ViewModels;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
@@ -12,14 +13,16 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     public class MainViewModel : DeviceSetupBaseViewModel
     {
         readonly IDeviceRestService deviceRestService;
+        readonly AuthService authService;
 
         public ObservableRangeCollection<DeviceModel> NearDevices { get; private set; } = new ObservableRangeCollection<DeviceModel>();
 
         public MainViewModel(DeviceSetupService deviceSetupService, 
-            IDeviceRestService deviceRestService)
+            IDeviceRestService deviceRestService, AuthService authService)
             :base(deviceSetupService)
         {
             this.deviceRestService = deviceRestService;
+            this.authService = authService;
         }
 
         public override async void ViewAppeared()
@@ -36,6 +39,11 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             {
                 NearDevices.ReplaceRange(devices);
             }
+        }
+        
+        public async Task SignOut()
+        {
+            await authService.SignOut();
         }
     }
 }

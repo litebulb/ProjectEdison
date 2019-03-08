@@ -19,7 +19,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
@@ -30,8 +30,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>
-    </CodesignProvision>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -39,7 +38,7 @@
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
@@ -54,7 +53,7 @@
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
@@ -70,7 +69,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
@@ -83,12 +82,13 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'iOS User|iPhoneSimulator' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\iOS User</OutputPath>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
@@ -101,7 +101,7 @@
     <DefineConstants>
     </DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -118,7 +118,7 @@
     <DefineConstants>
     </DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchVerbosity>
     </MtouchVerbosity>
@@ -132,7 +132,7 @@
     <DefineConstants>
     </DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchVerbosity>
     </MtouchVerbosity>
@@ -147,7 +147,7 @@
     <DefineConstants>
     </DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchVerbosity>
     </MtouchVerbosity>
@@ -163,6 +163,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android User %28Release%29|iPhone'">
     <OutputPath>bin\iPhone\Android User %28Release%29\</OutputPath>
@@ -170,6 +172,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android User %28Release%29|AnyCPU'">
     <OutputPath>bin\Android User %28Release%29\</OutputPath>
@@ -177,6 +181,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android Admin|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Android Admin\</OutputPath>
@@ -184,6 +190,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android Admin|iPhone'">
     <OutputPath>bin\iPhone\Android Admin\</OutputPath>
@@ -191,6 +199,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android Admin|AnyCPU'">
     <OutputPath>bin\Android Admin\</OutputPath>
@@ -198,6 +208,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android Admin NoPI|iPhoneSimulator'">
     <OutputPath>bin\iPhoneSimulator\Android Admin NoPI\</OutputPath>
@@ -205,6 +217,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android Admin NoPI|iPhone'">
     <OutputPath>bin\iPhone\Android Admin NoPI\</OutputPath>
@@ -212,6 +226,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android Admin NoPI|AnyCPU'">
     <OutputPath>bin\Android Admin NoPI\</OutputPath>
@@ -219,6 +235,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AndroidAdminNoPi|iPhoneSimulator'">
     <DebugSymbols>true</DebugSymbols>
@@ -229,6 +247,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AndroidAdminNoPi|iPhone'">
     <DebugSymbols>true</DebugSymbols>
@@ -239,6 +259,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AndroidAdminNoPi|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -247,6 +269,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'iOS Admin NoPi|iPhoneSimulator'">
     <DebugSymbols>true</DebugSymbols>
@@ -257,6 +281,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'iOS Admin NoPi|iPhone'">
     <DebugSymbols>true</DebugSymbols>
@@ -266,7 +292,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer: Alexander Katz (469N9XNS2W)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
@@ -279,6 +305,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'iOS Admin NoPi|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -287,6 +314,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodesignProvision>VS: com.bluemetal.edisonadmin Development</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jordan Shelby (8VDADH4LXY)</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp, Version=106.6.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">

@@ -54,8 +54,8 @@
 	<string>edisonadmin</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>network-authentication</string>
 		<string>audio</string>
+		<string>network-authentication</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
