@@ -24,7 +24,10 @@ namespace Edison.Mobile.Admin.Client.Core.Services
         public WifiNetwork CurrentWifiNetwork { get; set; }
         public WifiNetwork CurrentDeviceHotspotNetwork { get; set; }
 
-        public string DefaultPassword => "Edison1234";
+        public string DefaultPassword => "Edison1234";//"Edison1234";
+        public string DefaultPortalPassword => "Edison1234";
+
+        public string PortalPassword { get; set; }
 
         public string DeviceTypeAsString => CurrentDeviceModel?.DeviceType ?? "";
         public string DeviceTypeAsFriendlyString => DeviceTypeToFriendlyString(DeviceTypeAsString);

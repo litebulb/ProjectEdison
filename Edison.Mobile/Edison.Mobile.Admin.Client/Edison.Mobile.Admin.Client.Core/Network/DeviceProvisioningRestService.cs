@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.Logging;
@@ -8,7 +9,7 @@ using RestSharp;
 
 namespace Edison.Mobile.Admin.Client.Core.Network
 {
-    public class DeviceProvisioningRestService : BaseRestService
+    public class DeviceProvisioningRestService : BaseRestService, IDeviceProvisioningRestService
     {
         public DeviceProvisioningRestService(AuthService authService, ILogger logger, string baseUrl)
             : base(authService, logger, baseUrl)

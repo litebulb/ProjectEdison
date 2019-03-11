@@ -38,6 +38,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         SurfaceView surfaceView;
         BarcodeDetector barcodeDetector;
         CameraSource cameraSource;
+        private AppCompatTextView statusLabel;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -60,6 +61,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
             var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+
+            statusLabel = FindViewById<AppCompatTextView>(Resource.Id.status_label);
 
             instructionNumber.Text = "3";
             instructionText.SetText(Resource.String.scan_qr_message_label);            
@@ -91,14 +94,44 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         protected void BindVMEvents()
         {
+            this.ViewModel.OnPairingStatusTextChanged += ViewModel_OnPairingStatusTextChanged;
+            this.ViewModel.OnFinishDevicePairing += ViewModel_OnFinishDevicePairing;
         }
 
+        private void ViewModel_OnFinishDevicePairing(object sender, RegisterDeviceViewModel.OnFinishDevicePairingEventArgs e)
+        {
+            if (!e.IsSuccess)
+            {
+                RunOnUiThread(() =>
+                {
+                    statusLabel.Text = "Error occurred";
+                });
+
+                Console.Out.WriteLine(e);
+            }
+            else
+            {
+                var intent = new Intent(this, typeof(SelectWifiOnDeviceActivity));
+                intent.AddFlags(ActivityFlags.NoAnimation);
+                StartActivity(intent);
+            }
+        }
+
+        private void ViewModel_OnPairingStatusTextChanged(object sender, string e)
+        {
+            RunOnUiThread(() =>
+            {
+                statusLabel.Text = e;
+            });            
+        }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
         }
+
+        private static bool running;
 
         public async void ReceiveDetections(Detections detections)
         {
@@ -115,11 +148,13 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
                 string networkSSID = value;
 
-                await this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID });
-                
-                var intent = new Intent(this, typeof(SelectWifiOnDeviceActivity));
-                intent.AddFlags(ActivityFlags.NoAnimation);
-                StartActivity(intent);
+                if (!running && !string.IsNullOrEmpty(networkSSID))
+                {
+                    running = true;
+                    var result = await this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID });
+
+                }
+                running = false;
             }
         }
 

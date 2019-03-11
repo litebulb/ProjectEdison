@@ -49,8 +49,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             googleMap.UiSettings.ZoomControlsEnabled = true;           
             googleMap.UiSettings.MyLocationButtonEnabled = true;
 
-            var gpsLocation = await ViewModel.GetLastKnownLocation();
-            _location = new LatLng(gpsLocation.Latitude, gpsLocation.Longitude);
+            if (_location == default(LatLng))
+            {
+                var gpsLocation = await ViewModel.GetLastKnownLocation();
+                _location = new LatLng(gpsLocation.Latitude, gpsLocation.Longitude);
+            }
 
             googleMap.MapClick += GoogleMap_MapClick;
 
@@ -123,6 +126,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             ReconcileEditText(i => i.Location2, floorEditText);
             ReconcileEditText(i => i.Location3, roomEditText);
 
+            if (this.ViewModel.CurrentDeviceModel != null && this.ViewModel.CurrentDeviceModel.Geolocation != null)
+            {
+                _location = new LatLng(this.ViewModel.CurrentDeviceModel.Geolocation.Latitude, this.ViewModel.CurrentDeviceModel.Geolocation.Longitude);
+            }
+
             var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
             toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
@@ -156,6 +164,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             this.ViewModel.CurrentDeviceModel.Location3 = ValidateInput(roomEditText.Text);
             this.ViewModel.CurrentDeviceModel.Geolocation = new Geolocation() { Latitude = _location.Latitude, Longitude = _location.Longitude };
             this.ViewModel.CurrentDeviceModel.Enabled = true;
+            this.ViewModel.CurrentDeviceModel.DeviceType = this.ViewModel.CurrentDeviceModel.DeviceType;
 
             await this.ViewModel.UpdateDevice();
             

@@ -24,7 +24,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         ) : base(deviceSetupService)
         {
             this.onboardingRestService = onboardingRestService;
-            this.onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPassword);
+            this.onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
 
             this.logger = logger;
             this.wifiService = wifiService;

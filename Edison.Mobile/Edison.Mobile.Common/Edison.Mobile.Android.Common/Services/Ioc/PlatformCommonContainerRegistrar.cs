@@ -82,7 +82,7 @@ namespace Edison.Mobile.Android.Common.Ioc
             {
                 return Task.FromResult(new WifiNetwork()
                 {
-                    SSID = "SSID 1"
+                    SSID = "SSID 3"
                 });
             }
         }

@@ -30,7 +30,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             : base(deviceSetupService)
         {
             this.onboardingRestService = onboardingRestService;
-            onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPassword);
+            onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
             this.wifiService = wifiService;
 
             refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
@@ -52,7 +52,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             {
                 if (deviceSetupService.CurrentDeviceHotspotNetwork != null)
                 {
-                    await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.DefaultPassword);
+                    await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
                     await Task.Delay(1000);
                 }
                 else

@@ -20,6 +20,41 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
 
             builder.RegisterInstance<IOnboardingRestService>(new OnboardingRestServiceMock());
             builder.RegisterInstance<IDeviceRestService>(new DeviceRestServiceMock());
+            builder.RegisterInstance<IDeviceProvisioningRestService>(new DeviceProvisioningRestServiceMock());
+        }
+
+        public class DeviceProvisioningRestServiceMock : IDeviceProvisioningRestService
+        {
+            public Task<DeviceCertificateModel> GenerateDeviceCertificate(DeviceCertificateRequestModel deviceCertificateRequestModel)
+            {
+                return Task.FromResult(new DeviceCertificateModel()
+                {
+                    Certificate = "asdf",
+                    DeviceType = "SmartBulb",
+                    DpsIdScope = "",
+                    DpsInstance = "asdf"                    
+                });
+            }
+
+            public Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId)
+            {
+                return Task.FromResult(new DeviceSecretKeysModel()
+                {
+                    AccessPointPassword = "Edison1234",
+                    EncryptionKey = "Asdfasd",
+                    PortalPassword = "Edison1234"
+                });
+            }
+
+            public Task<DeviceSecretKeysModel> GetDeviceKeys(Guid deviceId)
+            {
+                return Task.FromResult(new DeviceSecretKeysModel()
+                {
+                    AccessPointPassword = "Edison1234",
+                    EncryptionKey = "Asdfasd",
+                    PortalPassword = "Edison1234"
+                });
+            }
         }
 
         public class DeviceRestServiceMock : IDeviceRestService

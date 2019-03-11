@@ -69,6 +69,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             var defaultWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
             await wifiService.DisconnectFromWifiNetwork(defaultWifiNetwork);
+            
             var success = await wifiService.ConnectToWifiNetwork(wifiNetwork.SSID, deviceSetupService.DefaultPassword);
 
             if (!success) return await ProvisionDeviceFail();
@@ -85,7 +86,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             deviceSetupService.CurrentDeviceHotspotNetwork = success ? wifiNetwork : null;
             deviceSetupService.OriginalSSID = defaultWifiNetwork.SSID;
               
-            onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPassword); 
+            onboardingRestService.SetBasicAuthentication(deviceSetupService.DefaultPortalPassword); 
 
             var deviceIdResponse = await onboardingRestService.GetDeviceId();
 
@@ -100,8 +101,10 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             // disconnect from device and connect to the internet to provision device with services
             await wifiService.DisconnectFromWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork);
-
+            
             await Task.Delay(2000);
+
+            await wifiService.ConnectToWifiNetwork(deviceSetupService.OriginalSSID);
 
             if (csrResult == null) return await ProvisionDeviceFail();
 
@@ -150,22 +153,26 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 EncryptionKey = generateKeysResponse.EncryptionKey,
                 PortalPassword = generateKeysResponse.PortalPassword,
             });
-
+            
             if (setDeviceKeysResponse == null || !setDeviceKeysResponse.IsSuccess) return await ProvisionDeviceFail();
+
+            deviceSetupService.PortalPassword = generateKeysResponse.PortalPassword;
+
+            onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
+            
+            await Task.Delay(4000);
 
             var setDeviceTypeResult = await onboardingRestService.SetDeviceType(new RequestCommandSetDeviceType
             {
                 DeviceType = certificateResponse.DeviceType,
             });
 
-            if (setDeviceTypeResult == null) return await ProvisionDeviceFail(); 
+            if (setDeviceTypeResult == null || !setDeviceTypeResult.IsSuccess) return await ProvisionDeviceFail(); 
 
             OnFinishDevicePairing?.Invoke(this, new OnFinishDevicePairingEventArgs
             {
                 IsSuccess = setDeviceTypeResult.IsSuccess,
             });
-
-            if (!setDeviceTypeResult.IsSuccess) return await ProvisionDeviceFail();
 
             SetPairingStatusText("Pairing Successful!");
 
