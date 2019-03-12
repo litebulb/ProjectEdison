@@ -164,13 +164,24 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             this.ViewModel.CurrentDeviceModel.Location3 = ValidateInput(roomEditText.Text);
             this.ViewModel.CurrentDeviceModel.Geolocation = new Geolocation() { Latitude = _location.Latitude, Longitude = _location.Longitude };
             this.ViewModel.CurrentDeviceModel.Enabled = true;
-            this.ViewModel.CurrentDeviceModel.DeviceType = this.ViewModel.CurrentDeviceModel.DeviceType;
 
             await this.ViewModel.UpdateDevice();
             
             SetupCompleteDialog setupCompleteDialog = new SetupCompleteDialog(this);
             setupCompleteDialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
             setupCompleteDialog.Show();
+
+            setupCompleteDialog.GoToHome += (s, eh) =>
+            {
+                Intent home = new Intent(this, typeof(MainActivity));
+                home.SetFlags(ActivityFlags.NewTask);
+                StartActivity(home);
+            };
+
+            setupCompleteDialog.GoToManageDevices += (s, eh) =>
+            {
+                // we stay here but need to allow the updating of wifi
+            };
         }
 
         private string ValidateInput(string value)

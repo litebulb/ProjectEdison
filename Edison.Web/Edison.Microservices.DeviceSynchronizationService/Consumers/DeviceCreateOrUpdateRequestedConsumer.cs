@@ -64,7 +64,25 @@ namespace Edison.DeviceSynchronizationService.Consumers
                 StripIntervalProperties(obj?.Properties?.Reported);
 
                 obj.DeviceId = context.Message.DeviceId;
+                             
+                var dictionary = JsonConvert.DeserializeObject<IDictionary<string, object>>(context.Message.Data);
 
+                if (dictionary.ContainsKey("Tags"))
+                {
+                    var tagsDictionary = JsonConvert.DeserializeObject<IDictionary<string, object>>(dictionary["Tags"].ToString());
+
+                    DeviceModel existing = await _deviceRestService.GetDevice(obj.DeviceId);
+
+                    SetTagPropertiesThatExist(tagsDictionary, existing, obj);
+
+                    if (tagsDictionary.ContainsKey("Geolocation"))
+                    {
+                        var geoLocationDictionary = JsonConvert.DeserializeObject<IDictionary<string, object>>(tagsDictionary["Geolocation"].ToString());
+                        obj.Tags.Geolocation.Latitude = GetValueIfProvided("Latitude", dm => dm.Geolocation.Latitude, geoLocationDictionary, existing);
+                        obj.Tags.Geolocation.Longitude = GetValueIfProvided("Longitude", dm => dm.Geolocation.Longitude, geoLocationDictionary, existing);
+                    }
+                }
+                
                 DeviceModel device = await _deviceRestService.CreateOrUpdateDevice(obj);
                 if (device != null && device.DeviceId != Guid.Empty)
                 {
@@ -79,6 +97,29 @@ namespace Edison.DeviceSynchronizationService.Consumers
             }
             _logger.LogError($"DeviceCreateOrUpdateRequestedConsumer: Error while deserializing message '{context.Message.DeviceId}'.");
             throw new Exception($"Error while deserializing message from device '{context.Message.DeviceId}'.");
+        }
+
+        private void SetTagPropertiesThatExist(IDictionary<string, object> providedData, 
+            DeviceModel existingModel, 
+            DeviceTwinModel updateModel)
+        {            
+            updateModel.Tags.DeviceType = GetValueIfProvided("DeviceType", dm => dm.DeviceType, providedData, existingModel);
+            updateModel.Tags.Enabled = GetValueIfProvided("Enabled", dm => dm.Enabled, providedData, existingModel);
+            updateModel.Tags.Location1 = GetValueIfProvided("Location1", dm => dm.Location1, providedData, existingModel);
+            updateModel.Tags.Location2 = GetValueIfProvided("Location2", dm => dm.Location2, providedData, existingModel);
+            updateModel.Tags.Location3 = GetValueIfProvided("Location3", dm => dm.Location3, providedData, existingModel);
+            updateModel.Tags.Name = GetValueIfProvided("Name", dm => dm.Name, providedData, existingModel);
+            updateModel.Tags.Sensor = GetValueIfProvided("Sensor", dm => dm.Sensor, providedData, existingModel);
+        }
+
+        private T GetValueIfProvided<T>(string s, Func<DeviceModel, T> dm, IDictionary<string, object> providedData,
+            DeviceModel existingModel)
+        {
+            if (providedData.ContainsKey(s))
+            {
+                return (T)providedData[s];
+            }
+            return dm(existingModel);
         }
 
         private void StripIntervalProperties(Dictionary<string, object> properties)

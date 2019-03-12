@@ -7,6 +7,7 @@ namespace Edison.Core.Interfaces
 {
     public interface IDeviceRestService
     {
+        Task<DeviceModel> GetDevice(Guid deviceId);
         Task<DeviceModel> CreateOrUpdateDevice(DeviceTwinModel device);
         Task<DeviceModel> GetMobileDeviceFromUserId(string userId);
         Task<IEnumerable<Guid>> GetDevicesInRadius(DeviceGeolocationModel deviceGeocodeCenterUpdate);

@@ -21,6 +21,9 @@ namespace Edison.Tests.Consumers
         protected Task<ConsumeContext<IDeviceCreatedOrUpdated>> _deviceCreatedOrUpdated;
         protected Task<ConsumeContext<Fault<IDeviceCreateOrUpdateRequested>>> _deviceCreateOrUpdateFault;
         protected Mock<IDeviceRestService> _mockDevicesRest;
+        protected DeviceTwinModel _createdOrUpdatedDeviceTwinModel;
+
+        protected Guid _deviceGuid = Guid.Parse("F5D29272-6DC0-4707-9677-B6C386F44C61");
 
         protected override void ConfigureInMemoryReceiveEndpoint(IInMemoryReceiveEndpointConfigurator configurator)
         {
@@ -32,11 +35,13 @@ namespace Edison.Tests.Consumers
             //Mock
             _mockDevicesRest.Setup(p => p.UpdateHeartbeat(It.IsAny<Guid>())).Returns<Guid>((p) => Task.FromResult(MockUpdateHeartbeat(p)));
             _mockDevicesRest.Setup(p => p.CreateOrUpdateDevice(It.IsAny<DeviceTwinModel>())).Returns<DeviceTwinModel>((p) => Task.FromResult(MockCreateOrUpdateDevice(p)));
+            _mockDevicesRest.Setup(p => p.GetDevice(It.IsAny<Guid>())).Returns((Guid p) => Task.FromResult(MockCreateDevice(p)));
         }
 
         [OneTimeSetUp]
         public virtual async Task SetUp()
         {
+            _createdOrUpdatedDeviceTwinModel = default(DeviceTwinModel);
             _mockLogger = LoggerHelper.CreateLogger<DeviceCreateOrUpdateRequestedConsumer>();
         }
 
@@ -53,6 +58,8 @@ namespace Edison.Tests.Consumers
 
         protected DeviceModel MockCreateOrUpdateDevice(DeviceTwinModel model)
         {
+            _createdOrUpdatedDeviceTwinModel = model;
+
             if (model == null)
                 return null;
 
@@ -62,6 +69,17 @@ namespace Edison.Tests.Consumers
             return new DeviceModel()
             {
                  DeviceId = model.DeviceId
+            };
+        }
+        
+        protected DeviceModel MockCreateDevice(Guid guid)
+        {
+            return new DeviceModel()
+            {
+                DeviceId = guid,
+                Geolocation = new Geolocation() {  Latitude = 2, Longitude = 1},
+                Location1 = "location one",
+                DeviceType = "SoundSensor"
             };
         }
     }
@@ -152,6 +170,48 @@ namespace Edison.Tests.Consumers
             Assert.True(LoggerHelper.VerifyDebugLog("DeviceCreateOrUpdateRequestedConsumer: Device created/updated with device id", _mockLogger));
         }
     }
+    
+    [TestFixture]
+    public class ShouldSucceedCreateOrUpdateTwinTagsDevice : DeviceCreateOrUpdateRequestedConsumerFixture
+    {
+        public override async Task SetUp()
+        {
+            await base.SetUp();
+            await InputQueueSendEndpoint.Send(new DeviceCreateOrUpdateRequestedEvent()
+            {
+                DeviceId = _deviceGuid,
+                ChangeType = "twinChangeNotification",
+                CorrelationId = Guid.NewGuid(),
+                Date = DateTime.UtcNow,
+                Data = @"{
+                 ""Tags"": {
+                       ""Geolocation"":{
+                                    ""Longitude"":2.1704086661338806,
+                                    ""Latitude"":41.387081944040133
+                                },
+                       ""Name"":""New Armory Sound"",
+                       ""Location1"":""Main"",
+                       ""Location2"":""2"",
+                       ""Location3"":""204"",
+                       ""Enabled"":true
+                    }
+                }"
+            });
+        }
+
+        [Test]
+        public async Task TestShouldSucceedCreateOrUpdateTwinTagsDevice()
+        {
+            await Task.WhenAny(_deviceCreatedOrUpdated, _deviceCreateOrUpdateFault);
+
+            Assert.IsNotNull(_createdOrUpdatedDeviceTwinModel);
+
+
+            Assert.AreEqual(_createdOrUpdatedDeviceTwinModel.DeviceId, _deviceGuid);
+            Assert.AreEqual("SoundSensor", _createdOrUpdatedDeviceTwinModel.Tags.DeviceType);
+        }
+    }
+
 
     [TestFixture]
     public class ShouldFailCreateOrUpdateTwinDevice : DeviceCreateOrUpdateRequestedConsumerFixture

@@ -58,6 +58,18 @@ namespace Edison.Core
             return false;
         }
 
+        public async Task<DeviceModel> GetDevice(Guid deviceId)
+        {
+            RestRequest request = await PrepareQuery("Devices/{deviceId}", Method.GET);
+            request.AddUrlSegment("deviceId", deviceId.ToString());
+            var queryResult = await _client.ExecuteTaskAsync<DeviceModel>(request);
+            if (queryResult.IsSuccessful)
+                return queryResult.Data;
+            else
+                _logger.LogError($"IsInBoundaries: Error while retrieving boundaries result: {queryResult.StatusCode}");
+            return default(DeviceModel);
+        }
+
         public async Task<DeviceModel> CreateOrUpdateDevice(DeviceTwinModel deviceObj)
         {
             RestRequest request = await PrepareQuery("Devices", Method.POST);

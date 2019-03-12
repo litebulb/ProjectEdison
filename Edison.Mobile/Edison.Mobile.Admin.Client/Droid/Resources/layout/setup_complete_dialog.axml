@@ -46,7 +46,7 @@
 				android:textAllCaps="false"
 				
 			android:layout_height="wrap_content"								
-					android:id="@+id/complete_setup_button"
+					android:id="@+id/manage_this_device_button"
 					android:textColor="@color/login_button_blue"
 	android:background="@color/transparent"			
 						/>
@@ -55,7 +55,7 @@
 			android:layout_width="fill_parent"
 				android:textAllCaps="false"
 			android:layout_height="wrap_content"								
-					android:id="@+id/complete_setup_button"
+					android:id="@+id/go_to_home_screen_button"
 					android:textColor="@color/login_button_blue"
 	android:background="@color/transparent"			
 						/>
