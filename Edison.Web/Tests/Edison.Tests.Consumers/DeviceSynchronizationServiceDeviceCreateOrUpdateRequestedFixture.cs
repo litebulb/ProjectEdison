@@ -193,7 +193,8 @@ namespace Edison.Tests.Consumers
                        ""Location1"":""Main"",
                        ""Location2"":""2"",
                        ""Location3"":""204"",
-                       ""Enabled"":true
+                       ""Enabled"":true,
+                       ""SSID"":""EDISON"",
                     }
                 }"
             });
@@ -209,6 +210,7 @@ namespace Edison.Tests.Consumers
 
             Assert.AreEqual(_createdOrUpdatedDeviceTwinModel.DeviceId, _deviceGuid);
             Assert.AreEqual("SoundSensor", _createdOrUpdatedDeviceTwinModel.Tags.DeviceType);
+            Assert.AreEqual("EDISON", _createdOrUpdatedDeviceTwinModel.Tags.SSID);
         }
     }
 

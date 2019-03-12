@@ -18,6 +18,7 @@ namespace Edison.Common.DAO
         public DateTime LastAccessTime { get; set; }
         public bool Sensor { get; set; }
         public bool IoTDevice { get; set; }
+        public string SSID { get; set; }
         public bool Enabled { get; set; }
         public string Name { get; set; }
         public string Location1 { get; set; }

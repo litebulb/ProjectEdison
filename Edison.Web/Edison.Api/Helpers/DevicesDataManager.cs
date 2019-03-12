@@ -189,6 +189,7 @@ namespace Edison.Api.Helpers
                 deviceDAO.Location1 = deviceTwinObj.Tags.Location1;
                 deviceDAO.Location2 = deviceTwinObj.Tags.Location2;
                 deviceDAO.Location3 = deviceTwinObj.Tags.Location3;
+                deviceDAO.SSID = deviceTwinObj.Tags.SSID;
                 deviceDAO.Sensor = deviceTwinObj.Tags.Sensor;
                 deviceDAO.Geolocation = _mapper.Map<GeolocationDAOObject>(deviceTwinObj.Tags.Geolocation);
             }

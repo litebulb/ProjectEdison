@@ -110,6 +110,7 @@ namespace Edison.DeviceSynchronizationService.Consumers
             updateModel.Tags.Location3 = GetValueIfProvided("Location3", dm => dm.Location3, providedData, existingModel);
             updateModel.Tags.Name = GetValueIfProvided("Name", dm => dm.Name, providedData, existingModel);
             updateModel.Tags.Sensor = GetValueIfProvided("Sensor", dm => dm.Sensor, providedData, existingModel);
+            updateModel.Tags.SSID = GetValueIfProvided("SSID", dm => dm.SSID, providedData, existingModel);
         }
 
         private T GetValueIfProvided<T>(string s, Func<DeviceModel, T> dm, IDictionary<string, object> providedData,

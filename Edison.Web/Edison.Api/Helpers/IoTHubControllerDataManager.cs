@@ -85,15 +85,16 @@ namespace Edison.Api.Helpers
         /// <returns>True if the masstransit publish command has succeeded</returns>
         public async Task<bool> UpdateDevicesTags(DevicesUpdateTagsModel devices)
         {
-            var tags = new
+            var tags = new DeviceTwinTagsModel
             {
-                devices.Geolocation,
-                devices.Name,
-                devices.Location1,
-                devices.Location2,
-                devices.Location3,
-                devices.Custom,
-                devices.Enabled
+                Geolocation = devices.Geolocation,
+                Name = devices.Name,
+                Location1 = devices.Location1,
+                Location2 = devices.Location2,
+                Location3 = devices.Location3,
+                Custom = devices.Custom,
+                Enabled = devices.Enabled,
+                SSID = devices.SSID
             };
 
             await _serviceBus.BusAccess.Publish(new IoTDevicesUpdateRequestedEvent()

@@ -94,6 +94,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         public void GoToEnterPassword(string networkSsid)
         {
+            this.ViewModel.CurrentDeviceModel.SSID = networkSsid;
+
             var intent = new Intent(this, typeof(EnterPasswordActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);
             intent.PutExtra("ssid", networkSsid);            

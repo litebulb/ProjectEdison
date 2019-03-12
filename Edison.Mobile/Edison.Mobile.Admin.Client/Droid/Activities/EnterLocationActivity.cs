@@ -163,7 +163,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             this.ViewModel.CurrentDeviceModel.Location2 = ValidateInput(floorEditText.Text);
             this.ViewModel.CurrentDeviceModel.Location3 = ValidateInput(roomEditText.Text);
             this.ViewModel.CurrentDeviceModel.Geolocation = new Geolocation() { Latitude = _location.Latitude, Longitude = _location.Longitude };
-            this.ViewModel.CurrentDeviceModel.Enabled = true;
+            this.ViewModel.CurrentDeviceModel.Enabled = true;            
 
             await this.ViewModel.UpdateDevice();
             

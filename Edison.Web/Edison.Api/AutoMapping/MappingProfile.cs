@@ -27,6 +27,7 @@ namespace Edison.Api.AutoMapping
             CreateMap<DeviceTwinModel, DeviceDAO>()
                 .ForMember(dto => dto.Id, opts => opts.MapFrom(src => src.DeviceId))
                 .ForMember(dto => dto.DeviceType, opts => opts.MapFrom(src => src.Tags.DeviceType))
+                .ForMember(dto => dto.SSID, opts => opts.MapFrom(src => src.Tags.SSID))
                 .ForMember(dto => dto.Sensor, opts => opts.MapFrom(src => src.Tags.Sensor))
                 .ForMember(dto => dto.Name, opts => opts.MapFrom(src => src.Tags.Name))
                 .ForMember(dto => dto.Location1, opts => opts.MapFrom(src => src.Tags.Location1))
