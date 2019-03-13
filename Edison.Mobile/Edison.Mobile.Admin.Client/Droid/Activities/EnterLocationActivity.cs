@@ -41,6 +41,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         private AppCompatEditText buildingEditText;
         private AppCompatEditText floorEditText;
         private AppCompatEditText roomEditText;
+        private AppCompatTextView wifiTextView;
 
         public async void OnMapReady(GoogleMap map)
         {
@@ -120,11 +121,14 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
             floorEditText = FindViewById<AppCompatEditText>(Resource.Id.floorEditText);
             roomEditText = FindViewById<AppCompatEditText>(Resource.Id.roomEditText);
+            wifiTextView = FindViewById<AppCompatTextView>(Resource.Id.wifiTextView);
 
             ReconcileEditText(i => i.Name, nameEditText);
             ReconcileEditText(i => i.Location1, buildingEditText);
             ReconcileEditText(i => i.Location2, floorEditText);
             ReconcileEditText(i => i.Location3, roomEditText);
+
+            wifiTextView.Text = this.ViewModel.CurrentDeviceModel.SSID;
 
             if (this.ViewModel.CurrentDeviceModel != null && this.ViewModel.CurrentDeviceModel.Geolocation != null)
             {
@@ -154,8 +158,19 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             var button = FindViewById<AppCompatButton>(Resource.Id.complete_setup_button);
             button.Click += Button_Click;
+
+            var wifiLayout = FindViewById<LinearLayout>(Resource.Id.wifiLayout);
+            wifiLayout.Click += WifiLayout_Click;
         }
-        
+
+        private async void WifiLayout_Click(object sender, EventArgs e)
+        {
+            await this.ViewModel.SetKeys();
+            Intent home = new Intent(this, typeof(SelectWifiOnDeviceActivity));
+            home.SetFlags(ActivityFlags.NewTask);
+            StartActivity(home);
+        }
+
         private async void Button_Click(object sender, EventArgs e)
         {
             this.ViewModel.CurrentDeviceModel.Name = ValidateInput(nameEditText.Text);            

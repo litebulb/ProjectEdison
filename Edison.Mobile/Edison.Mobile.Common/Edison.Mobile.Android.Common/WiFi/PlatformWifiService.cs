@@ -49,6 +49,11 @@ namespace Edison.Mobile.Android.Common.WiFi
 
             // Use ID
             var existing = wifiManager.ConfiguredNetworks.FirstOrDefault(i => i.Ssid == ssid);
+            if(existing == null)
+            {
+                return Task.FromResult(false);
+            }
+
             int netId = existing.NetworkId;
             
             wifiManager.Disconnect();

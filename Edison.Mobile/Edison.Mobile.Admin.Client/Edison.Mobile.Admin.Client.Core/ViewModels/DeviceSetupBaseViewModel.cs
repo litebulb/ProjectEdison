@@ -23,6 +23,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public void SetDeviceModel(DeviceModel model)
         {
+            deviceSetupService.CurrentDeviceHotspotNetwork.SSID = model.SSID;
             deviceSetupService.CurrentDeviceModel = model;
         }
     }

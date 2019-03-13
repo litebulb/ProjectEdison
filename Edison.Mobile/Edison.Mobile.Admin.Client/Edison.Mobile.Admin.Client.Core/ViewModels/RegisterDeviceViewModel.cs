@@ -157,6 +157,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             if (setDeviceKeysResponse == null || !setDeviceKeysResponse.IsSuccess) return await ProvisionDeviceFail();
 
             deviceSetupService.PortalPassword = generateKeysResponse.PortalPassword;
+            deviceSetupService.WiFiPassword = generateKeysResponse.AccessPointPassword;
 
             onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
             

@@ -15,6 +15,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     {
         readonly ILocationService locationService;
         readonly IDeviceRestService deviceRestService;
+        readonly DeviceProvisioningRestService deviceProvisioningRestService;
 
         public ObservableRangeCollection<DeviceModel> NearDevices { get; private set; } = new ObservableRangeCollection<DeviceModel>();
 
@@ -38,11 +39,20 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public ManageDeviceViewModel(
             DeviceSetupService deviceSetupService,
             ILocationService locationService,
-            IDeviceRestService deviceRestService
+            IDeviceRestService deviceRestService,
+            DeviceProvisioningRestService deviceProvisioningRestService
         ) : base(deviceSetupService)
         {
             this.locationService = locationService;
-            this.deviceRestService = deviceRestService;            
+            this.deviceRestService = deviceRestService;
+            this.deviceProvisioningRestService = deviceProvisioningRestService;
+        }
+
+        public async Task SetKeys()
+        {
+            var keys = await deviceProvisioningRestService.GetDeviceKeys(CurrentDeviceModel.DeviceId);
+            deviceSetupService.PortalPassword = keys.PortalPassword;
+            deviceSetupService.WiFiPassword = keys.AccessPointPassword;
         }
 
         public override void ViewCreated()
@@ -85,6 +95,12 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             var success = await deviceRestService.UpdateDevice(updateTagsModel);
 
             OnDeviceUpdated?.Invoke(this, success);
+        }
+
+        public void SelectDevice(DeviceModel device)
+        {
+            deviceSetupService.CurrentDeviceModel = device;
+            deviceSetupService.CurrentDeviceHotspotNetwork.SSID = device.SSID;
         }
 
         public override async void ViewAppeared()

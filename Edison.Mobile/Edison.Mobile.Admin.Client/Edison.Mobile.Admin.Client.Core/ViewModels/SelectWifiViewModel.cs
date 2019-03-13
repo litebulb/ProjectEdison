@@ -15,7 +15,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     {
         readonly IOnboardingRestService onboardingRestService;
         readonly IWifiService wifiService;
-        readonly System.Timers.Timer refreshAvailableNetworksTimer;
+        readonly DeviceProvisioningRestService deviceProvisioningRestService;
+        private System.Timers.Timer refreshAvailableNetworksTimer;
 
         public List<WifiNetwork> AvailableWifiNetworks { get; private set; }
 
@@ -25,15 +26,15 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public SelectWifiViewModel(
             IOnboardingRestService onboardingRestService, 
             DeviceSetupService deviceSetupService,
-            IWifiService wifiService
+            IWifiService wifiService,
+            DeviceProvisioningRestService deviceProvisioningRestService
         )
             : base(deviceSetupService)
         {
             this.onboardingRestService = onboardingRestService;
-            onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
             this.wifiService = wifiService;
-
-            refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
+            this.deviceProvisioningRestService = deviceProvisioningRestService;
+            this.onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
         }
 
         public override async void ViewAppeared()
@@ -50,10 +51,20 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             if (currentlyConnectedWifiNetwork == null || !DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
             {
+                deviceSetupService.OriginalSSID = currentlyConnectedWifiNetwork.SSID;
+
                 if (deviceSetupService.CurrentDeviceHotspotNetwork != null)
                 {
-                    await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
+                    var existingResult = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
+
+                    if (!existingResult)
+                    {
+                        await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
+                    }
+                    
                     await Task.Delay(1000);
+
+                    refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
                 }
                 else
                 {

@@ -10,6 +10,11 @@ namespace Edison.Mobile.Admin.Client.Core.Services
 {
     public class DeviceSetupService
     {
+        public DeviceSetupService()
+        {
+            CurrentDeviceHotspotNetwork = new WifiNetwork();
+        }
+
         public static class DeviceTypeValues
         {
             public const string ButtonSensor = "Edison.Devices.ButtonSensor";
@@ -27,6 +32,7 @@ namespace Edison.Mobile.Admin.Client.Core.Services
         public string DefaultPassword => "Edison1234";//"Edison1234";
         public string DefaultPortalPassword => "Edison1234";
 
+        public string WiFiPassword { get; set; }
         public string PortalPassword { get; set; }
 
         public string DeviceTypeAsString => CurrentDeviceModel?.DeviceType ?? "";
@@ -35,7 +41,7 @@ namespace Edison.Mobile.Admin.Client.Core.Services
         public void ClearDevice()
         {
             CurrentDeviceModel = new DeviceModel();
-            CurrentDeviceHotspotNetwork = null;
+            CurrentDeviceHotspotNetwork = new WifiNetwork();
         }
          
         public static bool SSIDIsEdisonDevice(string ssid) => ssid.StartsWith("EDISON_", StringComparison.Ordinal);
