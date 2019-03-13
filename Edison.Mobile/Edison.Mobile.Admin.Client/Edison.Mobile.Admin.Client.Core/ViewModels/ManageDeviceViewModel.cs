@@ -22,6 +22,19 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public event EventHandler<bool> OnDeviceUpdated;
         
+        public class OnDeviceLoadedEventArgs : EventArgs
+        {
+            public DeviceModel DeviceModel { get; set; }
+            
+            public OnDeviceLoadedEventArgs(DeviceModel deviceModel)
+            {
+                this.DeviceModel = deviceModel;
+            }
+        }
+        
+        public event EventHandler<OnDeviceLoadedEventArgs> OnDeviceLoaded;
+        public event EventHandler<EventArgs> OnDeviceLoadFail;
+        
         public ManageDeviceViewModel(
             DeviceSetupService deviceSetupService,
             ILocationService locationService,
@@ -30,6 +43,16 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         {
             this.locationService = locationService;
             this.deviceRestService = deviceRestService;            
+        }
+
+        public override void ViewCreated()
+        {
+            base.ViewCreated();
+
+            Task.Run(async () =>
+            {
+                await LoadDevice(this.CurrentDeviceModel.DeviceId);
+            });            
         }
 
         public void AddCustomDeviceField(string key, string value)
@@ -47,8 +70,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             var currentDeviceModel = deviceSetupService.CurrentDeviceModel;
             if (currentDeviceModel == null) return;
 
-            var updateTagsModel = new DevicesUpdateTagsModel
-            {
+             var updateTagsModel = new DevicesUpdateTagsModel
+            { 
                 DeviceIds = new List<Guid> { currentDeviceModel.DeviceId },
                 Name = currentDeviceModel.Name,
                 Enabled = currentDeviceModel.Enabled,
@@ -79,5 +102,26 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 NearDevices.ReplaceRange(devices);
             }
         }
+        
+        public async Task LoadDevice(Guid deviceId)
+        {
+            var device = await GetDevice(deviceId);
+           
+            if (device == null)
+            {
+                OnDeviceLoadFail.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                deviceSetupService.CurrentDeviceModel = device;
+                OnDeviceLoaded.Invoke(this, new OnDeviceLoadedEventArgs(device));
+            }
+        }
+        
+        public async Task<DeviceModel> GetDevice(Guid deviceId)
+        {
+            return await deviceRestService.GetDevice(deviceId);
+        }
     }
+    
 }

@@ -47,6 +47,9 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewSources
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var deviceModel = ViewModel.NearDevices[indexPath.Row];
+            
+            ViewModel.CurrentDeviceModel.DeviceId = deviceModel.DeviceId;
+            
             OnDeviceSelected?.Invoke(this, deviceModel);
         }
     }

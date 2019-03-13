@@ -13,6 +13,7 @@ using CoreGraphics;
 using Edison.Mobile.iOS.Common.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static Edison.Mobile.Admin.Client.Core.ViewModels.ManageDeviceViewModel;
 
 namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 {
@@ -40,9 +41,12 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         TextFieldView textFieldViewFirstResponder;
 
         List<TextFieldView> textFieldViews;
+        
+        private DeviceModel deviceModel;
 
         public ManageDeviceViewController(DeviceModel deviceModel = null)
         {
+            this.deviceModel = deviceModel;
             ViewModel.IsOnboardingStepSix = deviceModel == null;
         }
 
@@ -62,6 +66,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Done, async (object sender, EventArgs e) =>
             {
                 NavigationItem.RightBarButtonItem.Enabled = false;
+
+                UpdateCurrentDeviceAttributes();
 
                 await ViewModel.UpdateDevice();
 
@@ -234,6 +240,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 Lines = 0,
                 LineBreakMode = UILineBreakMode.WordWrap,
                 TextColor = Constants.Color.MidGray,
+                
+                
                 Font = Constants.Fonts.RubikOfSize(Constants.Fonts.Size.Twelve),
                 Text = "MOVE THE PIN AS NEEDED TO MAKE SURE ITS LOCATION ACCURATELY REPRESENTS A PRECISE SPOT WHERE THE DEVICE WILL BE.",
             };
@@ -333,6 +341,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             };
 
             textFieldViews.ForEach(t => t.ReturnKeyType = UIReturnKeyType.Done);
+            
         }
 
         protected override void BindEventHandlers()
@@ -347,6 +356,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             enabledSwitchFieldView.OnSwitchValueChanged += EnabledSwitchFieldViewOnSwitchValueChanged;
 
             ViewModel.OnDeviceUpdated += HandleOnDeviceUpdated;
+            ViewModel.OnDeviceLoaded += HandleOnDeviceLoaded;
+            ViewModel.OnDeviceLoadFail += HandleOnDeviceLoadFail;
 
             foreach (var textFieldView in textFieldViews)
             {
@@ -366,6 +377,8 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
             mapView.Delegate = null;
 
             ViewModel.OnDeviceUpdated -= HandleOnDeviceUpdated;
+            ViewModel.OnDeviceLoaded -= HandleOnDeviceLoaded;
+            ViewModel.OnDeviceLoadFail -= HandleOnDeviceLoadFail;
 
             enabledSwitchFieldView.OnSwitchValueChanged -= EnabledSwitchFieldViewOnSwitchValueChanged;
 
@@ -415,6 +428,36 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             UIView.CommitAnimations();
         }
+        
+        void UpdateCurrentDeviceAttributes()
+        {
+            if (textFieldViews != null && textFieldViews.Count > 0)
+            {
+                for (int i = 0; i < textFieldViews.Count; i++)
+                {
+                    var textFieldView = textFieldViews[i];
+                    switch (i)
+                    {
+                        case 0:
+                            if (textFieldView.Text != ViewModel.CurrentDeviceModel.Name)
+                                ViewModel.CurrentDeviceModel.Name = textFieldView.Text;
+                            break;
+                        case 1:
+                            if (textFieldView.Text != ViewModel.CurrentDeviceModel.Location1)
+                                ViewModel.CurrentDeviceModel.Location1 = textFieldView.Text;
+                            break;
+                        case 2:
+                            if (textFieldView.Text != ViewModel.CurrentDeviceModel.Location2)
+                                ViewModel.CurrentDeviceModel.Location2 = textFieldView.Text;
+                            break;
+                        case 3:
+                            if (textFieldView.Text != ViewModel.CurrentDeviceModel.Location3)
+                                ViewModel.CurrentDeviceModel.Location3 = textFieldView.Text;
+                            break;   
+                    }
+                }
+            }
+        }
 
         void EnsureFirstResponderTextFieldIsInView(nfloat keyboardHeight, bool animated = false)
         {
@@ -460,7 +503,20 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
                 textFieldViewFirstResponder = textFieldView;
             }
         }
-
+        
+        void HandleOnDeviceLoaded(object sender, OnDeviceLoadedEventArgs e)
+        {
+            InvokeOnMainThread(() =>
+            {
+                nameTextFieldView.Text = e.DeviceModel.Name;
+                enabledSwitchFieldView.On = e.DeviceModel.Enabled;
+                buildingTextFieldView.Text = e.DeviceModel.Location1;
+                floorTextFieldView.Text = e.DeviceModel.Location2;
+                roomTextFieldView.Text = e.DeviceModel.Location3;
+                wifiTextFieldView.Text = e.DeviceModel.SSID;
+            });        
+        }
+                                                                                                                                                                                                   
         void HandleOnDeviceUpdated(object sender, bool success)
         {
             UIAlertController alertController = null;
@@ -481,6 +537,18 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 
             alertController.AddAction(action);
             PresentViewController(alertController, true, null);
+        }
+        
+        void HandleOnDeviceLoadFail(object sender, EventArgs e)
+        {
+            UIAlertController failAlertController = null;
+            failAlertController = UIAlertController.Create (null, "Could not load the device. Please try again.", UIAlertControllerStyle.Alert);
+            failAlertController.AddAction (UIAlertAction.Create ("OK", UIAlertActionStyle.Default, a =>
+            { 
+                NavigationController.PopToRootViewController(true);
+            }));
+       
+            PresentViewController (failAlertController, true, null);
         }
 
         void OnTextFieldEditingEnded(object sender, UITextFieldDidEndEditingReason reason)

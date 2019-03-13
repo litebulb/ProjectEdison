@@ -196,6 +196,7 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         void HandleNearDevicesTableViewSourceOnDeviceSelected(object sender, DeviceModel deviceModel)
         {
             var manageDeviceViewController = new ManageDeviceViewController(deviceModel);
+            ViewModel.CurrentDeviceModel.Name = deviceModel.Name;
             NavigationController.PushViewController(manageDeviceViewController, true);
         }
     }
