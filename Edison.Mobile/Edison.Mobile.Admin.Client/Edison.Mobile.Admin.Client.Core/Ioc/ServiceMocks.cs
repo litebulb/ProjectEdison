@@ -103,12 +103,12 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
                 return new ResultCommandNetworkStatus() { IsSuccess = true, Status = "Connected" };
             }
 
-            public async Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks()
+            public async Task<IEnumerable<AvailableNetwork>> GetAvailableWifiNetworks()
             {
-                return new List<WifiNetwork>()
+                return new List<AvailableNetwork>()
                 {
-                    new WifiNetwork(){ SSID = "SSID 1"},
-                    new WifiNetwork(){ SSID = "SSID 2"},
+                    new AvailableNetwork(){ SSID = "SSID 1", AlreadyConnected = true},
+                    new AvailableNetwork(){ SSID = "SSID 2"},
                 };
             }
 

@@ -32,6 +32,8 @@ namespace Edison.Mobile.Admin.Client.Core.Services
         public string DefaultPassword => "Edison1234";//"Edison1234";
         public string DefaultPortalPassword => "Edison1234";
 
+        public string ConnectedWifiSSID = "";
+
         public string WiFiPassword { get; set; }
         public string PortalPassword { get; set; }
 

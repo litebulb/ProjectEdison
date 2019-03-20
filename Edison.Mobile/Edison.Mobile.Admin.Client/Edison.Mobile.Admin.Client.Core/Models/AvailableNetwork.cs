@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Edison.Devices.Onboarding.Models.PortalAPI
+namespace Edison.Mobile.Admin.Client.Core.Models
 {
     public sealed class AvailableNetwork
     {

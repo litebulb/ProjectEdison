@@ -2,6 +2,7 @@
 using Edison.Devices.Onboarding.Helpers;
 using Edison.Devices.Onboarding.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.WiFi;
@@ -71,14 +72,28 @@ namespace Edison.Devices.Onboarding.Services
         public async Task<ResultCommandAvailableNetworks> GetAvailableNetworkListHandler()
         {
             try
-            {
+            {                
                 var wifiAdapterList = await WiFiAdapter.FindAllAdaptersAsync();
-                var wifiList = from adapter in wifiAdapterList
-                               from network in adapter.NetworkReport.AvailableNetworks
-                               select network.Ssid;
-                var networks = wifiList.OrderBy(x => x).Distinct();
 
-                return new ResultCommandAvailableNetworks() { Networks = networks, IsSuccess = true };
+                List<AvailableNetwork> networks = new List<AvailableNetwork>();
+
+                foreach (var adapter in wifiAdapterList)
+                {
+                    try
+                    {
+                        var availableNetworks = await PortalApiHelper.GetAvailableNetworks(adapter.NetworkAdapter.NetworkAdapterId);
+
+                        if (availableNetworks != null && availableNetworks.AvailableNetworks != null)
+                        {
+                            networks.AddRange(availableNetworks.AvailableNetworks);
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                
+                var sortedNetworks = networks.OrderBy(x => x.SSID).Distinct().ToList();
+
+                return new ResultCommandAvailableNetworks() { Networks = sortedNetworks, IsSuccess = true };
             }
             catch (Exception e)
             {

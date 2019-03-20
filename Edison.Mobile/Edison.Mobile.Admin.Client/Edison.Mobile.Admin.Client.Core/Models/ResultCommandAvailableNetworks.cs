@@ -5,6 +5,6 @@ namespace Edison.Mobile.Admin.Client.Core.Models
 {
     public class ResultCommandAvailableNetworks : ResultCommand
     {
-        public IEnumerable<string> Networks { get; set; }
+        public IEnumerable<AvailableNetwork> Networks { get; set; }
     }
 }

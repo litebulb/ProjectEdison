@@ -5,15 +5,16 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Edison.Core.Common.Models;
+using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Admin.Client.Droid.Activities;
 
 namespace Edison.Mobile.Admin.Client.Droid.Adapters
 {
     public class WifiSelectionDeviceAdapter : RecyclerView.Adapter
     {
-        public List<Common.WiFi.WifiNetwork> _devices;
+        public List<AvailableNetwork> _devices;
         public Action<string> _action;
-        public WifiSelectionDeviceAdapter(List<Common.WiFi.WifiNetwork> devices, Action<string> action)
+        public WifiSelectionDeviceAdapter(List<AvailableNetwork> devices, Action<string> action)
         {
             _devices = devices;
             _action = action;

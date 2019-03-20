@@ -23,6 +23,7 @@ namespace Edison.Devices.Onboarding.Common.Models
         EnableEncryption = 113,
         DisableEncryption = 114,
         GetEncryptionState = 115,
+        GetNetworkProfiles = 116,
 
         ResultGetAvailableNetworks = 200,
         ResultConnectToNetwork = 201,

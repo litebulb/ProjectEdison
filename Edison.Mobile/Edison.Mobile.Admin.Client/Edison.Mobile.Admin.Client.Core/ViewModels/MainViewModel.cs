@@ -7,6 +7,7 @@ using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Common.Auth;
 using Edison.Mobile.Common.ViewModels;
+using Edison.Mobile.Common.WiFi;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
@@ -18,8 +19,11 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public ObservableRangeCollection<DeviceModel> NearDevices { get; private set; } = new ObservableRangeCollection<DeviceModel>();
 
         public MainViewModel(DeviceSetupService deviceSetupService, 
-            IDeviceRestService deviceRestService, AuthService authService)
-            :base(deviceSetupService)
+            IDeviceRestService deviceRestService, AuthService authService,
+            DeviceProvisioningRestService deviceProvisioningRestService,
+            IOnboardingRestService onboardingRestService,
+            IWifiService wifiService
+        ) : base(deviceSetupService, deviceProvisioningRestService, onboardingRestService, wifiService)
         {
             this.deviceRestService = deviceRestService;
             this.authService = authService;

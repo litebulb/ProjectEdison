@@ -1,9 +1,9 @@
-﻿using System;
-namespace Edison.Mobile.Common.WiFi
+﻿using System.Collections.Generic;
+
+namespace Edison.Devices.Onboarding.Common.Models
 {
-    public class WifiNetwork
+    public sealed class AvailableNetwork
     {
-        public string SSID { get; set; }
         public bool AlreadyConnected { get; set; }
         public string AuthenticationAlgorithm { get; set; }
         public string CipherAlgorithm { get; set; }
@@ -11,7 +11,9 @@ namespace Edison.Mobile.Common.WiFi
         public string InfrastructureType { get; set; }
         public bool ProfileAvailable { get; set; }
         public string ProfileName { get; set; }
+        public string SSID { get; set; }
         public bool SecurityEnabled { get; set; }
         public int SignalQuality { get; set; }
+        public IEnumerable<string> PhysicalTypes { get; set; }
     }
 }

@@ -109,7 +109,10 @@
     <Compile Include="Helpers\CommandParserHelper.cs" />
     <Compile Include="Helpers\SharedConstants.cs" />
     <Compile Include="Helpers\StringCipher.cs" />
+    <Compile Include="Models\AvailableNetwork.cs" />
+    <Compile Include="Models\AvailableNetworksModel.cs" />
     <Compile Include="Models\Command.cs" />
+    <Compile Include="Models\IPConfiguration.cs" />
     <Compile Include="Models\RequestCommandModels\RequestCommand.cs" />
     <Compile Include="Models\RequestCommandModels\RequestCommandSetDeviceSecretKeys.cs" />
     <Compile Include="Models\RequestCommandModels\RequestCommandDisconnectFromNetwork.cs" />
@@ -119,8 +122,10 @@
     <Compile Include="Models\RequestCommandModels\RequestCommandSetDeviceType.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandAvailableNetworks.cs" />
     <Compile Include="Models\NetworkInformation.cs" />
+    <Compile Include="Models\ResultCommandModels\ResultCommandGetNetworkProfiles.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandGetDeviceId.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandEncryptionStatus.cs" />
+    <Compile Include="Models\ResultCommandModels\ResultCommandIPAdapters.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommandNetworkStatus.cs" />
     <Compile Include="Models\DeviceCertificateModel.cs" />
     <Compile Include="Models\ResultCommandModels\ResultCommand.cs" />

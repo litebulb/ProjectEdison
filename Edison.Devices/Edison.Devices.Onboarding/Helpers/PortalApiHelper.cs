@@ -5,6 +5,7 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using IPAdapters = Edison.Devices.Onboarding.Common.Models.IPAdapters;
 
 namespace Edison.Devices.Onboarding.Helpers
 {
@@ -212,6 +213,17 @@ namespace Edison.Devices.Onboarding.Helpers
                 return true;
             }
             return false;
+        }
+
+        internal static async Task<IPAdapters> GetNetworkProfiles()
+        {
+            RestRequest request = PrepareQuery("networking/ipconfig", Method.GET);
+            var queryResult = await _client.ExecuteTaskAsync<IPAdapters>(request);
+            if (queryResult.IsSuccessful)
+            {
+                return queryResult.Data;
+            }
+            return default(IPAdapters);
         }
     }
 }

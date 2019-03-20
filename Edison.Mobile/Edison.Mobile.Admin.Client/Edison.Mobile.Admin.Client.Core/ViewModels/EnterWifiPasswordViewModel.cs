@@ -12,22 +12,21 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class EnterWifiPasswordViewModel : DeviceSetupBaseViewModel
     {
-        readonly IOnboardingRestService onboardingRestService;
-        readonly IWifiService wifiService;
         readonly ILogger logger;
         
         public EnterWifiPasswordViewModel(
             DeviceSetupService deviceSetupService, 
             IOnboardingRestService onboardingRestService,
+            DeviceProvisioningRestService deviceProvisioningRestService,
             ILogger logger,
             IWifiService wifiService
-        ) : base(deviceSetupService)
+        ) : base(deviceSetupService, deviceProvisioningRestService, onboardingRestService, wifiService)
         {
-            this.onboardingRestService = onboardingRestService;
+            
             this.onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
 
             this.logger = logger;
-            this.wifiService = wifiService;
+            
 
         }
 

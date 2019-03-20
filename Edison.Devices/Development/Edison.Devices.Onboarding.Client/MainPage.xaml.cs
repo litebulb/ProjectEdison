@@ -115,7 +115,7 @@ namespace Edison.Devices.Onboarding.Client
             HandleState(State.AccessPointsEnumerated);
             UpdateStatus("WifiFindAccessPoints", "Enumerated");
         }
-
+               
         async void WifiConnectToAccessPoint(object sender, System.EventArgs e)
         {
             UpdateStatus("WifiConnectToAccessPoint", "");
@@ -136,9 +136,9 @@ namespace Edison.Devices.Onboarding.Client
             var resultRequestGetAvailableNetworks = await DeviceApiClient.GetAvailableNetworks();
             if (resultRequestGetAvailableNetworks.IsSuccess)
             {
-                foreach (string networkSsid in resultRequestGetAvailableNetworks.Networks)
+                foreach (var network in resultRequestGetAvailableNetworks.Networks)
                 {
-                    _AvailableNetworks.Add(new Network() { Ssid = networkSsid });
+                    _AvailableNetworks.Add(new Network() { Ssid = network.SSID });
                 }
                 HandleState(State.NetworksEnumerated);
                 UpdateStatus($"CommandRequestClientNetworks", string.Join(", ", resultRequestGetAvailableNetworks.Networks));

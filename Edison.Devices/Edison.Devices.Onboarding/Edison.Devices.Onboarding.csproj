@@ -23,12 +23,13 @@
     <ContainsStartupTask>true</ContainsStartupTask>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>D:\Edison\Edison.Devices\AppPackages\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\bkotvis\Desktop\Edison\</AppxPackageDir>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+    <PackageCertificateThumbprint>99EB6ED327C215F2410F35EAA3ADF7C4EB59B04E</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -111,8 +112,6 @@
     <Compile Include="Models\CommandEventArgs.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\SimulatedDevice.cs" />
-    <Compile Include="Models\PortalAPI\AvailableNetwork.cs" />
-    <Compile Include="Models\PortalAPI\AvailableNetworksModel.cs" />
     <Compile Include="Models\PortalAPI\HeadlessApp.cs" />
     <Compile Include="Models\PortalAPI\HeadlessModel.cs" />
     <Compile Include="Models\PortalAPI\PackageModel.cs" />

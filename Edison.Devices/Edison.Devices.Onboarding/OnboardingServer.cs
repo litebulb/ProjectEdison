@@ -154,6 +154,9 @@ namespace Edison.Devices.Onboarding
                     case CommandsEnum.GetEncryptionState:
                         ProcessCommand(commandArgs, () => { return GetEncryptionStatus(); });
                         break;
+                    case CommandsEnum.GetNetworkProfiles:
+                        await ProcessCommand(commandArgs, async () => { return await _PortalService.GetNetworkProfiles(); });
+                        break;
                     case CommandsEnum.Unknown:
                         throw new Exception($"Command ${commandArgs.InputCommand.BaseCommand} not found.");
                 }

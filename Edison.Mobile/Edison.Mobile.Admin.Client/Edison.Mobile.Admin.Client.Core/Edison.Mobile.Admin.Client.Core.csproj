@@ -75,6 +75,5 @@
     <Folder Include="Auth\" />
     <Folder Include="Services\" />
     <Folder Include="Shared\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

@@ -174,6 +174,24 @@ namespace Edison.Devices.Onboarding.Services
             }
         }
 
+        public async Task<ResultCommandIPAdapters> GetNetworkProfiles()
+        {
+            try
+            {
+                var profiles = await PortalApiHelper.GetNetworkProfiles();
+                return new ResultCommandIPAdapters()
+                {
+                    IPAdapters = profiles,
+                    IsSuccess = true
+                };
+            }
+            catch (Exception e)
+            {
+                DebugHelper.LogError($"Error GetAccessPointSettings: {e.Message}.");
+                return ResultCommand.CreateFailedCommand<ResultCommandIPAdapters>($"Error GetAccessPointSettings: {e.Message}.");
+            }
+        }
+
         private async Task<IEnumerable<HeadlessApp>> LoadFirmwares()
         {
             var allFirmwares = await PortalApiHelper.ListFirmwares();

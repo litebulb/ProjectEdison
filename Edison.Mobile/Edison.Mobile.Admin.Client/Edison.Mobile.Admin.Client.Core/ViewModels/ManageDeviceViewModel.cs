@@ -8,6 +8,8 @@ using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Common.Geo;
 using Edison.Mobile.Common.ViewModels;
+using System.Linq;
+using Edison.Mobile.Common.WiFi;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
@@ -15,7 +17,6 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     {
         readonly ILocationService locationService;
         readonly IDeviceRestService deviceRestService;
-        readonly DeviceProvisioningRestService deviceProvisioningRestService;
 
         public ObservableRangeCollection<DeviceModel> NearDevices { get; private set; } = new ObservableRangeCollection<DeviceModel>();
 
@@ -40,21 +41,15 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             DeviceSetupService deviceSetupService,
             ILocationService locationService,
             IDeviceRestService deviceRestService,
-            DeviceProvisioningRestService deviceProvisioningRestService
-        ) : base(deviceSetupService)
+            DeviceProvisioningRestService deviceProvisioningRestService,
+            IOnboardingRestService onboardingRestService,
+            IWifiService wifiService
+        ) : base(deviceSetupService, deviceProvisioningRestService, onboardingRestService, wifiService)
         {
             this.locationService = locationService;
             this.deviceRestService = deviceRestService;
-            this.deviceProvisioningRestService = deviceProvisioningRestService;
         }
-
-        public async Task SetKeys()
-        {
-            var keys = await deviceProvisioningRestService.GetDeviceKeys(CurrentDeviceModel.DeviceId);
-            deviceSetupService.PortalPassword = keys.PortalPassword;
-            deviceSetupService.WiFiPassword = keys.AccessPointPassword;
-        }
-
+        
         public override void ViewCreated()
         {
             base.ViewCreated();
@@ -64,6 +59,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 await LoadDevice(this.CurrentDeviceModel.DeviceId);
             });            
         }
+
 
         public void AddCustomDeviceField(string key, string value)
         {

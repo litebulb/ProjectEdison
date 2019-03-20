@@ -106,16 +106,16 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             StartActivityForResult(intent, 1);
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
                        
             SetContentView(Resource.Layout.enter_location);
             
-            BindResources();            
+            await BindResources();            
         }
 
-        private void BindResources()
+        private async Task BindResources()
         {
             nameEditText = FindViewById<AppCompatEditText>(Resource.Id.nameEditText);
             buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
@@ -127,8 +127,8 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             ReconcileEditText(i => i.Location1, buildingEditText);
             ReconcileEditText(i => i.Location2, floorEditText);
             ReconcileEditText(i => i.Location3, roomEditText);
-
-            wifiTextView.Text = this.ViewModel.CurrentDeviceModel.SSID;
+            
+            wifiTextView.Text = this.ViewModel.GetConnectedSSID();
 
             if (this.ViewModel.CurrentDeviceModel != null && this.ViewModel.CurrentDeviceModel.Geolocation != null)
             {
@@ -165,7 +165,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
         private async void WifiLayout_Click(object sender, EventArgs e)
         {
-            await this.ViewModel.SetKeys();
             Intent home = new Intent(this, typeof(SelectWifiOnDeviceActivity));
             home.SetFlags(ActivityFlags.NewTask);
             StartActivity(home);

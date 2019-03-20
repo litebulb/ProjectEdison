@@ -96,6 +96,18 @@ namespace Edison.Devices.Onboarding.Client.UWP
         }
 
         /// <summary>
+        /// Get the network profiles that are on the device currently
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ResultCommandGetNetworkProfiles> GetNetworkProfiles()
+        {
+            var resultSetDeviceSecretKeys = await _streamClient.SendCommand<ResultCommandGetNetworkProfiles>
+                (CommandsEnum.GetNetworkProfiles, Common.Helpers.SharedConstants.DEFAULT_ENCRYPTION_KEY);
+            return resultSetDeviceSecretKeys;
+        }
+
+
+        /// <summary>
         /// Get available wifi networks
         /// </summary>
         /// <returns></returns>

@@ -70,7 +70,7 @@ namespace Edison.Devices.Onboarding.Client.UWP
                 {
                     PasswordCredential credential = new PasswordCredential
                     {
-                        Password = "Edison1234" //Need to be dynamic
+                        Password = "yPGodsCrgy"// "Edison1234" //Need to be dynamic
                     };
 
                     Debug.WriteLine($"Opening connection to using credentials: {wifiNetwork.Ssid} [{credential.Password}]");

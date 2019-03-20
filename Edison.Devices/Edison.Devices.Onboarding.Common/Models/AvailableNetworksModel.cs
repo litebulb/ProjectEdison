@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Edison.Devices.Onboarding.Models.PortalAPI
+namespace Edison.Devices.Onboarding.Common.Models
 {
     public sealed class AvailableNetworksModel
     {

@@ -4,6 +4,6 @@ namespace Edison.Devices.Onboarding.Common.Models
 {
     public class ResultCommandAvailableNetworks : ResultCommand
     {
-        public IEnumerable<string> Networks { get; set; }
+        public IEnumerable<AvailableNetwork> Networks { get; set; }
     }
 }

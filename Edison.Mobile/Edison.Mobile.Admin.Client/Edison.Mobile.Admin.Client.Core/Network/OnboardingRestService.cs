@@ -52,6 +52,27 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             }
         }
 
+        public async Task<ResultCommandGetNetworkProfiles> GetNetworkProfiles()
+        {
+            try
+            {
+                var request = PrepareRequest("/GetNetworkProfiles", Method.GET);
+                var result = await client.ExecuteGetTaskAsync<ResultCommandGetNetworkProfiles>(request);
+                if (result.IsSuccessful)
+                {
+                    return result.Data;
+                }
+
+            }
+            catch (Exception e)
+            {
+                logger.Log(e);
+            }
+
+            return default(ResultCommandGetNetworkProfiles);
+        }
+        
+
         public async Task<ResultCommandGenerateCSR> GetGeneratedCSR()
         {
             try
@@ -112,7 +133,7 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             }
         }
 
-        public async Task<IEnumerable<WifiNetwork>> GetAvailableWifiNetworks()
+        public async Task<IEnumerable<AvailableNetwork>> GetAvailableWifiNetworks()
         {
             try
             {
@@ -120,10 +141,7 @@ namespace Edison.Mobile.Admin.Client.Core.Network
                 var queryResult = await client.ExecuteTaskAsync<ResultCommandAvailableNetworks>(request);
                 if (queryResult.IsSuccessful)
                 {
-                    return queryResult.Data.Networks.Select(networkName => new WifiNetwork
-                    {
-                        SSID = networkName,
-                    });
+                    return queryResult.Data.Networks;
                 }
 
                 return null;

@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Ioc;
+using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Admin.Client.Core.ViewModels;
 using Edison.Mobile.Admin.Client.Droid.Adapters;
 using Edison.Mobile.Admin.Client.Droid.Toolbars;
@@ -81,7 +82,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         {
             RunOnUiThread(new Runnable(() =>
             {
-                var devices = new List<Common.WiFi.WifiNetwork>(ViewModel.AvailableWifiNetworks);
+                var devices = new List<AvailableNetwork>(ViewModel.AvailableWifiNetworks);
 
                 // Instantiate the adapter and pass in its data source:
                 var mAdapter = new WifiSelectionDeviceAdapter(devices, GoToEnterPassword);

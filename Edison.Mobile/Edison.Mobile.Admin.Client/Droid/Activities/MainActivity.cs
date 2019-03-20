@@ -99,9 +99,11 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             _recyclerView.SetAdapter(mAdapter);
         }
 
-        public void GoToManageDevice(Guid deviceId)
+        public async void GoToManageDevice(Guid deviceId)
         {
             this.ViewModel.SetDeviceModel(ViewModel.NearDevices.First(i => i.DeviceId == deviceId));
+            await this.ViewModel.SetKeys();
+            await this.ViewModel.GetDeviceNetworkInfo();
 
             var intent = new Intent(this, typeof(EnterLocationActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);

@@ -13,10 +13,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class RegisterDeviceViewModel : DeviceSetupBaseViewModel
     {
-        readonly IWifiService wifiService;
         readonly IDeviceRestService deviceRestService;
-        readonly IOnboardingRestService onboardingRestService;
-        readonly DeviceProvisioningRestService deviceProvisioningRestService;
 
         public event ViewNotification OnBeginDevicePairing;
         public event EventHandler<OnFinishDevicePairingEventArgs> OnFinishDevicePairing;
@@ -35,12 +32,9 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             IWifiService wifiService,
             IOnboardingRestService onboardingRestService,
             DeviceProvisioningRestService deviceProvisioningRestService
-        ) : base(deviceSetupService)
+        ) : base(deviceSetupService, deviceProvisioningRestService, onboardingRestService, wifiService)
         {
             this.deviceRestService = deviceRestService;
-            this.wifiService = wifiService;
-            this.onboardingRestService = onboardingRestService;
-            this.deviceProvisioningRestService = deviceProvisioningRestService;
         }
 
         async Task<bool> ProvisionDeviceFail()

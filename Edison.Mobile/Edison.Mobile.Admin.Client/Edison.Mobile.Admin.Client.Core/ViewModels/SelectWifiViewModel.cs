@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Edison.Mobile.Admin.Client.Core.Ioc;
+using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Admin.Client.Core.Network;
 using Edison.Mobile.Admin.Client.Core.Services;
 using Edison.Mobile.Common.Shared;
@@ -13,12 +14,9 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class SelectWifiViewModel : DeviceSetupBaseViewModel
     {
-        readonly IOnboardingRestService onboardingRestService;
-        readonly IWifiService wifiService;
-        readonly DeviceProvisioningRestService deviceProvisioningRestService;
         private System.Timers.Timer refreshAvailableNetworksTimer;
 
-        public List<WifiNetwork> AvailableWifiNetworks { get; private set; }
+        public List<AvailableNetwork> AvailableWifiNetworks { get; private set; }
 
         public event ViewNotification OnAvailableWifiNetworksChanged;
 
@@ -29,11 +27,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             IWifiService wifiService,
             DeviceProvisioningRestService deviceProvisioningRestService
         )
-            : base(deviceSetupService)
+            : base(deviceSetupService, deviceProvisioningRestService, onboardingRestService, wifiService)
         {
-            this.onboardingRestService = onboardingRestService;
-            this.wifiService = wifiService;
-            this.deviceProvisioningRestService = deviceProvisioningRestService;
             this.onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
         }
 
@@ -94,7 +89,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             var networks = await onboardingRestService.GetAvailableWifiNetworks();
             if (networks != null)
             {
-                var list = new List<WifiNetwork>(networks.Where(n => !string.IsNullOrWhiteSpace(n.SSID)));
+                var list = new List<AvailableNetwork>(networks.Where(n => !string.IsNullOrWhiteSpace(n.SSID)));
                 AvailableWifiNetworks = list;
                 OnAvailableWifiNetworksChanged?.Invoke();
             }
