@@ -63,6 +63,9 @@ namespace Edison.Mobile.Android.Common.Ioc
 
         public class WifiServiceMock : IWifiService
         {
+            public event EventHandler<ConnectionFailedEventArgs> ConnectionFailed;
+            public event EventHandler<CheckingConnectionStatusUpdatedEventArgs> CheckingConnectionStatusUpdated;
+
             public Task<bool> ConnectToWifiNetwork(string ssid)
             {
                 return Task.FromResult(true);

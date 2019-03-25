@@ -4,8 +4,30 @@ using System.Threading.Tasks;
 
 namespace Edison.Mobile.Common.WiFi
 {
+    public class ConnectionFailedEventArgs : EventArgs
+    {
+        public string FailureReason { get; private set; }
+        public ConnectionFailedEventArgs(string failureReason)
+        {
+            this.FailureReason = failureReason;
+        }
+    }
+
+    public class CheckingConnectionStatusUpdatedEventArgs : EventArgs
+    {
+        public string StatusText { get; private set; }
+        public CheckingConnectionStatusUpdatedEventArgs(string statusText)
+        {
+            this.StatusText = statusText;
+        }
+    }
     public interface IWifiService
     {
+
+        event EventHandler<ConnectionFailedEventArgs> ConnectionFailed;
+
+        event EventHandler<CheckingConnectionStatusUpdatedEventArgs> CheckingConnectionStatusUpdated;
+
         Task<WifiNetwork> GetCurrentlyConnectedWifiNetwork();
         Task<bool> ConnectToWifiNetwork(string ssid);
         Task<bool> ConnectToWifiNetwork(string ssid, string passphrase);

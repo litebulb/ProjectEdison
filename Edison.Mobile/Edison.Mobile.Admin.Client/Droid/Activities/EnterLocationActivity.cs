@@ -106,64 +106,78 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             StartActivityForResult(intent, 1);
         }
 
-        protected override async void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
                        
             SetContentView(Resource.Layout.enter_location);
             
-            await BindResources();            
+            Task.Run(async () => await BindResources());            
         }
 
         private async Task BindResources()
         {
-            nameEditText = FindViewById<AppCompatEditText>(Resource.Id.nameEditText);
-            buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
-            floorEditText = FindViewById<AppCompatEditText>(Resource.Id.floorEditText);
-            roomEditText = FindViewById<AppCompatEditText>(Resource.Id.roomEditText);
-            wifiTextView = FindViewById<AppCompatTextView>(Resource.Id.wifiTextView);
+            this.ViewModel.CheckingConnectionStatusUpdated += ViewModel_CheckingConnectionStatusUpdated;
 
-            ReconcileEditText(i => i.Name, nameEditText);
-            ReconcileEditText(i => i.Location1, buildingEditText);
-            ReconcileEditText(i => i.Location2, floorEditText);
-            ReconcileEditText(i => i.Location3, roomEditText);
-            
-            wifiTextView.Text = this.ViewModel.GetConnectedSSID();
-
-            if (this.ViewModel.CurrentDeviceModel != null && this.ViewModel.CurrentDeviceModel.Geolocation != null)
+            RunOnUiThread(() =>
             {
-                _location = new LatLng(this.ViewModel.CurrentDeviceModel.Geolocation.Latitude, this.ViewModel.CurrentDeviceModel.Geolocation.Longitude);
-            }
 
-            var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
-            toolbar.SetTitle(Resource.String.edison_device_setup_message);
+                nameEditText = FindViewById<AppCompatEditText>(Resource.Id.nameEditText);
+                buildingEditText = FindViewById<AppCompatEditText>(Resource.Id.buildingEditText);
+                floorEditText = FindViewById<AppCompatEditText>(Resource.Id.floorEditText);
+                roomEditText = FindViewById<AppCompatEditText>(Resource.Id.roomEditText);
+                wifiTextView = FindViewById<AppCompatTextView>(Resource.Id.wifiTextView);
 
-            var layout = FindViewById<LinearLayout>(Resource.Id.instruction);            
+                ReconcileEditText(i => i.Name, nameEditText);
+                ReconcileEditText(i => i.Location1, buildingEditText);
+                ReconcileEditText(i => i.Location2, floorEditText);
+                ReconcileEditText(i => i.Location3, roomEditText);
 
-            var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
-            var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);            
+                if (this.ViewModel.CurrentDeviceModel != null && this.ViewModel.CurrentDeviceModel.Geolocation != null)
+                {
+                    _location = new LatLng(this.ViewModel.CurrentDeviceModel.Geolocation.Latitude, this.ViewModel.CurrentDeviceModel.Geolocation.Longitude);
+                }
 
-            instructionNumber.Text = "6";
-            instructionText.SetText(Resource.String.device_details_instruction_label);
+                var toolbar = FindViewById<CenteredToolbar>(Resource.Id.toolbar);
+                toolbar.SetTitle(Resource.String.edison_device_setup_message);
 
-            SetSupportActionBar(toolbar);
+                var layout = FindViewById<LinearLayout>(Resource.Id.instruction);
 
-            SupportActionBar.SetHomeButtonEnabled(true);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-                        
-            this.BackPressed += SelectWifiOnDeviceActivity_BackPressed;
+                var instructionNumber = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_number);
+                var instructionText = layout.FindViewById<AppCompatTextView>(Resource.Id.instruction_text);
+
+                instructionNumber.Text = "6";
+                instructionText.SetText(Resource.String.device_details_instruction_label);
+
+                SetSupportActionBar(toolbar);
+
+                SupportActionBar.SetHomeButtonEnabled(true);
+                SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+
+                this.BackPressed += SelectWifiOnDeviceActivity_BackPressed;
+
+                mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
+                mapFragment.GetMapAsync(this);
+
+                var button = FindViewById<AppCompatButton>(Resource.Id.complete_setup_button);
+                button.Click += Button_Click;
+
+                var wifiLayout = FindViewById<LinearLayout>(Resource.Id.wifiLayout);
+                wifiLayout.Click += WifiLayout_Click;
+            });
             
-            mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
-            mapFragment.GetMapAsync(this);
-
-            var button = FindViewById<AppCompatButton>(Resource.Id.complete_setup_button);
-            button.Click += Button_Click;
-
-            var wifiLayout = FindViewById<LinearLayout>(Resource.Id.wifiLayout);
-            wifiLayout.Click += WifiLayout_Click;
+            await this.ViewModel.GetDeviceNetworkInfo();
         }
 
-        private async void WifiLayout_Click(object sender, EventArgs e)
+        private void ViewModel_CheckingConnectionStatusUpdated(object sender, CheckingConnectionStatusUpdatedEventArgs e)
+        {
+            RunOnUiThread(() =>
+            {
+                wifiTextView.Text = e.StatusText;
+            });
+        }
+
+        private void WifiLayout_Click(object sender, EventArgs e)
         {
             Intent home = new Intent(this, typeof(SelectWifiOnDeviceActivity));
             home.SetFlags(ActivityFlags.NewTask);
@@ -194,7 +208,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
 
             setupCompleteDialog.GoToManageDevices += (s, eh) =>
             {
-                // we stay here but need to allow the updating of wifi
+                setupCompleteDialog.Cancel();
             };
         }
 

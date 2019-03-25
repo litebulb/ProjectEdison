@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Ioc;
 using Edison.Mobile.Admin.Client.Core.Models;
 using Edison.Mobile.Admin.Client.Core.Network;
@@ -43,23 +44,18 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             base.ViewAppearing();
 
             var currentlyConnectedWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
-
-            if (currentlyConnectedWifiNetwork == null || !DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
+                        
+            if (!DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
             {
                 deviceSetupService.OriginalSSID = currentlyConnectedWifiNetwork.SSID;
+                await wifiService.DisconnectFromWifiNetwork(currentlyConnectedWifiNetwork);
 
-                if (deviceSetupService.CurrentDeviceHotspotNetwork != null)
+                var connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
+                await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = deviceSetupService.CurrentDeviceHotspotNetwork.SSID } );
+                if (!connected && deviceSetupService.CurrentDeviceHotspotNetwork != null)
                 {
-                    var existingResult = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
-
-                    if (!existingResult)
-                    {
-                        await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
-                    }
-                    
-                    await Task.Delay(1000);
-
-                    refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
+                    await wifiService.DisconnectFromWifiNetwork(currentlyConnectedWifiNetwork);
+                    connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);                    
                 }
                 else
                 {
@@ -67,6 +63,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                     // TODO: lost connection with device... please go back to step 1
                 }
             }
+
+            refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
 
             refreshAvailableNetworksTimer.Elapsed += HandleRefreshTimerElapsed;
             refreshAvailableNetworksTimer.Start();
@@ -84,12 +82,17 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             await RefreshAvailableWifiNetworks();
         }
 
+        public void SetWifi(string selectedSSid)
+        {
+            deviceSetupService.ConnectedWifiSSID = selectedSSid; 
+        }
+
         public async Task RefreshAvailableWifiNetworks()
         {
             var networks = await onboardingRestService.GetAvailableWifiNetworks();
             if (networks != null)
             {
-                var list = new List<AvailableNetwork>(networks.Where(n => !string.IsNullOrWhiteSpace(n.SSID)));
+                var list = new List<AvailableNetwork>(networks.Where(n => !string.IsNullOrWhiteSpace(n.SSID) && !n.AlreadyConnected));
                 AvailableWifiNetworks = list;
                 OnAvailableWifiNetworksChanged?.Invoke();
             }

@@ -103,8 +103,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         {
             this.ViewModel.SetDeviceModel(ViewModel.NearDevices.First(i => i.DeviceId == deviceId));
             await this.ViewModel.SetKeys();
-            await this.ViewModel.GetDeviceNetworkInfo();
-
             var intent = new Intent(this, typeof(EnterLocationActivity));
             intent.AddFlags(ActivityFlags.NoAnimation);
             StartActivity(intent);

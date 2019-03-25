@@ -23,7 +23,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
         {
             View itemView = LayoutInflater.From(parent.Context).
                         Inflate(Resource.Layout.nearby_device_item_view, parent, false);
-            NearbyDeviceHolder vh = new NearbyDeviceHolder(itemView);
+            NearbyDeviceHolder vh = new NearbyDeviceHolder(itemView, _action);
             return vh;
         }
 
@@ -54,11 +54,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
             }
 
             vh.Caption.Text = device.Name;
-
-            vh.ItemView.Click += (sender, e) =>
-            {
-                _action(device.DeviceId);
-            };
+            vh.DeviceId = device.DeviceId;
         }
 
         public override int ItemCount
@@ -67,18 +63,29 @@ namespace Edison.Mobile.Admin.Client.Droid.Adapters
         }
     }
 
-    public class NearbyDeviceHolder : RecyclerView.ViewHolder
+    public class NearbyDeviceHolder : RecyclerView.ViewHolder, View.IOnClickListener
     {
+        
+        public Action<Guid> _action;
+
         public ImageView DeviceTypeImage { get; private set; }
         public LinearLayout StateLayout { get; private set; }
         public TextView Caption { get; private set; }
+        public Guid DeviceId { get; set; }
 
-        public NearbyDeviceHolder(View itemView) : base(itemView)
+        public NearbyDeviceHolder(View itemView, Action<Guid> action) : base(itemView)
         {
+            itemView.SetOnClickListener(this);
             // Locate and cache view references:
             DeviceTypeImage = itemView.FindViewById<ImageView>(Resource.Id.typeImageView);
             StateLayout = itemView.FindViewById<LinearLayout>(Resource.Id.stateLayout);
             Caption = itemView.FindViewById<TextView>(Resource.Id.textView);
+            _action = action;
+        }
+
+        public void OnClick(View v)
+        {
+            _action(DeviceId);
         }
     }
 }

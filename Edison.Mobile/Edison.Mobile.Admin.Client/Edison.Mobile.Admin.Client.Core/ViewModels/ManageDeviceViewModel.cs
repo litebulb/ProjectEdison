@@ -73,6 +73,14 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 
         public async Task UpdateDevice()
         {
+            var network = await wifiService.GetCurrentlyConnectedWifiNetwork();
+
+            if(DeviceSetupService.SSIDIsEdisonDevice(network.SSID))
+            {
+                await wifiService.ConnectToWifiNetwork(deviceSetupService.OriginalSSID);
+                await Task.Delay(1000);
+            }
+
             var currentDeviceModel = deviceSetupService.CurrentDeviceModel;
             if (currentDeviceModel == null) return;
 
@@ -85,25 +93,21 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                 Location1 = currentDeviceModel.Location1,
                 Location2 = currentDeviceModel.Location2,
                 Location3 = currentDeviceModel.Location3,      
-                SSID = currentDeviceModel.SSID
+                SSID = deviceSetupService.CurrentDeviceModel.SSID
             };
 
             var success = await deviceRestService.UpdateDevice(updateTagsModel);
 
+            deviceSetupService.IsNew = false;
+
             OnDeviceUpdated?.Invoke(this, success);
         }
 
-        public void SelectDevice(DeviceModel device)
-        {
-            deviceSetupService.CurrentDeviceModel = device;
-            deviceSetupService.CurrentDeviceHotspotNetwork.SSID = device.SSID;
-        }
-
-        public override async void ViewAppeared()
+        public override void ViewAppeared()
         {
             base.ViewAppeared();
 
-            await GetNearDevices();
+            Task.Run(async () =>  await GetNearDevices());
         }
 
         async Task GetNearDevices()
@@ -117,16 +121,19 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         
         public async Task LoadDevice(Guid deviceId)
         {
-            var device = await GetDevice(deviceId);
-           
-            if (device == null)
+            if (!deviceSetupService.IsNew)
             {
-                OnDeviceLoadFail.Invoke(this, EventArgs.Empty);
-            }
-            else
-            {
-                deviceSetupService.CurrentDeviceModel = device;
-                OnDeviceLoaded.Invoke(this, new OnDeviceLoadedEventArgs(device));
+                var device = await GetDevice(deviceId);
+
+                if (device == null)
+                {
+                    OnDeviceLoadFail.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    deviceSetupService.CurrentDeviceModel = device;
+                    OnDeviceLoaded.Invoke(this, new OnDeviceLoadedEventArgs(device));
+                }
             }
         }
         

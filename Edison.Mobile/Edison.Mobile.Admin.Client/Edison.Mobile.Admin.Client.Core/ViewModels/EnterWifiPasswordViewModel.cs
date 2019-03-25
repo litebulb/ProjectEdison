@@ -34,6 +34,26 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         {
             try
             {
+                var currentlyConnectedWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
+
+                if (!DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
+                {
+                    await wifiService.DisconnectFromWifiNetwork(currentlyConnectedWifiNetwork);
+                    
+                    var connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
+
+                    await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = deviceSetupService.CurrentDeviceHotspotNetwork.SSID });
+
+                    if (!connected && deviceSetupService.CurrentDeviceHotspotNetwork != null)
+                    {
+                        connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
+                    }
+                    if(!connected)
+                    {
+                        return false;
+                    }
+                }
+
                 var result = await onboardingRestService.ConnectToNetwork(new RequestNetworkInformationModel
                 {
                     NetworkInformation = new NetworkInformationModel

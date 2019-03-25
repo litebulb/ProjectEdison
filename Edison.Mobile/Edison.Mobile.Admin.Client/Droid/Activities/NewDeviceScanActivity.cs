@@ -104,7 +104,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             {
                 RunOnUiThread(() =>
                 {
-                    statusLabel.Text = "Error occurred";
+                    statusLabel.Text = $"{statusLabel.Text} - Error occurred";
                 });
 
                 Console.Out.WriteLine(e);

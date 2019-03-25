@@ -10,6 +10,7 @@ namespace Edison.Mobile.Admin.Client.Core.Services
 {
     public class DeviceSetupService
     {
+        public bool IsNew { get; set; }
         public DeviceSetupService()
         {
             CurrentDeviceHotspotNetwork = new WifiNetwork();
@@ -46,7 +47,7 @@ namespace Edison.Mobile.Admin.Client.Core.Services
             CurrentDeviceHotspotNetwork = new WifiNetwork();
         }
          
-        public static bool SSIDIsEdisonDevice(string ssid) => ssid.StartsWith("EDISON_", StringComparison.Ordinal);
+        public static bool SSIDIsEdisonDevice(string ssid) => ssid.Contains("EDISON_"); // android has quotes around it so starts with won't work
 
         public static string DeviceTypeToString(DeviceType deviceType)
         {

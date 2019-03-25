@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Edison.Core.Common.Models;
 using Edison.Mobile.Admin.Client.Core.Ioc;
@@ -10,12 +12,34 @@ using Edison.Mobile.Common.WiFi;
 
 namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
+    public class ConnectionFailedEventArgs :EventArgs
+    {
+        public string FailureReason { get; private set; }
+        public ConnectionFailedEventArgs(string failureReason)
+        {
+            this.FailureReason = failureReason;
+        }
+    }
+
+    public class CheckingConnectionStatusUpdatedEventArgs : EventArgs
+    {
+        public string StatusText { get; private set; }
+        public CheckingConnectionStatusUpdatedEventArgs(string statusText)
+        {
+            this.StatusText = statusText;
+        }
+    }
+
     public class DeviceSetupBaseViewModel : BaseViewModel
     {
+        
+        public event EventHandler<ConnectionFailedEventArgs> ConnectionFailed;
+        public event EventHandler<CheckingConnectionStatusUpdatedEventArgs> CheckingConnectionStatusUpdated;
+
         protected readonly DeviceSetupService deviceSetupService;
         protected readonly DeviceProvisioningRestService deviceProvisioningRestService;
         protected readonly IOnboardingRestService onboardingRestService;
-        protected readonly IWifiService wifiService;
+        protected readonly IWifiService wifiService;        
 
         public DeviceSetupBaseViewModel(DeviceSetupService deviceSetupService,
             DeviceProvisioningRestService deviceProvisioningRestService,
@@ -26,6 +50,13 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             this.deviceProvisioningRestService = deviceProvisioningRestService;
             this.onboardingRestService = onboardingRestService;
             this.wifiService = wifiService;
+
+            this.wifiService.CheckingConnectionStatusUpdated += WifiService_CheckingConnectionStatusUpdated;
+        }
+
+        private void WifiService_CheckingConnectionStatusUpdated(object sender, Common.WiFi.CheckingConnectionStatusUpdatedEventArgs e)
+        {
+            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(e.StatusText));
         }
 
         public string DeviceTypeAsString => deviceSetupService.DeviceTypeAsFriendlyString;
@@ -49,15 +80,28 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         }
 
         public async Task GetDeviceNetworkInfo()
-        {
+        {           
             var originalNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
 
-            await wifiService.DisconnectFromWifiNetwork(originalNetwork);
-            var success = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
+            if(!DeviceSetupService.SSIDIsEdisonDevice(originalNetwork.SSID))
+            {
+                var success = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
+
+                if (!success)
+                {
+                    success = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
+                }
+
+                if (!success)
+                {
+                    CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Unable To Connect To Device"));
+                    return;
+                }
+            }
+
+
             onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
-
-            await Task.Delay(4000);
-
+            
             var networks = await this.onboardingRestService.GetAvailableWifiNetworks();
 
             if (networks != default(IEnumerable<Models.AvailableNetwork>))
@@ -66,8 +110,15 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
                 if (connectedNetwork != default(Models.AvailableNetwork))
                 {
+                    this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
                     this.deviceSetupService.ConnectedWifiSSID = connectedNetwork.SSID;
+                    CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(connectedNetwork.SSID));                    
                 }
+            }
+            else
+            {
+                this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+                CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Device Not Connected To a Network"));
             }
             await wifiService.ConnectToWifiNetwork(originalNetwork.SSID);
         }

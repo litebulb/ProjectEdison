@@ -382,13 +382,13 @@
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj">
+      <Project>{3a1c71af-e551-498a-bf79-c84d4e741f83}</Project>
+      <Name>Edison.Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Edison.Mobile.Common\Edison.Mobile.Common.csproj">
       <Project>{2EC1B495-F342-42B5-9792-4A6AE5E764CC}</Project>
       <Name>Edison.Mobile.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Edison.Core\Edison.Core.Common\Edison.Core.Common.csproj">
-      <Project>{3A1C71AF-E551-498A-BF79-C84D4E741F83}</Project>
-      <Name>Edison.Core.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
