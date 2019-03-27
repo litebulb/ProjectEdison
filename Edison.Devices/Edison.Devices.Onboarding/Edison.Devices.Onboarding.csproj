@@ -106,6 +106,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers\AccessPointHelper.cs" />
+    <Compile Include="Helpers\AdaptersHelper.cs" />
     <Compile Include="Helpers\SecretManager.cs" />
     <Compile Include="Interfaces\IDeviceApiServer.cs" />
     <Compile Include="Models\HttpRequest.cs" />
@@ -189,10 +190,6 @@
     <ProjectReference Include="..\Edison.Devices.Onboarding.Common\Edison.Devices.Onboarding.Common.csproj">
       <Project>{ef5ea191-30d7-4dff-8cdf-fe4b3a0e340d}</Project>
       <Name>Edison.Devices.Onboarding.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IoTOnboardingUtils\IoTOnboardingUtils.vcxproj">
-      <Project>{caf3ef02-b6ae-4dc9-b390-47c342dca8ec}</Project>
-      <Name>IoTOnboardingUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">

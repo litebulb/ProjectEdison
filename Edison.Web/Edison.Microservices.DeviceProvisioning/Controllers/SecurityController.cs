@@ -54,9 +54,9 @@ namespace Edison.DeviceProvisionning.Controllers
         /// <returns>DeviceSecretKeysModel</returns>
         [HttpPost]
         [Produces(typeof(DeviceSecretKeysModel))]
-        public async Task<IActionResult> GenerateDeviceKeys([FromBody]Guid deviceId)
+        public async Task<IActionResult> GenerateDeviceKeys([FromBody]DeviceSecretKeysCreationModel deviceSecretKeysCreationRequest)
         {
-            var result = await _keyVaultManager.SetSecretForDevice(deviceId);
+            var result = await _keyVaultManager.SetSecretForDevice(deviceSecretKeysCreationRequest);
             if (result != null)
                 return Ok(result);
             return StatusCode(StatusCodes.Status500InternalServerError);

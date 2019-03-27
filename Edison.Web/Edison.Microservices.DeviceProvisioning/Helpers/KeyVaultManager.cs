@@ -49,11 +49,13 @@ namespace Edison.DeviceProvisioning.Helpers
         {
             var output = new DeviceSecretKeysModel();
 
-            var ssidPassword = await GetSecret($"{deviceId}-ssid");
+            var ssidName = await GetSecret($"{deviceId}-ssidn");
+            var ssidPassword = await GetSecret($"{deviceId}-ssidp");
             var portalPassword = await GetSecret($"{deviceId}-portal");
             var encryptionKey = await GetSecret($"{deviceId}-cryptkey");
 
-            output.AccessPointPassword = !string.IsNullOrEmpty(ssidPassword) ? ssidPassword : _config.DefaultSecrets.AccessPointPassword;
+            output.SSIDName = !string.IsNullOrEmpty(ssidName) ? ssidName : _config.DefaultSecrets.SSIDName;
+            output.SSIDPassword = !string.IsNullOrEmpty(ssidPassword) ? ssidPassword : _config.DefaultSecrets.SSIDPassword;
             output.PortalPassword = !string.IsNullOrEmpty(portalPassword) ? portalPassword : _config.DefaultSecrets.PortalPassword;
             output.EncryptionKey = !string.IsNullOrEmpty(encryptionKey) ? encryptionKey : _config.DefaultSecrets.EncryptionKey;
 
@@ -66,15 +68,19 @@ namespace Edison.DeviceProvisioning.Helpers
         /// </summary>
         /// <param name="deviceId">Device Id</param>
         /// <returns>DeviceSecretKeysModel</returns>
-        public async Task<DeviceSecretKeysModel> SetSecretForDevice(Guid deviceId)
+        public async Task<DeviceSecretKeysModel> SetSecretForDevice(DeviceSecretKeysCreationModel deviceSecretKeysCreationRequest)
         {
             DeviceSecretKeysModel output = new DeviceSecretKeysModel();
 
-            var ssidPassword = await SetSecret($"{deviceId}-ssid", GenerateSecret(10));
+            Guid deviceId = deviceSecretKeysCreationRequest.DeviceId;
+
+            var ssidName = await SetSecret($"{deviceId}-ssidn", deviceSecretKeysCreationRequest.SSIDName);
+            var ssidPassword = await SetSecret($"{deviceId}-ssidp", GenerateSecret(10));
             var portalPassword = await SetSecret($"{deviceId}-portal", GenerateSecret(10));
             var encryptionKey = await SetSecret($"{deviceId}-cryptkey", GenerateSecret(64));
 
-            output.AccessPointPassword = !string.IsNullOrEmpty(ssidPassword) ? ssidPassword : _config.DefaultSecrets.AccessPointPassword;
+            output.SSIDName = !string.IsNullOrEmpty(ssidName) ? ssidName : _config.DefaultSecrets.SSIDName;
+            output.SSIDPassword = !string.IsNullOrEmpty(ssidPassword) ? ssidPassword : _config.DefaultSecrets.SSIDPassword;
             output.PortalPassword = !string.IsNullOrEmpty(portalPassword) ? portalPassword : _config.DefaultSecrets.PortalPassword;
             output.EncryptionKey = !string.IsNullOrEmpty(encryptionKey) ? encryptionKey : _config.DefaultSecrets.EncryptionKey;
 

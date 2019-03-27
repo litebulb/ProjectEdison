@@ -1,5 +1,5 @@
-﻿using IoTOnboardingUtils;
-using System;
+﻿using System;
+using System.Linq;
 
 namespace Edison.Devices.Onboarding.Helpers
 {
@@ -10,11 +10,29 @@ namespace Edison.Devices.Onboarding.Helpers
 
         private static void InitAccessPoint()
         {
-            
-            string mac = MACFinder.GetWiFiAdapterMAC();
+            AdapterInfo adapter = null;
+
+            try
+            {
+                var listAdapters = AdaptersHelper.GetAdapters();
+                adapter = listAdapters.FindAll(p => p.Type == AdapterType.Wifi).OrderBy(p => p.Name).FirstOrDefault();
+                if (adapter == null)
+                    adapter = listAdapters.OrderBy(p => p.Name).FirstOrDefault();
+
+                if (adapter == null)
+                    throw new Exception("Could not retrieve MAC address");
+            }
+            catch (Exception e)
+            {
+                DebugHelper.LogError($"Could not retrieve MAC address: {e.Message}");
+                return;
+            }
+
+            DebugHelper.LogInformation($"MAC Address: {adapter.MAC}");
+
             if (_AccessPoint != null)
                 StopAccessPoint();
-            _AccessPoint = new OnboardingAccessPoint($"{SecretManager.AccessPointSsid}_{mac}", SecretManager.AccessPointPassword, AccessPointId);
+            _AccessPoint = new OnboardingAccessPoint($"{SecretManager.AccessPointSsid}_{adapter.RawMAC}", SecretManager.AccessPointPassword, AccessPointId);
         }
 
         public static void StartAccessPoint()
