@@ -47,8 +47,8 @@
   "KeyVaultAddress": "https://edisonqakeyvault.vault.azure.net/",
   "DefaultSecrets": {
     "PortalPassword": "Edison1234",
-    "AccessPointSSID": "EDISON",
-    "AccessPointPassword": "Edison1234",
+    "SSIDName": "EDISON",
+    "SSIDPassword": "Edison1234",
     "EncryptionKey": "c7c0dd2d09a4efc7d2f39f53fd9b207f5b7aafa272639c4b8771f9ba60b14400"
   },
   "AllowedHosts": "*"
