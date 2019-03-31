@@ -15,6 +15,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 {
     public class ManageDeviceViewModel : DeviceSetupBaseViewModel
     {
+        public event EventHandler<ConnectionFailedEventArgs> ConnectionFailed;
+        public event EventHandler<CheckingConnectionStatusUpdatedEventArgs> CheckingConnectionStatusUpdated;
         readonly ILocationService locationService;
         readonly IDeviceRestService deviceRestService;
 
@@ -48,8 +50,62 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         {
             this.locationService = locationService;
             this.deviceRestService = deviceRestService;
+
+            this.wifiService.CheckingConnectionStatusUpdated += WifiService_CheckingConnectionStatusUpdated;
+            this.wifiService.ConnectionFailed += WifiService_ConnectionFailed;
         }
-        
+
+
+        private void WifiService_ConnectionFailed(object sender, Common.WiFi.ConnectionFailedEventArgs e)
+        {
+            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Could not connect to device"));
+        }
+
+        private void WifiService_CheckingConnectionStatusUpdated(object sender, Common.WiFi.CheckingConnectionStatusUpdatedEventArgs e)
+        {
+            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(e.StatusText));
+
+            if (e.IsConnected && DeviceSetupService.SSIDIsEdisonDevice(e.SSID))
+            {
+                onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
+                Task.Run(async () => 
+                {                
+                    var networks = await this.onboardingRestService.GetAvailableWifiNetworks();
+
+                    if (networks != default(IEnumerable<Models.AvailableNetwork>))
+                    {
+                        var connectedNetwork = networks.FirstOrDefault(i => i.AlreadyConnected);
+
+                        if (connectedNetwork != default(Models.AvailableNetwork))
+                        {
+                            this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+                            this.deviceSetupService.ConnectedWifiSSID = connectedNetwork.SSID;
+                            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(connectedNetwork.SSID));
+                        }
+                    }
+                    else
+                    {
+                        this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+                        CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Device Not Connected To a Network"));
+                    }
+
+                    await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = e.SSID });
+                });
+            }
+
+        }
+
+        public async Task GetDeviceNetworkInfo()
+        {
+            originalWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
+
+            if (!DeviceSetupService.SSIDIsEdisonDevice(originalWifiNetwork.SSID))
+            {
+                await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
+            }
+
+        }
+
         public override void ViewCreated()
         {
             base.ViewCreated();

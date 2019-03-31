@@ -67,7 +67,6 @@
     <Folder Include="Ioc\" />
     <Folder Include="Logging\" />
     <Folder Include="Geo\" />
-    <Folder Include="Network\" />
     <Folder Include="Auth\" />
     <Folder Include="Persistence\" />
     <Folder Include="Shared\" />

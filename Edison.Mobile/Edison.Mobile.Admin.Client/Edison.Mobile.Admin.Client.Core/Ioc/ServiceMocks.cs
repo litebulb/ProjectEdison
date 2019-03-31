@@ -36,11 +36,11 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
                 });
             }
 
-            public Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId)
+            public Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId, string ssidName)
             {
                 return Task.FromResult(new DeviceSecretKeysModel()
                 {
-                    AccessPointPassword = "Edison1234",
+                    SSIDPassword = "Edison1234",
                     EncryptionKey = "Asdfasd",
                     PortalPassword = "Edison1234"
                 });
@@ -50,7 +50,7 @@ namespace Edison.Mobile.Admin.Client.Core.Ioc
             {
                 return Task.FromResult(new DeviceSecretKeysModel()
                 {
-                    AccessPointPassword = "Edison1234",
+                    SSIDPassword = "Edison1234",
                     EncryptionKey = "Asdfasd",
                     PortalPassword = "Edison1234"
                 });

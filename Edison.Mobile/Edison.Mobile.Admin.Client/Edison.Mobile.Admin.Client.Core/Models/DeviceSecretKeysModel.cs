@@ -2,7 +2,8 @@
 {
     public class DeviceSecretKeysModel
     {
-        public string AccessPointPassword { get; set; }
+        public string SSIDName { get; set; }
+        public string SSIDPassword { get; set; }
         public string PortalPassword { get; set; }
         public string EncryptionKey { get; set; }
     }

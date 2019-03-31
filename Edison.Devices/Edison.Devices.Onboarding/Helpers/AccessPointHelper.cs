@@ -14,13 +14,18 @@ namespace Edison.Devices.Onboarding.Helpers
 
             try
             {
-                var listAdapters = AdaptersHelper.GetAdapters();
-                adapter = listAdapters.FindAll(p => p.Type == AdapterType.Wifi).OrderBy(p => p.Name).FirstOrDefault();
-                if (adapter == null)
-                    adapter = listAdapters.OrderBy(p => p.Name).FirstOrDefault();
+                if (SecretManager.AccessPointSsid == Common.Helpers.SharedConstants.DEFAULT_AP_SSID)
+                {
+                    var listAdapters = AdaptersHelper.GetAdapters();
+                    adapter = listAdapters.FindAll(p => p.Type == AdapterType.Wifi).OrderBy(p => p.Name).FirstOrDefault();
+                    if (adapter == null)
+                        adapter = listAdapters.OrderBy(p => p.Name).FirstOrDefault();
 
-                if (adapter == null)
-                    throw new Exception("Could not retrieve MAC address");
+                    if (adapter == null)
+                        throw new Exception("Could not retrieve MAC address");
+
+                    SecretManager.AccessPointSsid = $"{Common.Helpers.SharedConstants.DEFAULT_AP_SSID}_{adapter.RawMAC}";
+                }
             }
             catch (Exception e)
             {
@@ -28,11 +33,11 @@ namespace Edison.Devices.Onboarding.Helpers
                 return;
             }
 
-            DebugHelper.LogInformation($"MAC Address: {adapter.MAC}");
+            DebugHelper.LogInformation($"Access Point Id: {SecretManager.AccessPointSsid}");
 
             if (_AccessPoint != null)
                 StopAccessPoint();
-            _AccessPoint = new OnboardingAccessPoint($"{SecretManager.AccessPointSsid}_{adapter.RawMAC}", SecretManager.AccessPointPassword, AccessPointId);
+            _AccessPoint = new OnboardingAccessPoint(SecretManager.AccessPointSsid, SecretManager.AccessPointPassword, AccessPointId);
         }
 
         public static void StartAccessPoint()

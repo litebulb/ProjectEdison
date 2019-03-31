@@ -118,7 +118,7 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
         private async Task BindResources()
         {
             this.ViewModel.CheckingConnectionStatusUpdated += ViewModel_CheckingConnectionStatusUpdated;
-
+            this.ViewModel.OnDeviceUpdated += ViewModel_OnDeviceUpdated;
             RunOnUiThread(() =>
             {
 
@@ -169,6 +169,33 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             await this.ViewModel.GetDeviceNetworkInfo();
         }
 
+        private void ViewModel_OnDeviceUpdated(object sender, bool e)
+        {
+            if (!e)
+            {
+                Dialog dialog = new Dialog(this);
+                dialog.SetTitle("Error occured");                
+                dialog.Show();
+            }
+
+            SetupCompleteDialog setupCompleteDialog = new SetupCompleteDialog(this);
+            setupCompleteDialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
+            setupCompleteDialog.Show();
+
+            setupCompleteDialog.GoToHome += (s, eh) =>
+            {
+                Intent home = new Intent(this, typeof(MainActivity));
+                home.SetFlags(ActivityFlags.NewTask);
+                StartActivity(home);
+            };
+
+            setupCompleteDialog.GoToManageDevices += (s, eh) =>
+            {
+                setupCompleteDialog.Cancel();
+            };
+
+        }
+
         private void ViewModel_CheckingConnectionStatusUpdated(object sender, CheckingConnectionStatusUpdatedEventArgs e)
         {
             RunOnUiThread(() =>
@@ -194,22 +221,6 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             this.ViewModel.CurrentDeviceModel.Enabled = true;            
 
             await this.ViewModel.UpdateDevice();
-            
-            SetupCompleteDialog setupCompleteDialog = new SetupCompleteDialog(this);
-            setupCompleteDialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
-            setupCompleteDialog.Show();
-
-            setupCompleteDialog.GoToHome += (s, eh) =>
-            {
-                Intent home = new Intent(this, typeof(MainActivity));
-                home.SetFlags(ActivityFlags.NewTask);
-                StartActivity(home);
-            };
-
-            setupCompleteDialog.GoToManageDevices += (s, eh) =>
-            {
-                setupCompleteDialog.Cancel();
-            };
         }
 
         private string ValidateInput(string value)

@@ -13,7 +13,11 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     public class EnterWifiPasswordViewModel : DeviceSetupBaseViewModel
     {
         readonly ILogger logger;
-        
+        private string ssid;
+        private string password;
+
+        public event EventHandler<bool> PasswordSetCompleted;
+
         public EnterWifiPasswordViewModel(
             DeviceSetupService deviceSetupService, 
             IOnboardingRestService onboardingRestService,
@@ -26,34 +30,14 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             this.onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
 
             this.logger = logger;
-            
+            this.wifiService.CheckingConnectionStatusUpdated += WifiService_CheckingConnectionStatusUpdated;
 
         }
 
-        public async Task<bool> ConnectDeviceToNetwork(string ssid, string password)
+        private async void WifiService_CheckingConnectionStatusUpdated(object sender, Common.WiFi.CheckingConnectionStatusUpdatedEventArgs e)
         {
-            try
+            if(e.IsConnected && DeviceSetupService.SSIDIsEdisonDevice(e.SSID))
             {
-                var currentlyConnectedWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
-
-                if (!DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
-                {
-                    await wifiService.DisconnectFromWifiNetwork(currentlyConnectedWifiNetwork);
-                    
-                    var connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
-
-                    await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = deviceSetupService.CurrentDeviceHotspotNetwork.SSID });
-
-                    if (!connected && deviceSetupService.CurrentDeviceHotspotNetwork != null)
-                    {
-                        connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
-                    }
-                    if(!connected)
-                    {
-                        return false;
-                    }
-                }
-
                 var result = await onboardingRestService.ConnectToNetwork(new RequestNetworkInformationModel
                 {
                     NetworkInformation = new NetworkInformationModel
@@ -63,13 +47,29 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
                     },
                 });
 
-                if(result.IsSuccess)
+                if (result.IsSuccess)
                 {
                     //change wifi back
-                    await wifiService.ConnectToWifiNetwork(deviceSetupService.OriginalSSID);
+                    await wifiService.DisconnectFromWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork);                    
                 }
 
-                return result.IsSuccess;
+                PasswordSetCompleted?.Invoke(this, result.IsSuccess);
+            }
+        }
+
+        public async Task<bool> ConnectDeviceToNetwork(string ssid, string password)
+        {
+            this.ssid = ssid;
+            this.password = password;
+            try
+            {
+                var currentlyConnectedWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
+                if (!DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
+                {
+                    await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
+                }
+
+                return true;
             } 
             catch (Exception e)
             {

@@ -16,9 +16,14 @@ namespace Edison.Mobile.Common.WiFi
     public class CheckingConnectionStatusUpdatedEventArgs : EventArgs
     {
         public string StatusText { get; private set; }
-        public CheckingConnectionStatusUpdatedEventArgs(string statusText)
+        public string SSID { get; private set; }
+
+        public bool IsConnected { get; private set; }
+        public CheckingConnectionStatusUpdatedEventArgs(string statusText, string ssid, bool isConnected)
         {
             this.StatusText = statusText;
+            this.SSID = ssid;
+            this.IsConnected = isConnected;
         }
     }
     public interface IWifiService

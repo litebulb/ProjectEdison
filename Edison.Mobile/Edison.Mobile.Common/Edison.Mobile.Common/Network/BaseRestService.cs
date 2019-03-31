@@ -11,7 +11,7 @@ namespace Edison.Mobile.Common.Network
     public class BaseRestService
     {
         protected readonly AuthService authService;
-        protected readonly RestClient client;
+        protected readonly ApiClient client;
         protected readonly ILogger logger;
 
         public BaseRestService(AuthService authService, ILogger logger, string baseUrl)
@@ -19,8 +19,7 @@ namespace Edison.Mobile.Common.Network
             this.logger = logger;
             this.authService = authService;
 
-            client = new RestClient(baseUrl);
-            client.AddHandler("application/json", new NewtonsoftDeserializer());
+            client = new ApiClient(new RestClient(baseUrl));
         }
 
         protected virtual RestRequest PrepareRequest(string endpoint, Method method, object requestBody = null)

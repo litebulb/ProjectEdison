@@ -93,7 +93,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             var csrResult = await onboardingRestService.GetGeneratedCSR();
 
-            await wifiService.DisconnectFromWifiNetwork(wifiNetwork);
+            //await wifiService.DisconnectFromWifiNetwork(wifiNetwork);
             var connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.OriginalSSID);
 
             if (csrResult == null || !connected) return await ProvisionDeviceFail();
@@ -109,7 +109,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             
             if (certificateResponse == null) return await ProvisionDeviceFail();
 
-            var generateKeysResponse = await deviceProvisioningRestService.GenerateDeviceKeys(deviceSetupService.CurrentDeviceModel.DeviceId);
+            var generateKeysResponse = await deviceProvisioningRestService.GenerateDeviceKeys(deviceSetupService.CurrentDeviceModel.DeviceId, wifiNetwork.SSID);
 
             if (generateKeysResponse == null) return await ProvisionDeviceFail();
 
@@ -118,7 +118,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             SetPairingStatusText("Reconnecting to device and finishing up! Sit tight...");
 
 
-            await wifiService.DisconnectFromWifiNetwork(defaultWifiNetwork);
+            //await wifiService.DisconnectFromWifiNetwork(defaultWifiNetwork);
             // reconnect to device to set device type
             var reconnectSuccess = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.DefaultPassword);
                        
@@ -138,10 +138,11 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             SetPairingStatusText("Updating secrets on the device! Sit tight...");
 
             if (provisionSuccess == null || !provisionSuccess.IsSuccess) return await ProvisionDeviceFail();
+            SetPairingStatusText(generateKeysResponse.SSIDPassword);
 
             var setDeviceKeysResponse = await onboardingRestService.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys
             {
-                AccessPointPassword = generateKeysResponse.AccessPointPassword,
+                AccessPointPassword = generateKeysResponse.SSIDPassword,
                 EncryptionKey = generateKeysResponse.EncryptionKey,
                 PortalPassword = generateKeysResponse.PortalPassword,
             });
@@ -149,7 +150,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             if (setDeviceKeysResponse == null || !setDeviceKeysResponse.IsSuccess) return await ProvisionDeviceFail();
 
             deviceSetupService.PortalPassword = generateKeysResponse.PortalPassword;
-            deviceSetupService.WiFiPassword = generateKeysResponse.AccessPointPassword;
+            deviceSetupService.WiFiPassword = generateKeysResponse.SSIDPassword;
 
             onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
 

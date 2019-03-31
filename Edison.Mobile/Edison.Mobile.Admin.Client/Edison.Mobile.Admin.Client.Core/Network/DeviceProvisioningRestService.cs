@@ -30,9 +30,15 @@ namespace Edison.Mobile.Admin.Client.Core.Network
             return null;
         }
 
-        public async Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId)
+        public async Task<DeviceSecretKeysModel> GenerateDeviceKeys(Guid deviceId, string ssidName)
         {
-            var request = PrepareRequest("Security", Method.POST, deviceId);
+            var requestObject = new
+            {
+                DeviceId = deviceId,
+                SSIDName = ssidName
+            };
+
+            var request = PrepareRequest("Security", Method.POST, requestObject);
             var queryResult = await client.ExecutePostTaskAsync<DeviceSecretKeysModel>(request);
             if (queryResult.IsSuccessful)
             {

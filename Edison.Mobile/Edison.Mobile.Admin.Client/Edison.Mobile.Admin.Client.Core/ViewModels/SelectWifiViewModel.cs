@@ -31,6 +31,8 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             : base(deviceSetupService, deviceProvisioningRestService, onboardingRestService, wifiService)
         {
             this.onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
+
+            this.wifiService.CheckingConnectionStatusUpdated += WifiService_CheckingConnectionStatusUpdated;
         }
 
         public override async void ViewAppeared()
@@ -42,39 +44,41 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public override async void ViewAppearing()
         {
             base.ViewAppearing();
-
+            
             var currentlyConnectedWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
                         
             if (!DeviceSetupService.SSIDIsEdisonDevice(currentlyConnectedWifiNetwork.SSID))
             {
-                deviceSetupService.OriginalSSID = currentlyConnectedWifiNetwork.SSID;
-                await wifiService.DisconnectFromWifiNetwork(currentlyConnectedWifiNetwork);
+                await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);               
+            }
+            else
+            {
+                refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
 
-                var connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID);
-                await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = deviceSetupService.CurrentDeviceHotspotNetwork.SSID } );
-                if (!connected && deviceSetupService.CurrentDeviceHotspotNetwork != null)
-                {
-                    await wifiService.DisconnectFromWifiNetwork(currentlyConnectedWifiNetwork);
-                    connected = await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);                    
-                }
-                else
-                {
-                    // not connected to device, and don't have device wifi... need to go back and rescan or enter manually...
-                    // TODO: lost connection with device... please go back to step 1
-                }
+                refreshAvailableNetworksTimer.Elapsed += HandleRefreshTimerElapsed;
             }
 
-            refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
+        }
 
-            refreshAvailableNetworksTimer.Elapsed += HandleRefreshTimerElapsed;
-            refreshAvailableNetworksTimer.Start();
+        private void WifiService_CheckingConnectionStatusUpdated(object sender, Common.WiFi.CheckingConnectionStatusUpdatedEventArgs e)
+        {
+            if (e.IsConnected && DeviceSetupService.SSIDIsEdisonDevice(deviceSetupService.CurrentDeviceHotspotNetwork.SSID))
+            {
+                refreshAvailableNetworksTimer = new System.Timers.Timer(5000);
+
+                refreshAvailableNetworksTimer.Elapsed += HandleRefreshTimerElapsed;
+                refreshAvailableNetworksTimer.Start();
+            }
         }
 
         public override void ViewDisappeared()
         {
             base.ViewDisappeared();
-            refreshAvailableNetworksTimer.Elapsed -= HandleRefreshTimerElapsed;
-            refreshAvailableNetworksTimer.Stop();
+            if (refreshAvailableNetworksTimer != null)
+            {
+                refreshAvailableNetworksTimer.Elapsed -= HandleRefreshTimerElapsed;
+                refreshAvailableNetworksTimer.Stop();
+            }
         }
 
         async void HandleRefreshTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)

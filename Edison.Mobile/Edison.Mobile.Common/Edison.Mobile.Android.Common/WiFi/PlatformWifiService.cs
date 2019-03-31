@@ -27,6 +27,7 @@ namespace Edison.Mobile.Android.Common.WiFi
             if(networkId == -1)
             {
                 ConnectionFailed?.Invoke(this, new ConnectionFailedEventArgs("Network wasn't found"));
+                Console.WriteLine("Network Id was -1");
                 return false;
             }
 
@@ -36,10 +37,10 @@ namespace Edison.Mobile.Android.Common.WiFi
             int tryCount = 0;
             do
             {
-                if (tryCount < 20)
+                if (tryCount < 50)
                 {
                     stringBuilder.Append(".");
-                    CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs($"Connecting{stringBuilder.ToString()}"));
+                    CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs($"Connecting{stringBuilder.ToString()}", ssid, false));
                 }
                 else
                 {
@@ -48,13 +49,15 @@ namespace Edison.Mobile.Android.Common.WiFi
                 }
 
                 connected = wifiManager.EnableNetwork(networkId, true);
-                Task.Delay(500).Wait();
+                await Task.Delay(500);
                 tryCount++;
 
                 info = wifiManager.ConnectionInfo;                
             }
-            while ((info.NetworkId == -1 || info.NetworkId != networkId || !wifiManager.IsWifiEnabled || info.SupplicantState != SupplicantState.Completed));
-            
+            while ((info.NetworkId != networkId || info.SupplicantState != SupplicantState.Completed));
+
+            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs($"Connected", ssid, true));
+
             return true;
         }
 
@@ -103,32 +106,8 @@ namespace Edison.Mobile.Android.Common.WiFi
         }
 
         public async Task DisconnectFromWifiNetwork(WifiNetwork wifiNetwork)
-        {    
-            int tryCount = 0;
-            StringBuilder stringBuilder = new StringBuilder();
-            do
-            {
-                if (tryCount < 30)
-                {
-                    for (var i = 0; i < tryCount; i++)
-                    {
-                        stringBuilder.Append(".");
-                    }
-
-                    CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs($"Disconnecting{stringBuilder.ToString()}"));
-                }
-                else
-                {
-                    ConnectionFailed?.Invoke(this, new ConnectionFailedEventArgs("Didn't disconnect quickly enough."));
-                    return;
-                }
-                
-                wifiManager.Disconnect();
-                Task.Delay(250).Wait();
-                tryCount++;
-            }
-            while (wifiManager.ConnectionInfo.SupplicantState != SupplicantState.Disconnected);
-            
+        {
+            wifiManager.Disconnect();
             await Task.FromResult(true);
             
         }
