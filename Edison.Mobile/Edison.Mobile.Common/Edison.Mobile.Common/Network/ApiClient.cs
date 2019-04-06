@@ -37,7 +37,7 @@ namespace Edison.Mobile.Common.Network
             this.wrapped.AddHandler("application/json", new NewtonsoftDeserializer());
         }
 
-        private async Task<IRestResponse<T>> Retry<T>(IRestRequest request, Func<IRestRequest, Task<IRestResponse<T>>> delegated)
+        private async Task<IRestResponse<T>> Retry<T>(IRestRequest request, Func<IRestRequest, Task<IRestResponse<T>>> delegated, CancellationToken cancellationToken = default(CancellationToken))
         {
             IRestResponse<T> response = default(IRestResponse<T>);
 
@@ -46,62 +46,48 @@ namespace Edison.Mobile.Common.Network
             do
             {
                 tryCount++;
-                response = await delegated(request);
+
+                if (tryCount > 1)
+                {
+                    await Task.Delay(1000 * (tryCount));
+                }
+
+                response = await delegated(request);                
             }
-            while (!response.IsSuccessful && tryCount < 5);
+            while (!response.IsSuccessful && tryCount < 6 && (cancellationToken == default(CancellationToken) || !cancellationToken.IsCancellationRequested));
 
             return response;
         }
 
 
+        public async Task<IRestResponse<T>> ExecuteGetTaskAsync<T>(IRestRequest request, CancellationToken cancellationToken)
+        {
+            return await Retry<T>(request, r => this.wrapped.ExecuteGetTaskAsync<T>(r, cancellationToken), cancellationToken);
+        }
+
+        public async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request, CancellationToken cancellationToken)
+        {
+            return await Retry<T>(request, r => this.wrapped.ExecuteTaskAsync<T>(r, cancellationToken), cancellationToken);
+        }
+
+        public async Task<IRestResponse<T>> ExecutePostTaskAsync<T>(IRestRequest request, CancellationToken cancellationToken)
+        {
+            return await Retry<T>(request, r => this.wrapped.ExecutePostTaskAsync<T>(r, cancellationToken), cancellationToken);
+        }
+
         public async Task<IRestResponse<T>> ExecuteGetTaskAsync<T>(IRestRequest request)
         {
-            IRestResponse<T> response = default(IRestResponse<T>);
-
-            int tryCount = 0;
-
-            do
-            {
-                tryCount++;
-                response = await this.wrapped.ExecuteGetTaskAsync<T>(request);
-            }
-            while (!response.IsSuccessful && tryCount < 5);
-
-            return response;
+            return await Retry<T>(request, r => this.wrapped.ExecuteGetTaskAsync<T>(r));
         }
 
         public async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
         {
-            IRestResponse<T> response = default(IRestResponse<T>);
-
-            int tryCount = 0;
-
-            do
-            {
-                tryCount++;
-                response = await this.wrapped.ExecuteTaskAsync<T>(request);
-            }
-            while (!response.IsSuccessful && tryCount < 5);
-
-            return response;
-            //return await Retry<T>(request, r => this.wrapped.ExecuteTaskAsync<T>(r));            
+            return await Retry<T>(request, r => this.wrapped.ExecuteTaskAsync<T>(r));            
         }
 
         public async Task<IRestResponse<T>> ExecutePostTaskAsync<T>(IRestRequest request)
         {
-            IRestResponse<T> response = default(IRestResponse<T>);
-
-            int tryCount = 0;
-
-            do
-            {
-                tryCount++;
-                response = await this.wrapped.ExecuteTaskAsync<T>(request);
-            }
-            while (!response.IsSuccessful && tryCount < 5);
-
-            return response;
-            //return await Retry<T>(request, r => this.wrapped.ExecutePostTaskAsync<T>(r));            
+            return await Retry<T>(request, r => this.wrapped.ExecutePostTaskAsync<T>(r));            
         }
     }
 }

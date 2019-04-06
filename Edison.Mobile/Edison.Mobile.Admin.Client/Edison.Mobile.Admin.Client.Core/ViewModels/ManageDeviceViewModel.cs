@@ -51,8 +51,20 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             this.locationService = locationService;
             this.deviceRestService = deviceRestService;
 
+        }
+
+        public override void BindEventHandlers()
+        {
             this.wifiService.CheckingConnectionStatusUpdated += WifiService_CheckingConnectionStatusUpdated;
             this.wifiService.ConnectionFailed += WifiService_ConnectionFailed;
+            base.BindEventHandlers();
+        }
+
+        public override void UnBindEventHandlers()
+        {
+            this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+            this.wifiService.ConnectionFailed -= WifiService_ConnectionFailed;
+            base.UnBindEventHandlers();
         }
 
 
@@ -63,34 +75,47 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         private void WifiService_CheckingConnectionStatusUpdated(object sender, Common.WiFi.CheckingConnectionStatusUpdatedEventArgs e)
         {
-            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(e.StatusText));
-
-            if (e.IsConnected && DeviceSetupService.SSIDIsEdisonDevice(e.SSID))
+            if (e.IsConnected)
             {
-                onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
-                Task.Run(async () => 
-                {                
-                    var networks = await this.onboardingRestService.GetAvailableWifiNetworks();
-
-                    if (networks != default(IEnumerable<Models.AvailableNetwork>))
+                if (DeviceSetupService.SSIDIsEdisonDevice(e.SSID))
+                {
+                    onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
+                    Task.Run(async () =>
                     {
-                        var connectedNetwork = networks.FirstOrDefault(i => i.AlreadyConnected);
+                        var networks = await this.onboardingRestService.GetAvailableWifiNetworks();
 
-                        if (connectedNetwork != default(Models.AvailableNetwork))
+                        if (networks != default(IEnumerable<Models.AvailableNetwork>))
+                        {
+                            var connectedNetwork = networks.FirstOrDefault(i => i.AlreadyConnected);
+
+                            if (connectedNetwork != default(Models.AvailableNetwork))
+                            {
+                                this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+                                this.deviceSetupService.ConnectedWifiSSID = connectedNetwork.SSID;
+                                CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(connectedNetwork.SSID));
+                            }
+                            else
+                            {
+                                this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+                                CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Device Not Using WiFi"));
+                            }
+                        }
+                        else
                         {
                             this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
-                            this.deviceSetupService.ConnectedWifiSSID = connectedNetwork.SSID;
-                            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(connectedNetwork.SSID));
+                            CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Device Not Connected To a Network"));
                         }
-                    }
-                    else
-                    {
-                        this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
-                        CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs("Device Not Connected To a Network"));
-                    }
 
-                    await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = e.SSID });
-                });
+                        await wifiService.DisconnectFromWifiNetwork(new WifiNetwork() { SSID = e.SSID });
+                    });
+                }
+                else
+                {
+                    Task.Run(async () =>
+                    {
+                        await CompleteUpdate();
+                    });
+                }
             }
 
         }
@@ -98,12 +123,17 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
         public async Task GetDeviceNetworkInfo()
         {
             originalWifiNetwork = await wifiService.GetCurrentlyConnectedWifiNetwork();
-
+            
             if (!DeviceSetupService.SSIDIsEdisonDevice(originalWifiNetwork.SSID))
             {
+                deviceSetupService.OriginalSSID = originalWifiNetwork.SSID;
                 await wifiService.ConnectToWifiNetwork(deviceSetupService.CurrentDeviceHotspotNetwork.SSID, deviceSetupService.WiFiPassword);
             }
-
+            else
+            {
+                // wifi should already be defined
+                CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs(this.deviceSetupService.ConnectedWifiSSID));
+            }
         }
 
         public override void ViewCreated()
@@ -134,21 +164,29 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             if(DeviceSetupService.SSIDIsEdisonDevice(network.SSID))
             {
                 await wifiService.ConnectToWifiNetwork(deviceSetupService.OriginalSSID);
-                await Task.Delay(1000);
+            }
+            else
+            {
+                await CompleteUpdate();
             }
 
+           
+        }
+
+        private async Task CompleteUpdate()
+        {
             var currentDeviceModel = deviceSetupService.CurrentDeviceModel;
             if (currentDeviceModel == null) return;
 
-             var updateTagsModel = new DevicesUpdateTagsModel
-            { 
+            var updateTagsModel = new DevicesUpdateTagsModel
+            {
                 DeviceIds = new List<Guid> { currentDeviceModel.DeviceId },
                 Name = currentDeviceModel.Name,
                 Enabled = currentDeviceModel.Enabled,
                 Geolocation = currentDeviceModel.Geolocation,
                 Location1 = currentDeviceModel.Location1,
                 Location2 = currentDeviceModel.Location2,
-                Location3 = currentDeviceModel.Location3,      
+                Location3 = currentDeviceModel.Location3,
                 SSID = deviceSetupService.CurrentDeviceModel.SSID
             };
 
