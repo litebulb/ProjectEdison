@@ -75,8 +75,9 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             surfaceView = FindViewById<SurfaceView>(Resource.Id.cameraView);
             
             barcodeDetector = new BarcodeDetector.Builder(this)
-                .SetBarcodeFormats(BarcodeFormat.QrCode)
+                .SetBarcodeFormats(BarcodeFormat.QrCode)                
                 .Build();
+                        
             cameraSource = new CameraSource
                 .Builder(this, barcodeDetector)
                 .SetRequestedPreviewSize(640, 480)
@@ -130,31 +131,29 @@ namespace Edison.Mobile.Admin.Client.Droid.Activities
             base.OnActivityResult(requestCode, resultCode, data);
             AuthenticationContinuationHelper.SetAuthenticationContinuationEventArgs(requestCode, resultCode, data);
         }
-
-        private static bool running;
-
-        public async void ReceiveDetections(Detections detections)
+        
+        public void ReceiveDetections(Detections detections)
         {
-            SparseArray qrcodes = detections.DetectedItems;
-            if (qrcodes.Size() != 0)
+            if (this.ViewModel.State == RegisterDeviceViewModel.RegistrationState.New)
             {
-                try
+                SparseArray qrcodes = detections.DetectedItems;
+                if (qrcodes.Size() != 0)
                 {
-                    Vibrator vibrator = (Vibrator)GetSystemService(Context.VibratorService);
-                    vibrator.Vibrate(VibrationEffect.CreateOneShot(1000, 1));
+                    try
+                    {
+                        Vibrator vibrator = (Vibrator)GetSystemService(Context.VibratorService);
+                        vibrator.Vibrate(VibrationEffect.CreateOneShot(1000, 1));
+                    }
+                    catch { }
+                    var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;
+
+                    string networkSSID = value;
+
+                    if (!string.IsNullOrEmpty(networkSSID))
+                    {                        
+                        Task.Run(async () => await this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID }));
+                    }
                 }
-                catch { }
-                var value = ((Barcode)qrcodes.ValueAt(0)).RawValue;
-
-                string networkSSID = value;
-
-                if (!running && !string.IsNullOrEmpty(networkSSID))
-                {
-                    running = true;
-                    var result = await this.ViewModel.ProvisionDevice(new Common.WiFi.WifiNetwork() { SSID = networkSSID });
-
-                }
-                running = false;
             }
         }
 

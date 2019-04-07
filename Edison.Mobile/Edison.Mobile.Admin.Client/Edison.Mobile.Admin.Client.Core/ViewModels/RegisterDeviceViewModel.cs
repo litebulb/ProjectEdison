@@ -15,20 +15,21 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
     public class RegisterDeviceViewModel : DeviceSetupBaseViewModel
     {
 
-        enum RegistrationState
+        public enum RegistrationState
         {
             New,
+            Starting,
             ConnectingConnectingToDeviceFirstTime,
             ConnectedToDevice,
             DeviceInfoGenerated,
             ProvisioningWithCloud,
-            ConnectingConnectingToDeviceSecondTime,
+            ConnectingConnectingToDeviceSecondTime
         }
 
         readonly IDeviceRestService deviceRestService;
 
 
-        RegistrationState State;
+        public RegistrationState State { get; private set; }
         public event ViewNotification OnBeginDevicePairing;
         public event EventHandler<OnFinishDevicePairingEventArgs> OnFinishDevicePairing;
         public event EventHandler<string> OnPairingStatusTextChanged;
@@ -63,12 +64,12 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             base.UnBindEventHandlers();
             this.wifiService.ConnectionFailed -= WifiService_ConnectionFailed;
             this.wifiService.CheckingConnectionStatusUpdated -= WifiService_CheckingConnectionStatusUpdated;
+            State = RegistrationState.New;
         }
 
         private void WifiService_ConnectionFailed(object sender, Common.WiFi.ConnectionFailedEventArgs e)
         {
-            OnFinishDevicePairing?.Invoke(this, new OnFinishDevicePairingEventArgs() { IsSuccess = false });
-            State = RegistrationState.New;
+            OnFinishDevicePairing?.Invoke(this, new OnFinishDevicePairingEventArgs() { IsSuccess = false });            
         }
         
         async Task<bool> ProvisionDeviceFail()
@@ -207,7 +208,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
             SetPairingStatusText("Updating secrets on the device! Sit tight...");
 
             if (provisionSuccess == null || !provisionSuccess.IsSuccess) return await ProvisionDeviceFail();
-            
+
             var setDeviceKeysResponse = await onboardingRestService.SetDeviceSecretKeys(new RequestCommandSetDeviceSecretKeys
             {
                 AccessPointPassword = generateKeysResponse.SSIDPassword,
@@ -219,7 +220,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
             deviceSetupService.PortalPassword = generateKeysResponse.PortalPassword;
             deviceSetupService.WiFiPassword = generateKeysResponse.SSIDPassword;
-
+  
             onboardingRestService.SetBasicAuthentication(deviceSetupService.PortalPassword);
 
             SetPairingStatusText("Setting the Device Type");
@@ -246,7 +247,7 @@ namespace Edison.Mobile.Admin.Client.Core.ViewModels
 
         public async Task<bool> ProvisionDevice(WifiNetwork wifiNetwork)
         {
-            State = RegistrationState.New;
+            State = RegistrationState.Starting;
 
             OnBeginDevicePairing?.Invoke();
             this.deviceSetupService.CurrentDeviceModel.SSID = wifiNetwork.SSID;
