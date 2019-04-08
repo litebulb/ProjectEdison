@@ -6,6 +6,8 @@ using Edison.Mobile.Admin.Client.iOS.Views;
 using Edison.Mobile.Admin.Client.iOS.ViewSources;
 using Edison.Mobile.iOS.Common.Views;
 using UIKit;
+using System.Linq;
+using Edison.Mobile.Common.WiFi;
 
 namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
 {
@@ -137,7 +139,13 @@ namespace Edison.Mobile.Admin.Client.iOS.ViewControllers
         void HandleOnAvailableWifiNetworksChanged()
         {
             var availableNetworks = ViewModel.AvailableWifiNetworks;
-            tableViewSource.AvailableNetworks = availableNetworks.ToArray();
+
+            var networks = availableNetworks.Select(i => new WifiNetwork()
+            {
+                SSID = i.SSID
+            });
+
+            tableViewSource.AvailableNetworks = networks.ToArray();
             InvokeOnMainThread(tableView.ReloadData);
         }
     }

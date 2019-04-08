@@ -59,6 +59,27 @@ namespace Edison.Mobile.Common.Network
             return response;
         }
 
+        private async Task<IRestResponse> Retry(IRestRequest request, Func<IRestRequest, Task<IRestResponse>> delegated, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            IRestResponse response = default(IRestResponse);
+
+            int tryCount = 0;
+
+            do
+            {
+                tryCount++;
+
+                if (tryCount > 1)
+                {
+                    await Task.Delay(1000 * (tryCount));
+                }
+
+                response = await delegated(request);
+            }
+            while (!response.IsSuccessful && tryCount < 6 && (cancellationToken == default(CancellationToken) || !cancellationToken.IsCancellationRequested));
+
+            return response;
+        }
 
         public async Task<IRestResponse<T>> ExecuteGetTaskAsync<T>(IRestRequest request, CancellationToken cancellationToken)
         {
@@ -68,6 +89,11 @@ namespace Edison.Mobile.Common.Network
         public async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request, CancellationToken cancellationToken)
         {
             return await Retry<T>(request, r => this.wrapped.ExecuteTaskAsync<T>(r, cancellationToken), cancellationToken);
+        }
+
+        public async Task<IRestResponse> ExecuteTaskAsync(IRestRequest request, CancellationToken cancellationToken)
+        {
+            return await Retry(request, r => this.wrapped.ExecuteTaskAsync(r, cancellationToken), cancellationToken);
         }
 
         public async Task<IRestResponse<T>> ExecutePostTaskAsync<T>(IRestRequest request, CancellationToken cancellationToken)
@@ -83,6 +109,11 @@ namespace Edison.Mobile.Common.Network
         public async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
         {
             return await Retry<T>(request, r => this.wrapped.ExecuteTaskAsync<T>(r));            
+        }
+
+        public async Task<IRestResponse> ExecuteTaskAsync(IRestRequest request)
+        {
+            return await Retry(request, r => this.wrapped.ExecuteTaskAsync(r));
         }
 
         public async Task<IRestResponse<T>> ExecutePostTaskAsync<T>(IRestRequest request)

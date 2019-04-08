@@ -15,6 +15,9 @@ namespace Edison.Mobile.iOS.Common.WiFi
     {
         readonly ILogger logger;
 
+        public event EventHandler<ConnectionFailedEventArgs> ConnectionFailed;
+        public event EventHandler<CheckingConnectionStatusUpdatedEventArgs> CheckingConnectionStatusUpdated;
+
         public PlatformWifiService(ILogger logger)
         {
             this.logger = logger;
