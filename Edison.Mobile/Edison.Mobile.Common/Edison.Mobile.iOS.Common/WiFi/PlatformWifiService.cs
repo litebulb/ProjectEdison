@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CoreFoundation;
 using Edison.Mobile.Common.Logging;
@@ -54,11 +55,14 @@ namespace Edison.Mobile.iOS.Common.WiFi
                 hotspotConfig.JoinOnce = true;
 
                 await NEHotspotConfigurationManager.SharedManager.ApplyConfigurationAsync(hotspotConfig);
+                
+                CheckingConnectionStatusUpdated?.Invoke(this, new CheckingConnectionStatusUpdatedEventArgs($"Connected", ssid, true));
 
                 return true;
             }
             catch (Exception e)
             {
+                ConnectionFailed?.Invoke(this, new ConnectionFailedEventArgs("Failed to connect to hotspot"));
                 logger.Log(e, "Failed to connect to hotspot");
 
                 return false;
