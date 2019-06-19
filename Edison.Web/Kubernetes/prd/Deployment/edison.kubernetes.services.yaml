@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: abi-rabbit-management
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 15672
+    name: management
+  selector:
+    app: abi-rabbit
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: abi-rabbit
+spec:
+  ports:
+  - port: 5672
+    name: internal
+  selector:
+    app: abi-rabbit
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edisonadminportal
+spec:
+  ports:
+  - port: 80
+    name: ingress
+  selector:
+    app: edisonadminportal
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edisonapi
+spec:
+  ports:
+  - port: 80
+    name: ingress
+  selector:
+    app: edisonapi
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edisonchatservice
+spec:
+  ports:
+  - port: 80
+    name: ingress
+  selector:
+    app: edisonchatservice
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: edisondeviceprovisioning
+spec:
+  ports:
+  - port: 80
+    name: ingress
+  selector:
+    app: edisondeviceprovisioning
+  type: ClusterIP

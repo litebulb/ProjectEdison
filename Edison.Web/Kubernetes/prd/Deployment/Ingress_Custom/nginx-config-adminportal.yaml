@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: edisonadminportal
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx-admin"
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - edisonadminportal.eastus.cloudapp.azure.com
+    secretName: tls-secret-adminportal
+  rules:
+  - host: edisonadminportal.eastus.cloudapp.azure.com
+    http:
+      paths:
+      - path: /?(.*)
+        backend:
+          serviceName: edisonadminportal
+          servicePort: 80

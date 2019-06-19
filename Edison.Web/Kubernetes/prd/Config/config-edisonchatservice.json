@@ -1,0 +1,80 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "ServiceBusRabbitMQ": {
+    "Uri": "rabbitmq://abi-rabbit"
+  },
+  "ServiceBusAzure": {
+    "OperationTimeoutSeconds": 5
+  },
+  "Bot": {
+    "MicrosoftAppId": "f4a4ac21-76de-4db1-b7a6-21ac5be6dc08",
+    "BotBasePath": "",
+    "BotMessagesPath": "/messages",
+    "AdminChannel": "directline",
+    "RestService": {
+      "RestServiceUrl": "https://directline.botframework.com/v3/directline/"
+    },
+    "ClaimsId": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+      "emails",
+      "preferred_username"
+    ],
+    "ClaimsFirstName": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname",
+      "given_name",
+      "firstname",
+      "first_name",
+	  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    ],
+    "ClaimsLastName": [
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname",
+      "family_name",
+      "lastname",
+      "last_name"
+    ],
+    "ClaimsRole": [
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ],
+    "ClaimsRoleAdminValues": [ "Admin", "SuperAdmin" ]
+  },
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "ClientId": "5310587f-5da6-409a-8590-9e40ac7423f3",
+    "TenantId": "6c637512-c417-4e78-9d62-b61258e4b619"
+  },
+  "AzureAdB2CWeb": {
+    "Instance": "https://login.microsoftonline.com/tfp/",
+    "ClientId": "8f414cec-d3ae-4852-8613-656eea1b151e",
+    "Domain": "edisonprodb2c.onmicrosoft.com",
+    "SignUpSignInPolicyId": "B2C_1_Edison_SignInAndSignUp"
+  },
+  "CosmosDb": {
+    "Endpoint": "https://edisondb.documents.azure.com:443/",
+    "Database": "Edison",
+    "Collections": {
+      "Bot": "Bot",
+      "ChatReports": "ChatReports"
+    }
+  },
+  "RestService": {
+    "RestServiceUrl": "http://edisonapi/api",
+    "AzureAd": {
+      "Instance": "https://login.microsoftonline.com/",
+      "ClientId": "5310587f-5da6-409a-8590-9e40ac7423f3",
+      "ClientSecret": "USER_SECRET",
+      "TenantId": "6c637512-c417-4e78-9d62-b61258e4b619"
+    }
+  }
+}

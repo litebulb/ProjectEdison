@@ -1,0 +1,55 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Default": "Warning"
+      }
+    }
+  },
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "ClientId": "5310587f-5da6-409a-8590-9e40ac7423f3",
+    "TenantId": "6c637512-c417-4e78-9d62-b61258e4b619"
+  },
+  "RestService": {
+    "AzureAd": {
+      "Instance": "https://login.microsoftonline.com/",
+      "ClientId": "5310587f-5da6-409a-8590-9e40ac7423f3",
+      "TenantId": "6c637512-c417-4e78-9d62-b61258e4b619"
+    }
+  },
+  "DeviceProvisioning": {
+    "DeviceCertificatePassword": "Edison1234",
+    "DeviceCertificateValidityDays": 365,
+	"DPSInstance": "global.azure-devices-provisioning.net",
+    "DPSIdScope": "0ne0005D9E9",
+    "SigningCertificates": [
+      {
+        "DeviceType": "Edison.Devices.ButtonSensor",
+        "CertificateIdentifier": "edison-intermediate-buttonsensor"
+      },
+      {
+        "DeviceType": "Edison.Devices.SoundSensor",
+        "CertificateIdentifier": "edison-intermediate-soundsensor"
+      },
+      {
+        "DeviceType": "Edison.Devices.SmartBulb",
+        "CertificateIdentifier": "edison-intermediate-smartbulb"
+      }
+    ]
+  },
+  "KeyVaultAddress": "https://edisonprdkeyvault.vault.azure.net/",
+  "DefaultSecrets": {
+    "PortalPassword": "Edison1234",
+    "SSIDName": "EDISON",
+    "SSIDPassword": "Edison1234",
+    "EncryptionKey": "c7c0dd2d09a4efc7d2f39f53fd9b207f5b7aafa272639c4b8771f9ba60b14400"
+  },
+  "AllowedHosts": "*"
+}
