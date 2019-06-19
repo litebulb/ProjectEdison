@@ -59,7 +59,7 @@
   <Target Name="Release" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release'">
     <Message Importance="high" Text="project built with qa environment" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm ci" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --configuration=qa" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --configuration=production" />
 
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**;" />

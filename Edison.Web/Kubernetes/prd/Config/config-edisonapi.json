@@ -34,7 +34,9 @@
   "AzureAd": {
     "Instance": "https://login.microsoftonline.com/",
     "ClientId": "5310587f-5da6-409a-8590-9e40ac7423f3",
-    "TenantId": "6c637512-c417-4e78-9d62-b61258e4b619"
+    "TenantId": "6c637512-c417-4e78-9d62-b61258e4b619",
+	  "Domain": "insight.com",
+	  "Roles": "Admin"
   },
   "AzureAdB2CWeb": {
     "Instance": "https://login.microsoftonline.com/tfp/",
