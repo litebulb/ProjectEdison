@@ -35,7 +35,7 @@ export const environment = {
     azureAd: {
         clientId: '5310587f-5da6-409a-8590-9e40ac7423f3',
         authority: 'https://login.microsoftonline.com/',
-        tenant: '5310587f-5da6-409a-8590-9e40ac7423f3'
+        tenant: '6c637512-c417-4e78-9d62-b61258e4b619'
     },
     apiUrl: '/api/',
     baseUrl: 'https://edisonapi.eastus.cloudapp.azure.com',
