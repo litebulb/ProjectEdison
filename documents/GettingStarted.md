@@ -10,10 +10,10 @@
      - [1.1 The Internet of Things](#11-The-internet-of-things)
      - [1.2 Overview of Smart Buildings Solution](#12-overview-of-smart-buildings-solution)
      - [1.3 Core components](#13-core-components)
-  - [2.0 IoT Solutions](#20-iot-solutions)
+  - [2.0 IoT Core Solution Architecture](#20-iot-core-solution-architecture)
     - [2.1 Core Architecture](#21-core-architecture)
-    - [2.2 Automated Solution](#22-automated-solution)
-    - [2.3 Architectures](#23-architectures)
+    - [2.2 Automated Deployment Configurations](#22-automated-deployment-configurations)
+    - [2.3 Deployment Configurations Tiers](#23-deployment-configurations-tiers)
         - [2.3.1 Basic Architecture](#231-basic-architecture)
         - [2.3.2 Standard Architecture](#232-standard-architecture)
         - [2.3.3 Premium Architecture](#233-premium-architecture)
@@ -54,17 +54,23 @@
     
 ## 1.0 Introduction
 
-The process for notifying authorities of an emergency is standardized and dates back to the 1960s.  The process for communicating into a crisis to the persons affected, however, is fragmented and not optimized.  Project Edison, a Safe Buildings solution, is a platform designed to manage this process and a way to speak into and monitor areas during a crisis event.
+The process for notifying authorities of an emergency is standardized and dates to the 1960s.  The process for communicating into a crisis to the persons affected, however, is fragmented and not optimized.  Project Edison, a Safe Buildings solution, is a platform designed to manage this process and a way to speak into and monitor areas during a crisis event.
+
+This solution accelerator provides the complete application code as well as various deployment configurations to accelerate the adoption and customization of the solution as required. 
+
 
 ### 1.1 The Internet of Things
 
-The Internet of Things (IoT) has created a buzz in the marketplace in the recent years. The IOT brings with it a concept of connecting any device to the internet and other connected devices to the network. 
+The Internet of Things (IoT) has created a buzz in the marketplace in recent years. The IoT brings with it a concept of connecting any compatible device to the internet and all connected devices to a network. 
 
-IOT becomes a pivotal component which helps to have safer cities, homes and businesses; IOT enables both the private and public organizations to monitor facilities on a real-time basis. The IoT brings with it the secure connections of devices such as sensors, Gateway Devices to the smartphones to mention a few here. The combination of the connected devices would enable IoT solutions to “gather data, analyze the data and create an action” which enables to perform a task in near real time.
+IoT becomes a pivotal component which helps to have safer cities, homes and businesses by  enabling both the private and public organizations to monitor facilities on a real-time basis. The IoT brings with it the secure connections of devices such as sensors, Gateway Devices to the smartphones to mention a few here. The combination of the connected devices would enable IoT solutions to “gather data, analyze the data and create an action” which enables to perform a task in near real time.
+
 
 ### 1.2 Overview of Smart Buildings Solution
 
-Project Edison provides a template for a Microsoft Azure-based system for enabling rapid response to nearby community events that might increase the danger level of persons in the nearby vicinity. SmartBulbs, SmartButtons, and SmartSensors are used to enable rapid notification of nearby persons regarding impending or ongoing events of interest/concern.
+The process for notifying authorities of an emergency is standardized and dates to the 1960s.  The process for communicating into a crisis to the persons affected, however, is fragmented and not optimized.  Project Edison, a Safe Buildings solution, is a platform designed to manage this process and a way to speak into and monitor areas during a crisis event.
+
+The platform allows a way to receive events from a centralized communication hub or from an Edge based gateway to alert persons in crisis.  For example, let’s consider this simple use case of a "Smart LED lightbulb” in school classrooms.  If an emergency has occurred at the school, triggered by sound sensors, AI/ML, or by central administration hub alerting, the system can light the bulb red.  This will give students more time to perform their safety drill to shelter in place.  If the emergency has happened near the school; The system lights the bulb yellow.  This is an indicator in the room that something has happened, the persons being notified are not in immediate danger and that help is on the way.  Parents, using a consumer app, connected to the School’s central administration hub can receive timely and secure communications from the authorities about the emergency. This can be expanded to multiple use cases including safe communities, safe cities, Safe work environments.
 
 ### 1.3 Core components 
 
@@ -76,23 +82,46 @@ Admin mobile application is used for onboarding devices and associating metadata
 
 Consumer Application (User Mobile application) allows administrators to send information to connected users in an area of crisis. Also, will allow consumers to provide additional information back to administrators about the crisis with future integration capability into popular social platforms.
 
+*	**Admin Portal (Web Application)**
+
+The solution will include an administrator portal which will serve as the main interaction point for the administrator to set rules, define & manage crisis events, and communicate with people in areas of crisis.
+
 *	**Devices**
 
-Smart Bulb has an ability to change colors (Red/Yellow) to alert people of crisis event.
+A **Smart Bulb** has an ability to change colors (Red/Yellow) to alert people of crisis event.
 
-Sound Sensor will pick up specified threshold sound to trigger an event.
+**Sound Sensor** will pick up specified threshold sound to trigger an event.
 
-IoT Button is used by user for pushing a button to signal a crisis event.
+**IoT Button** is used by user for pushing a button to signal a crisis event.
 
 *	**Kubernetes**
 
 Azure Kubernetes Service will host the microservices for event processing, storing data, sending notifications to mobile applications (User and Admin) and managing devices (SmartBulb, Sound Sensor, IoT Button).
+
+*	**ACR (Azure Container Registry)**
+
+Azure Container Registry is a private registry for hosting container images. Using the Azure Container Registry, you can store Docker-formatted images for all types of container deployments.
+
+*	**IoT Hub**
+
+IoT Hub receives the events from the Sound Sensor, Smart Bulb and IoT button or from the simulators, which will be pushed to Azure Service Bus and get populated on the Edison Admin Portal Application.
+
+* **Cosmos DB**
+
+Azure Cosmos DB is a NoSQL database service on Azure, that supports multiple ways of storing and processing data, used to store telemetry data collected from the devices and user activity.
+
+*	**Azure Notification Hub**
+
+Azure Notification Hubs provides a highly scalable, cross-platform push notification infrastructure that enables you to either broadcast push notifications to millions of users at once, or tailor notifications to individual users.
+
 
 ## 2.0 IoT Solutions
 
 ### 2.1 Core Architecture
 
 Below Diagram explains the Core architecture for Smart Buildings solution.
+
+![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g0.png)
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g1.png)
  
@@ -118,23 +147,24 @@ Core Architecture components:
 
 *	1- Redis Cache
 
-### 2.2 Automated Solution
+### 2.2 Automated Deployment Configurations
 
-Automated IOT Solution is designed on the top of current core architecture. In addition, this solution also provides **Monitoring** and **High availability**.
+As part of this solution accelerator, multiple deployment configurations are automated to enable accelerated time to market. From demos to pilots and production, these deployment configurations can be used to accelerate time to market and significantly reduce development and management costs. 
 
-This solution is deployed through ARM template. This is a single click deployment which reduces manual effort when compared with the existing solution.
+This solution is deployed through an ARM template. Infrastructure as a Code automation using ARM templates has been used to achieve 80-90% of end to end automation and at places, where automation is not feasible, detailed steps are provided to guide the user.
 
 In addition, this solution consists:
 
-*	Application Insights to provide monitoring for Web Application. Application Insights store the logs of the Web API which will be helpful to trace the web API working.
+*	Application Insights to monitor the Web Application and store the logs of the Web API, which will be helpful to trace the Web API working.
 
-*	Geo-replication to provide high availability for Cosmos DB. Geo-replication is used to set the recovery database as the primary database whenever primary database is failed.
+*	Geo-replication to provide high availability for Cosmos DB and used to set the recovery database as the primary database, in cases of failure of the primary database.
 
 *	This solution also provides Disaster Recovery activities. IoT Hub manual failover is helpful to make the IoT Hub available in another region, when IoT Hub of one region is failed.
 
 *	Traffic Manager delivers high availability for critical web applications by monitoring the endpoints and providing automatic failover when an endpoint goes down.
 
-### 2.3 Architectures
+
+### 2.3 Deployment Configurations Tiers
 
 #### 2.3.1 Basic Architecture
 
@@ -162,7 +192,7 @@ Basic Architecture comprises of following components:
 
 *	1- Azure Container Registry
 
-*	1- Virtual Machine
+*	2- Virtual Machine (Linux and Windows)
 
 *	1- Service Bus
 
@@ -172,15 +202,16 @@ Basic Architecture comprises of following components:
 
 #### 2.3.2 Standard Architecture
 
-Standard Architecture diagram will have two regions.
+Standard Architecture provides disaster recovery with secondary region, where the components that store state, (Cosmos DB, Blob Storage) are deployed in HA mode in the secondary region. Rest of the components can be deployed in the secondary region using provided automated templates in case of a disaster. The Recovery Time Objective (RTO) for this solution is higher than Basic solution in case of a region failover. This can be used for pre-production/pilot deployments or in production for use cases where few hours of RTO are acceptable.
 
 1.	Primary Region (Deployment)
 
-2.	Secondary Region (Re – Deployment)
+2.	Secondary Region (Re-deployment on instance of a disaster in the primary region.)
 
-We have IoT Hub manual failover, Cosmos DB geo replication, Service Bus Geo Recovery and redeployment components. The effect of these components will occur when primary Region goes down.
+We have IoT Hub manual failover, Cosmos DB geo replication, Kubernetes HA  and redeployment components. The effect of these components will occur when primary Region goes down.
 
-The main use of this solution is whenever disaster recovery occurs the redeployment components will deploy in another region, user need to manually add the obtained Admin IP address and API IP address after running the ingresses as an endpoint to the Traffic Manager.
+Once the secondary region is deployed after a disaster using the automated ARM templates, deployment admin would need to manually add the  Admin IP address and API IP address, after running the ingresses as an endpoint to the Traffic Manager.
+
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g3.png)
 
@@ -206,9 +237,13 @@ Standard Architecture comprises of following components:
 
 *	1- Redis Cache
 
-*	1- Traffic Manager Profiles
+*	2- Traffic Manager Profiles
 
-**When there is a Region failover, user needs to redeploy ARM Template provided in GIT Repo. When redeployment Completed Successfully, below Azure resources will be deployed.**
+* 2- Virtual Machines (Linux and Windows) 
+
+**When there is a Region failover, user needs to redeploy ARM Template provided in GIT Repo.**
+
+When redeployment Completed Successfully, below Azure resources will be deployed. 
 
 *	1- Log analytics
 
@@ -228,19 +263,37 @@ Standard Architecture comprises of following components:
 
 *	1- Service Bus
 
-**Note**:  Deployment process will take some time around 30mins to complete deployment Successfully.
+**Note**:  As explained above, the re-deployment of ARM Template would take around 30 minutes. After which, we’ll need to make the manual configuration for secondary region resources to Kubernetes and both Mobile applications
 
 #### 2.3.3 Premium Architecture:
 
-Premium Architecture diagram also have two regions.
+Premium Architecture provides a solution with disaster recovery, which includes full level deployment of solution as illustrated in the diagram, on the secondary region.
 
 1.	Primary Region
 
 2.	Secondary Region
 
-All the components get deployed at once.
+This deployment includes synchronized database. However, only the primary region is actively handling network requests from the users. The secondary region becomes active only when the primary region experiences a service disruption. In that case, all new network requests are routed to the secondary region. Azure Traffic Manager can manage this failover automatically.
 
-We have IoT Hub manual failover, Cosmos DB geo replication, Service Bus Geo Recovery.
+This topology provides a very low RTO. The secondary failover region must be ready to go immediately after failure of the primary region.
+
+**IoT Hub manual failover feature:** 
+
+Manual failover is a feature of the IoT Hub service that allows customers to failover their hub's operations from a primary region to the corresponding Azure geo-paired region,
+
+Manual failover can be done in the event of a regional disaster or an extended service outage.
+
+**Traffic Manager:** 
+
+1.	Traffic Manager routes incoming requests to the primary region. If the application running that region becomes unavailable, Traffic Manager fails over to the secondary region.
+
+2.	Traffic Manager automatically fails over, when the primary region becomes unavailable. When Traffic Manager fails over, there is a period when clients cannot reach the application.
+
+**Cosmos DB:** 
+
+Azure Cosmos DB is a globally distributed, low-latency, high throughput NoSQL database service. 
+
+Azure Cosmos DB provides global distribution, which means you can scale and distribute it across different Azure regions. Global replication of your Azure Cosmos DB enables you to have your data replicated over as many as datacenters as you require, providing the control and access for your replicated data seamlessly.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g4.png)
  
@@ -268,9 +321,9 @@ Premium Architecture comprises of following components:
 
 *	1- IoT Hub
 
-*	1-Virtual Machine
+*	2-Virtual Machine (1 Linux, 1 Windows)
 
-*	1- Service Bus
+*	2- Service Bus
 
 ### 2.4 Conventional Data Work Flow 
 
@@ -284,9 +337,9 @@ Premium Architecture comprises of following components:
 
 ### 2.5 Azure Components Functionality
 
-Microsoft Azure is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications and services through a global network of Microsoft-managed data centers. It provides software as a service (SaaS), platform as a service (PaaS) and infrastructure as a service (IaaS) and supports many different programming languages, tools and frameworks, including both Microsoft-specific and third-party software and systems.
+Microsoft Azure is a cloud computing service offering by Microsoft, for building, testing, deploying, and managing applications and services through a global network of Microsoft managed data centers. It provides software as a service (SaaS), platform as a service (PaaS) and infrastructure as a service (IaaS) and supports multiple programming languages, tools and frameworks, including both Microsoft-specific and third-party software and systems.
 
-Microsoft lists over 600 Azure services, of which some are as below:
+Microsoft lists over 600 Azure services, of which some are,
 
 *	Compute
 
@@ -306,22 +359,24 @@ Microsoft lists over 600 Azure services, of which some are as below:
 
 Azure IoT Hub is a fully managed service that enables reliable and secure bi-directional communications between millions of IoT devices and an application back end. 
 
-Azure IoT Hub offers reliable device-to-cloud and cloud-to-device hyper-scale messaging, enables secure communications using per-device security credentials and access control, and includes device libraries for the most popular languages and platforms. Before you can communicate with IoT Hub from a gateway you must create an IoT Hub instance in your Azure subscription and then provision your device in your IoT hub. Some samples in this repository require that you have a usable IoT Hub instance.
+Azure IoT Hub offers reliable device-to-cloud and cloud-to-device hyper-scale messaging, enables secure communications using per-device security credentials, access control and includes device libraries for the most popular languages and platforms. Before you can communicate with IoT Hub from a gateway you must create an IoT Hub instance in your Azure subscription and then provision your device in your IoT hub. Some samples in this repository require that you have a usable IoT Hub instance.
 
 The Azure IoT Hub offers several services for connecting IoT devices with Azure services, processing incoming messages or sending messages to the devices. From a device perspective, the functionalities of the Azure IoT Hub enable simple and safe connection of IoT devices with Azure services by facilitating bidirectional communication between the devices and the Azure IoT Hub.
 
+
 **Implementation**:
 
-In this solution the IoT Hub receives the events from the SoundSensor, SmartBulb and IoTbutton devices or from the simulators, which will be pushed to Azure service bus and get populated in the Edison Admin Portal Application.
+In this solution the IoT Hub receives the events from Sound Sensors, Smart Bulbs, IoT Buttons or from the simulators, which will be pushed to Azure service bus and get populated on the Edison Admin Portal Application.
 
 
 #### 2.5.2 Notification Hub
 
 **Introduction**:
 
-Azure Notification Hubs provides a highly scalable, cross-platform push notification infrastructure that enables you to either broadcast push notifications to millions of users at once, or tailor notifications to individual users. You can use Notification Hubs with any connected mobile application—whether it’s built on Azure Virtual Machines, Cloud Services, Web Sites, or Mobile Services.
+Azure Notification Hubs provides a highly scalable, cross-platform push notification infrastructure that enables you to either broadcast push notifications to millions of users at once, or tailor notifications to individual users. You can use Notification Hubs with any connected mobile application, whether it’s built on Azure Virtual Machines, Cloud Services, Web Sites, or Mobile Services.
 
-Azure Notification Hubs are push notification software engines designed to alert users about new content for a given site, service or app. Azure Notification Hubs are part of Microsoft Azure’s public cloud service offerings.
+Azure Notification Hub is a push notification engine, designed to alert subscribers about new content for a given site, service or an application. Azure Notification Hubs are part of Microsoft Azure’s public cloud service offerings.
+
 
 **Implementation**:
 
@@ -331,11 +386,11 @@ The Notification Hub pushes the Alerts (Activated Responses) and messages to the
 
 **Introduction**:
 
-Microsoft Azure Active Directory (Azure AD) is a cloud service that provides administrators with the ability to manage end user identities and access privileges. The service gives administrators the freedom to choose which information will stay in the cloud, who can manage or use the information, what services or applications can access the information and which end users can have access.
+Microsoft Azure Active Directory (Azure AD) is a cloud service that provides administrators with the ability to manage end user identities and access privileges. The service gives administrators the freedom to choose which information stays in the cloud, who can manage or use the information, what services or applications can access the information and which end users can have access.
 
 **Implementation**:
 
-Azure Active directory is used to authenticate users to login to Admin Portal. Azure active Directory enables secure authentications to Admin Portal.
+Azure Active directory is used to authenticate users to login to Admin Portal. Azure active Directory enables secure authentications to the Admin Portal.
 
 #### 2.5.4 Azure Automation
 
@@ -343,7 +398,7 @@ Azure Active directory is used to authenticate users to login to Admin Portal. A
 
 Azure Automation enables the users to automate the tasks, which are manual and repetitive in nature by using Runbooks. 
 
-Runbooks in Azure Automation are based on Windows PowerShell or Windows PowerShell Workflow. We can code and implement the logic, which we want to automate, using PowerShell.
+Runbooks in Azure Automation are based on Windows PowerShell or Windows PowerShell Workflow. We can code and implement the logic, requires automation, using PowerShell.
 
 **Implementation**:
 
@@ -353,7 +408,7 @@ In this Solution Azure run books are used to create Database and collections in 
 
 **Introduction**:
 
-Azure Cosmos DB is a Microsoft cloud database that supports multiple ways of storing and processing data. As such, it is classified as a multi-model database. In multi-model databases, various database engines are natively supported and accessible via common APIs.
+Azure Cosmos DB is a NoSQL database service, from Azure, that supports multiple ways of storing and processing data. As such, it is classified as a multi-model database. In multi-model databases, various database engines are natively supported and accessible via common APIs.
 
 **Implementation**:
 
@@ -363,23 +418,21 @@ In this Solution, Cosmos DB have Templates, Messages and Groups Collections. The
 
 **Introduction**:
 
-The Microsoft Operations Management Suite (OMS), previously known as Azure Operational Insights, is a software as a service platform that allows an administrator to manage on-premises and cloud IT assets from one console.
+Azure Operations Management Suite (OMS), previously known as Azure Operational Insights, is a software as a service platform that allows an administrator to manage on-premise and cloud IT assets from a single console.
 
-Microsoft OMS handles log analytics, IT automation, backup and recovery, and security and compliance tasks.
+Azure OMS handles log analytics, IT automation, backup, recovery, security and compliance tasks.
 
 Log analytics will collect and store your data from various log sources and allow you to query over them using a custom query language.
 
 **Implementation**:
 
-Log analytics to provide monitoring for Cosmos DB, IoT Hub, Kubernetes, Redis Cache, Service Bus.
-
-Log analytics store the logs, which will be helpful to trace the working of these resources. OMS log analytics provides in detailed insights using solutions
+Log analytics provides monitoring for Cosmos DB, IoT Hub, Kubernetes, Redis Cache, Service Bus. Log analytics store the logs, which will be helpful to trace the working of these resources and provides detailed insights using solutions.
 
 #### 2.5.7 Storage Account
 
 **Introduction**:
 
-An Azure storage account contains all your Azure Storage data objects: blobs, files, queues, tables, and disks. Data in your Azure storage account is durable and highly available, secure, massively scalable, and accessible from anywhere in the world over HTTP or HTTPS.
+Azure Storage Account contains all your data objects, blobs, files, queues, tables, and disks. Data in your Storage Account is durable, highly available, secure, massively scalable, and accessible from anywhere in the world over HTTP or HTTPS.
 
 **Implementation**:
 
@@ -389,43 +442,43 @@ The older events (actions and telemetry) will be stored in Blob Storage/Table st
 
 **Introduction**:
 
-Kubernetes provides a container-centric management environment. It orchestrates computing, networking, and storage infrastructure on behalf of user workloads. Its groups containers that make up an application into logical units for easy management and discovery. 
+Kubernetes provides a container-centric management environment. It orchestrates computing, networking and storage infrastructure on behalf of user workloads. It can group containers that make up an application, into logical units for easy management and discovery.  
 
 **Implementation**:
 
-Azure Kubernetes Service will host the microservices for event processing, storing, sending notifications to mobile applications and managing devices
+Azure Kubernetes Service will host the microservices for event processing, storing, sending notifications to mobile applications and devices.
 
 #### 2.5.9 Azure Container Registry
 
 **Introduction**:
 
-Azure Container Registry is a private registry for hosting container images. Using the Azure Container Registry, you can store Docker-formatted images for all types of container deployments. Azure Container Registry integrates well with orchestrators hosted in Azure Container Service, including Docker Swarm, DC/OS, and Kubernetes. Users can benefit from using familiar tooling capable of working with the open source Docker Registry v2.
+Azure Container Registry is a private registry for hosting container images. Using the Azure Container Registry, you can store Docker-formatted images for all types of container deployments. Azure Container Registry integrates well with orchestrators, hosted in Azure Container Service, including Docker Swarm, DC/OS, and Kubernetes. Users can benefit from using familiar tool capable of working with the open source Docker Registry v2.
 
 **Implementation**:
 
-Control image names for all container deployments. Use Kubernetes commands to push images into a repository or pull an image from a repository. In addition to container images, Azure Container Registry stores images used to deploy applications to Kubernetes.
+Azure Container Registry controls image names for all container deployments, use Kubernetes commands to push or pull an image from a repository. In addition to container images, Azure Container Registry stores images used to deploy applications to Kubernetes.
 
 #### 2.5.10 Virtual Machine
 
 **Introduction**:
 
-Virtual Machines gives you the flexibility of virtualization for a wide range of computing solutions with support for Linux, Windows Server, SQL Server, Oracle, IBM, SAP and more. All current generation Virtual Machines include load balancing and auto-scaling at no cost.
+Virtual Machines gives you the flexibility of Virtualization on a wide range of computing solutions with support for Linux, Windows Server, SQL Server, Oracle, IBM, SAP and more. 
 
-Each virtual machine provides its own virtual hardware, including CPUs, memory, hard drives, network interfaces and other devices. The virtual hardware is then mapped to the real hardware on the physical machine which saves costs by reducing the need for physical hardware systems along with the associated maintenance costs that go with it, plus reduces power and cooling demand.
+Each virtual machine has its own virtual hardware, including CPUs, memory, hard drives, network interfaces and other devices. The virtual hardware is then mapped to the real hardware on the physical machine which saves costs by reducing the need for physical hardware systems along with the associated maintenance costs that go with it, plus reduces power and cooling demand.
 
 **Implementation**:
 
-Execute scripts which updates the configurations, environments of Microservices buy building the docker images and pushing them to Azure Container Registry also installs helm, ingress controllers making it responsible to access Admin Portal.
+Execute scripts which updates the configurations, environments of Microservices by building the docker images and pushing them to Azure Container Registry, installs helm, ingress controllers making it responsible to access Admin Portal.
 
 #### 2.5.11 Service Bus
 
 **Introduction**:
 
-Microsoft Azure Service Bus is a fully managed enterprise integration message broker. Service Bus is most commonly used to decouple applications and services from each other and is a reliable and secure platform for asynchronous data and state transfer. Data is transferred between different applications and services using messages. A message is in binary format, which can contain JSON, XML, or just text.
+Microsoft Azure Service Bus is a fully managed enterprise integration message broker. Service Bus is most commonly used to decouple applications and services from each other and is a reliable and secure platform for asynchronous data and state transfer. Data is transferred between services using messages. A message is in binary format, which can contain JSON, XML, or just text.
 
 **Implementation**:
 
-The Events message which got triggered from the Devices and sent to IoT Hub, Service Bus is pulling data from IoTHub and sends to the services deployed in the Kubernetes.
+The Event messages which got triggered from the Devices are sent to IoT Hub and Service Bus pulls the data from IoTHub and sends to the services deployed in the Kubernetes.
 
 #### 2.5.12 Signal R
 
@@ -435,15 +488,13 @@ Azure SignalR Service simplifies the process of adding real-time web functionali
 
 **Implementation**:
 
-The notification and alerts which from sent from Edison Admin Portal is begin sent to User Mobile application and to the devices.
+The notification and alerts from Edison Admin Portal are pushed to User Mobile application and to the devices.
 
 #### 2.5.13 Redis Cache
 
 **Introduction**:
 
-Azure Cache for Redis is based on the popular software Redis. It is typically used as a cache to improve the performance and scalability of systems that rely heavily on backend data-stores. With Azure Cache for Redis, this fast storage is located in-memory with Azure Cache for Redis instead of being loaded from disk by a database.
-
-Azure Cache for Redis can also be used as an in-memory data structure store, distributed non-relational database, and message broker. 
+Azure Cache for Redis is an in-memory data structure store. It is typically used as a cache to improve the performance and scalability of systems that rely heavily on backend data-stores. It can also be used as distributed non-relational database, and message broker. 
 
 **Implementation**:
 
@@ -453,7 +504,7 @@ Azure Service Bus messages which are pulled from IoT Hub are being sent to Redis
 
 **Introduction**:
 
-Azure Bot Service provides tools to build, test, deploy, and manage intelligent bots all in one place. Your own Bot hosted where you want, registered with the Azure Bot Service. Build, connect, and manage Bots to interact with your users wherever they are - from your app or website to Cortana, Skype, Messenger and many other services.
+Azure Bot Service provides tools to build, test, deploy, and manage intelligent bots all in one place. Your Bot can be hosted wherever you want, registered with the Azure Bot Service. Build, connect, and manage Bots to interact with your users wherever they are - from your app or website to Cortana, Skype, Messenger and many other services.
 
 **Implementation**:
 
@@ -467,25 +518,25 @@ Application Insights is an extensible Application Performance Management (APM) s
 
 Application Insights monitor below:
 
-•	Request rates, response times, and failure rates
+*	Request rates, response times, and failure rates
 
-•	Dependency rates, response times, and failure rates
+*	Dependency rates, response times, and failure rates
 
-•	Exceptions 
+*	Exceptions 
 
-•	Page views and load performance
+*	Page views and load performance
 
-•	AJAX calls
+*	AJAX calls
 
-•	User and session counts
+*	User and session counts
 
-•	Performance counters
+*	Performance counters
 
-•	Host diagnostics from Docker or Azure
+*	Host diagnostics from Docker or Azure
 
-•	Diagnostic trace logs
+*	Diagnostic trace logs
 
-•	Custom events and metrics
+*	Custom events and metrics
 
 **Implementation**:
 
@@ -495,15 +546,15 @@ We are implementing Application Insights monitoring for Azure Service Bus, Servi
 
 ### 3.1 Solutions and Associated Costs
 
-The Automated solutions provided by us covers in below Section. Will have the following Cost associated. The solutions are created considering users requirements & have Cost effective measures. User have control on what Type of Azure resources need to be deploy with respect to SKU And Cost. These options will let user to choose whether user wants to deploy Azure resources with minimal SKU and Production ready SKU. The Cost Models per solutions are explained in future sections:
+The Automated solutions provided by us covers in below Section. Will have the following Cost associated. The solutions are created considering users requirements & have Cost effective measures. User have control on what Type of Azure resources need to be deploy with respect to SKU And Cost. These options will let user to choose whether user wants to deploy Azure resources with minimal SKU and Production ready SKU. The Cost Models per solutions are explained in next sections.
 
 #### 3.1.1 Basic
 
-The Basic solution requires minimum Azure components with minimal available SKU’s. This Solution provides (Core + Monitoring) features such as application Insights & OMS Log Analytics. The details on components used in this solution is listed in Section: 
+The Basic solution requires minimum Azure components with minimal available SKU’s. This Solution provides (Core + Monitoring) features such as Application Insights & OMS Log Analytics. The details on components used in this solution is listed in Section: 
 
- The Estimated Monthly Azure cost is: **$603.36**
+ The Estimated Monthly Azure cost is: **$282.95**
 
-*Note: Refer below table for the optional component list & Features*
+**Note:** *Refer below table for the optional component list & Features*
 
 **Pricing Model for Basic**:
 
@@ -512,7 +563,7 @@ Prices are calculated by considering Location as **East US** and Pricing Model a
 
 | **Resource Name**                   | **Size**                    | **Azure Cost/month**                                                                                   
 | -------------                     | -------------                  | --------------------                                                                    
-| **Application Insights**       | 5 GB ingested, 0 Multi-step Web Tests         | $0.00  
+| **Application Insights**       | 5 GB ingested, 0 Multi-step Web Tests         | $2.30  
 | **Notification Hub**   | Free Includes 1 million pushes for 500 active devices.      | $0.00  
 | **IoT Hub**        | S1, Unlimited devices, 1 Unit-$25.00/per month 400,000 messages/day                    | $25.00    
 | **Storage Account**        | Block Blob Storage, General Purpose V2, LRS Redundancy, Hot Access Tier, 10 GB Capacity, 100,000 Write operations, 100,000 List and Create Container Operations, 100,000 Read operations, 0 Other operations. 10 GB Data Retrieval, 0 GB Data Write       | $1.25   
@@ -520,23 +571,22 @@ Prices are calculated by considering Location as **East US** and Pricing Model a
 | **Log Analytics**   | 1 VMs monitored, 5 GB average log size, 0 additional days of data retention   | $0.00  
 | **Azure Automation Account**   | Capability: Process Automation 500 minutes of process automation and 744 hours of watchers are free each month.    | $0.00
 | **Azure Container Registry**   | Basic Tier, 1 units x 30 days, 5 GB Bandwidth     | $5.00
-| **Kubernetes**   | 3 * [B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; managed OS disks x P4 ($14.40)]      | $124.46
+| **Kubernetes**   | 3 * [B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; managed OS disks x P4 ($14.40)]      | $106.94
 | **Service Bus**   | Standard tier: 10, 1,000 brokered connection(s), 0 Hybrid Connect listener(s) + 0 overage per GB, 0 relay hour(s), 10 relay message(s)      | $9.82
 | **Virtual Machine**   | standard_A2 (2 vCPU(s), 3.5 GB RAM) x 730 Hours; 2 Linux – Ubuntu managed OS disks – S4      | $90.72
-| **Windows VM**   | 1 D4s v3 (4 vCPU(s), 16 GB RAM) x 730 Hours; Windows – (OS Only); Pay as you go; 0 managed OS disks – S4, 100 transaction units      | $305.19
 | **Signal R**   | Free Tier, Includes 1 unit with 20 concurrent connections per unit and 20,000 messages per unit/day      | $0.00
 | **Redis Cache**   | C0: Basic tier, 1 instance(s), 730 Hours      | $16.06
 | **Bot**   | Free Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages included.      | $0.00
-|        |         |    **Total Cost/Month**     | **$603.19** 
+|        |         |    **Total Cost/Month**     | **$282.95** 
 
 
 #### 3.1.2 Standard
 
 This Solution provides (Core + Monitoring +Hardening) features such as application Insights, OMS Log Analytics, High Availability & Disaster recovery. The details on components used in this solution is listed in Section: 
 
-The Estimated Monthly Azure cost is: **$1228.61**
+The Estimated Monthly Azure cost is: **$367.86**, Adding the optional resources, the cost estimated is: **$369.66**
 
-*Note: Refer below table for the optional component list & Features*
+**Note**: *Refer below table for the optional component list & Features*
 
 **Pricing Model for Standard Solution**:
 
@@ -545,23 +595,23 @@ Prices are calculated by Location as **East US** and Pricing Model as **“PAYG�
 
 | **Resource Name**               | **Size**              | **Azure Cost/month**                                                                        
 | -------------              | -------------                  | --------------------                                                                                                  
-| **Application Insights**       | 2 * Basic, 1GB * $2.30 First 5GB free per month          | $4.60  
-| **Notification Hub**   | 2 * (Free Includes 1 million pushes for 500 active devices.)     | $0.00  
+| **Application Insights**       | Basic, 1GB * $2.30 First 5GB free per month          | $2.30  
+| **Notification Hub**   | Free Includes 1 million pushes for 500 active devices.     | $0.00  
 | **IoT Hub**        | S1, Unlimited devices, 1 Unit-$25.00/per month 400,000 messages/day                    | $25.00    
-| **Storage Account**        | Block Blob Storage, General Purpose V2, LRS Redundancy, Hot Access Tier, 10 GB Capacity, 100,000 Write operations, 100,000 List and Create Container Operations, 100,000 Read operations, 0 Other operations. 10 GB Data Retrieval, 0 GB Data Write       | $2.50   
+| **Storage Account**        | Block Blob Storage, General Purpose V2, LRS Redundancy, Hot Access Tier, 10 GB Capacity, 100,000 Write operations, 100,000 List and Create Container Operations, 100,000 Read operations, 0 Other operations. 10 GB Data Retrieval, 0 GB Data Write       | $1.25   
 | **Azure Cosmos DB**       | Standard, throughput 400 RU/s (Request Units per second) 4x100 Rus(Throughput)- $23.36 10 GB storage – $2.50         | $25.86  
 | **Log Analytics**   | 1 VMs monitored, 5 GB average log size, 0 additional days of data retention   | $0.00  
 | **Azure Automation Account**   | Capability: Process Automation 500 minutes of process automation and 744 hours of watchers are free each month.    | $0.00
 | **Azure Container Registry**   | Standard Tier, 1 units x 30 days, 5 GB Bandwidth     | $20.45
-| **Kubernetes**   | 2 * [3B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; managed OS disks x P4 ($14.40)]      | $248.92
-| **Service Bus**   | 2 * (Standard tier: 10, 1,000 brokered connection(s), 0 Hybrid Connect listener(s) + 0 overage per GB, 0 relay hour(s), 10 relay message(s))      | $19.64
+| **Kubernetes**   | 3B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; 3 managed OS disks with 30 GB * $4.80-P4     | $106.94
+| **Service Bus**   | Standard tier: 10, 1,000 brokered connection(s), 0 Hybrid Connect listener(s) + 0 overage per GB, 0 relay hour(s), 10 relay message(s)      | $9.82
 | **Virtual Machine**   | standard_A2 (2 vCPU(s), 3.5 GB RAM) x 730 Hours; 2 Linux – Ubuntu managed OS disks – S4      | $90.72
-| **Windows VM**   | 2 * (1 D4s v3 (4 vCPU(s), 16 GB RAM) x 730 Hours; Windows – (OS Only); Pay as you go; 0 managed OS disks – S4, 100 transaction units)      | $610.38
-| **Signal R**   | 2 * (Free Tier, Includes 1 unit with 20 concurrent connections per unit and 20,000 messages per unit/day)      | $97.94
-| **Redis Cache**   | 2 * (C0: Basic tier, 1 instance(s), 730 Hours)      | $80.30
+| **Signal R**   | Free Tier, Includes 1 unit with 20 concurrent connections per unit and 20,000 messages per unit/day      | $48.97
+| **Redis Cache**   | C0: Basic tier, 1 instance(s), 730 Hours)      | $40.15
 | **Bot**   | Free Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages included.      | $0.50
 | **Traffic Manager**   | 2 * DNS Query $0.54 + Azure Endpoint $0.36       | $1.80
-|        |         |    **Total Cost/Month**     | **$1228.61** 
+|        |         |    **Estimated monthly cost (With Traffic Manager)**     | **$369.66** 
+|        |         |    **Estimated monthly cost (Without Traffic Manager)**     | **$367.86** 
 
 **Note: When we redeploy the solution, there will not be any extra cost, since primary region is already paid.** 
 
@@ -569,7 +619,7 @@ Prices are calculated by Location as **East US** and Pricing Model as **“PAYG�
 
 This solution also provides (Core + Monitoring +Hardening), the difference between Standard & Premium solution is under Premium - Both the regions can be deployed at same time, however this is not possible under standard solution. The details on components used in this solution is listed in Section: 
 
- The Estimated Monthly Azure cost is: **$1228.61**
+ The Estimated Monthly Azure cost is: **$ 600.59** and including the traffic manager, the cost estimated cost would be **$602.39**
 
 **Pricing Model for Premium Solution:**
 
@@ -581,20 +631,20 @@ Prices are calculated by Considering Location as **East US** and Pricing Model a
 | **Application Insights**       | 2 * Basic, 1GB * $2.30 First 5GB free per month          | $4.60  
 | **Notification Hub**   | 2 * (Free Includes 1 million pushes for 500 active devices.)     | $0.00  
 | **IoT Hub**        | S1, Unlimited devices, 1 Unit-$25.00/per month 400,000 messages/day                    | $25.00    
-| **Storage Account**        | Block Blob Storage, General Purpose V2, LRS Redundancy, Hot Access Tier, 10 GB Capacity, 100,000 Write operations, 100,000 List and Create Container Operations, 100,000 Read operations, 0 Other operations. 10 GB Data Retrieval, 0 GB Data Write       | $2.50   
+| **Storage Account**        | Block Blob Storage, General Purpose V2, LRS Redundancy, Hot Access Tier, 10 GB Capacity, 100,000 Write operations, 100,000 List and Create Container Operations, 100,000 Read operations, 0 Other operations. 10 GB Data Retrieval, 0 GB Data Write       | $1.25   
 | **Azure Cosmos DB**       | Standard, throughput 400 RU/s (Request Units per second) 4x100 Rus(Throughput)- $23.36 10 GB storage – $2.50         | $25.86  
 | **Log Analytics**   | 1 VMs monitored, 5 GB average log size, 0 additional days of data retention   | $0.00  
 | **Azure Automation Account**   | Capability: Process Automation 500 minutes of process automation and 744 hours of watchers are free each month.    | $0.00
-| **Azure Container Registry**   | Standard Tier, 1 units x 30 days, 5 GB Bandwidth     | $20.45
-| **Kubernetes**   | 2 * [3B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; managed OS disks x P4 ($14.40)]      | $248.92
+| **Azure Container Registry**   | 2 * [Standard Tier, 1 units x 30 days, 0 GB Bandwidth, 5 GB Extra Storage]    | $40.90
+| **Kubernetes**   | 2 * [3B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; 3managed OS disks with 30 GB x $4.80 – P4]      | $213.88
 | **Service Bus**   | 2 * (Standard tier: 10, 1,000 brokered connection(s), 0 Hybrid Connect listener(s) + 0 overage per GB, 0 relay hour(s), 10 relay message(s))      | $19.64
 | **Virtual Machine**   | standard_A2 (2 vCPU(s), 3.5 GB RAM) x 730 Hours; 2 Linux – Ubuntu managed OS disks – S4      | $90.72
-| **Windows VM**   | 2 * (1 D4s v3 (4 vCPU(s), 16 GB RAM) x 730 Hours; Windows – (OS Only); Pay as you go; 0 managed OS disks – S4, 100 transaction units)      | $610.38
 | **Signal R**   | 2 * (Free Tier, Includes 1 unit with 20 concurrent connections per unit and 20,000 messages per unit/day)      | $97.94
 | **Redis Cache**   | 2 * (C0: Basic tier, 1 instance(s), 730 Hours)      | $80.30
 | **Bot**   | Free Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages included.      | $0.50
 | **Traffic Manager**   | 2 * DNS Query $0.54 + Azure Endpoint $0.36       | $1.80
-|        |         |    **Total Cost/Month**     | **$1228.61** 
+|        |         |    **Estimated monthly cost (With Traffic Manager)**     | **$602.39‬** 
+|        |         |    **Estimated monthly cost (Without Traffic Manager)**     | **$600.59** 
 
 ### 3.2 Cost Comparison 
 
@@ -637,15 +687,15 @@ The below Table explains the $ impact for the solutions by resources.
 | **Application Insights**                  | $0.00          | $4.60          | $4.60
 | **Notification Hub**                  | $0.00          | $0.00          | $0.00
 | **IoT Hub**                      | $25.00           | $25.00	          | $25.00
-| **Storage Account**           | $1.25	         | $2.50	          | $2.50
+| **Storage Account**           | $1.25	         | $1.25	          | $1.25
 | **Azure Cosmos DB**              | $25.86	         | $25.86	          | $25.86
 | **Log Analytics**              | $0.00	         | $0.00	          | $0.00
 | **Automation Account**   | $0.00	         | $0.00	          | $0.00
-| **Traffic Manager**              | $0.00	         | $1.80           | $1.80
+| **Traffic Manager**              | NA	         | $1.80           | $1.80
 | **Notification Hub**              | $0.00	         | $0.00           | $0.00
-| **Kubernetes**              | $124.46	         | $248.92           | $248.92
-| **Azure Container Registry**              | $5.00	         | $20.45           | $20.45
-| **Service Bus**              | $9.82	         | $9.82           | $9.82
+| **Kubernetes**              | $106.94	         | $106.94           | $213.88
+| **Azure Container Registry**              | $5.00	         | $20.45           | $40.90
+| **Service Bus**              | $9.82	         | $9.82           | $19.64
 | **Virtual Machine**              | $90.72	         | $90.72           | $90.72
 | **Signal R**              | $0.00	         | $97.94           | $97.94
 | **Redis Cache**              | $16.06	         | $80.3           | $80.3
