@@ -1,0 +1,95 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "cosmosDbSettings": {
+            "type": "object"
+        },
+        "omsSettings": {
+            "type": "object"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "2015-04-08",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "kind": "GlobalDocumentDB",
+            "name": "[parameters('cosmosDbSettings').cosmosDbAccountName]",
+            "location": "[parameters('cosmosDbSettings').location]",
+            "tags": {
+                "IotSuiteType": "[parameters('cosmosDbSettings').solutionType]"
+            },
+            "properties": {
+                "name": "[parameters('cosmosDbSettings').cosmosDbAccountName]",
+                "databaseAccountOfferType": "[parameters('cosmosDbSettings').offerType]",
+                "locations": [
+                    {
+                        "locationName": "[parameters('cosmosDbSettings').location]",
+                        "failoverPriority": 0
+                    }
+                ]
+            },
+            "resources": [
+                {
+                    "name": "Microsoft.Insights/service",
+                    "type": "providers/diagnosticSettings",
+                    "apiVersion": "2016-09-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.DocumentDb/databaseAccounts/', parameters('cosmosDbSettings').cosmosDbAccountName)]"
+                    ],
+                    "properties": {
+                        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                        "logs": [
+                            {
+                                "category": "DataPlaneRequests",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 0,
+                                    "enabled": false
+                                }
+                            },
+                            {
+                                "category": "MongoRequests",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 0,
+                                    "enabled": false
+                                }
+                            }
+                        ],
+                        "metrics": [
+                            {
+                                "timeGrain": "AllMetrics",
+                                "category": "AllMetrics",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": false,
+                                    "days": 0
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "cosmosDBAccountName": {
+            "type": "string",
+            "value": "[parameters('cosmosDbSettings').cosmosDbAccountName]"
+        },
+        "cosmosDBAccountEndPoint": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbSettings').cosmosDbAccountName)).documentEndpoint]"
+        },
+        "cosmosDBAccountKey": {
+            "type": "string",
+            "value": "[listkeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbSettings').cosmosDbAccountName), '2015-04-08').primaryMasterKey]"
+        },
+        "connectionString": {
+            "type": "string",
+            "value": "[concat('AccountEndpoint=https://', parameters('cosmosDbSettings').cosmosDbAccountName, '.documents.azure.com:443/;AccountKey=', listkeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbSettings').cosmosDbAccountName), '2015-04-08').primaryMasterKey, ';')]"
+        }
+    }
+}

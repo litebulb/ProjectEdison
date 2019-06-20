@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "redisSettings": {
+            "type": "object"
+        },
+        "storageBlobSettings":{
+            "type": "object"
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-08-01",
+            "name": "[parameters('redisSettings').redisCacheNameDr]",
+            "type": "Microsoft.Cache/Redis",
+            "location": "[parameters('redisSettings').locationDr]",
+            "tags": {
+                "IotSuiteType": "[parameters('redisSettings').solutionType]"
+            },
+            "properties": {
+                "enableNonSslPort": "[parameters('redisSettings').enableNonSslPort]",
+                "sku": {
+                    "capacity": "[parameters('redisSettings').redisCacheCapacity]",
+                    "family": "[parameters('redisSettings').redisCacheFamily]",
+                    "name": "[parameters('redisSettings').redisCacheSku]"
+                }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2017-05-01-preview",
+                    "type": "Microsoft.Cache/redis/providers/diagnosticsettings",
+                    "name": "[concat(parameters('redisSettings').redisCacheNameDr, '/Microsoft.Insights/', parameters('redisSettings').redisCacheNameDr)]",
+                    "location": "[parameters('redisSettings').locationDr]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Cache/Redis/', parameters('redisSettings').redisCacheNameDr)]"
+                    ],
+                    "properties": {
+                        "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageBlobSettings').storageAccountNameDr)]",
+                        "logs": [],
+                        "metrics": [
+                            {
+                                "timeGrain": "AllMetrics",
+                                "enabled": "[parameters('redisSettings').diagnosticsEnabled]",
+                                "retentionPolicy": {
+                                    "days": 90,
+                                    "enabled": "[parameters('redisSettings').diagnosticsEnabled]"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "RedisPrimaryKey": {
+            "value": "[listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisSettings').redisCacheNameDr), '2016-04-01').primaryKey]",
+            "type": "string"
+        },
+        "RedisConnString": {
+            "type": "string",
+            "value": "[concat(parameters('redisSettings').redisCacheNameDr,'.redis.cache.windows.net:6380,password=',listKeys(resourceId('Microsoft.Cache/Redis', parameters('redisSettings').redisCacheNameDr), '2016-04-01').primaryKey,',ssl=True,abortConnect=False')]"
+        }
+    }
+}

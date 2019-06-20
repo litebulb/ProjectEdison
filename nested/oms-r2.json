@@ -1,0 +1,58 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+          "omsSettings": {
+              "type": "object"
+          }
+    },
+    "variables": {
+      "apiVersion": {
+        "logAnalytics": "2017-03-15-preview",
+        "logAnalyticsSolutions": "2015-11-01-preview"
+      },
+      "container": {
+        "name": "[concat('Containers', '(', parameters('omsSettings').omsWorkspaceNameDr, ')')]",
+        "galleryName": "Containers"
+      }
+    },
+    "resources": [
+      {
+        "apiVersion": "[variables('apiVersion').logAnalytics]",
+        "type": "Microsoft.OperationalInsights/workspaces",
+        "name": "[parameters('omsSettings').omsWorkspaceNameDr]",
+        "location": "[parameters('omsSettings').omsWorkspaceRegionDr]",
+        "tags": {
+          "IotSuiteType": "[parameters('omsSettings').solutionType]"
+      },
+        "properties": {
+          "sku": {
+              "name": "[parameters('omsSettings').omsLogAnalyticsSku]"
+          },
+          "retention": "[parameters('omsSettings').dataRetention]"
+        },
+        "resources": [
+          {
+            "apiVersion": "[variables('apiVersion').logAnalyticsSolutions]",
+            "location": "[parameters('omsSettings').omsWorkspaceRegionDr]",
+            "name":"[variables('container').name]",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "dependsOn": [
+              "[concat('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceNameDr)]"
+            ],
+            "properties": {
+              "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsSettings').omsWorkspaceNameDr)]"
+            },
+            "plan": {
+              "name": "[variables('container').name]",
+              "publisher": "Microsoft",
+              "promotionCode": "",
+              "product": "[concat('OMSGallery/', variables('container').galleryName)]"
+            }
+          }
+        ]
+      }
+    ],
+    "outputs": {
+    }
+  }

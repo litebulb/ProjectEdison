@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "acrSettings": {
+            "type": "object"
+        }
+    },
+    "resources": [
+        {
+            "name": "[parameters('acrSettings').acrNameDr]",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "apiVersion": "2017-10-01",
+            "location": "[parameters('acrSettings').locationDr]",
+            "tags": {
+                "IotSuiteType": "[parameters('acrSettings').solutionType]"
+            },
+            "sku": {
+                "name": "[parameters('acrSettings').acrSku]",
+                "tier": "[parameters('acrSettings').acrSku]"
+            },
+            "properties": {
+                "adminUserEnabled": "[parameters('acrSettings').acrAdminUserEnabled]"
+            }
+        }
+    ],
+    "outputs": {
+        "acrLogin": {
+            "value": "[reference(resourceId('Microsoft.ContainerRegistry/registries',parameters('acrSettings').acrNameDr),'2017-10-01').loginServer]",
+            "type": "string"
+        },
+        "acrUsername": {
+            "value": "[parameters('acrSettings').acrNameDr]",
+            "type": "string"
+        },
+        "acrPassword": {
+            "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries',parameters('acrSettings').acrNameDr),'2017-10-01').passwords[0].value]",
+            "type": "string"
+        }
+    }
+}

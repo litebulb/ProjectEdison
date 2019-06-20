@@ -1,0 +1,110 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "automationSettings": {
+            "type": "object"
+        },
+        "cosmosDbSettings": {
+            "type": "object"
+        },
+        "adminportalUri": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('automationSettings').automationAccountName]",
+            "type": "Microsoft.Automation/automationAccounts",
+            "apiVersion":"2015-10-31",
+            "location": "[parameters('automationSettings').automationLocation]",
+            "tags": {
+                "IotSuiteType": "[parameters('automationSettings').solutionType]"
+            },
+            "properties": {
+                "sku": {
+                    "name": "[parameters('automationSettings').automationSku]"
+                }
+            },
+            "resources": [
+                {
+                    "name": "[parameters('automationSettings').runbookName]",
+                    "type": "runbooks",
+                    "apiVersion":"2015-10-31",
+                    "location": "[parameters('automationSettings').automationLocation]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Automation/automationAccounts/', parameters('automationSettings').automationAccountName)]"
+                    ],
+                    "properties": {
+                        "runbookType": "Script",
+                        "logProgress": false,
+                        "logVerbose": false,
+                        "description": null,
+                        "publishContentLink": {
+                            "uri": "[parameters('automationSettings').runbookUri]",
+                            "version": "1.0.0.0"
+                        }
+                    }
+                },
+                {
+                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', parameters('automationSettings').moduleName)]",
+                    "type": "Microsoft.Automation/automationAccounts/modules",
+                    "apiVersion": "2015-10-31",
+                    "scale": null,
+                    "properties": {
+                        "contentLink": { 
+                            "uri": "[parameters('automationSettings').cosmosdbModuleUri]"
+                        }
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Automation/automationAccounts/', parameters('automationSettings').automationAccountName)]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/runbooks', parameters('automationSettings').automationAccountName, parameters('automationSettings').runbookName)]"
+                    ]
+                },
+                {
+                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', parameters('automationSettings').moduleName1)]",
+                    "type": "Microsoft.Automation/automationAccounts/modules",
+                    "apiVersion": "2015-10-31",
+                    "scale": null,
+                    "properties": {
+                        "contentLink": {
+                            "uri": "[parameters('automationSettings').azureAdPreviewModuleUri]"
+                        }
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Automation/automationAccounts/', parameters('automationSettings').automationAccountName)]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/runbooks', parameters('automationSettings').automationAccountName, parameters('automationSettings').runbookName)]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationSettings').automationAccountName, parameters('automationSettings').moduleName)]"
+                    ]
+                },
+                {
+                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', parameters('automationSettings').sessionId)]",
+                    "type": "Microsoft.Automation/automationAccounts/jobs",
+                    "apiVersion":"2015-10-31",
+                    "location": "[parameters('automationSettings').automationLocation]",
+                    "properties": {
+                        "runbook": {
+                            "name": "[parameters('automationSettings').runbookName]"
+                        },
+                        "parameters": {
+                            "tenantId": "[parameters('automationSettings').tenantId]",
+                            "azureAccountName": "[parameters('automationSettings').azureAccountName]",
+                            "azurePassword": "[parameters('automationSettings').azurePassword]",
+                            "cosmosDBAccountKey": "[listkeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbSettings').cosmosDbAccountName), '2015-04-08').primaryMasterKey]",
+                            "cosmosDbAccountName": "[parameters('cosmosDbSettings').cosmosDbAccountName]",
+                            "cosmosDbName": "[parameters('cosmosDbSettings').cosmosDbName]",
+                            "adminportalUri": "[parameters('adminportalUri')]",
+                            "objectId": "[parameters('automationSettings').objectId]"
+                        }
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Automation/automationAccounts/', parameters('automationSettings').automationAccountName)]",
+                        "[concat('Microsoft.Automation/automationAccounts/',parameters('automationSettings').automationAccountName, '/runbooks/', parameters('automationSettings').runbookName)]",
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationSettings').automationAccountName, parameters('automationSettings').moduleName)]"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "signalrSettings":{
+            "type": "object"
+        } 
+    },
+    "resources": [
+      {
+        "name": "[parameters('signalrSettings').signalrNameDr]",
+        "apiVersion": "2018-03-01-preview",
+        "type": "Microsoft.SignalRService/SignalR",
+        "location": "[parameters('signalrSettings').locationDr]",
+        "tags": {
+          "IotSuiteType": "[parameters('signalrSettings').solutionType]"
+      },
+        "properties": {
+          "hostNamePrefix": "[parameters('signalrSettings').signalrNameDr]"
+        },
+        "sku": {
+          "capacity": "[parameters('signalrSettings').capacity]",
+          "name": "[parameters('signalrSettings').pricingTier2]"
+        }    
+      }
+    ],
+    "outputs": {
+      "SignalRAccessKey": {
+        "type": "string",
+        "value": "[listKeys(resourceId('Microsoft.SignalRService/SignalR', parameters('signalrSettings').signalrNameDr), providers('Microsoft.SignalRService','SignalR').apiVersions[0]).primaryConnectionString]"
+      }
+    }
+  }
+  

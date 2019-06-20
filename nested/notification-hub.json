@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "notificationHub": {
+            "type": "object"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "2014-09-01",
+            "name": "[parameters('notificationHub').notificationHubNamespaceName]",
+            "type": "Microsoft.NotificationHubs/namespaces",
+            "location": "[parameters('notificationHub').location]",
+            "tags": {
+                "IotSuiteType": "[parameters('notificationHub').solutionType]"
+            },
+            "sku": {
+                "name": "[parameters('notificationHub').skuName]"
+            },
+            "properties": {
+                "name": "[parameters('notificationHub').notificationHubNamespaceName]",
+                "namespaceType": "[parameters('notificationHub').namespaceType]"
+            },
+            "resources": [
+                {
+                    "apiVersion":"2014-09-01",
+                    "name": "[concat(parameters('notificationHub').notificationHubNamespaceName,'/',parameters('notificationHub').notificationHubName)]",
+                    "type": "Microsoft.NotificationHubs/namespaces/notificationHubs",
+                    "location": "[parameters('notificationHub').location]",
+                    "dependsOn": [
+                        "[concat('Microsoft.NotificationHubs/namespaces/', parameters('notificationHub').notificationHubNamespaceName)]"
+                    ],
+                    "properties": {
+                        "name": "[parameters('notificationHub').notificationHubName]"
+                    },
+                    "tags": {
+                        "displayName": "NotificationHub"
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "notificationHubConnectionString": {
+            "value": "[listKeys(resourceId('Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules', parameters('notificationHub').notificationHubNamespaceName, parameters('notificationHub').notificationHubName, 'DefaultListenSharedAccessSignature'), providers('Microsoft.NotificationHubs', 'namespaces/notificationHubs').apiVersions[0]).primaryConnectionString]",
+            "type": "string"
+        }
+    }
+}
