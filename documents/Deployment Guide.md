@@ -225,7 +225,21 @@ Select user then you will redirect to selected **user profile** and copy the **O
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d13.png)
 
-Update Here
+Add the below URLS as well in the AD Application, which will be used by Mobile application.
+**1st Url** : Edison Admin Portal Application
+**2nd Url** : It should be your tenant domain name i.e., 
+                **“com.onmicrosoft.<tenant domain name>//redirect”**
+**3rd Url** : It’s a OAuth URL, so no change. 
+                **“https://login.microsoftonline.com/tfp/oauth2/nativeclient”**
+**4th Url**: Prefix the URL with the AD application name. 
+                **“http://<AD App name>.azurewebsites.net”**
+**5th Url**: Add the AD Application ID prefixed with msal.  **“msal<AD application ID>://auth”**
+**6th Url**: Its also OAuth URL, so keep it without changing  
+                **“https://login.microsoftonline.com/common/oauth2/nativeclient”**
+**7th Url**: Postfix the AD application name to the url.
+                **“com.onmicrosoft.<AD Application name>://redirect/”**
+
+Update here
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d113.png)
 
@@ -237,7 +251,7 @@ Update Here
 
 1.	Select **Azure Active Directory**.
 
-2.   scroll down left-hand side menu and select **Properties** for your Azure AD tenant and **Copy** the **Directory ID** (Tenant ID).
+2.  Scroll down left-hand side menu and select **Properties** for your Azure AD tenant and **Copy** the **Directory ID** (Tenant ID).
 
 3. **Make a note  of** the Copied **Directory ID** which will be used while deploying the **ARM template**.
 
@@ -259,7 +273,7 @@ Update Here
  
 #### 3.1.8 Add User to the Application
 
-1. From the Overview menu  click on Managed application in local Directory 
+1. From the Overview menu, click on Managed application in local Directory 
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d117.png)
 
@@ -279,20 +293,20 @@ Update Here
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d22.png)
  
-6.	Now you can see the added user under Users and Groups.
+6.	Now the added user is listed under Users and Groups.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d23.png)
  
-### 3.2 Creating session ID
+### 3.2 Creating Session ID
 
 Session ID is used to generate a unique id for creating a new job in Automation Account.
 
 1.	Use the below URL to generate GUID.
-      https://www.guidgenerator.com/
+      **https://www.guidgenerator.com/**
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d24.png)
 
-2.	Click **Generate some GUIDs!** This will generate GUID in Results box. 
+2.	Click **Generate some GUIDs!** , this will generate GUID in Results box. 
 
 3.	**Make a Note of** the generated GUID GUID which will be used while deploying the **ARM template**.
 
@@ -302,7 +316,7 @@ Session ID is used to generate a unique id for creating a new job in Automation 
 
 1. Browse with below link to sign in to the Microsoft Bot Framework Application Registration portal.
 
-https://apps.dev.microsoft.com/?referrer=https://portal.azure.com/#/appList
+    https://apps.dev.microsoft.com/?referrer=https://portal.azure.com/#/appList
 
 2.	Sign in with you Microsoft account credentials.
 
@@ -310,7 +324,7 @@ https://apps.dev.microsoft.com/?referrer=https://portal.azure.com/#/appList
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d27.png)
  
-3.	This will be redirected to a page, Click on **Add an app** to register new app in application registration portal.
+3.	This will be redirected to a bot framework page, Click on **Add an app** to register new app in application registration portal.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d28.png)
  
@@ -350,11 +364,11 @@ Follow Below steps to create Azure AD B2C Tenant:
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d35.png) 
 
-4.	 Once the B2C Tenant is created, Click **Directory and Subscription filter** on the top right to see your newly created tenant.
+4.	 Once the B2C Tenant is created, Click **Directory and Subscription filter** on the top right to see the newly created tenant.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d36.png)
 
-5.	Switch to your created tenant by clicking on it. Type **Azure** in search column and select **Azure AD B2C**.
+5.	Switch to created tenant by clicking on it. Type **Azure** in search column and select **Azure AD B2C**.
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d37.png)
 
@@ -374,7 +388,7 @@ Follow Below steps to create Azure AD B2C Tenant:
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d41.png)
 
-10.	Select all the **Sign-up** attributes as show below.
+10.	Select all the **Sign-up attributes** as show below.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d42.png)
  
@@ -443,7 +457,7 @@ Login to your azure account using below command.
 Browse to the below link and create a Twilio Account 
     https://www.twilio.com
 	
-After the Account is created, Navigate to settings (icon) and note down the Auth Token.
+After the Account is created, navigate to settings (icon) and note down the Auth Token.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d53.png)
 
@@ -455,33 +469,35 @@ In the parameters section of the template, specify the values as inputs when dep
 |-------------------------|--------------------------------------------------|------------------------- |--------------------------- |   
 | **solution type**       | The type of Solution                 |                 | Project-Edison                  |
 | **DeploymentType**      | choose your deploymenttype to deploy     | Basic or Standard or Premium |              |
-| **geo-paired-region**       | For Basic solution select the geopaired region as deployment region.If solution type is choosen as standard and premium, enter location for geo-paired-region, for more information about the geo-paired-region navigate to section 4 in the Getting Started Document(https://github.com/sysgain/MSIotDeviceManagement/blob/master/MSIotDeviceManagement-wiki/GettingStarted.md)  | EastUS2, CentralUS, WestUS2, WestCentralUS, CanadaCentral, CanadaEast, AustraliaEast, AustraliaSout,hEast, CentralIndia, SouthIndia, EastAsia, SouthEastAsia, JapanWest, JapanEast, KoreaCentral, KoreaSouth, UKSouth, UKWest             |            |
+| **geo-paired-region**       | Select the geopaired region as deployment region, for more information about the geo-paired-region navigate to section 4 in the Getting Started Document(https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/GettingStarted.md)  | EastUS2, CentralUS, WestUS2, WestCentralUS, CanadaCentral, CanadaEast, AustraliaEast, AustraliaSout,hEast, CentralIndia, SouthIndia, EastAsia, SouthEastAsia, JapanWest, JapanEast, KoreaCentral, KoreaSouth, UKSouth, UKWest             |            |
 | **signalRlocation**            | Choose location for signalR to deploy         | AustraliaEast, CanadaEast, CentralUS, EastUS2, EastUS, JapanEast, NorthEurope, SouthCentralUS, SoutheastAsia, UKSouth, WestEurope, WestUS2, WestUS           | EastUS2         |   
-| **signalRlocationDr**          | If deploymenttype is choosen as standard or premium, enter location for signalRlocationDr for disaster recovery.                | AustraliaEast, CanadaEast, CentralUS, EastUS2, EastUS, JapanEast,NorthEurope, SouthCentralUS, SoutheastAsia, UKSouth, WestEurope, WestUS2, WestUS              | CentralUS      |                            
-| **acrDeploymentLocation** | Choose location for Azure container Registry to deploy.         | JapanEast, JapanWest, AustraliaSouthEast, AustraliaEast, CanadaCentral, CanadaEast, CentralIndia, SouthIndia, CentralUS, EastUS2, SouthEastAsia, EastAsia, WestCentralUS, WestUS2       |               |                                                                                     
-|**omsWorkspaceRegion**    | Choose location for OMS Log Analytics to deploy. For more information, see https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-overview     | Australiasoutheast,  Canadacentral, Centralindia, Eastus, Japaneast, Southeastasia, Uksouth, westeurope           | southeastasia     |      
+| **signalRlocationDr**          | If deploymenttype is choosen as premium, enter location for signalRlocationDr for disaster recovery.              | AustraliaEast, CanadaEast, CentralUS, EastUS2, EastUS, JapanEast,NorthEurope, SouthCentralUS, SoutheastAsia, UKSouth, WestEurope, WestUS2, WestUS              | CentralUS      |                            
+| **acrDeploymentLocation** | Choose location for Azure container Registry to deploy.       | JapanEast, JapanWest, AustraliaSouthEast, AustraliaEast, CanadaCentral, CanadaEast, CentralIndia, SouthIndia, CentralUS, EastUS2, SouthEastAsia, EastAsia, WestCentralUS, WestUS2       |               |                                                                                     
+|**omsWorkspaceRegion**    | Choose location for OMS Log Analytics to deploy. For more information, see https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-overview     | Australiasoutheast,  Canadacentral, Centralindia, Eastus, Japaneast, Southeastasia, Uksouth, westeurope           | southeastasia     |  
+**omsWorkspaceRegionDr**    | If deploymenttype is choosen as premium, enter location for omsWorkspaceRegionDr for disaster recovery.    | Australiasoutheast,  Canadacentral, Centralindia, Eastus, Japaneast, Southeastasia, Uksouth, westeurope           | southeastasia     |      
 | **appInsightsLocation** | Location for the instance of App Insights     | Southcentralus, westeurope, eastus, NorthEurope      | eastus       |                                      
-|   **appInsightsLocationDr**        | If deploymenttype is choosen as standard or premium, enter location for application insights for disaster recovery   | Southcentralus, Westeurope, Eastus, NorthEurope      |   southcentralus   |
-|   **Tenant Id **   | Tenant Id of the created Azure active directory application. Refer section 3.1.5 to get tenant id. For instructions, see (https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-howto-tenant)  in the Microsoft documentation  |          |            |                      
-| **botAdClientId** | Client Id of the AD user. Refer section 3.3 to get bot client id. Get using Get-AzureRmADUser or Get-AzureRmADServicePrincipal cmdlets.Used for Bot deployment |        |            |                              
-|   **adObject Id**       | Object Id of the AD user. Refer section 3.1.2 to get ad object id. Get using Get-AzureRmADUser or Get-AzureRmADServicePrincipal cmdlets      |           |             |
-|**adClient Secret** |  Client Secret of the created Azure active directory application.  Refer section 3.1.2 to get ad client secret. For instructions, see (https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#get-application-id-and-authentication-key)  in the Microsoft documentation.                   |         |                  |
-| **azureAccount Name**    | azure portal login username.                                   |                |                        |
-|**azurePassword**| azure portal login password.        |         |               |                                    
-| **adminName**        | Name of the AdminPortal used as hosts while executing the Ingress_Custom Script     |       |        |
-|  **sessionId** | Provide the guid prefix for the runbook job to be created. Generate using https://www.guidgenerator.com/online-guid-generator.aspx). Refer section 3.2   |      |          |                                  
+|   **appInsightsLocationDr**        | If deployment type is choosen as premium, enter location for application insights for disaster recovery. In case of Standard deployment enter the value in redeploy template deployment.   | Southcentralus, Westeurope, Eastus, NorthEurope      |   southcentralus   |
+|   **Tenant Id**   | TenantId of the created Azure active directory application. For instructions, see  (https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-howto-tenant) in the Microsoft documentation  |          |            |                      
+| **botAdClientId** | Application ID deployed for Bot, used for Bot deployment. Use https://apps.dev.microsoft.com to deploy application |        |            |                              
+|   **adObject Id**       | Object Id of the deployed Application in Azure Active Directry. Get using Get-AzureRmADUser or Get-AzureRmADServicePrincipal cmdlets     |           |             |
+|**adClient Secret** |  Client Secret of the created Azure active directory application.For instructions, see (https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#get-application-id-and-authentication-key)  in the Microsoft documentation.                   |         |                  |
+| **azureAccount Name**    | Azure Portal Login UserName                                   |                |                        |
+|**azurePassword**| Azure Portal Login Password        |         |               |                                    
+| **adminName**        | Name of Admin Portal used as hosts while executing the Ingress_Custom Script and will be updated in reply URL of Active Directory application     |       |        |
+|  **sessionId** | Provide the guid prefix for the runbook job to be created. Generate using https://www.guidgenerator.com/online-guid-generator.aspx .Refer section 3.2  |      |          |                                  
 | **vmUsername**| Username to login into Virtual Machine     |      |        |                                 
 |   **vmPassword**    |  Password to login into Virtual Machine |    |       |
-|  **aksServicePrincipalClientId** |  Client ID (used by cloudprovider). Refer section 3.5 to get ad Service principal client id     |      |         |
-| **aksServicePrincipalClientSecret**      | The Service Principal Client Secret. Refer section 3.5. to get ad Service principal client secret      |        |         |
-|   **aksServicePrincipalClientIdDr**        | If deploymenttype is choosen as premium, enter Client ID of the newly created service principal       |       |     |
-|  **aksServicePrincipalClientSecretDr**           |  If deploymenttype is choosen as premium, enter Client secret of the newly created service principal     |      |          |
+|  **aksServicePrincipalClientId** |  Client ID of the service principal. Refer section 3.5 to get ad Service principal client id     |      |         |
+| **aksServicePrincipalClientSecret**      | ClientSecret of the service principal. Refer section 3.5. to get ad Service principal client secret      |        |         |
+|   **aksServicePrincipalClientIdDr**        | If deploymenttype is choosen as premium, enter Client ID of the newly created service principal else leave it blank.In case of Standard deployment enter the value in redeploy template deployment.       |       |     |
+|  **aksServicePrincipalClientSecretDr**           |  If deploymenttype is choosen as premium, enter Client secret of the newly created service principal else leave it blank.In case of Standard deployment enter the value in redeploy template deployment.     |      |          |
 |  **signalrCapacity**      | The number of SignalR Unit.      | 1, 2, 5, 10, 20, 50, 100       | 1         |
 |  **dockerVM**      |  Choose Yes/No to add Docker VM as part of Solution deployment                         | Yes, No             |           |
-|  **githuburl**        |  GitHub url used to clone the repository to build the images in docker VM                      |             | https://github.com/litebulb/ProjectEdison.git        |
+|  **githuburl**        |  GitHub url used to clone the repository to build the images in docker VM                      |             |      |
 |  **azureAdPreviewModuleUri**     |  Provide the url to install azure active directory preview module in azure automation from github    |        | https://github.com/sysgain/Iot-ProjectEdison/raw/dev/code/AzureADPreview.zip     |
 |  **cosmosdbModuleUri**  |  Provide the url to install azure active directory preview module in azure automation from the github         |     | https://github.com/sysgain/Iot-ProjectEdison/raw/dev/code/cosmos.zip       |
 |  **siteName**     | The name of Bot Direct line channel site         |                | edisonwebapp     |
+|  **trafficManager**     | If the solution type is Basic choose No option for trafficmanager parameter .If the solution type is Standard or Premium choose Yes/No base don your requirement.         |                |       |
 
 
 ## 5.0 Getting Started
@@ -508,7 +524,9 @@ Resource manager provides the following feature:
 
 1.	Click the below **Git hub** repo URL.
 
-2. https://github.com/sysgain/Iot-ProjectEdison/tree/master Select **main-template.json** from **Master** branch as shown in the following figure.
+    https://github.com/sysgain/Iot-ProjectEdison/tree/master 
+
+2. Select **main-template.json** from **Master** branch as shown in the following figure.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d119.png)
  
@@ -516,7 +534,7 @@ Resource manager provides the following feature:
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d55.png)
  
-4.	**Copy** the raw template and **paste** in your azure portal for template deployment.
+4.	**Copy** the raw template and **paste** in your Azure portal for template deployment.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d56.png)
   
@@ -554,9 +572,9 @@ These parameter values enable you to customize the deployment by providing value
 
 **Parameters for Basic Solution**: 
 
-If you want to deploy the **Basic Solution** you must enter the values for below parameters. 
+For **Basic Solution** deployment we need to provide the values for below parameters. 
 
-For **basic solution**, select the geo-paired region for your template deployment and choose the values of **OMS Workspace Region, App Insights Location** or keep the default values as it is. It is not necessary to choose **High availability region of App Insights Location Dr**.
+Select the geo-paired region for template deployment and choose the values of **OMS Workspace Region, App Insights Location** or keep the default values as it is. It is not necessary to choose **High availability region of App Insights Location Dr**.
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d64.png)
 
@@ -568,9 +586,9 @@ For **basic solution**, select the geo-paired region for your template deploymen
 
 **Parameters for Standard Solution:** 
 
-If you want to deploy the **standard solution** you have to enter the below parameters. 
+For deploying the **standard solution** we need to provide the below parameters. 
 
-For **standard solution**, select the geo-paired region for your template deployment and choose the values of **OMS Workspace Region, App Insights Location** and **High availability region of App Insights Location Dr** or keep the default values as it is.
+Select the geo-paired region for your template deployment and choose the values of **OMS Workspace Region, App Insights Location** and **High availability region of App Insights Location Dr** or keep the default values as it is.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d68.png)
 
@@ -582,9 +600,7 @@ For **standard solution**, select the geo-paired region for your template deploy
  
 **Parameters for Premium solution:**
 
-If you want to deploy the **Premium solution** you have to enter the below parameters.
-
-For **Premium solution**, select the geo-paired region for your template deployment and choose the values of **OMS Workspace Region, App Insights Location** and **High availability region of App Insights Location Dr** or keep the default values as it is.
+For **Premium solution** deployment, select the geo-paired region of template deployment and choose the values of **OMS Workspace Region, App Insights Location** and **High availability region of App Insights Location Dr** or keep the default values as it is.
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d72.png)
 
@@ -629,7 +645,7 @@ For **Premium solution**, select the geo-paired region for your template deploym
 
 *	1 Storage Account
 
-*       1 Windows VM
+*   1 Windows VM
 
 The above resources are deployed for Basic Solution.
 
@@ -689,7 +705,7 @@ Deployment can proceed within the Azure Portal via Windows PowerShell.
  
 6.	Download the **main-template.parameters.json** in your local system from the below  URL, paste it in  an editor , update the values and save it.
 
-https://github.com/sysgain/Iot-ProjectEdison/blob/dev-ha/main-template.parameters.json
+https://github.com/sysgain/Iot-ProjectEdison/blob/master/main-template.parameters.json
 
 7.	Update the following parameters in **main-template.parameters.json file.**
 
@@ -795,7 +811,7 @@ Save the API URL , will be used to update the values in environment file.
  
 ### 6.2 Enable Enhance authentication options.
 
-1.	Navigate to **Resource Group >click on Bot Channel Registration > Channels>Click** on **Edit** in Azure portal.
+1.	Navigate to **Resource Group >** click on **Bot Channel Registration > Channels>** Click on **Edit** in Azure portal.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d91.png)
  
@@ -819,7 +835,7 @@ Save the API URL , will be used to update the values in environment file.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d96.png)
  
-2.	Copy the public IP Address
+2.	Copy the **public IP Address**
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d97.png)
 
@@ -831,19 +847,20 @@ Save the API URL , will be used to update the values in environment file.
  
 4.	Switch to root user using below command.
 
-**sudo -i**
+    **sudo -i**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d100.png)
 
-5.	List the files with the following 
+5.	change the directory to below path and list the files with the following command
 
-**cd /var/lib/waagent/custom-script/download/0**
+    **cd /var/lib/waagent/custom-script/download/0**
+    **ls**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d120.png)
 
 6.	Execute deploy1.sh script by passing the git uri as an argument
 
-**./deploy1.sh https://github.com/litebulb/ProjectEdison.git**
+    **./deploy1.sh https://github.com/litebulb/ProjectEdison.git**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d121.png)
 
@@ -858,9 +875,9 @@ Save the API URL , will be used to update the values in environment file.
  
 9.	Change the directory to view the downloaded scripts.
 
-**Command: Cd /var/lib/waagent/custom-script/download/0**
+    **Command: cd /var/lib/waagent/custom-script/download/0**
 
-**Command: s**
+    **Command: ls**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d102.png)
  
@@ -868,7 +885,7 @@ Save the API URL , will be used to update the values in environment file.
 
 11. Below is the link table containing the keys and references of the value to be taken from.
 
-https://github.com/sysgain/Iot-ProjectEdison/raw/dev-ha/code/input_values.docx
+    **https://github.com/sysgain/Iot-ProjectEdison/raw/master/code/input_values.docx**
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d103.png)
 
@@ -905,4 +922,3 @@ https://github.com/sysgain/Iot-ProjectEdison/raw/dev-ha/code/input_values.docx
 **sh updateappsettings5.sh**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/d107.png)
-
