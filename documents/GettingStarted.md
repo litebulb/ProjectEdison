@@ -737,7 +737,7 @@ Each Azure region is paired with another region within the same geography, toget
 
 ## 5.0 Deployment Guide for the Solution
 
-To Deploy Basic, Standard or Premium Solution please refer [Deployment Guide Documentation](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Deplyment%20Guide.md). 
+To Deploy Basic, Standard or Premium Solution please refer [Deployment Guide Documentation](https://github.com/sysgain/ProjectEdison/blob/master/documents/Deployment%20Guide.md). 
 
 ## 6.0 User Guide for the Solution
 
