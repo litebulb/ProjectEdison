@@ -741,7 +741,7 @@ To Deploy Basic, Standard or Premium Solution please refer [Deployment Guide Doc
 
 ## 6.0 User Guide for the Solution
 
-For Device Configuration, Running Simulator and verifying Edison Admin Portal please refer [User Guide Documentation](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/User%20Guide.md). 
+For Device Configuration, Running Simulator and verifying Edison Admin Portal please refer [User Guide Documentation](https://github.com/sysgain/ProjectEdison/blob/master/documents/User%20Guide.md). 
 
 ## 7.0 Admin Guide for the Solution
 
