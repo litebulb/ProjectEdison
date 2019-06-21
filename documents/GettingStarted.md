@@ -63,7 +63,7 @@ This solution accelerator provides the complete application code as well as vari
 
 The Internet of Things (IoT) has created a buzz in the marketplace in recent years. The IoT brings with it a concept of connecting any compatible device to the internet and all connected devices to a network. 
 
-IoT becomes a pivotal component which helps to have safer cities, homes and businesses by  enabling both the private and public organizations to monitor facilities on a real-time basis. The IoT brings with it the secure connections of devices such as sensors, Gateway Devices to the smartphones to mention a few here. The combination of the connected devices would enable IoT solutions to “gather data, analyze the data and create an action” which enables to perform a task in near real time.
+IoT becomes a pivotal component which helps to have safer cities, homes and businesses by enabling both the private and public organizations to monitor facilities on a real-time basis. The IoT brings with it the secure connections of devices such as sensors, Gateway Devices to the smartphones to mention a few here. The combination of the connected devices would enable IoT solutions to “gather data, analyze the data and create an action” which enables to perform a task in near real time.
 
 
 ### 1.2 Overview of Smart Buildings Solution
@@ -74,7 +74,7 @@ The platform allows a way to receive events from a centralized communication hub
 
 ### 1.3 Core components 
 
-Project Edison solution is based on three core components.
+Project Edison solution is based on the following core components.
 
 *	**Mobile applications**
 
@@ -88,7 +88,7 @@ The solution will include an administrator portal which will serve as the main i
 
 *	**Devices**
 
-A **Smart Bulb** has an ability to change colors (Red/Yellow) to alert people of crisis event.
+A **Smart Bulb** has the ability to change colors (Red/Yellow) to alert people during a crisis event.
 
 **Sound Sensor** will pick up specified threshold sound to trigger an event.
 
@@ -115,11 +115,11 @@ Azure Cosmos DB is a NoSQL database service on Azure, that supports multiple way
 Azure Notification Hubs provides a highly scalable, cross-platform push notification infrastructure that enables you to either broadcast push notifications to millions of users at once, or tailor notifications to individual users.
 
 
-## 2.0 IoT Solutions
+## 2.0 IoT Core Solution Architecture
 
 ### 2.1 Core Architecture
 
-Below Diagram explains the Core architecture for Smart Buildings solution.
+Below Diagram explains the Core logical and techinical architecture for Smart Buildings solution.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g0.png)
 
@@ -168,7 +168,7 @@ In addition, this solution consists:
 
 #### 2.3.1 Basic Architecture
 
-Basic solution will have all core components, in addition this solution also consists monitoring components like Application Insights and OMS Log Analytics. 
+Basic solution will have all core components.In addition this solution also consists of monitoring components like Application Insights and OMS Log Analytics. 
 
 *	Application Insights provide monitoring for Bot.
 
@@ -210,7 +210,7 @@ Standard Architecture provides disaster recovery with secondary region, where th
 
 We have IoT Hub manual failover, Cosmos DB geo replication, Kubernetes HA  and redeployment components. The effect of these components will occur when primary Region goes down.
 
-Once the secondary region is deployed after a disaster using the automated ARM templates, deployment admin would need to manually add the  Admin IP address and API IP address, after running the ingresses as an endpoint to the Traffic Manager.
+Once the secondary region is deployed after a disaster using the automated ARM templates, deployment admin would need to manually add the  Admin IP address and API IP address after running the ingresses as an endpoint to the Traffic Manager.
 
  
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g3.png)
@@ -239,7 +239,7 @@ Standard Architecture comprises of following components:
 
 *	2- Traffic Manager Profiles
 
-* 2- Virtual Machines (Linux and Windows) 
+*   2- Virtual Machines (Linux and Windows) 
 
 **When there is a Region failover, user needs to redeploy ARM Template provided in GIT Repo.**
 
@@ -563,7 +563,7 @@ Prices are calculated by considering Location as **East US** and Pricing Model a
 
 | **Resource Name**                   | **Size**                    | **Azure Cost/month**                                                                                   
 | -------------                     | -------------                  | --------------------                                                                    
-| **Application Insights**       | 5 GB ingested, 0 Multi-step Web Tests         | $2.30  
+| **Application Insights**       | Basic,1 GB*$2.30. First 5GB free per month         | $2.30  
 | **Notification Hub**   | Free Includes 1 million pushes for 500 active devices.      | $0.00  
 | **IoT Hub**        | S1, Unlimited devices, 1 Unit-$25.00/per month 400,000 messages/day                    | $25.00    
 | **Storage Account**        | Block Blob Storage, General Purpose V2, LRS Redundancy, Hot Access Tier, 10 GB Capacity, 100,000 Write operations, 100,000 List and Create Container Operations, 100,000 Read operations, 0 Other operations. 10 GB Data Retrieval, 0 GB Data Write       | $1.25   
@@ -602,13 +602,13 @@ Prices are calculated by Location as **East US** and Pricing Model as **“PAYG�
 | **Azure Cosmos DB**       | Standard, throughput 400 RU/s (Request Units per second) 4x100 Rus(Throughput)- $23.36 10 GB storage – $2.50         | $25.86  
 | **Log Analytics**   | 1 VMs monitored, 5 GB average log size, 0 additional days of data retention   | $0.00  
 | **Azure Automation Account**   | Capability: Process Automation 500 minutes of process automation and 744 hours of watchers are free each month.    | $0.00
-| **Azure Container Registry**   | Standard Tier, 1 units x 30 days, 5 GB Bandwidth     | $20.45
+| **Azure Container Registry**   | Standard Tier, 1 units x 30 days, 0 GB Bandwidth , 5GB extra storage     | $20.45
 | **Kubernetes**   | 3B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; 3 managed OS disks with 30 GB * $4.80-P4     | $106.94
 | **Service Bus**   | Standard tier: 10, 1,000 brokered connection(s), 0 Hybrid Connect listener(s) + 0 overage per GB, 0 relay hour(s), 10 relay message(s)      | $9.82
 | **Virtual Machine**   | standard_A2 (2 vCPU(s), 3.5 GB RAM) x 730 Hours; 2 Linux – Ubuntu managed OS disks – S4      | $90.72
-| **Signal R**   | Free Tier, Includes 1 unit with 20 concurrent connections per unit and 20,000 messages per unit/day      | $48.97
-| **Redis Cache**   | C0: Basic tier, 1 instance(s), 730 Hours)      | $40.15
-| **Bot**   | Free Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages included.      | $0.50
+| **Signal R**   |Standard Tier, Includes 1,000 concurrent connections per unit and 10,00,000 messages per unit/day. Maximum of 100 units can be configured      | $48.97
+| **Redis Cache**   | C0: Standard tier, 1 instance(s), 730 Hoursx $40.15     | $40.15
+| **Bot**   | Standard Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages x $0.50 included.      | $0.50
 | **Traffic Manager**   | 2 * DNS Query $0.54 + Azure Endpoint $0.36       | $1.80
 |        |         |    **Estimated monthly cost (With Traffic Manager)**     | **$369.66** 
 |        |         |    **Estimated monthly cost (Without Traffic Manager)**     | **$367.86** 
@@ -639,9 +639,9 @@ Prices are calculated by Considering Location as **East US** and Pricing Model a
 | **Kubernetes**   | 2 * [3B2S (2 vCPU(s), 4 GB RAM) nodes x 730 Hours; 3managed OS disks with 30 GB x $4.80 – P4]      | $213.88
 | **Service Bus**   | 2 * (Standard tier: 10, 1,000 brokered connection(s), 0 Hybrid Connect listener(s) + 0 overage per GB, 0 relay hour(s), 10 relay message(s))      | $19.64
 | **Virtual Machine**   | standard_A2 (2 vCPU(s), 3.5 GB RAM) x 730 Hours; 2 Linux – Ubuntu managed OS disks – S4      | $90.72
-| **Signal R**   | 2 * (Free Tier, Includes 1 unit with 20 concurrent connections per unit and 20,000 messages per unit/day)      | $97.94
-| **Redis Cache**   | 2 * (C0: Basic tier, 1 instance(s), 730 Hours)      | $80.30
-| **Bot**   | Free Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages included.      | $0.50
+| **Signal R**   | 2* [Standard Tier, Includes 1,000 concurrent connections per unit and 10,00,000 messages per unit/day. Maximum of 100 units can be configured- $48.97]      | $97.94
+| **Redis Cache**   | 2 * [ C0: Standard tier, 1 instance(s), 730 Hours X $40.15]      | $80.30
+| **Bot**   | Standard Tier  Standard Channels- Unlimited messages included.  Premium Channels- 10,000 messages included.      | $0.50
 | **Traffic Manager**   | 2 * DNS Query $0.54 + Azure Endpoint $0.36       | $1.80
 |        |         |    **Estimated monthly cost (With Traffic Manager)**     | **$602.39‬** 
 |        |         |    **Estimated monthly cost (Without Traffic Manager)**     | **$600.59** 
@@ -684,7 +684,7 @@ The below Table explains the $ impact for the solutions by resources.
 
 | **Resource Name**           | **Basic**                  | **Standard**                 | **Premium**                                                                                                                
 | -------------              | ------------------         | --------------------                       | ------------ 
-| **Application Insights**                  | $0.00          | $4.60          | $4.60
+| **Application Insights**                  | $2.30          | $2.30          | $4.60
 | **Notification Hub**                  | $0.00          | $0.00          | $0.00
 | **IoT Hub**                      | $25.00           | $25.00	          | $25.00
 | **Storage Account**           | $1.25	         | $1.25	          | $1.25
@@ -697,15 +697,16 @@ The below Table explains the $ impact for the solutions by resources.
 | **Azure Container Registry**              | $5.00	         | $20.45           | $40.90
 | **Service Bus**              | $9.82	         | $9.82           | $19.64
 | **Virtual Machine**              | $90.72	         | $90.72           | $90.72
-| **Signal R**              | $0.00	         | $97.94           | $97.94
-| **Redis Cache**              | $16.06	         | $80.3           | $80.3
+| **Signal R**              | $0.00	         | $48.97           | $97.94
+| **Redis Cache**              | $16.06	         | $40.15           | $80.3
 | **Bot**              | $0.00	         | $0.50           | $0.50
 
 #### 3.2.3 Estimated Monthly Cost for each Solution:
 
 | **Resource Name**           | **Basic**                    | **Standard**                 | **Premium**                                                                                                                
 | -------------              | ------------------------       | --------------------      | ------------ 
-| **Estimated monthly cost**            | **$ 603.36**            | **$ 1228.61**  	             | **$ 1228.61**
+| **Estimated monthly cost (With Traffic Manager)**            | **NA**            | **$369.66**  	             | **$602.39**
+| **Estimated monthly cost (Without Traffic Manager)**            | **$282.95**            | **$367.86**  	             | **$600.59**
 
 ## 4.0 What are paired regions
 
