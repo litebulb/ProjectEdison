@@ -745,4 +745,4 @@ For Device Configuration, Running Simulator and verifying Edison Admin Portal pl
 
 ## 7.0 Admin Guide for the Solution
 
-To configure and validate the Standard and Premium Solution please refer [Admin Guide](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Admin%20Guide.md). 
+To configure and validate the Standard and Premium Solution please refer [Admin Guide](https://github.com/sysgain/ProjectEdison/blob/master/documents/Admin%20Guide.md). 
