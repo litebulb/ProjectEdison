@@ -121,9 +121,9 @@ Azure Notification Hubs provides a highly scalable, cross-platform push notifica
 
 Below Diagram explains the Core logical and techinical architecture for Smart Buildings solution.
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g0.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g0.png)
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g1.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g1.png)
  
 Core Architecture components:
 
@@ -174,7 +174,7 @@ Basic solution will have all core components.In addition this solution also cons
 
 *	OMS Log Analytics provide monitoring for IoT hub, Cosmos DB, Kubernetes, Redis Cache, Service Bus.
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g2.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g2.png)
  
 Basic Architecture comprises of following components:
 
@@ -213,7 +213,7 @@ We have IoT Hub manual failover, Cosmos DB geo replication, Kubernetes HA  and r
 Once the secondary region is deployed after a disaster using the automated ARM templates, deployment admin would need to manually add the  Admin IP address and API IP address after running the ingresses as an endpoint to the Traffic Manager.
 
  
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g3.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g3.png)
 
 Standard Architecture comprises of following components:
 
@@ -295,7 +295,7 @@ Azure Cosmos DB is a globally distributed, low-latency, high throughput NoSQL da
 
 Azure Cosmos DB provides global distribution, which means you can scale and distribute it across different Azure regions. Global replication of your Azure Cosmos DB enables you to have your data replicated over as many as datacenters as you require, providing the control and access for your replicated data seamlessly.
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g4.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g4.png)
  
 Premium Architecture comprises of following components:
 
@@ -329,11 +329,11 @@ Premium Architecture comprises of following components:
 
 #### 2.4.1 Work flow with Simulator 
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g5.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g5.png)
  
 #### 2.4.2 Work flow with Devices
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/Images/g6.png)
+![alt text](https://github.com/sysgain/ProjectEdison/blob/master/documents/Images/g6.png)
 
 ### 2.5 Azure Components Functionality
 
@@ -737,7 +737,7 @@ Each Azure region is paired with another region within the same geography, toget
 
 ## 5.0 Deployment Guide for the Solution
 
-To Deploy Basic, Standard or Premium Solution please refer [Deployment Guide Documentation](https://github.com/sysgain/ProjectEdison/blob/master/documents/Deployment%20Guide.md). 
+To Deploy Basic, Standard or Premium Solution please refer [Deployment Guide Documentation](https://github.com/sysgain/ProjectEdison/blob/master/documents/Deplyment%20Guide.md). 
 
 ## 6.0 User Guide for the Solution
 
