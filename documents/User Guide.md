@@ -11,9 +11,10 @@
    - [2.3 Create Config Maps](#23-create-config-maps)
    - [2.4 Create Pods and Services](#24-create-pods-and-services)
    - [2.5 Certification and Ingress Installation](#25-certification-and-ingress-installation)
- - [3.0 Building Edison.Simulators.Sensors Project](#30-building-edison.simulators.sensors-project)
- - [4.0 Create a Firebase project](#40-create-a-firebase-project)
- - [5.0 Mobile Application Configuration](#50-mobile-application-configuration)
+ - [3.0 Manual configuration](#30-manual-configuration)
+ - [4.0 Building Edison.Simulators.Sensors Project](#40-building-edison.simulators.sensors-project)
+ - [5.0 Create a Firebase project](#50-create-a-firebase-project)
+ - [6.0 Mobile Application Configuration](#60-mobile-application-configuration)
 
    
 ## 1.0 Introduction to User Guide
@@ -204,7 +205,22 @@ For checking status of services using the namespace kube-system
 ![alt text](https://github.com/sysgain/ProjectEdison/raw/master/documents/Images/22.png)
 
 
-## 3.0 Building Edison.Simulators.Sensors Project
+## 3.0 Manual configuration
+
+1. Copy the API URL from Hosts.
+
+![alt text](https://github.com/sysgain/ProjectEdison/raw/master/documents/Images/ug3.png)
+ 
+2.	Update in the messaging endpoint of Bot Channel Registration and click on Save.
+
+![alt text](https://github.com/sysgain/ProjectEdison/raw/master/documents/Images/ug4.png)
+ 
+3.	Update the reply URL of the azure active directory application with admin URL from Hosts and Click on Save.
+
+![alt text](https://github.com/sysgain/ProjectEdison/raw/master/documents/Images/ug5.png)
+
+
+## 4.0 Building Edison.Simulators.Sensors Project
 
 Browse to the **Admin Portal** using the **Admin URL** also can be taken from step 1 of **section 3.1.4.** in deployment Guide.
 
@@ -276,7 +292,7 @@ Initially there are no events triggered.
 
 ![alt text](https://github.com/sysgain/ProjectEdison/raw/master/documents/Images/40.png)
 
-## 4.0 Create a Firebase project
+## 5.0 Create a Firebase project
 
 We need to create an application in the Firebase from which will get an API Key and google-services.json file, these are used in the User Mobile application configuration.
 
@@ -302,7 +318,7 @@ We need to create an application in the Firebase from which will get an API Key 
 
 ![alt text](https://github.com/sysgain/ProjectEdison/raw/master/documents/Images/45.png)
 
-## 5.0 Mobile Application Configuration
+## 6.0 Mobile Application Configuration
 
 1. Follow the below link to configure and build the User mobile application.
 
