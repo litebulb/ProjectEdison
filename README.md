@@ -19,7 +19,7 @@ The visual designs can be found at the links below.  The password is "edison".
  # How to Navigate
 
 Following documenation is also provided to help deploy, manage and use this solution
-- Getting Stared Guide
-- Deployment Guide
-- Administration Guide
-- User Guide
+- [Getting Stared Guide](https://github.com/sysgain/ProjectEdison/blob/master/documents/GettingStarted.md).
+- [Deployment Guide](https://github.com/sysgain/ProjectEdison/blob/master/documents/Deployment%20Guide.md).
+- [Administration Guide ](https://github.com/sysgain/ProjectEdison/blob/master/documents/Admin%20Guide.md).
+- [User Guide](https://github.com/sysgain/ProjectEdison/blob/master/documents/User%20Guide.md).
