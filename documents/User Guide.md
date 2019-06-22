@@ -1,101 +1,99 @@
-# Microsoft
-
 # Safe Buildings Solution
 
 ## User Guide
 
 ### Contents
  
- - [1. Introduction to User Guide](#1-introduction-to-user-guide)
- - [2. Kubernetes Setup](#2-kubernetes-setup)
-   - [2.1 Execute imageupdate6.sh ](#21-execute-imageupdate6.sh)
-   - [2.2 Execute clusterconnect7.sh](#22-execute-clusterconnect7.sh)
-   - [2.3 Execute set-kubernetes-config8.sh](#23-execute-set-kubernetes-config8.sh)
-   - [2.4 Execute updateyaml9.sh](#24-execute-updateyaml9.sh)
-   - [2.5 Execute ingress_custom10.sh](#25-execute-ingress-_custom10.sh)
- - [3. Manual configuration](#3-manual-configuration)
- - [4. Building Edison.Simulators.Sensors Project](#4-building-edison.-simulators.-sensors-project)
- - [5. Create a Firebase project](#5-create-a-firebase-project)
- - [6. Mobile Application Configuration](#6-mobile-application-configuration)
+ - [1.0 Introduction to User Guide](#10-introduction-to-user-guide)
+ - [2.0 Kubernetes](#20-kubernetes)
+   - [2.1 Build images](#21-build-images)
+   - [2.2 Connect to Kubenetes Cluster](#22-connect-to-kubenetes-cluster)
+   - [2.3 Create Config Maps](#23-create-config-maps)
+   - [2.4 Create Pods and Services](#24-create-pods-and-services)
+   - [2.5 Certification and Ingress Installation](#25-certification-and-ingress-installation)
+ - [3.0 Building Edison.Simulators.Sensors Project](#30-building-edison.simulators.sensors-project)
+ - [4.0 Create a Firebase project](#40-create-a-firebase-project)
+ - [5.0 Mobile Application Configuration](#50-mobile-application-configuration)
 
    
-## 1. Introduction to User Guide
+## 1.0 Introduction to User Guide
 
 This Document explains about how to use the solution. In this we are building the docker images, pushing them to Azure Container Registry to configure the Edison Admin portal and monitoring the resources of the solution.  
 
-## 2. Kubernetes Setup
+## 2.0 Kubernetes
 
-### 2.1. Execute imageupdate6.sh
+### 2.1 Build images
 
-**Imagesupdate6.sh** script: To build the images and push them to ACR container repositories.
+To build the images and push them to ACR container repositories execute the below script.
 
-` sh imagesupdate6.sh `
+**command: sh imagesupdate6.sh**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/1.png)
 
-Navigate to **Azure portal** -> **Resource Group** -> **Container Registry** > **Repositories** and check for the images which have been pushed.
+Navigate to **Azure portal > Resource Group > Container Registry > Repositories** and check for the images which have been pushed.
 
 **Note:** If you got any issues to push the images to ACR just rerun the deploy1.sh script and again run the imageupdate6.sh script.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/2.png)
 
-### 2.2. Execute clusterconnect7.sh
+### 2.2 Connect to Kubenetes Cluster
 
-**clusterconnect7.sh** script: Connect to the cluster.
+Connect to the cluster using the below script. 
 
-` sh clusterconnect7.sh `
+**Command: sh clusterconnect7.sh**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/3.png)
 
-### 2.3. Execute set-kubernetes-config8.sh
+### 2.3 Create Config Maps 
 
-**set-kubernetes-config8.sh** script: Creates config maps.
+For creating config maps, execute the below script. 
 
-` sh set-kubernetes-config8.sh `
+**Command: sh set-kubernetes-config8.sh**
+
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/4.png)
 
-Check the **config maps** using the below command.
+Once the script gets executed successfully, we can see the created config maps using below command. 
 
-` kubectl get cm `
+**Command: kubectl get cm**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/5.png)
 
-### 2.4. Execute updateyaml9.sh
+### 2.4 Create Pods and Services. 
 
-**Updateyaml9.sh** script: Creates Pods and Services.
+To create Pods and Services execute the below script. 
 
-` sh updateyaml9.sh `
+**Command: sh updateyaml9.sh**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/6.png)
 
-### 2.5. Execute ingress_custom10.sh 
+### 2.5 Certification and Ingress Installation 
 
-**ingress_custom10.sh** script: Installs helm.
+To install helm, execute the below command. 
 
-` sh ingress_custom10.sh `
+**Command: sh ingress_custom10.sh**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/7.png)
 
 1. Using **WINSCP** push your certificates to the virtual machine.
 
-Switch user to **adminuser**.
+Switch user to **adminuser** and install **unzip** using the below command.
 
-Install **unzip command** using the below command.
+**Command: sudo apt install unzip**
 
-` sudo apt install unzip `
+**Note:** Refer 3.7 Section of Deployment Guide Document for certificate.
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/8.png)
+![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/8.png) 
 
 2. Unzip the certificate using the below command.
 
-` unzip Kubernetes_certs.zip `
+**Command: unzip Kubernetes_certs.zip**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/9.png)
 
 3. Copy the file to another file.
 
-` cat 2289f3206db82816.crt gd_bundle-g2-g1.crt > xxxxxxxx-xxx.com.chained.crt `
+**Command: cat 2289f3206db82816.crt gd_bundle-g2-g1.crt > xxxxxxxx-xxx.com.chained.crt**
 
 4. switch to **root** user and go to **/var/lib/waagent/custom-script/download/0**
 
@@ -103,101 +101,62 @@ Install **unzip command** using the below command.
 
 5. Create **secrets** using the below commands:
 
-``` 
-kubectl create secret tls <adminsecret name> --cert /home/adminuser/qloudable-npr.com.chained.crt --key /home/adminuser/qloudable-npr.key 
+**Command: kubectl create secret tls <adminsecret name> --cert /home/adminuser/<xxxxxxxx>.com.<xxxxx.crt> --key /home/adminuser/<xxxxxx.key>**  
+ 
+**Command: kubectl create secret tls <apisecret name> --cert /home/adminuser/<xxxxxxxx>.com.<xxxxx.crt> --key /home/adminuser/<xxxxxxx.key>** 
 
-```
+**Command: kubectl get secrets**
 
-```
-kubectl create secret tls <apisecret name> --cert /home/adminuser/qloudable-npr.com.chained.crt --key /home/adminuser/qloudable-npr.key
-
-```
-    	
-```
-kubectl get secrets 
-
-```
-
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/11.png)
+![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/ug1.png)
 
 6. Update name of **hosts** and ****Secrets** in nginix config files.
 
-a)
+a. sed -i -e 's/edisonadminportal.eastus.cloudapp.azure.com/'<**admin URL**>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-adminportal.yaml
 
-```
-sed -i -e 's/edisonadminportal.eastus.cloudapp.azure.com/'<admin URL>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-adminportal.yaml
+**Ex:**
 
-```
-Ex: 
+sed -i -e 's/edisonadminportal.eastus.cloudapp.azure.com/'basicadmin.xxxxx-xxx.com'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-adminportal.yaml
 
-```
-sed -i -e 's/edisonadminportal.eastus.cloudapp.azure.com/'<basicadmin.xxxxx-xxx.com>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-adminportal.yaml
 
-```
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/12.png)
 
-b)
+b.  **sed -i -e 's/tls-secret-adminportal/'<**adminsecret name**>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-adminportal.yaml**
 
-```
-sed -i -e 's/tls-secret-adminportal/'<adminsecret name>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-adminportal.yaml
-
-```
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/13.png)
 
-c)
-
-```
-sed -i -e 's/edisonapi.eastus.cloudapp.azure.com/'<api URL>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-api.yaml
-
-```
-Ex:
-
-```
-sed -i -e 's/edisonapi.eastus.cloudapp.azure.com/'<basicapi.xxxxx-xxx.com>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-api.yaml
-
-```
+c.  **sed -i -e 's/edisonapi.eastus.cloudapp.azure.com/'<**api URL**>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-api.yaml**
+  
+Ex:  
+sed -i -e 's/edisonapi.eastus.cloudapp.azure.com/'**<basicapi.xxxxx-xxx.com>**'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-api.yaml
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/14.png)
 
-d)
+d.  **sed -i -e 's/tls-secret-api/**'<**apisecret**>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-api.yaml**
 
-```
-sed -i -e 's/tls-secret-api/'<apisecret>'/g' ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom/nginx-config-api.yaml
-
-```
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/d.png)
 
 7. Assign a **static-IP** to an Ingress on through the Nginx controller.
 
-a) **On Admin:**
+a.  **On Admin:**
 
-```
-az network public-ip create -g <Cluster Resource Group Name>-n <name of admin ip> --dns-name <admin dns name> --allocation-method static
+**az network public-ip create -g** <**Cluster Resource Group Name**>-n <**name of admin ip**> --dns-name <**admin dns name**> --allocation-method static**
 
-```
-**Ex:** 
+**Ex:**
 
-```
-az network public-ip create -g MC_MO_basic_2304_akswih6_eastus2 -n adminbotip --dns-name dnsbotadmin --allocation-method static
-
-```
+**az network public-ip create -g MC_MO_basic_2304_akswih6_eastus2 -n adminbotip --dns-name dnsbotadmin --allocation-method static**
 
 **Copy** the **admin static IP** and **save** it.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/15.png)
 
-b) **On API:**
+b.  **On API:**
 
-```
-az network public-ip create -g <Cluster Resource Group Name>-n <name of api ip> --dns-name <api dns name> --allocation-method static
-
-```
+**az network public-ip create -g <**Cluster Resource Group Name**>-n <**name of api ip**> --dns-name <**api dns name**> --allocation-method static** 
+ 
 **Ex:**
 
-```
-az network public-ip create -g MC_MO_basic_2304_akswih6_eastus2 -n apibotip --dns-name dnsbotapi --allocation-method static
+**az network public-ip create -g MC_MO_basic_2304_akswih6_eastus2 -n apibotip --dns-name dnsbotapi --allocation-method static** 
 
-```
 **Copy** the **api static IP** and **save** it.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/16.png)
@@ -206,66 +165,50 @@ az network public-ip create -g MC_MO_basic_2304_akswih6_eastus2 -n apibotip --dn
 
 **On Admin:**
 
-```
-helm install --name nginx-ingress-admin stable/nginx-ingress --namespace kube-system --set rbac.create=false --set rbac.createRole=false --set rbac.createClusterRole=false --set controller.ingressClass=nginx-admin --set controller.service.loadBalancerIP=”<admin Static IP address>”
-
-```
+**helm install --name nginx-ingress-admin stable/nginx-ingress --namespace kube-system --set rbac.create=false --set rbac.createRole=false --set rbac.createClusterRole=false --set controller.ingressClass=nginx-admin --set controller.service.loadBalancerIP=”<admin Static IP address>”**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/17.png)
 
 **On API:**
 
-```
-helm install --name nginx-ingress-api stable/nginx-ingress --namespace kube-system --set rbac.create=false --set rbac.createRole=false --set rbac.createClusterRole=false --set controller.ingressClass=nginx-api --set controller.service.loadBalancerIP="<api Static IP address>”
+**helm install --name nginx-ingress-api stable/nginx-ingress --namespace kube-system --set rbac.create=false --set rbac.createRole=false --set rbac.createClusterRole=false --set controller.ingressClass=nginx-api --set controller.service.loadBalancerIP="<api Static IP address>”**
 
-```
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/18.png)
 
-9. Create config file.
+9. For creating config file navigate to Ingress_Custom folder. 
 
-cd ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom
+**Command: cd ProjectEdison/Edison.Web/Kubernetes/qa/Deployment/Ingress_Custom**
 
-Create **admin config** file by running the below command
+Create admin config file by running the below command 
 
-` kubectl create -f ./nginx-config-adminportal.yaml `
+**Command: kubectl create -f ./nginx-config-adminportal.yaml** 
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/19.png)
 
 Create **API config** file by running the below command
 
-` kubectl create -f ./nginx-config-api.yaml `
+**Command: kubectl create -f ./nginx-config-api.yaml**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/20.png)
 
-To get **ingress** give the below command
+To check the installed ingress, execute the below command. 
 
-` kubectl get ing `
+**Command: kubectl get ing**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/21.png)
 
-Check **status of services** using the namespace kube-system
+For checking status of services using the namespace kube-system 
 
-` kubectl get svc -n kube-system `
+**Command: kubectl get svc -n kube-system**
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/22.png)
 
-## 3.Manual configuration
 
-1. Copy the **API URL** from Hosts.
+## 3.0 Building Edison.Simulators.Sensors Project
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/23.png)
+Browse to the **Admin Portal** using the **Admin URL** also can be taken from step 1 of **section 3.1.4.** in deployment Guide.
 
-2. Update in the **messaging endpoint** of **Bot Channel** Registration and click on **Save**.
-
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/24.png)
-
-3. Update the **reply URL** of the **azure active directory** application with admin URL from Hosts and Click on **Save**.
-
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/25.png)
-
-## 4. Building Edison.Simulators.Sensors Project
-
-Browse to the **Admin Portal** using the **Admin URL** also can be taken from step 1 of section 3.
+**Note:** We need to add the Admin and API URL in the domain registry along with the external IP address for both, before accessing the Edison Admin Portal.  
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/26.png)
 
@@ -277,11 +220,11 @@ Initially there are no events triggered.
 
 [Device Configuration Documentation](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/deviceconfiguration.docx)
 
-2. Follow the below document to **configure the simulator**.
+2. Follow the below document to configure the simulator. 
 
-[Simulator Documentation](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/simulator.docx)
+   [Simulator Documentation](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/simulator.docx)
 
-3. Once any **events** gets triggered from devices or simulator it will get reflected in the **Edison admin portal** as shown below.
+3. Once any event gets triggered from devices or simulator it will get reflected in the Edison admin portal as shown below. 
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/28.jpg)
 
@@ -313,7 +256,7 @@ Initially there are no events triggered.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/35.png)
 
-11. To get the History of **All the Activities** which are occurred in the selected interval of date, go to **History** blade as shown below.
+11. The History of All the Activities which are occurred in the selected interval of date, go to History blade as shown below. 
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/36.png)
 
@@ -333,11 +276,11 @@ Initially there are no events triggered.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/40.png)
 
-## 5. Create a Firebase project
+## 4.0 Create a Firebase project
 
 We need to create an application in the Firebase from which will get an API Key and google-services.json file, these are used in the User Mobile application configuration.
 
-1. Click on the below link to follow the steps to create a project in Firebase.
+1. Click on the below link to follow the steps to **create a project in Firebase**.
 
 [Firebase Documentation](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/firebase.docx)
 
@@ -355,18 +298,17 @@ We need to create an application in the Firebase from which will get an API Key 
 
 5. **Copy** and **save** the **Legacy Server key** for later use. You use this value to configure your notification hub.
 
+![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/44.png)
+
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/45.png)
 
-## 6. Mobile Application Configuration
+## 5.0 Mobile Application Configuration
 
 1. Follow the below link to configure and build the User mobile application.
 
 [Mobile Application Configuration](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/mobile_application.docx)
 
 2. Navigate to Portal -> **Notification Hub** -> Select **Google** from Settings and **paste** the **Legacy Server Key** copied from step 6 of section 5 in API Key. Click on **Save**.
-
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/44.png)
-
 
 3. We need to create **Emulator** of Android Version 8.1 in visual studio. Open Visual Studio and select the **Tools** -> **Android** -> **Android Device Manager**.
 
@@ -416,7 +358,7 @@ We need to create an application in the Firebase from which will get an API Key 
 
 12. Once you mail is verified, click on **verify** code after entering the code for verification.
 
-![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/Solution%20Documentation/Images/58.png)
+![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/ug2.png)
 
 13.	**Sign in** with the created username and password.
 
@@ -446,7 +388,7 @@ We need to create an application in the Firebase from which will get an API Key 
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/65.png)
 
-19.	Once the notification successfully sent will get the success notification message in portal.
+19.	Once the notification is successfully sent, you will get the success notification message in portal.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/66.png)
 
