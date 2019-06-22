@@ -11,7 +11,7 @@
    - [2.3 Create Config Maps](#23-create-config-maps)
    - [2.4 Create Pods and Services](#24-create-pods-and-services)
    - [2.5 Certification and Ingress Installation](#25-certification-and-ingress-installation)
- - [3.0 Manual configuration](#30-Manual configuration)
+ - [3.0 Manual configuration](#30-manual-configuration)
  - [4.0 Building Edison.Simulators.Sensors Project](#40-building-edison.simulators.sensors-project)
  - [5.0 Create a Firebase project](#50-create-a-firebase-project)
  - [6.0 Mobile Application Configuration](#60-mobile-application-configuration)
@@ -292,7 +292,7 @@ Initially there are no events triggered.
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/40.png)
 
-## 4.0 Create a Firebase project
+## 5.0 Create a Firebase project
 
 We need to create an application in the Firebase from which will get an API Key and google-services.json file, these are used in the User Mobile application configuration.
 
@@ -318,7 +318,7 @@ We need to create an application in the Firebase from which will get an API Key 
 
 ![alt text](https://github.com/sysgain/Iot-ProjectEdison/raw/master/documents/Images/45.png)
 
-## 5.0 Mobile Application Configuration
+## 6.0 Mobile Application Configuration
 
 1. Follow the below link to configure and build the User mobile application.
 
