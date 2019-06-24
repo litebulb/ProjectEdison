@@ -1,0 +1,103 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serviceBusProperties": {
+            "type": "object"
+        },
+        "omsSettings": {
+            "type": "object"
+        }
+    },
+    "resources": [
+        {
+            "name": "[parameters('serviceBusProperties').serviceBusNamespaceNameDr]",
+            "type": "Microsoft.ServiceBus/namespaces",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('serviceBusProperties').locationDr]",
+            "tags": {
+                "IotSuiteType": "[parameters('serviceBusProperties').solutionType]"
+            },
+            "sku": {
+                "name": "[parameters('serviceBusProperties').skuName]"
+            },
+            "properties": {},
+            "resources": [
+                {
+                    "name": "[parameters('servicebusProperties').serviceBusQueueName1]",
+                    "apiVersion": "2017-04-01",
+                    "type": "Queues",
+                    "dependsOn": [
+                        "[concat('Microsoft.ServiceBus/namespaces/', parameters('serviceBusProperties').serviceBusNamespaceNameDr)]"
+                    ],
+                    "properties": {
+                        "lockDuration": "PT5M",
+                        "maxSizeInMegabytes": "1024",
+                        "requiresDuplicateDetection": "false",
+                        "requiresSession": "false",
+                        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+                        "deadLetteringOnMessageExpiration": "false",
+                        "duplicateDetectionHistoryTimeWindow": "PT10M",
+                        "maxDeliveryCount": "10",
+                        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+                        "enablePartitioning": "false",
+                        "enableExpress": "false"
+                    },
+                    "resources": [
+                        {
+                            "apiVersion": "2015-08-01",
+                            "name": "[concat(parameters('servicebusProperties').serviceBusQueueName1,'send')]",
+                            "type": "AuthorizationRules",
+                            "dependsOn": [
+                                "[parameters('servicebusProperties').serviceBusQueueName1]"
+                            ],
+                            "properties": {
+                                "keyName": "[concat(parameters('servicebusProperties').serviceBusQueueName1,'send')]",
+                                "claimType": "SharedAccessKey",
+                                "claimValue": "None",
+                                "rights": [
+                                    "Send",
+                                    "Listen"
+                                ],
+                                "revision": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Microsoft.Insights/service",
+                    "type": "providers/diagnosticSettings",
+                    "apiVersion": "2015-07-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.ServiceBus/namespaces/', parameters('serviceBusProperties').serviceBusNamespaceNameDr)]"
+                    ],
+                    "properties": {
+                        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceNameDr)]",
+                        "logs": [
+                            {
+                                "category": "OperationalLogs",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "days": 0,
+                                    "enabled": false
+                                }
+                            }
+                        ],
+                        "metrics": [
+                            {
+                                "timeGrain": "AllMetrics",
+                                "category": "AllMetrics",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": false,
+                                    "days": 0
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {}
+}

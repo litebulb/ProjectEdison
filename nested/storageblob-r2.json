@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+     "storageBlobSettings":{
+         "type": "object"
+     }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[parameters('storageBlobSettings').storageAccountNameDr]",
+            "apiVersion": "2018-07-01",
+            "location": "[parameters('storageBlobSettings').locationDr]",
+            "tags": {
+                "IotSuiteType": "[parameters('storageBlobSettings').solutionType]"
+            },
+            "sku":{
+                "name":"[parameters('storageBlobSettings').storageAccountType]"
+            },
+                "kind": "StorageV2",
+            "properties": {
+            },
+            "resources": [
+                {
+                    "name": "[concat('default/', parameters('storageBlobSettings').containerNameDr)]",
+                    "type": "blobServices/containers",
+                    "apiVersion": "2018-03-01-preview",
+                    "dependsOn": [
+                        "[parameters('storageBlobSettings').storageAccountNameDr]"
+                    ]
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "storageAccountKey": {
+            "type": "string",
+            "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageBlobSettings').storageAccountNameDr), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+          },
+          "storageAccountEndpoint": {
+            "type": "string",
+            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageBlobSettings').storageAccountNameDr, ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageBlobSettings').storageAccountNameDr), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+          }
+    }
+}

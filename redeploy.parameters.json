@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "geo-paired-region": {
+            "value":"EastUS"
+        },
+        "solutionType": {
+            "value":"Project-Edison"
+        },
+        "acrDeploymentLocation": {
+            "value":"CanadaCentral"
+        },
+        "signalRlocationDr": {
+            "value": "WestUS"
+        },
+        "appInsightsLocationDr":{
+            "value": "southcentralus"
+        },
+        "omsWorkspaceRegion": {
+            "value": "southeastasia"
+        },
+        "aksServicePrincipalClientIdDr": {
+            "value": "xx3f-xxxftg-xxxxxx-xx56xxx-g7xxxxxxwxxxwx"
+        },
+        "aksServicePrincipalClientSecretDr":{
+            "value": "xxx7-dxxxx9-wdxxxxx-xxxxxxxw-jdxxxxxxxxxxx"
+        },
+        "signalrCapacity": {
+            "value": 1
+        }
+    }
+}

@@ -1,0 +1,518 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "geo-paired-region": {
+            "type": "string",
+            "defaultValue": "EastUS",
+            "allowedValues": [
+                "EastUS",
+                "WestUS",
+                "EastUS2",
+                "CentralUS",
+                "WestUS2",
+                "WestCentralUS",
+                "CanadaCentral",
+                "CanadaEast",
+                "AustraliaEast",
+                "AustraliaSouthEast",
+                "CentralIndia",
+                "SouthIndia",
+                "EastAsia",
+                "SouthEastAsia",
+                "JapanWest",
+                "JapanEast",
+                "KoreaCentral",
+                "KoreaSouth",
+                "UKSouth",
+                "UKWest"
+            ],
+            "metadata": {
+                "description": "Select the geopaired region as deployment region, for more information about the geo-paired-region navigate to section 4 in the Getting Started Document(https://github.com/sysgain/Iot-ProjectEdison/blob/master/documents/GettingStarted.md)"
+            }
+        },
+        "solutionType": {
+            "type": "string",
+            "defaultValue": "Project-Edison",
+            "metadata": {
+                "description": "The type of the solution"
+            }
+        },
+        "acrDeploymentLocation": {
+            "type": "string",
+            "defaultValue": "CanadaCentral",
+            "allowedValues": [
+                "JapanEast",
+                "JapanWest",
+                "AustraliaSouthEast",
+                "AustraliaEast",
+                "CanadaCentral",
+                "CanadaEast",
+                "CentralIndia",
+                "SouthIndia",
+                "CentralUS",
+                "EastUS2",
+                "SouthEastAsia",
+                "EastAsia",
+                "WestCentralUS",
+                "WestUS2"
+            ],
+            "metadata": {
+                "description": "Choose location same as the one used for primary deployment for Azure container Registry to deploy for disaster recovery."
+            }
+        },
+        "signalRlocationDr": {
+            "type": "string",
+            "defaultValue": "WestUS",
+            "allowedValues": [
+                "AustraliaEast",
+                "CanadaEast",
+                "CentralUS",
+                "EastUS2",
+                "EastUS",
+                "JapanEast",
+                "NorthEurope",
+                "SouthCentralUS",
+                "SoutheastAsia",
+                "UKSouth",
+                "WestEurope",
+                "WestUS2",
+                "WestUS"
+            ],
+            "metadata": {
+                "description": "Choose location for signalR to deploy for disaster recovery."
+            }
+        },
+        "appInsightsLocationDr": {
+            "type": "string",
+            "defaultValue": "southcentralus",
+            "allowedValues": [
+                "southcentralus",
+                "westeurope",
+                "eastus",
+                "North Europe"
+            ],
+            "metadata": {
+                "description": "Enter location for application insights for disaster recovery"
+            }
+        },
+        "omsWorkspaceRegionDr": {
+            "type": "string",
+            "defaultValue": "southeastasia",
+            "allowedValues": [
+                "australiasoutheast",
+                "canadacentral",
+                "centralindia",
+                "eastus",
+                "japaneast",
+                "southeastasia",
+                "uksouth",
+                "westeurope"
+            ],
+            "metadata": {
+                "description": "Choose location for OMS Log Analytics to deploy. For more information, see https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-overview"
+            }
+        },
+        "aksServicePrincipalClientIdDr": {
+            "type": "string",
+            "metadata": {
+                "description": "Client ID of the service principal."
+            }
+        },
+        "aksServicePrincipalClientSecretDr": {
+            "type": "string",
+            "metadata": {
+                "description": "ClientSecret of the service principal."
+            }
+        },
+        "vmUsername": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Username to login into Virtual Machine"
+            }
+        },
+        "vmPassword": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Password to login into Virtual Machine"
+            }
+        },
+        "signalrCapacity": {
+            "type": "int",
+            "defaultValue": 1,
+            "allowedValues": [
+                1,
+                2,
+                5,
+                10,
+                20,
+                50,
+                100
+            ],
+            "metadata": {
+                "description": "The number of SignalR Unit."
+            }
+        },
+        "githuburl": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "GitHub url used to clone the repository"
+            }
+        }
+    },
+    "variables": {
+        "omsSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "omsWorkspaceNameDr": "[concat('omsworkspace', variables('suffix'),'Dr')]",
+            "omsWorkspaceRegionDr": "[parameters('omsWorkspaceRegionDr')]",
+            "omsLogAnalyticsSku": "standalone",
+            "dataRetention": 7
+        },
+        "notificationHub": {
+            "locationDr": "[variables('locationDr')]",
+            "skuName": "free",
+            "namespaceType": "NotificationHub",
+            "notificationHubNamespaceNameDr": "[concat('NotificationHubNS', variables('suffix'),'Dr')]",
+            "notificationHubNameDr": "[concat('NotificationHub', variables('suffix'), 'Dr')]",
+            "solutionType": "[parameters('solutionType')]"
+        },
+        "signalrSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "locationDr": "[parameters('signalRlocationDr')]",
+            "signalrNameDr": "[concat('signalR',variables('suffix'),'Dr')]",
+            "pricingTier2": "Standard_S1",
+            "capacity": "[parameters('signalrCapacity')]"
+        },
+        "kubernetesSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "locationDr": "[variables('locationDr')]",
+            "enableHttpApplicationRouting": true,
+            "aksServicePrincipalClientIdDr": "[parameters('aksServicePrincipalClientIdDr')]",
+            "aksServicePrincipalClientSecretDr": "[parameters('aksServicePrincipalClientSecretDr')]",
+            "aksClusterNameDr": "[variables('aksClusterNameDr')]",
+            "kubernetesVersion": "1.12.7",
+            "aksEnableRBAC": false,
+            "aksDnsPrefixDr": "clusterdnsDr",
+            "aksAgentOsDiskSizeGB": 30,
+            "aksAgentCount": 3,
+            "aksAgentVMSize": "Standard_B2s",
+            "osType": "Linux",
+            "networkPlugin": "kubenet",
+            "aksServiceCIDRDr": "10.0.0.0/24",
+            "aksDnsServiceIPDr": "10.0.0.20",
+            "aksDockerBridgeCIDRDr": "172.18.0.1/16",
+            "aksClusterId": "[resourceId('Microsoft.ContainerService/managedClusters', variables('aksClusterNameDr'))]"
+        },
+        "redisSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "location": "[parameters('geo-paired-region')]",
+            "locationDr": "[variables('locationDr')]",
+            "redisCacheNameDr": "[concat('redisCache',variables('suffix'),'Dr')]",
+            "redisCacheCapacity": 1,
+            "redisCacheFamily": "C",
+            "redisCacheSku": "Basic",
+            "enableNonSslPort": false,
+            "diagnosticsEnabled": true
+        },
+        "storageBlobSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "storageAccountNameDr": "[variables('storageAccountNameDr')]",
+            "containerNameDr": "logsdr",
+            "locationDr": "[variables('locationDr')]",
+            "storageAccountType": "Standard_LRS"
+        },
+        "acrSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "location": "[parameters('acrDeploymentLocation')]",
+            "locationDr": "[variables('acrDeploymentLocationDr')]",
+            "acrNameDr": "[variables('acrName2')]",
+            "acrAdminUserEnabled": true,
+            "acrSku": "Basic",
+            "acrSku1": "Standard"
+        },
+        "botSettings": {
+            "solutionType": "[parameters('solutionType')]",
+            "insightsNameDr": "[variables('botId2')]",
+            "botIdDr": "[variables('botId2')]",
+            "appInsightsLocationDr": "[parameters('appInsightsLocationDr')]"
+        },
+        "serviceBusProperties": {
+            "solutionType": "[parameters('solutionType')]", 
+            "serviceBusNamespaceNameDr": "[variables('serviceBusNamespaceNameDr1')]",
+            "location": "[parameters('geo-paired-region')]",
+            "locationDr": "[variables('locationDr')]",
+            "serviceBusDefaultSASKeyName": "[variables('serviceBusDefaultSASKeyName1')]",
+            "serviceBusAuthRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceNameDr1'), variables('serviceBusDefaultSASKeyName1'))]",
+            "skuName": "Standard",
+            "serviceBusQueueName1": "edison_input",
+            "servicebusEndPoint": "[concat('Endpoint=sb://',variables('serviceBusNamespaceNameDr1'),'.servicebus.windows.net/')]",
+            "routesSharedAccessKeyName": "SharedAccessKeyName=edison_inputsend",
+            "entity": "EntityPath=edison_input",
+            "serviceBusRabbitMQUsername": "Admin",
+            "serviceBusRabbitMQPassword": "Edison1234",
+            "aliasName": "[concat('servicebusgeo-alias',variables('suffix'))]"
+        },
+        "vm": {
+            "solutionType": "[parameters('solutionType')]",
+            "pipNameDr": "[concat('edisonpip',variables('suffix'),'Dr')]",
+            "locationDr": "[variables('locationDr')]",
+            "publicIpAddressType": "Static",
+            "dnsLabelPrefixDr": "[concat('edisondns',variables('suffix'),'dr')]",
+            "virtualNetworkNameDr": "[variables('virtualNetworkNameDr1')]",
+            "addressPrefixDr": "30.0.0.0/16",
+            "subnetNameDr": "[variables('subnetNameDr1')]",
+            "subnetPrefixDr": "30.0.1.0/24",
+            "nicNameDr": "edison-nicDr",
+            "subnetRefDr": "[concat(variables('vnetIdDr'), '/subnets/', variables('subnetNameDr1'))]",
+            "vmNameDr": "edisonVmDr",
+            "vmUsername": "[parameters('vmUsername')]",
+            "vmPassword": "[parameters('vmPassword')]",
+            "vmSize": "standard_A2",
+            "imagePublisher": "Canonical",
+            "imageOffer": "UbuntuServer",
+            "ubuntuOSVersion": "18.04-LTS",
+            "networkSecurityGroupNameDr": "nsgDr",
+            "giturl": "[parameters('githuburl')]",
+            "tag": "latest",
+            "fileUri": "[concat(variables('baseUrl'),'edison-scripts/scripts-download.sh')]"
+        },
+        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
+        "baseUrl": "https://raw.githubusercontent.com/sysgain/Iot-ProjectEdison/master/",
+        "EastUS2": "CentralUS",
+        "EastUS": "WestUS",
+        "WestUS": "EastUS",
+        "CentralUS": "EastUS2",
+        "WestUS2": "West Central US",
+        "WestCentralUS": "WestUS2",
+        "CanadaCentral": "CanadaEast",
+        "CanadaEast": "CanadaCentral",
+        "AustraliaEast": "AustraliaSouthEast",
+        "AustraliaSouthEast": "AustraliaEast",
+        "CentralIndia": "SouthIndia",
+        "SouthIndia": "CentralIndia",
+        "EastAsia": "SouthEastAsia",
+        "SouthEastAsia": "EastAsia",
+        "JapanWest": "JapanEast",
+        "JapanEast": "JapanWest",
+        "KoreaCentral": "KoreaSouth",
+        "KoreaSouth": "KoreaCentral",
+        "UKSouth": "UKWest",
+        "UKWest": "UKSouth",
+        "virtualNetworkNameDr1": "[concat('edisonVnet', variables('suffix'),'Dr')]",
+        "subnetNameDr1": "edisonSubnetDr",
+        "vnetIdDr": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkNameDr1'))]",
+        "serviceBusNamespaceNameDr1": "[concat('snamespace',variables('suffix'),'Dr')]",
+        "serviceBusDefaultSASKeyName1": "RootManageSharedAccessKey",
+        "locationDr": "[variables(parameters('geo-paired-region'))]",
+        "aksClusterNameDr": "[concat('aks' , variables('suffix'), 'Dr')]",
+        "storageAccountNameDr": "[concat('edisonstrgeacc',variables('suffix'),'dr')]",
+        "acrName2": "[concat('acr',variables('suffix'), 'Dr')]",
+        "acrDeploymentLocationDr": "[variables(parameters('acrDeploymentLocation'))]",
+        "botId2": "[concat('edisonbot', variables('suffix'),'Dr')]"
+      
+    },
+    "resources": [
+        {
+            "name": "OmsWorkSpaceStandard",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/oms-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "NotificationHubR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/notificationhub-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "notificationHub": {
+                        "value": "[variables('notificationHub')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "SignalR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/signalR-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "signalrSettings": {
+                        "value": "[variables('signalrSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "StorageBlobR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/storageblob-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageBlobSettings": {
+                        "value": "[variables('storageBlobSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "RediscacheR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [
+                "StorageBlobR2"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/redisCache-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "redisSettings": {
+                        "value": "[variables('redisSettings')]"
+                    },
+                    "storageBlobSettings": {
+                        "value": "[variables('storageBlobSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "AzureContainerRegistryR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/acr-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "acrSettings": {
+                        "value": "[variables('acrSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "KubernetesR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "dependsOn": [
+                "OmsWorkSpaceStandard"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/kubernetes-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    },
+                    "kubernetesSettings": {
+                        "value": "[variables('kubernetesSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "ServiceBusR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [
+                "OmsWorkSpaceStandard"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/servicebus-r1.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serviceBusProperties": {
+                        "value": "[variables('serviceBusProperties')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "AppInsightsR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/app-insights-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "botSettings": {
+                        "value": "[variables('botSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "DockerVMR2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [
+                "AzureContainerRegistryR2",
+                "StorageBlobR2"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/dockerVm-r2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vm": {
+                        "value": "[variables('vm')]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
